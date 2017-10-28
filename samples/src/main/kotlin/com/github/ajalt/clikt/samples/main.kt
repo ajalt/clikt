@@ -1,21 +1,17 @@
 package com.github.ajalt.clikt.samples
 
+import com.github.ajalt.clikt.options.*
 import java.util.*
 import kotlin.reflect.KFunction
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class IntOption(val name: String, val shortName: String = "", val default: Int = 0)
-
-private typealias CmdParser = (Array<String>, Int) -> Int
 private typealias SubcmdParser = (Array<String>, Int) -> List<ParsedCommand>
+
 
 @Suppress("ArrayInDataClass")
 private data class ParsedCommand(val function: KFunction<*>, val arguments: Array<Any?>)
 
 class ParseError(message: String) : RuntimeException(message)
 
-class Context(val parent: Context, val info_name: String, var obj: Any?)
 
 class Parser {
     private val subcommands = HashMap<KFunction<*>, HashSet<KFunction<*>>>()
@@ -35,23 +31,33 @@ class Parser {
     }
 
     private fun parse(argv: Array<String>, cmd: KFunction<*>, currentArgI: Int): List<ParsedCommand> {
-        val longOptParsers = HashMap<String, CmdParser>()
-        val args = arrayOfNulls<Any?>(cmd.parameters.size)
+        val longOptParsers = HashMap<String, LongOptParser>()
+        val shortOptParsers = HashMap<String, ShortOptParser>()
+        val commandArgs = arrayOfNulls<Any?>(cmd.parameters.size)
 
         // Set up long options
         for (param in cmd.parameters) {
             for (anno in param.annotations) {
                 when (anno) {
                     is IntOption -> {
-                        args[param.index] = anno.default
-                        longOptParsers[anno.name] = { a, i ->
-                            // This currently assumes an arg in the form `--foo 123`
-                            args[param.index] = a[i + 1].toInt()
-                            1
+                        // TODO typechecks, check name format
+                        commandArgs[param.index] = anno.default
+                        val parser = IntOptParser(param.index)
+                        longOptParsers[anno.name] = parser
+                        if (anno.shortName.isNotEmpty()) {
+                            shortOptParsers[anno.shortName] = parser
                         }
                     }
+                    is FlagOption -> {
+                        commandArgs[param.index] = false
+                        val parser = FlagOptionParser(param.index)
+                        longOptParsers[anno.name] = parser
+                        if (anno.shortName.isNotEmpty()) {
+                            shortOptParsers[anno.shortName] = parser
+                        }
+                    }
+                    else -> TODO()
                 }
-                // fail if no match
             }
         }
 
@@ -64,29 +70,67 @@ class Parser {
             })
         }
 
-        val commands = arrayListOf(ParsedCommand(cmd, args))
+        val commands = arrayListOf(ParsedCommand(cmd, commandArgs))
 
         // parse
         var i = currentArgI
         while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
-                a.startsWith("--") -> i += longOptParsers[a]!!.invoke(argv, i)
-                a.startsWith("-") -> TODO()
+            // TODO multiple calls to the same flag
+                a.startsWith("--") -> {
+                    val result = parseLongOpt(argv, a, i, longOptParsers)
+                    for (it in result.valuesByCommandArgIndex) {
+                        commandArgs[it.key] = it.value
+                    }
+                    i += result.consumedCount
+                }
+                a.startsWith("-") -> {
+                    val result = parseShortOpt(argv, a, i, shortOptParsers)
+                    for (it in result.valuesByCommandArgIndex) {
+                        commandArgs[it.key] = it.value
+                    }
+                    i += result.consumedCount
+                }
                 a in subParsers -> {
                     return commands.apply { addAll(subParsers[a]!!.invoke(argv, i + 1)) }
                 }
                 else -> throw ParseError("unknown option $a")
             }
-            i += 1
         }
 
         return commands
     }
+
+    private fun parseLongOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, LongOptParser>): ParseResult {
+        val equalsIndex = arg.indexOf('=')
+        val (name, value) = if (equalsIndex >= 0) {
+            check(equalsIndex != arg.lastIndex) // TODO exceptions
+            arg.substring(0, equalsIndex) to arg.substring(equalsIndex + 1)
+        } else {
+            arg to null
+        }
+        return optParsers[name]!!.parseLongOpt(argv, index, value)
+    }
+
+    private fun parseShortOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, ShortOptParser>): ParseResult {
+        val prefix = arg[0].toString()
+        var result = ParseResult.EMPTY
+        for ((i, opt) in arg.withIndex()) {
+            if (i == 0) continue
+
+            result += optParsers[prefix + opt]!!.parseShortOpt(argv, index, i) // TODO exceptions
+            if (result.consumedCount > 0) {
+                return result
+            }
+        }
+        // This should be an error, right?
+        return result
+    }
 }
 
 
-fun run(@IntOption("--x") x: Int) {
+fun run(@IntOption("--x", "-x") x: Int) {
     println("run x=$x")
 }
 

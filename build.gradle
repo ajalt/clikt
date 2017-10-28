@@ -1,0 +1,40 @@
+buildscript {
+    ext.kotlin_version = '1.1.51'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'idea'
+
+subprojects {
+    apply plugin: 'kotlin'
+
+    group = GROUP
+    version = VERSION_NAME
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+        testCompile 'junit:junit:4.12'
+        testCompile 'org.assertj:assertj-core:3.8.0'
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.6"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.6"
+    }
+}

@@ -8,7 +8,7 @@ import org.junit.Test
 class ContextTest {
     companion object {
         fun f1(@PassContext ctx: Context) {
-
+            checkNotNull(ctx)
         }
     }
 

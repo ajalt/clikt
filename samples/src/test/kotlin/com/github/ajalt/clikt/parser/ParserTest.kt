@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parser
 
+import com.github.ajalt.clikt.options.FlagOption
 import com.github.ajalt.clikt.options.IntArgument
 import com.github.ajalt.clikt.options.IntOption
 import com.github.ajalt.clikt.options.PassContext
@@ -66,6 +67,13 @@ private fun f10(@PassContext c1: Context, @IntArgument x: Int, @PassContext c2: 
     anyArg = listOf(c1, c2, c3)
 }
 
+private fun f11(@FlagOption("--xx", "-x") x: Boolean, @FlagOption("--yy", "-y") y: Boolean,
+                @IntOption("--zz", "-z") z: Int) {
+    intArg1 = if (x) 1 else 0
+    intArg2 = if (y) 1 else 0
+    intArg3 = z
+}
+
 private class C {
     companion object {
         fun f1(@IntOption x: Int, @IntArgument yy: Int) {
@@ -73,6 +81,7 @@ private class C {
             intArg2 = yy
         }
     }
+
     fun f2(@IntArgument x: Int, @IntOption yy: Int) {
         intArg1 = x
         intArg2 = yy
@@ -180,7 +189,7 @@ class ParserTest {
 
     @Test
     fun `companion member function`() {
-        parser.parse(arrayOf("--x", "3","4"), C.Companion::f1)
+        parser.parse(arrayOf("--x", "3", "4"), C.Companion::f1)
         softly {
             assertThat(intArg1).isEqualTo(3)
             assertThat(intArg2).isEqualTo(4)
@@ -339,5 +348,32 @@ class ParserTest {
         assertThat(intArg1).isEqualTo(3)
         assertThat(intArg2).isEqualTo(4)
         assertThat(anyArg).asList().hasSize(3).allMatch { it is Context }
+    }
+
+    private data class row(val argv: List<String>, val x: Int, val y: Int, val z: Int)
+
+    @Test
+    fun `flag options`() {
+        softForEach(row(emptyList(), 0, 0, 0),
+                row(listOf("-x"), 1, 0, 0),
+                row(listOf("--xx"), 1, 0, 0),
+                row(listOf("-y"), 0, 1, 0),
+                row(listOf("--yy"), 0, 1, 0),
+                row(listOf("-xy"), 1, 1, 0),
+                row(listOf("-yx"), 1, 1, 0),
+                row(listOf("-x", "-y"), 1, 1, 0),
+                row(listOf("--xx", "--yy"), 1, 1, 0),
+                row(listOf("-x", "-y", "-z", "3"), 1, 1, 3),
+                row(listOf("--xx", "--yy", "--zz", "3"), 1, 1, 3),
+                row(listOf("-xy", "-z", "3"), 1, 1, 3),
+                row(listOf("-xyz3"), 1, 1, 3),
+                row(listOf("-xz3"), 1, 0, 3)) {
+            setup()
+            parser.parse(it.argv.toTypedArray(), ::f11)
+
+            assertThat(intArg1).called("x").isEqualTo(it.x)
+            assertThat(intArg2).called("y").isEqualTo(it.y)
+            assertThat(intArg3).called("z").isEqualTo(it.z)
+        }
     }
 }

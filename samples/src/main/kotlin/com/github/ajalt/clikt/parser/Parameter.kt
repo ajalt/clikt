@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.ArgumentParser
-import com.github.ajalt.clikt.options.LongOptParser
-import com.github.ajalt.clikt.options.ShortOptParser
-import kotlin.reflect.KClass
+import com.github.ajalt.clikt.options.*
 import kotlin.reflect.KParameter
 
 abstract class Parameter {
@@ -13,16 +10,18 @@ abstract class Parameter {
     open fun getDefaultValue(context: Context): Any? = null
 }
 
-abstract class ParsedParameter<T : Any>(val required: Boolean,
-                                        val default: T?,
-                                        val metavar: String?) : Parameter() {
+abstract class ParsedParameter<out T : Any>(val required: Boolean,
+                                            val default: T?,
+                                            val metavar: String?) : Parameter() {
     override fun getDefaultValue(context: Context) = default
 }
 
-open class Option<T : Any>(protected val names: List<String>,
-                           protected val shortOptParser: ShortOptParser, // TODO: move parsing to this class?
-                           protected val longOptParser: LongOptParser,
-                           required: Boolean, default: T?, metavar: String?) :
+open class Option<out T : Any>(protected val names: List<String>,
+                               protected val shortOptParser: ShortOptParser, // TODO: move parsing to this class?
+                               protected val longOptParser: LongOptParser,
+                               required: Boolean,
+                               default: T?,
+                               metavar: String?) :
         ParsedParameter<T>(required, default, metavar) {
     init {
         require(names.isNotEmpty()) // TODO messages
@@ -37,11 +36,27 @@ open class Option<T : Any>(protected val names: List<String>,
         get() = names.filter { it.startsWith("--") }.associateBy({ it }, { longOptParser })
 }
 
-open class Argument<T : Any>(override val argParser: ArgumentParser,
+open class Argument<T : Any>(final override val name: String,
+                             final override val nargs: Int,
                              required: Boolean,
                              default: T?,
-                             metavar: String?=null) :
-        ParsedParameter<T>(required, default, metavar)
+                             metavar: String?,
+                             protected val type: ParamType<T>,
+                             protected val commandArgIndex: Int) :
+        ParsedParameter<T>(required, default, metavar), ArgumentParser {
+    init {
+        require(nargs != 0)
+        require(commandArgIndex >= 0)
+    }
+
+    override val argParser get() = this
+
+    override fun parse(args: List<String>): ParseResult {
+        if (nargs == 1 && !required && args.isEmpty()) return ParseResult.EMPTY // TODO is there a better way to do this?
+        val value: Any? = if (nargs == 1) type.convert(args[0]) else args.map { type.convert(it) }
+        return ParseResult(0, value, commandArgIndex)
+    }
+}
 
 
 @Suppress("AddVarianceModifier")
@@ -51,13 +66,6 @@ abstract class ParameterFactory<T : Annotation> {
     @Suppress("UNCHECKED_CAST")
     internal fun createErased(anno: Annotation, funcParam: KParameter): Parameter {
         return create(anno as T, funcParam)
-    }
-}
-
-
-inline fun <reified T : Annotation> param(crossinline block: (T, KParameter) -> Parameter): Pair<KClass<T>, ParameterFactory<T>> {
-    return T::class to object : ParameterFactory<T>() {
-        override fun create(anno: T, funcParam: KParameter) = block(anno, funcParam)
     }
 }
 

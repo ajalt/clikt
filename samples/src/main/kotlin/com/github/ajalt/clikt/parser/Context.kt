@@ -7,6 +7,13 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.jvm.isAccessible
 
 
+private inline fun <reified T : Annotation> param(crossinline block: (T, KParameter) -> Parameter):
+        Pair<KClass<T>, ParameterFactory<T>> {
+    return T::class to object : ParameterFactory<T>() {
+        override fun create(anno: T, funcParam: KParameter) = block(anno, funcParam)
+    }
+}
+
 private fun getOptionNames(names: Array<out String>, param: KParameter) =
         if (names.isNotEmpty()) names.toList()
         else {
@@ -18,24 +25,19 @@ private fun getOptionNames(names: Array<out String>, param: KParameter) =
 private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*>>(
         param<PassContext> { _, _ -> PassContextParameter },
         param<IntOption> { anno, p ->
-            // TODO typechecks, check name format, check that names are unique, add 'required'
+            // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
             val parser = OptionParser(p.index, IntParamType)
-            val names = getOptionNames(anno.names, p)
-            Option(names, parser, parser, true, anno.default, null) // TODO metavars
+            Option(getOptionNames(anno.names, p), parser, parser, true, anno.default, null)
         },
         param<FlagOption> { anno, p ->
             val parser = FlagOptionParser(p.index)
-            val names = getOptionNames(anno.names, p)
-            Option(names, parser, parser, true, false, null)
+            Option(getOptionNames(anno.names, p), parser, parser, true, false, null)
         },
         param<IntArgument> { anno, p ->
             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
-            val required = anno.required || anno.nargs != 1
-            val default = if (required) null else anno.default
+            val default = if (anno.required || anno.nargs != 1) null else anno.default
             val name = if (anno.name.isBlank()) p.name ?: "ARGUMENT" else anno.name
-            val argParser = TypedArgumentParser(name, anno.nargs,
-                    anno.required, p.index, IntParamType)
-            Argument(argParser, required, default, null)
+            Argument(name, anno.nargs, anno.required, default, null, IntParamType, p.index)
         }
 )
 

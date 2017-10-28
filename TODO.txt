@@ -1,0 +1,7 @@
+arguments
+Passing context and obj
+help
+error messages
+
+
+"did you mean" hints in NoSuchOption etc.

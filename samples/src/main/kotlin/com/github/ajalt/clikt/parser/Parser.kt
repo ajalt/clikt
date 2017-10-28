@@ -1,11 +1,12 @@
-package com.github.ajalt.clikt.samples
+package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.*
+import com.github.ajalt.clikt.options.IntOption
+import com.github.ajalt.clikt.options.LongOptParser
+import com.github.ajalt.clikt.options.ParseResult
+import com.github.ajalt.clikt.options.ShortOptParser
 import java.util.*
 import kotlin.reflect.KFunction
-
-@Suppress("ArrayInDataClass")
-private data class ParsedCommand(val function: KFunction<*>, val arguments: Array<Any?>)
+import kotlin.reflect.jvm.isAccessible
 
 class ParseError(message: String) : RuntimeException(message)
 
@@ -23,21 +24,21 @@ class Parser {
 
     fun main(argv: Array<String>, cmd: KFunction<*>) {
         try {
-            // Click actually executes parent commands before parsing the argv for subcommands
-            for ((f, args) in parse(argv, cmd, 0)) {
-                f.call(*args)
-            }
+            parse(argv, cmd)
         } catch (e: ParseError) {
             println(e)
         }
     }
 
-    private fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int): List<ParsedCommand> {
+    fun parse(argv: Array<String>, cmd: KFunction<*>) {
+        parse(argv, cmd, 0)
+    }
+
+    private fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int) {
+        command.isAccessible = true
         val context = contexts[command] ?: Context.fromFunction(command)
         val commandArgs = context.defaults.copyOf()
         val subcommands = context.subcommands.associateBy { it.name }
-
-        val commands = arrayListOf(ParsedCommand(command, commandArgs))
 
         // parse
         var i = startingArgI
@@ -60,15 +61,15 @@ class Parser {
                     i += result.consumedCount
                 }
                 a in subcommands -> {
-                    return commands.apply {
-                        addAll(parse(argv, subcommands[a]!!.command, i + 1))
-                    }
+                    command.call(*commandArgs)
+                    parse(argv, subcommands[a]!!.command, i + 1)
+                    return
                 }
                 else -> throw ParseError("unknown option $a")
             }
         }
-
-        return commands
+        require(subcommands.isEmpty()) // TODO
+        command.call(*commandArgs)
     }
 
     private fun parseLongOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, LongOptParser>): ParseResult {
@@ -79,6 +80,7 @@ class Parser {
         } else {
             arg to null
         }
+        if (name !in optParsers) throw NoSuchOption(name)
         return optParsers[name]!!.parseLongOpt(argv, index, value)
     }
 
@@ -111,8 +113,7 @@ fun main(args: Array<String>) {
     val parser = Parser()
     parser.addCommand(::run, ::sub)
     val argv = arrayOf("--x", "313", "sub", "--y", "456")
-    parser.main(argv, ::run)
+    parser.parse(argv, ::run)
 
-//    println((ff.parameters[0].annotations[0] as Foo).bar)
 //    ff.parameters[0].type.isMarkedNullable
 }

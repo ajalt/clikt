@@ -1,6 +1,9 @@
-package com.github.ajalt.clikt.options
+package com.github.ajalt.clikt.parser
 
+import com.github.ajalt.clikt.options.*
 import java.util.HashMap
+import kotlin.collections.HashSet
+import kotlin.collections.set
 import kotlin.reflect.KFunction
 
 class Context(var parent: Context?, val name: String, var obj: Any?,
@@ -40,7 +43,7 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
                     }
                 }
             }
-            val name = command.name // TODO
+            val name = command.name // TODO allow customization
             return Context(null, name, null, defaults, command, longOptParsers,
                     shortOptParsers, HashSet())
         }

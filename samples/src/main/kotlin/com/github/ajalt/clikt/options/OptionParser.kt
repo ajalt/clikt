@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.options
 
-// Combine these interfaces?
+import com.github.ajalt.clikt.parser.BadParameter
+
+// TODO Combine these interfaces?
 interface ShortOptParser {
     /**
      * @param index The index of the option flag in argv, which may contain multiple short options.
@@ -31,10 +33,15 @@ abstract class OptionParser<out T>(private val commandArgIndex: Int) : LongOptPa
         val hasIncludedOption = optionIndex != option.lastIndex
         val value = if (hasIncludedOption) option.substring(optionIndex + 1)
         else argv[index + 1]
-        return ParseResult(if (hasIncludedOption) 2 else 1, convertValue(value), commandArgIndex)
+        return ParseResult(if (hasIncludedOption) 1 else 2, convertValue(value), commandArgIndex)
     }
 
     abstract fun convertValue(value: String): T
+
+    // TODO: add param name
+    protected fun fail(message: String): Nothing {
+        throw BadParameter(message)
+    }
 }
 
 data class ParseResult(val consumedCount: Int, val valuesByCommandArgIndex: Map<Int, *>) {

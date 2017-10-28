@@ -27,8 +27,10 @@ subprojects {
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+        testCompile 'io.kotlintest:kotlintest:2.0.7'
         testCompile 'junit:junit:4.12'
         testCompile 'org.assertj:assertj-core:3.8.0'
+        testCompile('com.nhaarman:mockito-kotlin-kt1.1:1.5.0') { exclude module: 'kotlin-stdlib' }
     }
 
     compileKotlin {

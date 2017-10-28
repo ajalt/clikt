@@ -20,6 +20,9 @@ interface LongOptParser {
 
 class OptionParser<out T>(private val commandArgIndex: Int, private val type: ParamType<T>) :
         LongOptParser, ShortOptParser {
+    init {
+        require(commandArgIndex >= 0)
+    }
     override fun parseLongOpt(argv: Array<String>, index: Int, explicitValue: String?): ParseResult {
         val value = explicitValue ?: argv[index + 1]
         // TODO exceptions

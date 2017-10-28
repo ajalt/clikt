@@ -1,9 +1,10 @@
 arguments
 nargs in options (fixed number only)
 Passing context and obj
+name inference for options
 register decorators / type conversions
 help
 error messages
-optional long names
 
 add "did you mean" hints in NoSuchOption etc.
+

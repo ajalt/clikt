@@ -6,6 +6,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 import kotlin.collections.set
 import kotlin.reflect.KFunction
+import kotlin.reflect.KParameter
 
 class Context(var parent: Context?, val name: String, var obj: Any?,
               val defaults: Array<Any?>, val allowInterspersedArgs: Boolean,
@@ -15,6 +16,7 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
               internal val argParsers: List<ArgumentParser>,
               internal val subcommands: HashSet<Context>) {
     companion object {
+
         fun fromFunction(command: KFunction<*>): Context {
             val longOptParsers = HashMap<String, LongOptParser>()
             val shortOptParsers = HashMap<String, ShortOptParser>()
@@ -40,12 +42,12 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
                             // TODO typechecks, check name format, check that names are unique
                             defaults[param.index] = anno.default
                             val parser = OptionParser(param.index, IntParamType)
-                            registerOptNames(parser, parser, *anno.names)
+                            registerOptNames(parser, parser, *getOptionNames(anno.names, param))
                         }
                         is FlagOption -> {
                             defaults[param.index] = false
                             val parser = FlagOptionParser(param.index)
-                            registerOptNames(parser, parser, *anno.names)
+                            registerOptNames(parser, parser, *getOptionNames(anno.names, param))
                         }
                         is IntArgument -> {
                             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
@@ -63,5 +65,12 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
             return Context(null, name, null, defaults, true, command, longOptParsers,
                     shortOptParsers, argParsers, HashSet())
         }
+
+        private fun getOptionNames(names: Array<out String>, param: KParameter)  =
+                if (names.isNotEmpty()) names
+                else {
+                    require(!param.name.isNullOrEmpty()) {"Cannot infer option name; specify it explicitly."}
+                    arrayOf("--" + param.name)
+                }
     }
 }

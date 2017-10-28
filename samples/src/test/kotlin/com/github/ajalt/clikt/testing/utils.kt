@@ -45,7 +45,7 @@ inline fun <T> softForEach(vararg data: T, block: ForEachSoftAssertions.(T) -> U
 @Suppress("HasPlatformType")
 class ForEachSoftAssertions(var description: String = "") : SoftAssertions() {
     fun <SELF : AbstractAssert<SELF, ACTUAL>, ACTUAL> AbstractAssert<SELF, ACTUAL>.called(name: String): SELF =
-            describedAs(info.descriptionText() + name)
+            describedAs("$description: $name")
 
     override fun assertThat(actual: BigDecimal?) = super.assertThat(actual).describedAs(description)
     override fun assertThat(actual: BigInteger?) = super.assertThat(actual).describedAs(description)

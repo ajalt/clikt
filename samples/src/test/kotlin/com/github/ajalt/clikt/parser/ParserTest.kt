@@ -50,6 +50,11 @@ private fun f8(@IntArgument(required = false) x: Int, @IntArgument(nargs = -1) y
     intListArg = y
 }
 
+private fun f9(@IntOption x: Int, @IntOption yy: Int) {
+    intArg1 = x
+    intArg2 = yy
+}
+
 class ParserTest {
     private val parser = Parser()
 
@@ -261,6 +266,23 @@ class ParserTest {
 
             assertThat(intArg1).called("x").isEqualTo(it.second.first)
             assertThat(intListArg).called("y").isEqualTo(it.second.second)
+        }
+    }
+
+
+    @Test
+    fun `two options inferred names`() {
+        softForEach(emptyList<String>() to (0 to 0),
+                listOf("--x", "3", "--yy", "4") to (3 to 4),
+                listOf("--x", "3") to (3 to 0),
+                listOf("--x=3") to (3 to 0),
+                listOf("--yy", "4") to (0 to 4),
+                listOf("--yy=4") to (0 to 4)) {
+            setup()
+            parser.parse(it.first.toTypedArray(), ::f9)
+
+            assertThat(intArg1).called("x").isEqualTo(it.second.first)
+            assertThat(intArg2).called("y").isEqualTo(it.second.second)
         }
     }
 }

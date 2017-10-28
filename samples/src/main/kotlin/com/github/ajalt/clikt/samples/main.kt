@@ -4,19 +4,21 @@ import com.github.ajalt.clikt.options.*
 import java.util.*
 import kotlin.reflect.KFunction
 
-private typealias SubcmdParser = (Array<String>, Int) -> List<ParsedCommand>
-
-
 @Suppress("ArrayInDataClass")
 private data class ParsedCommand(val function: KFunction<*>, val arguments: Array<Any?>)
 
 class ParseError(message: String) : RuntimeException(message)
 
-
 class Parser {
-    private val subcommands = HashMap<KFunction<*>, HashSet<KFunction<*>>>()
+    private val contexts = HashMap<KFunction<*>, Context>()
+
     fun addCommand(parent: KFunction<*>, child: KFunction<*>) {
-        subcommands[parent] = (subcommands[parent] ?: HashSet()).apply { add(child) }
+        val parentContext = contexts.getOrPut(parent) { Context.fromFunction(parent) }
+        val childContext = contexts.getOrPut(child) { Context.fromFunction(child) }
+        require(childContext.parent == null) // TODO
+
+        parentContext.subcommands.add(childContext)
+        childContext.parent = parentContext
     }
 
     fun main(argv: Array<String>, cmd: KFunction<*>) {
@@ -30,70 +32,37 @@ class Parser {
         }
     }
 
-    private fun parse(argv: Array<String>, cmd: KFunction<*>, currentArgI: Int): List<ParsedCommand> {
-        val longOptParsers = HashMap<String, LongOptParser>()
-        val shortOptParsers = HashMap<String, ShortOptParser>()
-        val commandArgs = arrayOfNulls<Any?>(cmd.parameters.size)
+    private fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int): List<ParsedCommand> {
+        val context = contexts[command] ?: Context.fromFunction(command)
+        val commandArgs = context.defaults.copyOf()
+        val subcommands = context.subcommands.associateBy { it.name }
 
-        // Set up long options
-        for (param in cmd.parameters) {
-            for (anno in param.annotations) {
-                when (anno) {
-                    is IntOption -> {
-                        // TODO typechecks, check name format
-                        commandArgs[param.index] = anno.default
-                        val parser = IntOptParser(param.index)
-                        longOptParsers[anno.name] = parser
-                        if (anno.shortName.isNotEmpty()) {
-                            shortOptParsers[anno.shortName] = parser
-                        }
-                    }
-                    is FlagOption -> {
-                        commandArgs[param.index] = false
-                        val parser = FlagOptionParser(param.index)
-                        longOptParsers[anno.name] = parser
-                        if (anno.shortName.isNotEmpty()) {
-                            shortOptParsers[anno.shortName] = parser
-                        }
-                    }
-                    else -> TODO()
-                }
-            }
-        }
-
-        // Set up sub commands
-        val subParsers: Map<String, SubcmdParser> = if (cmd !in subcommands) {
-            emptyMap()
-        } else {
-            subcommands[cmd]!!.associateBy({ it.name }, {
-                { a: Array<String>, i: Int -> parse(a, it, i) }
-            })
-        }
-
-        val commands = arrayListOf(ParsedCommand(cmd, commandArgs))
+        val commands = arrayListOf(ParsedCommand(command, commandArgs))
 
         // parse
-        var i = currentArgI
+        var i = startingArgI
         while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
             // TODO multiple calls to the same flag
                 a.startsWith("--") -> {
-                    val result = parseLongOpt(argv, a, i, longOptParsers)
+                    val result = parseLongOpt(argv, a, i, context.longOptParsers)
                     for (it in result.valuesByCommandArgIndex) {
                         commandArgs[it.key] = it.value
                     }
                     i += result.consumedCount
                 }
                 a.startsWith("-") -> {
-                    val result = parseShortOpt(argv, a, i, shortOptParsers)
+                    val result = parseShortOpt(argv, a, i, context.shortOptParsers)
                     for (it in result.valuesByCommandArgIndex) {
                         commandArgs[it.key] = it.value
                     }
                     i += result.consumedCount
                 }
-                a in subParsers -> {
-                    return commands.apply { addAll(subParsers[a]!!.invoke(argv, i + 1)) }
+                a in subcommands -> {
+                    return commands.apply {
+                        addAll(parse(argv, subcommands[a]!!.command, i + 1))
+                    }
                 }
                 else -> throw ParseError("unknown option $a")
             }
@@ -124,7 +93,7 @@ class Parser {
                 return result
             }
         }
-        // This should be an error, right?
+        // TODO Should this be an error?
         return result
     }
 }

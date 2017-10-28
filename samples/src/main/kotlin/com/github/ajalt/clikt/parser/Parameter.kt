@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.*
+import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KParameter
 
 abstract class Parameter {
@@ -8,6 +9,7 @@ abstract class Parameter {
     open val longOptParsersByName: Map<String, LongOptParser> = emptyMap()
     open val argParser: ArgumentParser? = null
     open fun getDefaultValue(context: Context): Any? = null
+    abstract val help: ParameterHelp?
 }
 
 abstract class ParsedParameter<out T : Any>(val required: Boolean,
@@ -34,6 +36,10 @@ open class Option<out T : Any>(protected val names: List<String>,
         get() = names.filter { !it.startsWith("--") }.associateBy({ it }, { shortOptParser })
     override val longOptParsersByName: Map<String, LongOptParser>
         get() = names.filter { it.startsWith("--") }.associateBy({ it }, { longOptParser })
+    override val help: ParameterHelp
+        get() = ParameterHelp(names, metavar?.let { listOf(it) } ?: emptyList(),
+                ParameterHelp.SECTION_OPTIONS,
+                required, false) // TODO: repeatable
 }
 
 open class Argument<T : Any>(final override val name: String,
@@ -56,6 +62,10 @@ open class Argument<T : Any>(final override val name: String,
         val value: Any? = if (nargs == 1) type.convert(args[0]) else args.map { type.convert(it) }
         return ParseResult(0, value, commandArgIndex)
     }
+
+    override val help: ParameterHelp
+        get() = ParameterHelp(listOf(name), metavar?.let { listOf(it) } ?: emptyList(),
+                ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
 }
 
 

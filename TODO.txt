@@ -1,4 +1,4 @@
-help
+--help
 register decorators / type conversions
 error messages
 

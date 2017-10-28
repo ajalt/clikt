@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.*
+import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
@@ -81,6 +82,15 @@ class Context(parent: Context?, val name: String, var obj: Any?,
         }
         return ctx
     }
+
+    fun formatHelp(): String {
+        // TODO: help formatter field
+        return PlaintextHelpFormatter().formatHelp(parameters.mapNotNull { it.help } +
+                subcommands.map { it.helpAsSubcommand() })
+    }
+
+    private fun helpAsSubcommand() = ParameterHelp(listOf(name), emptyList(),
+            ParameterHelp.SECTION_SUBCOMMANDS, false, false)
 
     companion object {
         fun fromFunction(command: KFunction<*>): Context {

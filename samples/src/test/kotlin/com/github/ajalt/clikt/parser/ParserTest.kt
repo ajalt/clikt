@@ -19,6 +19,11 @@ private fun f2(@IntOption("--xx", "-x") x: Int, @IntOption("--yy", "-y") y: Int)
     intArg3 = y
 }
 
+private fun f3(@IntOption("-x") x: Int, @IntOption("--yy") y: Int) {
+    intArg2 = x
+    intArg3 = y
+}
+
 class ParserTest {
     private val parser = Parser()
 
@@ -39,6 +44,15 @@ class ParserTest {
             parser.parse(it, ::f1)
 
             assertThat(intArg1).called("x").isEqualTo(3)
+        }
+    }
+
+    @Test
+    fun `two options single name`() {
+        parser.parse(arrayOf("-x", "3", "--yy", "4"), ::f3)
+        softly {
+            assertThat(intArg2).isEqualTo(3)
+            assertThat(intArg3).isEqualTo(4)
         }
     }
 

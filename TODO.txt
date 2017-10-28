@@ -1,8 +1,9 @@
 arguments
+nargs in options (fixed number only)
 Passing context and obj
 register decorators / type conversions
 help
 error messages
+optional long names
 
-
-"did you mean" hints in NoSuchOption etc.
+add "did you mean" hints in NoSuchOption etc.

@@ -18,6 +18,17 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
             val shortOptParsers = HashMap<String, ShortOptParser>()
             val defaults = arrayOfNulls<Any?>(command.parameters.size)
 
+            fun registerNames(shortParser: ShortOptParser, longParser: LongOptParser, vararg names: String) {
+                for (name in names) {
+                    when {
+                        name.isEmpty() -> Unit
+                        name.startsWith("--") -> longOptParsers[name] = longParser
+                        name.startsWith("-") -> shortOptParsers[name] = shortParser
+                        else -> throw IllegalArgumentException("Invalid option name: $name")
+                    }
+                }
+            }
+
             // Set up long options
             for (param in command.parameters) {
                 for (anno in param.annotations) {
@@ -26,18 +37,12 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
                             // TODO typechecks, check name format
                             defaults[param.index] = anno.default
                             val parser = OptionParser(param.index, IntParamType)
-                            longOptParsers[anno.name] = parser
-                            if (anno.shortName.isNotEmpty()) {
-                                shortOptParsers[anno.shortName] = parser
-                            }
+                            registerNames(parser, parser, anno.name, anno.alternateName)
                         }
                         is FlagOption -> {
                             defaults[param.index] = false
                             val parser = FlagOptionParser(param.index)
-                            longOptParsers[anno.name] = parser
-                            if (anno.shortName.isNotEmpty()) {
-                                shortOptParsers[anno.shortName] = parser
-                            }
+                            registerNames(parser, parser, anno.name, anno.alternateName)
                         }
                         else -> TODO()
                     }

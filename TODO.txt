@@ -1,4 +1,3 @@
-Passing context and obj
 register decorators / type conversions
 help
 error messages
@@ -9,3 +8,10 @@ Context.invoke
 
 nargs in options (fixed number only)
 custom multi commands
+
+
+type checks?
+    https://discuss.kotlinlang.org/t/why-is-kclass-not-a-ktype/3341/2
+    https://stackoverflow.com/questions/44203297/kotlins-reflection-unknown-type-parameter/44203910#44203910
+    https://stackoverflow.com/questions/42862966/how-to-obtain-a-ktype-in-kotlin
+    https://stackoverflow.com/questions/42748892/what-is-a-proper-way-to-create-class-instance-from-ktype

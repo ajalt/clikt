@@ -15,6 +15,8 @@ private var intArg3: Int = -333333333
 private var intListArg: List<Int> = emptyList()
 private var anyArg: Any? = null
 
+private fun f0() {}
+
 private fun f1(@IntOption("--xx", "-x") x: Int) {
     intArg1 = x
 }
@@ -64,6 +66,19 @@ private fun f10(@PassContext c1: Context, @IntArgument x: Int, @PassContext c2: 
     anyArg = listOf(c1, c2, c3)
 }
 
+private class C {
+    companion object {
+        fun f1(@IntOption x: Int, @IntArgument yy: Int) {
+            intArg1 = x
+            intArg2 = yy
+        }
+    }
+    fun f2(@IntArgument x: Int, @IntOption yy: Int) {
+        intArg1 = x
+        intArg2 = yy
+    }
+}
+
 class ParserTest {
     private val parser = Parser()
 
@@ -74,6 +89,11 @@ class ParserTest {
         intArg3 = -333333333
         intListArg = emptyList()
         anyArg = null
+    }
+
+    @Test
+    fun `zero options`() {
+        parser.parse(emptyArray(), ::f0)
     }
 
     @Test
@@ -155,6 +175,24 @@ class ParserTest {
 
             assertThat(intArg2).called("x").isEqualTo(3)
             assertThat(intArg3).called("y").isEqualTo(0)
+        }
+    }
+
+    @Test
+    fun `companion member function`() {
+        parser.parse(arrayOf("--x", "3","4"), C.Companion::f1)
+        softly {
+            assertThat(intArg1).isEqualTo(3)
+            assertThat(intArg2).isEqualTo(4)
+        }
+    }
+
+    @Test
+    fun `member function`() {
+        parser.parse(arrayOf("3", "--yy", "4"), C()::f2)
+        softly {
+            assertThat(intArg1).isEqualTo(3)
+            assertThat(intArg2).isEqualTo(4)
         }
     }
 

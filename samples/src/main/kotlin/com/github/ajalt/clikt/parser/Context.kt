@@ -15,7 +15,7 @@ class Context(parent: Context?, val name: String, var obj: Any?,
               internal val longOptParsers: Map<String, LongOptParser>,
               internal val shortOptParsers: Map<String, ShortOptParser>,
               internal val argParsers: List<ArgumentParser>,
-              internal val subcommands: HashSet<Context>,
+              internal val subcommands: MutableSet<Context>,
               private val customAnnos: Map<Int, Annotation>) {
     var parent: Context? = parent
         internal set
@@ -31,6 +31,27 @@ class Context(parent: Context?, val name: String, var obj: Any?,
             }
         }
         command.call(*args)
+    }
+
+    inline fun <reified T> findObject(): T? {
+        var ctx: Context? = this
+        while (ctx != null) {
+            if (ctx.obj is T) return ctx.obj as T
+            ctx = ctx.parent
+        }
+        return null
+    }
+
+    inline fun <reified T> findObject(defaultValue: () -> T): T {
+        return findObject<T>() ?:defaultValue().also { obj = it }
+    }
+
+    fun findRoot() : Context{
+        var ctx = this
+        while(ctx.parent != null) {
+            ctx = ctx.parent!!
+        }
+        return ctx
     }
 
     companion object {

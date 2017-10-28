@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.IntArgument
 import com.github.ajalt.clikt.options.IntOption
+import com.github.ajalt.clikt.options.PassContext
 import com.github.ajalt.clikt.testing.softForEach
 import com.github.ajalt.clikt.testing.softly
 import org.assertj.core.api.Assertions.assertThat
@@ -12,6 +13,7 @@ private var intArg1: Int = -111111111
 private var intArg2: Int = -222222222
 private var intArg3: Int = -333333333
 private var intListArg: List<Int> = emptyList()
+private var anyArg: Any? = null
 
 private fun f1(@IntOption("--xx", "-x") x: Int) {
     intArg1 = x
@@ -55,6 +57,13 @@ private fun f9(@IntOption x: Int, @IntOption yy: Int) {
     intArg2 = yy
 }
 
+private fun f10(@PassContext c1: Context, @IntArgument x: Int, @PassContext c2: Context,
+                @IntArgument y: Int, @PassContext c3: Context) {
+    intArg1 = x
+    intArg2 = y
+    anyArg = listOf(c1, c2, c3)
+}
+
 class ParserTest {
     private val parser = Parser()
 
@@ -64,6 +73,7 @@ class ParserTest {
         intArg2 = -222222222
         intArg3 = -333333333
         intListArg = emptyList()
+        anyArg = null
     }
 
     @Test
@@ -269,7 +279,6 @@ class ParserTest {
         }
     }
 
-
     @Test
     fun `two options inferred names`() {
         softForEach(emptyList<String>() to (0 to 0),
@@ -284,5 +293,13 @@ class ParserTest {
             assertThat(intArg1).called("x").isEqualTo(it.second.first)
             assertThat(intArg2).called("y").isEqualTo(it.second.second)
         }
+    }
+
+    @Test
+    fun `passed context`() {
+        parser.parse(arrayOf("3", "4"), ::f10)
+        assertThat(intArg1).isEqualTo(3)
+        assertThat(intArg2).isEqualTo(4)
+        assertThat(anyArg).asList().hasSize(3).allMatch { it is Context }
     }
 }

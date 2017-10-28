@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.parser
 import com.github.ajalt.clikt.options.*
 import java.util.*
 import kotlin.reflect.KFunction
-import kotlin.reflect.jvm.isAccessible
 
 class Parser {
     private val contexts = HashMap<KFunction<*>, Context>()
@@ -30,7 +29,6 @@ class Parser {
     }
 
     private fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int) {
-        command.isAccessible = true
         val context = contexts[command] ?: Context.fromFunction(command)
         val commandArgs = context.defaults.copyOf()
         val subcommands = context.subcommands.associateBy { it.name }
@@ -53,7 +51,7 @@ class Parser {
                     i += result.consumedCount
                 }
                 a in subcommands -> {
-                    command.call(*commandArgs)
+                    context.invoke(commandArgs)
                     parse(argv, subcommands[a]!!.command, i + 1)
                     return
                 }
@@ -70,7 +68,7 @@ class Parser {
         }
         require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
         applyParseResult(parseArguments(positionalArgs, context.argParsers), commandArgs)
-        command.call(*commandArgs)
+        context.invoke(commandArgs)
     }
 
     private fun applyParseResult(result: ParseResult, commandArgs: Array<Any?>) {
@@ -134,7 +132,8 @@ class Parser {
 
         val excess = positionalArgs.size - i
         if (excess > 0) {
-            throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} (${positionalArgs.joinToString(" ", limit = 3)})")
+            throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} " +
+                    positionalArgs.joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
         }
         return result
     }

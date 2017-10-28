@@ -1,27 +1,45 @@
 package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.*
-import java.util.HashMap
+import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 import kotlin.collections.set
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
+import kotlin.reflect.jvm.isAccessible
 
-class Context(var parent: Context?, val name: String, var obj: Any?,
+class Context(parent: Context?, val name: String, var obj: Any?,
               val defaults: Array<Any?>, val allowInterspersedArgs: Boolean,
               internal val command: KFunction<*>,
               internal val longOptParsers: Map<String, LongOptParser>,
               internal val shortOptParsers: Map<String, ShortOptParser>,
               internal val argParsers: List<ArgumentParser>,
-              internal val subcommands: HashSet<Context>) {
-    companion object {
+              internal val subcommands: HashSet<Context>,
+              private val customAnnos: Map<Int, Annotation>) {
+    var parent: Context? = parent
+        internal set
 
+    fun invoke(args: Array<Any?>) {
+        command.isAccessible = true
+
+        for ((i, anno) in customAnnos) {
+            if (args[i] != null) continue  // TODO decide if this is the behavior we want
+
+            when (anno) {
+                is com.github.ajalt.clikt.options.PassContext -> args[i] = this
+            }
+        }
+        command.call(*args)
+    }
+
+    companion object {
         fun fromFunction(command: KFunction<*>): Context {
             val longOptParsers = HashMap<String, LongOptParser>()
             val shortOptParsers = HashMap<String, ShortOptParser>()
             val defaults = arrayOfNulls<Any?>(command.parameters.size)
             val argParsers = ArrayList<ArgumentParser>()
+            val customAnnos = HashMap<Int, Annotation>()
 
             fun registerOptNames(shortParser: ShortOptParser, longParser: LongOptParser, vararg names: String) {
                 for (name in names) {
@@ -57,19 +75,22 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
                                     anno.required, param.index, IntParamType))
 
                         }
+                        is com.github.ajalt.clikt.options.PassContext -> {
+                            customAnnos[param.index] = anno
+                        }
                         else -> TODO()
                     }
                 }
             }
             val name = command.name // TODO allow customization
             return Context(null, name, null, defaults, true, command, longOptParsers,
-                    shortOptParsers, argParsers, HashSet())
+                    shortOptParsers, argParsers, HashSet(), customAnnos)
         }
 
-        private fun getOptionNames(names: Array<out String>, param: KParameter)  =
+        private fun getOptionNames(names: Array<out String>, param: KParameter) =
                 if (names.isNotEmpty()) names
                 else {
-                    require(!param.name.isNullOrEmpty()) {"Cannot infer option name; specify it explicitly."}
+                    require(!param.name.isNullOrEmpty()) { "Cannot infer option name; specify it explicitly." }
                     arrayOf("--" + param.name)
                 }
     }

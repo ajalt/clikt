@@ -1,3 +1,3 @@
 apply plugin: 'application'
 
-mainClassName = 'com.github.ajalt.clikt.samples.MainKt'
+mainClassName = 'com.github.ajalt.clikt.parser.ParserKt'

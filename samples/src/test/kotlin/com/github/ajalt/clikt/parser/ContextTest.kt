@@ -14,8 +14,7 @@ class ContextTest {
 
     @Test
     fun `find functions single context`() {
-        val ctx = Context(null, "", null, emptyArray(), true, ContextTest.Companion::f1,
-                emptyMap(), emptyMap(), emptyList(), hashSetOf(), emptyMap())
+        val ctx = Context.fromFunction(ContextTest.Companion::f1)
 
         assertThat(ctx.findObject<String>()).isNull()
         assertThat(ctx.findRoot()).isEqualTo(ctx)
@@ -28,10 +27,9 @@ class ContextTest {
 
     @Test
     fun `find functions parent context`() {
-        val parent = Context(null, "parent", null, emptyArray(), true, ContextTest.Companion::f1,
-                emptyMap(), emptyMap(), emptyList(), hashSetOf(), emptyMap())
-        val child = Context(parent, "child", null, emptyArray(), true, ContextTest.Companion::f1,
-                emptyMap(), emptyMap(), emptyList(), hashSetOf(), emptyMap())
+        val parent = Context.fromFunction(ContextTest.Companion::f1)
+        val child = Context.fromFunction(ContextTest.Companion::f1)
+        child.parent = parent
 
         assertThat(child.findObject<String>()).isEqualTo(parent.findObject<String>()).isNull()
         assertThat(child.findRoot()).isEqualTo(parent.findRoot()).isEqualTo(parent)

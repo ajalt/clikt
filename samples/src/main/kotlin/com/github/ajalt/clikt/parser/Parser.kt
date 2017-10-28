@@ -30,10 +30,19 @@ class Parser {
 
     private fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int) {
         val context = contexts[command] ?: Context.fromFunction(command)
-        val commandArgs = context.defaults.copyOf()
+        val commandArgs = arrayOfNulls<Any?>(context.parameters.size)
         val subcommands = context.subcommands.associateBy { it.name }
+        val longOptParsers = HashMap<String, LongOptParser>()
+        val shortOptParsers = HashMap<String, ShortOptParser>()
+        val argParsers = ArrayList<ArgumentParser>()
 
-        // parse
+        for ((i, param) in context.parameters.withIndex()) {
+            commandArgs[i] = param.getDefaultValue(context)
+            longOptParsers.putAll(param.longOptParsersByName)
+            shortOptParsers.putAll(param.shortOptParsersByName)
+            param.argParser?.let { argParsers.add(it) }
+        }
+
         val positionalArgs = ArrayList<String>()
         var i = startingArgI
         loop@ while (i <= argv.lastIndex) {
@@ -41,12 +50,12 @@ class Parser {
             when {
             // TODO multiple calls to the same flag
                 a.startsWith("--") -> {
-                    val result = parseLongOpt(argv, a, i, context.longOptParsers)
+                    val result = parseLongOpt(argv, a, i, longOptParsers)
                     applyParseResult(result, commandArgs)
                     i += result.consumedCount
                 }
                 a.startsWith("-") -> {
-                    val result = parseShortOpt(argv, a, i, context.shortOptParsers)
+                    val result = parseShortOpt(argv, a, i, shortOptParsers)
                     applyParseResult(result, commandArgs)
                     i += result.consumedCount
                 }
@@ -67,7 +76,7 @@ class Parser {
             }
         }
         require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
-        applyParseResult(parseArguments(positionalArgs, context.argParsers), commandArgs)
+        applyParseResult(parseArguments(positionalArgs, argParsers), commandArgs)
         context.invoke(commandArgs)
     }
 

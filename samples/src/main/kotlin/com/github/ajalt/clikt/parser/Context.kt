@@ -25,7 +25,7 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
                         is IntOption -> {
                             // TODO typechecks, check name format
                             defaults[param.index] = anno.default
-                            val parser = IntOptParser(param.index)
+                            val parser = OptionParser(param.index, IntParamType)
                             longOptParsers[anno.name] = parser
                             if (anno.shortName.isNotEmpty()) {
                                 shortOptParsers[anno.shortName] = parser

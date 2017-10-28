@@ -1,13 +1,17 @@
 package com.github.ajalt.clikt.options
 
+import com.github.ajalt.clikt.parser.BadParameter
+
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class IntOption(val name: String, val shortName: String = "", val default: Int = 0)
 
-class IntOptParser(commandArgIndex: Int) : OptionParser<Int>(commandArgIndex) {
-    override fun convertValue(value: String): Int = try {
+object IntParamType : ParamType<Int> {
+    override val metavar = "INTEGER"
+
+    override fun convert(value: String): Int = try {
         value.toInt()
     } catch (e: NumberFormatException) {
-        fail("$value is not a valid integer")
+        throw BadParameter("$value is not a valid integer")
     }
 }

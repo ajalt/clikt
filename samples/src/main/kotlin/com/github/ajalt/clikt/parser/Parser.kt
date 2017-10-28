@@ -41,6 +41,7 @@ class Parser {
         val subcommands = context.subcommands.associateBy { it.name }
 
         // parse
+        val positionalArgs = ArrayList<String>()
         var i = startingArgI
         while (i <= argv.lastIndex) {
             val a = argv[i]

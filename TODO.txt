@@ -1,5 +1,6 @@
 arguments
 Passing context and obj
+register decorators / type conversions
 help
 error messages
 

@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.parser.BadParameter
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class IntOption(val name: String, val alternateName: String = "", val default: Int = 0)
+annotation class IntOption(vararg val names: String, val default: Int = 0)
 
 /**
  * @param name The name to show in the help message. If not given, defaults to the name of the

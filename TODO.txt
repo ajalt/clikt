@@ -1,4 +1,3 @@
-arguments
 nargs in options (fixed number only)
 Passing context and obj
 name inference for options

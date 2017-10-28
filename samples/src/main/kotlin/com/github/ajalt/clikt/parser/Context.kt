@@ -40,12 +40,12 @@ class Context(var parent: Context?, val name: String, var obj: Any?,
                             // TODO typechecks, check name format, check that names are unique
                             defaults[param.index] = anno.default
                             val parser = OptionParser(param.index, IntParamType)
-                            registerOptNames(parser, parser, anno.name, anno.alternateName)
+                            registerOptNames(parser, parser, *anno.names)
                         }
                         is FlagOption -> {
                             defaults[param.index] = false
                             val parser = FlagOptionParser(param.index)
-                            registerOptNames(parser, parser, anno.name, anno.alternateName)
+                            registerOptNames(parser, parser, *anno.names)
                         }
                         is IntArgument -> {
                             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1

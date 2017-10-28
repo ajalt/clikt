@@ -14,23 +14,12 @@ import java.util.concurrent.atomic.*
 
 inline fun softly(block: SoftAssertions.() -> Unit) = SoftAssertions().apply { block(); assertAll() }
 
-inline fun <T> softForEach(vararg data: T, block: ForEachSoftAssertions.(T) -> Unit) {
+inline fun <T> softForEach(vararg data: T, addDescription: Boolean = true, block: ForEachSoftAssertions.(T) -> Unit) {
     val softly = ForEachSoftAssertions()
 
-    for ((i,it) in data.withIndex()) {
-        val stringData = when (it) {
-            is ByteArray -> Arrays.toString(it)
-            is CharArray -> Arrays.toString(it)
-            is ShortArray -> Arrays.toString(it)
-            is IntArray -> Arrays.toString(it)
-            is LongArray -> Arrays.toString(it)
-            is FloatArray -> Arrays.toString(it)
-            is DoubleArray -> Arrays.toString(it)
-            is BooleanArray -> Arrays.toString(it)
-            is Array<*> -> Arrays.toString(it)
-            else -> it.toString()
-        }
-        softly.description = "row=$i, data=$stringData"
+    for ((i, it) in data.withIndex()) {
+        val stringData = pprint(it)
+        softly.description = "row=$i" + if (addDescription) ", data=$stringData" else ""
         try {
             softly.block(it)
         } catch (exc: Exception) {
@@ -39,6 +28,19 @@ inline fun <T> softForEach(vararg data: T, block: ForEachSoftAssertions.(T) -> U
     }
 
     softly.assertAll()
+}
+
+fun pprint(it: Any?): String = when (it) {
+    is ByteArray -> Arrays.toString(it)
+    is CharArray -> Arrays.toString(it)
+    is ShortArray -> Arrays.toString(it)
+    is IntArray -> Arrays.toString(it)
+    is LongArray -> Arrays.toString(it)
+    is FloatArray -> Arrays.toString(it)
+    is DoubleArray -> Arrays.toString(it)
+    is BooleanArray -> Arrays.toString(it)
+    is Array<*> -> Arrays.toString(it)
+    else -> it.toString()
 }
 
 

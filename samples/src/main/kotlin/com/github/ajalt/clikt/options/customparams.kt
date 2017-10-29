@@ -11,6 +11,6 @@ annotation class PassContext
 
 object PassContextParameter : Parameter() {
     override fun getDefaultValue(context: Context) = context
-    override val help: ParameterHelp?
+    override val parameterHelp: ParameterHelp?
         get() = null
 }

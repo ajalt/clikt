@@ -28,17 +28,17 @@ private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*
         param<IntOption> { anno, p ->
             // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
             val parser = OptionParser(p.index, IntParamType)
-            Option(getOptionNames(anno.names, p), parser, parser, true, anno.default, null)
+            Option(getOptionNames(anno.names, p), parser, parser, true, anno.default, "INT", anno.help)
         },
         param<FlagOption> { anno, p ->
             val parser = FlagOptionParser(p.index)
-            Option(getOptionNames(anno.names, p), parser, parser, true, false, null)
+            Option(getOptionNames(anno.names, p), parser, parser, true, false, null, anno.help)
         },
         param<IntArgument> { anno, p ->
             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
             val default = if (anno.required || anno.nargs != 1) null else anno.default
             val name = if (anno.name.isBlank()) p.name ?: "ARGUMENT" else anno.name
-            Argument(name, anno.nargs, anno.required, default, null, IntParamType, p.index)
+            Argument(name, anno.nargs, anno.required, default, "INT", IntParamType, p.index, anno.help)
         }
 )
 
@@ -85,12 +85,12 @@ class Context(parent: Context?, val name: String, var obj: Any?,
 
     fun formatHelp(): String {
         // TODO: help formatter field
-        return PlaintextHelpFormatter().formatHelp(parameters.mapNotNull { it.help } +
+        return PlaintextHelpFormatter().formatHelp(parameters.mapNotNull { it.parameterHelp } +
                 subcommands.map { it.helpAsSubcommand() })
     }
 
     private fun helpAsSubcommand() = ParameterHelp(listOf(name), emptyList(),
-            ParameterHelp.SECTION_SUBCOMMANDS, false, false)
+            TODO(), ParameterHelp.SECTION_SUBCOMMANDS, false, false)
 
     companion object {
         fun fromFunction(command: KFunction<*>): Context {

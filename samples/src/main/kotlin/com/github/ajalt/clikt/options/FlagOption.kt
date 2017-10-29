@@ -2,7 +2,7 @@ package com.github.ajalt.clikt.options
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class FlagOption(vararg val names: String)
+annotation class FlagOption(vararg val names: String, val help: String= "")
 
 class FlagOptionParser(private val commandArgIndex: Int) : LongOptParser, ShortOptParser {
     override fun parseLongOpt(argv: Array<String>, index: Int, explicitValue: String?): ParseResult {

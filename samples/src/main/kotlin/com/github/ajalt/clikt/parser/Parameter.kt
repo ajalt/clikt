@@ -9,12 +9,13 @@ abstract class Parameter {
     open val longOptParsersByName: Map<String, LongOptParser> = emptyMap()
     open val argParser: ArgumentParser? = null
     open fun getDefaultValue(context: Context): Any? = null
-    abstract val help: ParameterHelp?
+    abstract val parameterHelp: ParameterHelp?
 }
 
 abstract class ParsedParameter<out T : Any>(val required: Boolean,
                                             val default: T?,
-                                            val metavar: String?) : Parameter() {
+                                            val metavar: String?,
+                                            val help: String) : Parameter() {
     override fun getDefaultValue(context: Context) = default
 }
 
@@ -23,8 +24,9 @@ open class Option<out T : Any>(protected val names: List<String>,
                                protected val longOptParser: LongOptParser,
                                required: Boolean,
                                default: T?,
-                               metavar: String?) :
-        ParsedParameter<T>(required, default, metavar) {
+                               metavar: String?,
+                               help: String) :
+        ParsedParameter<T>(required, default, metavar, help) {
     init {
         require(names.isNotEmpty()) // TODO messages
         for (name in names) {
@@ -36,8 +38,9 @@ open class Option<out T : Any>(protected val names: List<String>,
         get() = names.filter { !it.startsWith("--") }.associateBy({ it }, { shortOptParser })
     override val longOptParsersByName: Map<String, LongOptParser>
         get() = names.filter { it.startsWith("--") }.associateBy({ it }, { longOptParser })
-    override val help: ParameterHelp
+    override val parameterHelp: ParameterHelp
         get() = ParameterHelp(names, metavar?.let { listOf(it) } ?: emptyList(),
+                help,
                 ParameterHelp.SECTION_OPTIONS,
                 required, false) // TODO: repeatable
 }
@@ -48,8 +51,8 @@ open class Argument<T : Any>(final override val name: String,
                              default: T?,
                              metavar: String?,
                              protected val type: ParamType<T>,
-                             protected val commandArgIndex: Int) :
-        ParsedParameter<T>(required, default, metavar), ArgumentParser {
+                             protected val commandArgIndex: Int, help: String) :
+        ParsedParameter<T>(required, default, metavar, help), ArgumentParser {
     init {
         require(nargs != 0)
         require(commandArgIndex >= 0)
@@ -63,8 +66,8 @@ open class Argument<T : Any>(final override val name: String,
         return ParseResult(0, value, commandArgIndex)
     }
 
-    override val help: ParameterHelp
-        get() = ParameterHelp(listOf(name), metavar?.let { listOf(it) } ?: emptyList(),
+    override val parameterHelp: ParameterHelp
+        get() = ParameterHelp(listOf(name), metavar?.let { listOf(it) } ?: emptyList(), help,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
 }
 

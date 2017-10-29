@@ -5,7 +5,7 @@ fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentInden
     require(initialIndent.length < width && subsequentIndent.length < width)
     return buildString {
         if (preserveParagraph) {
-            for ((i, paragraph) in this@wrapText.split(Regex.fromLiteral("\n\n")).withIndex()) {
+            for ((i, paragraph) in this@wrapText.split("\n\n").withIndex()) {
                 if (i > 0) append("\n\n")
                 wrapParagraph(paragraph, width, if (i == 0) initialIndent else subsequentIndent, subsequentIndent)
             }

@@ -1,4 +1,4 @@
---help
+--help, --version
 register decorators / type conversions
 error messages
 

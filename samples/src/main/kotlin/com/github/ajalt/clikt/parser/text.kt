@@ -1,9 +1,14 @@
 package com.github.ajalt.clikt.parser
 
 fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentIndent: String = "",
-                    preserveParagraph: Boolean = false): String {
+                    preserveParagraph: Boolean = false): String = buildString {
+    wrapText(this, width, initialIndent, subsequentIndent, preserveParagraph)
+}
+
+fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = "",
+                    subsequentIndent: String = "", preserveParagraph: Boolean = false) {
     require(initialIndent.length < width && subsequentIndent.length < width)
-    return buildString {
+    with(sb) {
         if (preserveParagraph) {
             for ((i, paragraph) in this@wrapText.split("\n\n").withIndex()) {
                 if (i > 0) append("\n\n")
@@ -23,7 +28,7 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
     }
     val words = text.split(Regex("\\s+"))
     append(initialIndent)
-    var currentWidth = 0
+    var currentWidth = initialIndent.length
     for ((i, word) in words.withIndex()) {
         if (word.isEmpty()) continue
         if (i > 0) {
@@ -38,4 +43,10 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
         append(word)
         currentWidth += word.length
     }
+}
+
+fun StringBuilder.appendRepeat(text: String, repeat: Int): StringBuilder {
+    ensureCapacity(capacity() + text.length * repeat)
+    for (i in 0 until repeat) append(text)
+    return this
 }

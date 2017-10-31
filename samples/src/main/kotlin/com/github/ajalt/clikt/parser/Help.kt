@@ -5,15 +5,15 @@ import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTI
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_SUBCOMMANDS
 
 interface HelpFormatter {
-    fun formatUsage(parameters: List<ParameterHelp>): String
-    fun formatHelp(parameters: List<ParameterHelp>): String
+    fun formatUsage(parameters: List<ParameterHelp>, programName: String = ""): String
+    fun formatHelp(parameters: List<ParameterHelp>, programName: String = ""): String
 
-    data class ParameterHelp(val names: List<String>,
-                             val metavars: List<String>,
-                             val help: String,
-                             val section: Int,
-                             val required: Boolean,
-                             val repeatable: Boolean) {
+    data class ParameterHelp constructor(val names: List<String>,
+                                         val metavar: String?,
+                                         val help: String,
+                                         val section: Int,
+                                         val required: Boolean,
+                                         val repeatable: Boolean) {
         companion object {
             const val SECTION_OPTIONS = 1
             const val SECTION_ARGUMENTS = 2
@@ -31,6 +31,7 @@ open class PlaintextHelpFormatter(val prolog: String = "",
                                   val optionsTitle: String = "Options:",
                                   val argumentsTitle: String = "Arguments:",
                                   val commandsTitle: String = "Commands:",
+                                  val optionsMetavar: String = "[OPTIONS]",
                                   val maxColWidth: Int = 30,
                                   val colSpacing: Int = 2) : HelpFormatter {
     private val width: Int = when (width) {
@@ -38,59 +39,88 @@ open class PlaintextHelpFormatter(val prolog: String = "",
         else -> width
     }
 
-    override fun formatUsage(parameters: List<HelpFormatter.ParameterHelp>): String {
-        return buildString { formatUsage(this, parameters) }
+    override fun formatUsage(parameters: List<HelpFormatter.ParameterHelp>, programName: String): String {
+        return buildString { formatUsage(this, parameters, programName) }
     }
 
-    private fun formatUsage(sb: StringBuilder, parameters: List<HelpFormatter.ParameterHelp>): Unit = with(sb) {
-//        append(usageTitle)
-//        if (usageTitle.length >= width - 20) append("\n")
-//        TODO() // TODO
+    private fun formatUsage(sb: StringBuilder, parameters: List<HelpFormatter.ParameterHelp>,
+                            programName: String): Unit = with(sb) {
+        val prog = usageTitle + programName
+        val usage = buildString {
+            if (parameters.any { it.section == SECTION_OPTIONS }) {
+                append(optionsMetavar)
+            }
 
-    }
+            parameters.filterSection(SECTION_ARGUMENTS).forEach {
+                append(" ")
+                if (!it.required) append("[")
+                it.metavar?.let { append(it) }
+                if (!it.required) append("]")
+                if (it.repeatable) append("...")
+            }
 
-    override fun formatHelp(parameters: List<HelpFormatter.ParameterHelp>) = buildString {
-        // TODO: required, repeatable
-        formatUsage(this, parameters)
-        section("")
-        if (prolog.isNotEmpty()) {
-            append(prolog.wrapText(width, indent, indent, true))
-            if (!prolog.endsWith("\n")) append("\n")
+            if (parameters.any { it.section == SECTION_SUBCOMMANDS }) {
+                append(" COMMAND [ARGS]...")
+            }
         }
 
-        val options = parameters.filter { it.section == SECTION_OPTIONS }.map {
+        if (usage.isEmpty()) {
+            append(prog)
+        } else if (prog.length >= width - 20) {
+            append(prog).append("\n")
+            val usageIndent = " ".repeat(minOf(width / 3, 11))
+            usage.wrapText(this, width, usageIndent, usageIndent)
+        } else {
+            val usageIndent = " ".repeat(prog.length + 1)
+            usage.wrapText(this, width, prog + " ", usageIndent)
+        }
+    }
+
+    override fun formatHelp(parameters: List<HelpFormatter.ParameterHelp>,
+                            programName: String) = buildString {
+        // TODO: required, repeatable
+        formatUsage(this, parameters, programName)
+        if (prolog.isNotEmpty()) {
+            section("")
+            prolog.wrapText(this, width, preserveParagraph = true)
+        }
+
+        val options = parameters.filterSection(SECTION_OPTIONS).map {
             it.names.sortedBy { it.startsWith("--") }
-                    .joinToString(", ", postfix = when {
-                        it.metavars.isEmpty() -> ""
-                        else -> it.metavars.joinToString(" ", prefix = " ")
-                    }) to it.help
+                    .joinToString(", ", postfix = it.metavar?.let { " " + it } ?: "") to it.help
         }
         if (options.isNotEmpty()) {
+            append("\n")
             section(optionsTitle)
             appendDefinitionList(options)
         }
 
-        val arguments = parameters.filter { it.section == SECTION_ARGUMENTS }.map {
+        val arguments = parameters.filterSection(SECTION_ARGUMENTS).map {
             it.names[0] to it.help
         }
         if (arguments.isNotEmpty() && arguments.any { it.second.isNotEmpty() }) {
+            append("\n")
             section(argumentsTitle)
             appendDefinitionList(arguments)
         }
 
-        val commands = parameters.filter { it.section == SECTION_SUBCOMMANDS }.map {
+        val commands = parameters.filterSection(SECTION_SUBCOMMANDS).map {
             it.names[0] to it.help
         }
         if (commands.isNotEmpty()) {
+            append("\n")
             section(commandsTitle)
             appendDefinitionList(commands)
         }
 
         if (epilog.isNotEmpty()) {
             section("")
-            append(epilog.wrapText(width, indent, indent, true))
+            epilog.wrapText(this, width, preserveParagraph = true)
         }
     }
+
+    protected fun List<HelpFormatter.ParameterHelp>.filterSection(section: Int) =
+            filter { it.section == section }
 
     private fun StringBuilder.appendDefinitionList(rows: List<Pair<String, String>>) {
         if (rows.isEmpty()) return
@@ -102,15 +132,10 @@ open class PlaintextHelpFormatter(val prolog: String = "",
             if (first.length + indent.length > maxColWidth) {
                 append("\n").append(secondIndent)
             } else {
-                val n = firstWidth - first.length + colSpacing
-                append(" ".repeat(n))
+                appendRepeat(" ", firstWidth - first.length + colSpacing)
             }
 
-            val lines = second.wrapText(secondWidth).split("\n")
-            for ((i, line) in lines.withIndex()) {
-                if (i > 0) append(secondIndent)
-                append(line).append("\n")
-            }
+            second.wrapText(this, secondWidth, subsequentIndent = secondIndent)
         }
     }
 

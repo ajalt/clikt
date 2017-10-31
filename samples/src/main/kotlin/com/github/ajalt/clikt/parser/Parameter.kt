@@ -39,7 +39,7 @@ open class Option<out T : Any>(protected val names: List<String>,
     override val longOptParsersByName: Map<String, LongOptParser>
         get() = names.filter { it.startsWith("--") }.associateBy({ it }, { longOptParser })
     override val parameterHelp: ParameterHelp
-        get() = ParameterHelp(names, metavar?.let { listOf(it) } ?: emptyList(),
+        get() = ParameterHelp(names, metavar,
                 help,
                 ParameterHelp.SECTION_OPTIONS,
                 required, false) // TODO: repeatable
@@ -67,7 +67,7 @@ open class Argument<T : Any>(final override val name: String,
     }
 
     override val parameterHelp: ParameterHelp
-        get() = ParameterHelp(listOf(name), metavar?.let { listOf(it) } ?: emptyList(), help,
+        get() = ParameterHelp(listOf(name), metavar, help,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
 }
 

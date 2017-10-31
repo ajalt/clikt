@@ -38,7 +38,8 @@ private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*
             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
             val default = if (anno.required || anno.nargs != 1) null else anno.default
             val name = if (anno.name.isBlank()) p.name ?: "ARGUMENT" else anno.name
-            Argument(name, anno.nargs, anno.required, default, "INT", IntParamType, p.index, anno.help)
+            Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inferrence
+                    IntParamType, p.index, anno.help)
         }
 )
 
@@ -89,7 +90,7 @@ class Context(parent: Context?, val name: String, var obj: Any?,
                 subcommands.map { it.helpAsSubcommand() })
     }
 
-    private fun helpAsSubcommand() = ParameterHelp(listOf(name), emptyList(),
+    private fun helpAsSubcommand() = ParameterHelp(emptyList(), name,
             TODO(), ParameterHelp.SECTION_SUBCOMMANDS, false, false)
 
     companion object {

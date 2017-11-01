@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parser
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_ARGUMENTS
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_OPTIONS
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_SUBCOMMANDS
+import kotlin.LazyThreadSafetyMode.NONE
 
 interface HelpFormatter {
     fun formatUsage(parameters: List<ParameterHelp>, programName: String = ""): String
@@ -27,18 +28,20 @@ open class PlaintextHelpFormatter(val prolog: String = "",
                                   val indent: String = "  ",
                                   width: Int? = null,
                                   maxWidth: Int = 78,
+                                  maxColWidth: Int? = null,
                                   val usageTitle: String = "Usage:",
                                   val optionsTitle: String = "Options:",
                                   val argumentsTitle: String = "Arguments:",
                                   val commandsTitle: String = "Commands:",
                                   val optionsMetavar: String = "[OPTIONS]",
                                   val commandMetavar: String = "COMMAND [ARGS]...",
-                                  val maxColWidth: Int = 30,
                                   val colSpacing: Int = 2) : HelpFormatter {
-    private val width: Int = when (width) {
+    protected val width: Int = when (width) {
         null -> minOf(maxWidth, System.getenv("COLUMNS")?.toInt() ?: maxWidth)
         else -> width
     }
+
+    protected val maxColWidth: Int = maxColWidth ?: (this.width / 2.5).toInt()
 
     override fun formatUsage(parameters: List<HelpFormatter.ParameterHelp>, programName: String): String {
         return buildString { formatUsage(this, parameters, programName) }
@@ -127,16 +130,20 @@ open class PlaintextHelpFormatter(val prolog: String = "",
         if (rows.isEmpty()) return
         val firstWidth = measureFirstColumn(rows)
         val secondWidth = width - firstWidth - colSpacing
-        val secondIndent = " ".repeat(firstWidth + colSpacing)
-        for ((first, second) in rows) {
+        val subsequentIndent by lazy(NONE) { " ".repeat(indent.length + firstWidth + colSpacing) }
+        for ((i, row) in rows.withIndex()) {
+            val (first, second) = row
+            if (i > 0) append("\n")
             append(indent).append(first)
             if (first.length + indent.length > maxColWidth) {
-                append("\n").append(secondIndent)
+                append("\n").append(subsequentIndent)
             } else {
                 appendRepeat(" ", firstWidth - first.length + colSpacing)
             }
 
-            second.wrapText(this, secondWidth, subsequentIndent = secondIndent)
+            val t = second.wrapText(secondWidth, subsequentIndent = subsequentIndent)
+            append(t)
+
         }
     }
 

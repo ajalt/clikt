@@ -119,4 +119,29 @@ class PlaintextHelpFormatterTest {
                 |Dolor Sit Amet.
                 """.trimMargin("|"))
     }
+
+    @Test
+    fun `formatHelp option wrapping`() {
+        val f = PlaintextHelpFormatter(width = 54, maxColWidth = 12)
+        assertThat(f.formatHelp(l(
+                h(l("-x"), OPT, "X", help = "one very very very very very very long option"),
+                h(l("-y", "--yy"), OPT, "Y", help = "a shorter but still long option"),
+                h(l("-z", "--zzzzzzzzzzzzz"), OPT, "ZZZZZZZZ", help = "a short option"),
+                h(l("-t", "--entirely-too-long-option"), OPT, "WOWSOLONG",
+                        help = "this option has a long name and a long descrption")
+        ), programName = "prog")).isEqualTo(
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -x X          one very very very very very very long
+                |                option
+                |  -y, --yy Y    a shorter but still long option
+                |  -z, --zzzzzzzzzzzzz ZZZZZZZZ
+                |                a short option
+                |  -t, --entirely-too-long-option WOWSOLONG
+                |                this option has a long name and a long
+                |                descrption
+                """.trimMargin("|"))
+    }
 }

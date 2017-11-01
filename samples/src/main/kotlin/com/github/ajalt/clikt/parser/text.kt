@@ -7,7 +7,8 @@ fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentInden
 
 fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = "",
                     subsequentIndent: String = "", preserveParagraph: Boolean = false) {
-    require(initialIndent.length < width && subsequentIndent.length < width)
+    require(initialIndent.length < width) { "initialIndent >= width: ${initialIndent.length} >= $width" }
+    require(subsequentIndent.length < width) { "subsequentIndent >= width: ${subsequentIndent.length} >= $width" }
     with(sb) {
         if (preserveParagraph) {
             for ((i, paragraph) in this@wrapText.split("\n\n").withIndex()) {

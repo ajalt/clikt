@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.testing.softly
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -40,11 +39,16 @@ class PlaintextHelpFormatterTest {
                     "Usage: prog5 [FOO]...")
             assertThat(f.formatUsage(l(h(l("foo"), ARG, "FOO", required = true, repeatable = true)), programName = "prog6")).isEqualTo(
                     "Usage: prog6 FOO...")
-            Assertions.assertThat(f.formatUsage(l(
+            assertThat(f.formatUsage(l(
                     h(l("foo"), ARG, "FOO", required = true, repeatable = true),
                     h(l("-x"), OPT),
                     h(l("bar"), ARG, "BAR")), programName = "prog7")).isEqualTo(
                     "Usage: prog7 [OPTIONS] FOO... [BAR]")
+            assertThat(f.formatUsage(l(
+                    h(l("-x"), OPT),
+                    h(l("foo"), ARG, "FOO"),
+                    h(l("bar"), CMD, "BAR")), programName = "prog8")).isEqualTo(
+                    "Usage: prog8 [OPTIONS] [FOO] COMMAND [ARGS]...")
         }
     }
 

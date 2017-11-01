@@ -27,11 +27,12 @@ open class PlaintextHelpFormatter(val prolog: String = "",
                                   val indent: String = "  ",
                                   width: Int? = null,
                                   maxWidth: Int = 78,
-                                  val usageTitle: String = "Usage: ",
+                                  val usageTitle: String = "Usage:",
                                   val optionsTitle: String = "Options:",
                                   val argumentsTitle: String = "Arguments:",
                                   val commandsTitle: String = "Commands:",
                                   val optionsMetavar: String = "[OPTIONS]",
+                                  val commandMetavar: String = "COMMAND [ARGS]...",
                                   val maxColWidth: Int = 30,
                                   val colSpacing: Int = 2) : HelpFormatter {
     private val width: Int = when (width) {
@@ -45,7 +46,7 @@ open class PlaintextHelpFormatter(val prolog: String = "",
 
     private fun formatUsage(sb: StringBuilder, parameters: List<HelpFormatter.ParameterHelp>,
                             programName: String): Unit = with(sb) {
-        val prog = usageTitle + programName
+        val prog = usageTitle + " " + programName
         val usage = buildString {
             if (parameters.any { it.section == SECTION_OPTIONS }) {
                 append(optionsMetavar)
@@ -60,7 +61,7 @@ open class PlaintextHelpFormatter(val prolog: String = "",
             }
 
             if (parameters.any { it.section == SECTION_SUBCOMMANDS }) {
-                append(" COMMAND [ARGS]...")
+                append(" ").append(commandMetavar)
             }
         }
 

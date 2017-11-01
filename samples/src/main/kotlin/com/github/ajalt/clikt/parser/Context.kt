@@ -27,12 +27,12 @@ private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*
         param<PassContext> { _, _ -> PassContextParameter },
         param<IntOption> { anno, p ->
             // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
-            val parser = OptionParser(p.index, IntParamType)
-            Option(getOptionNames(anno.names, p), parser, parser, true, anno.default, "INT", anno.help)
+            val parser = TypedOptionParser(p.index, IntParamType)
+            Option(getOptionNames(anno.names, p), parser, true, anno.default, "INT", anno.help)
         },
         param<FlagOption> { anno, p ->
             val parser = FlagOptionParser(p.index)
-            Option(getOptionNames(anno.names, p), parser, parser, true, false, null, anno.help)
+            Option(getOptionNames(anno.names, p), parser, true, false, null, anno.help)
         },
         param<IntArgument> { anno, p ->
             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1

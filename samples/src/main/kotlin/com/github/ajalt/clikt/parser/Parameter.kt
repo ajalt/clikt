@@ -1,12 +1,14 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.*
+import com.github.ajalt.clikt.options.ArgumentParser
+import com.github.ajalt.clikt.options.OptionParser
+import com.github.ajalt.clikt.options.ParamType
+import com.github.ajalt.clikt.options.ParseResult
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KParameter
 
 abstract class Parameter {
-    open val shortOptParsersByName: Map<String, ShortOptParser> = emptyMap()
-    open val longOptParsersByName: Map<String, LongOptParser> = emptyMap()
+    open val parsersByName: Map<String, OptionParser> = emptyMap()
     open val argParser: ArgumentParser? = null
     open fun getDefaultValue(context: Context): Any? = null
     abstract val parameterHelp: ParameterHelp?
@@ -20,8 +22,7 @@ abstract class ParsedParameter<out T : Any>(val required: Boolean,
 }
 
 open class Option<out T : Any>(protected val names: List<String>,
-                               protected val shortOptParser: ShortOptParser, // TODO: move parsing to this class?
-                               protected val longOptParser: LongOptParser,
+                               protected val parser: OptionParser, // TODO: move parsing to this class?
                                required: Boolean,
                                default: T?,
                                metavar: String?,
@@ -34,10 +35,9 @@ open class Option<out T : Any>(protected val names: List<String>,
         }
     }
 
-    override val shortOptParsersByName: Map<String, ShortOptParser>
-        get() = names.filter { !it.startsWith("--") }.associateBy({ it }, { shortOptParser })
-    override val longOptParsersByName: Map<String, LongOptParser>
-        get() = names.filter { it.startsWith("--") }.associateBy({ it }, { longOptParser })
+    override val parsersByName: Map<String, OptionParser>
+        get() = names.associateBy({ it }, { parser })
+
     override val parameterHelp: ParameterHelp
         get() = ParameterHelp(names, metavar,
                 help,

@@ -1,6 +1,9 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.*
+import com.github.ajalt.clikt.options.ArgumentParser
+import com.github.ajalt.clikt.options.IntOption
+import com.github.ajalt.clikt.options.OptionParser
+import com.github.ajalt.clikt.options.ParseResult
 import java.util.*
 import kotlin.reflect.KFunction
 
@@ -32,14 +35,12 @@ class Parser {
         val context = contexts[command] ?: Context.fromFunction(command)
         val commandArgs = arrayOfNulls<Any?>(context.parameters.size)
         val subcommands = context.subcommands.associateBy { it.name }
-        val longOptParsers = HashMap<String, LongOptParser>()
-        val shortOptParsers = HashMap<String, ShortOptParser>()
+        val optionParsers = HashMap<String, OptionParser>()
         val argParsers = ArrayList<ArgumentParser>()
 
         for ((i, param) in context.parameters.withIndex()) {
             commandArgs[i] = param.getDefaultValue(context)
-            longOptParsers.putAll(param.longOptParsersByName)
-            shortOptParsers.putAll(param.shortOptParsersByName)
+            optionParsers.putAll(param.parsersByName)
             param.argParser?.let { argParsers.add(it) }
         }
 
@@ -50,12 +51,12 @@ class Parser {
             when {
             // TODO multiple calls to the same flag
                 a.startsWith("--") -> {
-                    val result = parseLongOpt(argv, a, i, longOptParsers)
+                    val result = parseLongOpt(argv, a, i, optionParsers)
                     applyParseResult(result, commandArgs)
                     i += result.consumedCount
                 }
                 a.startsWith("-") -> {
-                    val result = parseShortOpt(argv, a, i, shortOptParsers)
+                    val result = parseShortOpt(argv, a, i, optionParsers)
                     applyParseResult(result, commandArgs)
                     i += result.consumedCount
                 }
@@ -86,7 +87,7 @@ class Parser {
         }
     }
 
-    private fun parseLongOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, LongOptParser>): ParseResult {
+    private fun parseLongOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, OptionParser>): ParseResult {
         val equalsIndex = arg.indexOf('=')
         val (name, value) = if (equalsIndex >= 0) {
             check(equalsIndex != arg.lastIndex) // TODO exceptions
@@ -98,7 +99,7 @@ class Parser {
         return optParsers[name]!!.parseLongOpt(argv, index, value)
     }
 
-    private fun parseShortOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, ShortOptParser>): ParseResult {
+    private fun parseShortOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, OptionParser>): ParseResult {
         val prefix = arg[0].toString()
         var result = ParseResult.EMPTY
         for ((i, opt) in arg.withIndex()) {

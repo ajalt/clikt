@@ -19,8 +19,6 @@ annotation class IntArgument(val name: String = "",
                              val help: String= "")
 
 object IntParamType : ParamType<Int> {
-    override val metavar = "INTEGER"
-
     override fun convert(value: String): Int = try {
         value.toInt()
     } catch (e: NumberFormatException) {

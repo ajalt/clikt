@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.options
 
-interface ShortOptParser {
+interface OptionParser {
     /**
      * @param index The index of the option flag in argv, which may contain multiple short options.
      * @param optionIndex The index of the option within argv[index]
@@ -8,9 +8,7 @@ interface ShortOptParser {
      *     there are more values in the option
      */
     fun parseShortOpt(argv: Array<String>, index: Int, optionIndex: Int): ParseResult
-}
 
-interface LongOptParser {
     /**
      * @param index The index of the option flag in argv, which may contain an '=' with the first value
      */
@@ -18,11 +16,12 @@ interface LongOptParser {
 }
 
 
-class OptionParser<out T>(private val commandArgIndex: Int, private val type: ParamType<T>) :
-        LongOptParser, ShortOptParser {
+class TypedOptionParser<out T>(private val commandArgIndex: Int, private val type: ParamType<T>) :
+        OptionParser {
     init {
         require(commandArgIndex >= 0)
     }
+
     override fun parseLongOpt(argv: Array<String>, index: Int, explicitValue: String?): ParseResult {
         val value = explicitValue ?: argv[index + 1]
         // TODO exceptions

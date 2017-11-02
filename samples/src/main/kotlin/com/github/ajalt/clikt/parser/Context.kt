@@ -99,8 +99,10 @@ class Context(parent: Context?, val name: String, var obj: Any?,
 
             // Set up long options
             for (param in command.parameters) {
-                // TODO make sure instance and receiver params work
-                if (param.kind != KParameter.Kind.VALUE) continue
+                require(param.kind == KParameter.Kind.VALUE) {
+                    "Cannot invoke an unbound method. Use a free function or bound method instead. " +
+                            "(MyClass::foo does not work; MyClass()::foo does)"
+                }
 
                 var foundAnno = false
                 for (anno in param.annotations) {

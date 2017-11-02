@@ -16,6 +16,8 @@ private var intArg3: Int = -333333333
 private var intListArg: List<Int> = emptyList()
 private var anyArg: Any? = null
 
+private fun String.f0() {}
+
 private fun f0() {}
 
 private fun f1(@IntOption("--xx", "-x") x: Int) {
@@ -85,6 +87,14 @@ private class C {
     fun f2(@IntArgument x: Int, @IntOption yy: Int) {
         intArg1 = x
         intArg2 = yy
+    }
+
+    fun f3(@IntArgument x: Int, @IntArgument y: Int) {
+        (1).f3b(x, y)
+    }
+
+    private fun Int.f3b(x: Int, y: Int) {
+        f2(this + x, y)
     }
 }
 
@@ -202,6 +212,27 @@ class ParserTest {
         softly {
             assertThat(intArg1).isEqualTo(3)
             assertThat(intArg2).isEqualTo(4)
+        }
+    }
+
+    @Test
+    fun `bound member function and extension`() {
+        parser.parse(arrayOf("3", "5"), C()::f3)
+        softly {
+            assertThat(intArg1).isEqualTo(4)
+            assertThat(intArg2).isEqualTo(5)
+        }
+    }
+
+    @Test
+    fun `unbound member function and extension`() {
+        softly {
+            assertThatThrownBy { parser.parse(arrayOf("3", "5"), C::f3) }
+                    .isInstanceOf(IllegalArgumentException::class.java)
+                    .hasMessageContaining("unbound method")
+            assertThatThrownBy { parser.parse(arrayOf(), String::f0) }
+                    .isInstanceOf(IllegalArgumentException::class.java)
+                    .hasMessageContaining("unbound method")
         }
     }
 

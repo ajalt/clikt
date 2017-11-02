@@ -63,8 +63,9 @@ open class Option(val names: List<String>,
                   required: Boolean,
                   protected val default: Any?,
                   metavar: String?,
-                  help: String) :
-        ParsedParameter(required, metavar, help, true), OptionParser by parser {
+                  help: String,
+                  exposeValue: Boolean=true) :
+        ParsedParameter(required, metavar, help, exposeValue), OptionParser by parser {
     init {
         require(names.isNotEmpty()) // TODO messages
         for (name in names) {

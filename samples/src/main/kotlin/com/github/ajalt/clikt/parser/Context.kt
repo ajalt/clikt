@@ -54,7 +54,7 @@ class Context(parent: Context?,
               val epilog: String,
               val shortHelp: String) {
     init {
-        require(command.parameters.size == parameters.size) {
+        require(command.parameters.size == parameters.count { it.exposeValue }) {
             "Incorrect number of parameters. " +
                     "(expected ${command.parameters.size}, got ${parameters.size})"
         }
@@ -89,13 +89,13 @@ class Context(parent: Context?,
         return ctx
     }
 
-    fun formatHelp(): String {
+    fun getFormattedHelp(): String {
         return PlaintextHelpFormatter(prolog, epilog)
                 .formatHelp(parameters.mapNotNull { it.parameterHelp } +
                         subcommands.map { it.helpAsSubcommand() })
     }
 
-    private fun helpAsSubcommand() = ParameterHelp(emptyList(), name,
+    private fun helpAsSubcommand() = ParameterHelp(listOf(name), null,
             shortHelp, ParameterHelp.SECTION_SUBCOMMANDS, true, false) // TODO optional subcommands
 
     companion object {
@@ -126,17 +126,23 @@ class Context(parent: Context?,
             var prolog = ""
             var epilog = ""
             var shortHelp = ""
-
+            var addHelpOption = true
+            var helpOptionNames = listOf("-h", "--help")
             for (param in command.annotations) {
                 if (param is ClicktCommand) {
                     if (param.name.isNotBlank()) name = param.name
                     prolog = param.help.trim()
                     epilog = param.epilog.trim()
                     shortHelp = param.shortHelp
-
-                    // TODO: addHelpOption
+                    addHelpOption = param.addHelpOption
+                    if (param.helpOptionNames.isNotEmpty()) {
+                        helpOptionNames = param.helpOptionNames.toList()
+                    }
                 }
             }
+
+            if (addHelpOption) parameters.add(HelpOption(helpOptionNames))
+
             return Context(null, null, true, command, HashSet(), parameters,
                     name, prolog, epilog, shortHelp)
         }

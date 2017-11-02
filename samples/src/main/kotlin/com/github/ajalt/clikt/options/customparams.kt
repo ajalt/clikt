@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.options
 
 import com.github.ajalt.clikt.parser.Context
+import com.github.ajalt.clikt.parser.Option
 import com.github.ajalt.clikt.parser.Parameter
+import com.github.ajalt.clikt.parser.PrintHelpMessage
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
@@ -15,3 +17,13 @@ class PassContextParameter : Parameter {
 }
 
 
+class HelpOption(names: List<String>) : Option(
+        names, FlagOptionParser(), false, false, null,
+        "Show this help message and exit.", exposeValue = false) {
+    override fun processValues(context: Context, values: List<*>): Any? {
+        if (values.lastOrNull() == true) {
+            throw PrintHelpMessage(context)
+        }
+        return null
+    }
+}

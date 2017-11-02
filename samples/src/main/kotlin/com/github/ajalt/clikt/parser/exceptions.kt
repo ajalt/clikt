@@ -4,6 +4,8 @@ package com.github.ajalt.clikt.parser
 
 open class CliktError(message: String) : Exception(message)
 
+class PrintHelpMessage(val context: Context): CliktError("print help")
+
 /**
  * An internal exception that signals a usage error.
  *

@@ -1,9 +1,11 @@
 package com.github.ajalt.clikt.parser
 
+import com.github.ajalt.clikt.options.ClicktCommand
 import com.github.ajalt.clikt.options.IntOption
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.reflect.KFunction
+import kotlin.system.exitProcess
 
 class Parser {
     private val contexts = HashMap<KFunction<*>, Context>()
@@ -21,7 +23,14 @@ class Parser {
         try {
             parse(argv, cmd)
         } catch (e: CliktError) {
+            when (e) {
+                is PrintHelpMessage -> {
+                    println(e.context.getFormattedHelp())
+                    exitProcess(0)
+                }
+            }
             println(e)
+            exitProcess(1)
         }
     }
 
@@ -74,7 +83,7 @@ class Parser {
         }
 
         if (subcommand == null) {
-            require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
+//            require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
             parseArguments(positionalArgs, arguments, parsedValuesByParameter)
         }
 
@@ -171,10 +180,13 @@ class Parser {
 }
 
 
+@ClicktCommand("cli", "This is a command", "Now we're all done")
 fun run(@IntOption("--x", "-x") x: Int) {
     println("run x=$x")
 }
 
+@ClicktCommand("subcommand", "This is a sub-command", "Now actually we're all done",
+        shortHelp = "some subcommand")
 fun sub(@IntOption("--y") y: Int) {
     println("sub y=$y")
 }

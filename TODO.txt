@@ -1,11 +1,12 @@
 --help, --version
 register decorators / type conversions
 error messages
+nargs in options (fixed number only)
 
 add "did you mean" hints in NoSuchOption etc.
 inferred name case normalization for options, args, and metavars
 
-nargs in options (fixed number only)
+custom help formatter
 custom multi commands
 
 

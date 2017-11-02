@@ -43,11 +43,16 @@ private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*
         }
 )
 
-class Context(parent: Context?, val name: String, var obj: Any?,
+class Context(parent: Context?,
+              var obj: Any?,
               val allowInterspersedArgs: Boolean,
               internal val command: KFunction<*>,
               internal val subcommands: MutableSet<Context>,
-              val parameters: List<Parameter>) {
+              val parameters: List<Parameter>,
+              val name: String,
+              val prolog: String,
+              val epilog: String,
+              val shortHelp: String) {
     init {
         require(command.parameters.size == parameters.size) {
             "Incorrect number of parameters. " +
@@ -85,19 +90,18 @@ class Context(parent: Context?, val name: String, var obj: Any?,
     }
 
     fun formatHelp(): String {
-        // TODO: help formatter field
-        return PlaintextHelpFormatter().formatHelp(parameters.mapNotNull { it.parameterHelp } +
-                subcommands.map { it.helpAsSubcommand() })
+        return PlaintextHelpFormatter(prolog, epilog)
+                .formatHelp(parameters.mapNotNull { it.parameterHelp } +
+                        subcommands.map { it.helpAsSubcommand() })
     }
 
     private fun helpAsSubcommand() = ParameterHelp(emptyList(), name,
-            TODO(), ParameterHelp.SECTION_SUBCOMMANDS, false, false)
+            shortHelp, ParameterHelp.SECTION_SUBCOMMANDS, true, false) // TODO optional subcommands
 
     companion object {
         fun fromFunction(command: KFunction<*>): Context {
             val parameters = mutableListOf<Parameter>()
 
-            // Set up long options
             for (param in command.parameters) {
                 require(param.kind == KParameter.Kind.VALUE) {
                     "Cannot invoke an unbound method. Use a free function or bound method instead. " +
@@ -117,8 +121,24 @@ class Context(parent: Context?, val name: String, var obj: Any?,
                     "No Clickt annotation found on parameter at index ${param.index}"
                 }
             }
-            val name = command.name // TODO allow customization
-            return Context(null, name, null, true, command, HashSet(), parameters)
+
+            var name = command.name // TODO: convert case
+            var prolog = ""
+            var epilog = ""
+            var shortHelp = ""
+
+            for (param in command.annotations) {
+                if (param is ClicktCommand) {
+                    if (param.name.isNotBlank()) name = param.name
+                    prolog = param.help.trim()
+                    epilog = param.epilog.trim()
+                    shortHelp = param.shortHelp
+
+                    // TODO: addHelpOption
+                }
+            }
+            return Context(null, null, true, command, HashSet(), parameters,
+                    name, prolog, epilog, shortHelp)
         }
     }
 }

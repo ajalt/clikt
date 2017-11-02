@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.ArgumentParser
 import com.github.ajalt.clikt.options.IntOption
-import com.github.ajalt.clikt.options.OptionParser
-import com.github.ajalt.clikt.options.ParseResult
 import java.util.*
 import kotlin.reflect.KFunction
 
@@ -31,39 +28,37 @@ class Parser {
         parse(argv, cmd, 0)
     }
 
-    private fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int) {
+    private tailrec fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int) {
         val context = contexts[command] ?: Context.fromFunction(command)
-        val commandArgs = arrayOfNulls<Any?>(context.parameters.size)
         val subcommands = context.subcommands.associateBy { it.name }
-        val optionParsers = HashMap<String, OptionParser>()
-        val argParsers = ArrayList<ArgumentParser>()
+        val optionsByName = HashMap<String, Option>()
+        val arguments = ArrayList<Argument<*>>()
+        val parsedValuesByParameter = LinkedHashMap<Parameter, MutableList<Any?>>(context.parameters.size)
 
-        for ((i, param) in context.parameters.withIndex()) {
-            commandArgs[i] = param.getDefaultValue(context)
-            optionParsers.putAll(param.parsersByName)
-            param.argParser?.let { argParsers.add(it) }
+        for (param in context.parameters) {
+            parsedValuesByParameter[param] = ArrayList()
+            when (param) {
+                is Option -> param.names.associateByTo(optionsByName, { it }, { param })
+                is Argument<*> -> arguments.add(param)
+            }
         }
 
         val positionalArgs = ArrayList<String>()
         var i = startingArgI
+        var subcommand: Context? = null
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
             // TODO multiple calls to the same flag
                 a.startsWith("--") -> {
-                    val result = parseLongOpt(argv, a, i, optionParsers)
-                    applyParseResult(result, commandArgs)
-                    i += result.consumedCount
+                    i += parseLongOpt(argv, a, i, optionsByName, parsedValuesByParameter)
                 }
                 a.startsWith("-") -> {
-                    val result = parseShortOpt(argv, a, i, optionParsers)
-                    applyParseResult(result, commandArgs)
-                    i += result.consumedCount
+                    i += parseShortOpt(argv, a, i, optionsByName, parsedValuesByParameter)
                 }
                 a in subcommands -> {
-                    context.invoke(commandArgs)
-                    parse(argv, subcommands[a]!!.command, i + 1)
-                    return
+                    subcommand = subcommands[a]!!
+                    break@loop
                 }
                 else -> {
                     if (context.allowInterspersedArgs) {
@@ -76,18 +71,32 @@ class Parser {
                 }
             }
         }
-        require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
-        applyParseResult(parseArguments(positionalArgs, argParsers), commandArgs)
-        context.invoke(commandArgs)
-    }
 
-    private fun applyParseResult(result: ParseResult, commandArgs: Array<Any?>) {
-        for (it in result.valuesByCommandArgIndex) {
-            commandArgs[it.key] = it.value
+        if (subcommand == null) {
+            require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
+            parseArguments(positionalArgs, arguments, parsedValuesByParameter)
+        }
+
+        parsedValuesByParameter.keys
+                .filterNot { it.exposeValue }
+                .forEach { it.processValues(context, emptyList<Any?>()) }
+
+        val commandArgs = parsedValuesByParameter
+                .filter { it.key.exposeValue }
+                .map { (p, values) ->
+                    p.processValues(context, values)
+                }.toTypedArray()
+
+        context.invoke(commandArgs)
+
+        if (subcommand != null) {
+            parse(argv, subcommand.command, i + 1)
         }
     }
 
-    private fun parseLongOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, OptionParser>): ParseResult {
+    private fun parseLongOpt(argv: Array<String>, arg: String, index: Int,
+                             optionsByName: Map<String, Option>,
+                             parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Int {
         val equalsIndex = arg.indexOf('=')
         val (name, value) = if (equalsIndex >= 0) {
             check(equalsIndex != arg.lastIndex) // TODO exceptions
@@ -95,38 +104,42 @@ class Parser {
         } else {
             arg to null
         }
-        if (name !in optParsers) throw NoSuchOption(name)
-        return optParsers[name]!!.parseLongOpt(argv, index, value)
+        val option = optionsByName[name] ?: throw NoSuchOption(name)
+        val result = option.parseLongOpt(name, argv, index, value)
+        parsedValuesByParameter[option]!!.add(result.value)
+        return result.consumedCount
     }
 
-    private fun parseShortOpt(argv: Array<String>, arg: String, index: Int, optParsers: Map<String, OptionParser>): ParseResult {
+    private fun parseShortOpt(argv: Array<String>, arg: String, index: Int,
+                              optionsByName: Map<String, Option>,
+                              parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Int {
         val prefix = arg[0].toString()
-        var result = ParseResult.EMPTY
         for ((i, opt) in arg.withIndex()) {
-            if (i == 0) continue
+            if (i == 0) continue // skip the dash
 
             val name = prefix + opt
-            if (name !in optParsers) throw NoSuchOption(name)
-            result += optParsers[name]!!.parseShortOpt(argv, index, i)
+            val option = optionsByName[name] ?: throw NoSuchOption(name)
+            val result = option.parseShortOpt(name, argv, index, i)
+            parsedValuesByParameter[option]!!.add(result.value)
             if (result.consumedCount > 0) {
-                return result
+                return result.consumedCount
             }
         }
-        // TODO Should this be an error?
-        return result
+        throw IllegalStateException(
+                "Error parsing short option ${argv[index]}: no parser consumed value.")
     }
 
-    private fun parseArguments(positionalArgs: List<String>, argParsers: List<ArgumentParser>): ParseResult {
+    private fun parseArguments(positionalArgs: List<String>, arguments: List<Argument<*>>,
+                               parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Int {
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
         // values.
-        val endSize = argParsers.asReversed()
+        val endSize = arguments.asReversed()
                 .takeWhile { it.nargs > 0 }
                 .sumBy { it.nargs }
-        var result = ParseResult.EMPTY
 
         var i = 0
-        for (parser in argParsers) {
+        for (parser in arguments) {
             val remaining = positionalArgs.size - i
             val consumed = when {
                 parser.nargs <= 0 -> maxOf(0, remaining - endSize)
@@ -136,7 +149,8 @@ class Parser {
             if (consumed > remaining) {
                 throw BadArgumentUsage("argument ${parser.name} takes ${parser.nargs} values")
             }
-            result += parser.parse(positionalArgs.subList(i, i + consumed))
+            val value = parser.parse(positionalArgs.subList(i, i + consumed))
+            parsedValuesByParameter[parser]!!.add(value)
             i += consumed
         }
 
@@ -145,7 +159,7 @@ class Parser {
             throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} " +
                     positionalArgs.joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
         }
-        return result
+        return i
     }
 }
 

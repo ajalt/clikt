@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.options
 
 import com.github.ajalt.clikt.parser.Context
-import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parser.Parameter
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
@@ -9,8 +8,8 @@ import com.github.ajalt.clikt.parser.Parameter
 annotation class PassContext
 
 
-object PassContextParameter : Parameter() {
-    override fun getDefaultValue(context: Context) = context
-    override val parameterHelp: ParameterHelp?
-        get() = null
+class PassContextParameter : Parameter {
+    override fun processValues(context: Context, values: List<*>) = context
+    override val exposeValue get() = true
+    override val parameterHelp get() = null
 }

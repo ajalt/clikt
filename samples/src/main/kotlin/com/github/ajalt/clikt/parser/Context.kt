@@ -24,22 +24,22 @@ private fun getOptionNames(names: Array<out String>, param: KParameter) =
 
 // TODO allow registering new parameter types
 private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*>>(
-        param<PassContext> { _, _ -> PassContextParameter },
+        param<PassContext> { _, _ -> PassContextParameter() },
         param<IntOption> { anno, p ->
             // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
-            val parser = TypedOptionParser(p.index, IntParamType)
-            Option(getOptionNames(anno.names, p), parser, true, anno.default, "INT", anno.help)
+            val parser = TypedOptionParser(IntParamType)
+            Option(getOptionNames(anno.names, p), parser, false, anno.default, "INT", anno.help)
         },
         param<FlagOption> { anno, p ->
-            val parser = FlagOptionParser(p.index)
-            Option(getOptionNames(anno.names, p), parser, true, false, null, anno.help)
+            val parser = FlagOptionParser()
+            Option(getOptionNames(anno.names, p), parser, false, false, null, anno.help)
         },
         param<IntArgument> { anno, p ->
             require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
             val default = if (anno.required || anno.nargs != 1) null else anno.default
             val name = if (anno.name.isBlank()) p.name ?: "ARGUMENT" else anno.name
-            Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inferrence
-                    IntParamType, p.index, anno.help)
+            Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
+                    IntParamType, anno.help)
         }
 )
 

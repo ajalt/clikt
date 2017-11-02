@@ -4,6 +4,6 @@ interface ArgumentParser {
     val name: String
     val nargs: Int
     val required: Boolean
-    fun parse(args: List<String>): ParseResult
+    fun parse(args: List<String>): Any?
 }
 

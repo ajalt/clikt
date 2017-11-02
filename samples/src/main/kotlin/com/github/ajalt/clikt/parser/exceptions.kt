@@ -12,11 +12,11 @@ open class CliktError(message: String) : Exception(message)
 open class UsageError(message: String) : CliktError(message)
 
 /** Base class for parameter usage errors. */
-open class BadParameter(message: String) : UsageError("Invalid value: $message")
+open class BadParameter(message: String) : UsageError("Error: $message")
 
 /** A required option or argument was not provided */
-open class MissingParameter(paramType: String, paramName: String, message: String = "") :
-        BadParameter("Missing $paramType${paramName.ine(" $paramName")}.${message.ine(" $message.")}")
+open class MissingParameter(paramType: String, paramNames: List<String>, message: String = "") :
+        BadParameter("Missing $paramType${paramNames.joinToString(" / ", " ").inb()}.${message.inb(" $message.")}")
 
 /** An option was provided that does not exist. */
 open class NoSuchOption(optionName: String) : UsageError("no such option $optionName")
@@ -36,5 +36,5 @@ open class BadOptionUsage(message: String) : UsageError(message)
 open class BadArgumentUsage(message: String) : UsageError(message)
 
 
-// ifNotEmpty
-private fun String.ine(nonempty: String = this, empty: String = "") = if (isEmpty()) empty else nonempty
+// "ifNotBlank"
+private fun String.inb(nonempty: String = this, empty: String = "") = if (isBlank()) empty else nonempty

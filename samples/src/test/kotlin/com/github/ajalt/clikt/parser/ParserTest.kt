@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.FlagOption
-import com.github.ajalt.clikt.options.IntArgument
-import com.github.ajalt.clikt.options.IntOption
-import com.github.ajalt.clikt.options.PassContext
+import com.github.ajalt.clikt.options.*
 import com.github.ajalt.clikt.testing.softForEach
 import com.github.ajalt.clikt.testing.softly
 import org.assertj.core.api.Assertions.assertThat
@@ -75,6 +72,12 @@ private fun f11(@FlagOption("--xx", "-x") x: Boolean, @FlagOption("--yy", "-y") 
     intArg2 = if (y) 1 else 0
     intArg3 = z
 }
+
+@ClicktCommand("f12name")
+private fun f12(@IntOption("--yy", "-y") y: Int) {
+    intArg2 = y
+}
+
 
 private class C {
     companion object {
@@ -294,6 +297,20 @@ class ParserTest {
             assertThat(intArg1).called("f1 x").isEqualTo(2)
             assertThat(intArg2).called("f2 x").isEqualTo(3)
             assertThat(intArg3).called("f2 y").isEqualTo(4)
+        }
+    }
+
+    @Test
+    fun `subcommand with custom name`() {
+        parser.addCommand(::f1, ::f12)
+        parser.parse(arrayOf("-x2", "f12name", "-y", "3"), ::f1)
+
+        softly {
+            assertThat(intArg1).isEqualTo(2)
+            assertThat(intArg2).isEqualTo(3)
+
+            assertThatThrownBy { parser.parse(arrayOf("-x2", "f12", "-y", "3"), ::f1) }
+                    .isInstanceOf(NoSuchOption::class.java)
         }
     }
 

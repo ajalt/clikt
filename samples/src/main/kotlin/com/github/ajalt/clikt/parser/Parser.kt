@@ -194,7 +194,7 @@ fun sub(@IntOption("--y") y: Int) {
 fun main(args: Array<String>) {
     val parser = Parser()
     parser.addCommand(::run, ::sub)
-    val argv = arrayOf("--x", "313", "sub", "--y", "456")
+    val argv = arrayOf("--x", "313", "subcommand", "--y", "456")
     parser.parse(argv, ::run)
 
 //    ff.parameters[0].type.isMarkedNullable

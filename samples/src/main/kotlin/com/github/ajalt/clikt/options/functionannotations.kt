@@ -6,7 +6,7 @@ package com.github.ajalt.clikt.options
  * You do not need to annotate a function to use it with Click; if this annotation isn't present,
  * all default values will be used.
  *
- * @property name The name of the command to display when used in a subcommad. If blank, the
+ * @property name The name of the command when used as a subcommand. If blank, the
  *     function name will be used.
  * @property help The long help text to display when help for this command is displayed.
  * @property epilog Text like the [help] string, but usually displayed after everything else.

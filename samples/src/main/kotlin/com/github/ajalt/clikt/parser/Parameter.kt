@@ -44,12 +44,19 @@ interface Parameter {
      */
     val parameterHelp: ParameterHelp?
 
+    /**
+     * Return whether this parameter should process its values before non-eager parameters.
+     *
+     * All parameters that return true for this property will have their [processValues] called
+     * before parameters that return false.
+     */
+    val eager: Boolean get() = false
 }
 
 abstract class ParsedParameter(val required: Boolean,
                                val metavar: String?,
                                val help: String,
-                               override val exposeValue: Boolean) : Parameter 
+                               override val exposeValue: Boolean) : Parameter
 
 open class Option(val names: List<String>,
                   protected val parser: OptionParser, // TODO: move parsing to this class?

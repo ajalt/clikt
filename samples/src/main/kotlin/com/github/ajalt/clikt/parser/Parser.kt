@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.IntOption
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.reflect.KFunction
 
 class Parser {
@@ -77,16 +78,7 @@ class Parser {
             parseArguments(positionalArgs, arguments, parsedValuesByParameter)
         }
 
-        parsedValuesByParameter.keys
-                .filterNot { it.exposeValue }
-                .forEach { it.processValues(context, emptyList<Any?>()) }
-
-        val commandArgs = parsedValuesByParameter
-                .filter { it.key.exposeValue }
-                .map { (p, values) ->
-                    p.processValues(context, values)
-                }.toTypedArray()
-
+        val commandArgs = processValues(context, parsedValuesByParameter)
         context.invoke(commandArgs)
 
         if (subcommand != null) {
@@ -160,6 +152,21 @@ class Parser {
                     positionalArgs.joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
         }
         return i
+    }
+
+    private fun processValues(context: Context, parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Array<Any?> {
+        val commandArgs = arrayOfNulls<Any?>(parsedValuesByParameter.count { it.key.exposeValue })
+        val indexes = parsedValuesByParameter
+                .filter { it.key.exposeValue }
+                .keys.withIndex()
+                .associateBy({ it.value }, { it.index })
+        val process: (Map.Entry<Parameter, MutableList<Any?>>) -> Unit = {
+            val result = it.key.processValues(context, it.value)
+            indexes[it.key]?.let { commandArgs[it] = result }
+        }
+        parsedValuesByParameter.filter { it.key.eager }.forEach(process)
+        parsedValuesByParameter.filterNot { it.key.eager }.forEach(process)
+        return commandArgs
     }
 }
 

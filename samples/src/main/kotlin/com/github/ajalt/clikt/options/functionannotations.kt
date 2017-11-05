@@ -1,5 +1,9 @@
 package com.github.ajalt.clikt.options
 
+import com.github.ajalt.clikt.parser.Context
+import com.github.ajalt.clikt.parser.Option
+import com.github.ajalt.clikt.parser.PrintMessage
+
 /**
  * A function annotation to customize the behavior of a command executed by Clickt.
  *
@@ -21,3 +25,38 @@ annotation class ClicktCommand(
         val name: String = "", val help: String = "", val epilog: String = "",
         val shortHelp: String = "", val addHelpOption: Boolean = true,
         val helpOptionNames: Array<String> = arrayOf("-h", "--help"))
+
+
+/**
+ * A function annotation to add a --version option which immediately ends the program and prints out the
+ * program version.
+ *
+ * @property version The version number to show.
+ * @property names The option names to use.
+ * @property progName The program name to use. Defaults to the command name.
+ * @property message The message to print. The default is `"$progName, version $version"`
+ */
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AddVersionOption(val version: String,
+                                  val names: Array<String> = arrayOf("--version"),
+                                  val progName: String = "",
+                                  val message: String = "")
+
+class VersionOption(names: List<String>,
+                    private val progName: String,
+                    private val version: String,
+                    private val message: String) : Option(
+        names, FlagOptionParser(), false, false, null,
+        "Show the version and exit.", exposeValue = false) {
+    override fun processValues(context: Context, values: List<*>): Any? {
+        val message: String = if (message.isNotBlank()) message else {
+            val name = if (progName.isNotBlank()) progName else context.name
+            "$name, version $version"
+        }
+        if (values.lastOrNull() == true) {
+            throw PrintMessage(message)
+        }
+        return null
+    }
+}

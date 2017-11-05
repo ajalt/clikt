@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.softly
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
 import org.junit.Test
 
@@ -79,6 +80,10 @@ private fun f12(@IntOption("--yy", "-y") y: Int) {
     intArg2 = y
 }
 
+@AddVersionOption("1.2.3")
+private fun f13(@IntOption("--xx", "-x") x: Int) {
+    intArg1 = x
+}
 
 private class C {
     companion object {
@@ -420,5 +425,32 @@ class ParserTest {
         assertThat(intArg1).called("x").isEqualTo(x)
         assertThat(intArg2).called("y").isEqualTo(y)
         assertThat(intArg3).called("z").isEqualTo(z)
+    }
+
+    @Test
+    fun `version param option value`() {
+        parser.parse(arrayOf("--xx=3"), ::f13)
+        assertThat(intArg1).isEqualTo(3)
+    }
+
+    @Test
+    fun `version param no values`() {
+        parser.parse(arrayOf(), ::f13)
+        assertThat(intArg1).isEqualTo(0)
+    }
+
+    @Test
+    fun `version param version option`() {
+        assertThatThrownBy { parser.parse(arrayOf("--version"), ::f13) }
+                .isInstanceOf(PrintMessage::class.java)
+                .hasMessage("f13, version 1.2.3")
+    }
+
+    @Test
+    fun `version param version and option value`() {
+        assertThatThrownBy { parser.parse(arrayOf("--version", "--xx=3"), ::f13) }
+                .isInstanceOf(PrintMessage::class.java)
+                .hasMessage("f13, version 1.2.3")
+        assertThat(intArg1).isEqualTo(-111111111)
     }
 }

@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.options
 
-import com.github.ajalt.clikt.parser.Context
-import com.github.ajalt.clikt.parser.Option
-import com.github.ajalt.clikt.parser.Parameter
-import com.github.ajalt.clikt.parser.PrintHelpMessage
+import com.github.ajalt.clikt.parser.*
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)

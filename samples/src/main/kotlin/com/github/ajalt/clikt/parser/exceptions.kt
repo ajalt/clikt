@@ -7,6 +7,11 @@ open class CliktError(message: String) : Exception(message)
 class PrintHelpMessage(val context: Context): CliktError("print help")
 
 /**
+ * An exception that indicates that the message should be printed, and does not signal an error.
+ */
+class PrintMessage(message: String): CliktError(message)
+
+/**
  * An internal exception that signals a usage error.
  *
  * This typically aborts any further handling.

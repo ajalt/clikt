@@ -28,6 +28,10 @@ class Parser {
                     println(e.context.getFormattedHelp())
                     exitProcess(0)
                 }
+                is PrintMessage -> {
+                    println(e.message)
+                    exitProcess(0)
+                }
             }
             println(e)
             exitProcess(1)

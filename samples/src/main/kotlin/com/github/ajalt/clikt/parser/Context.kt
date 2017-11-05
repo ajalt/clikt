@@ -126,22 +126,29 @@ class Context(parent: Context?,
             var prolog = ""
             var epilog = ""
             var shortHelp = ""
-            var addHelpOption = true
-            var helpOptionNames = listOf("-h", "--help")
+            var helpOption: HelpOption? = null
+            command.annotations.find { it is ClicktCommand }?.let { param ->
+                param as ClicktCommand
+                if (param.name.isNotBlank()) name = param.name
+                prolog = param.help.trim()
+                epilog = param.epilog.trim()
+                shortHelp = param.shortHelp
+                val helpOptionNames: List<String> = if (param.helpOptionNames.isNotEmpty()) {
+                    param.helpOptionNames.toList()
+                } else listOf("-h", "--help")
+                if (param.addHelpOption) helpOption = HelpOption(helpOptionNames)
+            }
             for (param in command.annotations) {
-                if (param is ClicktCommand) {
-                    if (param.name.isNotBlank()) name = param.name
-                    prolog = param.help.trim()
-                    epilog = param.epilog.trim()
-                    shortHelp = param.shortHelp
-                    addHelpOption = param.addHelpOption
-                    if (param.helpOptionNames.isNotEmpty()) {
-                        helpOptionNames = param.helpOptionNames.toList()
+                when (param) {
+                    is AddVersionOption -> {
+                        parameters.add(VersionOption(param.names.toList(), param.progName,
+                                param.version, param.message))
                     }
                 }
             }
 
-            if (addHelpOption) parameters.add(HelpOption(helpOptionNames))
+            // Add the help option last
+            helpOption?.let { parameters.add(it) }
 
             return Context(null, null, true, command, HashSet(), parameters,
                     name, prolog, epilog, shortHelp)

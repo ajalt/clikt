@@ -85,6 +85,12 @@ private fun f13(@IntOption("--xx", "-x") x: Int) {
     intArg1 = x
 }
 
+private fun f14(@IntOption("--xx", "-x", nargs = 2) x: List<Int>?,
+                @IntOption("--yy", "-y", nargs = 2) y: List<Int>?) {
+    intArg1 = x?.sum() ?: -1
+    intArg2 = y?.sum() ?: -1
+}
+
 private class C {
     companion object {
         fun f1(@IntOption x: Int, @IntArgument yy: Int) {
@@ -452,5 +458,39 @@ class ParserTest {
                 .isInstanceOf(PrintMessage::class.java)
                 .hasMessage("f13, version 1.2.3")
         assertThat(intArg1).isEqualTo(-111111111)
+    }
+
+    @Test
+    fun `two options nargs=2`() = parameterized(
+            row(emptyList(), -1, -1),
+            row(listOf("--xx", "1", "3"), 4, -1),
+            row(listOf("--yy", "5", "7"), -1, 12),
+            row(listOf("--xx", "1", "3", "--yy", "5", "7"), 4, 12),
+            row(listOf("--xx", "1", "3", "-y", "5", "7"), 4, 12),
+            row(listOf("-x", "1", "3", "--yy", "5", "7"), 4, 12),
+            row(listOf("-x1", "3", "--yy", "5", "7"), 4, 12),
+            row(listOf("--xx", "1", "3", "-y5", "7"), 4, 12),
+            row(listOf("--xx=1", "3", "--yy=5", "7"), 4, 12),
+            row(listOf("-x1", "3", "--yy=5", "7"), 4, 12),
+            row(listOf("-x", "1", "3", "-y", "5", "7"), 4, 12),
+            row(listOf("-x1", "3", "-y", "5", "7"), 4, 12),
+            row(listOf("-x", "1", "3", "-y5", "7"), 4, 12),
+            row(listOf("-x1", "3", "-y5", "7"), 4, 12)
+    ) { (argv, arg1, arg2) ->
+        setup()
+        parser.parse(argv.toTypedArray(), ::f14)
+
+        assertThat(intArg1).called("x").isEqualTo(arg1)
+        assertThat(intArg2).called("y").isEqualTo(arg2)
+    }
+
+    @Test
+    fun `two options nargs=2 usage errors`() {
+        assertThatThrownBy { parser.parse(arrayOf("-x"), ::f14) }
+                .isInstanceOf(BadOptionUsage::class.java)
+                .hasMessage("-x option requires 2 arguments")
+
+        assertThatThrownBy { parser.parse(arrayOf("--y", "1", "2", "3"), ::f14) }
+                .isInstanceOf(UsageError::class.java)
     }
 }

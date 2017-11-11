@@ -4,7 +4,7 @@ package com.github.ajalt.clikt.parser
 
 open class CliktError(message: String) : Exception(message)
 
-class PrintHelpMessage(val context: Context): CliktError("print help")
+class PrintHelpMessage(val command: Command): CliktError("print help")
 
 /**
  * An exception that indicates that the message should be printed, and does not signal an error.

@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
-import kotlin.reflect.jvm.isAccessible
 
 
 private inline fun <reified T : Annotation> param(crossinline block: (T, KParameter) -> Parameter):
@@ -50,50 +49,54 @@ private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*
         }
 )
 
-class Context(parent: Context?,
-              var obj: Any?,
-              val allowInterspersedArgs: Boolean,
-              internal val command: KFunction<*>,
-              internal val subcommands: MutableSet<Context>,
+private val defaultContextFactory: (Command, Context?) -> Context =
+        { cmd, parent -> Context(parent, cmd, null) }
+
+class Command(val allowInterspersedArgs: Boolean,
+              internal val function: KFunction<*>,
               val parameters: List<Parameter>,
               val name: String,
               val prolog: String,
               val epilog: String,
-              val shortHelp: String) {
+              val shortHelp: String,
+              private val contextFactory: (Command, Context?) -> Context) {
     init {
-        require(command.parameters.size == parameters.count { it.exposeValue }) {
+        require(function.parameters.size == parameters.count { it.exposeValue }) {
             "Incorrect number of parameters. " +
-                    "(expected ${command.parameters.size}, got ${parameters.size})"
+                    "(expected ${function.parameters.size}, got ${parameters.size})"
         }
     }
 
-    var parent: Context? = parent
-        internal set
+    internal val subcommands = mutableSetOf<Command>()
 
-    fun invoke(args: Array<Any?>) {
-        command.isAccessible = true
-        command.call(*args)
+    fun parse(argv: Array<String>) {
+        Parser.parse(argv, makeContext(null))
     }
 
-    inline fun <reified T> findObject(): T? {
-        var ctx: Context? = this
-        while (ctx != null) {
-            if (ctx.obj is T) return ctx.obj as T
-            ctx = ctx.parent
-        }
-        return null
+    fun main(argv: Array<String>) {
+        Parser.main(argv, makeContext(null))
     }
 
-    inline fun <reified T> findObject(defaultValue: () -> T): T {
-        return findObject<T>() ?: defaultValue().also { obj = it }
-    }
+    /**
+     * Add a command as a subcommand and return this instance.
+     *
+     * Alias for [addSubcommand].
+     */
+    fun withSubcommand(subcommand: Command) = addSubcommand(subcommand)
 
-    fun findRoot(): Context {
-        var ctx = this
-        while (ctx.parent != null) {
-            ctx = ctx.parent!!
-        }
-        return ctx
+    /**
+     * Add a command as a subcommand and return this instance.
+     *
+     * Alias for [addSubcommand].
+     */
+    fun withSubcommand(function: KFunction<*>) = addSubcommand(function)
+
+    /** Add a command as a subcommand and return this instance. */
+    fun addSubcommand(subcommand: Command) = apply { subcommands.add(subcommand) }
+
+    /** Add a function as a subcommand and return this instance. */
+    fun addSubcommand(function: KFunction<*>) = apply {
+        subcommands.add(Command.fromFunction(function))
     }
 
     fun getFormattedHelp(): String {
@@ -102,14 +105,48 @@ class Context(parent: Context?,
                         subcommands.map { it.helpAsSubcommand() })
     }
 
+    fun makeContext(parent: Context?) = contextFactory(this, parent)
+
     private fun helpAsSubcommand() = ParameterHelp(listOf(name), null,
             shortHelp, ParameterHelp.SECTION_SUBCOMMANDS, true, false) // TODO optional subcommands
 
     companion object {
-        fun fromFunction(command: KFunction<*>): Context {
-            val parameters = mutableListOf<Parameter>()
+        fun fromFunction(function: KFunction<*>): Command {
+            val parameters = getParameters(function)
+            addParametersFromFunctionAnnotations(parameters, function)
 
-            for (param in command.parameters) {
+            var name = function.name // TODO: convert case
+            var prolog = ""
+            var epilog = ""
+            var shortHelp = ""
+
+            val clicktAnno = function.annotations.find { it is ClicktCommand }
+            if (clicktAnno != null) {
+                clicktAnno as ClicktCommand
+
+                prolog = clicktAnno.help.trim()
+                epilog = clicktAnno.epilog.trim()
+                shortHelp = clicktAnno.shortHelp.trim()
+
+                if (clicktAnno.name.isNotBlank()) name = clicktAnno.name
+
+                if (clicktAnno.addHelpOption) {
+                    val helpOptionNames: List<String> = if (clicktAnno.helpOptionNames.isEmpty()) {
+                        listOf("-h", "--help") // TODO: only use names that aren't taken
+                    } else {
+                        clicktAnno.helpOptionNames.toList()
+                    }
+                    parameters.add(HelpOption(helpOptionNames))
+                }
+            }
+
+            return Command(true, function, parameters, name, prolog, epilog, shortHelp,
+                    defaultContextFactory)
+        }
+
+        private fun getParameters(function: KFunction<*>): MutableList<Parameter> {
+            val parameters = mutableListOf<Parameter>()
+            for (param in function.parameters) {
                 require(param.kind == KParameter.Kind.VALUE) {
                     "Cannot invoke an unbound method. Use a free function or bound method instead. " +
                             "(MyClass::foo does not work; MyClass()::foo does)"
@@ -128,24 +165,12 @@ class Context(parent: Context?,
                     "No Clickt annotation found on parameter at index ${param.index}"
                 }
             }
+            return parameters
+        }
 
-            var name = command.name // TODO: convert case
-            var prolog = ""
-            var epilog = ""
-            var shortHelp = ""
-            var helpOption: HelpOption? = null
-            command.annotations.find { it is ClicktCommand }?.let { param ->
-                param as ClicktCommand
-                if (param.name.isNotBlank()) name = param.name
-                prolog = param.help.trim()
-                epilog = param.epilog.trim()
-                shortHelp = param.shortHelp
-                val helpOptionNames: List<String> = if (param.helpOptionNames.isNotEmpty()) {
-                    param.helpOptionNames.toList()
-                } else listOf("-h", "--help")
-                if (param.addHelpOption) helpOption = HelpOption(helpOptionNames)
-            }
-            for (param in command.annotations) {
+        private fun addParametersFromFunctionAnnotations(parameters: MutableList<Parameter>,
+                                                         function: KFunction<*>) {
+            for (param in function.annotations) {
                 when (param) {
                     is AddVersionOption -> {
                         parameters.add(VersionOption(param.names.toList(), param.progName,
@@ -153,12 +178,6 @@ class Context(parent: Context?,
                     }
                 }
             }
-
-            // Add the help option last
-            helpOption?.let { parameters.add(it) }
-
-            return Context(null, null, true, command, HashSet(), parameters,
-                    name, prolog, epilog, shortHelp)
         }
     }
 }

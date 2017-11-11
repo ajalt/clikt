@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.ArgumentParser
+import com.github.ajalt.clikt.options.Context
 import com.github.ajalt.clikt.options.OptionParser
 import com.github.ajalt.clikt.options.ParamType
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp

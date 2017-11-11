@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.options
 
-import com.github.ajalt.clikt.parser.Context
 import com.github.ajalt.clikt.parser.Option
 import com.github.ajalt.clikt.parser.PrintMessage
 
@@ -51,7 +50,7 @@ class VersionOption(names: List<String>,
         "Show the version and exit.", exposeValue = false) {
     override fun processValues(context: Context, values: List<*>): Any? {
         val message: String = if (message.isNotBlank()) message else {
-            val name = if (progName.isNotBlank()) progName else context.name
+            val name = if (progName.isNotBlank()) progName else context.command.name
             "$name, version $version"
         }
         if (values.lastOrNull() == true) {

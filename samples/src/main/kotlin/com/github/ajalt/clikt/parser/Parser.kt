@@ -1,31 +1,21 @@
 package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.ClicktCommand
+import com.github.ajalt.clikt.options.Context
 import com.github.ajalt.clikt.options.IntOption
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.reflect.KFunction
+import kotlin.reflect.jvm.isAccessible
 import kotlin.system.exitProcess
 
-class Parser {
-    private val contexts = HashMap<KFunction<*>, Context>()
-
-    fun addCommand(parent: KFunction<*>, child: KFunction<*>) {
-        val parentContext = contexts.getOrPut(parent) { Context.fromFunction(parent) }
-        val childContext = contexts.getOrPut(child) { Context.fromFunction(child) }
-        require(childContext.parent == null) // TODO
-
-        parentContext.subcommands.add(childContext)
-        childContext.parent = parentContext
-    }
-
-    fun main(argv: Array<String>, cmd: KFunction<*>) {
+object Parser {
+    fun main(argv: Array<String>, context: Context) {
         try {
-            parse(argv, cmd)
+            parse(argv, context)
         } catch (e: CliktError) {
             when (e) {
                 is PrintHelpMessage -> {
-                    println(e.context.getFormattedHelp())
+                    println(e.command.getFormattedHelp())
                     exitProcess(0)
                 }
                 is PrintMessage -> {
@@ -38,18 +28,18 @@ class Parser {
         }
     }
 
-    fun parse(argv: Array<String>, cmd: KFunction<*>) {
-        parse(argv, cmd, 0)
+    fun parse(argv: Array<String>, context: Context) {
+        parse(argv, context, 0)
     }
 
-    private tailrec fun parse(argv: Array<String>, command: KFunction<*>, startingArgI: Int) {
-        val context = contexts[command] ?: Context.fromFunction(command)
-        val subcommands = context.subcommands.associateBy { it.name }
+    private tailrec fun parse(argv: Array<String>, context: Context, startingArgI: Int) {
+        val command = context.command
+        val subcommands = command.subcommands.associateBy { it.name }
         val optionsByName = HashMap<String, Option>()
         val arguments = ArrayList<Argument<*>>()
-        val parsedValuesByParameter = LinkedHashMap<Parameter, MutableList<Any?>>(context.parameters.size)
+        val parsedValuesByParameter = LinkedHashMap<Parameter, MutableList<Any?>>(command.parameters.size)
 
-        for (param in context.parameters) {
+        for (param in command.parameters) {
             parsedValuesByParameter[param] = ArrayList()
             when (param) {
                 is Option -> param.names.associateByTo(optionsByName, { it }, { param })
@@ -59,7 +49,7 @@ class Parser {
 
         val positionalArgs = ArrayList<String>()
         var i = startingArgI
-        var subcommand: Context? = null
+        var subcommand: Command? = null
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
@@ -75,7 +65,7 @@ class Parser {
                     break@loop
                 }
                 else -> {
-                    if (context.allowInterspersedArgs) {
+                    if (command.allowInterspersedArgs) {
                         positionalArgs += a
                         i += 1
                     } else {
@@ -92,11 +82,17 @@ class Parser {
         }
 
         val commandArgs = processValues(context, parsedValuesByParameter)
-        context.invoke(commandArgs)
+        invoke(command, commandArgs)
 
         if (subcommand != null) {
-            parse(argv, subcommand.command, i + 1)
+            parse(argv, subcommand.makeContext(context), i + 1)
         }
+    }
+
+
+    private fun invoke(command: Command, args: Array<Any?>) {
+        command.function.isAccessible = true
+        command.function.call(*args)
     }
 
     private fun parseLongOpt(argv: Array<String>, arg: String, index: Int,
@@ -167,14 +163,14 @@ class Parser {
         return i
     }
 
-    private fun processValues(context: Context, parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Array<Any?> {
+    private fun processValues(command: Context, parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Array<Any?> {
         val commandArgs = arrayOfNulls<Any?>(parsedValuesByParameter.count { it.key.exposeValue })
         val indexes = parsedValuesByParameter
                 .filter { it.key.exposeValue }
                 .keys.withIndex()
                 .associateBy({ it.value }, { it.index })
         val process: (Map.Entry<Parameter, MutableList<Any?>>) -> Unit = {
-            val result = it.key.processValues(context, it.value)
+            val result = it.key.processValues(command, it.value)
             indexes[it.key]?.let { commandArgs[it] = result }
         }
         parsedValuesByParameter.filter { it.key.eager }.forEach(process)
@@ -196,10 +192,10 @@ fun sub(@IntOption("--y") y: Int) {
 }
 
 fun main(args: Array<String>) {
-    val parser = Parser()
-    parser.addCommand(::run, ::sub)
+    val command = Command.fromFunction(::run)
+            .withSubcommand(::sub)
     val argv = arrayOf("--x", "313", "subcommand", "--y", "456")
-    parser.parse(argv, ::run)
+    command.parse(argv)
 
 //    ff.parameters[0].type.isMarkedNullable
 }

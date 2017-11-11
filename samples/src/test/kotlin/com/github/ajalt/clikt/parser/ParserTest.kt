@@ -13,7 +13,7 @@ private var intArg1: Int = -111111111
 private var intArg2: Int = -222222222
 private var intArg3: Int = -333333333
 private var intListArg: List<Int> = emptyList()
-private var anyArg: Any? = null
+private var anyArg1: Any? = null
 
 private fun String.f0() {}
 
@@ -65,7 +65,7 @@ private fun f10(@PassContext c1: Context, @IntArgument x: Int, @PassContext c2: 
                 @IntArgument y: Int, @PassContext c3: Context) {
     intArg1 = x
     intArg2 = y
-    anyArg = listOf(c1, c2, c3)
+    anyArg1 = listOf(c1, c2, c3)
 }
 
 private fun f11(@FlagOption("--xx", "-x") x: Boolean, @FlagOption("--yy", "-y") y: Boolean,
@@ -89,6 +89,18 @@ private fun f14(@IntOption("--xx", "-x", nargs = 2) x: List<Int>?,
                 @IntOption("--yy", "-y", nargs = 2) y: List<Int>?) {
     intArg1 = x?.sum() ?: -1
     intArg2 = y?.sum() ?: -1
+}
+
+private fun f15(@StringOption("--xx", "-x") x: String?) {
+    anyArg1 = x
+}
+
+private fun f16(@StringOption(nargs = 2) xx: List<String>?) {
+    anyArg1 = xx
+}
+
+private fun f17(@StringOption(default = "default") xx: String) {
+    anyArg1 = xx
 }
 
 private class C {
@@ -122,7 +134,7 @@ class ParserTest {
         intArg2 = -222222222
         intArg3 = -333333333
         intListArg = emptyList()
-        anyArg = null
+        anyArg1 = null
     }
 
     @Test
@@ -405,7 +417,7 @@ class ParserTest {
         parser.parse(arrayOf("3", "4"), ::f10)
         assertThat(intArg1).isEqualTo(3)
         assertThat(intArg2).isEqualTo(4)
-        assertThat(anyArg).asList().hasSize(3).allMatch { it is Context }
+        assertThat(anyArg1).asList().hasSize(3).allMatch { it is Context }
     }
 
     @Test
@@ -492,5 +504,41 @@ class ParserTest {
 
         assertThatThrownBy { parser.parse(arrayOf("--y", "1", "2", "3"), ::f14) }
                 .isInstanceOf(UsageError::class.java)
+    }
+
+    @Test
+    fun `string option nullable`() = parameterized(
+            row(listOf<String>(), null),
+            row(listOf("--xx", "3"), "3"),
+            row(listOf("--xx=3"), "3"),
+            row(listOf("-x", "3"), "3"),
+            row(listOf("-x3"), "3")
+    ) { (argv, value) ->
+        setup()
+        parser.parse(argv.toTypedArray(), ::f15)
+
+        assertThat(anyArg1).called("x").isEqualTo(value)
+    }
+
+    @Test
+    fun `string option nargs=2`() = parameterized(
+            row(listOf<String>(), null),
+            row(listOf("--xx", "foo", "bar"), listOf("foo", "bar"))
+    ) { (argv, value) ->
+        setup()
+        parser.parse(argv.toTypedArray(), ::f16)
+
+        assertThat(anyArg1).called("x").isEqualTo(value)
+    }
+
+    @Test
+    fun `string option default`() = parameterized(
+            row(listOf(), "default"),
+            row(listOf("--xx", "foo"), "foo")
+    ) { (argv, value) ->
+        setup()
+        parser.parse(argv.toTypedArray(), ::f17)
+
+        assertThat(anyArg1).called("x").isEqualTo(value)
     }
 }

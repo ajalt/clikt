@@ -31,6 +31,12 @@ private val builtinParameters = mapOf<KClass<out Annotation>, ParameterFactory<*
             val default = if (anno.nargs > 1) null else anno.default
             Option(getOptionNames(anno.names, p), parser, false, default, "INT", anno.help)
         },
+        param<StringOption> { anno, p ->
+            val parser = TypedOptionParser(StringParamType, anno.nargs)
+            val useDefault = anno.nargs > 1 || anno.default == STRING_OPTION_NO_DEFAULT
+            val default = if (useDefault) null else anno.default
+            Option(getOptionNames(anno.names, p), parser, false, default, "TEXT", anno.help)
+        },
         param<FlagOption> { anno, p ->
             val parser = FlagOptionParser()
             Option(getOptionNames(anno.names, p), parser, false, false, null, anno.help)

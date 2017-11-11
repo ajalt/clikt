@@ -110,7 +110,7 @@ class Parser {
             arg to null
         }
         val option = optionsByName[name] ?: throw NoSuchOption(name)
-        val result = option.parseLongOpt(name, argv, index, value)
+        val result = option.parser.parseLongOpt(name, argv, index, value)
         parsedValuesByParameter[option]!!.add(result.value)
         return result.consumedCount
     }
@@ -124,7 +124,7 @@ class Parser {
 
             val name = prefix + opt
             val option = optionsByName[name] ?: throw NoSuchOption(name)
-            val result = option.parseShortOpt(name, argv, index, i)
+            val result = option.parser.parseShortOpt(name, argv, index, i)
             parsedValuesByParameter[option]!!.add(result.value)
             if (result.consumedCount > 0) {
                 return result.consumedCount

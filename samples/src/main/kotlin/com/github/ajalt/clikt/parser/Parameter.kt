@@ -59,13 +59,13 @@ abstract class ParsedParameter(val required: Boolean,
                                override val exposeValue: Boolean) : Parameter
 
 open class Option(val names: List<String>,
-                  protected val parser: OptionParser, // TODO: move parsing to this class?
+                  val parser: OptionParser,
                   required: Boolean,
                   protected val default: Any?,
                   metavar: String?,
                   help: String,
                   exposeValue: Boolean=true) :
-        ParsedParameter(required, metavar, help, exposeValue), OptionParser by parser {
+        ParsedParameter(required, metavar, help, exposeValue) {
     init {
         require(names.isNotEmpty()) // TODO messages
         for (name in names) {
@@ -74,7 +74,6 @@ open class Option(val names: List<String>,
     }
 
     override fun processValues(context: Context, values: List<*>): Any? {
-        // TODO nargs
         if (required && values.isEmpty()) throw MissingParameter("option", names)
         return values.lastOrNull() ?: default
     }

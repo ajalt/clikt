@@ -1,8 +1,8 @@
-nargs in options (fixed number only)
-registration for parameter and function annotations 
+registration for parameter and function annotations
 eager params
 error messages
 
+help for nargs options
 add "did you mean" hints in NoSuchOption etc.
 inferred name case normalization for options, args, and metavars
 register  type conversions

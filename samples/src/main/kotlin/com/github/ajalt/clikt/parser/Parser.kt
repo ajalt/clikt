@@ -163,7 +163,8 @@ object Parser {
         return i
     }
 
-    private fun processValues(command: Context, parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Array<Any?> {
+    private fun processValues(command: Context,
+                              parsedValuesByParameter: HashMap<Parameter, MutableList<Any?>>): Array<Any?> {
         val commandArgs = arrayOfNulls<Any?>(parsedValuesByParameter.count { it.key.exposeValue })
         val indexes = parsedValuesByParameter
                 .filter { it.key.exposeValue }
@@ -192,8 +193,9 @@ fun sub(@IntOption("--y") y: Int) {
 }
 
 fun main(args: Array<String>) {
-    val command = Command.fromFunction(::run)
-            .withSubcommand(::sub)
+    val command = Command.build(::run) {
+        subcommand(::sub)
+    }
     val argv = arrayOf("--x", "313", "subcommand", "--y", "456")
     command.parse(argv)
 

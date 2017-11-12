@@ -110,15 +110,3 @@ open class Argument<out T : Any>(final override val name: String,
         get() = ParameterHelp(listOf(name), metavar, help,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
 }
-
-
-@Suppress("AddVarianceModifier")
-abstract class ParameterFactory<T : Annotation> {
-    abstract fun create(anno: T, funcParam: KParameter): Parameter
-
-    @Suppress("UNCHECKED_CAST")
-    internal fun createErased(anno: Annotation, funcParam: KParameter): Parameter {
-        return create(anno as T, funcParam)
-    }
-}
-

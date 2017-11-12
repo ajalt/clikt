@@ -137,7 +137,7 @@ class ParserTest {
 
     @Test
     fun `zero options`() {
-        Command.fromFunction(::f0).parse(emptyArray())
+        Command.build(::f0).parse(emptyArray())
     }
 
     @Test
@@ -147,14 +147,14 @@ class ParserTest {
             row(listOf("-x", "3")),
             row(listOf("-x3"))) { (argv) ->
         setup()
-        Command.fromFunction(::f1).parse(argv.toTypedArray())
+        Command.build(::f1).parse(argv.toTypedArray())
 
         assertThat(intArg1).called("x").isEqualTo(3)
     }
 
     @Test
     fun `two options single name`() {
-        Command.fromFunction(::f3).parse(arrayOf("-x", "3", "--yy", "4"))
+        Command.build(::f3).parse(arrayOf("-x", "3", "--yy", "4"))
 
         softly {
             assertThat(intArg2).isEqualTo(3)
@@ -177,7 +177,7 @@ class ParserTest {
             row(listOf("-x3", "-y4"))
     ) { (argv) ->
         setup()
-        Command.fromFunction(::f2).parse(argv.toTypedArray())
+        Command.build(::f2).parse(argv.toTypedArray())
 
         assertThat(intArg2).called("x").isEqualTo(3)
         assertThat(intArg3).called("y").isEqualTo(4)
@@ -185,7 +185,7 @@ class ParserTest {
 
     @Test
     fun `two options both default`() {
-        Command.fromFunction(::f2).parse(emptyArray())
+        Command.build(::f2).parse(emptyArray())
 
         softly {
             assertThat(intArg2).isEqualTo(0)
@@ -201,7 +201,7 @@ class ParserTest {
             row(listOf("-y4"))
     ) { (argv) ->
         setup()
-        Command.fromFunction(::f2).parse(argv.toTypedArray())
+        Command.build(::f2).parse(argv.toTypedArray())
 
         assertThat(intArg2).called("x").isEqualTo(0)
         assertThat(intArg3).called("y").isEqualTo(4)
@@ -215,7 +215,7 @@ class ParserTest {
             row(listOf("-x3"))
     ) { (argv) ->
         setup()
-        Command.fromFunction(::f2).parse(argv.toTypedArray())
+        Command.build(::f2).parse(argv.toTypedArray())
 
         assertThat(intArg2).called("x").isEqualTo(3)
         assertThat(intArg3).called("y").isEqualTo(0)
@@ -223,7 +223,7 @@ class ParserTest {
 
     @Test
     fun `companion member function`() {
-        Command.fromFunction(C.Companion::f1).parse(arrayOf("--x", "3", "4"))
+        Command.build(C.Companion::f1).parse(arrayOf("--x", "3", "4"))
         softly {
             assertThat(intArg1).isEqualTo(3)
             assertThat(intArg2).isEqualTo(4)
@@ -232,7 +232,7 @@ class ParserTest {
 
     @Test
     fun `member function`() {
-        Command.fromFunction(C()::f2).parse(arrayOf("3", "--yy", "4"))
+        Command.build(C()::f2).parse(arrayOf("3", "--yy", "4"))
         softly {
             assertThat(intArg1).isEqualTo(3)
             assertThat(intArg2).isEqualTo(4)
@@ -241,7 +241,7 @@ class ParserTest {
 
     @Test
     fun `bound member function and extension`() {
-        Command.fromFunction(C()::f3).parse(arrayOf("3", "5"))
+        Command.build(C()::f3).parse(arrayOf("3", "5"))
         softly {
             assertThat(intArg1).isEqualTo(4)
             assertThat(intArg2).isEqualTo(5)
@@ -251,10 +251,10 @@ class ParserTest {
     @Test
     fun `unbound member function and extension`() {
         softly {
-            assertThatThrownBy { Command.fromFunction(C::f3).parse(arrayOf("3", "5")) }
+            assertThatThrownBy { Command.build(C::f3).parse(arrayOf("3", "5")) }
                     .isInstanceOf(IllegalArgumentException::class.java)
                     .hasMessageContaining("unbound method")
-            assertThatThrownBy { Command.fromFunction(String::f0).parse(arrayOf()) }
+            assertThatThrownBy { Command.build(String::f0).parse(arrayOf()) }
                     .isInstanceOf(IllegalArgumentException::class.java)
                     .hasMessageContaining("unbound method")
         }
@@ -262,7 +262,7 @@ class ParserTest {
 
     @Test
     fun `subcommand`() {
-        val commmand = Command.fromFunction(::f1).withSubcommand(::f2)
+        val commmand = Command.build(::f1) { subcommand(::f2) }
 
         parameterized(
                 row(listOf("--xx", "2", "f2", "--xx", "3", "--yy", "4")),
@@ -321,10 +321,44 @@ class ParserTest {
             assertThat(intArg3).called("f2 y").isEqualTo(4)
         }
     }
+//
+//    private fun f1(@IntOption("--xx", "-x") x: Int) {
+//        intArg1 = x
+//    }
+//    private fun f2(@IntOption("--xx", "-x") x: Int, @IntOption("--yy", "-y") y: Int) {
+//        intArg2 = x
+//        intArg3 = y
+//    }
+//
+//    private fun f5(@IntArgument(nargs = 2) x: List<Int>) {
+//        intArg1 = x[0]
+//        intArg2 = x[1]
+//    }
+
+    @Test
+    fun `multiple subcommands`() {
+        val commmand = Command.build(::f1) {
+            subcommand(::f2)
+            subcommand(::f5)
+        }
+
+        parameterized(
+                row(listOf("-x1", "f5", "2", "3"), 2, 3, -333333333),
+                row(listOf("-x1", "f2", "-x2", "-y3"), 1, 2, 3)
+        ) { (argv, x, y, z) ->
+            setup()
+            commmand.parse(argv.toTypedArray())
+
+            assertThat(intArg1).called("x").isEqualTo(x)
+            assertThat(intArg2).called("y").isEqualTo(y)
+            assertThat(intArg3).called("z").isEqualTo(z)
+        }
+
+    }
 
     @Test
     fun `subcommand with custom name`() {
-        val commmand = Command.fromFunction(::f1).withSubcommand(::f12)
+        val commmand = Command.build(::f1) { subcommand(::f12) }
         commmand.parse(arrayOf("-x2", "f12name", "-y", "3"))
 
         softly {
@@ -341,13 +375,13 @@ class ParserTest {
             row(arrayOf("3"), 3),
             row(arrayOf(), 0)
     ) { (argv, value) ->
-        Command.fromFunction(::f4).parse(argv)
+        Command.build(::f4).parse(argv)
         assertThat(intArg1).isEqualTo(value)
     }
 
     @Test
     fun `one argument nargs=2`() {
-        Command.fromFunction(::f5).parse(arrayOf("33", "44"))
+        Command.build(::f5).parse(arrayOf("33", "44"))
         softly {
             assertThat(intArg1).isEqualTo(33)
             assertThat(intArg2).isEqualTo(44)
@@ -362,7 +396,7 @@ class ParserTest {
             row(listOf("3", "4", "4"), listOf(3, 4, 4))
     ) { (argv, expected) ->
         setup()
-        Command.fromFunction(::f6).parse(argv.toTypedArray())
+        Command.build(::f6).parse(argv.toTypedArray())
 
         assertThat(intListArg).isEqualTo(expected)
     }
@@ -375,7 +409,7 @@ class ParserTest {
             row(listOf("3", "4", "4"), listOf(3, 4), 4)
     ) { (argv, listArg, intArg) ->
         setup()
-        Command.fromFunction(::f7).parse(argv.toTypedArray())
+        Command.build(::f7).parse(argv.toTypedArray())
 
         assertThat(intListArg).called("x").isEqualTo(listArg)
         assertThat(intArg1).called("y").isEqualTo(intArg)
@@ -389,7 +423,7 @@ class ParserTest {
             row(listOf("3", "4", "5"), 3, listOf(4, 5))
     ) { (argv, intArg, listArg) ->
         setup()
-        Command.fromFunction(::f8).parse(argv.toTypedArray())
+        Command.build(::f8).parse(argv.toTypedArray())
 
         assertThat(intArg1).called("x").isEqualTo(intArg)
         assertThat(intListArg).called("y").isEqualTo(listArg)
@@ -405,7 +439,7 @@ class ParserTest {
             row(listOf("--yy=4"), 0, 4)
     ) { (argv, arg1, arg2) ->
         setup()
-        Command.fromFunction(::f9).parse(argv.toTypedArray())
+        Command.build(::f9).parse(argv.toTypedArray())
 
         assertThat(intArg1).called("x").isEqualTo(arg1)
         assertThat(intArg2).called("y").isEqualTo(arg2)
@@ -413,7 +447,7 @@ class ParserTest {
 
     @Test
     fun `passed context`() {
-        Command.fromFunction(::f10).parse(arrayOf("3", "4"))
+        Command.build(::f10).parse(arrayOf("3", "4"))
         softly {
             assertThat(intArg1).isEqualTo(3)
             assertThat(intArg2).isEqualTo(4)
@@ -439,7 +473,7 @@ class ParserTest {
             row(listOf("-xz3"), 1, 0, 3)
     ) { (argv, x, y, z) ->
         setup()
-        Command.fromFunction(::f11).parse(argv.toTypedArray())
+        Command.build(::f11).parse(argv.toTypedArray())
 
         assertThat(intArg1).called("x").isEqualTo(x)
         assertThat(intArg2).called("y").isEqualTo(y)
@@ -448,26 +482,26 @@ class ParserTest {
 
     @Test
     fun `version param option value`() {
-        Command.fromFunction(::f13).parse(arrayOf("--xx=3"))
+        Command.build(::f13).parse(arrayOf("--xx=3"))
         assertThat(intArg1).isEqualTo(3)
     }
 
     @Test
     fun `version param no values`() {
-        Command.fromFunction(::f13).parse(arrayOf())
+        Command.build(::f13).parse(arrayOf())
         assertThat(intArg1).isEqualTo(0)
     }
 
     @Test
     fun `version param version option`() {
-        assertThatThrownBy { Command.fromFunction(::f13).parse(arrayOf("--version")) }
+        assertThatThrownBy { Command.build(::f13).parse(arrayOf("--version")) }
                 .isInstanceOf(PrintMessage::class.java)
                 .hasMessage("f13, version 1.2.3")
     }
 
     @Test
     fun `version param version and option value`() {
-        assertThatThrownBy { Command.fromFunction(::f13).parse(arrayOf("--version", "--xx=3")) }
+        assertThatThrownBy { Command.build(::f13).parse(arrayOf("--version", "--xx=3")) }
                 .isInstanceOf(PrintMessage::class.java)
                 .hasMessage("f13, version 1.2.3")
         assertThat(intArg1).isEqualTo(-111111111)
@@ -491,7 +525,7 @@ class ParserTest {
             row(listOf("-x1", "3", "-y5", "7"), 4, 12)
     ) { (argv, arg1, arg2) ->
         setup()
-        Command.fromFunction(::f14).parse(argv.toTypedArray())
+        Command.build(::f14).parse(argv.toTypedArray())
 
         assertThat(intArg1).called("x").isEqualTo(arg1)
         assertThat(intArg2).called("y").isEqualTo(arg2)
@@ -499,11 +533,11 @@ class ParserTest {
 
     @Test
     fun `two options nargs=2 usage errors`() {
-        assertThatThrownBy { Command.fromFunction(::f14).parse(arrayOf("-x")) }
+        assertThatThrownBy { Command.build(::f14).parse(arrayOf("-x")) }
                 .isInstanceOf(BadOptionUsage::class.java)
                 .hasMessage("-x option requires 2 arguments")
 
-        assertThatThrownBy { Command.fromFunction(::f14).parse(arrayOf("--y", "1", "2", "3")) }
+        assertThatThrownBy { Command.build(::f14).parse(arrayOf("--y", "1", "2", "3")) }
                 .isInstanceOf(UsageError::class.java)
     }
 
@@ -516,7 +550,7 @@ class ParserTest {
             row(listOf("-x3"), "3")
     ) { (argv, value) ->
         setup()
-        Command.fromFunction(::f15).parse(argv.toTypedArray())
+        Command.build(::f15).parse(argv.toTypedArray())
 
         assertThat(anyArg1).called("x").isEqualTo(value)
     }
@@ -527,7 +561,7 @@ class ParserTest {
             row(listOf("--xx", "foo", "bar"), listOf("foo", "bar"))
     ) { (argv, value) ->
         setup()
-        Command.fromFunction(::f16).parse(argv.toTypedArray())
+        Command.build(::f16).parse(argv.toTypedArray())
 
         assertThat(anyArg1).called("x").isEqualTo(value)
     }
@@ -538,7 +572,7 @@ class ParserTest {
             row(listOf("--xx", "foo"), "foo")
     ) { (argv, value) ->
         setup()
-        Command.fromFunction(::f17).parse(argv.toTypedArray())
+        Command.build(::f17).parse(argv.toTypedArray())
 
         assertThat(anyArg1).called("x").isEqualTo(value)
     }

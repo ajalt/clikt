@@ -1,12 +1,13 @@
-extract Parameter.processValues into its own interface
-registration for parameter and function annotations
+registration for function annotations
+custom help formatter
 eager params
 error messages
+register  type conversions
 
 help for nargs options
 add "did you mean" hints in NoSuchOption etc.
 inferred name case normalization for options, args, and metavars
-register  type conversions
+extract Parameter.processValues into its own interface
 
 custom help formatter
 custom multi commands

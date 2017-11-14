@@ -50,13 +50,18 @@ object Parser {
         val positionalArgs = ArrayList<String>()
         var i = startingArgI
         var subcommand: Command? = null
+        var canParseOptions = true
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
-                a.startsWith("--") -> {
+                a == "--" -> {
+                    i += 1
+                    canParseOptions = false
+                }
+                a.startsWith("--") && canParseOptions -> {
                     i += parseLongOpt(argv, a, i, optionsByName, parsedValuesByParameter)
                 }
-                a.startsWith("-") -> {
+                a.startsWith("-") && canParseOptions -> {
                     i += parseShortOpt(argv, a, i, optionsByName, parsedValuesByParameter)
                 }
                 a in subcommands -> {
@@ -75,10 +80,7 @@ object Parser {
             }
         }
 
-        if (subcommand == null) {
-//            require(subcommands.isEmpty()) // TODO: exceptions, optional subcommands
-            parseArguments(positionalArgs, arguments, parsedValuesByParameter)
-        }
+        parseArguments(positionalArgs, arguments, parsedValuesByParameter)
 
         val commandArgs = processValues(context, parsedValuesByParameter)
         invoke(command, commandArgs)

@@ -215,8 +215,8 @@ class CommandBuilder private constructor(
                 },
                 param<StringOption> { anno, funcName ->
                     val parser = TypedOptionParser(StringParamType, anno.nargs)
-                    val useDefault = anno.nargs > 1 || anno.default == STRING_OPTION_NO_DEFAULT
-                    val default = if (useDefault) null else anno.default
+                    val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
+                    val default = if (useDefault) anno.default else null
                     Option(getOptionNames(anno.names, funcName), parser, false, default, "TEXT", anno.help)
                 },
                 param<FlagOption> { anno, funcName ->
@@ -236,7 +236,8 @@ class CommandBuilder private constructor(
                 },
                 param<StringArgument> { anno, funcName ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
-                    val default = if (anno.required || anno.nargs != 1) null else anno.default
+                    val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
+                    val default = if (useDefault) anno.default else null
                     val name = when {
                         anno.name.isNotBlank() -> anno.name
                         funcName.isNotBlank() -> funcName

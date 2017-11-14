@@ -14,6 +14,7 @@ private var intArg2: Int = -222222222
 private var intArg3: Int = -333333333
 private var intListArg: List<Int> = emptyList()
 private var anyArg1: Any? = null
+private var anyArg2: Any? = null
 
 private fun String.f0() {}
 
@@ -103,6 +104,11 @@ private fun f17(@StringOption(default = "default") xx: String) {
     anyArg1 = xx
 }
 
+private fun f18(@StringOption("--xx", "-x") x: String?, @StringArgument y: String) {
+    anyArg1 = x
+    anyArg2 = y
+}
+
 private class C {
     companion object {
         fun f1(@IntOption x: Int, @IntArgument yy: Int) {
@@ -133,6 +139,7 @@ class ParserTest {
         intArg3 = -333333333
         intListArg = emptyList()
         anyArg1 = null
+        anyArg2 = null
     }
 
     @Test
@@ -321,19 +328,6 @@ class ParserTest {
             assertThat(intArg3).called("f2 y").isEqualTo(4)
         }
     }
-//
-//    private fun f1(@IntOption("--xx", "-x") x: Int) {
-//        intArg1 = x
-//    }
-//    private fun f2(@IntOption("--xx", "-x") x: Int, @IntOption("--yy", "-y") y: Int) {
-//        intArg2 = x
-//        intArg3 = y
-//    }
-//
-//    private fun f5(@IntArgument(nargs = 2) x: List<Int>) {
-//        intArg1 = x[0]
-//        intArg2 = x[1]
-//    }
 
     @Test
     fun `multiple subcommands`() {
@@ -367,6 +361,17 @@ class ParserTest {
 
             assertThatThrownBy { commmand.parse(arrayOf("-x2", "f12", "-y", "3")) }
                     .isInstanceOf(NoSuchOption::class.java)
+        }
+    }
+
+    @Test
+    fun `argument before subcommand`() {
+        Command.build(::f6) { subcommand(::f1) }
+                .parse(arrayOf("123", "456", "f1", "-x33"))
+
+        softly {
+            assertThat(intListArg).isEqualTo(listOf(123, 456))
+            assertThat(intArg1).isEqualTo(33)
         }
     }
 
@@ -575,5 +580,45 @@ class ParserTest {
         Command.build(::f17).parse(argv.toTypedArray())
 
         assertThat(anyArg1).called("x").isEqualTo(value)
+    }
+
+    @Test
+    fun `value -- before argument`() {
+        Command.build(::f18).parse(arrayOf("--xx", "--xx", "--", "--xx"))
+        softly {
+            assertThat(anyArg1).isEqualTo("--xx")
+            assertThat(anyArg2).isEqualTo("--xx")
+        }
+    }
+
+    @Test
+    fun `value -- after argument`() {
+        Command.build(::f18).parse(arrayOf("--xx", "--xx", "bar", "--"))
+        softly {
+            assertThat(anyArg1).isEqualTo("--xx")
+            assertThat(anyArg2).isEqualTo("bar")
+        }
+    }
+
+    @Test
+    fun `value -- not given`() {
+        val command = Command.build(::f18)
+        assertThatThrownBy { command.parse(arrayOf("--xx")) }
+                .isInstanceOf(BadOptionUsage::class.java)
+
+        assertThatThrownBy { command.parse(arrayOf("--xx", "--xx", "--yy")) }
+                .isInstanceOf(NoSuchOption::class.java)
+    }
+
+    @Test
+    fun `value -- before subcommand`() {
+        Command.build(::f18) {
+            subcommand(::f1)
+        }.parse(arrayOf("--xx", "--xx", "--", "--yy", "f1", "--xx", "33"))
+        softly {
+            assertThat(anyArg1).isEqualTo("--xx")
+            assertThat(anyArg2).isEqualTo("--yy")
+            assertThat(intArg1).isEqualTo(33)
+        }
     }
 }

@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.options.Context
 import com.github.ajalt.clikt.options.OptionParser
 import com.github.ajalt.clikt.options.ParamType
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
-import kotlin.reflect.KParameter
 
 interface Parameter {
     /**
@@ -59,13 +58,14 @@ abstract class ParsedParameter(val required: Boolean,
                                val help: String,
                                override val exposeValue: Boolean) : Parameter
 
-open class Option(val names: List<String>,
-                  val parser: OptionParser,
-                  required: Boolean,
-                  protected val default: Any?,
-                  metavar: String?,
-                  help: String,
-                  exposeValue: Boolean=true) :
+open class Option constructor(val names: List<String>,
+                              val parser: OptionParser,
+                              required: Boolean,
+                              protected val default: Any?,
+                              metavar: String?,
+                              help: String,
+                              override val eager: Boolean = false,
+                              exposeValue: Boolean = true) :
         ParsedParameter(required, metavar, help, exposeValue) {
     init {
         require(names.isNotEmpty()) // TODO messages
@@ -109,4 +109,6 @@ open class Argument<out T : Any>(final override val name: String,
     override val parameterHelp: ParameterHelp
         get() = ParameterHelp(listOf(name), metavar, help,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
+
+    override val eager: Boolean get() = false
 }

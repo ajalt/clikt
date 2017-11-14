@@ -18,7 +18,7 @@ class PassContextParameter : Parameter {
 
 class HelpOption(names: List<String>) : Option(
         names, FlagOptionParser(), false, false, null,
-        "Show this help message and exit.", exposeValue = false) {
+        "Show this help message and exit.", eager = true, exposeValue = false) {
     override fun processValues(context: Context, values: List<*>): Any? {
         if (values.lastOrNull() == true) {
             throw PrintHelpMessage(context.command)

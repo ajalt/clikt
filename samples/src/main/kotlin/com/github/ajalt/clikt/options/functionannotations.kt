@@ -45,7 +45,7 @@ class VersionOption(names: List<String>,
                     private val version: String,
                     private val message: String) : Option(
         names, FlagOptionParser(), false, false, null,
-        "Show the version and exit.", exposeValue = false) {
+        "Show the version and exit.", eager = true, exposeValue = false) {
     override fun processValues(context: Context, values: List<*>): Any? {
         val message: String = if (message.isNotBlank()) message else {
             val name = if (progName.isNotBlank()) progName else context.command.name

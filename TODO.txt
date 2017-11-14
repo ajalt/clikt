@@ -1,5 +1,3 @@
-registration for function annotations
-custom help formatter
 eager params
 error messages
 register  type conversions

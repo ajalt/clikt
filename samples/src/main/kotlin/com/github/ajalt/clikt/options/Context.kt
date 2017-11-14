@@ -3,9 +3,8 @@ package com.github.ajalt.clikt.options
 import com.github.ajalt.clikt.parser.Command
 
 
-open class Context(parent: Context?, val command: Command, var obj: Any?) {
-    var parent: Context? = parent
-        internal set
+open class Context(val parent: Context?, val command: Command) {
+    var obj: Any? = null
 
     inline fun <reified T> findObject(): T? {
         var ctx: Context? = this

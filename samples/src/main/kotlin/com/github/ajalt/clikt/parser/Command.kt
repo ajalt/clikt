@@ -6,18 +6,16 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 
-
-private val defaultContextFactory: (Command, Context?) -> Context =
-        { cmd, parent -> Context(parent, cmd, null) }
+typealias HelpFormatterFactory = (String, String) -> HelpFormatter
+typealias ContextFactory = (Command, Context?) -> Context
 
 class Command internal constructor(val allowInterspersedArgs: Boolean,
                                    internal val function: KFunction<*>,
                                    val parameters: List<Parameter>,
                                    val name: String,
-                                   private val prolog: String,
-                                   private val epilog: String,
                                    private val shortHelp: String,
-                                   private val contextFactory: (Command, Context?) -> Context,
+                                   private val contextFactory: ContextFactory,
+                                   private val helpFormatter: HelpFormatter,
                                    internal val subcommands: Set<Command>) {
     init {
         require(function.parameters.size == parameters.count { it.exposeValue }) {
@@ -35,9 +33,8 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
     }
 
     fun getFormattedHelp(): String {
-        return PlaintextHelpFormatter(prolog, epilog)
-                .formatHelp(parameters.mapNotNull { it.parameterHelp } +
-                        subcommands.map { it.helpAsSubcommand() })
+        return helpFormatter.formatHelp(parameters.mapNotNull { it.parameterHelp } +
+                subcommands.map { it.helpAsSubcommand() })
     }
 
     fun makeContext(parent: Context?) = contextFactory(this, parent)
@@ -80,10 +77,14 @@ class CommandBuilder private constructor(
     @PublishedApi internal constructor() :
             this(builtinParameters.toMutableMap(), builtinFuncParameters.toMutableMap())
 
-    var contextFactory: (Command, Context?) -> Context = defaultContextFactory
-
     private val subcommandFunctions = mutableSetOf<KFunction<*>>()
     private val subcommands = mutableSetOf<Command>()
+
+    var context: (Command, Context?) -> Context = { cmd, parent -> Context(parent, cmd) }
+
+    var helpFormatter: HelpFormatterFactory = { prolog, epilog ->
+        PlaintextHelpFormatter(prolog, epilog)
+    }
 
     fun subcommand(function: KFunction<*>) {
         subcommandFunctions.add(function)
@@ -92,6 +93,7 @@ class CommandBuilder private constructor(
     fun subcommand(command: Command) {
         subcommands.add(command)
     }
+
 
     // TODO pass the param name instead of KParameter
     inline fun <reified T : Annotation> parameter(crossinline block: (T, KParameter) -> Parameter) {
@@ -142,8 +144,8 @@ class CommandBuilder private constructor(
         val subcommands = subcommands + subcommandFunctions.map {
             CommandBuilder(paramsByAnnotation, functionAnnotations).build(it)
         }
-        return Command(true, function, parameters, name, prolog, epilog, shortHelp,
-                contextFactory, subcommands)
+        return Command(true, function, parameters, name, shortHelp,
+                context, helpFormatter(prolog, epilog), subcommands)
     }
 
 

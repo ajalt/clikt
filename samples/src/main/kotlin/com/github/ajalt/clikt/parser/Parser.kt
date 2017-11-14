@@ -53,7 +53,6 @@ object Parser {
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
-            // TODO multiple calls to the same flag
                 a.startsWith("--") -> {
                     i += parseLongOpt(argv, a, i, optionsByName, parsedValuesByParameter)
                 }

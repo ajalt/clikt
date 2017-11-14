@@ -52,10 +52,10 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
 
 @PublishedApi
 internal abstract class ParameterFactory<in T : Annotation> {
-    abstract fun create(anno: T, funcParam: KParameter): Parameter
+    abstract fun create(anno: T, funcName: String): Parameter
 
     @Suppress("UNCHECKED_CAST")
-    internal fun createErased(anno: Annotation, funcParam: KParameter) = create(anno as T, funcParam)
+    internal fun createErased(anno: Annotation, funcName: String) = create(anno as T, funcName)
 }
 
 @PublishedApi
@@ -72,7 +72,6 @@ class CommandBuilder private constructor(
         internal val paramsByAnnotation: MutableMap<KClass<out Annotation>, ParameterFactory<*>>,
         @PublishedApi
         internal val functionAnnotations: MutableMap<KClass<out Annotation>, FunctionParameterFactory<*>>
-
 ) {
     @PublishedApi internal constructor() :
             this(builtinParameters.toMutableMap(), builtinFuncParameters.toMutableMap())
@@ -86,19 +85,29 @@ class CommandBuilder private constructor(
         PlaintextHelpFormatter(prolog, epilog)
     }
 
+    /**
+     * Add a function as a subcommand.
+     *
+     * Any annotations added with [parameter] or [functionAnnotation] will be available to the
+     * function.
+     */
     fun subcommand(function: KFunction<*>) {
         subcommandFunctions.add(function)
     }
 
+    /**
+     * Add an existing command as a subcommand.
+     *
+     * Annotations added with [parameter] or [functionAnnotation] will *not* be available to the
+     * command.
+     */
     fun subcommand(command: Command) {
         subcommands.add(command)
     }
 
-
-    // TODO pass the param name instead of KParameter
-    inline fun <reified T : Annotation> parameter(crossinline block: (T, KParameter) -> Parameter) {
+    inline fun <reified T : Annotation> parameter(crossinline block: (T, String) -> Parameter) {
         paramsByAnnotation[T::class] = object : ParameterFactory<T>() {
-            override fun create(anno: T, funcParam: KParameter) = block(anno, funcParam)
+            override fun create(anno: T, funcName: String) = block(anno, funcName)
         }
     }
 
@@ -159,7 +168,8 @@ class CommandBuilder private constructor(
 
             var foundAnno = false
             for (anno in param.annotations) {
-                val p = paramsByAnnotation[anno.annotationClass]?.createErased(anno, param) ?: continue
+                val p = paramsByAnnotation[anno.annotationClass]
+                        ?.createErased(anno, param.name ?: "") ?: continue
                 require(!foundAnno) {
                     "Multiple Clickt annotations on the same parameter ${param.name}"
                 }
@@ -174,10 +184,10 @@ class CommandBuilder private constructor(
     }
 
     companion object {
-        private inline fun <reified T : Annotation> param(crossinline block: (T, KParameter) -> Parameter):
+        private inline fun <reified T : Annotation> param(crossinline block: (T, String) -> Parameter):
                 Pair<KClass<T>, ParameterFactory<T>> {
             return T::class to object : ParameterFactory<T>() {
-                override fun create(anno: T, funcParam: KParameter) = block(anno, funcParam)
+                override fun create(anno: T, funcName: String) = block(anno, funcName)
             }
         }
 
@@ -188,43 +198,50 @@ class CommandBuilder private constructor(
             }
         }
 
-        private fun getOptionNames(names: Array<out String>, param: KParameter) =
+        private fun getOptionNames(names: Array<out String>, funcName: String) =
                 if (names.isNotEmpty()) names.toList()
                 else {
-                    require(!param.name.isNullOrEmpty()) { "Cannot infer option name; specify it explicitly." }
-                    listOf("--" + param.name)
+                    require(funcName.isNotBlank()) { "Cannot infer option name; specify it explicitly." }
+                    listOf("--" + funcName)
                 }
 
-        // TODO allow registering new parameter types
         private val builtinParameters = mapOf(
                 param<PassContext> { _, _ -> PassContextParameter() },
-                param<IntOption> { anno, p ->
+                param<IntOption> { anno, funcName ->
                     // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
                     val parser = TypedOptionParser(IntParamType, anno.nargs)
                     val default = if (anno.nargs > 1) null else anno.default
-                    Option(getOptionNames(anno.names, p), parser, false, default, "INT", anno.help)
+                    Option(getOptionNames(anno.names, funcName), parser, false, default, "INT", anno.help)
                 },
-                param<StringOption> { anno, p ->
+                param<StringOption> { anno, funcName ->
                     val parser = TypedOptionParser(StringParamType, anno.nargs)
                     val useDefault = anno.nargs > 1 || anno.default == STRING_OPTION_NO_DEFAULT
                     val default = if (useDefault) null else anno.default
-                    Option(getOptionNames(anno.names, p), parser, false, default, "TEXT", anno.help)
+                    Option(getOptionNames(anno.names, funcName), parser, false, default, "TEXT", anno.help)
                 },
-                param<FlagOption> { anno, p ->
+                param<FlagOption> { anno, funcName ->
                     val parser = FlagOptionParser()
-                    Option(getOptionNames(anno.names, p), parser, false, false, null, anno.help)
+                    Option(getOptionNames(anno.names, funcName), parser, false, false, null, anno.help)
                 },
-                param<IntArgument> { anno, p ->
+                param<IntArgument> { anno, funcName ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
                     val default = if (anno.required || anno.nargs != 1) null else anno.default
-                    val name = if (anno.name.isBlank()) p.name ?: "ARGUMENT" else anno.name
+                    val name = when {
+                        anno.name.isNotBlank() -> anno.name
+                        funcName.isNotBlank() -> funcName
+                        else -> "ARGUMENT"
+                    }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
                             IntParamType, anno.help)
                 },
-                param<StringArgument> { anno, p ->
+                param<StringArgument> { anno, funcName ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
                     val default = if (anno.required || anno.nargs != 1) null else anno.default
-                    val name = if (anno.name.isBlank()) p.name ?: "ARGUMENT" else anno.name
+                    val name = when {
+                        anno.name.isNotBlank() -> anno.name
+                        funcName.isNotBlank() -> funcName
+                        else -> "ARGUMENT"
+                    }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
                             StringParamType, anno.help)
                 }

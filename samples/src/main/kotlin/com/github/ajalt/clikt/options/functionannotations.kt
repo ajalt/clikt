@@ -19,7 +19,6 @@ import com.github.ajalt.clikt.parser.PrintMessage
  * @property helpOptionNames If [addHelpOption] is true, the names to use for the added command.
  */
 @Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
 annotation class ClicktCommand(
         val name: String = "", val help: String = "", val epilog: String = "",
         val shortHelp: String = "", val addHelpOption: Boolean = true,
@@ -36,7 +35,6 @@ annotation class ClicktCommand(
  * @property message The message to print. The default is `"$progName, version $version"`
  */
 @Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.RUNTIME)
 annotation class AddVersionOption(val version: String,
                                   val names: Array<String> = arrayOf("--version"),
                                   val progName: String = "",

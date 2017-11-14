@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.options
 import com.github.ajalt.clikt.parser.BadOptionUsage
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.RUNTIME)
 annotation class FlagOption(vararg val names: String, val help: String= "")
 
 class FlagOptionParser : OptionParser {
@@ -12,7 +11,6 @@ class FlagOptionParser : OptionParser {
         return ParseResult(1, true)
     }
 
-    override fun parseShortOpt(name: String,argv: Array<String>, index: Int, optionIndex: Int): ParseResult {
-        return ParseResult(if (optionIndex == argv[index].lastIndex) 1 else 0, true)
-    }
+    override fun parseShortOpt(name: String,argv: Array<String>, index: Int, optionIndex: Int): ParseResult =
+            ParseResult(if (optionIndex == argv[index].lastIndex) 1 else 0, true)
 }

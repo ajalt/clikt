@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.options
 import com.github.ajalt.clikt.parser.BadParameter
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.RUNTIME)
 annotation class IntOption(vararg val names: String, val default: Int = 0, val help: String = "",
                            val nargs: Int = 1)
 
@@ -12,7 +11,6 @@ annotation class IntOption(vararg val names: String, val default: Int = 0, val h
  *     parameter being annotated.
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.RUNTIME)
 annotation class IntArgument(val name: String = "",
                              val nargs: Int = 1,
                              val required: Boolean = false,

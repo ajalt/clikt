@@ -19,6 +19,9 @@ interface OptionParser {
      * @param index The index of the option flag in [argv], which may contain an '=' with the first value
      */
     fun parseLongOpt(name: String, argv: Array<String>, index: Int, explicitValue: String?): ParseResult
+
+    /** Return true if this parser should be displayed as repeatable by the help formatter. */
+    val repeatableForHelp: Boolean
 }
 
 
@@ -27,6 +30,8 @@ class TypedOptionParser<out T>(private val type: ParamType<T>,
     init {
         require(nargs >= 1) { "Options cannot have nargs < 1" }
     }
+
+    override val repeatableForHelp: Boolean get() = nargs > 1
 
     override fun parseLongOpt(name: String, argv: Array<String>, index: Int, explicitValue: String?): ParseResult {
         val hasIncludedValue = explicitValue != null

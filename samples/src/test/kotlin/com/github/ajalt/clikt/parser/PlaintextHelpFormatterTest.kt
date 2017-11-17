@@ -124,7 +124,7 @@ class PlaintextHelpFormatterTest {
     fun `formatHelp option wrapping`() {
         val f = PlaintextHelpFormatter(width = 54, maxColWidth = 12)
         assertThat(f.formatHelp(l(
-                h(l("-x"), OPT, "X", help = "one very very very very very very long option"),
+                h(l("-x"), OPT, "X", repeatable = true, help = "one very very very very very very long option"),
                 h(l("-y", "--yy"), OPT, "Y", help = "a shorter but still long option"),
                 h(l("-z", "--zzzzzzzzzzzzz"), OPT, "ZZZZZZZZ", help = "a short option"),
                 h(l("-t", "--entirely-too-long-option"), OPT, "WOWSOLONG",
@@ -134,7 +134,7 @@ class PlaintextHelpFormatterTest {
                 |Usage: prog [OPTIONS]
                 |
                 |Options:
-                |  -x X          one very very very very very very long
+                |  -x X...       one very very very very very very long
                 |                option
                 |  -y, --yy Y    a shorter but still long option
                 |  -z, --zzzzzzzzzzzzz ZZZZZZZZ

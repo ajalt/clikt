@@ -68,9 +68,9 @@ open class Option constructor(val names: List<String>,
                               exposeValue: Boolean = true) :
         ParsedParameter(required, metavar, help, exposeValue) {
     init {
-        require(names.isNotEmpty()) // TODO messages
+        require(names.isNotEmpty()) { "Options must have at least one name"}
         for (name in names) {
-            require(name.startsWith("-"))
+            require(name.startsWith("-")) { "Option names must start with a -" }
         }
     }
 
@@ -83,7 +83,7 @@ open class Option constructor(val names: List<String>,
         get() = ParameterHelp(names, metavar,
                 help,
                 ParameterHelp.SECTION_OPTIONS,
-                required, false) // TODO: repeatable
+                required, parser.repeatableForHelp)
 }
 
 open class Argument<out T : Any>(final override val name: String,

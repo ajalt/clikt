@@ -6,7 +6,9 @@ import com.github.ajalt.clikt.parser.BadOptionUsage
 annotation class FlagOption(vararg val names: String, val help: String= "")
 
 class FlagOptionParser : OptionParser {
-    override fun parseLongOpt(name: String,argv: Array<String>, index: Int, explicitValue: String?): ParseResult {
+    override val repeatableForHelp: Boolean get() = false
+
+    override fun parseLongOpt(name: String, argv: Array<String>, index: Int, explicitValue: String?): ParseResult {
         if (explicitValue != null) throw BadOptionUsage("$name option does not take a value")
         return ParseResult(1, true)
     }

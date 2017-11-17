@@ -82,7 +82,6 @@ open class PlaintextHelpFormatter(val prolog: String = "",
 
     override fun formatHelp(parameters: List<HelpFormatter.ParameterHelp>,
                             programName: String) = buildString {
-        // TODO: required, repeatable
         formatUsage(this, parameters, programName)
         if (prolog.isNotEmpty()) {
             section("")
@@ -91,7 +90,7 @@ open class PlaintextHelpFormatter(val prolog: String = "",
 
         val options = parameters.filterSection(SECTION_OPTIONS).map {
             it.names.sortedBy { it.startsWith("--") }
-                    .joinToString(", ", postfix = it.metavar?.let { " " + it } ?: "") to it.help
+                    .joinToString(", ", postfix = optionMetavar(it)) to it.help
         }
         if (options.isNotEmpty()) {
             append("\n")
@@ -121,6 +120,13 @@ open class PlaintextHelpFormatter(val prolog: String = "",
             section("")
             epilog.wrapText(this, width, preserveParagraph = true)
         }
+    }
+
+    protected fun optionMetavar(option: HelpFormatter.ParameterHelp) : String {
+        if (option.metavar == null) return ""
+        val metavar = " " + option.metavar
+        if (option.repeatable) return metavar + "..."
+        return metavar
     }
 
     protected fun List<HelpFormatter.ParameterHelp>.filterSection(section: Int) =

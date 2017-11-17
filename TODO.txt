@@ -1,5 +1,5 @@
 error messages
-register  type conversions
+register type conversions
 
 help for nargs options
 add "did you mean" hints in NoSuchOption etc.
@@ -8,6 +8,11 @@ extract Parameter.processValues into its own interface
 
 custom help formatter
 custom multi commands
+
+examples
+    required options
+    argparse style help formatter
+
 
 
 type checks?

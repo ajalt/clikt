@@ -1,8 +1,6 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.IntParamType
-import com.github.ajalt.clikt.options.TypedOptionParser
-import com.github.ajalt.clikt.options.VersionOption
+import com.github.ajalt.clikt.options.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
@@ -10,6 +8,10 @@ import org.junit.Test
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER)
 private annotation class CustomAnnotation(vararg val names: String)
+
+private fun badF0(@IntOption xx: String) = Unit
+private fun badF1(@IntOption(nargs = 2) xx: Int) = Unit
+private fun badF2(@FlagOption xx: Int) = Unit
 
 class CommandTest {
     companion object {
@@ -24,7 +26,7 @@ class CommandTest {
 
         private val builderBlock: CommandBuilder.() -> Unit = {
             parameter<CustomAnnotation> { anno, _ ->
-                val parser = TypedOptionParser(IntParamType, 1)
+                val parser = TypedOptionParser(intParamType, 1)
                 Option(anno.names.toList(), parser, false, -1, "INT", "")
             }
 
@@ -71,5 +73,23 @@ class CommandTest {
         assertThatThrownBy { command.parse(arrayOf("f1", "--vv")) }
                 .isInstanceOf(PrintMessage::class.java)
                 .hasMessage("foo, version 0.0")
+    }
+
+    @Test
+    fun `option types must match with nargs=1`() {
+        assertThatThrownBy { Command.build(::badF0) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `option types must match with nargs greater than 1`() {
+        assertThatThrownBy { Command.build(::badF1) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `option types must match with flag option`() {
+        assertThatThrownBy { Command.build(::badF1) }
+                .isInstanceOf(IllegalArgumentException::class.java)
     }
 }

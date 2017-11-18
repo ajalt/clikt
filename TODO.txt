@@ -1,7 +1,8 @@
+type checks on arguments
+counting option
 error messages
 register type conversions
 
-help for nargs options
 add "did you mean" hints in NoSuchOption etc.
 inferred name case normalization for options, args, and metavars
 extract Parameter.processValues into its own interface

@@ -52,10 +52,10 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
 
 @PublishedApi
 internal abstract class ParameterFactory<in T : Annotation> {
-    abstract fun create(anno: T, funcName: String): Parameter
+    abstract fun create(anno: T, param: KParameter): Parameter
 
     @Suppress("UNCHECKED_CAST")
-    internal fun createErased(anno: Annotation, funcName: String) = create(anno as T, funcName)
+    internal fun createErased(anno: Annotation, param: KParameter) = create(anno as T, param)
 }
 
 @PublishedApi
@@ -105,9 +105,9 @@ class CommandBuilder private constructor(
         subcommands.add(command)
     }
 
-    inline fun <reified T : Annotation> parameter(crossinline block: (T, String) -> Parameter) {
+    inline fun <reified T : Annotation> parameter(crossinline block: (T, KParameter) -> Parameter) {
         paramsByAnnotation[T::class] = object : ParameterFactory<T>() {
-            override fun create(anno: T, funcName: String) = block(anno, funcName)
+            override fun create(anno: T, param: KParameter) = block(anno, param)
         }
     }
 
@@ -169,7 +169,7 @@ class CommandBuilder private constructor(
             var foundAnno = false
             for (anno in param.annotations) {
                 val p = paramsByAnnotation[anno.annotationClass]
-                        ?.createErased(anno, param.name ?: "") ?: continue
+                        ?.createErased(anno, param) ?: continue
                 require(!foundAnno) {
                     "Multiple Clickt annotations on the same parameter ${param.name}"
                 }
@@ -184,10 +184,10 @@ class CommandBuilder private constructor(
     }
 
     companion object {
-        private inline fun <reified T : Annotation> param(crossinline block: (T, String) -> Parameter):
+        private inline fun <reified T : Annotation> param(crossinline block: (T, KParameter) -> Parameter):
                 Pair<KClass<T>, ParameterFactory<T>> {
             return T::class to object : ParameterFactory<T>() {
-                override fun create(anno: T, funcName: String) = block(anno, funcName)
+                override fun create(anno: T, param: KParameter) = block(anno, param)
             }
         }
 
@@ -198,53 +198,59 @@ class CommandBuilder private constructor(
             }
         }
 
-        private fun getOptionNames(names: Array<out String>, funcName: String) =
-                if (names.isNotEmpty()) names.toList()
-                else {
-                    require(funcName.isNotBlank()) { "Cannot infer option name; specify it explicitly." }
-                    listOf("--" + funcName)
-                }
+        private fun getOptionNames(names: Array<out String>, param: KParameter): List<String> {
+            return if (names.isNotEmpty()) {
+                names.toList()
+            } else {
+                val funcName = param.name
+                require(!funcName.isNullOrBlank()) { "Cannot infer option name; specify it explicitly." }
+                listOf("--" + funcName)
+            }
+        }
 
         private val builtinParameters = mapOf(
                 param<PassContext> { _, _ -> PassContextParameter() },
-                param<IntOption> { anno, funcName ->
+                param<IntOption> { anno, param ->
                     // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
-                    val parser = TypedOptionParser(IntParamType, anno.nargs)
+                    val parser = TypedOptionParser(intParamType, anno.nargs)
+                    parser.checkTarget(param)
                     val default = if (anno.nargs > 1) null else anno.default
-                    Option(getOptionNames(anno.names, funcName), parser, false, default, "INT", anno.help)
+                    Option(getOptionNames(anno.names, param), parser, false, default, "INT", anno.help)
                 },
-                param<StringOption> { anno, funcName ->
-                    val parser = TypedOptionParser(StringParamType, anno.nargs)
+                param<StringOption> { anno, param ->
+                    val parser = TypedOptionParser(stringParamType, anno.nargs)
+                    parser.checkTarget(param)
                     val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
                     val default = if (useDefault) anno.default else null
-                    Option(getOptionNames(anno.names, funcName), parser, false, default, "TEXT", anno.help)
+                    Option(getOptionNames(anno.names, param), parser, false, default, "TEXT", anno.help)
                 },
-                param<FlagOption> { anno, funcName ->
+                param<FlagOption> { anno, param ->
                     val parser = FlagOptionParser()
-                    Option(getOptionNames(anno.names, funcName), parser, false, false, null, anno.help)
+                    parser.checkTarget(param)
+                    Option(getOptionNames(anno.names, param), parser, false, false, null, anno.help)
                 },
-                param<IntArgument> { anno, funcName ->
+                param<IntArgument> { anno, param ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
                     val default = if (anno.required || anno.nargs != 1) null else anno.default
                     val name = when {
                         anno.name.isNotBlank() -> anno.name
-                        funcName.isNotBlank() -> funcName
+                        !param.name.isNullOrBlank() -> param.name!!
                         else -> "ARGUMENT"
                     }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            IntParamType, anno.help)
+                            intParamType, anno.help)
                 },
-                param<StringArgument> { anno, funcName ->
+                param<StringArgument> { anno, param ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
                     val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
                     val default = if (useDefault) anno.default else null
                     val name = when {
                         anno.name.isNotBlank() -> anno.name
-                        funcName.isNotBlank() -> funcName
+                        !param.name.isNullOrBlank() -> param.name!!
                         else -> "ARGUMENT"
                     }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            StringParamType, anno.help)
+                            stringParamType, anno.help)
                 }
         )
 

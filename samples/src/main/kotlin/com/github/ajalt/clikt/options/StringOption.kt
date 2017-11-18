@@ -19,6 +19,4 @@ annotation class StringArgument(val name: String = "",
                                 val default: String = STRING_OPTION_NO_DEFAULT,
                                 val help: String = "")
 
-object StringParamType : ParamType<String> {
-    override fun convert(value: String): String = value
-}
+val stringParamType: ParamType<String> = ParamType.create { it }

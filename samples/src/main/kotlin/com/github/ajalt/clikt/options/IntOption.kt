@@ -17,10 +17,10 @@ annotation class IntArgument(val name: String = "",
                              val default: Int = 0,
                              val help: String = "")
 
-object IntParamType : ParamType<Int> {
-    override fun convert(value: String): Int = try {
-        value.toInt()
+val intParamType: ParamType<Int> = ParamType.create {
+    try {
+        it.toInt()
     } catch (e: NumberFormatException) {
-        throw BadParameter("$value is not a valid integer")
+        throw BadParameter("$it is not a valid integer")
     }
 }

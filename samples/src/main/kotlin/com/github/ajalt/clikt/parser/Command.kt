@@ -5,6 +5,8 @@ import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
 
 typealias HelpFormatterFactory = (String, String) -> HelpFormatter
 typealias ContextFactory = (Command, Context?) -> Context
@@ -211,23 +213,37 @@ class CommandBuilder private constructor(
         private val builtinParameters = mapOf(
                 param<PassContext> { _, _ -> PassContextParameter() },
                 param<IntOption> { anno, param ->
-                    // TODO typechecks, check name format, metavars, check that names are unique, add 'required'
-                    val parser = TypedOptionParser(intParamType, anno.nargs)
-                    parser.checkTarget(param)
-                    val default = if (anno.nargs > 1) null else anno.default
-                    Option(getOptionNames(anno.names, param), parser, false, default, "INT", anno.help)
+                    // TODO check name format, check that names are unique
+                    Option.build(param) {
+                        typedOption(IntParamType, anno.nargs)
+                        names = anno.names
+                        default = if (anno.nargs == 1) anno.default else null
+                        metavar = "INT"
+                        help = anno.help
+                    }
                 },
                 param<StringOption> { anno, param ->
-                    val parser = TypedOptionParser(stringParamType, anno.nargs)
-                    parser.checkTarget(param)
-                    val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
-                    val default = if (useDefault) anno.default else null
-                    Option(getOptionNames(anno.names, param), parser, false, default, "TEXT", anno.help)
+                    Option.build(param) {
+                        typedOption(StringParamType, anno.nargs)
+                        names = anno.names
+                        val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
+                        default = if (useDefault) anno.default else null
+                        metavar = "TEXT"
+                        help = anno.help
+                    }
                 },
                 param<FlagOption> { anno, param ->
-                    val parser = FlagOptionParser()
-                    parser.checkTarget(param)
-                    Option(getOptionNames(anno.names, param), parser, false, false, null, anno.help)
+                    Option.build(param) {
+                        parser = FlagOptionParser()
+                        names = anno.names
+                        default = false
+                        help = anno.help
+                        targetChecker {
+                            requireType<Boolean> {
+                                "parameter ${param.name ?: ""} must be of type Boolean"
+                            }
+                        }
+                    }
                 },
                 param<IntArgument> { anno, param ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
@@ -238,7 +254,7 @@ class CommandBuilder private constructor(
                         else -> "ARGUMENT"
                     }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            intParamType, anno.help).apply { checkTarget(param) }
+                            IntParamType, anno.help).apply { checkTarget(param) }
                 },
                 param<StringArgument> { anno, param ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
@@ -250,7 +266,7 @@ class CommandBuilder private constructor(
                         else -> "ARGUMENT"
                     }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            stringParamType, anno.help).apply { checkTarget(param) }
+                            StringParamType, anno.help).apply { checkTarget(param) }
                 }
         )
 

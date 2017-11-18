@@ -1,15 +1,9 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.ArgumentParser
-import com.github.ajalt.clikt.options.Context
-import com.github.ajalt.clikt.options.OptionParser
-import com.github.ajalt.clikt.options.ParamType
+import com.github.ajalt.clikt.options.*
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
+import kotlin.properties.Delegates
 import kotlin.reflect.KParameter
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.starProjectedType
-import kotlin.reflect.full.withNullability
-import kotlin.reflect.jvm.jvmErasure
 
 interface Parameter {
     /**
@@ -63,17 +57,16 @@ abstract class ParsedParameter(val required: Boolean,
                                val help: String,
                                override val exposeValue: Boolean) : Parameter
 
-open class Option constructor(val names: List<String>,
-                              val parser: OptionParser,
-                              required: Boolean,
-                              protected val default: Any?,
-                              metavar: String?,
-                              help: String,
-                              override val eager: Boolean = false,
-                              exposeValue: Boolean = true) :
-        ParsedParameter(required, metavar, help, exposeValue) {
+open class Option(val names: List<String>,
+                  val parser: OptionParser,
+                  protected val default: Any?,
+                  metavar: String?,
+                  help: String,
+                  override val eager: Boolean = false,
+                  exposeValue: Boolean = true) :
+        ParsedParameter(false, metavar, help, exposeValue) {
     init {
-        require(names.isNotEmpty()) { "Options must have at least one name"}
+        require(names.isNotEmpty()) { "Options must have at least one name" }
         for (name in names) {
             require(name.startsWith("-")) { "Option names must start with a -" }
         }
@@ -89,6 +82,56 @@ open class Option constructor(val names: List<String>,
                 help,
                 ParameterHelp.SECTION_OPTIONS,
                 required, parser.repeatableForHelp)
+
+    companion object {
+        inline fun build(param: KParameter, block: OptionBuilder.() -> Unit): Option =
+                OptionBuilder().apply { block() }.build(param)
+    }
+}
+
+class OptionBuilder {
+    var names: Array<out String> = emptyArray()
+    var parser: OptionParser by Delegates.notNull()
+    var default: Any? = null
+    var metavar: String? = null
+    var help: String = ""
+    var eager: Boolean = false
+    var exposeValue: Boolean = true
+    var customTargetChecker: ParameterTargetChecker? = null
+
+    inline fun targetChecker(crossinline block: ParameterTargetCheckerBuilder.() -> Unit) {
+        customTargetChecker = { ParameterTargetCheckerBuilder(it).block() }
+    }
+
+    inline fun <reified T> typedOption(type: ParamType<T>, nargs: Int) {
+        parser = TypedOptionParser(type, nargs)
+        targetChecker {
+            if (nargs > 1) {
+                requireType<List<*>> {
+                    "parameter ${param.name ?: ""} with nargs > 1 must be of type List"
+                }
+                require(param.type.isMarkedNullable) {
+                    "parameter ${param.name ?: ""} with nargs > 1 must be nullable"
+                }
+            } else {
+                requireType<T> {
+                    "parameter ${param.name ?: ""} must be of type ${T::class.simpleName}"
+                }
+            }
+        }
+    }
+
+    fun build(param: KParameter): Option {
+        customTargetChecker?.invoke(param)
+        val optNames = if (names.isNotEmpty()) {
+            names.toList()
+        } else {
+            val paramName = param.name
+            require(!paramName.isNullOrBlank()) { "Cannot infer option name; specify it explicitly." }
+            listOf("--" + paramName)
+        }
+        return Option(optNames, parser, default, metavar, help, eager, exposeValue)
+    }
 }
 
 open class Argument<out T : Any>(final override val name: String,
@@ -116,15 +159,15 @@ open class Argument<out T : Any>(final override val name: String,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
 
     override fun checkTarget(param: KParameter) {
-        if (nargs == 1) {
-            require(param.type.isSubtypeOf(type.compatibleType.withNullability(true))) {
-                "parameter ${param.name ?: ""} must be of type ${type.compatibleType.jvmErasure.simpleName}"
-            }
-        } else {
-            require(param.type.isSubtypeOf(List::class.starProjectedType.withNullability(true))) {
-                "argument ${param.name ?: ""} with nargs=$nargs must be of type List"
-            }
-        }
+//        if (nargs == 1) {
+//            require(param.type.isSubtypeOf(type.compatibleType.withNullability(true))) {
+//                "parameter ${param.name ?: ""} must be of type ${type.compatibleType.jvmErasure.simpleName}"
+//            }
+//        } else {
+//            require(param.type.isSubtypeOf(List::class.starProjectedType.withNullability(true))) {
+//                "argument ${param.name ?: ""} with nargs=$nargs must be of type List"
+//            }
+//        }
     }
 
     override val eager: Boolean get() = false

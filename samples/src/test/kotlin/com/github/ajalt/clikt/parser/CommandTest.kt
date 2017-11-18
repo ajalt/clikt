@@ -9,11 +9,11 @@ import org.junit.Test
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER)
 private annotation class CustomAnnotation(vararg val names: String)
 
-private fun badF0(@IntOption xx: String) = Unit
-private fun badF1(@IntOption(nargs = 2) xx: Int) = Unit
-private fun badF2(@FlagOption xx: Int) = Unit
-private fun badF3(@IntArgument xx: String) = Unit
-private fun badF4(@IntArgument(nargs = 2) xx: Int) = Unit
+private fun badF0(@IntOption xx: String) = xx
+private fun badF1(@IntOption(nargs = 2) xx: Int) = xx
+private fun badF2(@FlagOption xx: Int) = xx
+private fun badF3(@IntArgument xx: String) = xx
+private fun badF4(@IntArgument(nargs = 2) xx: Int) = xx
 
 class CommandTest {
     companion object {
@@ -27,9 +27,11 @@ class CommandTest {
         }
 
         private val builderBlock: CommandBuilder.() -> Unit = {
-            parameter<CustomAnnotation> { anno, _ ->
-                val parser = TypedOptionParser(intParamType, 1)
-                Option(anno.names.toList(), parser, false, -1, "INT", "")
+            parameter<CustomAnnotation> { anno, param ->
+                Option.build(param) {
+                    names = anno.names
+                    typedOption(IntParamType, 1)
+                }
             }
 
             functionAnnotation<CustomAnnotation> { param ->
@@ -91,7 +93,7 @@ class CommandTest {
 
     @Test
     fun `option types must match with flag option`() {
-        assertThatThrownBy { Command.build(::badF1) }
+        assertThatThrownBy { Command.build(::badF2) }
                 .isInstanceOf(IllegalArgumentException::class.java)
     }
 

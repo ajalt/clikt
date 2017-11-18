@@ -199,24 +199,10 @@ fun sub(@IntOption("--y") y: Int) {
     println("sub y=$y")
 }
 
-class C<U> {
-    fun foo(t:List<U>) = Unit
-}
 fun main(args: Array<String>) {
-//    val command = Command.build(::run) {
-//        subcommand(::sub)
-//    }
-//    val argv = arrayOf("--x", "313", "subcommand", "--y", "456")
-//    command.parse(argv)
-    val type = C<List<Int>>::foo.parameters[1].type
-    val arg = type.arguments[0]
-    println(arg.type)
-    println(arg.type?.jvmErasure)
-    println(type.arguments)
-    println(type.isSubtypeOf(List::class.starProjectedType))
-    val kType = List::class.createType(listOf(KTypeProjection.covariant(Int::class.starProjectedType)))
-    println(kType.isSupertypeOf(type))
-    println(kType.isSubtypeOf(type))
-
-//    ff.parameters[0].type.isMarkedNullable
+    val command = Command.build(::run) {
+        subcommand(::sub)
+    }
+    val argv = arrayOf("--x", "313", "subcommand", "--y", "456")
+    command.parse(argv)
 }

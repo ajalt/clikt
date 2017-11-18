@@ -5,7 +5,6 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.full.isSubtypeOf
 import kotlin.reflect.full.starProjectedType
 import kotlin.reflect.full.withNullability
-import kotlin.reflect.jvm.jvmErasure
 
 interface OptionParser {
     /**
@@ -24,19 +23,6 @@ interface OptionParser {
      * @param index The index of the option flag in [argv], which may contain an '=' with the first value
      */
     fun parseLongOpt(name: String, argv: Array<String>, index: Int, explicitValue: String?): ParseResult
-
-    /**
-     * Throw an exception if the given [KParameter] accepts does not accept arguments of the type
-     * returned by this parser.
-     *
-     * Due to type erasure, it's not possible to know the exact type of the parameter in all cases.
-     * This function should not throw an exception unless the parameter type definitely does not
-     * accept the values from this parser.
-     *
-     * @throws IllegalArgumentException if the type of [param] definitely does not accept the values
-     *     from this parser.
-     */
-    fun checkTarget(param: KParameter)
 
     /** Return true if this parser should be displayed as repeatable by the help formatter. */
     val repeatableForHelp: Boolean
@@ -79,18 +65,6 @@ class TypedOptionParser<out T>(private val type: ParamType<T>,
         val hasIncludedValue = optionIndex != option.lastIndex
         val explicitValue = if (hasIncludedValue) option.substring(optionIndex + 1) else null
         return parseLongOpt(name, argv, index, explicitValue)
-    }
-
-    override fun checkTarget(param: KParameter) {
-        if (nargs > 1) {
-            require(param.type.isSubtypeOf(List::class.starProjectedType.withNullability(true))) {
-                "parameter ${param.name ?: ""} with nargs > 1 must be of type List"
-            }
-        } else {
-            require(param.type.isSubtypeOf(type.compatibleType.withNullability(true))) {
-                "parameter ${param.name ?: ""} must be of type ${type.compatibleType.jvmErasure.simpleName}"
-            }
-        }
     }
 }
 

@@ -5,6 +5,11 @@ import com.github.ajalt.clikt.options.Context
 import com.github.ajalt.clikt.options.OptionParser
 import com.github.ajalt.clikt.options.ParamType
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
+import kotlin.reflect.KParameter
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
+import kotlin.reflect.full.withNullability
+import kotlin.reflect.jvm.jvmErasure
 
 interface Parameter {
     /**
@@ -109,6 +114,18 @@ open class Argument<out T : Any>(final override val name: String,
     override val parameterHelp: ParameterHelp
         get() = ParameterHelp(listOf(name), metavar, help,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
+
+    override fun checkTarget(param: KParameter) {
+        if (nargs == 1) {
+            require(param.type.isSubtypeOf(type.compatibleType.withNullability(true))) {
+                "parameter ${param.name ?: ""} must be of type ${type.compatibleType.jvmErasure.simpleName}"
+            }
+        } else {
+            require(param.type.isSubtypeOf(List::class.starProjectedType.withNullability(true))) {
+                "argument ${param.name ?: ""} with nargs=$nargs must be of type List"
+            }
+        }
+    }
 
     override val eager: Boolean get() = false
 }

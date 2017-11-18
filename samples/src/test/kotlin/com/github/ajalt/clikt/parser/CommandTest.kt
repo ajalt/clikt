@@ -12,6 +12,8 @@ private annotation class CustomAnnotation(vararg val names: String)
 private fun badF0(@IntOption xx: String) = Unit
 private fun badF1(@IntOption(nargs = 2) xx: Int) = Unit
 private fun badF2(@FlagOption xx: Int) = Unit
+private fun badF3(@IntArgument xx: String) = Unit
+private fun badF4(@IntArgument(nargs = 2) xx: Int) = Unit
 
 class CommandTest {
     companion object {
@@ -92,4 +94,17 @@ class CommandTest {
         assertThatThrownBy { Command.build(::badF1) }
                 .isInstanceOf(IllegalArgumentException::class.java)
     }
+
+    @Test
+    fun `argument types must match with nargs=1`() {
+        assertThatThrownBy { Command.build(::badF3) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `argument types must match with nargs greater than 1`() {
+        assertThatThrownBy { Command.build(::badF4) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+    }
+
 }

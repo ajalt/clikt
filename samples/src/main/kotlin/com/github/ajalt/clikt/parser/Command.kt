@@ -238,7 +238,7 @@ class CommandBuilder private constructor(
                         else -> "ARGUMENT"
                     }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            intParamType, anno.help)
+                            intParamType, anno.help).apply { checkTarget(param) }
                 },
                 param<StringArgument> { anno, param ->
                     require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
@@ -250,7 +250,7 @@ class CommandBuilder private constructor(
                         else -> "ARGUMENT"
                     }
                     Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            stringParamType, anno.help)
+                            stringParamType, anno.help).apply { checkTarget(param) }
                 }
         )
 

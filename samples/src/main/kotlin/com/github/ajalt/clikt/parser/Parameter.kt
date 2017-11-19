@@ -3,7 +3,11 @@ package com.github.ajalt.clikt.parser
 import com.github.ajalt.clikt.options.*
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.properties.Delegates
+import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
+import kotlin.reflect.full.withNullability
 
 interface Parameter {
     /**
@@ -158,17 +162,67 @@ open class Argument<out T : Any>(final override val name: String,
         get() = ParameterHelp(listOf(name), metavar, help,
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
 
-    override fun checkTarget(param: KParameter) {
-//        if (nargs == 1) {
-//            require(param.type.isSubtypeOf(type.compatibleType.withNullability(true))) {
-//                "parameter ${param.name ?: ""} must be of type ${type.compatibleType.jvmErasure.simpleName}"
-//            }
-//        } else {
-//            require(param.type.isSubtypeOf(List::class.starProjectedType.withNullability(true))) {
-//                "argument ${param.name ?: ""} with nargs=$nargs must be of type List"
-//            }
-//        }
+    override val eager: Boolean get() = false
+
+    companion object {
+        inline fun <reified T : Any> build(type: ParamType<T>,
+                                           param: KParameter,
+                                           block: ArgumentBuilder<T>.() -> Unit): Argument<T> =
+                ArgumentBuilder(T::class, type).apply { block() }.build(param)
+    }
+}
+
+
+class ArgumentBuilder<T : Any>(private val klass: KClass<T>, private val type: ParamType<T>) {
+    var name: String? = null
+    var nargs: Int = 1
+        set(value) {
+            require(value != 0) { "Arguments cannot have nargs = 0" }
+            field = value
+        }
+    var required: Boolean = false
+    var default: T? = null
+    var metavar: String? = null
+    var help: String = ""
+
+    private var targetChecketSet = false
+    var customTargetChecker: ParameterTargetChecker? = null
+        set(value) {
+            field = value
+            targetChecketSet = true
+        }
+
+    inline fun targetChecker(crossinline block: ParameterTargetCheckerBuilder.() -> Unit) {
+        customTargetChecker = { ParameterTargetCheckerBuilder(it).block() }
     }
 
-    override val eager: Boolean get() = false
+
+    private fun defaultTargetChecker() {
+        if (targetChecketSet) return
+        targetChecker {
+            if (nargs == 1) {
+                require(param.type.isSubtypeOf(klass.starProjectedType.withNullability(true))) {
+                    "parameter ${param.name ?: ""} must be of type ${klass.simpleName}"
+                }
+            } else {
+                requireType<List<*>> {
+                    "argument ${param.name ?: ""} with nargs=$nargs must be of type List"
+                }
+            }
+        }
+    }
+
+    fun build(param: KParameter): Argument<T> {
+        defaultTargetChecker()
+        customTargetChecker?.invoke(param)
+        val argDefault = if (nargs == 1) default else null
+        val argName = when {
+            !name.isNullOrBlank() -> name!!
+            !param.name.isNullOrBlank() -> param.name!!
+            else -> "ARGUMENT"
+        }
+        // TODO: better name inference
+        return Argument(argName, nargs, required, argDefault,
+                metavar ?: argName.toUpperCase(), type, help)
+    }
 }

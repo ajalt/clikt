@@ -5,8 +5,6 @@ import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.starProjectedType
 
 typealias HelpFormatterFactory = (String, String) -> HelpFormatter
 typealias ContextFactory = (Command, Context?) -> Context
@@ -246,27 +244,22 @@ class CommandBuilder private constructor(
                     }
                 },
                 param<IntArgument> { anno, param ->
-                    require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
-                    val default = if (anno.required || anno.nargs != 1) null else anno.default
-                    val name = when {
-                        anno.name.isNotBlank() -> anno.name
-                        !param.name.isNullOrBlank() -> param.name!!
-                        else -> "ARGUMENT"
+                    Argument.build(IntParamType, param) {
+                        default = anno.default
+                        name = anno.name
+                        nargs = anno.nargs
+                        required = anno.required
                     }
-                    Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            IntParamType, anno.help).apply { checkTarget(param) }
                 },
                 param<StringArgument> { anno, param ->
-                    require(anno.nargs != 0) // TODO exceptions, check that param is a list if nargs != 1
-                    val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
-                    val default = if (useDefault) anno.default else null
-                    val name = when {
-                        anno.name.isNotBlank() -> anno.name
-                        !param.name.isNullOrBlank() -> param.name!!
-                        else -> "ARGUMENT"
+                    Argument.build(StringParamType, param) {
+                        if (anno.default != STRING_OPTION_NO_DEFAULT) {
+                            default = anno.default
+                        }
+                        name = anno.name
+                        nargs = anno.nargs
+                        required = anno.required
                     }
-                    Argument(name, anno.nargs, anno.required, default, name.toUpperCase(), // TODO: better name inference
-                            StringParamType, anno.help).apply { checkTarget(param) }
                 }
         )
 

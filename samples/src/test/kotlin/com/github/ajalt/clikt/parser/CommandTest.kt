@@ -108,5 +108,4 @@ class CommandTest {
         assertThatThrownBy { Command.build(::badF4) }
                 .isInstanceOf(IllegalArgumentException::class.java)
     }
-
 }

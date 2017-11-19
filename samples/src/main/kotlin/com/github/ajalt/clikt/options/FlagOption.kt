@@ -19,3 +19,6 @@ class FlagOptionParser : OptionParser {
     override fun parseShortOpt(name: String,argv: Array<String>, index: Int, optionIndex: Int): ParseResult =
             ParseResult(if (optionIndex == argv[index].lastIndex) 1 else 0, true)
 }
+
+@Target(AnnotationTarget.VALUE_PARAMETER)
+annotation class CountedOption(vararg val names: String, val help: String= "")

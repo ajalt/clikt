@@ -109,6 +109,10 @@ private fun f18(@StringOption("--xx", "-x") x: String?, @StringArgument y: Strin
     anyArg2 = y
 }
 
+private fun f19(@CountedOption("--xx", "-x") x: Int) {
+    intArg1 = x
+}
+
 private class C {
     companion object {
         fun f1(@IntOption x: Int, @IntArgument yy: Int) {
@@ -620,5 +624,18 @@ class ParserTest {
             assertThat(anyArg2).isEqualTo("--yy")
             assertThat(intArg1).isEqualTo(33)
         }
+    }
+
+
+    @Test
+    fun `counted option`() = parameterized(
+            row(listOf(), 0),
+            row(listOf("--xx"), 1),
+            row(listOf("-xx"), 2),
+            row(listOf("--xx", "-xxx", "-x", "-xx"), 7)) { (argv, value) ->
+        setup()
+        Command.build(::f19).parse(argv.toTypedArray())
+
+        assertThat(intArg1).isEqualTo(value)
     }
 }

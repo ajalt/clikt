@@ -237,10 +237,20 @@ class CommandBuilder private constructor(
                         default = false
                         help = anno.help
                         targetChecker {
-                            requireType<Boolean> {
-                                "parameter ${param.name ?: ""} must be of type Boolean"
-                            }
+                            requireType<Boolean> { "parameter ${param.name ?: ""} must be of type Boolean" }
                         }
+                    }
+                },
+                param<CountedOption> { anno, param ->
+                    Option.build(param) {
+                        parser = FlagOptionParser()
+                        names = anno.names
+                        default = 0
+                        help = anno.help
+                        targetChecker {
+                            requireType<Int> { "parameter ${param.name ?: ""} must be of type Int" }
+                        }
+                        processor = { _, values -> values.size }
                     }
                 },
                 param<IntArgument> { anno, param ->

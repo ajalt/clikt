@@ -141,12 +141,12 @@ class CommandBuilder private constructor(
             if (clicktAnno.name.isNotBlank()) name = clicktAnno.name
 
             if (clicktAnno.addHelpOption) {
-                val helpOptionNames: List<String> = if (clicktAnno.helpOptionNames.isEmpty()) {
-                    listOf("-h", "--help") // TODO: only use names that aren't taken
+                val helpOptionNames = if (clicktAnno.helpOptionNames.isEmpty()) {
+                    arrayOf("-h", "--help") // TODO: only use names that aren't taken
                 } else {
-                    clicktAnno.helpOptionNames.toList()
+                    clicktAnno.helpOptionNames
                 }
-                parameters.add(HelpOption(helpOptionNames))
+                parameters.add(helpOption(helpOptionNames))
             }
         }
 
@@ -265,7 +265,22 @@ class CommandBuilder private constructor(
 
         private val builtinFuncParameters = mapOf<KClass<out Annotation>, FunctionParameterFactory<*>>(
                 fparam<AddVersionOption> { param ->
-                    VersionOption(param.names.toList(), param.progName, param.version, param.message)
+                    Option.buildWithoutParameter {
+                        names = param.names
+                        eager = true
+                        parser = FlagOptionParser()
+                        help = "Show the version and exit."
+                        processor = { context, values ->
+                            val message: String = if (param.message.isNotBlank()) param.message else {
+                                val name = if (param.progName.isNotBlank()) param.progName else context.command.name
+                                "$name, version ${param.version}"
+                            }
+                            if (values.lastOrNull() == true) {
+                                throw PrintMessage(message)
+                            }
+                            null
+                        }
+                    }
                 }
         )
     }

@@ -39,21 +39,3 @@ annotation class AddVersionOption(val version: String,
                                   val names: Array<String> = arrayOf("--version"),
                                   val progName: String = "",
                                   val message: String = "")
-
-class VersionOption(names: List<String>,
-                    private val progName: String,
-                    private val version: String,
-                    private val message: String) : Option(
-        names, FlagOptionParser(), false, null, "Show the version and exit.",
-        eager = true, exposeValue = false) {
-    override fun processValues(context: Context, values: List<*>): Any? {
-        val message: String = if (message.isNotBlank()) message else {
-            val name = if (progName.isNotBlank()) progName else context.command.name
-            "$name, version $version"
-        }
-        if (values.lastOrNull() == true) {
-            throw PrintMessage(message)
-        }
-        return null
-    }
-}

@@ -35,7 +35,11 @@ class CommandTest {
             }
 
             functionAnnotation<CustomAnnotation> { param ->
-                VersionOption(param.names.toList(), "foo", "0.0", "")
+                Option.buildWithoutParameter {
+                    names = param.names
+                    processor = { _, values -> if (values.isNotEmpty()) throw IllegalAccessError() }
+                    parser = FlagOptionParser()
+                }
             }
         }
     }
@@ -55,8 +59,7 @@ class CommandTest {
     fun `custom function annotation`() {
         val command = Command.build(Companion::f1, builderBlock)
         assertThatThrownBy { command.parse(arrayOf("--vv")) }
-                .isInstanceOf(PrintMessage::class.java)
-                .hasMessage("foo, version 0.0")
+                .isInstanceOf(IllegalAccessError::class.java)
     }
 
     @Test
@@ -75,8 +78,7 @@ class CommandTest {
             builderBlock()
         }
         assertThatThrownBy { command.parse(arrayOf("f1", "--vv")) }
-                .isInstanceOf(PrintMessage::class.java)
-                .hasMessage("foo, version 0.0")
+                .isInstanceOf(IllegalAccessError::class.java)
     }
 
     @Test

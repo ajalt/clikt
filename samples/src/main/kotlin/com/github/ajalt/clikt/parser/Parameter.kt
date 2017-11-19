@@ -63,7 +63,7 @@ abstract class ParsedParameter(val required: Boolean,
 
 open class Option(val names: List<String>,
                   val parser: OptionParser,
-                  protected val default: Any?,
+                  val processor: OptionValueProcessor,
                   metavar: String?,
                   help: String,
                   override val eager: Boolean = false,
@@ -76,10 +76,7 @@ open class Option(val names: List<String>,
         }
     }
 
-    override fun processValues(context: Context, values: List<*>): Any? {
-        if (required && values.isEmpty()) throw MissingParameter("option", names)
-        return values.lastOrNull() ?: default
-    }
+    override fun processValues(context: Context, values: List<*>): Any? = processor(context, values)
 
     override val parameterHelp: ParameterHelp
         get() = ParameterHelp(names, metavar,
@@ -88,19 +85,29 @@ open class Option(val names: List<String>,
                 required, parser.repeatableForHelp)
 
     companion object {
-        inline fun build(param: KParameter, block: OptionBuilder.() -> Unit): Option =
-                OptionBuilder().apply { block() }.build(param)
+        inline fun build(param: KParameter, block: OptionBuilderWithParameter.() -> Unit): Option =
+                OptionBuilderWithParameter().apply { block() }.build(param)
+
+        inline fun buildWithoutParameter(block: OptionBuilder.() -> Unit): Option =
+                OptionBuilder().apply { block() }.build()
     }
 }
 
-class OptionBuilder {
-    var names: Array<out String> = emptyArray()
+open class OptionBuilder {
     var parser: OptionParser by Delegates.notNull()
-    var default: Any? = null
-    var metavar: String? = null
+    var names: Array<out String> = emptyArray()
     var help: String = ""
     var eager: Boolean = false
-    var exposeValue: Boolean = true
+    var processor: OptionValueProcessor? = null
+    fun build(): Option {
+        requireNotNull(processor) { "Must specify a value processor." }
+        return Option(names.toList(), parser, processor!!, null, help, eager, exposeValue = false)
+    }
+}
+
+class OptionBuilderWithParameter : OptionBuilder() {
+    var default: Any? = null
+    var metavar: String? = null
     var customTargetChecker: ParameterTargetChecker? = null
 
     inline fun targetChecker(crossinline block: ParameterTargetCheckerBuilder.() -> Unit) {
@@ -126,6 +133,14 @@ class OptionBuilder {
     }
 
     fun build(param: KParameter): Option {
+        if (processor == null) {
+            val d = default // avoid leaking a reference to this in the processor
+            processor = { _, values ->
+                if (required && values.isEmpty()) throw MissingParameter("option", names)
+                values.lastOrNull() ?: d
+            }
+        }
+
         customTargetChecker?.invoke(param)
         val optNames = if (names.isNotEmpty()) {
             names.toList()
@@ -134,7 +149,7 @@ class OptionBuilder {
             require(!paramName.isNullOrBlank()) { "Cannot infer option name; specify it explicitly." }
             listOf("--" + paramName)
         }
-        return Option(optNames, parser, default, metavar, help, eager, exposeValue)
+        return Option(optNames, parser, processor!!, metavar, help, eager, exposeValue = true)
     }
 }
 

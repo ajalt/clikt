@@ -16,13 +16,15 @@ class PassContextParameter : Parameter {
 }
 
 
-class HelpOption(names: List<String>) : Option(
-        names, FlagOptionParser(), false, null, "Show this help message and exit.",
-        eager = true, exposeValue = false) {
-    override fun processValues(context: Context, values: List<*>): Any? {
+internal fun helpOption(names: Array<String>) = Option.buildWithoutParameter {
+    this.names = names
+    parser = FlagOptionParser()
+    help = "Show this help message and exit."
+    eager = true
+    processor = { context, values ->
         if (values.lastOrNull() == true) {
             throw PrintHelpMessage(context.command)
         }
-        return null
+        null
     }
 }

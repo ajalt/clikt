@@ -1,7 +1,4 @@
-CommandBuilder.buildParameter
-CommandBuilder.buildArgument
 error messages
-register type conversions
 
 add "did you mean" hints in NoSuchOption etc.
 inferred name case normalization for options, args, and metavars

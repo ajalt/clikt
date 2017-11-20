@@ -73,8 +73,9 @@ class CommandBuilder private constructor(
         @PublishedApi
         internal val functionAnnotations: MutableMap<KClass<out Annotation>, FunctionParameterFactory<*>>
 ) {
-    @PublishedApi internal constructor() :
-            this(builtinParameters.toMutableMap(), builtinFuncParameters.toMutableMap())
+    @PublishedApi internal constructor() : this(mutableMapOf(), mutableMapOf()) {
+        addDefaultParameters()
+    }
 
     private val subcommandFunctions = mutableSetOf<KFunction<*>>()
     private val subcommands = mutableSetOf<Command>()
@@ -88,7 +89,7 @@ class CommandBuilder private constructor(
     /**
      * Add a function as a subcommand.
      *
-     * Any annotations added with [parameter] or [functionAnnotation] will be available to the
+     * Any annotations added with [customParameter] or [functionAnnotation] will be available to the
      * function.
      */
     fun subcommand(function: KFunction<*>) {
@@ -98,22 +99,110 @@ class CommandBuilder private constructor(
     /**
      * Add an existing command as a subcommand.
      *
-     * Annotations added with [parameter] or [functionAnnotation] will *not* be available to the
+     * Annotations added with [customParameter] or [functionAnnotation] will *not* be available to the
      * command.
      */
     fun subcommand(command: Command) {
         subcommands.add(command)
     }
 
-    inline fun <reified T : Annotation> parameter(crossinline block: (T, KParameter) -> Parameter) {
+    inline fun <reified T : Annotation> customParameter(crossinline block: (T, KParameter) -> Parameter) {
         paramsByAnnotation[T::class] = object : ParameterFactory<T>() {
             override fun create(anno: T, param: KParameter) = block(anno, param)
         }
     }
 
-    inline fun <reified T : Annotation> functionAnnotation(crossinline block: (T) -> Parameter) {
+    inline fun <reified T : Annotation> functionAnnotation(crossinline block: OptionBuilder.(T) -> Unit) {
         functionAnnotations[T::class] = object : FunctionParameterFactory<T>() {
-            override fun create(anno: T) = block(anno)
+            override fun create(anno: T): Option = Option.buildWithoutParameter { block(anno) }
+        }
+    }
+
+    inline fun <reified T : Annotation> option(crossinline block: OptionBuilderWithParameter.(T) -> Unit) {
+        customParameter { anno: T, param -> Option.build(param) { block(anno) } }
+    }
+
+    inline fun <reified T : Annotation> optionWithoutValue(crossinline block: OptionBuilder.(T) -> Unit) {
+        customParameter { anno: T, _ -> Option.buildWithoutParameter { block(anno) } }
+    }
+
+    inline fun <reified T : Annotation, reified U : Any> argument(
+            type: ParamType<U>,
+            crossinline block: ArgumentBuilder<U>.(T) -> Unit) {
+        customParameter { anno: T, param -> Argument.build(type, param) { block(anno) } }
+    }
+
+    private fun addDefaultParameters() {
+        customParameter<PassContext> { _, _ -> PassContextParameter() }
+
+        // TODO check name format, check that names are unique
+        option<IntOption> {
+            typedOption(IntParamType, it.nargs)
+            names = it.names
+            default = if (it.nargs == 1) it.default else null
+            metavar = "INT"
+            help = it.help
+        }
+        option<StringOption> {
+            typedOption(StringParamType, it.nargs)
+            names = it.names
+            val useDefault = it.nargs == 1 && it.default != STRING_OPTION_NO_DEFAULT
+            default = if (useDefault) it.default else null
+            metavar = "TEXT"
+            help = it.help
+        }
+        option<FlagOption> {
+            parser = FlagOptionParser()
+            names = it.names
+            default = false
+            help = it.help
+            targetChecker {
+                requireType<Boolean> { "parameter ${param.name ?: ""} must be of type Boolean" }
+            }
+        }
+        option<CountedOption> {
+            parser = FlagOptionParser()
+            names = it.names
+            default = 0
+            help = it.help
+            targetChecker {
+                requireType<Int> { "parameter ${param.name ?: ""} must be of type Int" }
+            }
+            processor = { _, values -> values.size }
+        }
+
+
+        argument<IntArgument, Int>(IntParamType) {
+            default = it.default
+            name = it.name
+            nargs = it.nargs
+            required = it.required
+        }
+        argument<StringArgument, String>(StringParamType) {
+            if (it.default != STRING_OPTION_NO_DEFAULT) {
+                default = it.default
+            }
+            name = it.name
+            nargs = it.nargs
+            required = it.required
+        }
+
+
+        functionAnnotation<AddVersionOption> {
+            names = it.names
+            eager = true
+            parser = FlagOptionParser()
+            help = "Show the version and exit."
+            processor = { context, values ->
+                val message: String = if (it.message.isNotBlank()) it.message else {
+                    val name = if (it.progName.isNotBlank()) it.progName else context.command.name
+                    "$name, version ${it.version}"
+                }
+                if (values.lastOrNull() == true) {
+                    throw PrintMessage(message)
+                }
+                null
+            }
         }
     }
 
@@ -181,117 +270,5 @@ class CommandBuilder private constructor(
             }
         }
         return parameters
-    }
-
-    companion object {
-        private inline fun <reified T : Annotation> param(crossinline block: (T, KParameter) -> Parameter):
-                Pair<KClass<T>, ParameterFactory<T>> {
-            return T::class to object : ParameterFactory<T>() {
-                override fun create(anno: T, param: KParameter) = block(anno, param)
-            }
-        }
-
-        private inline fun <reified T : Annotation> fparam(crossinline block: (T) -> Parameter):
-                Pair<KClass<T>, FunctionParameterFactory<T>> {
-            return T::class to object : FunctionParameterFactory<T>() {
-                override fun create(anno: T) = block(anno)
-            }
-        }
-
-        private fun getOptionNames(names: Array<out String>, param: KParameter): List<String> {
-            return if (names.isNotEmpty()) {
-                names.toList()
-            } else {
-                val funcName = param.name
-                require(!funcName.isNullOrBlank()) { "Cannot infer option name; specify it explicitly." }
-                listOf("--" + funcName)
-            }
-        }
-
-        private val builtinParameters = mapOf(
-                param<PassContext> { _, _ -> PassContextParameter() },
-                param<IntOption> { anno, param ->
-                    // TODO check name format, check that names are unique
-                    Option.build(param) {
-                        typedOption(IntParamType, anno.nargs)
-                        names = anno.names
-                        default = if (anno.nargs == 1) anno.default else null
-                        metavar = "INT"
-                        help = anno.help
-                    }
-                },
-                param<StringOption> { anno, param ->
-                    Option.build(param) {
-                        typedOption(StringParamType, anno.nargs)
-                        names = anno.names
-                        val useDefault = anno.nargs == 1 && anno.default != STRING_OPTION_NO_DEFAULT
-                        default = if (useDefault) anno.default else null
-                        metavar = "TEXT"
-                        help = anno.help
-                    }
-                },
-                param<FlagOption> { anno, param ->
-                    Option.build(param) {
-                        parser = FlagOptionParser()
-                        names = anno.names
-                        default = false
-                        help = anno.help
-                        targetChecker {
-                            requireType<Boolean> { "parameter ${param.name ?: ""} must be of type Boolean" }
-                        }
-                    }
-                },
-                param<CountedOption> { anno, param ->
-                    Option.build(param) {
-                        parser = FlagOptionParser()
-                        names = anno.names
-                        default = 0
-                        help = anno.help
-                        targetChecker {
-                            requireType<Int> { "parameter ${param.name ?: ""} must be of type Int" }
-                        }
-                        processor = { _, values -> values.size }
-                    }
-                },
-                param<IntArgument> { anno, param ->
-                    Argument.build(IntParamType, param) {
-                        default = anno.default
-                        name = anno.name
-                        nargs = anno.nargs
-                        required = anno.required
-                    }
-                },
-                param<StringArgument> { anno, param ->
-                    Argument.build(StringParamType, param) {
-                        if (anno.default != STRING_OPTION_NO_DEFAULT) {
-                            default = anno.default
-                        }
-                        name = anno.name
-                        nargs = anno.nargs
-                        required = anno.required
-                    }
-                }
-        )
-
-        private val builtinFuncParameters = mapOf<KClass<out Annotation>, FunctionParameterFactory<*>>(
-                fparam<AddVersionOption> { param ->
-                    Option.buildWithoutParameter {
-                        names = param.names
-                        eager = true
-                        parser = FlagOptionParser()
-                        help = "Show the version and exit."
-                        processor = { context, values ->
-                            val message: String = if (param.message.isNotBlank()) param.message else {
-                                val name = if (param.progName.isNotBlank()) param.progName else context.command.name
-                                "$name, version ${param.version}"
-                            }
-                            if (values.lastOrNull() == true) {
-                                throw PrintMessage(message)
-                            }
-                            null
-                        }
-                    }
-                }
-        )
     }
 }

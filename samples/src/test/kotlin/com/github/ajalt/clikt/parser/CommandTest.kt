@@ -27,19 +27,15 @@ class CommandTest {
         }
 
         private val builderBlock: CommandBuilder.() -> Unit = {
-            parameter<CustomAnnotation> { anno, param ->
-                Option.build(param) {
-                    names = anno.names
-                    typedOption(IntParamType, 1)
-                }
+            option<CustomAnnotation> {
+                names = it.names
+                typedOption(IntParamType, 1)
             }
 
-            functionAnnotation<CustomAnnotation> { param ->
-                Option.buildWithoutParameter {
-                    names = param.names
-                    processor = { _, values -> if (values.isNotEmpty()) throw IllegalAccessError() }
-                    parser = FlagOptionParser()
-                }
+            functionAnnotation<CustomAnnotation> {
+                names = it.names
+                processor = { _, values -> if (values.isNotEmpty()) throw IllegalAccessError() }
+                parser = FlagOptionParser()
             }
         }
     }

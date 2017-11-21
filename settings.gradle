@@ -1,1 +1,3 @@
 include 'clickt'
+include 'samples:echo'
+

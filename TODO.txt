@@ -2,11 +2,12 @@ error messages
 
 add "did you mean" hints in NoSuchOption etc.
 inferred name case normalization for options, args, and metavars
+set options/arguments metavar (for echo etc.)
 
 custom help formatter
 custom multi commands
 
 examples
-    echo, cp
+    cp
     required options
     argparse style help formatter

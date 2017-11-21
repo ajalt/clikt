@@ -1,17 +1,9 @@
 package com.github.ajalt.clikt.parser
 
-import com.github.ajalt.clikt.options.ClicktCommand
 import com.github.ajalt.clikt.options.Context
-import com.github.ajalt.clikt.options.IntOption
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.reflect.KTypeProjection
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.isSupertypeOf
-import kotlin.reflect.full.starProjectedType
 import kotlin.reflect.jvm.isAccessible
-import kotlin.reflect.jvm.jvmErasure
 import kotlin.system.exitProcess
 
 object Parser {
@@ -185,24 +177,4 @@ object Parser {
         parsedValuesByParameter.filterNot { it.key.eager }.forEach(process)
         return commandArgs
     }
-}
-
-
-@ClicktCommand("cli", "This is a command", "Now we're all done")
-fun run(@IntOption("--x", "-x") x: Int) {
-    println("run x=$x")
-}
-
-@ClicktCommand("subcommand", "This is a sub-command", "Now actually we're all done",
-        shortHelp = "some subcommand")
-fun sub(@IntOption("--y") y: Int) {
-    println("sub y=$y")
-}
-
-fun main(args: Array<String>) {
-    val command = Command.build(::run) {
-        subcommand(::sub)
-    }
-    val argv = arrayOf("--x", "313", "subcommand", "--y", "456")
-    command.parse(argv)
 }

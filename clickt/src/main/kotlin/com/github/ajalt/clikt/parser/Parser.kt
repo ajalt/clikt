@@ -20,9 +20,15 @@ object Parser {
                     println(e.message)
                     exitProcess(0)
                 }
+                is UsageError -> {
+                    println(e.formatMessage(context))
+                    exitProcess(1)
+                }
+                else -> {
+                    println(e.message)
+                    exitProcess(1)
+                }
             }
-            println(e)
-            exitProcess(1)
         }
     }
 
@@ -104,7 +110,8 @@ object Parser {
         } else {
             arg to null
         }
-        val option = optionsByName[name] ?: throw NoSuchOption(name)
+        val option = optionsByName[name] ?: throw NoSuchOption(name,
+                possibilities = optionsByName.keys.filter { name.startsWith(it) })
         val result = option.parser.parseLongOpt(name, argv, index, value)
         parsedValuesByParameter[option]!!.add(result.value)
         return result.consumedCount

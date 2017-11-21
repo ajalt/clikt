@@ -32,9 +32,16 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
         Parser.main(argv, makeContext(null))
     }
 
+    fun getFormattedUsage(): String {
+        val params = parameters.mapNotNull { it.parameterHelp } +
+                subcommands.map { it.helpAsSubcommand() }
+        return helpFormatter.formatUsage(params, programName = name)
+    }
+
     fun getFormattedHelp(): String {
-        return helpFormatter.formatHelp(parameters.mapNotNull { it.parameterHelp } +
-                subcommands.map { it.helpAsSubcommand() })
+        val params = parameters.mapNotNull { it.parameterHelp } +
+                subcommands.map { it.helpAsSubcommand() }
+        return helpFormatter.formatHelp(params, programName = name)
     }
 
     fun makeContext(parent: Context?) = contextFactory(this, parent)
@@ -218,26 +225,24 @@ class CommandBuilder private constructor(
         var prolog = ""
         var epilog = ""
         var shortHelp = ""
+        var helpOptionNames = arrayOf("-h", "--help") // TODO: only use help[ option names that aren't taken
 
-        val clicktAnno = function.annotations.find { it is ClicktCommand }
+        val clicktAnno = function.annotations.find { it is ClicktCommand } as? ClicktCommand
         if (clicktAnno != null) {
-            clicktAnno as ClicktCommand
-
             prolog = clicktAnno.help.trim()
             epilog = clicktAnno.epilog.trim()
             shortHelp = clicktAnno.shortHelp.trim()
 
             if (clicktAnno.name.isNotBlank()) name = clicktAnno.name
 
-            if (clicktAnno.addHelpOption) {
-                val helpOptionNames = if (clicktAnno.helpOptionNames.isEmpty()) {
-                    arrayOf("-h", "--help") // TODO: only use names that aren't taken
-                } else {
-                    clicktAnno.helpOptionNames
-                }
-                parameters.add(helpOption(helpOptionNames))
+            if (!clicktAnno.addHelpOption) {
+                helpOptionNames = emptyArray()
+            } else if (clicktAnno.helpOptionNames.isNotEmpty()) {
+                helpOptionNames = clicktAnno.helpOptionNames
             }
         }
+
+        if (helpOptionNames.isNotEmpty()) parameters.add(helpOption(helpOptionNames))
 
         val subcommands = subcommands + subcommandFunctions.map {
             CommandBuilder(paramsByAnnotation, functionAnnotations).build(it)

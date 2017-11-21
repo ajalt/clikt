@@ -1,13 +1,12 @@
-error messages
-
-add "did you mean" hints in NoSuchOption etc.
+move Parser.main into command
 inferred name case normalization for options, args, and metavars
+remaining option types
 set options/arguments metavar (for echo etc.)
 
 custom help formatter
 custom multi commands
 
 examples
-    cp
+    cp (requires yes/no options for --force/--no-clobber. Consider --interactive)
     required options
     argparse style help formatter

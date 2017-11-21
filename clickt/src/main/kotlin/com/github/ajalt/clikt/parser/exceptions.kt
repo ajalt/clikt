@@ -1,32 +1,44 @@
 package com.github.ajalt.clikt.parser
 
+import com.github.ajalt.clikt.options.Context
+
 // TODO docs, params, and formatting for help
 
 open class CliktError(message: String) : Exception(message)
 
-class PrintHelpMessage(val command: Command): CliktError("print help")
+class PrintHelpMessage(val command: Command) : CliktError("print help")
 
 /**
  * An exception that indicates that the message should be printed, and does not signal an error.
  */
-class PrintMessage(message: String): CliktError(message)
+class PrintMessage(message: String) : CliktError(message)
 
 /**
  * An internal exception that signals a usage error.
  *
  * This typically aborts any further handling.
  */
-open class UsageError(message: String) : CliktError(message)
+open class UsageError(message: String) : CliktError(message) {
+    fun formatMessage(context: Context? = null): String = buildString {
+        context?.let { append(it.command.getFormattedUsage()).append("\n\n") }
+        append("Error: ").append(message)
+    }
+}
 
 /** Base class for parameter usage errors. */
-open class BadParameter(message: String) : UsageError("Error: $message")
+open class BadParameter(message: String) : UsageError(message)
 
 /** A required option or argument was not provided */
 open class MissingParameter(paramType: String, paramNames: List<String>, message: String = "") :
         BadParameter("Missing $paramType${paramNames.joinToString(" / ", " ").inb()}.${message.inb(" $message.")}")
 
 /** An option was provided that does not exist. */
-open class NoSuchOption(optionName: String) : UsageError("no such option $optionName")
+open class NoSuchOption(optionName: String, possibilities: List<String> = emptyList())
+    : UsageError("no such option $optionName" + when {
+    possibilities.size == 1 -> ". Did you mean ${possibilities[0]}?"
+    possibilities.size > 1 -> possibilities.joinToString(prefix = " (Possible options: ", postfix = ")")
+    else -> ""
+})
 
 /**
  * Raised if an option is supplied but the use of the option was incorrect.

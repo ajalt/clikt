@@ -1,3 +1,4 @@
 include 'clickt'
 include 'samples:echo'
+include 'samples:cp'
 

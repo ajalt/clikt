@@ -33,25 +33,21 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
         val context = makeContext(null)
         try {
             Parser.parse(argv, context)
+        } catch (e: PrintHelpMessage) {
+            println(e.command.getFormattedHelp())
+            exitProcess(0)
+        } catch (e: PrintMessage) {
+            println(e.message)
+            exitProcess(0)
+        } catch (e: UsageError) {
+            println(e.formatMessage(context))
+            exitProcess(1)
         } catch (e: CliktError) {
-            when (e) {
-                is PrintHelpMessage -> {
-                    println(e.command.getFormattedHelp())
-                    exitProcess(0)
-                }
-                is PrintMessage -> {
-                    println(e.message)
-                    exitProcess(0)
-                }
-                is UsageError -> {
-                    println(e.formatMessage(context))
-                    exitProcess(1)
-                }
-                else -> {
-                    println(e.message)
-                    exitProcess(1)
-                }
-            }
+            println(e.message)
+            exitProcess(1)
+        } catch (e: Abort) {
+            println()
+            exitProcess(1)
         }
     }
 

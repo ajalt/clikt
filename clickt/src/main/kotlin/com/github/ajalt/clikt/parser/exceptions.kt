@@ -4,7 +4,10 @@ import com.github.ajalt.clikt.options.Context
 
 // TODO docs, params, and formatting for help
 
-open class CliktError(message: String) : Exception(message)
+/** An internal error that signals Clickt to abort. */
+class Abort: RuntimeException()
+
+open class CliktError(message: String) : RuntimeException(message)
 
 class PrintHelpMessage(val command: Command) : CliktError("print help")
 

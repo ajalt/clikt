@@ -113,6 +113,10 @@ private fun f19(@CountedOption("--xx", "-x") x: Int) {
     intArg1 = x
 }
 
+private fun f20(@FlagOption("--xx/--no-xx", "-x/-X", "--XX/", "/--NO-XX") x: Boolean) {
+    anyArg1 = x
+}
+
 private class C {
     companion object {
         fun f1(@IntOption x: Int, @IntArgument yy: Int) {
@@ -487,6 +491,21 @@ class ParserTest {
         assertThat(intArg1).called("x").isEqualTo(x)
         assertThat(intArg2).called("y").isEqualTo(y)
         assertThat(intArg3).called("z").isEqualTo(z)
+    }
+
+    @Test
+    fun `flag options with off switch`() = parameterized(
+            row(emptyList(), false),
+            row(listOf("-x"), true),
+            row(listOf("-x", "--no-xx"), false),
+            row(listOf("-xX"), false),
+            row(listOf("-xXx"), true),
+            row(listOf("--xx", "--no-xx", "-xX", "--XX", "--NO-XX", "-x"), true)
+    ) { (argv, value) ->
+        setup()
+        Command.build(::f20).parse(argv.toTypedArray())
+
+        assertThat(anyArg1).isEqualTo(value)
     }
 
     @Test

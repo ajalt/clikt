@@ -159,9 +159,9 @@ class CommandBuilder private constructor(
             help = it.help
         }
         option<FlagOption> {
-            parser = FlagOptionParser()
-            names = it.names
-            default = false
+            parser = FlagOptionParser(it.names)
+            names = it.names.flatMap { it.split("/") }.filter { it.isNotBlank() }.toTypedArray()
+            default = it.default
             help = it.help
             targetChecker {
                 requireType<Boolean> { "parameter ${param.name ?: ""} must be of type Boolean" }

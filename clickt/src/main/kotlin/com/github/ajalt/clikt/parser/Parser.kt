@@ -7,31 +7,6 @@ import kotlin.reflect.jvm.isAccessible
 import kotlin.system.exitProcess
 
 object Parser {
-    fun main(argv: Array<String>, context: Context) {
-        try {
-            parse(argv, context)
-        } catch (e: CliktError) {
-            when (e) {
-                is PrintHelpMessage -> {
-                    println(e.command.getFormattedHelp())
-                    exitProcess(0)
-                }
-                is PrintMessage -> {
-                    println(e.message)
-                    exitProcess(0)
-                }
-                is UsageError -> {
-                    println(e.formatMessage(context))
-                    exitProcess(1)
-                }
-                else -> {
-                    println(e.message)
-                    exitProcess(1)
-                }
-            }
-        }
-    }
-
     fun parse(argv: Array<String>, context: Context) {
         parse(argv, context, 0)
     }

@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
+import kotlin.system.exitProcess
 
 typealias HelpFormatterFactory = (String, String) -> HelpFormatter
 typealias ContextFactory = (Command, Context?) -> Context
@@ -29,7 +30,29 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
     }
 
     fun main(argv: Array<String>) {
-        Parser.main(argv, makeContext(null))
+        val context = makeContext(null)
+        try {
+            Parser.parse(argv, context)
+        } catch (e: CliktError) {
+            when (e) {
+                is PrintHelpMessage -> {
+                    println(e.command.getFormattedHelp())
+                    exitProcess(0)
+                }
+                is PrintMessage -> {
+                    println(e.message)
+                    exitProcess(0)
+                }
+                is UsageError -> {
+                    println(e.formatMessage(context))
+                    exitProcess(1)
+                }
+                else -> {
+                    println(e.message)
+                    exitProcess(1)
+                }
+            }
+        }
     }
 
     fun getFormattedUsage(): String {

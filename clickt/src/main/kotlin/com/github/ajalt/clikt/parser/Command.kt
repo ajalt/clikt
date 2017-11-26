@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.*
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
+import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
@@ -195,6 +196,13 @@ class CommandBuilder private constructor(
                 requireType<Int> { "parameter ${param.name ?: ""} must be of type Int" }
             }
             processor = { _, values -> values.size }
+        }
+        option<FileOption> {
+            typedOption(FileParamType, it.nargs)
+            names = it.names
+            metavar = "FILE"
+            help = it.help
+            processor = FileValueProcessor
         }
 
 

@@ -16,14 +16,14 @@ object TermUi {
                 promptSuffix: String = ": ", showDefault: Boolean = true): Boolean {
         val prompt = buildPrompt(text, promptSuffix, showDefault,
                 if (default) "Y/n" else "y/N")
-        var rv = false
+        val rv: Boolean
         l@ while (true) {
             print(prompt)
             val input = readLine()?.trim()
-            when (input) {
-                "y", "yes" -> rv = true
-                "n", "no" -> rv = false
-                "" -> rv = default
+            rv = when (input) {
+                "y", "yes" -> true
+                "n", "no" -> false
+                "" -> default
                 null -> throw Abort()
                 else -> {
                     println("Error: invalid input")

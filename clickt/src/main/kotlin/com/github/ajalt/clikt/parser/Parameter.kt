@@ -180,15 +180,15 @@ open class Argument<out T : Any>(final override val name: String,
     override val eager: Boolean get() = false
 
     companion object {
-        inline fun <reified T : Any> build(type: ParamType<T>,
-                                           param: KParameter,
+        inline fun <reified T : Any> build(param: KParameter,
                                            block: ArgumentBuilder<T>.() -> Unit): Argument<T> =
-                ArgumentBuilder(T::class, type).apply { block() }.build(param)
+                ArgumentBuilder(T::class).apply { block() }.build(param)
     }
 }
 
 
-class ArgumentBuilder<T : Any>(private val klass: KClass<T>, private val type: ParamType<T>) {
+class ArgumentBuilder<T : Any>(private val klass: KClass<T>) {
+    lateinit var type: ParamType<T>
     var name: String? = null
     var nargs: Int = 1
         set(value) {

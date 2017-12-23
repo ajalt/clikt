@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.Before
 import org.junit.Test
+import java.io.File
 
 private var intArg1: Int = -111111111
 private var intArg2: Int = -222222222
@@ -114,6 +115,10 @@ private fun f19(@CountedOption("--xx", "-x") x: Int) {
 }
 
 private fun f20(@FlagOption("--xx/--no-xx", "-x/-X", "--XX/", "/--NO-XX") x: Boolean) {
+    anyArg1 = x
+}
+
+private fun f21(@FileArgument(exists = false) x: File) {
     anyArg1 = x
 }
 
@@ -645,7 +650,6 @@ class ParserTest {
         }
     }
 
-
     @Test
     fun `counted option`() = parameterized(
             row(listOf(), 0),
@@ -656,5 +660,11 @@ class ParserTest {
         Command.build(::f19).parse(argv.toTypedArray())
 
         assertThat(intArg1).isEqualTo(value)
+    }
+
+    @Test
+    fun `file option defaults`() {
+        Command.build(::f21).parse(arrayOf("."))
+        assertThat(anyArg1).isInstanceOf(File::class.java)
     }
 }

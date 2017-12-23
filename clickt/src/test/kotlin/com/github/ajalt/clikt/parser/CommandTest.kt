@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER)
-private annotation class CustomAnnotation(vararg val names: String)
+annotation class CustomAnnotation(vararg val names: String)
 
 private fun badF0(@IntOption xx: String) = xx
 private fun badF1(@IntOption(nargs = 2) xx: Int) = xx

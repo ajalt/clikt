@@ -1,8 +1,6 @@
 package com.github.ajalt.clikt.options
 
 import com.github.ajalt.clikt.parser.BadParameter
-import com.github.ajalt.clikt.parser.MissingParameter
-import com.github.ajalt.clikt.parser.OptionValueProcessor
 import java.io.File
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
@@ -30,28 +28,24 @@ annotation class FileArgument(val name: String = "",
                               val writable: Boolean = false,
                               val readable: Boolean = false)
 
-object FileParamType : ParamType<File> {
-    override fun convert(value: String) = File(value)
-}
+class FileParamType(private val exists: Boolean,
+                    private val fileOkay: Boolean,
+                    private val folderOkay: Boolean,
+                    private val writable: Boolean,
+                    private val readable: Boolean) : ParamType<File> {
+    override fun convert(value: String) = File(value).apply { check(this) }
 
-fun fileParamValueProcessor(
-        exists: Boolean,
-        fileOkay: Boolean,
-        dirOkay: Boolean,
-        writable: Boolean,
-        readable: Boolean
-): OptionValueProcessor = { context, values ->
-    if (required && values.isEmpty()) throw MissingParameter("option", names)
-    val name = when {
-        fileOkay && !dirOkay -> "File"
-        !fileOkay && dirOkay -> "Directory"
-        else -> "Path"
+    fun check(file: File) {
+        val name = when {
+            fileOkay && !folderOkay -> "File"
+            !fileOkay && folderOkay -> "Directory"
+            else -> "Path"
+        }
+        if (exists && !file.exists()) throw BadParameter("$name \"$file\" does not exist.")
+        if (!fileOkay && file.isFile) throw BadParameter("$name \"$file\" is a ")
+        if (!folderOkay && file.isDirectory) throw BadParameter("$name \"$file\" is a directory.")
+        if (writable && !file.canWrite()) throw BadParameter("$name \"$file\" is not writable.")
+        if (readable && !file.canRead()) throw BadParameter("$name \"$file\" is not readable.")
+
     }
-    val file = values.last() as File
-    if (exists && !file.exists()) throw BadParameter("$name \"$file\" does not exist.")
-    if (!fileOkay && file.isFile) throw BadParameter("$name \"$file\" is a file.")
-    if (!dirOkay && file.isDirectory) throw BadParameter("$name \"$file\" is a directory.")
-    if (writable && !file.canWrite()) throw BadParameter("$name \"$file\" is not writable.")
-    if (readable && !file.canRead()) throw BadParameter("$name \"$file\" is not readable.")
-    file
 }

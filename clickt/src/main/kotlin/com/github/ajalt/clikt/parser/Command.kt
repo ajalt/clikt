@@ -154,9 +154,8 @@ class CommandBuilder private constructor(
     }
 
     inline fun <reified T : Annotation, reified U : Any> argument(
-            type: ParamType<U>,
             crossinline block: ArgumentBuilder<U>.(T) -> Unit) {
-        customParameter { anno: T, param -> Argument.build(type, param) { block(anno) } }
+        customParameter { anno: T, param -> Argument.build<U>(param) { block(anno) } }
     }
 
     private fun addDefaultParameters() {
@@ -198,29 +197,40 @@ class CommandBuilder private constructor(
             processor = { _, values -> values.size }
         }
         option<FileOption> {
-            typedOption(FileParamType, it.nargs)
+            typedOption(FileParamType(it.exists, it.fileOkay, it.folderOkay,
+                    it.writable, it.readable), it.nargs)
             names = it.names
             metavar = "FILE"
             help = it.help
-            processor = FileValueProcessor
         }
 
 
-        argument<IntArgument, Int>(IntParamType) {
+        argument<IntArgument, Int> {
+            type = IntParamType
             default = it.default
             name = it.name
             nargs = it.nargs
             required = it.required
+            help = it.help
         }
-        argument<StringArgument, String>(StringParamType) {
+        argument<StringArgument, String> {
+            type = StringParamType
             if (it.default != STRING_OPTION_NO_DEFAULT) {
                 default = it.default
             }
             name = it.name
             nargs = it.nargs
             required = it.required
+            help = it.help
         }
-
+        argument<FileArgument, File> {
+            type = FileParamType(it.exists, it.fileOkay, it.folderOkay, it.writable, it.readable)
+            metavar = "FILE"
+            name = it.name
+            nargs = it.nargs
+            required = it.required
+            help = it.help
+        }
 
         functionAnnotation<AddVersionOption> {
             names = it.names

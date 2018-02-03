@@ -72,8 +72,7 @@ class Command internal constructor(val allowInterspersedArgs: Boolean,
     companion object {
         fun build(function: KFunction<*>): Command = CommandBuilder().build(function)
 
-        inline fun build(function: KFunction<*>, block: CommandBuilder.() -> Unit): Command
-                = CommandBuilder().apply { block() }.build(function)
+        inline fun build(function: KFunction<*>, block: CommandBuilder.() -> Unit): Command = CommandBuilder().apply { block() }.build(function)
     }
 }
 
@@ -139,6 +138,16 @@ class CommandBuilder private constructor(
         }
     }
 
+    inline fun <reified T : Annotation> passObjectParameter(crossinline block: (Context) -> Any?) {
+        customParameter<T> { _, _ ->
+            object : Parameter {
+                override fun processValues(context: Context, values: List<*>) = block(context)
+                override val exposeValue get() = true
+                override val parameterHelp get() = null
+            }
+        }
+    }
+
     inline fun <reified T : Annotation> functionAnnotation(crossinline block: OptionBuilder.(T) -> Unit) {
         functionAnnotations[T::class] = object : FunctionParameterFactory<T>() {
             override fun create(anno: T): Option = Option.buildWithoutParameter { block(anno) }
@@ -159,7 +168,7 @@ class CommandBuilder private constructor(
     }
 
     private fun addDefaultParameters() {
-        customParameter<PassContext> { _, _ -> PassContextParameter() }
+        passObjectParameter<PassContext> { it }
 
         // TODO check name format, check that names are unique
         option<IntOption> {
@@ -262,7 +271,7 @@ class CommandBuilder private constructor(
         var prolog = ""
         var epilog = ""
         var shortHelp = ""
-        var helpOptionNames = arrayOf("-h", "--help") // TODO: only use help[ option names that aren't taken
+        var helpOptionNames = arrayOf("-h", "--help") // TODO: only use help option names that aren't taken
 
         val clicktAnno = function.annotations.find { it is ClicktCommand } as? ClicktCommand
         if (clicktAnno != null) {

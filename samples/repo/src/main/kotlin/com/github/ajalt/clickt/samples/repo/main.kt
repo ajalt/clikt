@@ -2,18 +2,11 @@ package com.github.ajalt.clickt.samples.repo
 
 import com.github.ajalt.clikt.options.*
 import com.github.ajalt.clikt.parser.Command
-import com.github.ajalt.clikt.parser.Parameter
 import java.io.File
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class PassRepo
-
-class PassContextParameter : Parameter { // TODO: make_pass_parameter
-    override fun processValues(context: Context, values: List<*>) = context.findObject<Repo>()
-    override val exposeValue get() = true
-    override val parameterHelp get() = null
-}
 
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
@@ -102,7 +95,7 @@ fun commit(@PassRepo repo: Repo,
 
 
 fun main(args: Array<String>) = Command.build(::cli) {
-    customParameter<PassRepo> { _, _ -> PassContextParameter() }
+    passObjectParameter<PassRepo> { it.findObject<Repo>() }
     subcommand(::clone)
     subcommand(::delete)
     subcommand(::setuser)

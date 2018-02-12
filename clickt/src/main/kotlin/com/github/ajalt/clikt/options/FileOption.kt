@@ -42,7 +42,7 @@ class FileParamType(private val exists: Boolean,
             else -> "Path"
         }
         if (exists && !file.exists()) throw BadParameter("$name \"$file\" does not exist.")
-        if (!fileOkay && file.isFile) throw BadParameter("$name \"$file\" is a ")
+        if (!fileOkay && file.isFile) throw BadParameter("$name \"$file\" is a file")
         if (!folderOkay && file.isDirectory) throw BadParameter("$name \"$file\" is a directory.")
         if (writable && !file.canWrite()) throw BadParameter("$name \"$file\" is not writable.")
         if (readable && !file.canRead()) throw BadParameter("$name \"$file\" is not readable.")

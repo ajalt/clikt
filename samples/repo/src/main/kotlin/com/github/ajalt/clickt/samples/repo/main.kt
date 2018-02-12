@@ -68,7 +68,7 @@ fun setuser(@PassRepo repo: Repo,
             @StringOption(help = "The login password.") password: String?) {// TODO password_option
     username?.let { repo.config["username"] = it }
     email?.let { repo.config["email"] = it }
-    password?.let { repo.config["password"] = "*".repeat(password.length) }
+    password?.let { repo.config["password"] = "*".repeat(it.length) }
     println("Changed credentials.")
 }
 

@@ -2,7 +2,7 @@ package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.BadOptionUsage
 
-interface OptionParser2<out T> {
+interface OptionParser2 {
     /**
      * @param name The name of the flag used to invoke this option
      * @param argv The entire list of command line arguments for the command
@@ -21,18 +21,16 @@ interface OptionParser2<out T> {
 
     /** Return true if this parser should be displayed as repeatable by the help formatter. */
     val repeatableForHelp: Boolean
-
-    val rawValues: List<T> // TODO docs
 }
 
 
-class OptionWithValuesParser2(private val nargs: Int) : OptionParser2<List<String>> {
+class OptionWithValuesParser2(private val nargs: Int) : OptionParser2 {
     init {
         require(nargs >= 1) { "Options cannot have nargs < 1" }
     }
 
     private val _rawValues = mutableListOf<List<String>>()
-    override val rawValues: List<List<String>> get() = _rawValues // TODO: can parsers be pure?
+    val rawValues: List<List<String>> get() = _rawValues // TODO: can parsers be pure?
 
     override val repeatableForHelp: Boolean get() = nargs > 1
 

@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.v2
 
-import com.github.ajalt.clikt.options.*
+import com.github.ajalt.clikt.options.Context
 import com.github.ajalt.clikt.parser.BadParameter
 import com.github.ajalt.clikt.parser.HelpFormatter
 import kotlin.properties.ReadOnlyProperty
@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
 
 abstract class CliktCommand(help: String? = null, version: String? = null) {
     private var subcommands: List<CliktCommand> = emptyList()
-    private var options: MutableList<Option<*, *>> = mutableListOf()
+    private var options: MutableList<Option<*>> = mutableListOf()
 
     val context: Context = TODO()
     fun subcommands(vararg command: CliktCommand): CliktCommand {
@@ -19,29 +19,38 @@ abstract class CliktCommand(help: String? = null, version: String? = null) {
     open fun main(args: Array<String>): Unit = TODO()
     abstract fun run()
 
-    fun registerOption(option: Option<*, *>) {
+    fun registerOption(option: Option<*>) {
         options.add(option)
     }
 }
 
-interface Option<out T_prop, out T_parse> : ReadOnlyProperty<CliktCommand, T_prop> {
+interface Option<out T_prop> : ReadOnlyProperty<CliktCommand, T_prop> {
     val parameterHelp: HelpFormatter.ParameterHelp?
     val eager: Boolean get() = false
     val metavar: String?
     val help: String
-    val parser: OptionParser2<T_parse>
+    val parser: OptionParser2
     val names: List<String>
 }
 
-private typealias RawOption = OptionWithArg<String?, String>
+private typealias RawOption = OptionWithSingleValue<String>
 
-interface OptionWithArg<out T, U> : Option<T, List<String>> {
-    fun processEach(value: List<String>): U
-    fun processAll(values: List<U>): T
+interface OptionWithValues<out Tall, Teach> : Option<Tall> {
+    fun processEach(value: List<String>): Teach
+    fun processAll(values: List<Teach>): Tall
+    val rawValues: List<List<String>>
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-        return processAll(parser.rawValues.map { processEach(it) })
+    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
+        return processAll(rawValues.map { processEach(it) })
     }
+}
+
+interface OptionWithSingleValue<T> : OptionWithValues<T?, T> {
+    override fun processAll(values: List<T>): T? = values.lastOrNull()
+}
+
+interface OptionWithMultipleValues<T> : OptionWithValues<List<T>, T> {
+    override fun processAll(values: List<T>): List<T> = values
 }
 
 
@@ -65,74 +74,85 @@ internal class OptionImpl(names: List<String>,
 
 
     override val parser = OptionWithValuesParser2(1)
+    override val rawValues: List<List<String>> get() = parser.rawValues
 
     override fun processEach(value: List<String>): String {
-        return value.first() // TODO error messages
-    }
-
-    override fun processAll(values: List<String>): String? {
-        return values.last()
+        return value.single() // TODO error messages
     }
 }
 
 fun CliktCommand.option(vararg names: String, help: String = ""): RawOption {
-    return OptionImpl(names.toList(), ""/*TODO*/, help)
+    return OptionImpl(names.toList(), "STRING", help)
 }
 
 // TODO better type param names
-abstract class OptionTransformer<out Ti, out Ui, out To, out Uo>(val option: Option<Ti, Ui>) : Option<To, Uo> {
+abstract class OptionTransformer<out Ti, out To>(val option: Option<Ti>) : Option<To> {
     override val eager: Boolean get() = option.eager
     override val parameterHelp: HelpFormatter.ParameterHelp? get() = option.parameterHelp
     override val metavar: String? get() = option.metavar
     override val help: String get() = option.help
     override val names: List<String> get() = option.names
+    override val parser: OptionParser2 get() = option.parser
 }
 
-abstract class OptionTypeTransformer<out Ti, out To, out U>(option: Option<Ti, U>) : OptionTransformer<Ti, U, To, U>(option) {
-    override val parser: OptionParser2<U> get() = option.parser
+abstract class OptionWithValuesTransformer<out Teachi, Talli, out Teacho, Tallo>(
+        val option: OptionWithValues<Teachi, Talli>) : OptionWithValues<Teacho, Tallo> {
+    override val eager: Boolean get() = option.eager
+    override val parameterHelp: HelpFormatter.ParameterHelp? get() = option.parameterHelp
+    override val metavar: String? get() = option.metavar
+    override val help: String get() = option.help
+    override val names: List<String> get() = option.names
+    override val parser: OptionParser2 get() = option.parser
+    override val rawValues: List<List<String>> get() = option.rawValues
+}
+
+inline fun <T> RawOption.convert(metavar: String? = null, crossinline conversion: (String) -> T): OptionWithSingleValue<T> {
+    return object : OptionWithValuesTransformer<String?, String, T?, T>(this), OptionWithSingleValue<T> {
+        override val metavar: String? get() = metavar ?: super.metavar
+        override fun processEach(value: List<String>): T {
+            return conversion(value.single())
+        }
+    }
 }
 
 // TODO: explicit return types
-fun RawOption.flag() = object : OptionTransformer<String?, List<String>, Boolean, Boolean>(this) {
-    override val parser: OptionParser2<Boolean> = FlagOptionParser2(this.names)
+fun RawOption.flag() = object : OptionTransformer<String?, Boolean>(this) {
+    override val parser: FlagOptionParser2 = FlagOptionParser2(this.names)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Boolean {
         return parser.rawValues.lastOrNull() ?: false
     }
 }
 
-fun RawOption.counted() = object : OptionTransformer<String?, List<String>, Int, Boolean>(this) {
+fun RawOption.counted() = object : OptionTransformer<String?, Int>(this) {
     init {
         for (name in names) require("/" !in name) { "counted options cannot have off names" }
     }
 
-    override val parser: OptionParser2<Boolean> = FlagOptionParser2()
+    override val parser: FlagOptionParser2 = FlagOptionParser2(this.names)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Int {
         return parser.rawValues.size
     }
 }
 
-fun RawOption.int() = object : OptionTypeTransformer<String?, Int?, List<String>>(this) {
-
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Int? {
-        val value = this@int.getValue(thisRef, property) ?: return null
-        try {
-            return value.toInt()
-        } catch (e: NumberFormatException) {
-            throw BadParameter("$value is not a valid integer")
-        }
+fun RawOption.int() = convert("INT") {
+    try {
+        it.toInt()
+    } catch (e: NumberFormatException) {
+        throw BadParameter("$it is not a valid integer")
     }
 }
 
-fun <T : Any, U> Option<T?, U>.default(value: T) = object : OptionTypeTransformer<T?, T, U>(this) {
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-        return this@default.getValue(thisRef, property) ?: value
+fun <T : Any> OptionWithSingleValue<T>.default(value: T): OptionWithValues<T, T> {
+    return object : OptionWithValuesTransformer<T?, T, T, T>(this) {
+        override fun processEach(value: List<String>): T = this@default.processEach(value)
+        override fun processAll(values: List<T>): T = values.lastOrNull() ?: value
     }
 }
 
-fun <T : Any> Option<T?, List<T>>.multiple() = object : OptionTypeTransformer<T?, List<T>, List<T>>(this) {
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): List<T> {
-        return parser.rawValues
+fun <T : Any> OptionWithSingleValue<T>.multiple(): OptionWithMultipleValues<T> {
+    return object : OptionWithValuesTransformer<T?, T, List<T>, T>(this), OptionWithMultipleValues<T> {
+        override fun processEach(value: List<String>): T = option.processEach(value)
     }
 }

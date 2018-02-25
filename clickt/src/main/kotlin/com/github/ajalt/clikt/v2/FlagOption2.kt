@@ -1,16 +1,11 @@
 package com.github.ajalt.clikt.v2
 
-import com.github.ajalt.clikt.options.OptionParser
-import com.github.ajalt.clikt.options.ParseResult
 import com.github.ajalt.clikt.parser.BadOptionUsage
-import kotlin.reflect.KParameter
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.starProjectedType
 
 
-class FlagOptionParser2(names: List<String> = emptyList()) : OptionParser2<Boolean> {
+class FlagOptionParser2(names: List<String> = emptyList()) : OptionParser2 {
     private val _rawValues = mutableListOf<Boolean>()
-    override val rawValues: List<Boolean> get() = _rawValues
+    val rawValues: List<Boolean> get() = _rawValues
     private val offNames: List<String> = names.mapNotNull {
         if ("/" in it) {
             val split = it.split("/", limit = 2)

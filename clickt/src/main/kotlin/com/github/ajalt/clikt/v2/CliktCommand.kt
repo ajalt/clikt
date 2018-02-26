@@ -161,17 +161,22 @@ fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.default(value: Tea
 
 fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.multiple() = transformAll { it }
 
-
-
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.paired():
-        LastOccurrenceOption<Pair<Tvalue,Tvalue>, Tvalue> {
-    return object : OptionWithValuesTransformer<Teach? ,Teach, Tvalue, Pair<Tvalue, Tvalue>?, Pair<Tvalue, Tvalue>, Tvalue>(this),
-            LastOccurrenceOption<Pair<Tvalue,Tvalue>, Tvalue> {
-        override val parser: OptionParser2 get() = OptionWithValuesParser2(2)  // TODO: avoid new parser?
-        override fun processValue(value: String): Tvalue = this@paired.processValue(value)
-        override fun processEach(values: List<Tvalue>): Pair<Tvalue, Tvalue> {
-            require(values.size == 2) // TODO: error message
-            return values[0] to values[1]
+inline fun <Teachi : Any, Teacho : Any, Tvalue> LastOccurrenceOption<Teachi, Tvalue>.transformNargs(
+        nargs: Int, crossinline transform: (List<Tvalue>) -> Teacho): LastOccurrenceOption<Teacho, Tvalue> {
+    return object : OptionWithValuesTransformer<Teachi?, Teachi, Tvalue, Teacho?, Teacho, Tvalue>(this),
+            LastOccurrenceOption<Teacho, Tvalue> {
+        override val parser: OptionParser2 get() = OptionWithValuesParser2(nargs)  // TODO: avoid new parser?
+        override fun processValue(value: String): Tvalue = this@transformNargs.processValue(value)
+        override fun processEach(values: List<Tvalue>): Teacho {
+            require(values.size == nargs) // TODO: error message
+            return transform(values)
         }
     }
+
 }
+
+fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.paired()
+        : LastOccurrenceOption<Pair<Tvalue, Tvalue>, Tvalue> = transformNargs(2) { it[0] to it[1] }
+
+fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.triple()
+        : LastOccurrenceOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(2) { Triple(it[0], it[1], it[2]) }

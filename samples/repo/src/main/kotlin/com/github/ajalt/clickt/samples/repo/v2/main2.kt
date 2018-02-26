@@ -1,5 +1,5 @@
 package com.github.ajalt.clickt.samples.repo.v2
-/*
+
 import com.github.ajalt.clikt.v2.*
 import java.io.File
 

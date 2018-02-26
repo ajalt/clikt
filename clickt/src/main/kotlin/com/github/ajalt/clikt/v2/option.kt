@@ -7,7 +7,7 @@ import kotlin.reflect.KProperty
 
 
 interface Option<out T_prop> : ReadOnlyProperty<CliktCommand, T_prop> {
-    val parameterHelp: HelpFormatter.ParameterHelp?
+    val parameterHelp: HelpFormatter.ParameterHelp? // TODO: extract to parameter interface
     val eager: Boolean get() = false
     val metavar: String?
     val help: String
@@ -23,7 +23,6 @@ interface OptionWithValues<out Tall, Teach, Tvalue> : Option<Tall> {
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
         return processAll(rawValues.map { processEach(it.map { processValue(it) }) })
     }
-
 }
 
 interface LastOccurrenceOption<Teach : Any, Tvalue> : OptionWithValues<Teach?, Teach, Tvalue> {

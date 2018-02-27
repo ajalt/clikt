@@ -43,8 +43,7 @@ internal class ArgumentImpl(name: String = "", override val help: String) : RawA
                 ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
     override var rawValues: List<String> = emptyList()
     override val nargs: Int get() = 1  // TODO require this to be != 0 somewhere
-    override val required: Boolean get() = false
-    //    override val default: String? get() = null  // TODO check that this is null when nargs < 0
+    override val required: Boolean get() = true
     override val metavar: String? get() = null
 
     override fun processValue(value: String): String = value
@@ -82,8 +81,29 @@ inline fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
     }
 }
 
-fun <Tvalue : Any> ProcessedArgument<Tvalue, Tvalue>.optional(): ProcessedArgument<Tvalue?, Tvalue> {
+fun <T : Any> ProcessedArgument<T, T>.optional(): ProcessedArgument<T?, T> {
     return transformAll(required = false) { it.firstOrNull() }
+}
+
+fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): ProcessedArgument<List<T>, T> {
+    return transformAll(nargs = -1, required = required) { it }
+}
+
+fun <T : Any> ProcessedArgument<T, T>.paired(): ProcessedArgument<Pair<T, T>, T> {
+    return transformAll(nargs = 2) { it[0] to it[1] }
+}
+
+fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T>, T> {
+    return transformAll(nargs = 2) { Triple(it[0], it[1], it[2]) }
+}
+
+fun <T : Any> ProcessedArgument<T, T>.default(value: T): ProcessedArgument<T, T> {
+    return transformAll(required = false) { it.firstOrNull() ?: value }
+}
+
+@JvmName("nullableDefault")
+fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ProcessedArgument<T, T> {
+    return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
 inline fun <T : Any> RawArgument.convert(
@@ -124,16 +144,4 @@ fun RawArgument.file(exists: Boolean = false,
             if (readable && !it.canRead()) throw BadParameter("$name \"$it\" is not readable.")
         }
     }
-}
-
-fun <T> ProcessedArgument<T, T>.multiple(required: Boolean = false): ProcessedArgument<List<T>, T> {
-    return transformAll(nargs = -1, required = required) { it }
-}
-
-fun <T> ProcessedArgument<T, T>.paired(): ProcessedArgument<Pair<T, T>, T> {
-    return transformAll(nargs = 2) { it[0] to it[1] }
-}
-
-fun <T> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T>, T> {
-    return transformAll(nargs = 2) { Triple(it[0], it[1], it[2]) }
 }

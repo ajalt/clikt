@@ -28,8 +28,8 @@ interface ProcessedArgument<out Tall, Tvalue> : Argument<Tall> {
 
 private typealias RawArgument = ProcessedArgument<String, String>
 
-internal class ArgumentImpl(name: String?, override val help: String) : RawArgument {
-    override var name: String = ""
+internal class ArgumentImpl(name: String = "", override val help: String) : RawArgument {
+    override var name: String = name
         private set
 
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, String?> {
@@ -51,7 +51,7 @@ internal class ArgumentImpl(name: String?, override val help: String) : RawArgum
     override fun processAll(values: List<String>): String = values.single()  // nargs are checked in the parser
 }
 
-fun CliktCommand.argument(name: String? = null, help: String = ""): RawArgument {
+fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
     return ArgumentImpl(name, help)
 }
 

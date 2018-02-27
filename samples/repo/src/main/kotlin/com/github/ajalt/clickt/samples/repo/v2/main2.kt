@@ -1,5 +1,5 @@
 package com.github.ajalt.clickt.samples.repo.v2
-
+/*
 import com.github.ajalt.clikt.v2.*
 import java.io.File
 
@@ -38,8 +38,8 @@ class CloneCommand : CliktCommand(
         is not provided this will automatically use the last path component
         of SRC and create that folder.""".trimIndent()) {
     val repo: Repo by requireObject()
-    val src: String by argument().required()
-    val dest: String? by argument()
+    val src: String by argument()
+    val dest: String? by argument().optional()
     val shallow: Boolean by option("--shallow/--deep",// hmm
             help = "Makes a checkout shallow or deep.  Deep by default.")
             .flag()
@@ -100,7 +100,7 @@ class CommitCommand: CliktCommand(
     val repo: Repo by requireObject()
     val message :String? by option(help = "The commit message.")
     val files: List<File> by argument()
-            .asFile()
+            .file()
             .multiple()
 
     override fun run() {

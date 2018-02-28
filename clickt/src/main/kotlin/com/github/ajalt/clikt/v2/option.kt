@@ -13,6 +13,8 @@ interface Option<out T> : ReadOnlyProperty<CliktCommand, T> {
     val help: String
     val parser: OptionParser2
     val names: List<String>
+    /** Implementations must call [CliktCommand.registerOption] */
+    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
 class FlagOption<out T : Any>(
@@ -30,7 +32,7 @@ class FlagOption<out T : Any>(
         return processAll(parser.rawValues)
     }
 
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
         // TODO: better name inference
         if (names.isEmpty()) names = listOf("--" + prop.name)
         thisRef.registerOption(this)
@@ -54,12 +56,12 @@ fun <T : Any> RawOption.convert(metavar: String? = null, conversion: ValueProces
             defaultEachProcessor(), defaultAllProcessor())
 }
 
-private typealias ValueProcessor<T> = (String) -> T
-private typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
-private typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
+internal typealias ValueProcessor<T> = (String) -> T
+internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
+internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
 class OptionWithValues<out Tall, Teach, Tvalue>(
-        override var names: List<String>,
+        override var names: List<String>, // TODO private setter
         override val metavar: String?,
         override val help: String,
         override val parser: OptionWithValuesParser2,
@@ -75,7 +77,7 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
         return processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
     }
 
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
         // TODO: better name inference
         if (names.isEmpty()) names = listOf("--" + prop.name)
         thisRef.registerOption(this)
@@ -93,7 +95,7 @@ fun CliktCommand.option(vararg names: String, help: String = ""): RawOption = Op
         names = names.toList(),
         metavar = null,
         help = help,
-        parser = OptionWithValuesParser2(1),
+        parser = OptionWithValuesParser2(1), // TODO make the parsers take an option ref
         processValue = { it },
         processEach = defaultEachProcessor(),
         processAll = defaultAllProcessor())

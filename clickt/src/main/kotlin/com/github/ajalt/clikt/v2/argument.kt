@@ -14,79 +14,55 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     val help: String
     val parameterHelp: ParameterHelp?
     var rawValues: List<String>
-
-    /** Implementations must call [CliktCommand.registerArgument]. */
+    /** Implementations must call [CliktCommand.registerArgument] */
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-interface ProcessedArgument<out Tall, Tvalue> : Argument<Tall> {
-    fun processValue(value: String): Tvalue
-    fun processAll(values: List<Tvalue>): Tall
+class ProcessedArgument<out Tall, Tvalue>(
+        override var name: String,
+        override val nargs: Int,
+        override val required: Boolean,
+        override val metavar: String?,
+        override val help: String,
+        val processValue: ValueProcessor<Tvalue>,
+        val processAll: AllProcessor<Tall, Tvalue>) : Argument<Tall> {
+    init {
+        require(nargs != 0) // TODO error message
+    }
+
+    override var rawValues: List<String> = emptyList()
+    override val parameterHelp
+        get() = ParameterHelp(listOf(name), metavar, help,
+                ParameterHelp.SECTION_ARGUMENTS,
+                required && nargs == 1 || nargs > 1, nargs < 0)
+
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
         return processAll(rawValues.map { processValue(it) })
     }
-}
-
-private typealias RawArgument = ProcessedArgument<String, String>
-
-internal class ArgumentImpl(name: String = "", override val help: String) : RawArgument {
-    override var name: String = name
-        private set
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
-            ReadOnlyProperty<CliktCommand, String> {
+            ReadOnlyProperty<CliktCommand, Tall> {
         // TODO: better name inference
         if (name.isBlank()) name = prop.name
         thisRef.registerArgument(this)
         return this
     }
-
-    override val parameterHelp: ParameterHelp
-        get() = ParameterHelp(listOf(name), metavar, help,
-                ParameterHelp.SECTION_ARGUMENTS, required && nargs == 1 || nargs > 1, nargs < 0)
-    override var rawValues: List<String> = emptyList()
-    override val nargs: Int get() = 1  // TODO require this to be != 0 somewhere
-    override val required: Boolean get() = true
-    override val metavar: String? get() = null
-
-    override fun processValue(value: String): String = value
-    override fun processAll(values: List<String>): String = values.single()  // nargs are checked in the parser
 }
+
+private typealias RawArgument = ProcessedArgument<String, String>
+
+private fun <T : Any> defaultAllProcessor(): AllProcessor<T, T> = { it.single() }
 
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
-    return ArgumentImpl(name, help)
+    return ProcessedArgument(name, 1, true, "STRING", help, { it }, defaultAllProcessor())
 }
 
-abstract class ArgumentTransformer<Talli, Tvaluei, Tallo, Tvalueo>(
-        val argument: ProcessedArgument<Talli, Tvaluei>) : ProcessedArgument<Tallo, Tvalueo> {
-    override val name: String get() = argument.name
-    override val nargs: Int get() = argument.nargs
-    override val required: Boolean get() = argument.required
-    override val metavar: String? get() = argument.metavar
-    override val help: String get() = argument.help
-    override val parameterHelp: ParameterHelp? get() = argument.parameterHelp
-    override var rawValues: List<String>
-        get() = argument.rawValues
-        set(value) {
-            argument.rawValues = value
-        }
-    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
-            ReadOnlyProperty<CliktCommand, Tallo> = apply {
-        argument.provideDelegate(thisRef, prop)
-        thisRef.registerArgument(this)
-    }
-}
-
-inline fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
+fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
         nargs: Int? = null,
         required: Boolean? = null,
-        crossinline transform: (List<Tvalue>) -> Tallo): ProcessedArgument<Tallo, Tvalue> {
-    return object : ArgumentTransformer<Talli, Tvalue, Tallo, Tvalue>(this) {
-        override val nargs: Int get() = nargs ?: super.nargs
-        override val required: Boolean get() = required ?: super.required
-        override fun processValue(value: String): Tvalue = argument.processValue(value)
-        override fun processAll(values: List<Tvalue>): Tallo = transform(values)
-    }
+        transform: AllProcessor<Tallo, Tvalue>): ProcessedArgument<Tallo, Tvalue> {
+    return ProcessedArgument(name, nargs ?: this.nargs, required ?: this.required,
+            metavar, help, processValue, transform)
 }
 
 fun <T : Any> ProcessedArgument<T, T>.optional(): ProcessedArgument<T?, T> {
@@ -114,14 +90,8 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ProcessedArgument<T, T
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
-inline fun <T : Any> RawArgument.convert(
-        metavar: String? = null, crossinline conversion: (String) -> T):
-        ProcessedArgument<T, T> {
-    return object : ArgumentTransformer<String, String, T, T>(this) {
-        override val metavar: String? get() = metavar
-        override fun processValue(value: String): T = conversion(value)
-        override fun processAll(values: List<T>): T = values.single()
-    }
+fun <T : Any> RawArgument.convert(metavar: String? = null, conversion: (String) -> T): ProcessedArgument<T, T> {
+    return ProcessedArgument(name, nargs, required, metavar, help, conversion, defaultAllProcessor())
 }
 
 fun RawArgument.int() = convert("INT") {

@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.v2
 
-import com.github.ajalt.clikt.options.ClicktCommand
 import com.github.ajalt.clikt.parser.BadParameter
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import java.io.File
@@ -16,6 +15,8 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     val parameterHelp: ParameterHelp?
     var rawValues: List<String>
 
+    /** Implementations must call [CliktCommand.registerArgument]. */
+    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
 interface ProcessedArgument<out Tall, Tvalue> : Argument<Tall> {
@@ -32,9 +33,11 @@ internal class ArgumentImpl(name: String = "", override val help: String) : RawA
     override var name: String = name
         private set
 
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, String?> {
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
+            ReadOnlyProperty<CliktCommand, String> {
         // TODO: better name inference
         if (name.isBlank()) name = prop.name
+        thisRef.registerArgument(this)
         return this
     }
 
@@ -67,6 +70,11 @@ abstract class ArgumentTransformer<Talli, Tvaluei, Tallo, Tvalueo>(
         set(value) {
             argument.rawValues = value
         }
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
+            ReadOnlyProperty<CliktCommand, Tallo> = apply {
+        argument.provideDelegate(thisRef, prop)
+        thisRef.registerArgument(this)
+    }
 }
 
 inline fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(

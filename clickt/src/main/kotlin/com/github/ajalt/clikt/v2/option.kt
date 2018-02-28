@@ -6,13 +6,16 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 
-interface Option<out T_prop> : ReadOnlyProperty<CliktCommand, T_prop> {
+interface Option<out T> : ReadOnlyProperty<CliktCommand, T> {
     val parameterHelp: HelpFormatter.ParameterHelp? // TODO: extract to parameter interface
     val eager: Boolean get() = false
     val metavar: String?
     val help: String
     val parser: OptionParser2
     val names: List<String>
+
+    /** Implementations must call [CliktCommand.registerOption]. */
+    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
 interface OptionWithValues<out Tall, Teach, Tvalue> : Option<Tall> {
@@ -44,9 +47,10 @@ internal class OptionImpl(names: List<String>,
                 HelpFormatter.ParameterHelp.SECTION_OPTIONS,
                 false, parser.repeatableForHelp)
 
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, String?> {
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, String?> {
         // TODO: better name inference
         if (names.isEmpty()) names = listOf("--" + prop.name)
+        thisRef.registerOption(this)
         return this
     }
 
@@ -73,6 +77,11 @@ abstract class OptionTransformer<out Ti, out To>(val option: Option<Ti>) : Optio
     override val help: String get() = option.help
     override val names: List<String> get() = option.names
     override val parser: OptionParser2 get() = option.parser
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
+            ReadOnlyProperty<CliktCommand, To> = apply {
+        option.provideDelegate(thisRef, prop)
+        thisRef.registerOption(this)
+    }
 }
 
 abstract class OptionWithValuesTransformer<out Talli, Teachi, Tvaluei, out Tallo, Teacho, Tvalueo>(
@@ -84,6 +93,11 @@ abstract class OptionWithValuesTransformer<out Talli, Teachi, Tvaluei, out Tallo
     override val names: List<String> get() = option.names
     override val parser: OptionParser2 get() = option.parser
     override val rawValues: List<List<String>> get() = option.rawValues
+    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
+            ReadOnlyProperty<CliktCommand, Tallo> = apply {
+        option.provideDelegate(thisRef, prop)
+        thisRef.registerOption(this)
+    }
 }
 
 fun RawOption.flag(): Option<Boolean> = object : OptionTransformer<String?, Boolean>(this) {

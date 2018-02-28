@@ -43,7 +43,7 @@ fun RawOption.flag(default: Boolean = false): Option<Boolean> {
     return FlagOption(names, null, help, FlagOptionParser2(names), { it.lastOrNull() ?: default })
 }
 
-fun RawOption.counted(): Option<Int>{
+fun RawOption.counted(): Option<Int> {
     for (name in names) require("/" !in name) { "counted options cannot have off names" }
     return FlagOption(names, null, help, FlagOptionParser2(names), { parser.rawValues.size })
 }
@@ -99,11 +99,7 @@ fun CliktCommand.option(vararg names: String, help: String = ""): RawOption = Op
         processAll = defaultAllProcessor())
 
 fun RawOption.int() = convert("INT") {
-    try {
-        it.toInt()
-    } catch (e: NumberFormatException) {
-        throw BadParameter("$it is not a valid integer")
-    }
+    it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
 }
 
 fun <Tall, Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.transformAll(transform: AllProcessor<Tall, Teach>)

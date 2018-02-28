@@ -126,11 +126,7 @@ inline fun <T : Any> RawArgument.convert(
 
 fun RawArgument.int() = convert("INT") {
     // TODO extract conversions to common location
-    try {
-        it.toInt()
-    } catch (e: NumberFormatException) {
-        throw BadParameter("$it is not a valid integer")
-    }
+    it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
 }
 
 fun RawArgument.file(exists: Boolean = false,

@@ -13,6 +13,7 @@ interface Option<out T> : ReadOnlyProperty<CliktCommand, T> {
     val help: String
     val parser: OptionParser2
     val names: List<String>
+    val nargs: Int
     /** Implementations must call [CliktCommand.registerOption] */
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
@@ -23,10 +24,11 @@ class FlagOption<out T : Any>(
         override val help: String,
         override val parser: FlagOptionParser2,
         private val processAll: (List<Boolean>) -> T) : Option<T> {
+    override val nargs: Int get() = 0
     override val parameterHelp
         get() = HelpFormatter.ParameterHelp(names, metavar, help,
                 HelpFormatter.ParameterHelp.SECTION_OPTIONS,
-                false, parser.repeatableForHelp)
+                false, parser.repeatableForHelp(this))
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
         return processAll(parser.rawValues)
@@ -42,17 +44,19 @@ class FlagOption<out T : Any>(
 
 
 fun RawOption.flag(default: Boolean = false): Option<Boolean> {
-    return FlagOption(names, null, help, FlagOptionParser2(names), { it.lastOrNull() ?: default })
+    return FlagOption(names, null, help, FlagOptionParser2(), { it.lastOrNull() ?: default })
 }
 
 fun RawOption.counted(): Option<Int> {
-    for (name in names) require("/" !in name) { "counted options cannot have off names" }
-    return FlagOption(names, null, help, FlagOptionParser2(names), { parser.rawValues.size })
+    return FlagOption(names, null, help, FlagOptionParser2(), {
+        for (name in names) require("/" !in name) { "counted options cannot have off names" }
+        it.size
+    })
 }
 
 fun <T : Any> RawOption.convert(metavar: String? = null, conversion: ValueProcessor<T>):
         LastOccurrenceOption<T, T> {
-    return OptionWithValues(names, metavar, help, parser, conversion,
+    return OptionWithValues(names, metavar, nargs, help, parser, conversion,
             defaultEachProcessor(), defaultAllProcessor())
 }
 
@@ -63,6 +67,7 @@ internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 class OptionWithValues<out Tall, Teach, Tvalue>(
         override var names: List<String>, // TODO private setter
         override val metavar: String?,
+        override val nargs: Int,
         override val help: String,
         override val parser: OptionWithValuesParser2,
         val processValue: ValueProcessor<Tvalue>,
@@ -71,7 +76,7 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
     override val parameterHelp
         get() = HelpFormatter.ParameterHelp(names, metavar, help,
                 HelpFormatter.ParameterHelp.SECTION_OPTIONS,
-                false, parser.repeatableForHelp)
+                false, parser.repeatableForHelp(this))
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
         return processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
@@ -94,8 +99,9 @@ private fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNu
 fun CliktCommand.option(vararg names: String, help: String = ""): RawOption = OptionWithValues(
         names = names.toList(),
         metavar = null,
+        nargs = 1,
         help = help,
-        parser = OptionWithValuesParser2(1), // TODO make the parsers take an option ref
+        parser = OptionWithValuesParser2(),
         processValue = { it },
         processEach = defaultEachProcessor(),
         processAll = defaultAllProcessor())
@@ -106,11 +112,11 @@ fun RawOption.int() = convert("INT") {
 
 fun <Tall, Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.transformAll(transform: AllProcessor<Tall, Teach>)
         : OptionWithValues<Tall, Teach, Tvalue> {
-    return OptionWithValues(names, metavar, help, parser, processValue, processEach, transform)
+    return OptionWithValues(names, metavar, nargs, help, parser, processValue, processEach, transform)
 }
 
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.default(value: Teach) = transformAll {
-    require(it.size < 2) // TODO error message
+fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.default(value: Teach)
+        : OptionWithValues<Teach, Teach, Tvalue> = transformAll {
     it.firstOrNull() ?: value
 }
 
@@ -119,7 +125,7 @@ fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.multiple() = trans
 fun <Teachi : Any, Teacho : Any, Tvalue> LastOccurrenceOption<Teachi, Tvalue>.transformNargs(
         nargs: Int, transform: EachProcessor<Teacho, Tvalue>): LastOccurrenceOption<Teacho, Tvalue> {
     // TODO: error message on transform
-    return OptionWithValues(names, metavar, help, OptionWithValuesParser2(nargs),
+    return OptionWithValues(names, metavar, nargs, help, OptionWithValuesParser2(),
             processValue, transform, defaultAllProcessor())
 }
 

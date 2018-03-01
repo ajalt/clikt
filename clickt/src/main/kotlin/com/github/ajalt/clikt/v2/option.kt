@@ -2,18 +2,31 @@ package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.BadParameter
 import com.github.ajalt.clikt.parser.HelpFormatter
+import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-
-interface Option<out T> : ReadOnlyProperty<CliktCommand, T> {
-    val parameterHelp: HelpFormatter.ParameterHelp? // TODO: extract to parameter interface
-    val eager: Boolean get() = false
+interface Option {
     val metavar: String?
     val help: String
     val parser: OptionParser2
     val names: List<String>
     val nargs: Int
+    val parameterHelp: ParameterHelp?
+        get() = ParameterHelp(names, metavar, help, ParameterHelp.SECTION_OPTIONS,
+                false, parser.repeatableForHelp(this))
+}
+
+class EagerOption(
+        override val help: String,
+        override val names: List<String>,
+        val callback: (Context2, EagerOption) -> Unit) : Option {
+    override val parser: OptionParser2 = FlagOptionParser2()
+    override val metavar: String? get() = null
+    override val nargs: Int get() = 0
+}
+
+interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
     /** Implementations must call [CliktCommand.registerOption] */
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
@@ -23,13 +36,8 @@ class FlagOption<out T : Any>(
         override val metavar: String?,
         override val help: String,
         override val parser: FlagOptionParser2,
-        private val processAll: (List<Boolean>) -> T) : Option<T> {
+        private val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
     override val nargs: Int get() = 0
-    override val parameterHelp
-        get() = HelpFormatter.ParameterHelp(names, metavar, help,
-                HelpFormatter.ParameterHelp.SECTION_OPTIONS,
-                false, parser.repeatableForHelp(this))
-
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
         return processAll(parser.rawValues)
     }
@@ -43,11 +51,11 @@ class FlagOption<out T : Any>(
 }
 
 
-fun RawOption.flag(default: Boolean = false): Option<Boolean> {
+fun RawOption.flag(default: Boolean = false): OptionDelegate<Boolean> {
     return FlagOption(names, null, help, FlagOptionParser2(), { it.lastOrNull() ?: default })
 }
 
-fun RawOption.counted(): Option<Int> {
+fun RawOption.counted(): OptionDelegate<Int> {
     return FlagOption(names, null, help, FlagOptionParser2(), {
         for (name in names) require("/" !in name) { "counted options cannot have off names" }
         it.size
@@ -72,12 +80,7 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
         override val parser: OptionWithValuesParser2,
         val processValue: ValueProcessor<Tvalue>,
         val processEach: EachProcessor<Teach, Tvalue>,
-        val processAll: AllProcessor<Tall, Teach>) : Option<Tall> {
-    override val parameterHelp
-        get() = HelpFormatter.ParameterHelp(names, metavar, help,
-                HelpFormatter.ParameterHelp.SECTION_OPTIONS,
-                false, parser.repeatableForHelp(this))
-
+        val processAll: AllProcessor<Tall, Teach>) : OptionDelegate<Tall> {
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
         return processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
     }

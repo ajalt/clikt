@@ -15,7 +15,7 @@ internal fun helpOption(names: Array<String>) = Option.buildWithoutParameter {
     eager = true
     processor = { context, values ->
         if (values.lastOrNull() == true) {
-            throw PrintHelpMessage(context.command)
+//            throw PrintHelpMessage(context.command)
         }
         null
     }

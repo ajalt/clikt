@@ -1,5 +1,5 @@
 package com.github.ajalt.clickt.samples.repo.v2
-/*
+
 import com.github.ajalt.clikt.v2.*
 import java.io.File
 
@@ -117,6 +117,6 @@ class CommitCommand: CliktCommand(
 
 fun main(args: Array<String>) = Cli()
         .subcommands(CloneCommand(), DeleteCommand(), SetUserCommand(), CommitCommand())
-        .main(args)
+        .main(arrayOf("--help"))
 
-*/
+

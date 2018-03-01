@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.parser
 
 import com.github.ajalt.clikt.options.Context
+import com.github.ajalt.clikt.v2.CliktCommand
+import com.github.ajalt.clikt.v2.Context2
 
 // TODO docs, params, and formatting for help
 
@@ -9,7 +11,7 @@ class Abort: RuntimeException()
 
 open class CliktError(message: String) : RuntimeException(message)
 
-class PrintHelpMessage(val command: Command) : CliktError("print help")
+class PrintHelpMessage(val command: CliktCommand) : CliktError("print help")
 
 /**
  * An exception that indicates that the message should be printed, and does not signal an error.
@@ -22,7 +24,7 @@ class PrintMessage(message: String) : CliktError(message)
  * This typically aborts any further handling.
  */
 open class UsageError(message: String) : CliktError(message) {
-    fun formatMessage(context: Context? = null): String = buildString {
+    fun formatMessage(context: Context2? = null): String = buildString {
         context?.let { append(it.command.getFormattedUsage()).append("\n\n") }
         append("Error: ").append(message)
     }

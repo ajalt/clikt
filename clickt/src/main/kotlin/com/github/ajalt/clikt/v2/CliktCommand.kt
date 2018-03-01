@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.*
+import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
 import kotlin.system.exitProcess
 
 // TODO: better help arguments
@@ -25,7 +26,7 @@ abstract class CliktCommand(
     private var parent: CliktCommand? = null
 
     internal var subcommands: List<CliktCommand> = emptyList()
-    internal val options: MutableList<Option<*>> = mutableListOf()
+    internal val options: MutableList<Option> = mutableListOf(helpOption()) // TODO finish help option features
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
 
     fun subcommands(vararg commands: CliktCommand): CliktCommand {
@@ -34,7 +35,7 @@ abstract class CliktCommand(
         return this
     }
 
-    fun registerOption(option: Option<*>) {
+    fun registerOption(option: Option) {
         options += option
     }
 
@@ -42,6 +43,20 @@ abstract class CliktCommand(
         arguments += argument
     }
 
+    private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
+            arguments.mapNotNull { it.parameterHelp } +
+            subcommands.map { it.helpAsSubcommand() }
+
+    fun getFormattedUsage(): String {
+        return helpFormatter.formatUsage(allHelpParams(), programName = name)
+    }
+
+    fun getFormattedHelp(): String {
+        return helpFormatter.formatHelp(allHelpParams(), programName = name)
+    }
+
+    private fun helpAsSubcommand() = ParameterHelp(listOf(name), null, help ?: "",
+            ParameterHelp.SECTION_SUBCOMMANDS, true, false) // TODO shortHelp, optional subcommands
 
     fun parse(argv: Array<String>) {
         _context = Context2(null, this)
@@ -50,7 +65,7 @@ abstract class CliktCommand(
 
     fun main(argv: Array<String>) {
         try {
-            Parser2.parse(argv, context)
+            parse(argv)
         } catch (e: PrintHelpMessage) {
             println(e.command.getFormattedHelp())
             exitProcess(0)
@@ -58,7 +73,7 @@ abstract class CliktCommand(
             println(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-//            println(e.formatMessage(context)) // TODO: update help formatter
+            println(e.formatMessage(context))
             exitProcess(1)
         } catch (e: CliktError) {
             println(e.message)

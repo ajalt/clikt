@@ -10,26 +10,26 @@ interface OptionParser2 {
      * @param optionIndex The index of the option within `argv\[index]`
      * @return An int > 0 if the entire option has been consumed, or 0 if there are more values in the option
      */ // TODO docs about side effect of setting option.rawValues
-    fun parseShortOpt(option: Option<*>, name: String, argv: Array<String>, index: Int, optionIndex: Int): Int
+    fun parseShortOpt(option: Option, name: String, argv: Array<String>, index: Int, optionIndex: Int): Int
 
     /**
      * @param name The name of the flag used to invoke this option
      * @param argv The entire list of command line arguments for the command
      * @param index The index of the option flag in [argv], which may contain an '=' with the first value
      */
-    fun parseLongOpt(option: Option<*>, name: String, argv: Array<String>, index: Int, explicitValue: String?): Int
+    fun parseLongOpt(option: Option, name: String, argv: Array<String>, index: Int, explicitValue: String?): Int
 
     /** Return true if this parser should be displayed as repeatable by the help formatter. */
-    fun repeatableForHelp(option: Option<*>): Boolean
+    fun repeatableForHelp(option: Option): Boolean
 }
 
 
 class OptionWithValuesParser2 : OptionParser2 {
     private val _rawValues = mutableListOf<List<String>>()
     val rawValues: List<List<String>> get() = _rawValues // TODO: can parsers be pure?
-    override fun repeatableForHelp(option: Option<*>) = option.nargs > 1
+    override fun repeatableForHelp(option: Option) = option.nargs > 1
 
-    override fun parseLongOpt(option: Option<*>, name: String, argv: Array<String>, index: Int, explicitValue: String?): Int {
+    override fun parseLongOpt(option: Option, name: String, argv: Array<String>, index: Int, explicitValue: String?): Int {
         require(option.nargs > 0) {
             "This parser can only be used with a fixed number of arguments. Try the Flag parser instead."
         }
@@ -55,7 +55,7 @@ class OptionWithValuesParser2 : OptionParser2 {
         return consumedCount
     }
 
-    override fun parseShortOpt(option: Option<*>, name: String, argv: Array<String>, index: Int, optionIndex: Int): Int {
+    override fun parseShortOpt(option: Option, name: String, argv: Array<String>, index: Int, optionIndex: Int): Int {
         val opt = argv[index]
         val hasIncludedValue = optionIndex != opt.lastIndex
         val explicitValue = if (hasIncludedValue) opt.substring(optionIndex + 1) else null

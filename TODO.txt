@@ -1,7 +1,8 @@
 inferred name case normalization for options, args, and metavars
 enforce name uniqueness
+run option transforms at parse time to fail fast?
 remaining option types
-set options/arguments metavar (for echo etc.)
+
 
 custom help formatter
 custom multi commands

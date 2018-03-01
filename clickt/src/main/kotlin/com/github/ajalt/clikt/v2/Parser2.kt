@@ -58,7 +58,7 @@ internal object Parser2 {
 
         parseArguments(positionalArgs, arguments)
 
-        // TODO: processValues equivalent gor eager options etc.
+        // TODO: processValues equivalent for eager options etc.
 
         command.run()
 

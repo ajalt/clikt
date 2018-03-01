@@ -1,4 +1,5 @@
 inferred name case normalization for options, args, and metavars
+enforce name uniqueness
 remaining option types
 set options/arguments metavar (for echo etc.)
 

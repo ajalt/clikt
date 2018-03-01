@@ -3,8 +3,6 @@ package com.github.ajalt.clikt.v2
 import com.github.ajalt.clikt.parser.*
 import kotlin.system.exitProcess
 
-typealias ContextFactory = (CliktCommand, Context2?) -> Context2
-
 // TODO: better help arguments
 abstract class CliktCommand(
         val help: String? = null,
@@ -12,20 +10,27 @@ abstract class CliktCommand(
         name: String? = null,
         private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help ?: "", ""),
         val allowInterspersedArgs: Boolean = true) {
-    companion object {
-        private fun defaultContextFactory(): ContextFactory = { cmd, parent -> Context2(parent, cmd) }
-    }
-
     val name = name ?: javaClass.simpleName.toLowerCase() // TODO: better name inference
-    internal var subcommands: List<CliktCommand> = emptyList()
 
+    private var _context: Context2? = null
+    val context: Context2
+        get() {
+            if (_context == null) parent?.let {
+                _context = Context2(it.context, this)
+            }
+            checkNotNull(_context) { "Context accessed before parse has been called." }
+            return _context!!
+        }
+
+    private var parent: CliktCommand? = null
+
+    internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option<*>> = mutableListOf()
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
 
-    val context: Context2 by lazy { Context2(null, this) } // TODO: parent
-
     fun subcommands(vararg commands: CliktCommand): CliktCommand {
         subcommands += commands
+        for (command in subcommands) command.parent = this
         return this
     }
 
@@ -39,6 +44,7 @@ abstract class CliktCommand(
 
 
     fun parse(argv: Array<String>) {
+        _context = Context2(null, this)
         Parser2.parse(argv, context)
     }
 

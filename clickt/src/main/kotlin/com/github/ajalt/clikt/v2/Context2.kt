@@ -1,13 +1,10 @@
-package com.github.ajalt.clikt.options
+package com.github.ajalt.clikt.v2
 
-import com.github.ajalt.clikt.parser.Command
-
-
-open class Context constructor(val parent: Context?, val command: Command) {
+open class Context2(val parent: Context2?, val command: CliktCommand) {
     var obj: Any? = null
 
     inline fun <reified T> findObject(): T? {
-        var ctx: Context? = this
+        var ctx: Context2? = this
         while (ctx != null) {
             if (ctx.obj is T) return ctx.obj as T
             ctx = ctx.parent
@@ -19,7 +16,7 @@ open class Context constructor(val parent: Context?, val command: Command) {
         return findObject<T>() ?: defaultValue().also { obj = it }
     }
 
-    fun findRoot(): Context {
+    fun findRoot(): Context2 {
         var ctx = this
         while (ctx.parent != null) {
             ctx = ctx.parent!!

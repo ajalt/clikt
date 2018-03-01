@@ -13,7 +13,7 @@ inline fun <reified T : Any> CliktCommand.findObject(noinline default: () -> T):
 @PublishedApi
 internal class FindObjectNonNull<out T : Any>(private val clazz: KClass<T>) : ReadOnlyProperty<CliktCommand, T> {
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-        var ctx: Context? = thisRef.context
+        var ctx: Context2? = thisRef.context
         while (ctx != null) {
             @Suppress("UNCHECKED_CAST")
             if (clazz.isInstance(ctx.obj)) return ctx.obj as T
@@ -26,7 +26,7 @@ internal class FindObjectNonNull<out T : Any>(private val clazz: KClass<T>) : Re
 @PublishedApi
 internal class FindObjectNullable<out T : Any>(private val clazz: KClass<T>) : ReadOnlyProperty<CliktCommand, T?> {
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T? {
-        var ctx: Context? = thisRef.context
+        var ctx: Context2? = thisRef.context
         while (ctx != null) {
             @Suppress("UNCHECKED_CAST")
             if (clazz.isInstance(ctx.obj)) return ctx.obj as T
@@ -40,7 +40,7 @@ internal class FindObjectNullable<out T : Any>(private val clazz: KClass<T>) : R
 internal class FindObjectDefault<out T : Any>(private val clazz: KClass<T>,
                                               private val default: () -> T) : ReadOnlyProperty<CliktCommand, T> {
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-        var ctx: Context? = thisRef.context
+        var ctx: Context2? = thisRef.context
         while (ctx != null) {
             @Suppress("UNCHECKED_CAST")
             if (clazz.isInstance(ctx.obj)) return ctx.obj as T

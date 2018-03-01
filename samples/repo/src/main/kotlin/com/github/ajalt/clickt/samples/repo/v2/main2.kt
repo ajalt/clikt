@@ -75,10 +75,10 @@ class SetUserCommand: CliktCommand(
         This will override the current user config.""".trimIndent()) {
     val repo: Repo by requireObject()
     val username: String? by option(help = "The developer's shown username.")
-            .prompt()
+//            .prompt()
     val email: String? by option(help = "The developer's email address.")
     val password: String? by option(help = "The login password.")
-            .passwordPrompt()
+//            .passwordPrompt()
 
     override fun run() {
         username?.let { repo.config["username"] = it }

@@ -31,6 +31,8 @@ abstract class CliktCommand(
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
 
+    private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
+
     fun subcommands(vararg commands: CliktCommand): CliktCommand {
         subcommands += commands
         for (command in subcommands) command.parent = this
@@ -38,6 +40,10 @@ abstract class CliktCommand(
     }
 
     fun registerOption(option: Option) {
+        val names = registeredOptionNames()
+        for (name in option.names) {
+            require(name !in names) { "Duplicate option name $name" }
+        }
         options += option
     }
 
@@ -60,11 +66,11 @@ abstract class CliktCommand(
     private fun helpAsSubcommand() = ParameterHelp(listOf(name), null, help ?: "",
             ParameterHelp.SECTION_SUBCOMMANDS, true, false) // TODO shortHelp, optional subcommands
 
+
     fun parse(argv: Array<String>) {
         _context = Context2(null, this)
         if (helpOptionNames.isNotEmpty()) {
-            val registeredNames = options.flatMapTo(HashSet()) { it.names }
-            val names = helpOptionNames - registeredNames
+            val names = helpOptionNames - registeredOptionNames()
             if (names.isNotEmpty()) options += helpOption(names, helpOptionMessage)
         }
         Parser2.parse(argv, context)

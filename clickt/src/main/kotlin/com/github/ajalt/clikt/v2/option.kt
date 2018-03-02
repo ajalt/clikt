@@ -10,7 +10,7 @@ interface Option {
     val metavar: String?
     val help: String
     val parser: OptionParser2
-    val names: List<String>
+    val names: List<String> // TODO: use Set instead?
     val nargs: Int
     val parameterHelp: ParameterHelp?
         get() = ParameterHelp(names, metavar, help, ParameterHelp.SECTION_OPTIONS,

@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.BadParameter
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
-import kotlin.properties.Delegates
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -37,14 +36,15 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-class FlagOption<out T : Any>(
+class FlagOption<T : Any>(
         override var names: Set<String>,
         override val metavar: String?,
         override val help: String,
-        private val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
+        val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser2()
-    private var value: T by Delegates.notNull()
+    var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
+        private set
 
     override fun finalize(context: Context2) {
         value = processAll(parser.rawValues)
@@ -61,15 +61,15 @@ class FlagOption<out T : Any>(
 }
 
 
-fun RawOption.flag(default: Boolean = false): OptionDelegate<Boolean> {
+fun RawOption.flag(default: Boolean = false): FlagOption<Boolean> {
     return FlagOption(names, null, help, { it.lastOrNull() ?: default })
 }
 
-fun RawOption.counted(): OptionDelegate<Int> {
-    return FlagOption(names, null, help, {
+fun RawOption.counted(): FlagOption<Int> {
+    return FlagOption(names, null, help) {
         for (name in names) require("/" !in name) { "counted options cannot have off names" }
         it.size
-    })
+    }
 }
 
 fun <T : Any> RawOption.convert(metavar: String? = null, conversion: ValueProcessor<T>):
@@ -82,9 +82,7 @@ internal typealias ValueProcessor<T> = (String) -> T
 internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
 internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
-private object UNINITIALIZED_VALUE
-
-class OptionWithValues<out Tall, Teach, Tvalue>(
+class OptionWithValues<Tall, Teach, Tvalue>(
         override var names: Set<String>, // TODO private setter
         override val metavar: String?,
         override val nargs: Int,
@@ -93,17 +91,15 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
         val processValue: ValueProcessor<Tvalue>,
         val processEach: EachProcessor<Teach, Tvalue>,
         val processAll: AllProcessor<Tall, Teach>) : OptionDelegate<Tall> {
-    private var value: Any? = UNINITIALIZED_VALUE
+    var value: Tall by ExplicitLazy("Cannot read from option delegate before parsing command line")
+        private set
 
     override fun finalize(context: Context2) {
         value = processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
     }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
-        // This is similar to how the lazy delegate works
-        require(value != UNINITIALIZED_VALUE) { "Cannot read from option delegate before parsing command line" }
-        @Suppress("UNCHECKED_CAST")
-        return value as Tall
+        return value
     }
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
@@ -145,7 +141,8 @@ fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.default(value: Tea
     it.firstOrNull() ?: value
 }
 
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.multiple() = transformAll { it }
+fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.multiple()
+        : OptionWithValues<List<Teach>, Teach, Tvalue> = transformAll { it }
 
 fun <Teachi : Any, Teacho : Any, Tvalue> LastOccurrenceOption<Teachi, Tvalue>.transformNargs(
         nargs: Int, transform: EachProcessor<Teacho, Tvalue>): LastOccurrenceOption<Teacho, Tvalue> {
@@ -159,3 +156,16 @@ fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.paired()
 
 fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.triple()
         : LastOccurrenceOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(2) { Triple(it[0], it[1], it[2]) }
+
+fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> {
+    return FlagOption(names, metavar, help) {
+        processAll(it).apply { validator(this) }
+    }
+}
+
+fun <Tall, Teach, Tvalue> OptionWithValues<Tall, Teach, Tvalue>.validate(validator: (Tall) -> Unit)
+        : OptionDelegate<Tall> {
+    return OptionWithValues(names, metavar, nargs, help, parser, processValue, processEach) {
+        processAll(it).apply { validator(this) }
+    }
+}

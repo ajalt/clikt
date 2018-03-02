@@ -1,5 +1,3 @@
-enforce name uniqueness
-.validate {ctx, opt, value -> } http://click.pocoo.org/6/options/#callbacks-for-validation
 customizable metavars http://click.pocoo.org/6/documentation/#meta-variables
 run option transforms at parse time to fail fast?
 remove reflect dependency

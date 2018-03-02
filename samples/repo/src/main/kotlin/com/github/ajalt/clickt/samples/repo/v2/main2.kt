@@ -39,9 +39,10 @@ class CloneCommand : CliktCommand(
     val repo: Repo by requireObject()
     val src: String by argument()
     val dest: String? by argument().optional()
-    val shallow: Boolean by option("--shallow/--deep",// hmm
+    val shallow: Boolean by option("--shallow/--deep",
             help = "Makes a checkout shallow or deep.  Deep by default.")
             .flag()
+
     val rev: String by option("--rev", "-r", help = "Clone a specific revision instead of HEAD.")
             .default("HEAD")
 
@@ -56,9 +57,9 @@ class CloneCommand : CliktCommand(
     }
 }
 
-class DeleteCommand: CliktCommand(
+class DeleteCommand : CliktCommand(
         name = "delete",
-        help ="""Deletes a repository.
+        help = """Deletes a repository.
 
             This will throw away the current repository.""".trimIndent()) {
     val repo: Repo by requireObject()
@@ -69,17 +70,17 @@ class DeleteCommand: CliktCommand(
     }
 }
 
-class SetUserCommand: CliktCommand(
+class SetUserCommand : CliktCommand(
         name = "setuser",
-        help ="""Sets the user credentials.
+        help = """Sets the user credentials.
 
         This will override the current user config.""".trimIndent()) {
     val repo: Repo by requireObject()
     val username: String? by option(help = "The developer's shown username.")
-//            .prompt()
+    //            .prompt()
     val email: String? by option(help = "The developer's email address.")
     val password: String? by option(help = "The login password.")
-//            .passwordPrompt()
+    //            .passwordPrompt()
 
     override fun run() {
         username?.let { repo.config["username"] = it }
@@ -90,9 +91,9 @@ class SetUserCommand: CliktCommand(
 }
 
 
-class CommitCommand: CliktCommand(
+class CommitCommand : CliktCommand(
         name = "commit",
-        help ="""Commits outstanding changes.
+        help = """Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
         "repo push" to push up your changes to other repositories.
@@ -100,7 +101,7 @@ class CommitCommand: CliktCommand(
         If a list of files is omitted, all changes reported by "repo status"
         will be committed.""".trimIndent()) {
     val repo: Repo by requireObject()
-    val message :String? by option(help = "The commit message.")
+    val message: String? by option(help = "The commit message.")
     val files: List<File> by argument()
             .file()
             .multiple()

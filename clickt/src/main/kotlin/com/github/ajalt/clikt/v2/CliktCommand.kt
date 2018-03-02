@@ -7,10 +7,12 @@ import kotlin.system.exitProcess
 // TODO: better help arguments
 abstract class CliktCommand(
         val help: String? = null,
-        val version: String? = null,  // TODO use this
         name: String? = null,
-        private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help ?: "", ""),
-        val allowInterspersedArgs: Boolean = true) {
+        val allowInterspersedArgs: Boolean = true,
+        private val helpOptionNames: Set<String> = setOf("-h", "--help"),
+        private val helpOptionMessage: String = "Show this message and exit",
+        private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help
+                ?: "", "")) {
     val name = name ?: javaClass.simpleName.toLowerCase() // TODO: better name inference
 
     private var _context: Context2? = null
@@ -26,7 +28,7 @@ abstract class CliktCommand(
     private var parent: CliktCommand? = null
 
     internal var subcommands: List<CliktCommand> = emptyList()
-    internal val options: MutableList<Option> = mutableListOf(helpOption()) // TODO finish help option features
+    internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
 
     fun subcommands(vararg commands: CliktCommand): CliktCommand {
@@ -60,6 +62,11 @@ abstract class CliktCommand(
 
     fun parse(argv: Array<String>) {
         _context = Context2(null, this)
+        if (helpOptionNames.isNotEmpty()) {
+            val registeredNames = options.flatMapTo(HashSet()) { it.names }
+            val names = helpOptionNames - registeredNames
+            if (names.isNotEmpty()) options += helpOption(names, helpOptionMessage)
+        }
         Parser2.parse(argv, context)
     }
 

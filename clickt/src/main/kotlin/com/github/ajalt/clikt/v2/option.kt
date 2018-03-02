@@ -10,16 +10,16 @@ interface Option {
     val metavar: String?
     val help: String
     val parser: OptionParser2
-    val names: List<String> // TODO: use Set instead?
+    val names: Set<String>
     val nargs: Int
     val parameterHelp: ParameterHelp?
-        get() = ParameterHelp(names, metavar, help, ParameterHelp.SECTION_OPTIONS,
+        get() = ParameterHelp(names.toList(), metavar, help, ParameterHelp.SECTION_OPTIONS,
                 false, parser.repeatableForHelp(this))
 }
 
 class EagerOption(
         override val help: String,
-        override val names: List<String>,
+        override val names: Set<String>,
         val callback: (Context2, EagerOption) -> Unit) : Option {
     override val parser: OptionParser2 = FlagOptionParser2()
     override val metavar: String? get() = null
@@ -32,7 +32,7 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
 }
 
 class FlagOption<out T : Any>(
-        override var names: List<String>,
+        override var names: Set<String>,
         override val metavar: String?,
         override val help: String,
         override val parser: FlagOptionParser2,
@@ -44,7 +44,7 @@ class FlagOption<out T : Any>(
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
         // TODO: better name inference
-        if (names.isEmpty()) names = listOf("--" + prop.name)
+        if (names.isEmpty()) names = setOf("--" + prop.name)
         thisRef.registerOption(this)
         return this
     }
@@ -73,7 +73,7 @@ internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
 internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
 class OptionWithValues<out Tall, Teach, Tvalue>(
-        override var names: List<String>, // TODO private setter
+        override var names: Set<String>, // TODO private setter
         override val metavar: String?,
         override val nargs: Int,
         override val help: String,
@@ -87,7 +87,7 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
         // TODO: better name inference
-        if (names.isEmpty()) names = listOf("--" + prop.name)
+        if (names.isEmpty()) names = setOf("--" + prop.name)
         thisRef.registerOption(this)
         return this
     }
@@ -99,8 +99,9 @@ private typealias RawOption = LastOccurrenceOption<String, String>
 private fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() } // TODO error message
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
 
+@Suppress("unused")
 fun CliktCommand.option(vararg names: String, help: String = ""): RawOption = OptionWithValues(
-        names = names.toList(),
+        names = names.toSet(),
         metavar = null,
         nargs = 1,
         help = help,

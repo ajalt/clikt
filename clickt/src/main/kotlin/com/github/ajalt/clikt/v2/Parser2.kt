@@ -25,7 +25,7 @@ internal object Parser2 {
         var i = startingArgI
         var subcommand: CliktCommand? = null
         var canParseOptions = true
-        val eagerOptions = mutableListOf<EagerOption>()
+        val matchedOptions = linkedSetOf<Option>()
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
@@ -34,13 +34,13 @@ internal object Parser2 {
                     canParseOptions = false
                 }
                 a.startsWith("--") && canParseOptions -> {
-                    val (count, opts) = parseLongOpt(argv, a, i, optionsByName)
-                    eagerOptions += opts
+                    val (count, opt) = parseLongOpt(argv, a, i, optionsByName)
+                    matchedOptions += opt
                     i += count
                 }
                 a.startsWith("-") && canParseOptions -> {
                     val (count, opts) = parseShortOpt(argv, a, i, optionsByName)
-                    eagerOptions += opts
+                    matchedOptions += opts
                     i += count
                 }
                 a in subcommands -> {
@@ -61,9 +61,8 @@ internal object Parser2 {
 
         parseArguments(positionalArgs, arguments)
 
-        for (option in eagerOptions) {
-            option.callback(context, option)
-        }
+        matchedOptions.filter { it is EagerOption }.forEach { it.finalize(context) }
+        matchedOptions.filterNot { it is EagerOption }.forEach { it.finalize(context) }
 
         command.run()
 
@@ -74,7 +73,7 @@ internal object Parser2 {
 
 
     private fun parseLongOpt(argv: Array<String>, arg: String, index: Int,
-                             optionsByName: Map<String, Option>): Pair<Int, List<EagerOption>> {
+                             optionsByName: Map<String, Option>): Pair<Int, Option> {
         val equalsIndex = arg.indexOf('=')
         val (name, value) = if (equalsIndex >= 0) {
             check(equalsIndex != arg.lastIndex) // TODO exceptions
@@ -85,22 +84,21 @@ internal object Parser2 {
         val option = optionsByName[name] ?: throw NoSuchOption(name,
                 possibilities = optionsByName.keys.filter { name.startsWith(it) })
         val result = option.parser.parseLongOpt(option, name, argv, index, value)
-        val eagerOption = if (option is EagerOption) listOf(option) else emptyList()
-        return result to eagerOption
+        return result to option
     }
 
     private fun parseShortOpt(argv: Array<String>, arg: String, index: Int,
-                              optionsByName: Map<String, Option>): Pair<Int, List<EagerOption>> {
+                              optionsByName: Map<String, Option>): Pair<Int, List<Option>> {
         val prefix = arg[0].toString()
-        val eagerOptions = mutableListOf<EagerOption>()
+        val matchedOptions = mutableListOf<Option>()
         for ((i, opt) in arg.withIndex()) {
             if (i == 0) continue // skip the dash
 
             val name = prefix + opt
             val option = optionsByName[name] ?: throw NoSuchOption(name)
             val result = option.parser.parseShortOpt(option, name, argv, index, i)
-            if (option is EagerOption) eagerOptions += option
-            if (result > 0) return result to eagerOptions
+            matchedOptions += option
+            if (result > 0) return result to matchedOptions
         }
         throw IllegalStateException(
                 "Error parsing short option ${argv[index]}: no parser consumed value.")

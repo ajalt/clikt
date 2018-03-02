@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.BadParameter
-import com.github.ajalt.clikt.parser.HelpFormatter
 import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp
+import kotlin.properties.Delegates
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -15,16 +15,22 @@ interface Option {
     val parameterHelp: ParameterHelp?
         get() = ParameterHelp(names.toList(), metavar, help, ParameterHelp.SECTION_OPTIONS,
                 false, parser.repeatableForHelp(this))
+
+    fun finalize(context: Context2)
 }
 
 class EagerOption(
         override val help: String,
         override val names: Set<String>,
-        val callback: (Context2, EagerOption) -> Unit) : Option {
+        private val callback: (Context2, EagerOption) -> Unit) : Option {
     override val parser: OptionParser2 = FlagOptionParser2()
     override val metavar: String? get() = null
     override val nargs: Int get() = 0
+    override fun finalize(context: Context2) {
+        callback(context, this)
+    }
 }
+
 
 interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
     /** Implementations must call [CliktCommand.registerOption] */
@@ -38,10 +44,13 @@ class FlagOption<out T : Any>(
         private val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser2()
+    private var value: T by Delegates.notNull()
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-        return processAll(parser.rawValues)
+    override fun finalize(context: Context2) {
+        value = processAll(parser.rawValues)
     }
+
+    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
         // TODO: better name inference
@@ -73,6 +82,8 @@ internal typealias ValueProcessor<T> = (String) -> T
 internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
 internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
+private object UNINITIALIZED_VALUE
+
 class OptionWithValues<out Tall, Teach, Tvalue>(
         override var names: Set<String>, // TODO private setter
         override val metavar: String?,
@@ -82,8 +93,17 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
         val processValue: ValueProcessor<Tvalue>,
         val processEach: EachProcessor<Teach, Tvalue>,
         val processAll: AllProcessor<Tall, Teach>) : OptionDelegate<Tall> {
+    private var value: Any? = UNINITIALIZED_VALUE
+
+    override fun finalize(context: Context2) {
+        value = processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
+    }
+
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
-        return processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
+        // This is similar to how the lazy delegate works
+        require(value != UNINITIALIZED_VALUE) { "Cannot read from option delegate before parsing command line" }
+        @Suppress("UNCHECKED_CAST")
+        return value as Tall
     }
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {

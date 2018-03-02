@@ -35,9 +35,10 @@ class FlagOption<out T : Any>(
         override var names: Set<String>,
         override val metavar: String?,
         override val help: String,
-        override val parser: FlagOptionParser2,
         private val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
     override val nargs: Int get() = 0
+    override val parser = FlagOptionParser2()
+
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
         return processAll(parser.rawValues)
     }
@@ -52,11 +53,11 @@ class FlagOption<out T : Any>(
 
 
 fun RawOption.flag(default: Boolean = false): OptionDelegate<Boolean> {
-    return FlagOption(names, null, help, FlagOptionParser2(), { it.lastOrNull() ?: default })
+    return FlagOption(names, null, help, { it.lastOrNull() ?: default })
 }
 
 fun RawOption.counted(): OptionDelegate<Int> {
-    return FlagOption(names, null, help, FlagOptionParser2(), {
+    return FlagOption(names, null, help, {
         for (name in names) require("/" !in name) { "counted options cannot have off names" }
         it.size
     })

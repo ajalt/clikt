@@ -10,9 +10,7 @@ class Cli : CliktCommand(
         command line interfaces with Clikt.
 
         This tool is supposed to look like a distributed version control
-        system to show how something like this can be structured.""".trimIndent(),
-
-        version = "1.0") {
+        system to show how something like this can be structured.""".trimIndent()) {
     val repoHome: String by option(help = "Changes the repository folder location.")
             .default(".repo")
     val config: List<Pair<String, String>> by option(help = "Overrides a config key/value pair.")
@@ -32,6 +30,7 @@ class Cli : CliktCommand(
 
 
 class CloneCommand : CliktCommand(
+        name = "clone",
         help = """Clones a repository.
 
         This will clone the repository at SRC into the folder DEST. If DEST
@@ -58,6 +57,7 @@ class CloneCommand : CliktCommand(
 }
 
 class DeleteCommand: CliktCommand(
+        name = "delete",
         help ="""Deletes a repository.
 
             This will throw away the current repository.""".trimIndent()) {
@@ -70,6 +70,7 @@ class DeleteCommand: CliktCommand(
 }
 
 class SetUserCommand: CliktCommand(
+        name = "setuser",
         help ="""Sets the user credentials.
 
         This will override the current user config.""".trimIndent()) {
@@ -90,6 +91,7 @@ class SetUserCommand: CliktCommand(
 
 
 class CommitCommand: CliktCommand(
+        name = "commit",
         help ="""Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to

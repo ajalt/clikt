@@ -112,7 +112,7 @@ class SubcommandTest {
 
         val s1 = Sub1()
         val s2 = Sub2()
-        val c = C().apply { subcommands(s1, s2) }
+        val c: C = C().subcommands(s1, s2)
 
         c.parse(splitArgv(argv))
 

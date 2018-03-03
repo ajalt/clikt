@@ -25,19 +25,12 @@ abstract class CliktCommand(
             return _context!!
         }
 
-    private var parent: CliktCommand? = null
-
+    internal var parent: CliktCommand? = null
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
 
     private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
-
-    fun subcommands(vararg commands: CliktCommand): CliktCommand {
-        subcommands += commands
-        for (command in subcommands) command.parent = this
-        return this
-    }
 
     fun registerOption(option: Option) {
         val names = registeredOptionNames()
@@ -98,4 +91,10 @@ abstract class CliktCommand(
     }
 
     abstract fun run()
+}
+
+fun <T: CliktCommand> T.subcommands(vararg commands: CliktCommand): T {
+    subcommands += commands
+    for (command in subcommands) command.parent = this
+    return this
 }

@@ -3,7 +3,6 @@ customizable metavars http://click.pocoo.org/6/documentation/#meta-variables
 run option transforms at parse time to fail fast?
 remove reflect dependency
 inferred name case normalization for options, args, and metavars
-better return type for Command.subcommands (C().subcommands() returns CliktCommand instead of C)
 
 remaining option types
 

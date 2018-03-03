@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.v2
 
+import com.github.ajalt.clikt.parser.Command
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
+import com.github.ajalt.clikt.testing.softly
 import com.github.ajalt.clikt.testing.splitArgv
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -119,5 +121,24 @@ class SubcommandTest {
         assertThat(c.called).isTrue
         assertThat(s1.called).isEqualTo(firstCalled)
         assertThat(s2.called).isNotEqualTo(firstCalled)
+    }
+
+    @Test
+    fun `argument before subcommand`() {
+        class C : CliktCommand() {
+            val x by argument().multiple()
+            override fun run() {
+                assertThat(x).containsExactly("123", "456")
+            }
+        }
+
+        class Sub : CliktCommand(name = "sub") {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+            }
+        }
+
+        C().subcommands(Sub()).parse(splitArgv("123 456 sub -xfoo"))
     }
 }

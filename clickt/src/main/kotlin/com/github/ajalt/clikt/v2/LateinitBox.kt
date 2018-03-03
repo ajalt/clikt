@@ -9,6 +9,7 @@ import kotlin.reflect.KProperty
  * Similar to an unsyncronized lazy delegate, but the value is set manually. If the value is not set before
  * being read, it will return null if T is nullable, or throw an IllegalStateException otherwise.
  */
+// TODO move to internal package
 internal class ExplicitLazy<T>(private val errorMessage: String) : ReadWriteProperty<Any, T> {
     private var _value: Any? = null
     var value: T

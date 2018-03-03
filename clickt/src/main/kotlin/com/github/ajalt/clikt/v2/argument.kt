@@ -65,8 +65,9 @@ fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
             metavar, help, processValue, transform)
 }
 
-fun <T : Any> ProcessedArgument<T, T>.optional(): ProcessedArgument<T?, T> {
-    return transformAll(required = false) { it.firstOrNull() }
+fun <Tall : Any, Tvalue> ProcessedArgument<Tall, Tvalue>.optional()
+        : ProcessedArgument<Tall?, Tvalue> = transformAll(required = false) {
+    if (it.isEmpty()) null else processAll(it)
 }
 
 fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): ProcessedArgument<List<T>, T> {

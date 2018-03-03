@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.BadArgumentUsage
+import com.github.ajalt.clikt.parser.MissingParameter
 import com.github.ajalt.clikt.parser.NoSuchOption
 import com.github.ajalt.clikt.parser.UsageError
 import java.util.*
@@ -120,11 +121,12 @@ internal object Parser2 {
             val remaining = positionalArgs.size - i
             val consumed = when {
                 argument.nargs <= 0 -> maxOf(0, remaining - endSize)
-                argument.nargs == 1 && !argument.required && remaining == 0 -> 0
+                argument.nargs > 0 && !argument.required && remaining == 0 -> 0
                 else -> argument.nargs
             }
             if (consumed > remaining) {
-                throw BadArgumentUsage("argument ${argument.name} takes ${argument.nargs} values")
+                if (remaining == 0) throw MissingParameter("argument", listOf(argument.name))
+                else throw BadArgumentUsage("argument ${argument.name} takes ${argument.nargs} values ")
             }
             argument.rawValues = argument.rawValues + positionalArgs.subList(i, i + consumed)
             i += consumed

@@ -137,9 +137,7 @@ fun <Tall, Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.transformAll
 }
 
 fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.default(value: Teach)
-        : OptionWithValues<Teach, Teach, Tvalue> = transformAll {
-    it.firstOrNull() ?: value
-}
+        : OptionWithValues<Teach, Teach, Tvalue> = transformAll { it.firstOrNull() ?: value }
 
 fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.multiple()
         : OptionWithValues<List<Teach>, Teach, Tvalue> = transformAll { it }

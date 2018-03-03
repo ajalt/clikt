@@ -12,6 +12,10 @@ import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.atomic.*
 
+fun splitArgv(argv: String) : Array<String>{
+    return if (argv.isBlank()) emptyArray() else argv.split(" ").toTypedArray()
+}
+
 inline fun softly(block: SoftAssertions.() -> Unit) = SoftAssertions().apply { block(); assertAll() }
 
 inline fun <T: Row> parameterized(vararg data: T, addDescription: Boolean = true, block: ForEachSoftAssertions.(T) -> Unit) {

@@ -141,4 +141,26 @@ class SubcommandTest {
 
         C().subcommands(Sub()).parse(splitArgv("123 456 sub -xfoo"))
     }
+
+    @Test
+    fun `value -- before subcommand`() {
+        class C : CliktCommand() {
+            val x by option("-x", "--xx")
+            val y by argument()
+            override fun run() {
+                assertThat(x).isEqualTo("--xx")
+                assertThat(y).isEqualTo("--yy")
+            }
+        }
+
+        class Sub : CliktCommand(name = "sub") {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+            }
+        }
+
+        C().subcommands(Sub())
+                .parse(splitArgv("--xx --xx -- --yy sub --xx foo"))
+    }
 }

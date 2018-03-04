@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
 
@@ -145,5 +144,22 @@ class ArgumentTest {
         assertThrows<MissingParameter>("foo") {
             C().parse(splitArgv(""))
         }
+    }
+
+    @Test
+    fun `value -- with argument`() = parameterized(
+            row("--xx --xx -- --xx", "--xx", "--xx"),
+            row("--xx --xx bar --", "--xx", "bar")
+    ) { (argv, ex, ey) ->
+        class C : CliktCommand() {
+            val x by option("-x", "--xx")
+            val y by argument()
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(ex)
+                assertThat(y).called("y").isEqualTo(ey)
+            }
+        }
+
+        C().parse(splitArgv(argv))
     }
 }

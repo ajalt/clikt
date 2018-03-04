@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.v2
 
 import com.github.ajalt.clikt.parser.MissingParameter
+import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
@@ -13,13 +14,12 @@ class ArgumentTest {
     fun `one required argument`() {
         class C : CliktCommand() {
             val x by argument()
-            override fun run() {
-            }
+            override fun run() = Unit
         }
 
-        assertThatThrownBy {
+        assertThrows<MissingParameter> {
             C().parse(splitArgv(""))
-        }.isInstanceOf(MissingParameter::class.java)
+        }
     }
 
     @Test
@@ -48,9 +48,9 @@ class ArgumentTest {
 
         C().parse(splitArgv("1 2"))
 
-        assertThatThrownBy {
+        assertThrows<MissingParameter> {
             C().parse(splitArgv(""))
-        }.isInstanceOf(MissingParameter::class.java)
+        }
     }
 
     @Test
@@ -104,16 +104,15 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nargs=-1,1 empty argv`()  {
+    fun `two arguments nargs=-1,1 empty argv`() {
         class C : CliktCommand() {
             val foo by argument().multiple()
             val bar by argument()
             override fun run() = fail("should not be called. $foo, $bar")
         }
-        assertThatThrownBy {
+        assertThrows<MissingParameter>("bar") {
             C().parse(splitArgv(""))
-        }.isInstanceOf(MissingParameter::class.java)
-                .hasMessageContaining("bar")
+        }
     }
 
     @Test
@@ -143,9 +142,8 @@ class ArgumentTest {
             override fun run() = fail("should not be called. $foo, $bar")
         }
 
-        assertThatThrownBy {
+        assertThrows<MissingParameter>("foo") {
             C().parse(splitArgv(""))
-        }.isInstanceOf(MissingParameter::class.java)
-                .hasMessageContaining("foo")
+        }
     }
 }

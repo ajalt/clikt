@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.testing
 
-import org.assertj.core.api.AbstractAssert
-import org.assertj.core.api.SoftAssertions
+import org.assertj.core.api.*
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal
@@ -12,13 +11,13 @@ import java.util.*
 import java.util.concurrent.Future
 import java.util.concurrent.atomic.*
 
-fun splitArgv(argv: String) : Array<String>{
+fun splitArgv(argv: String): Array<String> {
     return if (argv.isBlank()) emptyArray() else argv.split(" ").toTypedArray()
 }
 
 inline fun softly(block: SoftAssertions.() -> Unit) = SoftAssertions().apply { block(); assertAll() }
 
-inline fun <T: Row> parameterized(vararg data: T, addDescription: Boolean = true, block: ForEachSoftAssertions.(T) -> Unit) {
+inline fun <T : Row> parameterized(vararg data: T, addDescription: Boolean = true, block: ForEachSoftAssertions.(T) -> Unit) {
     val softly = ForEachSoftAssertions()
 
     for ((i, it) in data.withIndex()) {
@@ -34,6 +33,16 @@ inline fun <T: Row> parameterized(vararg data: T, addDescription: Boolean = true
     softly.assertAll()
 }
 
+inline fun <reified T : Exception> assertThrows(messageContains: String? = null,
+                                                crossinline block: () -> Unit)
+        : AbstractThrowableAssert<*, out Throwable> {
+    val assert = Assertions.assertThatThrownBy { block() }
+    assert.isInstanceOf(T::class.java)
+    if (messageContains != null) {
+        assert.hasMessageContaining(messageContains)
+    }
+    return assert
+}
 
 fun <A> row(a: A) = Row1(a)
 fun <A, B> row(a: A, b: B) = Row2(a, b)

@@ -1,12 +1,10 @@
 package com.github.ajalt.clikt.v2
 
-import com.github.ajalt.clikt.testing.Row4
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.parser.BadOptionUsage
+import com.github.ajalt.clikt.parser.UsageError
+import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 
 class OptionTest {
@@ -94,6 +92,53 @@ class OptionTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+
+
+    @Test
+    fun `two options nargs=2`() = parameterized(
+            row("", null, null),
+            row("--xx 1 3", "1" to "3", null),
+            row("--yy 5 7", null, "5" to "7"),
+            row("--xx 1 3 --yy 5 7", "1" to "3", "5" to "7"),
+            row("--xx 1 3 -y 5 7", "1" to "3", "5" to "7"),
+            row("-x 1 3 --yy 5 7", "1" to "3", "5" to "7"),
+            row("-x1 3 --yy 5 7", "1" to "3", "5" to "7"),
+            row("--xx 1 3 -y5 7", "1" to "3", "5" to "7"),
+            row("--xx=1 3 --yy=5 7", "1" to "3", "5" to "7"),
+            row("-x1 3 --yy=5 7", "1" to "3", "5" to "7"),
+            row("-x 1 3 -y 5 7", "1" to "3", "5" to "7"),
+            row("-x1 3 -y 5 7", "1" to "3", "5" to "7"),
+            row("-x 1 3 -y5 7", "1" to "3", "5" to "7"),
+            row("-x1 3 -y5 7", "1" to "3", "5" to "7")
+    ) { (argv, ex, ey) ->
+        class C : CliktCommand() {
+            val x by option("-x", "--xx").paired()
+            val y by option("-y", "--yy").paired()
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(ex)
+                assertThat(y).called("y").isEqualTo(ey)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `two options nargs=2 usage errors`() {
+        class C : CliktCommand() {
+            val x by option("-x", "--xx").paired()
+            val y by option("-y", "--yy").paired()
+            override fun run() {
+                fail("should not be called $x, $y")
+            }
+        }
+        assertThrows<BadOptionUsage>("-x option requires 2 arguments") {
+            C().parse(splitArgv("-x"))
+        }
+        assertThrows<UsageError>("baz") {
+            C().parse(splitArgv("--yy foo bar baz"))
+        }
     }
 
     @Test

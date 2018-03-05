@@ -209,4 +209,20 @@ class OptionTest {
 
         C().parse(splitArgv(argv))
     }
+
+    @Test
+    fun `default option`() = parameterized(
+            row("", "def"),
+            row("--xx 3", "3"),
+            row("-x4", "4")) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by option("-x", "--xx").default("def")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
 }

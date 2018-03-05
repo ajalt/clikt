@@ -7,6 +7,8 @@ inferred name case normalization for options, args, and metavars
 
 remaining option types
 
+store all data on the context to allow parsers to be pure.
+
 custom help formatter
 custom multi commands
 

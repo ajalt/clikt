@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_ARGUMENTS
-import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_OPTIONS
-import com.github.ajalt.clikt.parser.HelpFormatter.ParameterHelp.Companion.SECTION_SUBCOMMANDS
+import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Companion.SECTION_ARGUMENTS
+import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Companion.SECTION_OPTIONS
+import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Companion.SECTION_SUBCOMMANDS
 import kotlin.LazyThreadSafetyMode.NONE
 
 interface HelpFormatter {

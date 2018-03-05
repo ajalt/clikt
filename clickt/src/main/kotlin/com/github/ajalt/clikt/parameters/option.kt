@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.BadParameter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
@@ -115,8 +114,8 @@ class OptionWithValues<Tall, Teach, Tvalue>(
     }
 }
 
-private typealias LastOccurrenceOption<Teach, Tvalue> = OptionWithValues<Teach?, Teach, Tvalue>
-private typealias RawOption = LastOccurrenceOption<String, String>
+internal typealias LastOccurrenceOption<Teach, Tvalue> = OptionWithValues<Teach?, Teach, Tvalue>
+internal typealias RawOption = LastOccurrenceOption<String, String>
 
 private fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() } // TODO error message
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
@@ -131,10 +130,6 @@ fun CliktCommand.option(vararg names: String, help: String = ""): RawOption = Op
         processValue = { it },
         processEach = defaultEachProcessor(),
         processAll = defaultAllProcessor())
-
-fun RawOption.int() = convert("INT") {
-    it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
-}
 
 fun <Tall, Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.transformAll(transform: AllProcessor<Tall, Teach>)
         : OptionWithValues<Tall, Teach, Tvalue> {

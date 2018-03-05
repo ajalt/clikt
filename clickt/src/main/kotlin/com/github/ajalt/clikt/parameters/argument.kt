@@ -1,9 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.core.CliktCommand
-import java.io.File
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -50,7 +48,7 @@ class ProcessedArgument<out Tall, Tvalue>(
     }
 }
 
-private typealias RawArgument = ProcessedArgument<String, String>
+internal typealias RawArgument = ProcessedArgument<String, String>
 
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T, T> = { it.single() }
 
@@ -97,28 +95,3 @@ fun <T : Any> RawArgument.convert(metavar: String? = null, conversion: (String) 
     return ProcessedArgument(name, nargs, required, metavar, help, conversion, defaultAllProcessor())
 }
 
-fun RawArgument.int() = convert("INT") {
-    // TODO extract conversions to common location
-    it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
-}
-
-fun RawArgument.file(exists: Boolean = false,
-                                                       fileOkay: Boolean = true,
-                                                       folderOkay: Boolean = true,
-                                                       writable: Boolean = false,
-                                                       readable: Boolean = false): ProcessedArgument<File, File> {
-    val name = when {
-        fileOkay && !folderOkay -> "File"
-        !fileOkay && folderOkay -> "Directory"
-        else -> "Path"
-    }
-    return convert(name.toUpperCase()) {
-        File(it).also {
-            if (exists && !it.exists()) throw BadParameter("$name \"$it\" does not exist.")
-            if (!fileOkay && it.isFile) throw BadParameter("$name \"$it\" is a file")
-            if (!folderOkay && it.isDirectory) throw BadParameter("$name \"$it\" is a directory.")
-            if (writable && !it.canWrite()) throw BadParameter("$name \"$it\" is not writable.")
-            if (readable && !it.canRead()) throw BadParameter("$name \"$it\" is not readable.")
-        }
-    }
-}

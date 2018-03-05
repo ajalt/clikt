@@ -1,5 +1,6 @@
 argument validators & finalize
 customizable metavars http://click.pocoo.org/6/documentation/#meta-variables
+    then update the examples
 run option transforms at parse time to fail fast?
 remove reflect dependency
 inferred name case normalization for options, args, and metavars

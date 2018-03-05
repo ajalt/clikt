@@ -1,7 +1,11 @@
 package com.github.ajalt.clickt.samples.cp
 
-import com.github.ajalt.clikt.parser.TermUi
-import com.github.ajalt.clikt.v2.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.argument
+import com.github.ajalt.clikt.parameters.flag
+import com.github.ajalt.clikt.parameters.multiple
+import com.github.ajalt.clikt.parameters.option
+import com.github.ajalt.clikt.output.TermUi
 import java.io.File
 
 class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {

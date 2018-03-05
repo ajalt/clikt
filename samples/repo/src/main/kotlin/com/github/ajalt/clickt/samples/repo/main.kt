@@ -1,6 +1,9 @@
 package com.github.ajalt.clickt.samples.repo
 
-import com.github.ajalt.clikt.v2.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.requireObject
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.*
 import java.io.File
 
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)

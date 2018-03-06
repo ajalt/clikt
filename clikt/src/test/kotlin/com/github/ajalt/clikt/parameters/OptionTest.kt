@@ -1,10 +1,12 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.BadOptionUsage
+import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.*
+import com.github.ajalt.clikt.testing.assertThrows
+import com.github.ajalt.clikt.testing.parameterized
+import com.github.ajalt.clikt.testing.row
+import com.github.ajalt.clikt.testing.splitArgv
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.*
 import org.junit.Test
@@ -269,11 +271,13 @@ class OptionTest {
             val w by option().convert("BAR") { it }
             override fun run() {
                 assertThat(options).allMatch {
-                    it is EagerOption || // skip help option
-                    "--x" in it.names && it.metavar == "TEXT" ||
+                    val b = it is EagerOption || // skip help option
+                            "--x" in it.names && it.metavar == "TEXT" ||
                             "--y" in it.names && it.metavar == "FOO" ||
                             "--z" in it.names && it.metavar == "FOO" ||
                             "--w" in it.names && it.metavar == "BAR"
+                    println("${it.names}, ${it.metavar}, $b")
+                    b
                 }
             }
         }

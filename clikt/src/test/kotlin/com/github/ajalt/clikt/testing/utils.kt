@@ -1,6 +1,9 @@
 package com.github.ajalt.clikt.testing
 
-import org.assertj.core.api.*
+import org.assertj.core.api.AbstractAssert
+import org.assertj.core.api.AbstractThrowableAssert
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.SoftAssertions
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal

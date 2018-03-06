@@ -39,14 +39,23 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
+private fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {
+    if (names.isNotEmpty()) return names
+    val normalizedName = propertyName.split(Regex("(?<=[a-z])(?=[A-Z])"))
+            .joinToString("-", prefix = "--") { it.toLowerCase() }
+    return setOf(normalizedName)
+}
+
 class FlagOption<out T : Any>(
-        override var names: Set<String>,
+        names: Set<String>,
         override val help: String,
         val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser()
     private var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
+    override var names: Set<String> = names
+        private set
 
     override fun finalize(context: Context) {
         value = processAll(parser.rawValues)
@@ -55,8 +64,7 @@ class FlagOption<out T : Any>(
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
-        // TODO: better name inference
-        if (names.isEmpty()) names = setOf("--" + prop.name)
+        names = inferOptionNames(names, prop.name)
         thisRef.registerOption(this)
         return this
     }
@@ -85,7 +93,7 @@ internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
 internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
 class OptionWithValues<out Tall, Teach, Tvalue>(
-        override var names: Set<String>, // TODO private setter
+        names: Set<String>,
         val explicitMetavar: String?,
         val defaultMetavar: String?,
         override val nargs: Int,
@@ -96,6 +104,8 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
         val processAll: AllProcessor<Tall, Teach>) : OptionDelegate<Tall> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
     private var value: Tall by ExplicitLazy("Cannot read from option delegate before parsing command line")
+    override var names: Set<String> = names
+        private set
 
     override fun finalize(context: Context) {
         value = processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
@@ -104,8 +114,7 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
-        // TODO: better name inference
-        if (names.isEmpty()) names = setOf("--" + prop.name)
+        names = inferOptionNames(names, prop.name)
         thisRef.registerOption(this)
         return this
     }

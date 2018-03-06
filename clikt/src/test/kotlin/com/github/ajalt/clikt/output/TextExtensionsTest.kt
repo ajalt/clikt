@@ -1,7 +1,5 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.output.appendRepeat
-import com.github.ajalt.clikt.output.wrapText
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import org.junit.Test

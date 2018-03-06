@@ -16,7 +16,7 @@ abstract class CliktCommand(
         private val helpOptionNames: Set<String> = setOf("-h", "--help"),
         private val helpOptionMessage: String = "Show this message and exit",
         private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help, epilog)) {
-    val name = name ?: javaClass.simpleName.toLowerCase() // TODO: better name inference
+    val name = name ?: javaClass.simpleName.toLowerCase()
 
     private var _context: Context? = null
     val context: Context

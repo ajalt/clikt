@@ -42,7 +42,6 @@ class ProcessedArgument<out Tall, Tvalue>(
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
             ReadOnlyProperty<CliktCommand, Tall> {
-        // TODO: better name inference
         if (name.isBlank()) name = prop.name.toUpperCase().replace("-", "_")
         thisRef.registerArgument(this)
         return this

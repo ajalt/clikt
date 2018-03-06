@@ -279,4 +279,25 @@ class OptionTest {
 
         C().parse(splitArgv(""))
     }
+
+    @Test
+    fun `option validators`() {
+        var calledX = false
+        var calledY = false
+        class C : CliktCommand() {
+            val x by option().validate {
+                calledX = true
+                assertThat(it).isEqualTo("foo")
+            }
+            val y by option().flag().validate {
+                calledY = true
+                assertThat(it).isTrue()
+            }
+            override fun run() = Unit
+        }
+
+        C().parse(splitArgv("--x foo --y"))
+        assertTrue(calledX)
+        assertTrue(calledY)
+    }
 }

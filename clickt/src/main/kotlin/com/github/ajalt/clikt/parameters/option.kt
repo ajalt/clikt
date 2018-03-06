@@ -77,7 +77,7 @@ fun RawOption.counted(): FlagOption<Int> {
 }
 
 fun <T : Any> RawOption.convert(metavar: String? = null, conversion: ValueProcessor<T>):
-        LastOccurrenceOption<T, T> {
+        NullableOption<T, T> {
     return OptionWithValues(names, explicitMetavar, metavar ?: "VALUE", nargs, help, parser, conversion,
             defaultEachProcessor(), defaultAllProcessor())
 }
@@ -116,8 +116,8 @@ class OptionWithValues<Tall, Teach, Tvalue>(
     }
 }
 
-internal typealias LastOccurrenceOption<Teach, Tvalue> = OptionWithValues<Teach?, Teach, Tvalue>
-internal typealias RawOption = LastOccurrenceOption<String, String>
+internal typealias NullableOption<Teach, Tvalue> = OptionWithValues<Teach?, Teach, Tvalue>
+internal typealias RawOption = NullableOption<String, String>
 
 private fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() } // TODO error message
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
@@ -134,29 +134,29 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
         processEach = defaultEachProcessor(),
         processAll = defaultAllProcessor())
 
-fun <Tall, Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.transformAll(transform: AllProcessor<Tall, Teach>)
+fun <Tall, Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.transformAll(transform: AllProcessor<Tall, Teach>)
         : OptionWithValues<Tall, Teach, Tvalue> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
             help, parser, processValue, processEach, transform)
 }
 
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.default(value: Teach)
+fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.default(value: Teach)
         : OptionWithValues<Teach, Teach, Tvalue> = transformAll { it.firstOrNull() ?: value }
 
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.multiple()
+fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.multiple()
         : OptionWithValues<List<Teach>, Teach, Tvalue> = transformAll { it }
 
-fun <Teachi : Any, Teacho : Any, Tvalue> LastOccurrenceOption<Teachi, Tvalue>.transformNargs(
-        nargs: Int, transform: EachProcessor<Teacho, Tvalue>): LastOccurrenceOption<Teacho, Tvalue> {
+fun <Teachi : Any, Teacho : Any, Tvalue> NullableOption<Teachi, Tvalue>.transformNargs(
+        nargs: Int, transform: EachProcessor<Teacho, Tvalue>): NullableOption<Teacho, Tvalue> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, OptionWithValuesParser(),
             processValue, transform, defaultAllProcessor())
 }
 
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.paired()
-        : LastOccurrenceOption<Pair<Tvalue, Tvalue>, Tvalue> = transformNargs(2) { it[0] to it[1] }
+fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.paired()
+        : NullableOption<Pair<Tvalue, Tvalue>, Tvalue> = transformNargs(2) { it[0] to it[1] }
 
-fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.triple()
-        : LastOccurrenceOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(3) { Triple(it[0], it[1], it[2]) }
+fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.triple()
+        : NullableOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(3) { Triple(it[0], it[1], it[2]) }
 
 fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> {
     return FlagOption(names, help) {

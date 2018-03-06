@@ -40,7 +40,7 @@ fun RawOption.file(exists: Boolean = false,
                    fileOkay: Boolean = true,
                    folderOkay: Boolean = true,
                    writable: Boolean = false,
-                   readable: Boolean = false): LastOccurrenceOption<File, File> {
+                   readable: Boolean = false): NullableOption<File, File> {
     val (name, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
     return convert(name.toUpperCase(), conversion)
 }

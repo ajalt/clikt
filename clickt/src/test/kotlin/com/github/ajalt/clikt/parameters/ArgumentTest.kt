@@ -8,6 +8,8 @@ import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
 import org.assertj.core.api.Assertions.*
+import org.junit.Assert
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ArgumentTest {
@@ -200,5 +202,19 @@ class ArgumentTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+    @Test
+    fun `argument validators`() {
+        var called = false
+        class C : CliktCommand() {
+            val x by argument().validate {
+                called = true
+                assertThat(it).isEqualTo("foo")
+            }
+            override fun run() = Unit
+        }
+
+        C().parse(splitArgv("foo"))
+        assertTrue(called)
     }
 }

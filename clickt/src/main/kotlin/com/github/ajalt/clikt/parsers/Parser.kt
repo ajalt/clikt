@@ -72,6 +72,7 @@ internal object Parser {
 
         // Finalize the parameters with values so that they can apply default values etc.
         command.options.filter { it !is EagerOption && it !in matchedOptions }.forEach { it.finalize(context) }
+        command.arguments.forEach { it.finalize(context) }
 
         command.run()
 

@@ -40,15 +40,14 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-class FlagOption<T : Any>(
+class FlagOption<out T : Any>(
         override var names: Set<String>,
         override val help: String,
         val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser()
-    var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
-        private set
+    private var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
 
     override fun finalize(context: Context) {
         value = processAll(parser.rawValues)
@@ -86,7 +85,7 @@ internal typealias ValueProcessor<T> = (String) -> T
 internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
 internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
-class OptionWithValues<Tall, Teach, Tvalue>(
+class OptionWithValues<out Tall, Teach, Tvalue>(
         override var names: Set<String>, // TODO private setter
         val explicitMetavar: String?,
         val defaultMetavar: String?,
@@ -97,16 +96,13 @@ class OptionWithValues<Tall, Teach, Tvalue>(
         val processEach: EachProcessor<Teach, Tvalue>,
         val processAll: AllProcessor<Tall, Teach>) : OptionDelegate<Tall> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
-    var value: Tall by ExplicitLazy("Cannot read from option delegate before parsing command line")
-        private set
+    private var value: Tall by ExplicitLazy("Cannot read from option delegate before parsing command line")
 
     override fun finalize(context: Context) {
         value = processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
-        return value
-    }
+    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
         // TODO: better name inference

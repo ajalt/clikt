@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -15,6 +16,9 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     var rawValues: List<String>
     /** Implementations must call [CliktCommand.registerArgument] */
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
+
+    fun finalize(context: Context)
+
 }
 
 class ProcessedArgument<out Tall, Tvalue>(
@@ -26,8 +30,10 @@ class ProcessedArgument<out Tall, Tvalue>(
         val processValue: ValueProcessor<Tvalue>,
         val processAll: AllProcessor<Tall, Tvalue>) : Argument<Tall> {
     init {
-        require(nargs != 0) // TODO error message
+        require(nargs != 0) { "Arguments cannot have nargs == 0" }
     }
+
+    private var value: Tall by ExplicitLazy("Cannot read from argument delegate before parsing command line")
 
     override var rawValues: List<String> = emptyList()
     override val parameterHelp
@@ -35,9 +41,7 @@ class ProcessedArgument<out Tall, Tvalue>(
                 ParameterHelp.SECTION_ARGUMENTS,
                 required && nargs == 1 || nargs > 1, nargs < 0)
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall {
-        return processAll(rawValues.map { processValue(it) })
-    }
+    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
             ReadOnlyProperty<CliktCommand, Tall> {
@@ -46,6 +50,10 @@ class ProcessedArgument<out Tall, Tvalue>(
         thisRef.registerArgument(this)
         return this
     }
+
+    override fun finalize(context: Context) {
+        value = processAll(rawValues.map { processValue(it) })
+    }
 }
 
 internal typealias RawArgument = ProcessedArgument<String, String>
@@ -53,7 +61,7 @@ internal typealias RawArgument = ProcessedArgument<String, String>
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T, T> = { it.single() }
 
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
-    return ProcessedArgument(name, 1, true, "STRING", help, { it }, defaultAllProcessor())
+    return ProcessedArgument(name, 1, true, "TEXT", help, { it }, defaultAllProcessor())
 }
 
 fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
@@ -93,5 +101,9 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ProcessedArgument<T, T
 
 fun <T : Any> RawArgument.convert(metavar: String? = null, conversion: (String) -> T): ProcessedArgument<T, T> {
     return ProcessedArgument(name, nargs, required, metavar, help, conversion, defaultAllProcessor())
+}
+
+fun <T : Any> ProcessedArgument<T, T>.validate(validator: (T) -> Unit): ProcessedArgument<T, T> {
+    return transformAll(required = false) { processAll(it).apply { validator(this) } }
 }
 

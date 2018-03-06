@@ -14,7 +14,7 @@ abstract class CliktCommand(
         val help: String? = null,
         name: String? = null,
         val allowInterspersedArgs: Boolean = true,
-        private val helpOptionNames: Set<String> = setOf("-h", "--output"),
+        private val helpOptionNames: Set<String> = setOf("-h", "--help"),
         private val helpOptionMessage: String = "Show this message and exit",
         private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help
                 ?: "", "")) {

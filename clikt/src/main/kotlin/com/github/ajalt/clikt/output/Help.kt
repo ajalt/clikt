@@ -23,19 +23,19 @@ interface HelpFormatter {
     }
 }
 
-open class PlaintextHelpFormatter(val prolog: String = "",
-                                  val epilog: String = "",
-                                  val indent: String = "  ",
+open class PlaintextHelpFormatter(protected val prolog: String = "",
+                                  protected val epilog: String = "",
+                                  protected val indent: String = "  ",
                                   width: Int? = null,
                                   maxWidth: Int = 78,
                                   maxColWidth: Int? = null,
-                                  val usageTitle: String = "Usage:",
-                                  val optionsTitle: String = "Options:",
-                                  val argumentsTitle: String = "Arguments:",
-                                  val commandsTitle: String = "Commands:",
-                                  val optionsMetavar: String = "[OPTIONS]",
-                                  val commandMetavar: String = "COMMAND [ARGS]...",
-                                  val colSpacing: Int = 2) : HelpFormatter {
+                                  protected val usageTitle: String = "Usage:",
+                                  protected val optionsTitle: String = "Options:",
+                                  protected val argumentsTitle: String = "Arguments:",
+                                  protected val commandsTitle: String = "Commands:",
+                                  protected val optionsMetavar: String = "[OPTIONS]",
+                                  protected val commandMetavar: String = "COMMAND [ARGS]...",
+                                  protected val colSpacing: Int = 2) : HelpFormatter {
     protected val width: Int = when (width) {
         null -> minOf(maxWidth, System.getenv("COLUMNS")?.toInt() ?: maxWidth)
         else -> width

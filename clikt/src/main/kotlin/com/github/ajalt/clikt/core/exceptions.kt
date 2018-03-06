@@ -2,7 +2,7 @@ package com.github.ajalt.clikt.core
 
 // TODO docs, params, and formatting for output
 
-/** An internal error that signals Clickt to abort. */
+/** An internal error that signals Clikt to abort. */
 class Abort: RuntimeException()
 
 open class CliktError(message: String) : RuntimeException(message)

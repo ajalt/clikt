@@ -1,23 +1,21 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.parameters.Argument
-import com.github.ajalt.clikt.parameters.Option
-import com.github.ajalt.clikt.parameters.helpOption
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.PlaintextHelpFormatter
+import com.github.ajalt.clikt.parameters.*
 import com.github.ajalt.clikt.parsers.Parser
 import kotlin.system.exitProcess
 
 // TODO: better output arguments
 abstract class CliktCommand(
-        val help: String? = null,
+        val help: String = "",
+        epilog: String = "",
         name: String? = null,
         val allowInterspersedArgs: Boolean = true,
         private val helpOptionNames: Set<String> = setOf("-h", "--help"),
         private val helpOptionMessage: String = "Show this message and exit",
-        private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help
-                ?: "", "")) {
+        private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help, epilog)) {
     val name = name ?: javaClass.simpleName.toLowerCase() // TODO: better name inference
 
     private var _context: Context? = null
@@ -53,17 +51,19 @@ abstract class CliktCommand(
             arguments.mapNotNull { it.parameterHelp } +
             subcommands.map { it.helpAsSubcommand() }
 
-    fun getFormattedUsage(): String {
+    open fun getFormattedUsage(): String {
         return helpFormatter.formatUsage(allHelpParams(), programName = name)
     }
 
-    fun getFormattedHelp(): String {
+    open fun getFormattedHelp(): String {
         return helpFormatter.formatHelp(allHelpParams(), programName = name)
     }
 
-    private fun helpAsSubcommand() = ParameterHelp(listOf(name), null, help ?: "",
-            ParameterHelp.SECTION_SUBCOMMANDS, true, false) // TODO shortHelp, optional subcommands
-
+    private fun helpAsSubcommand(): ParameterHelp {
+        val shortHelp = help.split(".", "\n", limit=2).first().trim()
+        return ParameterHelp(listOf(name), null, shortHelp,
+                ParameterHelp.SECTION_SUBCOMMANDS, true, false)
+    }
 
     fun parse(argv: Array<String>) {
         _context = Context(null, this)
@@ -74,7 +74,7 @@ abstract class CliktCommand(
         Parser.parse(argv, context)
     }
 
-    fun main(argv: Array<String>) {
+    open fun main(argv: Array<String>) {
         try {
             parse(argv)
         } catch (e: PrintHelpMessage) {
@@ -98,7 +98,7 @@ abstract class CliktCommand(
     abstract fun run()
 }
 
-fun <T: CliktCommand> T.subcommands(vararg commands: CliktCommand): T {
+fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T {
     subcommands += commands
     for (command in subcommands) command.parent = this
     return this

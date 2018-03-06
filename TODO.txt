@@ -1,7 +1,8 @@
+sealed class for ParameterHelp?
 inferred name case normalization for options, args, and metavars
 pass option names to convert()
-
 store all data on the context to allow parsers to be pure.
+http://click.pocoo.org/5/commands/#group-invocation-without-command
 
 remaining option types
 

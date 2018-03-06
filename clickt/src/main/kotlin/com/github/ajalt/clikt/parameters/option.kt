@@ -153,10 +153,14 @@ fun <Teachi : Any, Teacho : Any, Tvalue> NullableOption<Teachi, Tvalue>.transfor
 }
 
 fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.paired()
-        : NullableOption<Pair<Tvalue, Tvalue>, Tvalue> = transformNargs(2) { it[0] to it[1] }
+        : NullableOption<Pair<Tvalue, Tvalue>, Tvalue> {
+    return transformNargs(nargs = 2) { it[0] to it[1] }
+}
 
 fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.triple()
-        : NullableOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(3) { Triple(it[0], it[1], it[2]) }
+        : NullableOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> {
+    return transformNargs(nargs = 3) { Triple(it[0], it[1], it[2]) }
+}
 
 fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> {
     return FlagOption(names, help) {

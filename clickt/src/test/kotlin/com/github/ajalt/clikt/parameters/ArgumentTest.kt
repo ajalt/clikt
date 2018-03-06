@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
+import com.github.ajalt.clikt.core.BadArgumentUsage
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.testing.assertThrows
@@ -66,6 +67,43 @@ class ArgumentTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `one optional argument nargs=3`() = parameterized(
+            row("", null),
+            row("foo bar baz", Triple("foo", "bar", "baz"))
+    ) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by argument().triple().optional()
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `misused arguments with nargs=2`() {
+        class C : CliktCommand() {
+            val x by argument().paired()
+            override fun run() = Unit
+        }
+
+        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo")) }
+        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo bar baz")) }
+    }
+
+    @Test
+    fun `misused arguments with nargs=3`() {
+        class C : CliktCommand() {
+            val x by argument().triple()
+            override fun run() = Unit
+        }
+
+        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo bar")) }
+        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo bar baz qux")) }
     }
 
     @Test

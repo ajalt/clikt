@@ -79,7 +79,7 @@ fun <T : Any> ProcessedArgument<T, T>.paired(): ProcessedArgument<Pair<T, T>, T>
 }
 
 fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T>, T> {
-    return transformAll(nargs = 2) { Triple(it[0], it[1], it[2]) }
+    return transformAll(nargs = 3) { Triple(it[0], it[1], it[2]) }
 }
 
 fun <T : Any> ProcessedArgument<T, T>.default(value: T): ProcessedArgument<T, T> {

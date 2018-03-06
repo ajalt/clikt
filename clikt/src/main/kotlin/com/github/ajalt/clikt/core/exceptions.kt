@@ -7,6 +7,9 @@ class Abort: RuntimeException()
 
 open class CliktError(message: String) : RuntimeException(message)
 
+/**
+ * An exception that indicates that the command's help should be printed, and does not signal an error.
+ */
 class PrintHelpMessage(val command: CliktCommand) : CliktError("print output")
 
 /**

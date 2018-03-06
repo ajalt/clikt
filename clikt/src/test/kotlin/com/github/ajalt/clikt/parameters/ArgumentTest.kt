@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.BadArgumentUsage
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
@@ -203,6 +204,7 @@ class ArgumentTest {
 
         C().parse(splitArgv(argv))
     }
+
     @Test
     fun `argument validators`() {
         var called = false
@@ -216,5 +218,15 @@ class ArgumentTest {
 
         C().parse(splitArgv("foo"))
         assertTrue(called)
+    }
+
+    @Test
+    fun `eager option with required argument not given`() {
+        class C : CliktCommand() {
+            val x by argument()
+            override fun run() = fail("should not be called")
+        }
+
+        assertThrows<PrintHelpMessage> { C().parse(splitArgv("--help")) }
     }
 }

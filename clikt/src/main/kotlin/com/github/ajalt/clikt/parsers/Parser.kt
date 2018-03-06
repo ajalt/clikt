@@ -65,13 +65,14 @@ internal object Parser {
             }
         }
 
-        parseArguments(positionalArgs, arguments)
-
         matchedOptions.filter { it is EagerOption }.forEach { it.finalize(context) }
         matchedOptions.filterNot { it is EagerOption }.forEach { it.finalize(context) }
 
         // Finalize the parameters with values so that they can apply default values etc.
         command.options.filter { it !is EagerOption && it !in matchedOptions }.forEach { it.finalize(context) }
+
+        parseArguments(positionalArgs, arguments)
+
         command.arguments.forEach { it.finalize(context) }
 
         command.run()

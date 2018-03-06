@@ -9,5 +9,5 @@ private val valueToInt: (String) -> Int = {
     it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
 }
 
-fun RawArgument.int() = convert("INT", valueToInt)
+fun RawArgument.int() = convert(valueToInt)
 fun RawOption.int() = convert("INT", valueToInt)

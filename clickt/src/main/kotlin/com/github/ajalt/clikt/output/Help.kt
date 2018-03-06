@@ -49,7 +49,7 @@ open class PlaintextHelpFormatter(val prolog: String = "",
 
     private fun formatUsage(sb: StringBuilder, parameters: List<HelpFormatter.ParameterHelp>,
                             programName: String): Unit = with(sb) {
-        val prog = usageTitle + " " + programName
+        val prog = "$usageTitle $programName"
         val usage = buildString {
             if (parameters.any { it.section == SECTION_OPTIONS }) {
                 append(optionsMetavar)
@@ -58,7 +58,7 @@ open class PlaintextHelpFormatter(val prolog: String = "",
             parameters.filterSection(SECTION_ARGUMENTS).forEach {
                 append(" ")
                 if (!it.required) append("[")
-                it.metavar?.let { append(it) }
+                append(it.names[0])
                 if (!it.required) append("]")
                 if (it.repeatable) append("...")
             }

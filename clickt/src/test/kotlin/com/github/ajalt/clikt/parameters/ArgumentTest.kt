@@ -7,8 +7,8 @@ import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.*
-import org.junit.Assert
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.fail
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -150,7 +150,7 @@ class ArgumentTest {
             val bar by argument()
             override fun run() = fail("should not be called. $foo, $bar")
         }
-        assertThrows<MissingParameter>("bar") {
+        assertThrows<MissingParameter>("BAR") {
             C().parse(splitArgv(""))
         }
     }
@@ -182,7 +182,7 @@ class ArgumentTest {
             override fun run() = fail("should not be called. $foo, $bar")
         }
 
-        assertThrows<MissingParameter>("foo") {
+        assertThrows<MissingParameter>("FOO") {
             C().parse(splitArgv(""))
         }
     }

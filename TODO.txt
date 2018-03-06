@@ -1,10 +1,10 @@
-customizable metavars for arguments
-    then update the examples
+rename clickt module to clikt
 inferred name case normalization for options, args, and metavars
-
-remaining option types
+pass option names to convert()
 
 store all data on the context to allow parsers to be pure.
+
+remaining option types
 
 custom help formatter
 custom multi commands

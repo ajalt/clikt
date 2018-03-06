@@ -10,22 +10,19 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     val name: String
     val nargs: Int
     val required: Boolean
-    val metavar: String?
     val help: String
     val parameterHelp: ParameterHelp?
     var rawValues: List<String>
-    /** Implementations must call [CliktCommand.registerArgument] */
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
-
     fun finalize(context: Context)
 
+    /** Implementations must call [CliktCommand.registerArgument] */
+    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
 class ProcessedArgument<out Tall, Tvalue>(
-        override var name: String,
+        name: String,
         override val nargs: Int,
         override val required: Boolean,
-        override val metavar: String?,
         override val help: String,
         val processValue: ValueProcessor<Tvalue>,
         val processAll: AllProcessor<Tall, Tvalue>) : Argument<Tall> {
@@ -33,11 +30,13 @@ class ProcessedArgument<out Tall, Tvalue>(
         require(nargs != 0) { "Arguments cannot have nargs == 0" }
     }
 
+    override var name: String = name
+        private set
     private var value: Tall by ExplicitLazy("Cannot read from argument delegate before parsing command line")
 
     override var rawValues: List<String> = emptyList()
     override val parameterHelp
-        get() = ParameterHelp(listOf(name), metavar, help,
+        get() = ParameterHelp(listOf(name), null, help,
                 ParameterHelp.SECTION_ARGUMENTS,
                 required && nargs == 1 || nargs > 1, nargs < 0)
 
@@ -46,7 +45,7 @@ class ProcessedArgument<out Tall, Tvalue>(
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
             ReadOnlyProperty<CliktCommand, Tall> {
         // TODO: better name inference
-        if (name.isBlank()) name = prop.name
+        if (name.isBlank()) name = prop.name.toUpperCase().replace("-", "_")
         thisRef.registerArgument(this)
         return this
     }
@@ -61,16 +60,15 @@ internal typealias RawArgument = ProcessedArgument<String, String>
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T, T> = { it.single() }
 
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
-    return ProcessedArgument(name, 1, true, "TEXT", help, { it }, defaultAllProcessor())
+    return ProcessedArgument(name, 1, true, help, { it }, defaultAllProcessor())
 }
 
 fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
         nargs: Int? = null,
         required: Boolean? = null,
         transform: AllProcessor<Tallo, Tvalue>): ProcessedArgument<Tallo, Tvalue> {
-    return ProcessedArgument(name, nargs ?: this.nargs, required
-            ?: this.required,
-            metavar, help, processValue, transform)
+    return ProcessedArgument(name, nargs ?: this.nargs, required ?: this.required,
+            help, processValue, transform)
 }
 
 fun <Tall : Any, Tvalue> ProcessedArgument<Tall, Tvalue>.optional()
@@ -99,11 +97,11 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ProcessedArgument<T, T
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
-fun <T : Any> RawArgument.convert(metavar: String? = null, conversion: (String) -> T): ProcessedArgument<T, T> {
-    return ProcessedArgument(name, nargs, required, metavar, help, conversion, defaultAllProcessor())
+fun <T : Any> RawArgument.convert(conversion: (String) -> T): ProcessedArgument<T, T> {
+    return ProcessedArgument(name, nargs, required, help, conversion, defaultAllProcessor())
 }
 
-fun <T : Any> ProcessedArgument<T, T>.validate(validator: (T) -> Unit): ProcessedArgument<T, T> {
+fun <T : Any> ProcessedArgument<T, T>.validate(validator: (T) -> Unit): Argument<T> {
     return transformAll(required = false) { processAll(it).apply { validator(this) } }
 }
 

@@ -75,9 +75,9 @@ fun RawOption.counted(): FlagOption<Int> {
     }
 }
 
-fun <T : Any> RawOption.convert(metavar: String? = null, conversion: ValueProcessor<T>):
+fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProcessor<T>):
         NullableOption<T, T> {
-    return OptionWithValues(names, explicitMetavar, metavar ?: "VALUE", nargs, help, parser, conversion,
+    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, conversion,
             defaultEachProcessor(), defaultAllProcessor())
 }
 
@@ -115,7 +115,7 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
 internal typealias NullableOption<Teach, Tvalue> = OptionWithValues<Teach?, Teach, Tvalue>
 internal typealias RawOption = NullableOption<String, String>
 
-private fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() } // TODO error message
+private fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() }
 private fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
 
 @Suppress("unused")
@@ -144,6 +144,9 @@ fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.multiple()
 
 fun <Teachi : Any, Teacho : Any, Tvalue> NullableOption<Teachi, Tvalue>.transformNargs(
         nargs: Int, transform: EachProcessor<Teacho, Tvalue>): NullableOption<Teacho, Tvalue> {
+    require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
+    require(nargs > 0) { "Options cannot have nargs < 0" }
+    require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, OptionWithValuesParser(),
             processValue, transform, defaultAllProcessor())
 }

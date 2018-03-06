@@ -6,7 +6,7 @@ import kotlin.reflect.KProperty
 /**
  * A container for a value that is initialized after the container is created.
  *
- * Similar to an unsyncronized lazy delegate, but the value is set manually. If the value is not set before
+ * Similar to an unsynchronized lazy delegate, but the value is set manually. If the value is not set before
  * being read, it will return null if T is nullable, or throw an IllegalStateException otherwise.
  */
 // TODO move to internal package

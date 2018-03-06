@@ -1,15 +1,13 @@
-package com.github.ajalt.clikt.core
+package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
-import com.github.ajalt.clikt.output.PlaintextHelpFormatter
 import com.github.ajalt.clikt.testing.softly
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-private const val OPT = HelpFormatter.ParameterHelp.Companion.SECTION_OPTIONS
-private const val ARG = HelpFormatter.ParameterHelp.Companion.SECTION_ARGUMENTS
-private const val CMD = HelpFormatter.ParameterHelp.Companion.SECTION_SUBCOMMANDS
+private const val OPT = ParameterHelp.SECTION_OPTIONS
+private const val ARG = ParameterHelp.SECTION_ARGUMENTS
+private const val CMD = ParameterHelp.SECTION_SUBCOMMANDS
 
 private fun <T> l(vararg t: T) = listOf(*t)
 private fun h(names: List<String>,
@@ -17,15 +15,10 @@ private fun h(names: List<String>,
               metavar: String? = null,
               help: String = "",
               required: Boolean = false,
-              repeatable: Boolean = false) = ParameterHelp(names,
-        metavar,
-        help,
-        section,
-        required,
-        repeatable)
+              repeatable: Boolean = false) =
+        ParameterHelp(names, metavar, help, section, required, repeatable)
 
 class PlaintextHelpFormatterTest {
-
     @Test
     fun formatUsage() {
         val f = PlaintextHelpFormatter()
@@ -33,22 +26,22 @@ class PlaintextHelpFormatterTest {
             assertThat(f.formatUsage(l(), programName = "prog1")).isEqualTo("Usage: prog1")
             assertThat(f.formatUsage(l(h(l("-x"), OPT)), programName = "prog2")).isEqualTo(
                     "Usage: prog2 [OPTIONS]")
-            assertThat(f.formatUsage(l(h(l("foo"), ARG, "FOO")), programName = "prog3")).isEqualTo(
+            assertThat(f.formatUsage(l(h(l("FOO"), ARG)), programName = "prog3")).isEqualTo(
                     "Usage: prog3 [FOO]")
-            assertThat(f.formatUsage(l(h(l("foo"), ARG, "FOO", required = true)), programName = "prog4")).isEqualTo(
+            assertThat(f.formatUsage(l(h(l("FOO"), ARG, required = true)), programName = "prog4")).isEqualTo(
                     "Usage: prog4 FOO")
-            assertThat(f.formatUsage(l(h(l("foo"), ARG, "FOO", repeatable = true)), programName = "prog5")).isEqualTo(
+            assertThat(f.formatUsage(l(h(l("FOO"), ARG, repeatable = true)), programName = "prog5")).isEqualTo(
                     "Usage: prog5 [FOO]...")
-            assertThat(f.formatUsage(l(h(l("foo"), ARG, "FOO", required = true, repeatable = true)), programName = "prog6")).isEqualTo(
+            assertThat(f.formatUsage(l(h(l("FOO"), ARG, required = true, repeatable = true)), programName = "prog6")).isEqualTo(
                     "Usage: prog6 FOO...")
             assertThat(f.formatUsage(l(
-                    h(l("foo"), ARG, "FOO", required = true, repeatable = true),
+                    h(l("FOO"), ARG, required = true, repeatable = true),
                     h(l("-x"), OPT),
-                    h(l("bar"), ARG, "BAR")), programName = "prog7")).isEqualTo(
+                    h(l("BAR"), ARG)), programName = "prog7")).isEqualTo(
                     "Usage: prog7 [OPTIONS] FOO... [BAR]")
             assertThat(f.formatUsage(l(
                     h(l("-x"), OPT),
-                    h(l("foo"), ARG, "FOO"),
+                    h(l("FOO"), ARG),
                     h(l("bar"), CMD, "BAR")), programName = "prog8")).isEqualTo(
                     "Usage: prog8 [OPTIONS] [FOO] COMMAND [ARGS]...")
         }
@@ -59,12 +52,12 @@ class PlaintextHelpFormatterTest {
         val f = PlaintextHelpFormatter(width = 54)
         assertThat(f.formatUsage(l(
                 h(l("-x"), OPT),
-                h(l(), ARG, "FIRST", required = true),
-                h(l(), ARG, "SECOND", required = true),
-                h(l(), ARG, "THIRD", required = true),
-                h(l(), ARG, "FOURTH", required = true),
-                h(l(), ARG, "FIFTH", required = true),
-                h(l(), ARG, "SIXTH", required = true)
+                h(l("FIRST"), ARG, required = true),
+                h(l("SECOND"), ARG, required = true),
+                h(l("THIRD"), ARG, required = true),
+                h(l("FOURTH"), ARG, required = true),
+                h(l("FIFTH"), ARG, required = true),
+                h(l("SIXTH"), ARG, required = true)
         ), programName = "cli a_very_long command")).isEqualTo(
                 """
                 |Usage: cli a_very_long command [OPTIONS] FIRST SECOND
@@ -78,12 +71,12 @@ class PlaintextHelpFormatterTest {
         val f = PlaintextHelpFormatter(width = 54)
         assertThat(f.formatUsage(l(
                 h(l("-x"), OPT),
-                h(l(), ARG, "FIRST", required = true),
-                h(l(), ARG, "SECOND", required = true),
-                h(l(), ARG, "THIRD", required = true),
-                h(l(), ARG, "FOURTH", required = true),
-                h(l(), ARG, "FIFTH", required = true),
-                h(l(), ARG, "SIXTH", required = true)
+                h(l("FIRST"), ARG, required = true),
+                h(l("SECOND"), ARG, required = true),
+                h(l("THIRD"), ARG, required = true),
+                h(l("FOURTH"), ARG, required = true),
+                h(l("FIFTH"), ARG, required = true),
+                h(l("SIXTH"), ARG, required = true)
         ), programName = "cli a_very_very_very_long command")).isEqualTo(
                 """
                 |Usage: cli a_very_very_very_long command

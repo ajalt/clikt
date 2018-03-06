@@ -29,6 +29,7 @@ class OptionTest {
     @Test
     fun `one option`() = parameterized(
             row("", null),
+            row("--xx=", ""),
             row("--xx 3", "3"),
             row("--xx=asd", "asd"),
             row("-x 4", "4"),

@@ -87,7 +87,6 @@ internal object Parser {
                              optionsByName: Map<String, Option>): Pair<Int, Option> {
         val equalsIndex = arg.indexOf('=')
         val (name, value) = if (equalsIndex >= 0) {
-            check(equalsIndex != arg.lastIndex) // TODO exceptions
             arg.substring(0, equalsIndex) to arg.substring(equalsIndex + 1)
         } else {
             arg to null

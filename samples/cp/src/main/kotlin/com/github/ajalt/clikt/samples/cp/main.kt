@@ -1,4 +1,4 @@
-package com.github.ajalt.clickt.samples.cp
+package com.github.ajalt.clikt.samples.cp
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.argument

@@ -1,4 +1,4 @@
-package com.github.ajalt.clickt.samples.repo
+package com.github.ajalt.clikt.samples.repo
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject

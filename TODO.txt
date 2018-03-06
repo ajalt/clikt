@@ -1,4 +1,3 @@
-rename clickt module to clikt
 inferred name case normalization for options, args, and metavars
 pass option names to convert()
 

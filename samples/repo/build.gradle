@@ -1,3 +1,3 @@
 apply plugin: 'application'
 
-mainClassName = 'com.github.ajalt.clickt.samples.repo.MainKt'
+mainClassName = 'com.github.ajalt.clikt.samples.repo.MainKt'

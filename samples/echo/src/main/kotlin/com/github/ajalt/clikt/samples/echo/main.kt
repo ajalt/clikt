@@ -1,4 +1,4 @@
-package com.github.ajalt.clickt.samples.echo
+package com.github.ajalt.clikt.samples.echo
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.argument

@@ -1,5 +1,5 @@
 subprojects {
     dependencies {
-        implementation project(':clickt')
+        implementation project(':clikt')
     }
 }

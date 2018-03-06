@@ -156,7 +156,7 @@ fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.paired()
         : LastOccurrenceOption<Pair<Tvalue, Tvalue>, Tvalue> = transformNargs(2) { it[0] to it[1] }
 
 fun <Teach : Any, Tvalue> LastOccurrenceOption<Teach, Tvalue>.triple()
-        : LastOccurrenceOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(2) { Triple(it[0], it[1], it[2]) }
+        : LastOccurrenceOption<Triple<Tvalue, Tvalue, Tvalue>, Tvalue> = transformNargs(3) { Triple(it[0], it[1], it[2]) }
 
 fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> {
     return FlagOption(names, help) {

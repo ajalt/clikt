@@ -127,6 +127,39 @@ class OptionTest {
     }
 
     @Test
+    fun `two options nargs=3`() {
+        val xvalue = Triple("1", "2", "3")
+        val yvalue = Triple("5", "6", "7")
+        parameterized(
+                row("", null, null),
+                row("--xx 1 2 3", xvalue, null),
+                row("--yy 5 6 7", null, yvalue),
+                row("--xx 1 2 3 --yy 5 6 7", xvalue, yvalue),
+                row("--xx 1 2 3 -y 5 6 7", xvalue, yvalue),
+                row("-x 1 2 3 --yy 5 6 7", xvalue, yvalue),
+                row("-x1 2 3 --yy 5 6 7", xvalue, yvalue),
+                row("--xx 1 2 3 -y5 6 7", xvalue, yvalue),
+                row("--xx=1 2 3 --yy=5 6 7", xvalue, yvalue),
+                row("-x1 2 3 --yy=5 6 7", xvalue, yvalue),
+                row("-x 1 2 3 -y 5 6 7", xvalue, yvalue),
+                row("-x1 2 3 -y 5 6 7", xvalue, yvalue),
+                row("-x 1 2 3 -y5 6 7", xvalue, yvalue),
+                row("-x1 2 3 -y5 6 7", xvalue, yvalue)
+        ) { (argv, ex, ey) ->
+            class C : CliktCommand() {
+                val x by option("-x", "--xx").triple()
+                val y by option("-y", "--yy").triple()
+                override fun run() {
+                    assertThat(x).called("x").isEqualTo(ex)
+                    assertThat(y).called("y").isEqualTo(ey)
+                }
+            }
+
+            C().parse(splitArgv(argv))
+        }
+    }
+
+    @Test
     fun `two options nargs=2 usage errors`() {
         class C : CliktCommand() {
             val x by option("-x", "--xx").paired()

@@ -59,10 +59,9 @@ abstract class CliktCommand(
         return helpFormatter.formatHelp(allHelpParams(), programName = name)
     }
 
-    private fun helpAsSubcommand(): ParameterHelp {
-        val shortHelp = help.split(".", "\n", limit=2).first().trim()
-        return ParameterHelp(listOf(name), null, shortHelp,
-                ParameterHelp.SECTION_SUBCOMMANDS, true, false)
+    private fun helpAsSubcommand(): ParameterHelp.Subcommand {
+        val shortHelp = help.split(".", "\n", limit = 2).first().trim()
+        return ParameterHelp.Subcommand(name, shortHelp)
     }
 
     fun parse(argv: Array<String>) {

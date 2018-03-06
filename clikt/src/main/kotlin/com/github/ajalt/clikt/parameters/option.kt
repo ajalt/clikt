@@ -15,9 +15,8 @@ interface Option {
     val parser: OptionParser
     val names: Set<String>
     val nargs: Int
-    val parameterHelp: ParameterHelp?
-        get() = ParameterHelp(names.toList(), metavar, help, ParameterHelp.SECTION_OPTIONS,
-                false, parser.repeatableForHelp(this))
+    val parameterHelp: ParameterHelp.Option?
+        get() = ParameterHelp.Option(names.toList(), metavar, help, parser.repeatableForHelp(this))
 
     fun finalize(context: Context)
 }

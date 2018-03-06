@@ -36,9 +36,7 @@ class ProcessedArgument<out Tall, Tvalue>(
 
     override var rawValues: List<String> = emptyList()
     override val parameterHelp
-        get() = ParameterHelp(listOf(name), null, help,
-                ParameterHelp.SECTION_ARGUMENTS,
-                required && nargs == 1 || nargs > 1, nargs < 0)
+        get() = ParameterHelp.Argument(name, help, required && nargs == 1 || nargs > 1, nargs < 0)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall = value
 

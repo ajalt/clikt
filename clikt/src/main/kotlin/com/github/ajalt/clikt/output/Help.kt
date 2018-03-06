@@ -1,25 +1,24 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Companion.SECTION_ARGUMENTS
-import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Companion.SECTION_OPTIONS
-import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Companion.SECTION_SUBCOMMANDS
 import kotlin.LazyThreadSafetyMode.NONE
 
 interface HelpFormatter {
     fun formatUsage(parameters: List<ParameterHelp>, programName: String = ""): String
     fun formatHelp(parameters: List<ParameterHelp>, programName: String = ""): String
 
-    data class ParameterHelp constructor(val names: List<String>,
-                                         val metavar: String?,
-                                         val help: String,
-                                         val section: Int,
-                                         val required: Boolean,
-                                         val repeatable: Boolean) {
-        companion object {
-            const val SECTION_OPTIONS = 1
-            const val SECTION_ARGUMENTS = 2
-            const val SECTION_SUBCOMMANDS = 3
-        }
+    sealed class ParameterHelp {
+        data class Option(val names: List<String>,
+                          val metavar: String?,
+                          val help: String,
+                          val repeatable: Boolean) : ParameterHelp()
+
+        data class Argument(val name: String,
+                            val help: String,
+                            val required: Boolean,
+                            val repeatable: Boolean) : ParameterHelp()
+
+        data class Subcommand(val name: String,
+                              val help: String) : ParameterHelp()
     }
 }
 
@@ -51,19 +50,19 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
                             programName: String): Unit = with(sb) {
         val prog = "$usageTitle $programName"
         val usage = buildString {
-            if (parameters.any { it.section == SECTION_OPTIONS }) {
+            if (parameters.any { it is HelpFormatter.ParameterHelp.Option }) {
                 append(optionsMetavar)
             }
 
-            parameters.filterSection(SECTION_ARGUMENTS).forEach {
+            parameters.filterIsInstance<HelpFormatter.ParameterHelp.Argument>().forEach {
                 append(" ")
                 if (!it.required) append("[")
-                append(it.names[0])
+                append(it.name)
                 if (!it.required) append("]")
                 if (it.repeatable) append("...")
             }
 
-            if (parameters.any { it.section == SECTION_SUBCOMMANDS }) {
+            if (parameters.any { it is HelpFormatter.ParameterHelp.Subcommand }) {
                 append(" ").append(commandMetavar)
             }
         }
@@ -76,7 +75,7 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
             usage.wrapText(this, width, usageIndent, usageIndent)
         } else {
             val usageIndent = " ".repeat(prog.length + 1)
-            usage.wrapText(this, width, prog + " ", usageIndent)
+            usage.wrapText(this, width, "$prog ", usageIndent)
         }
     }
 
@@ -88,7 +87,7 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
             prolog.wrapText(this, width, preserveParagraph = true)
         }
 
-        val options = parameters.filterSection(SECTION_OPTIONS).map {
+        val options = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>().map {
             it.names.sortedBy { it.startsWith("--") }
                     .joinToString(", ", postfix = optionMetavar(it)) to it.help
         }
@@ -98,8 +97,8 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
             appendDefinitionList(options)
         }
 
-        val arguments = parameters.filterSection(SECTION_ARGUMENTS).map {
-            it.names[0] to it.help
+        val arguments = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Argument>().map {
+            it.name to it.help
         }
         if (arguments.isNotEmpty() && arguments.any { it.second.isNotEmpty() }) {
             append("\n")
@@ -107,8 +106,8 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
             appendDefinitionList(arguments)
         }
 
-        val commands = parameters.filterSection(SECTION_SUBCOMMANDS).map {
-            it.names[0] to it.help
+        val commands = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Subcommand>().map {
+            it.name to it.help
         }
         if (commands.isNotEmpty()) {
             append("\n")
@@ -122,15 +121,12 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
         }
     }
 
-    protected fun optionMetavar(option: HelpFormatter.ParameterHelp) : String {
+    protected fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         val metavar = " " + option.metavar
-        if (option.repeatable) return metavar + "..."
+        if (option.repeatable) return "$metavar..."
         return metavar
     }
-
-    protected fun List<HelpFormatter.ParameterHelp>.filterSection(section: Int) =
-            filter { it.section == section }
 
     private fun StringBuilder.appendDefinitionList(rows: List<Pair<String, String>>) {
         if (rows.isEmpty()) return

@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.BadOptionUsage
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.*
@@ -225,4 +226,24 @@ class OptionTest {
         C().parse(splitArgv(argv))
     }
 
+    @Test
+    fun `option metavars`() {
+        class C : CliktCommand() {
+            val x by option()
+            val y by option(metavar = "FOO").default("")
+            val z by option(metavar = "FOO").convert("BAR") { it }
+            val w by option().convert("BAR") { it }
+            override fun run() {
+                assertThat(options).allMatch {
+                    it is EagerOption || // skip help option
+                    "--x" in it.names && it.metavar == "TEXT" ||
+                            "--y" in it.names && it.metavar == "FOO" ||
+                            "--z" in it.names && it.metavar == "FOO" ||
+                            "--w" in it.names && it.metavar == "BAR"
+                }
+            }
+        }
+
+        C().parse(splitArgv(""))
+    }
 }

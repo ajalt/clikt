@@ -8,11 +8,11 @@ internal fun helpOption(names: Set<String>, message: String) = EagerOption(messa
     throw PrintHelpMessage(ctx.command)
 })
 
-inline fun CliktCommand.versionOption( // TODO test
+inline fun <T: CliktCommand> T.versionOption(
         version: String,
         help: String = "Show the version and exit.",
         names: Set<String> = setOf("--version"),
-        crossinline message: (String) -> String = { "$name version $version" }): CliktCommand {
+        crossinline message: (String) -> String = { "$name version $it" }): T {
     registerOption(EagerOption(help, names) { _, _ ->
         throw PrintMessage(message(version))
     })

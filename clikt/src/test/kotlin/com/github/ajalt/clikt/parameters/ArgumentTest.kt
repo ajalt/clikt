@@ -151,9 +151,9 @@ class ArgumentTest {
             val bar by argument()
             override fun run() = fail("should not be called. $foo, $bar")
         }
-        assertThrows<MissingParameter>("BAR") {
+        assertThrows<MissingParameter> {
             C().parse(splitArgv(""))
-        }
+        }.hasMessageContaining("BAR")
     }
 
     @Test
@@ -183,9 +183,9 @@ class ArgumentTest {
             override fun run() = fail("should not be called. $foo, $bar")
         }
 
-        assertThrows<MissingParameter>("FOO") {
+        assertThrows<MissingParameter> {
             C().parse(splitArgv(""))
-        }
+        }.hasMessageContaining("FOO")
     }
 
     @Test

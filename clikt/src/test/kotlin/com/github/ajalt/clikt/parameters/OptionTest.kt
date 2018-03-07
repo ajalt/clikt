@@ -171,12 +171,12 @@ class OptionTest {
                 fail("should not be called $x, $y")
             }
         }
-        assertThrows<BadOptionUsage>("-x option requires 2 arguments") {
+        assertThrows<BadOptionUsage> {
             C().parse(splitArgv("-x"))
-        }
-        assertThrows<UsageError>("baz") {
+        }.hasMessageContaining("-x option requires 2 arguments")
+        assertThrows<UsageError> {
             C().parse(splitArgv("--yy foo bar baz"))
-        }
+        }.hasMessageContaining("baz")
     }
 
     @Test

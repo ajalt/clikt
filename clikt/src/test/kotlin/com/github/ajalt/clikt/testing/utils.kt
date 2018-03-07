@@ -36,15 +36,9 @@ inline fun <T : Row> parameterized(vararg data: T, addDescription: Boolean = tru
     softly.assertAll()
 }
 
-inline fun <reified T : Exception> assertThrows(messageContains: String? = null,
-                                                crossinline block: () -> Unit)
+inline fun <reified T : Exception> assertThrows(crossinline block: () -> Unit)
         : AbstractThrowableAssert<*, out Throwable> {
-    val assert = Assertions.assertThatThrownBy { block() }
-    assert.isInstanceOf(T::class.java)
-    if (messageContains != null) {
-        assert.hasMessageContaining(messageContains)
-    }
-    return assert
+    return Assertions.assertThatThrownBy { block() }.isInstanceOf(T::class.java)
 }
 
 fun <A> row(a: A) = Row1(a)

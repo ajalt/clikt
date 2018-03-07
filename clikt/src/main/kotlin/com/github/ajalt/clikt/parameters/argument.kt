@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -19,13 +20,16 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
+private typealias ArgValueProcessor<T> = Argument<*>.(String) -> T
+private typealias ArgAllProcessor<Tall, Teach> = Argument<*>.(List<Teach>) -> Tall
+
 class ProcessedArgument<out Tall, Tvalue>(
         name: String,
         override val nargs: Int,
         override val required: Boolean,
         override val help: String,
-        val processValue: (String) -> Tvalue,
-        val processAll: AllProcessor<Tall, Tvalue>) : Argument<Tall> {
+        val processValue: ArgValueProcessor<Tvalue>,
+        val processAll: ArgAllProcessor<Tall, Tvalue>) : Argument<Tall> {
     init {
         require(nargs != 0) { "Arguments cannot have nargs == 0" }
     }
@@ -54,7 +58,7 @@ class ProcessedArgument<out Tall, Tvalue>(
 
 internal typealias RawArgument = ProcessedArgument<String, String>
 
-private fun <T : Any> defaultAllProcessor(): AllProcessor<T, T> = { it.single() }
+private fun <T : Any> defaultAllProcessor(): ArgAllProcessor<T, T> = { it.single() }
 
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
     return ProcessedArgument(name, 1, true, help, { it }, defaultAllProcessor())
@@ -63,7 +67,7 @@ fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
 fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
         nargs: Int? = null,
         required: Boolean? = null,
-        transform: AllProcessor<Tallo, Tvalue>): ProcessedArgument<Tallo, Tvalue> {
+        transform: ArgAllProcessor<Tallo, Tvalue>): ProcessedArgument<Tallo, Tvalue> {
     return ProcessedArgument(name, nargs ?: this.nargs, required ?: this.required,
             help, processValue, transform)
 }
@@ -94,7 +98,7 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ProcessedArgument<T, T
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
-fun <T : Any> RawArgument.convert(conversion: (String) -> T): ProcessedArgument<T, T> {
+fun <T : Any> RawArgument.convert(conversion: ArgValueProcessor<T>): ProcessedArgument<T, T> {
     return ProcessedArgument(name, nargs, required, help, conversion, defaultAllProcessor())
 }
 

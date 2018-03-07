@@ -5,9 +5,9 @@ import com.github.ajalt.clikt.parameters.RawArgument
 import com.github.ajalt.clikt.parameters.RawOption
 import com.github.ajalt.clikt.parameters.convert
 
-private val valueToInt: (String) -> Int = {
-    it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
+private fun valueToInt(it: String): Int {
+    return it.toIntOrNull() ?: throw BadParameter("$it is not a valid integer")
 }
 
-fun RawArgument.int() = convert(valueToInt)
+fun RawArgument.int() = convert { valueToInt(it) }
 fun RawOption.int() = convert("INT") { valueToInt(it) }

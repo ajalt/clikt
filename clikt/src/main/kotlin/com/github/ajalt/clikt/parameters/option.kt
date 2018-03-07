@@ -84,15 +84,9 @@ fun RawOption.counted(): FlagOption<Int> {
     return FlagOption(names, secondaryNames, help) { it.size }
 }
 
-fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProcessor<T>):
-        NullableOption<T, T> {
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, conversion,
-            defaultEachProcessor(), defaultAllProcessor())
-}
-
-internal typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T
-internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
-internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
+private typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T
+private typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
+private typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
 class OptionWithValues<out Tall, Teach, Tvalue>(
         names: Set<String>,
@@ -187,4 +181,10 @@ fun <Tall, Teach, Tvalue> OptionWithValues<Tall, Teach, Tvalue>.validate(validat
             help, parser, processValue, processEach) {
         processAll(it).apply { validator(this) }
     }
+}
+
+fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProcessor<T>):
+        NullableOption<T, T> {
+    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, conversion,
+            defaultEachProcessor(), defaultAllProcessor())
 }

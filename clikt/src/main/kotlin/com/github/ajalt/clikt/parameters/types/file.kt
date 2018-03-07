@@ -33,7 +33,7 @@ fun RawArgument.file(exists: Boolean = false,
                      writable: Boolean = false,
                      readable: Boolean = false): ProcessedArgument<File, File> {
     val (_, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
-    return convert(conversion)
+    return convert { conversion(it) }
 }
 
 fun RawOption.file(exists: Boolean = false,

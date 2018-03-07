@@ -42,5 +42,5 @@ fun RawOption.file(exists: Boolean = false,
                    writable: Boolean = false,
                    readable: Boolean = false): NullableOption<File, File> {
     val (name, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
-    return convert(name.toUpperCase(), conversion)
+    return convert(name.toUpperCase()) { conversion(it) }
 }

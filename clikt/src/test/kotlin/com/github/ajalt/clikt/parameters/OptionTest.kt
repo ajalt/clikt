@@ -183,7 +183,13 @@ class OptionTest {
     fun `flag options`() = parameterized(
             row("", false, false, null),
             row("-x", true, false, null),
+            row("-xx", true, false, null),
+            row("-xX", false, false, null),
+            row("-Xx", true, false, null),
+            row("-x --no-xx", false, false, null),
             row("--xx", true, false, null),
+            row("--no-xx", false, false, null),
+            row("--no-xx --xx", true, false, null),
             row("-y", false, true, null),
             row("--yy", false, true, null),
             row("-xy", true, true, null),
@@ -194,10 +200,11 @@ class OptionTest {
             row("--xx --yy --zz foo", true, true, "foo"),
             row("-xy -z foo", true, true, "foo"),
             row("-xyzxyz", true, true, "xyz"),
+            row("-xXyzXyz", false, true, "Xyz"),
             row("-xzfoo", true, false, "foo")
     ) { (argv, ex, ey, ez) ->
         class C : CliktCommand() {
-            val x by option("-x", "--xx").flag()
+            val x by option("-x", "--xx").flag("-X", "--no-xx")
             val y by option("-y", "--yy").flag()
             val z by option("-z", "--zz")
             override fun run() {
@@ -269,15 +276,15 @@ class OptionTest {
             val y by option(metavar = "FOO").default("")
             val z by option(metavar = "FOO").convert("BAR") { it }
             val w by option().convert("BAR") { it }
+            val u by option().flag()
             override fun run() {
                 assertThat(options).allMatch {
-                    val b = it is EagerOption || // skip help option
+                    it is EagerOption || // skip help option
                             "--x" in it.names && it.metavar == "TEXT" ||
                             "--y" in it.names && it.metavar == "FOO" ||
                             "--z" in it.names && it.metavar == "FOO" ||
-                            "--w" in it.names && it.metavar == "BAR"
-                    println("${it.names}, ${it.metavar}, $b")
-                    b
+                            "--w" in it.names && it.metavar == "BAR" ||
+                            "--u" in it.names && it.metavar == null
                 }
             }
         }
@@ -289,6 +296,7 @@ class OptionTest {
     fun `option validators`() {
         var calledX = false
         var calledY = false
+
         class C : CliktCommand() {
             val x by option().validate {
                 calledX = true
@@ -298,6 +306,7 @@ class OptionTest {
                 calledY = true
                 assertThat(it).isTrue()
             }
+
             override fun run() = Unit
         }
 

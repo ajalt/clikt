@@ -5,25 +5,20 @@ import com.github.ajalt.clikt.core.BadOptionUsage
 
 
 class FlagOptionParser : OptionParser {
-    private val _rawValues = mutableListOf<Boolean>()
-    val rawValues: List<Boolean> get() = _rawValues
-    private fun offNames(option: Option): List<String> = option.names.mapNotNull {
-        if ("/" in it) {
-            val split = it.split("/", limit = 2)
-            split[1].let { if (it.isBlank()) null else it }
-        } else null
-    }
+    private val _rawValues = mutableListOf<String>()
+    /** The option names for each invocation of the flag. */
+    val rawValues: List<String> get() = _rawValues
 
     override fun repeatableForHelp(option: Option) = false
 
     override fun parseLongOpt(option: Option, name: String, argv: Array<String>, index: Int, explicitValue: String?): Int {
         if (explicitValue != null) throw BadOptionUsage("$name option does not take a value")
-        _rawValues += name !in offNames(option)
+        _rawValues += name
         return 1
     }
 
     override fun parseShortOpt(option: Option, name: String, argv: Array<String>, index: Int, optionIndex: Int): Int {
-        _rawValues += name !in offNames(option)
+        _rawValues += name
         return if (optionIndex == argv[index].lastIndex) 1 else 0
     }
 }

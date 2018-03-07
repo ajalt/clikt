@@ -10,4 +10,4 @@ private val valueToInt: (String) -> Int = {
 }
 
 fun RawArgument.int() = convert(valueToInt)
-fun RawOption.int() = convert("INT", valueToInt)
+fun RawOption.int() = convert("INT") { valueToInt(it) }

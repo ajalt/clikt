@@ -7,7 +7,8 @@ interface HelpFormatter {
     fun formatHelp(parameters: List<ParameterHelp>, programName: String = ""): String
 
     sealed class ParameterHelp {
-        data class Option(val names: List<String>,
+        data class Option(val names: Set<String>,
+                          val secondaryNames: Set<String>,
                           val metavar: String?,
                           val help: String,
                           val repeatable: Boolean) : ParameterHelp()
@@ -79,6 +80,7 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
         }
     }
 
+
     override fun formatHelp(parameters: List<HelpFormatter.ParameterHelp>,
                             programName: String) = buildString {
         formatUsage(this, parameters, programName)
@@ -88,8 +90,9 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
         }
 
         val options = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>().map {
-            it.names.sortedBy { it.startsWith("--") }
-                    .joinToString(", ", postfix = optionMetavar(it)) to it.help
+            val names = mutableListOf(joinOptionNames(it.names))
+            if (it.secondaryNames.isNotEmpty()) names += joinOptionNames(it.secondaryNames)
+            names.joinToString(" / ", postfix = optionMetavar(it)) to it.help
         }
         if (options.isNotEmpty()) {
             append("\n")
@@ -121,6 +124,10 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
         }
     }
 
+    protected fun joinOptionNames(names: Set<String>): String {
+        return names.sortedBy { it.startsWith("--") }.joinToString(", ")
+    }
+
     protected fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         val metavar = " " + option.metavar
@@ -137,7 +144,7 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
             val (first, second) = row
             if (i > 0) append("\n")
             append(indent).append(first)
-            if (first.length + indent.length > maxColWidth) {
+            if (first.length> maxColWidth) {
                 append("\n").append(subsequentIndent)
             } else {
                 appendRepeat(" ", firstWidth - first.length + colSpacing)

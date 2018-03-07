@@ -10,12 +10,18 @@ private fun <T> l(vararg t: T) = listOf(*t)
 private fun opt(names: List<String>,
                 metavar: String? = null,
                 help: String = "",
-                repeatable: Boolean = false) = ParameterHelp.Option(names, metavar, help, repeatable)
+                repeatable: Boolean = false,
+                secondaryNames: List<String> = emptyList()): ParameterHelp.Option {
+    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, repeatable)
+}
 
 private fun opt(name: String,
                 metavar: String? = null,
                 help: String = "",
-                repeatable: Boolean = false) = opt(l(name), metavar, help, repeatable)
+                repeatable: Boolean = false,
+                secondaryNames: List<String> = emptyList()): ParameterHelp.Option {
+    return opt(l(name), metavar, help, repeatable, secondaryNames)
+}
 
 private fun arg(name: String,
                 help: String = "",
@@ -95,8 +101,8 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp one opt`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp(l(opt(l("--aa", "-a"),
-                "INT", "some thing to live by", false)), programName = "prog")).isEqualTo(
+        assertThat(f.formatHelp(l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+                programName = "prog")).isEqualTo(
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -106,10 +112,24 @@ class PlaintextHelpFormatterTest {
     }
 
     @Test
+    fun `formatHelp one opt secondary name`() {
+        val f = PlaintextHelpFormatter(width = 60)
+        assertThat(f.formatHelp(l(opt(l("--aa", "-a"),
+                null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))),
+                programName = "prog")).isEqualTo(
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa / -A, --no-aa  some thing to know
+                """.trimMargin("|"))
+    }
+
+    @Test
     fun `formatHelp one opt prolog`() {
         val f = PlaintextHelpFormatter(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.")
-        assertThat(f.formatHelp(l(opt(l("--aa", "-a"),
-                "INT", "some thing to live by", false)), programName = "prog")).isEqualTo(
+        assertThat(f.formatHelp(l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+                programName = "prog")).isEqualTo(
                 """
                 |Usage: prog [OPTIONS]
                 |

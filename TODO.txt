@@ -1,13 +1,14 @@
-pass option names to convert()
+check for names like '-something' or 'something'
 store all data on the context to allow parsers to be pure.
 http://click.pocoo.org/5/commands/#group-invocation-without-command
 
 remaining option types
-
+    Option.choice(varags choices) = validate...
+    Option.map(varags choices: Pair) = convert...
 custom help formatter
-custom multi commands
 
 examples
     cp (Consider --interactive)
     required options
     argparse style help formatter
+    custom multi commands

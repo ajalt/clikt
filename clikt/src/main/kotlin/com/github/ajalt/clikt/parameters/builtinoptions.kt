@@ -8,7 +8,7 @@ internal fun helpOption(names: Set<String>, message: String) = EagerOption(messa
     throw PrintHelpMessage(ctx.command)
 })
 
-inline fun CliktCommand.versionOption(
+inline fun CliktCommand.versionOption( // TODO test
         version: String,
         help: String = "Show the version and exit.",
         names: Set<String> = setOf("--version"),

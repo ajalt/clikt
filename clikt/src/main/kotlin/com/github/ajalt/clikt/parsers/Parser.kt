@@ -25,6 +25,7 @@ internal object Parser {
 
         for (option in command.options) {
             for (name in option.names) optionsByName[name] = option
+            for (name in option.secondaryNames) optionsByName[name] = option
         }
 
         val positionalArgs = ArrayList<String>()

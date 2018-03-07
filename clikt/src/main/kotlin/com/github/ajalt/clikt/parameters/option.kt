@@ -14,9 +14,10 @@ interface Option {
     val help: String
     val parser: OptionParser
     val names: Set<String>
+    val secondaryNames: Set<String>
     val nargs: Int
     val parameterHelp: ParameterHelp.Option?
-        get() = ParameterHelp.Option(names.toList(), metavar, help, parser.repeatableForHelp(this))
+        get() = ParameterHelp.Option(names, secondaryNames, metavar, help, parser.repeatableForHelp(this))
 
     fun finalize(context: Context)
 }
@@ -25,6 +26,7 @@ class EagerOption(
         override val help: String,
         override val names: Set<String>,
         private val callback: (Context, EagerOption) -> Unit) : Option {
+    override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser()
     override val metavar: String? get() = null
     override val nargs: Int get() = 0
@@ -48,8 +50,9 @@ private fun inferOptionNames(names: Set<String>, propertyName: String): Set<Stri
 
 class FlagOption<out T : Any>(
         names: Set<String>,
+        override val secondaryNames: Set<String>,
         override val help: String,
-        val processAll: (List<Boolean>) -> T) : OptionDelegate<T> {
+        val processAll: (List<String>) -> T) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser()
@@ -71,15 +74,14 @@ class FlagOption<out T : Any>(
 }
 
 
-fun RawOption.flag(default: Boolean = false): FlagOption<Boolean> {
-    return FlagOption(names, help, { it.lastOrNull() ?: default })
+fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
+    return FlagOption(names, secondaryNames.toSet(), help, {
+        if (it.isEmpty()) default else it.last() !in secondaryNames
+    })
 }
 
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, help) {
-        for (name in names) require("/" !in name) { "counted parameters cannot have off names" }
-        it.size
-    }
+    return FlagOption(names, secondaryNames, help) { it.size }
 }
 
 fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProcessor<T>):
@@ -88,7 +90,7 @@ fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProc
             defaultEachProcessor(), defaultAllProcessor())
 }
 
-internal typealias ValueProcessor<T> = (String) -> T
+internal typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T
 internal typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
 internal typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
 
@@ -104,17 +106,21 @@ class OptionWithValues<out Tall, Teach, Tvalue>(
         val processAll: AllProcessor<Tall, Teach>) : OptionDelegate<Tall> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
     private var value: Tall by ExplicitLazy("Cannot read from option delegate before parsing command line")
+    override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
         private set
 
     override fun finalize(context: Context) {
-        value = processAll(parser.rawValues.map { processEach(it.map { processValue(it) }) })
+        value = processAll(parser.rawValues.map { processEach(it.values.map { v -> processValue(it, v) }) })
     }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, Tall> {
         names = inferOptionNames(names, prop.name)
+        require(secondaryNames.isEmpty()) {
+            "Secondary option names are only allowed on flag options."
+        }
         thisRef.registerOption(this)
         return this
     }
@@ -170,7 +176,7 @@ fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.triple()
 }
 
 fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> {
-    return FlagOption(names, help) {
+    return FlagOption(names, secondaryNames, help) {
         processAll(it).apply { validator(this) }
     }
 }

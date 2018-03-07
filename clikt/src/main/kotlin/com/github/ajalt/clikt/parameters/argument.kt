@@ -24,7 +24,7 @@ class ProcessedArgument<out Tall, Tvalue>(
         override val nargs: Int,
         override val required: Boolean,
         override val help: String,
-        val processValue: ValueProcessor<Tvalue>,
+        val processValue: (String) -> Tvalue,
         val processAll: AllProcessor<Tall, Tvalue>) : Argument<Tall> {
     init {
         require(nargs != 0) { "Arguments cannot have nargs == 0" }

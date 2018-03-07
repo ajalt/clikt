@@ -26,13 +26,15 @@ interface OptionParser {
 
 
 class OptionWithValuesParser : OptionParser {
-    private val _rawValues = mutableListOf<List<String>>()
-    val rawValues: List<List<String>> get() = _rawValues // TODO: can parsers be pure?
+    data class Invocation(val name: String, val values: List<String>)
+
+    private val _rawValues = mutableListOf<Invocation>()
+    val rawValues: List<Invocation> get() = _rawValues // TODO: can parsers be pure?
     override fun repeatableForHelp(option: Option) = option.nargs > 1
 
     override fun parseLongOpt(option: Option, name: String, argv: Array<String>, index: Int, explicitValue: String?): Int {
         require(option.nargs > 0) {
-            "This parser can only be used with a fixed number of arguments. Try the Flag parser instead."
+            "This parser can only be used with a fixed number of arguments. Try the flag parser instead."
         }
         val hasIncludedValue = explicitValue != null
         val consumedCount = if (hasIncludedValue) option.nargs else option.nargs + 1
@@ -49,9 +51,9 @@ class OptionWithValuesParser : OptionParser {
         _rawValues += if (option.nargs > 1) {
             var args = argv.slice((index + 1)..endIndex)
             if (explicitValue != null) args = listOf(explicitValue) + args
-            args
+            Invocation(name, args)
         } else {
-            listOf(explicitValue ?: argv[index + 1])
+            Invocation(name, listOf(explicitValue ?: argv[index + 1]))
         }
         return consumedCount
     }

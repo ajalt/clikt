@@ -3,8 +3,8 @@ package com.github.ajalt.clikt.parsers
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.Argument
-import com.github.ajalt.clikt.parameters.EagerOption
-import com.github.ajalt.clikt.parameters.Option
+import com.github.ajalt.clikt.parameters.options.EagerOption
+import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.core.BadArgumentUsage
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.core.NoSuchOption

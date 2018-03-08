@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.BadOptionUsage
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row

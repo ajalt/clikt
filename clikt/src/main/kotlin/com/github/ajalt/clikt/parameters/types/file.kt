@@ -2,6 +2,9 @@ package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameter
 import com.github.ajalt.clikt.parameters.*
+import com.github.ajalt.clikt.parameters.NullableOption
+import com.github.ajalt.clikt.parameters.RawOption
+import com.github.ajalt.clikt.parameters.convert
 import java.io.File
 
 private fun convertToFile(exists: Boolean,
@@ -37,10 +40,10 @@ fun RawArgument.file(exists: Boolean = false,
 }
 
 fun RawOption.file(exists: Boolean = false,
-                   fileOkay: Boolean = true,
-                   folderOkay: Boolean = true,
-                   writable: Boolean = false,
-                   readable: Boolean = false): NullableOption<File, File> {
+                                                     fileOkay: Boolean = true,
+                                                     folderOkay: Boolean = true,
+                                                     writable: Boolean = false,
+                                                     readable: Boolean = false): NullableOption<File, File> {
     val (name, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
     return convert(name.toUpperCase()) { conversion(it) }
 }

@@ -2,98 +2,13 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
-import com.github.ajalt.clikt.parsers.FlagOptionParser
-import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.parameters.options.FlagOption
+import com.github.ajalt.clikt.parameters.options.OptionDelegate
+import com.github.ajalt.clikt.parameters.options.inferOptionNames
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-interface Option {
-    val metavar: String?
-    val help: String
-    val parser: OptionParser
-    val names: Set<String>
-    val secondaryNames: Set<String>
-    val nargs: Int
-    val parameterHelp: ParameterHelp.Option?
-        get() = ParameterHelp.Option(names, secondaryNames, metavar, help, parser.repeatableForHelp(this))
-
-    fun finalize(context: Context)
-}
-
-class EagerOption(
-        override val help: String,
-        override val names: Set<String>,
-        private val callback: (Context, EagerOption) -> Unit) : Option {
-    override val secondaryNames: Set<String> get() = emptySet()
-    override val parser: OptionParser = FlagOptionParser()
-    override val metavar: String? get() = null
-    override val nargs: Int get() = 0
-    override fun finalize(context: Context) {
-        callback(context, this)
-    }
-}
-
-
-interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
-    /** Implementations must call [CliktCommand.registerOption] */
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
-}
-
-private fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {
-    if (names.isNotEmpty()) return names
-    val normalizedName = propertyName.split(Regex("(?<=[a-z])(?=[A-Z])"))
-            .joinToString("-", prefix = "--") { it.toLowerCase() }
-    return setOf(normalizedName)
-}
-
-class FlagOption<out T>(
-        names: Set<String>,
-        override val secondaryNames: Set<String>,
-        override val help: String,
-        val processAll: (List<String>) -> T) : OptionDelegate<T> {
-    override val metavar: String? = null
-    override val nargs: Int get() = 0
-    override val parser = FlagOptionParser()
-    private var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
-    override var names: Set<String> = names
-        private set
-
-    override fun finalize(context: Context) {
-        value = processAll(parser.rawValues)
-    }
-
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
-
-    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
-        names = inferOptionNames(names, prop.name)
-        thisRef.registerOption(this)
-        return this
-    }
-}
-
-
-fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
-    return FlagOption(names, secondaryNames.toSet(), help, {
-        if (it.isEmpty()) default else it.last() !in secondaryNames
-    })
-}
-
-fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, secondaryNames, help) { it.size }
-}
-
-fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
-    require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(choices.keys, secondaryNames, help) { it.map { choices[it]!! }.lastOrNull() }
-}
-
-fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
-
-fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
-    return FlagOption(names, secondaryNames, help) { processAll(it) ?: value }
-}
 
 private typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T
 private typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach

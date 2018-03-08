@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.parameters.Option
+import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.core.BadOptionUsage
 
 

@@ -1,4 +1,4 @@
-package com.github.ajalt.clikt.parameters
+package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage

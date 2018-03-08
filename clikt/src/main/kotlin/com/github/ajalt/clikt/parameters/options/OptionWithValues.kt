@@ -1,10 +1,8 @@
-package com.github.ajalt.clikt.parameters
+package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.parameters.options.FlagOption
-import com.github.ajalt.clikt.parameters.options.OptionDelegate
-import com.github.ajalt.clikt.parameters.options.inferOptionNames
+import com.github.ajalt.clikt.parameters.ExplicitLazy
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

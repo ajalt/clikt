@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.parameters.options
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.ExplicitLazy
-import com.github.ajalt.clikt.parameters.RawOption
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

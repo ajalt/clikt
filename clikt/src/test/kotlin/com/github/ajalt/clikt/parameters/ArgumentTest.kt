@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.BadArgumentUsage
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.core.PrintHelpMessage
+import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row

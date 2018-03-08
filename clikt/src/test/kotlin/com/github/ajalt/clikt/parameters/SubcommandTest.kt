@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv

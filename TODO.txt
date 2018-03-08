@@ -1,9 +1,7 @@
-check for names like '-something' or 'something'
 store all data on the context to allow parsers to be pure.
 http://click.pocoo.org/5/commands/#group-invocation-without-command
 
 remaining option types
-    Option.switch(varags choices: Pair) = convert...
 custom help formatter
 
 examples

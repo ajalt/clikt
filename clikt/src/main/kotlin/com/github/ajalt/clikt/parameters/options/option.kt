@@ -26,7 +26,11 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
 }
 
 internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {
-    if (names.isNotEmpty()) return names
+    if (names.isNotEmpty()) {
+        val invalidName = names.find { !it.matches(Regex("-\\w|--\\w+")) }
+        require(invalidName == null) { "Invalid option name \"$invalidName\"" }
+        return names
+    }
     val normalizedName = propertyName.split(Regex("(?<=[a-z])(?=[A-Z])"))
             .joinToString("-", prefix = "--") { it.toLowerCase() }
     return setOf(normalizedName)

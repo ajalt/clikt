@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import junit.framework.Assert.fail
+import org.assertj.core.api.Fail.fail
 import org.junit.Test
 
 class OptionTransformsTest {
@@ -50,7 +50,7 @@ class OptionTransformsTest {
                 versionOption("1.2.3")
             }
 
-            override fun run() = fail()
+            override fun run() = fail("should not be called")
         }
 
         assertThrows<PrintMessage> {
@@ -65,7 +65,7 @@ class OptionTransformsTest {
                 versionOption("1.2.3", names = setOf("--foo")) { "$it bar" }
             }
 
-            override fun run() = fail()
+            override fun run() = fail("should not be called")
         }
 
         assertThrows<PrintMessage> {

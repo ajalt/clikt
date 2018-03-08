@@ -218,6 +218,24 @@ class OptionTest {
     }
 
     @Test
+    fun `switch options`() {
+        class C : CliktCommand() {
+            val x by option().switch("-x" to 1, "--xx" to 2)
+            override fun run() = Unit
+        }
+
+        C().apply {
+            parse(splitArgv("-x"))
+            assertThat(x).isEqualTo(1)
+        }
+
+        C().apply {
+            parse(splitArgv("--xx"))
+            assertThat(x).isEqualTo(2)
+        }
+    }
+
+    @Test
     fun `counted options`() = parameterized(
             row("", 0, false, null),
             row("-x", 1, false, null),

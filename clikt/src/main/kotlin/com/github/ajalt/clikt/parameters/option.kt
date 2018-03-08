@@ -48,7 +48,7 @@ private fun inferOptionNames(names: Set<String>, propertyName: String): Set<Stri
     return setOf(normalizedName)
 }
 
-class FlagOption<out T : Any>(
+class FlagOption<out T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
         override val help: String,
@@ -82,6 +82,17 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
 
 fun RawOption.counted(): FlagOption<Int> {
     return FlagOption(names, secondaryNames, help) { it.size }
+}
+
+fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
+    require(choices.isNotEmpty()) { "Must specify at least one choice" }
+    return FlagOption(choices.keys, secondaryNames, help) { it.map { choices[it]!! }.lastOrNull() }
+}
+
+fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
+
+fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
+    return FlagOption(names, secondaryNames, help) { processAll(it) ?: value }
 }
 
 private typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.testing.assertThrows
@@ -37,5 +38,24 @@ class EagerOptionsTest {
         assertThrows<PrintMessage> {
             C().parse(splitArgv("--foo"))
         }.hasMessage("1.2.3 bar")
+    }
+
+    @Test
+    fun `multiple eager options`() {
+        class C : CliktCommand(name = "prog") {
+            init {
+                versionOption("1.2.3")
+            }
+
+            override fun run() = fail("should not be called")
+        }
+
+        assertThrows<PrintHelpMessage> {
+            C().parse(splitArgv("--help --version"))
+        }
+
+        assertThrows<PrintMessage> {
+            C().parse(splitArgv("--version --help"))
+        }.hasMessage("prog version 1.2.3")
     }
 }

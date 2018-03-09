@@ -29,7 +29,7 @@ class ContextTest {
     fun `find functions parent context`() {
         class Foo
         val foo = Foo()
-        class C : CliktCommand() {
+        class C : CliktCommand(invokeWithoutSubcommand = true) {
             val o1 by findObject<Foo>()
             val o2 by findObject { foo }
             val o3 by findObject<Foo>()

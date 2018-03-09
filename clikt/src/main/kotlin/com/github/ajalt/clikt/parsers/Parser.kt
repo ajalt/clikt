@@ -77,6 +77,11 @@ internal object Parser {
 
         command.arguments.forEach { it.finalize(context) }
 
+        if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
+            throw PrintHelpMessage(command)
+        }
+
+        command.context.invokedSubcommand = subcommand
         command.run()
 
         if (subcommand != null) {

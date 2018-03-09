@@ -15,25 +15,21 @@ abstract class CliktCommand(
         epilog: String = "",
         name: String? = null,
         val allowInterspersedArgs: Boolean = true,
+        val invokeWithoutSubcommand: Boolean = false,
         private val helpOptionNames: Set<String> = setOf("-h", "--help"),
         private val helpOptionMessage: String = "Show this message and exit",
         private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help, epilog)) {
     val name = name ?: javaClass.simpleName.toLowerCase()
 
-    private var _context: Context? = null
-    val context: Context
-        get() {
-            if (_context == null) parent?.let {
-                _context = Context(it.context, this)
-            }
-            checkNotNull(_context) { "Context accessed before parse has been called." }
-            return _context!!
-        }
-
-    internal var parent: CliktCommand? = null
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
+    private var _context: Context? = null
+    val context: Context
+        get() {
+            checkNotNull(_context) { "Context accessed before parse has been called." }
+            return _context!!
+        }
 
     private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
 
@@ -43,6 +39,13 @@ abstract class CliktCommand(
         if (names.isNotEmpty()) options += helpOption(names, helpOptionMessage)
         for (command in subcommands) {
             command.createHelpOption(optionNames)
+        }
+    }
+
+    private fun createContext(parent: Context? = null) {
+        _context = Context(parent, this)
+        for (command in subcommands) {
+            command.createContext(context)
         }
     }
 
@@ -75,10 +78,10 @@ abstract class CliktCommand(
         return ParameterHelp.Subcommand(name, shortHelp)
     }
 
-    fun parse(argv: Array<String>) {
-        _context = Context(null, this)
+    fun parse(argv: Array<String>, context: Context? = null) {
+        createContext(context)
         createHelpOption(helpOptionNames)
-        Parser.parse(argv, context)
+        Parser.parse(argv, this.context)
     }
 
     open fun main(argv: Array<String>) {
@@ -107,6 +110,5 @@ abstract class CliktCommand(
 
 fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T {
     subcommands += commands
-    for (command in subcommands) command.parent = this
     return this
 }

@@ -1,6 +1,3 @@
-http://click.pocoo.org/5/commands/#group-invocation-without-command
-
-option receiver on ValueProcessor
 remaining option types
 custom help formatter
 

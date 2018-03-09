@@ -4,6 +4,8 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 open class Context(val parent: Context?, val command: CliktCommand) {
+    var invokedSubcommand: CliktCommand? = null
+        internal set
     var obj: Any? = null
 
     inline fun <reified T> findObject(): T? {
@@ -28,6 +30,7 @@ open class Context(val parent: Context?, val command: CliktCommand) {
     }
 }
 
+@Suppress("unused")
 inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
@@ -36,6 +39,7 @@ inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<Clik
     }
 }
 
+@Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCommand, T?> {
     return object : ReadOnlyProperty<CliktCommand, T?> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T? {
@@ -44,6 +48,7 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
     }
 }
 
+@Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T?> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {

@@ -3,7 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.PlaintextHelpFormatter
-import com.github.ajalt.clikt.parameters.*
+import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parsers.Parser

@@ -1,9 +1,8 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.parsers.OptionWithValuesParser
+import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -21,31 +20,31 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
 }
 
 private typealias ArgValueProcessor<T> = Argument<*>.(String) -> T
-private typealias ArgAllProcessor<Tall, Teach> = Argument<*>.(List<Teach>) -> Tall
+private typealias ArgAllProcessor<AllT, EachT> = Argument<*>.(List<EachT>) -> AllT
 
-class ProcessedArgument<out Tall, Tvalue>(
+class ProcessedArgument<out AllT, ValueT>(
         name: String,
         override val nargs: Int,
         override val required: Boolean,
         override val help: String,
-        val processValue: ArgValueProcessor<Tvalue>,
-        val processAll: ArgAllProcessor<Tall, Tvalue>) : Argument<Tall> {
+        val processValue: ArgValueProcessor<ValueT>,
+        val processAll: ArgAllProcessor<AllT, ValueT>) : Argument<AllT> {
     init {
         require(nargs != 0) { "Arguments cannot have nargs == 0" }
     }
 
     override var name: String = name
         private set
-    private var value: Tall by ExplicitLazy("Cannot read from argument delegate before parsing command line")
+    private var value: AllT by ExplicitLazy("Cannot read from argument delegate before parsing command line")
 
     override var rawValues: List<String> = emptyList()
     override val parameterHelp
         get() = ParameterHelp.Argument(name, help, required && nargs == 1 || nargs > 1, nargs < 0)
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): Tall = value
+    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
-            ReadOnlyProperty<CliktCommand, Tall> {
+            ReadOnlyProperty<CliktCommand, AllT> {
         if (name.isBlank()) name = prop.name.toUpperCase().replace("-", "_")
         thisRef.registerArgument(this)
         return this
@@ -60,20 +59,21 @@ internal typealias RawArgument = ProcessedArgument<String, String>
 
 private fun <T : Any> defaultAllProcessor(): ArgAllProcessor<T, T> = { it.single() }
 
+@Suppress("unused")
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
     return ProcessedArgument(name, 1, true, help, { it }, defaultAllProcessor())
 }
 
-fun <Talli, Tvalue, Tallo> ProcessedArgument<Talli, Tvalue>.transformAll(
+fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
         nargs: Int? = null,
         required: Boolean? = null,
-        transform: ArgAllProcessor<Tallo, Tvalue>): ProcessedArgument<Tallo, Tvalue> {
+        transform: ArgAllProcessor<AllOutT, ValueT>): ProcessedArgument<AllOutT, ValueT> {
     return ProcessedArgument(name, nargs ?: this.nargs, required ?: this.required,
             help, processValue, transform)
 }
 
-fun <Tall : Any, Tvalue> ProcessedArgument<Tall, Tvalue>.optional()
-        : ProcessedArgument<Tall?, Tvalue> = transformAll(required = false) {
+fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional()
+        : ProcessedArgument<AllT?, ValueT> = transformAll(required = false) {
     if (it.isEmpty()) null else processAll(it)
 }
 

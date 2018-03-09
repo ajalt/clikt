@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.core.BadOptionUsage
+import com.github.ajalt.clikt.parameters.options.Option
 
 
 class FlagOptionParser : OptionParser {

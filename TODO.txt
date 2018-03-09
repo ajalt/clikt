@@ -1,5 +1,5 @@
-store all data on the context to allow parsers to be pure.
 http://click.pocoo.org/5/commands/#group-invocation-without-command
+rename option.kt -> Option.kt
 
 option receiver on ValueProcessor
 remaining option types

@@ -15,9 +15,9 @@ interface Option {
     val secondaryNames: Set<String>
     val nargs: Int
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
-        get() = HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, parser.repeatableForHelp(this))
+        get() = HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs > 1)
 
-    fun finalize(context: Context)
+    fun finalize(context: Context, invocations: List<OptionParser.Invocation>)
 }
 
 interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {

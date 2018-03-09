@@ -5,12 +5,14 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.ExplicitLazy
+import com.github.ajalt.clikt.parsers.OptionParser
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+class OptionValueInvocation(val name: String, val option: Option)
 
-private typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T
+private typealias ValueProcessor<T> = OptionValueInvocation.(String) -> T
 private typealias EachProcessor<EachT, ValueT> = Option.(List<ValueT>) -> EachT
 private typealias AllProcessor<AllT, EachT> = Option.(List<EachT>) -> AllT
 
@@ -33,8 +35,10 @@ class OptionWithValues<AllT, EachT, ValueT>(
     override var names: Set<String> = names
         private set
 
-    override fun finalize(context: Context) {
-        value = processAll(parser.rawValues.map { processEach(it.values.map { v -> processValue(it, v) }) })
+    override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
+        value = processAll(invocations.map {
+            processEach(it.values.map { v -> processValue(OptionValueInvocation(it.name, this), v) })
+        })
     }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
@@ -62,7 +66,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
         defaultMetavar = "TEXT",
         nargs = 1,
         help = help,
-        parser = OptionWithValuesParser(),
+        parser = OptionWithValuesParser,
         processValue = { it },
         processEach = defaultEachProcessor(),
         processAll = defaultAllProcessor())
@@ -84,7 +88,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
     require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
     require(nargs > 0) { "Options cannot have nargs < 0" }
     require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
-    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, OptionWithValuesParser(),
+    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, parser,
             processValue, transform, defaultAllProcessor())
 }
 
@@ -137,7 +141,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
         TermUi.prompt(promptText, default, hideInput, requireConfirmation,
                 confirmationPrompt, promptSuffix, showDefault) {
             processAll(listOf(processEach(listOf(processValue(
-                    OptionWithValuesParser.Invocation("", listOf(it)), it)))))
+                    OptionValueInvocation("", this), it)))))
         } ?: throw Abort()
     }
 }

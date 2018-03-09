@@ -4,6 +4,8 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parsers.OptionParser.Invocation
+import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -27,7 +29,7 @@ internal object Parser {
         var i = startingArgI
         var subcommand: CliktCommand? = null
         var canParseOptions = true
-        val matchedOptions = linkedSetOf<Option>()
+        val invocations = mutableListOf<Pair<Option, Invocation>>()
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
             when {
@@ -36,13 +38,13 @@ internal object Parser {
                     canParseOptions = false
                 }
                 a.startsWith("--") && canParseOptions -> {
-                    val (count, opt) = parseLongOpt(argv, a, i, optionsByName)
-                    matchedOptions += opt
-                    i += count
+                    val (opt, result) = parseLongOpt(argv, a, i, optionsByName)
+                    invocations += opt to result.invocation
+                    i += result.consumedCount
                 }
                 a.startsWith("-") && canParseOptions -> {
-                    val (count, opts) = parseShortOpt(argv, a, i, optionsByName)
-                    matchedOptions += opts
+                    val (count, invokes) = parseShortOpt(argv, a, i, optionsByName)
+                    invocations += invokes
                     i += count
                 }
                 a in subcommands -> {
@@ -61,11 +63,15 @@ internal object Parser {
             }
         }
 
-        matchedOptions.filter { it is EagerOption }.forEach { it.finalize(context) }
-        matchedOptions.filterNot { it is EagerOption }.forEach { it.finalize(context) }
+        val invocationsByOption = invocations.groupBy({ it.first }, { it.second })
 
-        // Finalize the parameters with values so that they can apply default values etc.
-        command.options.filter { it !is EagerOption && it !in matchedOptions }.forEach { it.finalize(context) }
+        invocationsByOption.forEach { o, inv -> if (o is EagerOption) o.finalize(context, inv) }
+        invocationsByOption.forEach { o, inv -> if (o !is EagerOption) o.finalize(context, inv) }
+
+        // Finalize the options with values so that they can apply default values etc.
+        for (o in command.options) {
+            if (o !is EagerOption && o !in invocationsByOption) o.finalize(context, emptyList())
+        }
 
         parseArguments(positionalArgs, arguments)
 
@@ -78,9 +84,8 @@ internal object Parser {
         }
     }
 
-
     private fun parseLongOpt(argv: Array<String>, arg: String, index: Int,
-                             optionsByName: Map<String, Option>): Pair<Int, Option> {
+                             optionsByName: Map<String, Option>): Pair<Option, ParseResult> {
         val equalsIndex = arg.indexOf('=')
         val (name, value) = if (equalsIndex >= 0) {
             arg.substring(0, equalsIndex) to arg.substring(equalsIndex + 1)
@@ -90,21 +95,21 @@ internal object Parser {
         val option = optionsByName[name] ?: throw NoSuchOption(name,
                 possibilities = optionsByName.keys.filter { name.startsWith(it) })
         val result = option.parser.parseLongOpt(option, name, argv, index, value)
-        return result to option
+        return option to result
     }
 
     private fun parseShortOpt(argv: Array<String>, arg: String, index: Int,
-                              optionsByName: Map<String, Option>): Pair<Int, List<Option>> {
+                              optionsByName: Map<String, Option>): Pair<Int, List<Pair<Option, Invocation>>> {
         val prefix = arg[0].toString()
-        val matchedOptions = mutableListOf<Option>()
+        val invocations = mutableListOf<Pair<Option, Invocation>>()
         for ((i, opt) in arg.withIndex()) {
             if (i == 0) continue // skip the dash
 
             val name = prefix + opt
             val option = optionsByName[name] ?: throw NoSuchOption(name)
             val result = option.parser.parseShortOpt(option, name, argv, index, i)
-            matchedOptions += option
-            if (result > 0) return result to matchedOptions
+            invocations += option to result.invocation
+            if (result.consumedCount > 0) return result.consumedCount to invocations
         }
         throw IllegalStateException(
                 "Error parsing short option ${argv[index]}: no parser consumed value.")

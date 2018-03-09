@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.ExplicitLazy
 import com.github.ajalt.clikt.parsers.FlagOptionParser
+import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -11,16 +12,16 @@ class FlagOption<out T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
         override val help: String,
-        val processAll: (List<String>) -> T) : OptionDelegate<T> {
+        val processAll: Option.(List<String>) -> T) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
-    override val parser = FlagOptionParser()
+    override val parser = FlagOptionParser
     private var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
     override var names: Set<String> = names
         private set
 
-    override fun finalize(context: Context) {
-        value = processAll(parser.rawValues)
+    override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
+        value = processAll(invocations.map { it.name })
     }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
@@ -48,8 +49,7 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
 }
 
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
+
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
-    return FlagOption(names, secondaryNames, help) {
-        processAll(it) ?: value
-    }
+    return FlagOption(names, secondaryNames, help) { processAll(it) ?: value }
 }

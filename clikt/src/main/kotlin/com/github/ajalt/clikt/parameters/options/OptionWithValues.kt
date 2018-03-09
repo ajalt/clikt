@@ -14,7 +14,9 @@ private typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String)
 private typealias EachProcessor<Teach, Tvalue> = Option.(List<Tvalue>) -> Teach
 private typealias AllProcessor<Tall, Teach> = Option.(List<Teach>) -> Tall
 
-class OptionWithValues<out Tall, Teach, Tvalue>(
+// `Tall` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
+// default("").int()
+class OptionWithValues<Tall, Teach, Tvalue>(
         names: Set<String>,
         val explicitMetavar: String?,
         val defaultMetavar: String?,

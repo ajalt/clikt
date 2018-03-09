@@ -10,13 +10,3 @@ examples
     required options
     argparse style help formatter
     custom multi commands
-
-```
-$ ./repo clone --help
-Usage: cli [OPTIONS] COMMAND [ARGS]...
-
-Error: no such option --help
-```
-```
-.default("").int() shouldn't be allowed
-```

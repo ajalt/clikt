@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.parameters.options
 
+import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.ExplicitLazy
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
@@ -9,8 +11,8 @@ import kotlin.reflect.KProperty
 
 
 private typealias ValueProcessor<T> = OptionWithValuesParser.Invocation.(String) -> T
-private typealias EachProcessor<Teach, Tvalue> = (List<Tvalue>) -> Teach
-private typealias AllProcessor<Tall, Teach> = (List<Teach>) -> Tall
+private typealias EachProcessor<Teach, Tvalue> = Option.(List<Tvalue>) -> Teach
+private typealias AllProcessor<Tall, Teach> = Option.(List<Teach>) -> Tall
 
 class OptionWithValues<out Tall, Teach, Tvalue>(
         names: Set<String>,
@@ -69,7 +71,7 @@ fun <Tall, Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.transformAll(trans
 }
 
 fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.default(value: Teach)
-        : OptionWithValues<Teach, Teach, Tvalue> = transformAll { it.firstOrNull() ?: value }
+        : OptionWithValues<Teach, Teach, Tvalue> = transformAll { it.lastOrNull() ?: value }
 
 fun <Teach : Any, Tvalue> NullableOption<Teach, Tvalue>.multiple()
         : OptionWithValues<List<Teach>, Teach, Tvalue> = transformAll { it }
@@ -111,4 +113,28 @@ fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProc
         NullableOption<T, T> {
     return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, conversion,
             defaultEachProcessor(), defaultAllProcessor())
+}
+
+
+fun <T : Any> NullableOption<T, T>.prompt(
+        text: String? = null,
+        default: String? = null,
+        hideInput: Boolean = false,
+        requireConfirmation: Boolean = false,
+        confirmationPrompt: String = "Repeat for confirmation: ",
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true): OptionWithValues<T, T, T> = transformAll {
+    val promptText = text ?: names.maxBy { it.length }
+            ?.replace(Regex("^--?"), "")
+            ?.replace("-", " ")?.capitalize() ?: "Value"
+
+    val provided = it.lastOrNull()
+    if (provided != null) provided
+    else {
+        TermUi.prompt(promptText, default, hideInput, requireConfirmation,
+                confirmationPrompt, promptSuffix, showDefault) {
+            processAll(listOf(processEach(listOf(processValue(
+                    OptionWithValuesParser.Invocation("", listOf(it)), it)))))
+        } ?: throw Abort()
+    }
 }

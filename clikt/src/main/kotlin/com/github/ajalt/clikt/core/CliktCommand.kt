@@ -91,7 +91,7 @@ abstract class CliktCommand(
             println(e.message)
             exitProcess(1)
         } catch (e: Abort) {
-            println()
+            println("Aborted!")
             exitProcess(1)
         }
     }

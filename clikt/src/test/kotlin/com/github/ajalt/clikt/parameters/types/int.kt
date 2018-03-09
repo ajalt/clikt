@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.parameters.*
+import com.github.ajalt.clikt.parameters.argument
+import com.github.ajalt.clikt.parameters.multiple
+import com.github.ajalt.clikt.parameters.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.parameterized

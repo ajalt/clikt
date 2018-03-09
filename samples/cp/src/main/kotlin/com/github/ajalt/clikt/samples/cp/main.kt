@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.output.TermUi
+import com.github.ajalt.clikt.parameters.multiple
 import java.io.File
 
 class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
@@ -23,7 +24,7 @@ class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to di
             } catch (e: FileAlreadyExistsException) {
                 if (interactive) {
                     val response = TermUi.confirm("overwrite '$dest'?", default = true)
-                    if (!response) continue
+                    if (response == false) continue
                 }
                 if (recursive) sourceFile.copyRecursively(destFile, overwrite = true)
                 else sourceFile.copyTo(destFile, overwrite = true)

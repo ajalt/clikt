@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
+import com.github.ajalt.clikt.parameters.types.int
 import java.io.File
 
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
@@ -44,9 +45,9 @@ class CloneCommand : CliktCommand(
     val repo: Repo by requireObject()
     val src: String by argument()
     val dest: String? by argument().optional()
-    val shallow: Boolean by option("--shallow/--deep",
-            help = "Makes a checkout shallow or deep.  Deep by default.")
-            .flag()
+    val shallow: Boolean by option(help = "Makes a checkout shallow or deep.  Deep by default.")
+            .switch("--shallow" to true, "--deep" to false)
+            .default(false)
 
     val rev: String by option("--rev", "-r", help = "Clone a specific revision instead of HEAD.")
             .default("HEAD")
@@ -81,16 +82,16 @@ class SetUserCommand : CliktCommand(
 
         This will override the current user config.""".trimIndent()) {
     val repo: Repo by requireObject()
-    val username: String? by option(help = "The developer's shown username.")
-    //            .prompt()  // TODO
+    val username: String by option(help = "The developer's shown username.")
+            .prompt()
     val email: String? by option(help = "The developer's email address.")
-    val password: String? by option(help = "The login password.")
-    //            .passwordPrompt() // TODO
+    val password: String by option(help = "The login password.")
+            .prompt(hideInput = true, requireConfirmation = true)
 
     override fun run() {
-        username?.let { repo.config["username"] = it }
+        repo.config["username"] = username
         email?.let { repo.config["email"] = it }
-        password?.let { repo.config["password"] = "*".repeat(it.length) }
+        repo.config["password"] = "*".repeat(password.length)
         println("Changed credentials.")
     }
 }

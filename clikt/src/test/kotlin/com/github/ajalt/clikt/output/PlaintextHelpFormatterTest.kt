@@ -133,12 +133,44 @@ class PlaintextHelpFormatterTest {
                 """
                 |Usage: prog [OPTIONS]
                 |
-                |Lorem Ipsum.
+                |  Lorem Ipsum.
                 |
                 |Options:
                 |  -a, --aa INT  some thing to live by
                 |
                 |Dolor Sit Amet.
+                """.trimMargin("|"))
+    }
+
+    @Test
+    fun `formatHelp one opt prolog multi paragraph`() {
+        val f = PlaintextHelpFormatter(width = 54,
+                prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+                Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
+                turpis bibendum egestas.
+
+                Morbi id libero purus. Praesent sit amet neque tellus. Vestibulum in condimentum turpis, in
+                consectetur ex.
+                """)
+        assertThat(f.formatHelp(l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+                programName = "prog")).isEqualTo(
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |  Lorem ipsum dolor sit amet, consectetur adipiscing
+                |  elit.
+                |
+                |  Vivamus dictum varius massa, at euismod turpis
+                |  maximus eu. Suspendisse molestie mauris at turpis
+                |  bibendum egestas.
+                |
+                |  Morbi id libero purus. Praesent sit amet neque
+                |  tellus. Vestibulum in condimentum turpis, in
+                |  consectetur ex.
+                |
+                |Options:
+                |  -a, --aa INT  some thing to live by
                 """.trimMargin("|"))
     }
 

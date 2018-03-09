@@ -86,7 +86,8 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
         formatUsage(this, parameters, programName)
         if (prolog.isNotEmpty()) {
             section("")
-            prolog.wrapText(this, width, preserveParagraph = true)
+            prolog.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ",
+                    preserveParagraph = true)
         }
 
         val options = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>().map {

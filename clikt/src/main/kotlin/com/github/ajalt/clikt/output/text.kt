@@ -11,7 +11,7 @@ fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = 
     require(subsequentIndent.length < width) { "subsequentIndent >= width: ${subsequentIndent.length} >= $width" }
     with(sb) {
         if (preserveParagraph) {
-            for ((i, paragraph) in this@wrapText.split("\n\n").withIndex()) {
+            for ((i, paragraph) in this@wrapText.split(Regex("\n[ \t\r]*\n")).withIndex()) {
                 if (i > 0) append("\n\n")
                 wrapParagraph(paragraph, width, if (i == 0) initialIndent else subsequentIndent, subsequentIndent)
             }
@@ -27,11 +27,10 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
         append(initialIndent).append(text.trim())
         return
     }
-    val words = text.split(Regex("\\s+"))
+    val words = text.trim().split(Regex("\\s+"))
     append(initialIndent)
     var currentWidth = initialIndent.length
     for ((i, word) in words.withIndex()) {
-        if (word.isEmpty()) continue
         if (i > 0) {
             if (currentWidth + word.length >= width) {
                 append("\n").append(subsequentIndent)

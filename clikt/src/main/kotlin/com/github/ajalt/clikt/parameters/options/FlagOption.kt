@@ -2,7 +2,7 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.parameters.ExplicitLazy
+import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
@@ -16,7 +16,7 @@ class FlagOption<out T>(
     override val metavar: String? = null
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser
-    private var value: T by ExplicitLazy("Cannot read from option delegate before parsing command line")
+    private var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
     override var names: Set<String> = names
         private set
 

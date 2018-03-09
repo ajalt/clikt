@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.output.TermUi
-import com.github.ajalt.clikt.parameters.ExplicitLazy
+import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parsers.OptionParser
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
@@ -30,7 +30,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val processEach: EachProcessor<EachT, ValueT>,
         val processAll: AllProcessor<AllT, EachT>) : OptionDelegate<AllT> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
-    private var value: AllT by ExplicitLazy("Cannot read from option delegate before parsing command line")
+    private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
         private set

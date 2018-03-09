@@ -1,5 +1,4 @@
 http://click.pocoo.org/5/commands/#group-invocation-without-command
-rename option.kt -> Option.kt
 
 option receiver on ValueProcessor
 remaining option types

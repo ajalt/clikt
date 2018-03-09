@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
+import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -35,7 +36,7 @@ class ProcessedArgument<out AllT, ValueT>(
 
     override var name: String = name
         private set
-    private var value: AllT by ExplicitLazy("Cannot read from argument delegate before parsing command line")
+    private var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
 
     override var rawValues: List<String> = emptyList()
     override val parameterHelp

@@ -37,6 +37,15 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
 
+    private fun createHelpOption(optionNames: Set<String>) {
+        if (optionNames.isEmpty()) return
+        val names = optionNames - registeredOptionNames()
+        if (names.isNotEmpty()) options += helpOption(names, helpOptionMessage)
+        for (command in subcommands) {
+            command.createHelpOption(optionNames)
+        }
+    }
+
     fun registerOption(option: Option) {
         val names = registeredOptionNames()
         for (name in option.names) {
@@ -68,10 +77,7 @@ abstract class CliktCommand(
 
     fun parse(argv: Array<String>) {
         _context = Context(null, this)
-        if (helpOptionNames.isNotEmpty()) {
-            val names = helpOptionNames - registeredOptionNames()
-            if (names.isNotEmpty()) options += helpOption(names, helpOptionMessage)
-        }
+        createHelpOption(helpOptionNames)
         Parser.parse(argv, context)
     }
 

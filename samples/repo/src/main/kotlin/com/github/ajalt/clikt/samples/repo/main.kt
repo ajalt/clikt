@@ -16,7 +16,7 @@ class Cli : CliktCommand(
         command line interfaces with Clikt.
 
         This tool is supposed to look like a distributed version control
-        system to show how something like this can be structured.""".trimIndent()) {
+        system to show how something like this can be structured.""") {
     val repoHome: String by option(help = "Changes the repository folder location.")
             .default(".repo")
     val config: List<Pair<String, String>> by option(help = "Overrides a config key/value pair.")
@@ -41,7 +41,7 @@ class CloneCommand : CliktCommand(
 
         This will clone the repository at SRC into the folder DEST. If DEST
         is not provided this will automatically use the last path component
-        of SRC and create that folder.""".trimIndent()) {
+        of SRC and create that folder.""") {
     val repo: Repo by requireObject()
     val src: String by argument()
     val dest: String? by argument().optional()
@@ -67,7 +67,7 @@ class DeleteCommand : CliktCommand(
         name = "delete",
         help = """Deletes a repository.
 
-            This will throw away the current repository.""".trimIndent()) {
+            This will throw away the current repository.""") {
     val repo: Repo by requireObject()
 
     override fun run() {
@@ -80,7 +80,7 @@ class SetUserCommand : CliktCommand(
         name = "setuser",
         help = """Sets the user credentials.
 
-        This will override the current user config.""".trimIndent()) {
+        This will override the current user config.""") {
     val repo: Repo by requireObject()
     val username: String by option(help = "The developer's shown username.")
             .prompt()
@@ -105,7 +105,7 @@ class CommitCommand : CliktCommand(
         "repo push" to push up your changes to other repositories.
 
         If a list of files is omitted, all changes reported by "repo status"
-        will be committed.""".trimIndent()) {
+        will be committed.""") {
     val repo: Repo by requireObject()
     val message: String? by option(help = "The commit message.")
     val files: List<File> by argument()

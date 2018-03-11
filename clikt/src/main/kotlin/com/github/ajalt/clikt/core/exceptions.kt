@@ -3,9 +3,9 @@ package com.github.ajalt.clikt.core
 // TODO docs, params, and formatting for output
 
 /** An internal error that signals Clikt to abort. */
-class Abort: RuntimeException()
+class Abort : RuntimeException()
 
-open class CliktError(message: String) : RuntimeException(message)
+open class CliktError(message: String, cause: Exception? = null) : RuntimeException(message, cause)
 
 /**
  * An exception that indicates that the command's help should be printed, and does not signal an error.

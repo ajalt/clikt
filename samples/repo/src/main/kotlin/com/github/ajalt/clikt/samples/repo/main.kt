@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.samples.repo
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
@@ -17,6 +18,10 @@ class Cli : CliktCommand(
 
         This tool is supposed to look like a distributed version control
         system to show how something like this can be structured.""") {
+    init {
+        versionOption("1.0")
+    }
+
     val repoHome: String by option(help = "Changes the repository folder location.")
             .default(".repo")
     val config: List<Pair<String, String>> by option(help = "Overrides a config key/value pair.")
@@ -35,8 +40,7 @@ class Cli : CliktCommand(
 }
 
 
-class CloneCommand : CliktCommand(
-        name = "clone",
+class Clone : CliktCommand(
         help = """Clones a repository.
 
         This will clone the repository at SRC into the folder DEST. If DEST
@@ -63,11 +67,10 @@ class CloneCommand : CliktCommand(
     }
 }
 
-class DeleteCommand : CliktCommand(
-        name = "delete",
+class Delete : CliktCommand(
         help = """Deletes a repository.
 
-            This will throw away the current repository.""") {
+        This will throw away the current repository.""") {
     val repo: Repo by requireObject()
 
     override fun run() {
@@ -76,7 +79,7 @@ class DeleteCommand : CliktCommand(
     }
 }
 
-class SetUserCommand : CliktCommand(
+class SetUser : CliktCommand(
         name = "setuser",
         help = """Sets the user credentials.
 
@@ -84,21 +87,21 @@ class SetUserCommand : CliktCommand(
     val repo: Repo by requireObject()
     val username: String by option(help = "The developer's shown username.")
             .prompt()
-    val email: String? by option(help = "The developer's email address.")
+    val email: String by option(help = "The developer's email address.")
+            .prompt(text = "E-Mail")
     val password: String by option(help = "The login password.")
             .prompt(hideInput = true, requireConfirmation = true)
 
     override fun run() {
         repo.config["username"] = username
-        email?.let { repo.config["email"] = it }
+        repo.config["email"] = email
         repo.config["password"] = "*".repeat(password.length)
         println("Changed credentials.")
     }
 }
 
 
-class CommitCommand : CliktCommand(
-        name = "commit",
+class Commit : CliktCommand(
         help = """Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
@@ -107,16 +110,37 @@ class CommitCommand : CliktCommand(
         If a list of files is omitted, all changes reported by "repo status"
         will be committed.""") {
     val repo: Repo by requireObject()
-    val message: String? by option(help = "The commit message.")
+    val message: List<String> by option("--message", "-m",
+            help = "The commit message. If provided multiple times " +
+                    "each argument gets converted into a new line.")
+            .multiple()
     val files: List<File> by argument()
             .file()
             .multiple()
 
     override fun run() {
-        val msg = if (message == null) {
-            message // TODO: click.edit
+        val msg: String = if (message.isNotEmpty()) {
+            message.joinToString("\n")
         } else {
-            message
+            val marker = "# Files to be committed:"
+            val text = buildString {
+                append("\n\n").append(marker).append("\n#")
+                for (file in files) {
+                    append("\n#   ").append(file)
+                }
+            }
+
+            val message = TermUi.editText(text)
+            if (message == null) {
+                println("Aborted!")
+                return
+            }
+            message.split(marker, limit = 2)[0].trim().apply {
+                if (this.isEmpty()) {
+                    println("Aborting commit due to empty commit message.")
+                    return
+                }
+            }
         }
         println("Files to be commited: $files")
         println("Commit message:")
@@ -125,7 +149,7 @@ class CommitCommand : CliktCommand(
 }
 
 fun main(args: Array<String>) = Cli()
-        .subcommands(CloneCommand(), DeleteCommand(), SetUserCommand(), CommitCommand())
+        .subcommands(Clone(), Delete(), SetUser(), Commit())
         .main(args)
 
 

@@ -1,7 +1,10 @@
+validator.fail
+attach options/context to exceptions
+catch exceptions in convert
 remaining option types
 custom help formatter
-
 examples
+    add readmes
     cp (Consider --interactive)
     required options
     argparse style help formatter

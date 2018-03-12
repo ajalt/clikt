@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadArgumentUsage
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.IncorrectArgumentNargs
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.parameters.options.option
@@ -95,8 +95,8 @@ class ArgumentTest {
             override fun run() = Unit
         }
 
-        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo")) }
-        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo bar baz")) }
+        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo")) }
+        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo bar baz")) }
     }
 
     @Test
@@ -106,8 +106,8 @@ class ArgumentTest {
             override fun run() = Unit
         }
 
-        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo bar")) }
-        assertThrows<BadArgumentUsage> { C().parse(arrayOf("foo bar baz qux")) }
+        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo bar")) }
+        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo bar baz qux")) }
     }
 
     @Test

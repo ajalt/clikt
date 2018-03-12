@@ -4,10 +4,11 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.TermUi
-import com.github.ajalt.clikt.parameters.*
+import com.github.ajalt.clikt.parameters.argument
+import com.github.ajalt.clikt.parameters.multiple
+import com.github.ajalt.clikt.parameters.optional
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
-import com.github.ajalt.clikt.parameters.types.int
 import java.io.File
 
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)

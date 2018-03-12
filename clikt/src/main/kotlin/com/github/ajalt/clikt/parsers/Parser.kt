@@ -137,8 +137,8 @@ internal object Parser {
                 else -> argument.nargs
             }
             if (consumed > remaining) {
-                if (remaining == 0) throw MissingParameter("argument", listOf(argument.name))
-                else throw BadArgumentUsage("argument ${argument.name} takes ${argument.nargs} values ")
+                if (remaining == 0) throw MissingParameter(argument)
+                else throw IncorrectArgumentNargs(argument)
             }
             argument.rawValues = argument.rawValues + positionalArgs.subList(i, i + consumed)
             i += consumed

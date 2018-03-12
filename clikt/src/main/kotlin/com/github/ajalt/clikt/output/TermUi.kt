@@ -66,7 +66,7 @@ object TermUi {
                 val result = try {
                     convert?.invoke(value)
                 } catch (err: UsageError) {
-                    println(err.formatMessage(null))
+                    println(err.helpMessage(null))
                     continue
                 }
 

@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.core.BadOptionUsage
+import com.github.ajalt.clikt.core.IncorrectOptionNargs
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
@@ -15,11 +15,7 @@ object OptionWithValuesParser : OptionParser {
         val endIndex = index + consumedCount - 1
 
         if (endIndex > argv.lastIndex) {
-            throw BadOptionUsage(if (option.nargs == 1) {
-                "$name option requires an argument"
-            } else {
-                "$name option requires ${option.nargs} arguments"
-            })
+            throw IncorrectOptionNargs(option, name)
         }
 
         val invocation = if (option.nargs > 1) {

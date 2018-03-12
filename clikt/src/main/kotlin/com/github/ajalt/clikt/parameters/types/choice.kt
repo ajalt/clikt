@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameter
 import com.github.ajalt.clikt.parameters.ProcessedArgument
 import com.github.ajalt.clikt.parameters.RawArgument
 import com.github.ajalt.clikt.parameters.convert
@@ -12,14 +11,12 @@ private fun defaultChoiceMetavar(choices: Map<String, *>): String {
     return choices.keys.joinToString("|", prefix = "[", postfix = "]")
 }
 
-private fun <T : Any> convertChoices(value: String, name: String, choices: Map<String, T>): T {
-    return choices[value] ?: throw BadParameter(
-            "Invalid value for \"$name\" (choose from ${choices.keys.joinToString(", ")})")
-}
+private fun errorMessage(choice: String, choices: Map<String, *>)
+        = "invalid choice: $choice. (choose from ${choices.keys.joinToString(", ")})"
 
 fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return convert { convertChoices(it, name, choices) }
+    return convert { choices[it] ?: fail(errorMessage(it, choices)) }
 }
 
 fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>): ProcessedArgument<T, T> {
@@ -33,7 +30,7 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
 fun <T : Any> RawOption.choice(choices: Map<String, T>,
                                metavar: String = defaultChoiceMetavar(choices)): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return convert(metavar) { convertChoices(it, name, choices) }
+    return convert(metavar) { choices[it] ?: fail(errorMessage(it, choices), paramName = name) }
 }
 
 fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,

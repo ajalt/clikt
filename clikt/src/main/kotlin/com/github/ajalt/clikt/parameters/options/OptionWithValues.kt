@@ -1,8 +1,6 @@
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.Abort
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parsers.OptionParser
@@ -10,7 +8,13 @@ import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class OptionValueInvocation(val name: String, val option: Option)
+class OptionValueInvocation(val name: String, val option: Option) {
+    /** Throw an exception indicating that an invalid value was provided. */
+    fun fail(message: String, paramName: String? = null): Nothing {
+        if (paramName == null) throw BadParameter(message, option)
+        throw BadParameter(message, paramName)
+    }
+}
 
 private typealias ValueProcessor<T> = OptionValueInvocation.(String) -> T
 private typealias EachProcessor<EachT, ValueT> = Option.(List<ValueT>) -> EachT
@@ -56,8 +60,11 @@ class OptionWithValues<AllT, EachT, ValueT>(
 internal typealias NullableOption<EachT, ValueT> = OptionWithValues<EachT?, EachT, ValueT>
 internal typealias RawOption = NullableOption<String, String>
 
-private fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() }
-private fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
+@PublishedApi
+internal fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() }
+
+@PublishedApi
+internal fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
 
 @Suppress("unused")
 fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null): RawOption = OptionWithValues(
@@ -116,9 +123,19 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(validat
     }
 }
 
-fun <T : Any> RawOption.convert(metavar: String = "VALUE", conversion: ValueProcessor<T>):
+inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline conversion: ValueProcessor<T>):
         NullableOption<T, T> {
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, conversion,
+    val proc: ValueProcessor<T> = {
+        try {
+            conversion(it)
+        } catch (err: UsageError) {
+            err.option = option
+            throw err
+        } catch (err: Exception) {
+            fail(err.message ?: "", paramName = name)
+        }
+    }
+    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, proc,
             defaultEachProcessor(), defaultAllProcessor())
 }
 

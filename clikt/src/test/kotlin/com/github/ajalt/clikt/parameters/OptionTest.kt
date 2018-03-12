@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadOptionUsage
+import com.github.ajalt.clikt.core.IncorrectOptionNargs
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.*
@@ -172,7 +172,7 @@ class OptionTest {
                 fail("should not be called $x, $y")
             }
         }
-        assertThrows<BadOptionUsage> {
+        assertThrows<IncorrectOptionNargs> {
             C().parse(splitArgv("-x"))
         }.hasMessageContaining("-x option requires 2 arguments")
         assertThrows<UsageError> {

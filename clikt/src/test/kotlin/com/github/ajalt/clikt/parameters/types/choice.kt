@@ -29,7 +29,7 @@ class ChoiceTypeTest {
 
         assertThrows<BadParameter> {
             C().parse(splitArgv("--xx baz"))
-        }.hasMessage("Invalid value for \"--xx\" (choose from foo, bar)")
+        }.hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
     }
 
     @Test
@@ -53,7 +53,11 @@ class ChoiceTypeTest {
 
         assertThrows<BadParameter> {
             C().parse(splitArgv("-x baz"))
-        }.hasMessage("Invalid value for \"-x\" (choose from foo, bar)")
+        }.hasMessage("Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)")
+
+        assertThrows<BadParameter> {
+            C().parse(splitArgv("--xx=baz"))
+        }.hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
     }
 
     @Test
@@ -77,7 +81,7 @@ class ChoiceTypeTest {
 
         assertThrows<BadParameter> {
             C().parse(splitArgv("baz"))
-        }.hasMessage("Invalid value for \"X\" (choose from foo, bar)")
+        }.hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
     }
 
     @Test
@@ -89,18 +93,18 @@ class ChoiceTypeTest {
             }
         }
 
-//        C().apply {
-//            parse(splitArgv("foo"))
-//            assertThat(x).isEqualTo(1)
-//        }
-//
-//        C().apply {
-//            parse(splitArgv("bar"))
-//            assertThat(x).isEqualTo(2)
-//        }
+        C().apply {
+            parse(splitArgv("foo"))
+            assertThat(x).isEqualTo(1)
+        }
+
+        C().apply {
+            parse(splitArgv("bar"))
+            assertThat(x).isEqualTo(2)
+        }
 
         assertThrows<BadParameter> {
             C().parse(splitArgv("baz"))
-        }.hasMessage("Invalid value for \"X\" (choose from foo, bar)")
+        }.hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
     }
 }

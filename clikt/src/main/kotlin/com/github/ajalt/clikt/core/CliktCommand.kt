@@ -94,7 +94,7 @@ abstract class CliktCommand(
             println(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-            println(e.formatMessage(context))
+            println(e.helpMessage(context))
             exitProcess(1)
         } catch (e: CliktError) {
             println(e.message)

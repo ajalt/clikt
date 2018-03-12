@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.parameters
 
+import com.github.ajalt.clikt.core.BadParameter
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import kotlin.properties.ReadOnlyProperty
@@ -20,10 +22,16 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-private typealias ArgValueProcessor<T> = Argument<*>.(String) -> T
+class ArgumentValueInvocation(val argument: Argument<*>) {
+    fun fail(message: String): Nothing = throw BadParameter(message, argument)
+}
+
+private typealias ArgValueProcessor<T> = ArgumentValueInvocation.(String) -> T
 private typealias ArgAllProcessor<AllT, EachT> = Argument<*>.(List<EachT>) -> AllT
 
-class ProcessedArgument<out AllT, ValueT>(
+// `AllT` is deliberately not an out parameter.
+@Suppress("AddVarianceModifier")
+class ProcessedArgument<AllT, ValueT>(
         name: String,
         override val nargs: Int,
         override val required: Boolean,
@@ -52,13 +60,14 @@ class ProcessedArgument<out AllT, ValueT>(
     }
 
     override fun finalize(context: Context) {
-        value = processAll(rawValues.map { processValue(it) })
+        value = processAll(rawValues.map { processValue(ArgumentValueInvocation(this), it) })
     }
 }
 
 internal typealias RawArgument = ProcessedArgument<String, String>
 
-private fun <T : Any> defaultAllProcessor(): ArgAllProcessor<T, T> = { it.single() }
+@PublishedApi
+internal fun <T : Any> defaultAllProcessor(): ArgAllProcessor<T, T> = { it.single() }
 
 @Suppress("unused")
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
@@ -99,8 +108,18 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ProcessedArgument<T, T
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
-fun <T : Any> RawArgument.convert(conversion: ArgValueProcessor<T>): ProcessedArgument<T, T> {
-    return ProcessedArgument(name, nargs, required, help, conversion, defaultAllProcessor())
+inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueProcessor<T>): ProcessedArgument<T, T> {
+    val proc: ArgValueProcessor<T> = {
+        try {
+            conversion(it)
+        } catch (err: UsageError) {
+            err.argument = argument
+            throw err
+        } catch (err: Exception) {
+            fail(err.message ?: "")
+        }
+    }
+    return ProcessedArgument(name, nargs, required, help, proc, defaultAllProcessor())
 }
 
 fun <T : Any> ProcessedArgument<T, T>.validate(validator: (T) -> Unit): Argument<T> {

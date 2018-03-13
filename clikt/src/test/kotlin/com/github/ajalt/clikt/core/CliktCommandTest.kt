@@ -55,7 +55,7 @@ class CliktCommandTest {
         }
 
         var child = C()
-        C().subcommands(child).apply {
+        C().subcommands(listOf(child)).apply {
             parse(emptyArray())
             assertThat(ran).isTrue()
             assertThat(context.invokedSubcommand).isNull()

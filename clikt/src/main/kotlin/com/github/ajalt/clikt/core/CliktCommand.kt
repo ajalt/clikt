@@ -9,7 +9,6 @@ import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parsers.Parser
 import kotlin.system.exitProcess
 
-// TODO: better output arguments
 abstract class CliktCommand(
         val help: String = "",
         epilog: String = "",
@@ -106,6 +105,11 @@ abstract class CliktCommand(
     }
 
     abstract fun run()
+}
+
+fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T {
+    subcommands += commands
+    return this
 }
 
 fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T {

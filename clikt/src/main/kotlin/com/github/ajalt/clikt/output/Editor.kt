@@ -5,7 +5,6 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
-// TODO inline
 internal class Editor(private val editorPath: String?,
                       private val env: Map<String, String>,
                       private val requireSave: Boolean,

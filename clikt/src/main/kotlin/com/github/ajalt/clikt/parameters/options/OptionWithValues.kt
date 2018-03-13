@@ -13,6 +13,11 @@ class OptionValueInvocation(val name: String, val option: Option) {
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
 }
 
+class OptionValidatorInvocation(val option: Option) {
+    /** Throw an exception indicating that an invalid value was provided. */
+    fun fail(message: String): Nothing = throw BadParameterValue(message, option)
+}
+
 private typealias ValueProcessor<T> = OptionValueInvocation.(String) -> T
 private typealias EachProcessor<EachT, ValueT> = Option.(List<ValueT>) -> EachT
 private typealias AllProcessor<AllT, EachT> = Option.(List<EachT>) -> AllT
@@ -112,11 +117,11 @@ fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> 
     }
 }
 
-fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(validator: (AllT) -> Unit)
-        : OptionDelegate<AllT> {
+fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
+        validator: OptionValidatorInvocation.(AllT) -> Unit): OptionDelegate<AllT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
             help, parser, processValue, processEach) {
-        processAll(it).apply { validator(this) }
+        processAll(it).also { validator(OptionValidatorInvocation(this), it) }
     }
 }
 

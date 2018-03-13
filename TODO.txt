@@ -1,3 +1,4 @@
+fail() for all processors? rename to transformers?
 remaining option types
 custom help formatter
 examples

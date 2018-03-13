@@ -10,10 +10,7 @@ import kotlin.reflect.KProperty
 
 class OptionValueInvocation(val name: String, val option: Option) {
     /** Throw an exception indicating that an invalid value was provided. */
-    fun fail(message: String, paramName: String? = null): Nothing {
-        if (paramName == null) throw BadParameter(message, option)
-        throw BadParameter(message, paramName)
-    }
+    fun fail(message: String): Nothing = throw BadParameterValue(message, name)
 }
 
 private typealias ValueProcessor<T> = OptionValueInvocation.(String) -> T
@@ -132,7 +129,7 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline co
             err.option = option
             throw err
         } catch (err: Exception) {
-            fail(err.message ?: "", paramName = name)
+            fail(err.message ?: "")
         }
     }
     return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, proc,

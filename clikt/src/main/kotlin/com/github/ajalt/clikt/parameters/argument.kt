@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameter
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
@@ -23,7 +23,7 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
 }
 
 class ArgumentValueInvocation(val argument: Argument<*>) {
-    fun fail(message: String): Nothing = throw BadParameter(message, argument)
+    fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
 }
 
 private typealias ArgValueProcessor<T> = ArgumentValueInvocation.(String) -> T

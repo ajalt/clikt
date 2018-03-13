@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.IncorrectArgumentNargs
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.PrintHelpMessage
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
@@ -18,13 +15,12 @@ class ArgumentTest {
     @Test
     fun `one required argument`() {
         class C : CliktCommand() {
-            val x by argument()
+            val foo by argument()
             override fun run() = Unit
         }
 
-        assertThrows<MissingParameter> {
-            C().parse(splitArgv(""))
-        }
+        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+                .hasMessage("Missing argument \"FOO\".")
     }
 
     @Test
@@ -53,9 +49,8 @@ class ArgumentTest {
 
         C().parse(splitArgv("1 2"))
 
-        assertThrows<MissingParameter> {
-            C().parse(splitArgv(""))
-        }
+        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+                .hasMessage(" Missing argument \"X\".")
     }
 
     @Test
@@ -94,9 +89,12 @@ class ArgumentTest {
             val x by argument().paired()
             override fun run() = Unit
         }
-
-        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo")) }
-        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo bar baz")) }
+        assertThrows<IncorrectArgumentNargs> { C().parse(splitArgv("foo")) }
+                .hasMessage("argument X takes 2 values")
+        assertThrows<UsageError> { C().parse(splitArgv("foo bar baz")) }
+                .hasMessage("Got unexpected extra argument (baz)")
+        assertThrows<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
+                .hasMessage("Got unexpected extra arguments (baz qux)")
     }
 
     @Test
@@ -106,8 +104,11 @@ class ArgumentTest {
             override fun run() = Unit
         }
 
-        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo bar")) }
-        assertThrows<IncorrectArgumentNargs> { C().parse(arrayOf("foo bar baz qux")) }
+        assertThrows<IncorrectArgumentNargs> { C().parse(splitArgv("foo bar")) }
+                .hasMessage("argument X takes 3 values")
+        assertThrows<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
+                .hasMessage("Got unexpected extra argument (qux)")
+
     }
 
     @Test
@@ -184,9 +185,8 @@ class ArgumentTest {
             override fun run() = fail("should not be called. $foo, $bar")
         }
 
-        assertThrows<MissingParameter> {
-            C().parse(splitArgv(""))
-        }.hasMessageContaining("FOO")
+        assertThrows<MissingParameter> {C().parse(splitArgv(""))}
+                .hasMessageContaining("Missing argument \"FOO\".")
     }
 
     @Test
@@ -209,11 +209,13 @@ class ArgumentTest {
     @Test
     fun `argument validators`() {
         var called = false
+
         class C : CliktCommand() {
             val x by argument().validate {
                 called = true
                 assertThat(it).isEqualTo("foo")
             }
+
             override fun run() = Unit
         }
 

@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.IncorrectOptionNargs
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoSuchOption
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.assertThrows
@@ -27,6 +28,29 @@ class OptionTest {
             parse(arrayOf())
             assertTrue(called)
         }
+    }
+
+    @Test
+    fun `no such option`() {
+        class C : CliktCommand() {
+            val foo by option()
+            val bar by option()
+            val baz by option()
+
+            override fun run() = fail("should not be called")
+        }
+
+        assertThrows<NoSuchOption> {
+            C().parse(splitArgv("--qux"))
+        }.hasMessage("no such option: \"--qux\".")
+
+        assertThrows<NoSuchOption> {
+            C().parse(splitArgv("--fo"))
+        }.hasMessage("no such option: \"--fo\". Did you mean \"--foo\"?")
+
+        assertThrows<NoSuchOption> {
+            C().parse(splitArgv("--ba"))
+        }.hasMessage("no such option: \"--ba\". (Possible options: --bar, --baz)")
     }
 
     @Test
@@ -172,12 +196,10 @@ class OptionTest {
                 fail("should not be called $x, $y")
             }
         }
-        assertThrows<IncorrectOptionNargs> {
-            C().parse(splitArgv("-x"))
-        }.hasMessageContaining("-x option requires 2 arguments")
-        assertThrows<UsageError> {
-            C().parse(splitArgv("--yy foo bar baz"))
-        }.hasMessageContaining("baz")
+        assertThrows<IncorrectOptionNargs> { C().parse(splitArgv("-x")) }
+                .hasMessage("-x option requires 2 arguments")
+        assertThrows<UsageError> { C().parse(splitArgv("--yy foo bar baz")) }
+                .hasMessage("Got unexpected extra argument (baz)")
     }
 
     @Test

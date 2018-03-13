@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameter
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.options.option
@@ -27,9 +27,8 @@ class ChoiceTypeTest {
             assertThat(x).isEqualTo("bar")
         }
 
-        assertThrows<BadParameter> {
-            C().parse(splitArgv("--xx baz"))
-        }.hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
+        assertThrows<BadParameterValue> { C().parse(splitArgv("--xx baz")) }
+                .hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
     }
 
     @Test
@@ -51,13 +50,11 @@ class ChoiceTypeTest {
             assertThat(x).isEqualTo(2)
         }
 
-        assertThrows<BadParameter> {
-            C().parse(splitArgv("-x baz"))
-        }.hasMessage("Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)")
+        assertThrows<BadParameterValue> { C().parse(splitArgv("-x baz")) }
+                .hasMessage("Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)")
 
-        assertThrows<BadParameter> {
-            C().parse(splitArgv("--xx=baz"))
-        }.hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
+        assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=baz")) }
+                .hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
     }
 
     @Test
@@ -79,9 +76,8 @@ class ChoiceTypeTest {
             assertThat(x).isEqualTo("bar")
         }
 
-        assertThrows<BadParameter> {
-            C().parse(splitArgv("baz"))
-        }.hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
+        assertThrows<BadParameterValue> { C().parse(splitArgv("baz")) }
+                .hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
     }
 
     @Test
@@ -103,8 +99,7 @@ class ChoiceTypeTest {
             assertThat(x).isEqualTo(2)
         }
 
-        assertThrows<BadParameter> {
-            C().parse(splitArgv("baz"))
-        }.hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
+        assertThrows<BadParameterValue> { C().parse(splitArgv("baz")) }
+                .hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
     }
 }

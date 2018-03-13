@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameter
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.parameters.ProcessedArgument
 import com.github.ajalt.clikt.parameters.RawArgument
 import com.github.ajalt.clikt.parameters.convert
@@ -22,11 +22,11 @@ private fun convertToFile(exists: Boolean,
 
     return name to { path ->
         File(path).also {
-            if (exists && !it.exists()) throw BadParameter("$name \"$it\" does not exist.")
-            if (!fileOkay && it.isFile) throw BadParameter("$name \"$it\" is a file")
-            if (!folderOkay && it.isDirectory) throw BadParameter("$name \"$it\" is a directory.")
-            if (writable && !it.canWrite()) throw BadParameter("$name \"$it\" is not writable.")
-            if (readable && !it.canRead()) throw BadParameter("$name \"$it\" is not readable.")
+            if (exists && !it.exists()) throw BadParameterValue("$name \"$it\" does not exist.")
+            if (!fileOkay && it.isFile) throw BadParameterValue("$name \"$it\" is a file")
+            if (!folderOkay && it.isDirectory) throw BadParameterValue("$name \"$it\" is a directory.")
+            if (writable && !it.canWrite()) throw BadParameterValue("$name \"$it\" is not writable.")
+            if (readable && !it.canRead()) throw BadParameterValue("$name \"$it\" is not readable.")
         }
     }
 }

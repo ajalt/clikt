@@ -2,42 +2,58 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.Option
-
-// TODO docs, params, and formatting for output
+import com.github.ajalt.clikt.parameters.convert
 
 /** An internal error that signals Clikt to abort. */
 class Abort : RuntimeException()
 
+/**
+ * An exception during command line processing that should be shown to the user.
+ *
+ * If calling [CliktCommand.main], these exceptions will be caught and the appropriate info will be printed.
+ */
 open class CliktError(message: String? = null, cause: Exception? = null) : RuntimeException(message, cause)
 
 /**
- * An exception that indicates that the command's help should be printed, and does not signal an error.
+ * An exception that indicates that the command's help should be printed.
+ *
+ * Execution should be immediately halted with and error.
  */
-class PrintHelpMessage(val command: CliktCommand) : CliktError("print output")
+class PrintHelpMessage(val command: CliktCommand) : CliktError()
 
 /**
- * An exception that indicates that the message should be printed, and does not signal an error.
+ * An exception that indicates that the message should be printed.
+ *
+ * Execution should be immediately halted with and error.
  */
 class PrintMessage(message: String) : CliktError(message)
 
 /**
  * An internal exception that signals a usage error.
  *
- * This typically aborts any further handling.
+ * The [option] and [argument] properties are used in message formatting, and can be set after the exception
+ * is created. If this is thrown inside a call to [convert], the [argument] or [option] value will be set
+ * automatically
+ *
+ * @property text Extra text to add to the message. Not all subclasses uses this.
+ * @property paramName The name of the parameter that caused the error. If possible, this should be set to the
+ *   actual name used. If not set, it will be inferred from [argument] or [option] if either is set.
+ * @property option The option that caused this error. This may be set after the error is thrown.
+ * @property argument The argument that caused this error. This may be set after the error is thrown.
  */
 open class UsageError private constructor(
         val text: String? = null,
         val paramName: String? = null,
         var option: Option? = null,
         var argument: Argument<*>? = null) : CliktError() {
-    constructor(message: String, paramName: String? = null)
-            : this(message, paramName, null, null)
+    constructor(text: String, paramName: String? = null)
+            : this(text, paramName, null, null)
 
-    constructor(message: String, argument: Argument<*>)
-            : this(message, null, null, argument)
+    constructor(text: String, argument: Argument<*>)
+            : this(text, null, null, argument)
 
-    constructor(message: String, option: Option)
-            : this(message, null, option, null)
+    constructor(text: String, option: Option)
+            : this(text, null, option, null)
 
     fun helpMessage(context: Context? = null): String = buildString {
         context?.let { append(it.command.getFormattedUsage()).append("\n\n") }
@@ -56,8 +72,10 @@ open class UsageError private constructor(
     }
 }
 
-/** Base class for parameter usage errors. */ // TODO docs
-open class BadParameter : UsageError {
+/**
+ * A parameter was given the correct number of values, but of invalid format or type.
+ */
+open class BadParameterValue : UsageError {
     constructor(text: String) : super(text)
     constructor(text: String, paramName: String) : super(text, paramName)
     constructor(text: String, argument: Argument<*>) : super(text, argument)
@@ -69,28 +87,29 @@ open class BadParameter : UsageError {
     }
 }
 
-/** A required option or argument was not provided */
-open class MissingParameter : BadParameter {
-    constructor(paramName: String, message: String = "", paramType: String = "parameter")
-            : super(message, paramName) {
+/** A required parameter was not provided */
+open class MissingParameter : UsageError {
+    /**
+     * @param paramName The name of the parameter that caused the error
+     * @param text Extra text to display in the message
+     * @param paramType A string indicating the type of parameter.
+     */
+    constructor(paramName: String, paramType: String = "parameter") : super("", paramName) {
         this.paramType = paramType
     }
 
-    constructor(argument: Argument<*>, message: String = "")
-            : super(message, argument) {
+    constructor(argument: Argument<*>) : super("", argument) {
         this.paramType = "argument"
     }
 
-    constructor(option: Option, message: String = "")
-            : super(message, option) {
+    constructor(option: Option) : super("", option) {
         this.paramType = "option"
     }
 
     private val paramType: String
 
     override fun formatMessage(): String {
-        return "Missing $paramType ${inferParamName()}." +
-                if (text.isNullOrBlank()) "" else " $text."
+        return "Missing $paramType \"${inferParamName()}\"."
     }
 }
 
@@ -98,18 +117,16 @@ open class MissingParameter : BadParameter {
 open class NoSuchOption(protected val givenName: String,
                         protected val possibilities: List<String> = emptyList()) : UsageError("") {
     override fun formatMessage(): String {
-        return "no such option $givenName" + when {
-            possibilities.size == 1 -> ". Did you mean ${possibilities[0]}?"
+        return "no such option: \"$givenName\"." + when {
+            possibilities.size == 1 -> " Did you mean \"${possibilities[0]}\"?"
             possibilities.size > 1 -> possibilities.joinToString(
-                    prefix = " (Possible parameters: ", postfix = ")")
+                    prefix = " (Possible options: ", postfix = ")")
             else -> ""
         }
     }
 }
 
-/**
- * Raised if an option is supplied but the number of values supplied to the option was incorrect.
- */
+/** An option was supplied but the number of values supplied to the option was incorrect. */
 open class IncorrectOptionNargs(option: Option,
                                 private val givenName: String) : UsageError("", option) {
     override fun formatMessage(): String {
@@ -121,9 +138,7 @@ open class IncorrectOptionNargs(option: Option,
     }
 }
 
-/**
- * Raised if an argument is supplied but the number of values supplied was incorrect.
- */
+/** An argument was supplied but the number of values supplied was incorrect. */
 open class IncorrectArgumentNargs(argument: Argument<*>) : UsageError("", argument) {
     override fun formatMessage(): String {
         return "argument ${inferParamName()} takes ${argument!!.nargs} values"

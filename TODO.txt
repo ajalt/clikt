@@ -1,6 +1,3 @@
-validator.fail
-attach options/context to exceptions
-catch exceptions in convert
 remaining option types
 custom help formatter
 examples

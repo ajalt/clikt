@@ -98,7 +98,7 @@ internal object Parser {
             arg to null
         }
         val option = optionsByName[name] ?: throw NoSuchOption(name,
-                possibilities = optionsByName.keys.filter { name.startsWith(it) })
+                possibilities = optionsByName.keys.filter { it.startsWith(name) })
         val result = option.parser.parseLongOpt(option, name, argv, index, value)
         return option to result
     }
@@ -147,7 +147,8 @@ internal object Parser {
         val excess = positionalArgs.size - i
         if (excess > 0) {
             throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} " +
-                    positionalArgs.joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
+                    positionalArgs.slice(i..positionalArgs.lastIndex)
+                            .joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
         }
         return i
     }

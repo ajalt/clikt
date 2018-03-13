@@ -1,14 +1,18 @@
 package com.github.ajalt.clikt.parameters.types
 
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.multiple
 import com.github.ajalt.clikt.parameters.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.fail
 import org.junit.Test
 
 class IntTypeTest {
@@ -26,6 +30,17 @@ class IntTypeTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `int option error`() {
+        class C : CliktCommand() {
+            val foo by option().int()
+            override fun run() = fail("should not be called")
+        }
+
+        assertThrows<BadParameterValue> { C().parse(splitArgv("--foo bar")) }
+                .hasMessage("Invalid value for \"--foo\": bar is not a valid integer")
     }
 
     @Test

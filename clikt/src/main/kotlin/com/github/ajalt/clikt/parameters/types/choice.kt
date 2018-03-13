@@ -30,7 +30,7 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
 fun <T : Any> RawOption.choice(choices: Map<String, T>,
                                metavar: String = defaultChoiceMetavar(choices)): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return convert(metavar) { choices[it] ?: fail(errorMessage(it, choices), paramName = name) }
+    return convert(metavar) { choices[it] ?: fail(errorMessage(it, choices)) }
 }
 
 fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,

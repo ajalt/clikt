@@ -19,7 +19,6 @@ abstract class CliktCommand(
         private val helpOptionMessage: String = "Show this message and exit",
         private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help, epilog)) {
     val name = name ?: javaClass.simpleName.toLowerCase()
-
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument<*>> = mutableListOf()
@@ -48,6 +47,15 @@ abstract class CliktCommand(
         }
     }
 
+    private fun helpAsSubcommand(): ParameterHelp.Subcommand {
+        val shortHelp = help.split(".", "\n", limit = 2).first().trim()
+        return ParameterHelp.Subcommand(name, shortHelp)
+    }
+
+    private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
+            arguments.mapNotNull { it.parameterHelp } +
+            subcommands.map { it.helpAsSubcommand() }
+
     fun registerOption(option: Option) {
         val names = registeredOptionNames()
         for (name in option.names) {
@@ -60,21 +68,12 @@ abstract class CliktCommand(
         arguments += argument
     }
 
-    private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
-            arguments.mapNotNull { it.parameterHelp } +
-            subcommands.map { it.helpAsSubcommand() }
-
     open fun getFormattedUsage(): String {
         return helpFormatter.formatUsage(allHelpParams(), programName = name)
     }
 
     open fun getFormattedHelp(): String {
         return helpFormatter.formatHelp(allHelpParams(), programName = name)
-    }
-
-    private fun helpAsSubcommand(): ParameterHelp.Subcommand {
-        val shortHelp = help.split(".", "\n", limit = 2).first().trim()
-        return ParameterHelp.Subcommand(name, shortHelp)
     }
 
     fun parse(argv: Array<String>, context: Context? = null) {

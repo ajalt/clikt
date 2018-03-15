@@ -2,6 +2,9 @@ fail() for all processors? rename to transformers?
 remove Context?
 remove argument help by default
 custom help formatter
+http://click.pocoo.org/5/options/#yes-parameters
+http://click.pocoo.org/5/options/#other-prefix-characters
+
 examples
     add readmes
     cp (Consider --interactive)

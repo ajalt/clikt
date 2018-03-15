@@ -1,11 +1,9 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.assertThrows
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
 import org.junit.Assert.assertTrue
@@ -30,6 +28,36 @@ class ArgumentTest {
     ) { (argv, expected) ->
         class C : CliktCommand() {
             val x by argument().optional()
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `one default argument`() = parameterized(
+            row("", "def"),
+            row("asd", "asd")
+    ) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by argument().default("def")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `one default argument with optional`() = parameterized(
+            row("", "def"),
+            row("asd", "asd")
+    ) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by argument().optional().default("def")
             override fun run() {
                 assertThat(x).called("x").isEqualTo(expected)
             }
@@ -231,5 +259,45 @@ class ArgumentTest {
         }
 
         assertThrows<PrintHelpMessage> { C().parse(splitArgv("--help")) }
+    }
+
+    @Test
+    fun `allowInterspersedArgs=true`() {
+        class C : CliktCommand(allowInterspersedArgs = true) {
+            val x by argument()
+            val y by option("-y").counted()
+            val z by argument()
+
+            override fun run() = Unit
+        }
+
+        C().apply {
+            parse(splitArgv("-y 1 -y 2 -y"))
+            softly {
+                assertThat(x).isEqualTo("1")
+                assertThat(y).isEqualTo(3)
+                assertThat(z).isEqualTo("2")
+            }
+        }
+    }
+
+    @Test
+    fun `allowInterspersedArgs=false`() {
+        class C : CliktCommand(allowInterspersedArgs = false) {
+            val x by argument()
+            val y by option("-y").counted()
+            val z by argument()
+
+            override fun run() = Unit
+        }
+
+        C().apply {
+            parse(splitArgv("-y 1 -y"))
+            softly {
+                assertThat(x).isEqualTo("1")
+                assertThat(y).isEqualTo(1)
+                assertThat(z).isEqualTo("-y")
+            }
+        }
     }
 }

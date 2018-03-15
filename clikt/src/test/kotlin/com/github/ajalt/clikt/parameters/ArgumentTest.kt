@@ -213,7 +213,7 @@ class ArgumentTest {
             override fun run() = fail("should not be called. $foo, $bar")
         }
 
-        assertThrows<MissingParameter> {C().parse(splitArgv(""))}
+        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
                 .hasMessageContaining("Missing argument \"FOO\".")
     }
 
@@ -299,5 +299,33 @@ class ArgumentTest {
                 assertThat(z).isEqualTo("-y")
             }
         }
+    }
+
+    @Test
+    fun `convert catches exceptions`() {
+        class C : CliktCommand(allowInterspersedArgs = false) {
+            val x by argument().convert {
+                when (it) {
+                    "uerr" -> fail("failed")
+                    "err" -> throw NumberFormatException("failed")
+                }
+                it
+            }
+
+            override fun run() = Unit
+        }
+
+        assertThrows<BadParameterValue> { C().parse(splitArgv("uerr")) }
+                .matches {
+                    it is BadParameterValue
+                            && it.argument != null
+                            && it.argument!!.name == "X"
+                }
+        assertThrows<BadParameterValue> { C().parse(splitArgv("err")) }
+                .matches {
+                    it is BadParameterValue
+                            && it.argument != null
+                            && it.argument!!.name == "X"
+                }
     }
 }

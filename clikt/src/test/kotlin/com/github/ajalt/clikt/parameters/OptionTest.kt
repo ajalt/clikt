@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.IncorrectOptionNargs
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.NoSuchOption
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
@@ -354,5 +351,26 @@ class OptionTest {
         C().parse(splitArgv("--x foo --y"))
         assertTrue(calledX)
         assertTrue(calledY)
+    }
+
+
+    @Test
+    fun `convert catches exceptions`() {
+        class C : CliktCommand(allowInterspersedArgs = false) {
+            val x by option().convert {
+                when (it) {
+                    "uerr" -> fail("failed")
+                    "err" -> throw NumberFormatException("failed")
+                }
+                it
+            }
+
+            override fun run() = Unit
+        }
+
+        assertThrows<BadParameterValue> { C().parse(splitArgv("--x=uerr")) }
+                .matches { it is BadParameterValue && it.paramName == "--x" }
+        assertThrows<BadParameterValue> { C().parse(splitArgv("--x=err")) }
+                .matches { it is BadParameterValue && it.paramName == "--x" }
     }
 }

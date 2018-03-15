@@ -127,7 +127,7 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline co
         try {
             conversion(it)
         } catch (err: UsageError) {
-            err.option = option
+            err.paramName = name
             throw err
         } catch (err: Exception) {
             fail(err.message ?: "")

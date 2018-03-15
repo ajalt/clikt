@@ -198,4 +198,36 @@ class PlaintextHelpFormatterTest {
                 |                descrption
                 """.trimMargin("|"))
     }
+
+    @Test
+    fun `formatHelp arguments`() {
+        val f = PlaintextHelpFormatter(width = 54)
+        assertThat(f.formatHelp(l(
+                arg("FOO", "some thing to live by", required = true),
+                arg("BAR", "another argument")),
+                programName = "prog")).isEqualTo(
+                """
+                |Usage: prog FOO [BAR]
+                |
+                |Arguments:
+                |  FOO  some thing to live by
+                |  BAR  another argument
+                """.trimMargin("|"))
+    }
+
+    @Test
+    fun `formatHelp subcommands`() {
+        val f = PlaintextHelpFormatter(width = 54)
+        assertThat(f.formatHelp(l(
+                sub("foo", "some thing to live by"),
+                sub("bar", "another argument")),
+                programName = "prog")).isEqualTo(
+                """
+                |Usage: prog COMMAND [ARGS]...
+                |
+                |Commands:
+                |  foo  some thing to live by
+                |  bar  another argument
+                """.trimMargin("|"))
+    }
 }

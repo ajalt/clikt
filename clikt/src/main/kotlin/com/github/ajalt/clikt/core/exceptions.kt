@@ -43,7 +43,7 @@ class PrintMessage(message: String) : CliktError(message)
  */
 open class UsageError private constructor(
         val text: String? = null,
-        val paramName: String? = null,
+        var paramName: String? = null,
         var option: Option? = null,
         var argument: Argument? = null) : CliktError() {
     constructor(text: String, paramName: String? = null)
@@ -65,7 +65,7 @@ open class UsageError private constructor(
     protected open fun formatMessage(): String = text ?: ""
 
     protected fun inferParamName(): String = when {
-        paramName != null -> paramName
+        paramName != null -> paramName!!
         option != null -> option?.names?.maxBy { it.length } ?: ""
         argument != null -> argument!!.name
         else -> ""

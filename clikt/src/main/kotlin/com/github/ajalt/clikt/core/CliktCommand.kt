@@ -21,7 +21,7 @@ abstract class CliktCommand(
     val name = name ?: javaClass.simpleName.toLowerCase()
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
-    internal val arguments: MutableList<Argument<*>> = mutableListOf()
+    internal val arguments: MutableList<Argument> = mutableListOf()
     private var _context: Context? = null
     val context: Context
         get() {
@@ -64,7 +64,7 @@ abstract class CliktCommand(
         options += option
     }
 
-    fun registerArgument(argument: Argument<*>) {
+    fun registerArgument(argument: Argument) {
         arguments += argument
     }
 

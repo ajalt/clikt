@@ -9,7 +9,7 @@ import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
+interface Argument {
     val name: String
     val nargs: Int
     val required: Boolean
@@ -17,12 +17,14 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     val parameterHelp: ParameterHelp?
     var rawValues: List<String>
     fun finalize(context: Context) // TODO take the invocations as a param
+}
 
+interface ArgumentDelegate<out T> : Argument, ReadOnlyProperty<CliktCommand, T> {
     /** Implementations must call [CliktCommand.registerArgument] */
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-class ArgumentTransformContext(val argument: Argument<*>) {
+class ArgumentTransformContext(val argument: Argument): Argument by argument {
     fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
 }
 
@@ -38,7 +40,7 @@ class ProcessedArgument<AllT, ValueT>(
         override val required: Boolean,
         override val help: String,
         val processValue: ArgValueTransformer<ValueT>,
-        val processAll: ArgCallsTransformer<AllT, ValueT>) : Argument<AllT> {
+        val processAll: ArgCallsTransformer<AllT, ValueT>) : ArgumentDelegate<AllT> {
     init {
         require(nargs != 0) { "Arguments cannot have nargs == 0" }
     }
@@ -101,12 +103,12 @@ fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T
     return transformAll(nargs = 3) { Triple(it[0], it[1], it[2]) }
 }
 
-fun <T : Any> ProcessedArgument<T, T>.default(value: T): Argument<T> {
+fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
 @JvmName("nullableDefault")
-fun <T : Any> ProcessedArgument<T?, T>.default(value: T): Argument<T> {
+fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ArgumentDelegate<T> {
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
@@ -125,7 +127,7 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
 }
 
 fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
-        : Argument<AllT> {
+        : ArgumentDelegate<AllT> {
     return transformAll(required = false) {
         processAll(it).also { validator(ArgumentTransformContext(this@validate), it) }
     }

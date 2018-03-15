@@ -45,11 +45,11 @@ open class UsageError private constructor(
         val text: String? = null,
         val paramName: String? = null,
         var option: Option? = null,
-        var argument: Argument<*>? = null) : CliktError() {
+        var argument: Argument? = null) : CliktError() {
     constructor(text: String, paramName: String? = null)
             : this(text, paramName, null, null)
 
-    constructor(text: String, argument: Argument<*>)
+    constructor(text: String, argument: Argument)
             : this(text, null, null, argument)
 
     constructor(text: String, option: Option)
@@ -78,7 +78,7 @@ open class UsageError private constructor(
 open class BadParameterValue : UsageError {
     constructor(text: String) : super(text)
     constructor(text: String, paramName: String) : super(text, paramName)
-    constructor(text: String, argument: Argument<*>) : super(text, argument)
+    constructor(text: String, argument: Argument) : super(text, argument)
     constructor(text: String, option: Option) : super(text, option)
 
     override fun formatMessage(): String {
@@ -98,7 +98,7 @@ open class MissingParameter : UsageError {
         this.paramType = paramType
     }
 
-    constructor(argument: Argument<*>) : super("", argument) {
+    constructor(argument: Argument) : super("", argument) {
         this.paramType = "argument"
     }
 
@@ -139,7 +139,7 @@ open class IncorrectOptionNargs(option: Option,
 }
 
 /** An argument was supplied but the number of values supplied was incorrect. */
-open class IncorrectArgumentNargs(argument: Argument<*>) : UsageError("", argument) {
+open class IncorrectArgumentNargs(argument: Argument) : UsageError("", argument) {
     override fun formatMessage(): String {
         return "argument ${inferParamName()} takes ${argument!!.nargs} values"
     }

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.parameters.Argument
+import com.github.ajalt.clikt.parameters.ArgumentDelegate
 import com.github.ajalt.clikt.parameters.ProcessedArgument
 import com.github.ajalt.clikt.parameters.options.OptionDelegate
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
@@ -26,7 +27,7 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
 // Arguments
 
 fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
-        : ProcessedArgument<T, T> where T : Number, T : Comparable<T> {
+        : ArgumentDelegate<T> where T : Number, T : Comparable<T> {
     return ProcessedArgument(name, nargs, required, help,
             { checkRange(processValue(it), min, max, clamp) { fail(it) } },
             processAll)
@@ -34,7 +35,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
 
 @JvmName("nullableRestrictTo")
 fun <T> ProcessedArgument<T?, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
-        : Argument<T?> where T : Number, T : Comparable<T> {
+        : ArgumentDelegate<T?> where T : Number, T : Comparable<T> {
     return ProcessedArgument(name, nargs, required, help,
             { checkRange(processValue(it), min, max, clamp) { fail(it) } },
             processAll)

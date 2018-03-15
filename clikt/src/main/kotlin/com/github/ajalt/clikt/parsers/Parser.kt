@@ -120,7 +120,7 @@ internal object Parser {
                 "Error parsing short option ${argv[index]}: no parser consumed value.")
     }
 
-    private fun parseArguments(positionalArgs: List<String>, arguments: List<Argument<*>>): Int {
+    private fun parseArguments(positionalArgs: List<String>, arguments: List<Argument>): Int {
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
         // values.

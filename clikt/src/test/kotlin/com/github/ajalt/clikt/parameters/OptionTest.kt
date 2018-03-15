@@ -55,8 +55,10 @@ class OptionTest {
             row("", null),
             row("--xx=", ""),
             row("--xx 3", "3"),
+            row("--xx --xx", "--xx"),
             row("--xx=asd", "asd"),
             row("-x 4", "4"),
+            row("-x -x", "-x"),
             row("-xfoo", "foo")) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
@@ -372,5 +374,68 @@ class OptionTest {
                 .matches { it is BadParameterValue && it.paramName == "--x" }
         assertThrows<BadParameterValue> { C().parse(splitArgv("--x=err")) }
                 .matches { it is BadParameterValue && it.paramName == "--x" }
+    }
+
+    @Test
+    fun `one option with slash prefix`() = parameterized(
+            row("", null),
+            row("/xx=", ""),
+            row("/xx 3", "3"),
+            row("/xx=asd", "asd"),
+            row("/x 4", "4"),
+            row("/x /xx /xx foo", "foo"),
+            row("/xfoo", "foo")) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by option("/x", "/xx")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `one option with java prefix`() = parameterized(
+            row("", null),
+            row("-xx=", ""),
+            row("-xx 3", "3"),
+            row("-xx=asd", "asd"),
+            row("-x 4", "4"),
+            row("-x -xx -xx foo", "foo"),
+            row("-xfoo", "foo")) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by option("-x", "-xx")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `two options with chmod prefixes`() = parameterized(
+            row("", false, false),
+            row("+x", true, false),
+            row("-x", false, false),
+            row("-x +x", true, false),
+            row("+x -x", false, false),
+            row("+y", false, true),
+            row("-y", false, false),
+            row("-y +y", false, true),
+            row("+y -y", false, false),
+            row("-x -y", false, false),
+            row("-x -y +xy", true, true)) { (argv, ex, ey) ->
+        class C : CliktCommand() {
+            val x by option("+x").flag("-x")
+            val y by option("+y").flag("-y")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(ex)
+                assertThat(y).called("y").isEqualTo(ey)
+            }
+        }
+
+        C().parse(splitArgv(argv))
     }
 }

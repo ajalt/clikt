@@ -27,7 +27,7 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
 
 internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {
     if (names.isNotEmpty()) {
-        val invalidName = names.find { !it.matches(Regex("-\\w|--\\w+")) }
+        val invalidName = names.find { !it.matches(Regex("\\p{Punct}{1,2}\\w+")) }
         require(invalidName == null) { "Invalid option name \"$invalidName\"" }
         return names
     }

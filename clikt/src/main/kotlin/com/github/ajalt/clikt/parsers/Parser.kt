@@ -19,11 +19,17 @@ internal object Parser {
         val subcommands = command.subcommands.associateBy { it.name }
         val optionsByName = HashMap<String, Option>()
         val arguments = command.arguments
+        val prefixes = mutableSetOf<String>()
+        val longNames = mutableSetOf<String>()
 
         for (option in command.options) {
-            for (name in option.names) optionsByName[name] = option
-            for (name in option.secondaryNames) optionsByName[name] = option
+            for (name in option.names + option.secondaryNames) {
+                optionsByName[name] = option
+                if (name.length > 2) longNames += name
+                prefixes += prefix(name)
+            }
         }
+        prefixes.remove("")
 
         val positionalArgs = ArrayList<String>()
         var i = startingArgI
@@ -32,17 +38,18 @@ internal object Parser {
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         loop@ while (i <= argv.lastIndex) {
             val a = argv[i]
+            val prefix = prefix(a)
             when {
                 a == "--" -> {
                     i += 1
                     canParseOptions = false
                 }
-                a.startsWith("--") && canParseOptions -> {
+                canParseOptions && ('=' in a || a in longNames || prefix.length > 1) -> {
                     val (opt, result) = parseLongOpt(argv, a, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount
                 }
-                a.startsWith("-") && canParseOptions -> {
+                canParseOptions && a.length >= 2 && prefix.isNotEmpty() -> {
                     val (count, invokes) = parseShortOpt(argv, a, i, optionsByName)
                     invocations += invokes
                     i += count
@@ -152,4 +159,11 @@ internal object Parser {
         }
         return i
     }
+
+    private fun prefix(name: String) =
+            when {
+                name.isEmpty() || name[0].isLetterOrDigit() -> ""
+                name.length > 2 && name[0] == name[1] -> name.slice(0..1)
+                else -> name.slice(0..0)
+            }
 }

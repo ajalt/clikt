@@ -111,9 +111,9 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
     return transformNargs(nargs = 3) { Triple(it[0], it[1], it[2]) }
 }
 
-fun <T : Any> FlagOption<T>.validate(validator: (T) -> Unit): OptionDelegate<T> {
+fun <T : Any> FlagOption<T>.validate(validator: OptionValidatorInvocation.(T) -> Unit): OptionDelegate<T> {
     return FlagOption(names, secondaryNames, help) {
-        processAll(it).apply { validator(this) }
+        processAll(it).also { validator(OptionValidatorInvocation(this), it) }
     }
 }
 

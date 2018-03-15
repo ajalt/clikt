@@ -22,11 +22,11 @@ interface Argument<out T> : ReadOnlyProperty<CliktCommand, T> {
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-class ArgumentValueInvocation(val argument: Argument<*>) {
+class ArgumentInvocation(val argument: Argument<*>) {
     fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
 }
 
-private typealias ArgValueProcessor<T> = ArgumentValueInvocation.(String) -> T
+private typealias ArgValueProcessor<T> = ArgumentInvocation.(String) -> T
 private typealias ArgAllProcessor<AllT, EachT> = Argument<*>.(List<EachT>) -> AllT
 
 // `AllT` is deliberately not an out parameter.
@@ -60,7 +60,7 @@ class ProcessedArgument<AllT, ValueT>(
     }
 
     override fun finalize(context: Context) {
-        value = processAll(rawValues.map { processValue(ArgumentValueInvocation(this), it) })
+        value = processAll(rawValues.map { processValue(ArgumentInvocation(this), it) })
     }
 }
 
@@ -122,7 +122,10 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueProcess
     return ProcessedArgument(name, nargs, required, help, proc, defaultAllProcessor())
 }
 
-fun <T : Any> ProcessedArgument<T, T>.validate(validator: (T) -> Unit): Argument<T> {
-    return transformAll(required = false) { processAll(it).apply { validator(this) } }
+fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgumentInvocation.(AllT) -> Unit)
+        : Argument<AllT> {
+    return transformAll(required = false) {
+        processAll(it).also { validator(ArgumentInvocation(this), it) }
+    }
 }
 

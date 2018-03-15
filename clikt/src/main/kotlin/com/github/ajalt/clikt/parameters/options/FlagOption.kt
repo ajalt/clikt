@@ -8,11 +8,13 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class FlagOption<out T>(
+// `T` is deliberately not an out parameter.
+@Suppress("AddVarianceModifier")
+class FlagOption<T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
         override val help: String,
-        val processAll: Option.(List<String>) -> T) : OptionDelegate<T> {
+        val processAll: CallsTransformer<T, String>) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser
@@ -21,7 +23,7 @@ class FlagOption<out T>(
         private set
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        value = processAll(invocations.map { it.name })
+        value = processAll(OptionTransformContext(this), invocations.map { it.name })
     }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
@@ -52,4 +54,10 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
 
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
     return FlagOption(names, secondaryNames, help) { processAll(it) ?: value }
+}
+
+fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDelegate<T> {
+    return FlagOption(names, secondaryNames, help) {
+        processAll(it).also { validator(this, it) }
+    }
 }

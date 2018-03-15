@@ -8,19 +8,20 @@ import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class OptionValueInvocation(val name: String, val option: Option) {
+class OptionCallTransformContext(val name: String, val option: Option): Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
 }
 
-class OptionValidatorInvocation(val option: Option) {
+class OptionTransformContext(val option: Option): Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, option)
 }
 
-private typealias ValueProcessor<T> = OptionValueInvocation.(String) -> T
-private typealias EachProcessor<EachT, ValueT> = Option.(List<ValueT>) -> EachT
-private typealias AllProcessor<AllT, EachT> = Option.(List<EachT>) -> AllT
+typealias ValueTransformer<ValueT> = OptionCallTransformContext.(String) -> ValueT
+typealias ArgsTransformer<EachT, ValueT> = OptionCallTransformContext.(List<ValueT>) -> EachT
+typealias CallsTransformer<AllT, EachT> = OptionTransformContext.(List<EachT>) -> AllT
+typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
@@ -32,9 +33,9 @@ class OptionWithValues<AllT, EachT, ValueT>(
         override val nargs: Int,
         override val help: String,
         override val parser: OptionWithValuesParser,
-        val processValue: ValueProcessor<ValueT>,
-        val processEach: EachProcessor<EachT, ValueT>,
-        val processAll: AllProcessor<AllT, EachT>) : OptionDelegate<AllT> {
+        val processValue: ValueTransformer<ValueT>,
+        val processEach: ArgsTransformer<EachT, ValueT>,
+        val processAll: CallsTransformer<AllT, EachT>) : OptionDelegate<AllT> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
     private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
@@ -42,8 +43,9 @@ class OptionWithValues<AllT, EachT, ValueT>(
         private set
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        value = processAll(invocations.map {
-            processEach(it.values.map { v -> processValue(OptionValueInvocation(it.name, this), v) })
+        value = processAll(OptionTransformContext(this), invocations.map {
+            val tc = OptionCallTransformContext(it.name, this)
+            processEach(tc, it.values.map { v -> processValue(tc, v) })
         })
     }
 
@@ -63,10 +65,10 @@ internal typealias NullableOption<EachT, ValueT> = OptionWithValues<EachT?, Each
 internal typealias RawOption = NullableOption<String, String>
 
 @PublishedApi
-internal fun <T : Any> defaultEachProcessor(): EachProcessor<T, T> = { it.single() }
+internal fun <T : Any> defaultEachProcessor(): ArgsTransformer<T, T> = { it.single() }
 
 @PublishedApi
-internal fun <T : Any> defaultAllProcessor(): AllProcessor<T?, T> = { it.lastOrNull() }
+internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T?, T> = { it.lastOrNull() }
 
 @Suppress("unused")
 fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null): RawOption = OptionWithValues(
@@ -80,7 +82,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
         processEach = defaultEachProcessor(),
         processAll = defaultAllProcessor())
 
-fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: AllProcessor<AllT, EachT>)
+fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<AllT, EachT>)
         : OptionWithValues<AllT, EachT, ValueT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
             help, parser, processValue, processEach, transform)
@@ -93,7 +95,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
         : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { it }
 
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformNargs(
-        nargs: Int, transform: EachProcessor<EachOutT, ValueT>): NullableOption<EachOutT, ValueT> {
+        nargs: Int, transform: ArgsTransformer<EachOutT, ValueT>): NullableOption<EachOutT, ValueT> {
     require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
     require(nargs > 0) { "Options cannot have nargs < 0" }
     require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
@@ -111,23 +113,17 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
     return transformNargs(nargs = 3) { Triple(it[0], it[1], it[2]) }
 }
 
-fun <T : Any> FlagOption<T>.validate(validator: OptionValidatorInvocation.(T) -> Unit): OptionDelegate<T> {
-    return FlagOption(names, secondaryNames, help) {
-        processAll(it).also { validator(OptionValidatorInvocation(this), it) }
-    }
-}
-
 fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
-        validator: OptionValidatorInvocation.(AllT) -> Unit): OptionDelegate<AllT> {
+        validator: OptionValidator<AllT>): OptionDelegate<AllT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
             help, parser, processValue, processEach) {
-        processAll(it).also { validator(OptionValidatorInvocation(this), it) }
+        processAll(it).also { validator(this, it) }
     }
 }
 
-inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline conversion: ValueProcessor<T>):
+inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline conversion: ValueTransformer<T>):
         NullableOption<T, T> {
-    val proc: ValueProcessor<T> = {
+    val proc: ValueTransformer<T> = {
         try {
             conversion(it)
         } catch (err: UsageError) {
@@ -159,8 +155,8 @@ fun <T : Any> NullableOption<T, T>.prompt(
     else {
         TermUi.prompt(promptText, default, hideInput, requireConfirmation,
                 confirmationPrompt, promptSuffix, showDefault) {
-            processAll(listOf(processEach(listOf(processValue(
-                    OptionValueInvocation("", this), it)))))
+            val ctx = OptionCallTransformContext("", this)
+            processAll(listOf(processEach(ctx, listOf(processValue(ctx, it)))))
         } ?: throw Abort()
     }
 }

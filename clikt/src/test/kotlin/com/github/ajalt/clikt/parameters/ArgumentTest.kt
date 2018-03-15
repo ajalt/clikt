@@ -50,7 +50,7 @@ class ArgumentTest {
         C().parse(splitArgv("1 2"))
 
         assertThrows<MissingParameter> { C().parse(splitArgv("")) }
-                .hasMessage(" Missing argument \"X\".")
+                .hasMessage("Missing argument \"X\".")
     }
 
     @Test

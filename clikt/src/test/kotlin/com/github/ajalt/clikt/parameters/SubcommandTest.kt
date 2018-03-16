@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.parameterized
@@ -163,5 +164,39 @@ class SubcommandTest {
 
         C().subcommands(Sub())
                 .parse(splitArgv("--xx --xx -- --yy sub --xx foo"))
+    }
+
+    @Test
+    fun `alised subcommand names`() = parameterized(
+            row("a b"),
+            row("a b sub -xfoo"),
+            row("a b SUB -xfoo"),
+            row("a b SUB -xfoo SUB2 -xfoo"),
+            row("a b SUB -xfoo sub2 -xfoo")) { (argv) ->
+
+        class C : CliktCommand(invokeWithoutSubcommand = true) {
+            val x by argument().multiple()
+            override fun run() {
+                assertThat(x).isEqualTo(listOf("a", "b"))
+            }
+        }
+
+        class Sub : CliktCommand(name = "sub", invokeWithoutSubcommand = true) {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+            }
+        }
+
+        class Sub2 : CliktCommand(name = "sub2") {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+            }
+        }
+
+        C().subcommands(Sub().subcommands(Sub2()))
+                .context { tokenTransformer = { it.toLowerCase() } }
+                .parse(splitArgv(argv))
     }
 }

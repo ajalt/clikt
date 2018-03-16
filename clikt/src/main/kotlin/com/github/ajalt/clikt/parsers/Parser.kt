@@ -37,30 +37,30 @@ internal object Parser {
         var canParseOptions = true
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         loop@ while (i <= argv.lastIndex) {
-            val a = argv[i]
-            val prefix = prefix(a)
+            val tok = context.tokenTransformer(argv[i])
+            val prefix = prefix(tok)
             when {
-                a == "--" -> {
+                tok == "--" -> {
                     i += 1
                     canParseOptions = false
                 }
-                canParseOptions && ('=' in a || a in longNames || prefix.length > 1) -> {
-                    val (opt, result) = parseLongOpt(argv, a, i, optionsByName)
+                canParseOptions && ('=' in tok || tok in longNames || prefix.length > 1) -> {
+                    val (opt, result) = parseLongOpt(argv, tok, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount
                 }
-                canParseOptions && a.length >= 2 && prefix.isNotEmpty() -> {
-                    val (count, invokes) = parseShortOpt(argv, a, i, optionsByName)
+                canParseOptions && tok.length >= 2 && prefix.isNotEmpty() -> {
+                    val (count, invokes) = parseShortOpt(argv, tok, i, optionsByName)
                     invocations += invokes
                     i += count
                 }
-                a in subcommands -> {
-                    subcommand = subcommands[a]!!
+                tok in subcommands -> {
+                    subcommand = subcommands[tok]!!
                     break@loop
                 }
                 else -> {
                     if (command.context.allowInterspersedArgs) {
-                        positionalArgs += a
+                        positionalArgs += argv[i] // arguments aren't transformed
                         i += 1
                     } else {
                         positionalArgs += argv.slice(i..argv.lastIndex)

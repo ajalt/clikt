@@ -7,12 +7,11 @@ import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 
-private fun defaultChoiceMetavar(choices: Map<String, *>): String {
-    return choices.keys.joinToString("|", prefix = "[", postfix = "]")
+private fun mvar(choices: Iterable<String>): String {
+    return choices.joinToString("|", prefix = "[", postfix = "]")
 }
 
-private fun errorMessage(choice: String, choices: Map<String, *>)
-        = "invalid choice: $choice. (choose from ${choices.keys.joinToString(", ")})"
+private fun errorMessage(choice: String, choices: Map<String, *>) = "invalid choice: $choice. (choose from ${choices.keys.joinToString(", ")})"
 
 fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
@@ -28,17 +27,17 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
 }
 
 fun <T : Any> RawOption.choice(choices: Map<String, T>,
-                               metavar: String = defaultChoiceMetavar(choices)): NullableOption<T, T> {
+                               metavar: String = mvar(choices.keys)): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return convert(metavar) { choices[it] ?: fail(errorMessage(it, choices)) }
 }
 
 fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
-                               metavar: String? = null): NullableOption<T, T> {
-    return mapOf(*choices).let { choice(it, metavar ?: defaultChoiceMetavar(it)) }
+                               metavar: String = mvar(choices.map { it.first })): NullableOption<T, T> {
+    return choice(mapOf(*choices), metavar)
 }
 
 fun RawOption.choice(vararg choices: String,
-                     metavar: String? = null): NullableOption<String, String> {
-    return choices.associateBy { it }.let { choice(it, metavar ?: defaultChoiceMetavar(it)) }
+                     metavar: String = mvar(choices.asIterable())): NullableOption<String, String> {
+    return choice(choices.associateBy { it }, metavar)
 }

@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
@@ -334,26 +335,6 @@ class OptionTest {
     }
 
     @Test
-    fun `custom inferredOptionPrefix`() {
-        class C : CliktCommand() {
-            val x by option("--x")
-            val y by option()
-            val z by option().flag()
-            val ww by option()
-            override fun run() {
-                assertThat(x).isEqualTo("foo")
-                assertThat(y).isEqualTo("bar")
-                assertThat(z).isTrue()
-                assertThat(ww).isEqualTo("baz")
-            }
-        }
-
-        println(C().options.map { it.names })
-
-        C().parse(splitArgv("--x foo /zybar /ww=baz"))
-    }
-
-    @Test
     fun `option validators`() {
         var calledX = false
         var calledY = false
@@ -465,5 +446,36 @@ class OptionTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `normalized tokens`() = parameterized(
+            row("", null),
+            row("--XX 3", "3"),
+            row("--xx 3", "3"),
+            row("-Xx", "x")) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().context { tokenTransformer = { it.toLowerCase() } }.parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `aliased tokens`() = parameterized(
+            row("", null),
+            row("--xx 3", "3"),
+            row("--yy 3", "3")) { (argv, expected) ->
+        class C : CliktCommand() {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().context { tokenTransformer = { "--xx" } }.parse(splitArgv(argv))
     }
 }

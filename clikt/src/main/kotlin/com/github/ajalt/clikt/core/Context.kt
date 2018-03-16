@@ -1,9 +1,15 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.output.PlaintextHelpFormatter
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-open class Context(val parent: Context?, val command: CliktCommand) {
+class Context(val parent: Context?, val command: CliktCommand,
+              val allowInterspersedArgs: Boolean = true,
+              val helpOptionNames: Set<String> = setOf("-h", "--help"),
+              val helpOptionMessage: String = "Show this message and exit",
+              val helpFormatter: HelpFormatter = PlaintextHelpFormatter()) {
     var invokedSubcommand: CliktCommand? = null
         internal set
     var obj: Any? = null
@@ -27,6 +33,24 @@ open class Context(val parent: Context?, val command: CliktCommand) {
             ctx = ctx.parent!!
         }
         return ctx
+    }
+
+    class Builder(val parent: Context? = null) {
+        var allowInterspersedArgs: Boolean = parent?.allowInterspersedArgs ?: true
+        var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
+        var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
+        var helpFormatter: HelpFormatter = parent?.helpFormatter ?: PlaintextHelpFormatter()
+
+        fun build(command: CliktCommand): Context {
+            return Context(parent, command, allowInterspersedArgs,
+                    helpOptionNames, helpOptionMessage, helpFormatter)
+        }
+    }
+
+    companion object {
+        inline fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
+            return Builder(parent).run { block(); build(command) }
+        }
     }
 }
 

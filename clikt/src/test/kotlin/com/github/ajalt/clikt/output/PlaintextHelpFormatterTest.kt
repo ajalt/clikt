@@ -101,7 +101,7 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp one opt`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp(l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+        assertThat(f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
                 programName = "prog")).isEqualTo(
                 """
                 |Usage: prog [OPTIONS]
@@ -114,7 +114,7 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp one opt secondary name`() {
         val f = PlaintextHelpFormatter(width = 60)
-        assertThat(f.formatHelp(l(opt(l("--aa", "-a"),
+        assertThat(f.formatHelp("", "", l(opt(l("--aa", "-a"),
                 null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))),
                 programName = "prog")).isEqualTo(
                 """
@@ -127,8 +127,9 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp one opt prolog`() {
-        val f = PlaintextHelpFormatter(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.")
-        assertThat(f.formatHelp(l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+        val f = PlaintextHelpFormatter()
+        assertThat(f.formatHelp(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.",
+                parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
                 programName = "prog")).isEqualTo(
                 """
                 |Usage: prog [OPTIONS]
@@ -144,16 +145,16 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp one opt prolog multi paragraph`() {
-        val f = PlaintextHelpFormatter(width = 54,
-                prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        val f = PlaintextHelpFormatter(width = 54)
+        assertThat(f.formatHelp(prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
                 Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
                 turpis bibendum egestas.
 
                 Morbi id libero purus. Praesent sit amet neque tellus. Vestibulum in condimentum turpis, in
                 consectetur ex.
-                """)
-        assertThat(f.formatHelp(l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+                """, epilog = "",
+                parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
                 programName = "prog")).isEqualTo(
                 """
                 |Usage: prog [OPTIONS]
@@ -177,7 +178,7 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp option wrapping`() {
         val f = PlaintextHelpFormatter(width = 54, maxColWidth = 12)
-        assertThat(f.formatHelp(l(
+        assertThat(f.formatHelp("", "", l(
                 opt(l("-x"), "X", repeatable = true, help = "one very very very very very very long option"),
                 opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
                 opt(l("-z", "--zzzzzzzzzzzzz"), "ZZZZZZZZ", help = "a short option"),
@@ -202,7 +203,7 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp arguments`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp(l(
+        assertThat(f.formatHelp("", "", l(
                 arg("FOO", "some thing to live by", required = true),
                 arg("BAR", "another argument")),
                 programName = "prog")).isEqualTo(
@@ -218,7 +219,7 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp subcommands`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp(l(
+        assertThat(f.formatHelp("", "", l(
                 sub("foo", "some thing to live by"),
                 sub("bar", "another argument")),
                 programName = "prog")).isEqualTo(

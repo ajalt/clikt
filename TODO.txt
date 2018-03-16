@@ -2,7 +2,5 @@ custom help formatter
 
 examples
     add readmes
-    cp (Consider --interactive)
     required options
     argparse style help formatter
-    custom multi commands

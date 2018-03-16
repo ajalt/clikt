@@ -4,7 +4,8 @@ import kotlin.LazyThreadSafetyMode.NONE
 
 interface HelpFormatter {
     fun formatUsage(parameters: List<ParameterHelp>, programName: String = ""): String
-    fun formatHelp(parameters: List<ParameterHelp>, programName: String = ""): String
+    fun formatHelp(prolog: String, epilog: String, parameters: List<ParameterHelp>,
+                   programName: String = ""): String
 
     sealed class ParameterHelp {
         data class Option(val names: Set<String>,
@@ -23,9 +24,7 @@ interface HelpFormatter {
     }
 }
 
-open class PlaintextHelpFormatter(protected val prolog: String = "",
-                                  protected val epilog: String = "",
-                                  protected val indent: String = "  ",
+open class PlaintextHelpFormatter(protected val indent: String = "  ",
                                   width: Int? = null,
                                   maxWidth: Int = 78,
                                   maxColWidth: Int? = null,
@@ -81,7 +80,9 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
     }
 
 
-    override fun formatHelp(parameters: List<HelpFormatter.ParameterHelp>,
+    override fun formatHelp(prolog: String,
+                            epilog: String,
+                            parameters: List<HelpFormatter.ParameterHelp>,
                             programName: String) = buildString {
         formatUsage(this, parameters, programName)
         if (prolog.isNotEmpty()) {
@@ -145,7 +146,7 @@ open class PlaintextHelpFormatter(protected val prolog: String = "",
             val (first, second) = row
             if (i > 0) append("\n")
             append(indent).append(first)
-            if (first.length> maxColWidth) {
+            if (first.length > maxColWidth) {
                 append("\n").append(subsequentIndent)
             } else {
                 appendRepeat(" ", firstWidth - first.length + colSpacing)

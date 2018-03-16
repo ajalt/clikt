@@ -263,7 +263,7 @@ class ArgumentTest {
 
     @Test
     fun `allowInterspersedArgs=true`() {
-        class C : CliktCommand(allowInterspersedArgs = true) {
+        class C : CliktCommand() {
             val x by argument()
             val y by option("-y").counted()
             val z by argument()
@@ -271,7 +271,7 @@ class ArgumentTest {
             override fun run() = Unit
         }
 
-        C().apply {
+        C().context { allowInterspersedArgs = true }.apply {
             parse(splitArgv("-y 1 -y 2 -y"))
             softly {
                 assertThat(x).isEqualTo("1")
@@ -283,7 +283,7 @@ class ArgumentTest {
 
     @Test
     fun `allowInterspersedArgs=false`() {
-        class C : CliktCommand(allowInterspersedArgs = false) {
+        class C : CliktCommand() {
             val x by argument()
             val y by option("-y").counted()
             val z by argument()
@@ -291,7 +291,7 @@ class ArgumentTest {
             override fun run() = Unit
         }
 
-        C().apply {
+        C().context { allowInterspersedArgs = false }.apply {
             parse(splitArgv("-y 1 -y"))
             softly {
                 assertThat(x).isEqualTo("1")
@@ -303,7 +303,7 @@ class ArgumentTest {
 
     @Test
     fun `convert catches exceptions`() {
-        class C : CliktCommand(allowInterspersedArgs = false) {
+        class C : CliktCommand() {
             val x by argument().convert {
                 when (it) {
                     "uerr" -> fail("failed")

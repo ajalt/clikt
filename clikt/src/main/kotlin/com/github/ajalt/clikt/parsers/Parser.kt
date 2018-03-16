@@ -59,7 +59,7 @@ internal object Parser {
                     break@loop
                 }
                 else -> {
-                    if (command.allowInterspersedArgs) {
+                    if (command.context.allowInterspersedArgs) {
                         positionalArgs += a
                         i += 1
                     } else {
@@ -72,8 +72,8 @@ internal object Parser {
 
         val invocationsByOption = invocations.groupBy({ it.first }, { it.second })
 
-        invocationsByOption.forEach { o, inv -> if (o is EagerOption) o.finalize(context, inv) }
-        invocationsByOption.forEach { o, inv -> if (o !is EagerOption) o.finalize(context, inv) }
+        invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
+        invocationsByOption.forEach { (o, inv) -> if (o !is EagerOption) o.finalize(context, inv) }
 
         // Finalize the options with values so that they can apply default values etc.
         for (o in command.options) {

@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
@@ -333,6 +334,26 @@ class OptionTest {
     }
 
     @Test
+    fun `custom inferredOptionPrefix`() {
+        class C : CliktCommand() {
+            val x by option("--x")
+            val y by option()
+            val z by option().flag()
+            val ww by option()
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+                assertThat(y).isEqualTo("bar")
+                assertThat(z).isTrue()
+                assertThat(ww).isEqualTo("baz")
+            }
+        }
+
+        println(C().options.map { it.names })
+
+        C().parse(splitArgv("--x foo /zybar /ww=baz"))
+    }
+
+    @Test
     fun `option validators`() {
         var calledX = false
         var calledY = false
@@ -347,7 +368,10 @@ class OptionTest {
                 assertThat(it).isTrue()
             }
 
-            override fun run() = Unit
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+                assertThat(y).isTrue()
+            }
         }
 
         C().parse(splitArgv("--x foo --y"))
@@ -358,7 +382,11 @@ class OptionTest {
 
     @Test
     fun `convert catches exceptions`() {
-        class C : CliktCommand(allowInterspersedArgs = false) {
+        class C : CliktCommand() {
+            init {
+                context { allowInterspersedArgs = false }
+            }
+
             val x by option().convert {
                 when (it) {
                     "uerr" -> fail("failed")
@@ -367,7 +395,7 @@ class OptionTest {
                 it
             }
 
-            override fun run() = Unit
+            override fun run() = fail("should not  be called")
         }
 
         assertThrows<BadParameterValue> { C().parse(splitArgv("--x=uerr")) }

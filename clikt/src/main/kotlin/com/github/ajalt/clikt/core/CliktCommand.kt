@@ -1,8 +1,6 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
-import com.github.ajalt.clikt.output.PlaintextHelpFormatter
 import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
@@ -11,17 +9,14 @@ import kotlin.system.exitProcess
 
 abstract class CliktCommand(
         val help: String = "",
-        epilog: String = "",
+        val epilog: String = "",
         name: String? = null,
-        val allowInterspersedArgs: Boolean = true,
-        val invokeWithoutSubcommand: Boolean = false,
-        private val helpOptionNames: Set<String> = setOf("-h", "--help"),
-        private val helpOptionMessage: String = "Show this message and exit",
-        private val helpFormatter: HelpFormatter = PlaintextHelpFormatter(help, epilog)) {
+        val invokeWithoutSubcommand: Boolean = false) {
     val name = name ?: javaClass.simpleName.toLowerCase()
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument> = mutableListOf()
+    internal var contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
     val context: Context
         get() {
@@ -31,30 +26,23 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
 
-    private fun createHelpOption(optionNames: Set<String>) {
-        if (optionNames.isEmpty()) return
-        val names = optionNames - registeredOptionNames()
-        if (names.isNotEmpty()) options += helpOption(names, helpOptionMessage)
-        for (command in subcommands) {
-            command.createHelpOption(optionNames)
-        }
-    }
-
     private fun createContext(parent: Context? = null) {
-        _context = Context(parent, this)
+        _context = Context.build(this, parent, contextConfig)
+
+        if (context.helpOptionNames.isEmpty()) return
+        val names = context.helpOptionNames - registeredOptionNames()
+        if (names.isNotEmpty()) options += helpOption(names, context.helpOptionMessage)
+
         for (command in subcommands) {
             command.createContext(context)
         }
     }
 
-    private fun helpAsSubcommand(): ParameterHelp.Subcommand {
-        val shortHelp = help.split(".", "\n", limit = 2).first().trim()
-        return ParameterHelp.Subcommand(name, shortHelp)
-    }
+    protected fun shortHelp(): String = help.split(".", "\n", limit = 2).first().trim()
 
     private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
             arguments.mapNotNull { it.parameterHelp } +
-            subcommands.map { it.helpAsSubcommand() }
+            subcommands.map { ParameterHelp.Subcommand(it.name, it.shortHelp()) }
 
     fun registerOption(option: Option) {
         val names = registeredOptionNames()
@@ -69,16 +57,15 @@ abstract class CliktCommand(
     }
 
     open fun getFormattedUsage(): String {
-        return helpFormatter.formatUsage(allHelpParams(), programName = name)
+        return context.helpFormatter.formatUsage(allHelpParams(), programName = name)
     }
 
     open fun getFormattedHelp(): String {
-        return helpFormatter.formatHelp(allHelpParams(), programName = name)
+        return context.helpFormatter.formatHelp(help, epilog, allHelpParams(), programName = name)
     }
 
     fun parse(argv: Array<String>, context: Context? = null) {
         createContext(context)
-        createHelpOption(helpOptionNames)
         Parser.parse(argv, this.context)
     }
 
@@ -106,12 +93,14 @@ abstract class CliktCommand(
     abstract fun run()
 }
 
-fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T {
+fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {
     subcommands += commands
-    return this
 }
 
-fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T {
+fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
     subcommands += commands
-    return this
+}
+
+fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
+    contextConfig = block
 }

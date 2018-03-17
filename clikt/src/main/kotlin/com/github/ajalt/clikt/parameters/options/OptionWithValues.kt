@@ -14,8 +14,8 @@ class OptionCallTransformContext(val name: String, val option: Option): Option b
 }
 
 class OptionTransformContext(val option: Option): Option by option {
-    /** Throw an exception indicating that an invalid value was provided. */
-    fun fail(message: String): Nothing = throw BadParameterValue(message, option)
+    /** Throw an exception indicating that usage was incorrect. */
+    fun fail(message: String): Nothing = throw UsageError(message, option)
 }
 
 typealias ValueTransformer<ValueT> = OptionCallTransformContext.(String) -> ValueT

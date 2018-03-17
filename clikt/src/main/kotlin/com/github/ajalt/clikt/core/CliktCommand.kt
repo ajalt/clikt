@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parsers.Parser
+import java.lang.Character.toLowerCase
 import kotlin.system.exitProcess
 
 abstract class CliktCommand(
@@ -12,7 +13,7 @@ abstract class CliktCommand(
         val epilog: String = "",
         name: String? = null,
         val invokeWithoutSubcommand: Boolean = false) {
-    val name = name ?: javaClass.simpleName.toLowerCase()
+    val name = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument> = mutableListOf()

@@ -259,7 +259,7 @@ class PlaintextHelpFormatterTest {
             override fun run() = Unit
         }
 
-        class Sub : CliktCommand(name = "sub", help = "a subcommand") {
+        class Sub : CliktCommand(help = "a subcommand") {
             override fun run() = Unit
         }
 

@@ -64,6 +64,8 @@ abstract class CliktCommand(
         return context.helpFormatter.formatHelp(help, epilog, allHelpParams(), programName = name)
     }
 
+    open fun aliases(): Map<String, List<String>> = emptyMap()
+
     fun parse(argv: Array<String>, context: Context? = null) {
         createContext(context)
         Parser.parse(argv, this.context)

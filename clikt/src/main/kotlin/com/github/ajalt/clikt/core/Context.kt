@@ -10,7 +10,7 @@ class Context(val parent: Context?, val command: CliktCommand,
               val helpOptionNames: Set<String> = setOf("-h", "--help"),
               val helpOptionMessage: String = "Show this message and exit",
               val helpFormatter: HelpFormatter = PlaintextHelpFormatter(),
-              val tokenTransformer: (String) -> String = { it }) {
+              val tokenTransformer: Context.(String) -> String = { it }) {
     var invokedSubcommand: CliktCommand? = null
         internal set
     var obj: Any? = null
@@ -36,12 +36,14 @@ class Context(val parent: Context?, val command: CliktCommand,
         return ctx
     }
 
+    fun fail(message: String = ""): Nothing = throw UsageError(message)
+
     class Builder(val parent: Context? = null) {
         var allowInterspersedArgs: Boolean = parent?.allowInterspersedArgs ?: true
         var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
         var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
         var helpFormatter: HelpFormatter = parent?.helpFormatter ?: PlaintextHelpFormatter()
-        var tokenTransformer: (String) -> String = parent?.tokenTransformer ?: { it }
+        var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
 
         fun build(command: CliktCommand): Context {
             return Context(parent, command, allowInterspersedArgs, helpOptionNames,

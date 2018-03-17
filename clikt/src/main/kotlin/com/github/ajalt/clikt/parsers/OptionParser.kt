@@ -9,14 +9,14 @@ interface OptionParser {
      * @param index The index of the option flag in [argv], which may contain multiple short parameters.
      * @param optionIndex The index of the option within `argv\[index]`
      */
-    fun parseShortOpt(option: Option, name: String, argv: Array<String>, index: Int, optionIndex: Int): ParseResult
+    fun parseShortOpt(option: Option, name: String, argv: List<String>, index: Int, optionIndex: Int): ParseResult
 
     /**
      * @param name The name of the flag used to invoke this option
      * @param argv The entire list of command line arguments for the command
      * @param index The index of the option flag in [argv], which may contain an '=' with the first value
      */
-    fun parseLongOpt(option: Option, name: String, argv: Array<String>, index: Int, explicitValue: String?): ParseResult
+    fun parseLongOpt(option: Option, name: String, argv: List<String>, index: Int, explicitValue: String?): ParseResult
 
     // TODO docs, note about purity
     data class Invocation(val name: String, val values: List<String>)

@@ -8,19 +8,23 @@ import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 
 class EagerOption(
-        override val help: String,
         override val names: Set<String>,
-        private val callback: EagerOption.(Context, String) -> Unit) : Option {
+        override val nargs: Int,
+        override val help: String,
+        private val callback: EagerOption.(Context, List<OptionParser.Invocation>) -> Unit) : Option {
+    constructor(vararg names: String, nargs: Int = 0, help: String = "",
+                callback: EagerOption.(Context, List<OptionParser.Invocation>) -> Unit)
+            : this(names.toSet(), nargs, help, callback)
+
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
     override val metavar: String? get() = null
-    override val nargs: Int get() = 0
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        this.callback(context, invocations.first().name)
+        this.callback(context, invocations)
     }
 }
 
-internal fun helpOption(names: Set<String>, message: String) = EagerOption(message, names, { ctx, _ ->
+internal fun helpOption(names: Set<String>, message: String) = EagerOption(names, 0, message, { ctx, _ ->
     throw PrintHelpMessage(ctx.command)
 })
 
@@ -29,7 +33,7 @@ inline fun <T : CliktCommand> T.versionOption(
         help: String = "Show the version and exit.",
         names: Set<String> = setOf("--version"),
         crossinline message: (String) -> String = { "$name version $it" }): T {
-    registerOption(EagerOption(help, names) { _, _ ->
+    registerOption(EagerOption(names, 0, help) { _, _ ->
         throw PrintMessage(message(version))
     })
     return this

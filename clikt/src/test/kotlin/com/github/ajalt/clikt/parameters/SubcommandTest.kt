@@ -167,7 +167,7 @@ class SubcommandTest {
     }
 
     @Test
-    fun `alised subcommand names`() = parameterized(
+    fun `normalized subcommand names`() = parameterized(
             row("a b"),
             row("a b sub -xfoo"),
             row("a b SUB -xfoo"),
@@ -197,6 +197,45 @@ class SubcommandTest {
 
         C().subcommands(Sub().subcommands(Sub2()))
                 .context { tokenTransformer = { it.toLowerCase() } }
+                .parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `aliased subcommand names`() = parameterized(
+            row("a b"),
+            row("a b sub -xfoo"),
+            row("a 1 sub -xfoo"),
+            row("a 2"),
+            row("3"),
+            row("a b 4 -xfoo"),
+            row("a b 4 1")) { (argv) ->
+
+        class C : CliktCommand(invokeWithoutSubcommand = true) {
+            val x by argument().multiple()
+            override fun run() {
+                assertThat(x).isEqualTo(listOf("a", "b"))
+            }
+
+            override fun aliases() = mapOf(
+                    "1" to "b".split(" "),
+                    "2" to "b sub -xfoo".split(" "),
+                    "3" to "a b sub -xfoo".split(" "),
+                    "4" to "sub".split(" ")
+            )
+        }
+
+        class Sub : CliktCommand(name = "sub") {
+            val x by option("-x", "--xx")
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+            }
+
+            override fun aliases() = mapOf(
+                    "1" to listOf("-xfoo")
+            )
+        }
+
+        C().subcommands(Sub())
                 .parse(splitArgv(argv))
     }
 }

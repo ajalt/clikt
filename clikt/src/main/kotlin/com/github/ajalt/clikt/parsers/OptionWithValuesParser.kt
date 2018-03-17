@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
 object OptionWithValuesParser : OptionParser {
-    override fun parseLongOpt(option: Option, name: String, argv: Array<String>,
+    override fun parseLongOpt(option: Option, name: String, argv: List<String>,
                               index: Int, explicitValue: String?): ParseResult {
         require(option.nargs > 0) {
             "This parser can only be used with a fixed number of arguments. Try the flag parser instead."
@@ -29,7 +29,7 @@ object OptionWithValuesParser : OptionParser {
         return ParseResult(consumedCount, invocation)
     }
 
-    override fun parseShortOpt(option: Option, name: String, argv: Array<String>,
+    override fun parseShortOpt(option: Option, name: String, argv: List<String>,
                                index: Int, optionIndex: Int): ParseResult {
         val opt = argv[index]
         val hasIncludedValue = optionIndex != opt.lastIndex

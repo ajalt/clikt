@@ -14,8 +14,10 @@ interface Option {
     val names: Set<String>
     val secondaryNames: Set<String>
     val nargs: Int
+    val hidden: Boolean
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
-        get() = HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs > 1)
+        get() = if (hidden) null
+        else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs > 1)
 
     fun finalize(context: Context, invocations: List<OptionParser.Invocation>)
 }

@@ -1,6 +1,14 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
+import com.github.ajalt.clikt.parameters.argument
+import com.github.ajalt.clikt.parameters.multiple
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.versionOption
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.softly
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -229,6 +237,55 @@ class PlaintextHelpFormatterTest {
                 |Commands:
                 |  foo  some thing to live by
                 |  bar  another argument
+                """.trimMargin("|"))
+    }
+
+    @Test
+    fun `integration test`() {
+        class C : CliktCommand(name = "program",
+                help =
+                """This is a program.
+
+                This is the prolog.
+                """,
+                epilog = "This is the epilog") {
+            val foo by option(help = "foo option help").int()
+            val bar by option("-b", "--bar", help = "bar option help", metavar = "META")
+            val baz by option(help = "baz option help").flag("--no-baz")
+            val hidden by option(help = "hidden", hidden = true)
+            val arg by argument()
+            val multi by argument().multiple(required = true)
+
+            override fun run() = Unit
+        }
+
+        class Sub : CliktCommand(name = "sub", help = "a subcommand") {
+            override fun run() = Unit
+        }
+
+        val c = C()
+                .versionOption("1.0")
+                .subcommands(Sub())
+
+        assertThat(c.getFormattedHelp()).isEqualTo(
+                """
+                |Usage: program [OPTIONS] ARG [MULTI]... COMMAND [ARGS]...
+                |
+                |  This is a program.
+                |
+                |  This is the prolog.
+                |
+                |Options:
+                |  --foo INT         foo option help
+                |  -b, --bar META    bar option help
+                |  --baz / --no-baz  baz option help
+                |  --version         Show the version and exit.
+                |  -h, --help        Show this message and exit
+                |
+                |Commands:
+                |  sub  a subcommand
+                |
+                |This is the epilog
                 """.trimMargin("|"))
     }
 }

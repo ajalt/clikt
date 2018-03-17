@@ -32,6 +32,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val defaultMetavar: String?,
         override val nargs: Int,
         override val help: String,
+        override val hidden: Boolean,
         override val parser: OptionWithValuesParser,
         val processValue: ValueTransformer<ValueT>,
         val processEach: ArgsTransformer<EachT, ValueT>,
@@ -71,12 +72,14 @@ internal fun <T : Any> defaultEachProcessor(): ArgsTransformer<T, T> = { it.sing
 internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T?, T> = { it.lastOrNull() }
 
 @Suppress("unused")
-fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null): RawOption = OptionWithValues(
+fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null,
+                        hidden: Boolean = false): RawOption = OptionWithValues(
         names = names.toSet(),
         explicitMetavar = metavar,
         defaultMetavar = "TEXT",
         nargs = 1,
         help = help,
+        hidden = hidden,
         parser = OptionWithValuesParser,
         processValue = { it },
         processEach = defaultEachProcessor(),
@@ -85,7 +88,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
 fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<AllT, EachT>)
         : OptionWithValues<AllT, EachT, ValueT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
-            help, parser, processValue, processEach, transform)
+            help, hidden, parser, processValue, processEach, transform)
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
@@ -106,8 +109,8 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
     require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
     require(nargs > 0) { "Options cannot have nargs < 0" }
     require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
-    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, parser,
-            processValue, transform, defaultAllProcessor())
+    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, hidden,
+            parser, processValue, transform, defaultAllProcessor())
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.paired()
@@ -123,7 +126,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
 fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
-            help, parser, processValue, processEach) {
+            help, hidden, parser, processValue, processEach) {
         processAll(it).also { validator(this, it) }
     }
 }
@@ -140,8 +143,8 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline co
             fail(err.message ?: "")
         }
     }
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, parser, proc,
-            defaultEachProcessor(), defaultAllProcessor())
+    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, hidden, parser,
+            proc, defaultEachProcessor(), defaultAllProcessor())
 }
 
 

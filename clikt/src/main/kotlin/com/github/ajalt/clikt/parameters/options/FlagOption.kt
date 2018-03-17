@@ -14,6 +14,7 @@ class FlagOption<T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
         override val help: String,
+        override val hidden: Boolean,
         val processAll: CallsTransformer<T, String>) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
@@ -36,28 +37,28 @@ class FlagOption<T>(
 }
 
 fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
-    return FlagOption(names, secondaryNames.toSet(), help, {
+    return FlagOption(names, secondaryNames.toSet(), help, hidden, {
         if (it.isEmpty()) default else it.last() !in secondaryNames
     })
 }
 
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, secondaryNames, help) { it.size }
+    return FlagOption(names, secondaryNames, help, hidden) { it.size }
 }
 
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(choices.keys, secondaryNames, help) { it.map { choices[it]!! }.lastOrNull() }
+    return FlagOption(choices.keys, secondaryNames, help, hidden) { it.map { choices[it]!! }.lastOrNull() }
 }
 
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
 
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
-    return FlagOption(names, secondaryNames, help) { processAll(it) ?: value }
+    return FlagOption(names, secondaryNames, help, hidden) { processAll(it) ?: value }
 }
 
 fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDelegate<T> {
-    return FlagOption(names, secondaryNames, help) {
+    return FlagOption(names, secondaryNames, help, hidden) {
         processAll(it).also { validator(this, it) }
     }
 }

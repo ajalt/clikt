@@ -57,10 +57,12 @@ abstract class CliktCommand(
     }
 
     open fun getFormattedUsage(): String {
+        if (_context == null) createContext()
         return context.helpFormatter.formatUsage(allHelpParams(), programName = name)
     }
 
     open fun getFormattedHelp(): String {
+        if (_context == null) createContext()
         return context.helpFormatter.formatHelp(help, epilog, allHelpParams(), programName = name)
     }
 

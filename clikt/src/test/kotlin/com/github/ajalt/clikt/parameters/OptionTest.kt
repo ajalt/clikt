@@ -312,6 +312,21 @@ class OptionTest {
     }
 
     @Test
+    fun `required option`() {
+        class C : CliktCommand() {
+            val x by option().required()
+            override fun run() {
+                assertThat(x).isEqualTo("foo")
+            }
+        }
+
+        C().parse(splitArgv("--x=foo"))
+
+        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+                .hasMessage("Missing option \"--x\".")
+    }
+
+    @Test
     fun `option metavars`() {
         class C : CliktCommand() {
             val x by option()

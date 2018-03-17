@@ -8,12 +8,12 @@ import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class OptionCallTransformContext(val name: String, val option: Option): Option by option {
+class OptionCallTransformContext(val name: String, val option: Option) : Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
 }
 
-class OptionTransformContext(val option: Option): Option by option {
+class OptionTransformContext(val option: Option) : Option by option {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw UsageError(message, option)
 }
@@ -89,7 +89,14 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(trans
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
-        : OptionWithValues<EachT, EachT, ValueT> = transformAll { it.lastOrNull() ?: value }
+        : OptionWithValues<EachT, EachT, ValueT> {
+    return transformAll { it.lastOrNull() ?: value }
+}
+
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required()
+        : OptionWithValues<EachT, EachT, ValueT> {
+    return transformAll { it.lastOrNull() ?: throw MissingParameter(option) }
+}
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
         : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { it }

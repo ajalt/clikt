@@ -4,20 +4,26 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Rule
 import org.junit.Test
+import org.junit.contrib.java.lang.system.SystemOutRule
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 class PromptOptionsTest {
-    private fun setup(stdin: String): ByteArrayOutputStream {
-        System.setIn(ByteArrayInputStream(stdin.toByteArray()))
-        return ByteArrayOutputStream().also { System.setOut(PrintStream(it)) }
-    }
+    @Rule
+    @JvmField
+    val stdout = SystemOutRule().enableLog()
+
+    @Rule
+    @JvmField
+    val stdin = TextFromStandardInputStream.emptyStandardInputStream()
 
     @Test
     fun `prompt`() {
-        val stdout = setup(stdin = "bar\n")
+        stdin.provideLines("bar")
 
         class C : CliktCommand() {
             val foo by option().prompt()
@@ -26,12 +32,28 @@ class PromptOptionsTest {
             }
         }
         C().parse(emptyArray())
-        assertThat(String(stdout.toByteArray())).isEqualTo("Foo: ")
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: ")
+    }
+
+    @Test
+    fun `prompt two options`() {
+        stdin.provideLines("foo", "bar")
+
+        class C : CliktCommand() {
+            val foo by option().prompt()
+            val bar by option().prompt()
+            override fun run() {
+                assertThat(foo).isEqualTo("foo")
+                assertThat(bar).isEqualTo("bar")
+            }
+        }
+        C().parse(emptyArray())
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: Bar: ")
     }
 
     @Test
     fun `prompt default`() {
-        val stdout = setup(stdin = "bar\n")
+        stdin.provideLines("bar")
 
         class C : CliktCommand() {
             val foo by option().prompt(default = "baz")
@@ -41,12 +63,12 @@ class PromptOptionsTest {
         }
 
         C().parse(emptyArray())
-        assertThat(String(stdout.toByteArray())).isEqualTo("Foo [baz]: ")
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo [baz]: ")
     }
 
     @Test
     fun `prompt default no stdin`() {
-        setup(stdin = "\n")
+        stdin.provideLines("")
 
         class C : CliktCommand() {
             val foo by option().prompt(default = "baz")

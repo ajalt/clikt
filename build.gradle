@@ -24,10 +24,11 @@ subprojects {
     }
 
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-        testCompile 'junit:junit:4.12'
-        testCompile 'org.assertj:assertj-core:3.8.0'
+        testImplementation 'junit:junit:4.12'
+        testImplementation 'org.assertj:assertj-core:3.8.0'
+        testImplementation 'com.github.stefanbirkner:system-rules:1.17.0'
     }
 
     compileKotlin {

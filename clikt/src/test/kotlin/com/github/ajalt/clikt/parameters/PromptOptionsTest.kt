@@ -15,7 +15,7 @@ import java.io.PrintStream
 class PromptOptionsTest {
     @Rule
     @JvmField
-    val stdout = SystemOutRule().enableLog()
+    val stdout = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Rule
     @JvmField
@@ -33,6 +33,38 @@ class PromptOptionsTest {
         }
         C().parse(emptyArray())
         assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: ")
+    }
+
+    @Test
+    fun `prompt custom name`() {
+        stdin.provideLines("foo")
+
+        class C : CliktCommand() {
+            val foo by option().prompt("INPUT")
+            override fun run() {
+                assertThat(foo).isEqualTo("foo")
+            }
+        }
+        C().parse(emptyArray())
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("INPUT: ")
+    }
+
+    @Test
+    fun `prompt inferred names`() {
+        stdin.provideLines("foo", "bar", "baz")
+
+        class C : CliktCommand() {
+            val foo by option().prompt()
+            val bar by option("/bar").prompt()
+            val baz by option("--some-thing").prompt()
+            override fun run() {
+                assertThat(foo).isEqualTo("foo")
+                assertThat(bar).isEqualTo("bar")
+                assertThat(baz).isEqualTo("baz")
+            }
+        }
+        C().parse(emptyArray())
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: Bar: Some thing: ")
     }
 
     @Test

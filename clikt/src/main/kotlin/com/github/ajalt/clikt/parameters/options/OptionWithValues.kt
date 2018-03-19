@@ -181,9 +181,8 @@ fun <T : Any> NullableOption<T, T>.prompt(
         confirmationPrompt: String = "Repeat for confirmation: ",
         promptSuffix: String = ": ",
         showDefault: Boolean = true): OptionWithValues<T, T, T> = transformAll {
-    val promptText = text ?: names.maxBy { it.length }
-            ?.replace(Regex("^--?"), "")
-            ?.replace("-", " ")?.capitalize() ?: "Value"
+    val promptText = text ?: names.maxBy { it.length }?.let { splitOptionPrefix(it).second }
+            ?.replace(Regex("\\W"), " ")?.capitalize() ?: "Value"
 
     val provided = it.lastOrNull()
     if (provided != null) provided

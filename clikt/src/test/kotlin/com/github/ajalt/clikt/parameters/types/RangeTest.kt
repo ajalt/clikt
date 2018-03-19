@@ -7,7 +7,6 @@ import com.github.ajalt.clikt.parameters.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.*
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class RangeTest {

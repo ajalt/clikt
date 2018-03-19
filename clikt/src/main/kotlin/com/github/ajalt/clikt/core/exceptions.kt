@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.Argument
-import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.convert
+import com.github.ajalt.clikt.parameters.options.Option
 
 /** An internal error that signals Clikt to abort. */
 class Abort : RuntimeException()

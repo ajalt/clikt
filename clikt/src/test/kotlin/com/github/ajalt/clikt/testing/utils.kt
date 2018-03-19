@@ -4,7 +4,6 @@ import org.assertj.core.api.AbstractAssert
 import org.assertj.core.api.AbstractThrowableAssert
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.SoftAssertions
-import org.junit.contrib.java.lang.system.EnvironmentVariables
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal

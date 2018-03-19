@@ -4,9 +4,11 @@ import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.convert
-import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.transformAll
+import com.github.ajalt.clikt.parameters.options.transformNargs
+import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.int
-import java.net.MalformedURLException
 import java.net.URL
 
 data class Quad(val a: Int, val b: Int, val c: Int, val d: Int)

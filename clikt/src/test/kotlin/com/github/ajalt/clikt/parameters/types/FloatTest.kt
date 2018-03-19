@@ -11,7 +11,6 @@ import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.fail
 import org.junit.Test
 

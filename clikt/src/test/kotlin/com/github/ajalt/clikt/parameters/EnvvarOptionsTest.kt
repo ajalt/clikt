@@ -7,14 +7,13 @@ import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
-import com.github.ajalt.clikt.testing.softly
 import com.github.ajalt.clikt.testing.splitArgv
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
-import java.io.File
 import org.junit.contrib.java.lang.system.RestoreSystemProperties
+import java.io.File
 
 
 class EnvvarOptionsTest {

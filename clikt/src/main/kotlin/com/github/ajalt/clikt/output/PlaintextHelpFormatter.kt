@@ -1,29 +1,5 @@
 package com.github.ajalt.clikt.output
 
-import kotlin.LazyThreadSafetyMode.NONE
-
-interface HelpFormatter {
-    fun formatUsage(parameters: List<ParameterHelp>, programName: String = ""): String
-    fun formatHelp(prolog: String, epilog: String, parameters: List<ParameterHelp>,
-                   programName: String = ""): String
-
-    sealed class ParameterHelp {
-        data class Option(val names: Set<String>,
-                          val secondaryNames: Set<String>,
-                          val metavar: String?,
-                          val help: String,
-                          val repeatable: Boolean) : ParameterHelp()
-
-        data class Argument(val name: String,
-                            val help: String,
-                            val required: Boolean,
-                            val repeatable: Boolean) : ParameterHelp()
-
-        data class Subcommand(val name: String,
-                              val help: String) : ParameterHelp()
-    }
-}
-
 open class PlaintextHelpFormatter(protected val indent: String = "  ",
                                   width: Int? = null,
                                   maxWidth: Int = 78,
@@ -60,7 +36,7 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
     }
 
     protected open fun StringBuilder.addUsage(parameters: List<HelpFormatter.ParameterHelp>,
-                                         programName: String) {
+                                              programName: String) {
         val prog = "$usageTitle $programName"
         val usage = buildString {
             if (parameters.any { it is HelpFormatter.ParameterHelp.Option }) {
@@ -157,7 +133,7 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
         if (rows.isEmpty()) return
         val firstWidth = measureFirstColumn(rows)
         val secondWidth = width - firstWidth - colSpacing
-        val subsequentIndent by lazy(NONE) { " ".repeat(indent.length + firstWidth + colSpacing) }
+        val subsequentIndent by lazy(LazyThreadSafetyMode.NONE) { " ".repeat(indent.length + firstWidth + colSpacing) }
         for ((i, row) in rows.withIndex()) {
             val (first, second) = row
             if (i > 0) append("\n")
@@ -180,4 +156,3 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
         append("\n").append(title).append("\n")
     }
 }
-

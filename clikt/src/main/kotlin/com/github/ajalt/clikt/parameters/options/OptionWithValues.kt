@@ -33,10 +33,12 @@ class OptionWithValues<AllT, EachT, ValueT>(
         override val nargs: Int,
         override val help: String,
         override val hidden: Boolean,
+        val envvar: String?,
+        val envvarSplit: Regex,
         override val parser: OptionWithValuesParser,
-        val processValue: ValueTransformer<ValueT>,
-        val processEach: ArgsTransformer<EachT, ValueT>,
-        val processAll: CallsTransformer<AllT, EachT>) : OptionDelegate<AllT> {
+        val transformValue: ValueTransformer<ValueT>,
+        val transformEach: ArgsTransformer<EachT, ValueT>,
+        val transformAll: CallsTransformer<AllT, EachT>) : OptionDelegate<AllT> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
     private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
@@ -44,19 +46,26 @@ class OptionWithValues<AllT, EachT, ValueT>(
         private set
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        value = processAll(OptionTransformContext(this), invocations.map {
+        val env = inferEnvvar(names, envvar, context.command.autoEnvvarPrefix)
+        val inv = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
+            invocations
+        } else {
+            System.getenv(env).split(envvarSplit).map { OptionParser.Invocation(env, listOf(it)) }
+        }
+
+        value = transformAll(OptionTransformContext(this), inv.map {
             val tc = OptionCallTransformContext(it.name, this)
-            processEach(tc, it.values.map { v -> processValue(tc, v) })
+            transformEach(tc, it.values.map { v -> transformValue(tc, v) })
         })
     }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, AllT> {
-        names = inferOptionNames(names, prop.name)
         require(secondaryNames.isEmpty()) {
             "Secondary option names are only allowed on flag options."
         }
+        names = inferOptionNames(names, prop.name)
         thisRef.registerOption(this)
         return this
     }
@@ -73,22 +82,24 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T?, T> = { it.las
 
 @Suppress("unused")
 fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null,
-                        hidden: Boolean = false): RawOption = OptionWithValues(
+                        hidden: Boolean = false, envvar: String? = null): RawOption = OptionWithValues(
         names = names.toSet(),
         explicitMetavar = metavar,
         defaultMetavar = "TEXT",
         nargs = 1,
         help = help,
         hidden = hidden,
+        envvar = envvar,
+        envvarSplit = Regex("\\s+"),
         parser = OptionWithValuesParser,
-        processValue = { it },
-        processEach = defaultEachProcessor(),
-        processAll = defaultAllProcessor())
+        transformValue = { it },
+        transformEach = defaultEachProcessor(),
+        transformAll = defaultAllProcessor())
 
 fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<AllT, EachT>)
         : OptionWithValues<AllT, EachT, ValueT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
-            help, hidden, parser, processValue, processEach, transform)
+            help, hidden, envvar, envvarSplit, parser, transformValue, transformEach, transform)
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
@@ -110,7 +121,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
     require(nargs > 0) { "Options cannot have nargs < 0" }
     require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, hidden,
-            parser, processValue, transform, defaultAllProcessor())
+            envvar, envvarSplit, parser, transformValue, transform, defaultAllProcessor())
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.paired()
@@ -126,13 +137,13 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
 fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT> {
     return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
-            help, hidden, parser, processValue, processEach) {
-        processAll(it).also { validator(this, it) }
+            help, hidden, envvar, envvarSplit, parser, transformValue, transformEach) {
+        transformAll(it).also { validator(this, it) }
     }
 }
 
-inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline conversion: ValueTransformer<T>):
-        NullableOption<T, T> {
+inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", envvarSplit: Regex? = null,
+                                       crossinline conversion: ValueTransformer<T>): NullableOption<T, T> {
     val proc: ValueTransformer<T> = {
         try {
             conversion(it)
@@ -143,8 +154,8 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", crossinline co
             fail(err.message ?: "")
         }
     }
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, hidden, parser,
-            proc, defaultEachProcessor(), defaultAllProcessor())
+    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, hidden, envvar,
+            envvarSplit ?: this.envvarSplit, parser, proc, defaultEachProcessor(), defaultAllProcessor())
 }
 
 
@@ -166,7 +177,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
         TermUi.prompt(promptText, default, hideInput, requireConfirmation,
                 confirmationPrompt, promptSuffix, showDefault) {
             val ctx = OptionCallTransformContext("", this)
-            processAll(listOf(processEach(ctx, listOf(processValue(ctx, it)))))
+            transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))
         } ?: throw Abort()
     }
 }

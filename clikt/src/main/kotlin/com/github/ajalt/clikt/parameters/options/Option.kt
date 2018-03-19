@@ -37,3 +37,20 @@ internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<Str
             .joinToString("-", prefix = "--") { it.toLowerCase() }
     return setOf(normalizedName)
 }
+
+internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: String?): String? {
+    if (envvar != null) return envvar
+    if (names.isEmpty() || autoEnvvarPrefix == null) return null
+    val name = splitOptionPrefix(names.maxBy { it.length }!!).second
+    if (name.isEmpty()) return null
+    return autoEnvvarPrefix + "_" + name.replace(Regex("\\W"), "_").toUpperCase()
+
+}
+
+/** Split an option token into a pair of prefix to simple name. */
+internal fun splitOptionPrefix(name: String): Pair<String, String> =
+        when {
+            name.length < 2 || name[0].isLetterOrDigit() -> "" to name
+            name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
+            else -> name.slice(0..0) to name.substring(1)
+        }

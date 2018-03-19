@@ -1,7 +1,5 @@
-http://click.pocoo.org/6/options/#values-from-environment-variables
+secondary OptionWithValues constructor that takes an option
 custom help formatter
-hidden options
-    hide this option from help outputs
 examples
     add readmes
     argparse style help formatter

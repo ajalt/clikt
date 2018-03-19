@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.parameters.convert
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 
-private fun valueToInt(it: String): Int {
+internal fun valueToInt(it: String): Int {
     return it.toIntOrNull() ?: throw BadParameterValue("$it is not a valid integer")
 }
 

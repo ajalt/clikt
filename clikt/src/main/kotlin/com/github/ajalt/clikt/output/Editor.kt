@@ -9,16 +9,13 @@ internal class Editor(private val editorPath: String?,
                       private val env: Map<String, String>,
                       private val requireSave: Boolean,
                       private val extension: String) {
-    private val isWindows = System.getProperty("os.name")
-            .contains(Regex("windows", RegexOption.IGNORE_CASE))
-
     private fun getEditorPath(): String {
         if (editorPath != null) return editorPath
         for (key in arrayOf("VISUAL", "EDITOR")) {
             return System.getenv(key) ?: continue
         }
 
-        if (isWindows) return "notepad"
+        if (TermUi.isWindows) return "notepad"
 
         for (editor in arrayOf("vim", "nano")) {
             try {
@@ -57,7 +54,7 @@ internal class Editor(private val editorPath: String?,
 
     fun edit(text: String): String? {
         var textToEdit = if (text.endsWith("\n")) text else text + "\n"
-        if (isWindows) {
+        if (TermUi.isWindows) {
             textToEdit = textToEdit.replace(Regex("(?<!\r)\n"), "\r\n")
         }
         val file = createTempFile(suffix = extension)

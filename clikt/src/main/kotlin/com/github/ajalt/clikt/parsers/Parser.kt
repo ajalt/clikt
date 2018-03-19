@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 import java.util.*
@@ -28,7 +29,7 @@ internal object Parser {
             for (name in option.names + option.secondaryNames) {
                 optionsByName[name] = option
                 if (name.length > 2) longNames += name
-                prefixes += prefix(name)
+                prefixes += splitOptionPrefix(name).first
             }
         }
         prefixes.remove("")
@@ -41,7 +42,7 @@ internal object Parser {
         var minAliasI = 0
         loop@ while (i <= args.lastIndex) {
             val tok = context.tokenTransformer(context, args[i])
-            val prefix = prefix(tok)
+            val prefix = splitOptionPrefix(tok).first
             when {
                 tok == "--" -> {
                     i += 1
@@ -167,11 +168,4 @@ internal object Parser {
         }
         return i
     }
-
-    private fun prefix(name: String) =
-            when {
-                name.isEmpty() || name[0].isLetterOrDigit() -> ""
-                name.length > 2 && name[0] == name[1] -> name.slice(0..1)
-                else -> name.slice(0..0)
-            }
 }

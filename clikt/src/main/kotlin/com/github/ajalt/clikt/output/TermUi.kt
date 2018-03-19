@@ -146,6 +146,11 @@ object TermUi {
         }
     }
 
+    /** True if the current platform is a version of windows. */
+    val isWindows: Boolean
+        get() = System.getProperty("os.name")
+                .contains(Regex("windows", RegexOption.IGNORE_CASE))
+
     private fun buildPrompt(text: String, suffix: String, showDefault: Boolean,
                             default: String?) = buildString {
         append(text)

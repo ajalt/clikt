@@ -14,6 +14,18 @@ import org.junit.Test
 
 class OptionTest {
     @Test
+    fun `inferEnvvar`() = parameterized(
+            row(setOf("--foo"), null, null, null),
+            row(setOf(""), "foo", null, "foo"),
+            row(setOf("--bar"), null, "FOO", "FOO_BAR"),
+            row(setOf("/bar"), null, "FOO", "FOO_BAR"),
+            row(setOf("-b"), null, "FOO", "FOO_B"),
+            row(setOf("-b", "--bar"), null, "FOO", "FOO_BAR")
+    ) { (names, envvar, prefix, expected) ->
+        assertThat(inferEnvvar(names, envvar, prefix)).isEqualTo(expected)
+    }
+
+    @Test
     fun `zero options`() {
         class C : CliktCommand() {
             var called = false
@@ -242,21 +254,20 @@ class OptionTest {
     }
 
     @Test
-    fun `switch options`() {
+    fun `switch options`() = parameterized(
+            row("", null, -1),
+            row("-x -y", 1, 3),
+            row("--xx -yy", 2, 4)) { (argv, ex, ey) ->
         class C : CliktCommand() {
             val x by option().switch("-x" to 1, "--xx" to 2)
-            override fun run() = Unit
+            val y by option().switch("-y" to 3, "-yy" to 4).default(-1)
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(ex)
+                assertThat(y).called("y").isEqualTo(ey)
+            }
         }
 
-        C().apply {
-            parse(splitArgv("-x"))
-            assertThat(x).isEqualTo(1)
-        }
-
-        C().apply {
-            parse(splitArgv("--xx"))
-            assertThat(x).isEqualTo(2)
-        }
+        C().parse(splitArgv(argv))
     }
 
     @Test

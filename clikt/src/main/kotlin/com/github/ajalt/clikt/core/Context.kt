@@ -5,7 +5,8 @@ import com.github.ajalt.clikt.output.PlaintextHelpFormatter
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class Context(val parent: Context?, val command: CliktCommand,
+class Context(val parent: Context?,
+              val command: CliktCommand,
               val allowInterspersedArgs: Boolean = true,
               val helpOptionNames: Set<String> = setOf("-h", "--help"),
               val helpOptionMessage: String = "Show this message and exit",

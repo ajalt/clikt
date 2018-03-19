@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.ProcessedArgument
 import com.github.ajalt.clikt.parameters.RawArgument
 import com.github.ajalt.clikt.parameters.convert
@@ -47,5 +48,6 @@ fun RawOption.file(exists: Boolean = false,
                    writable: Boolean = false,
                    readable: Boolean = false): NullableOption<File, File> {
     val (name, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
-    return convert(name.toUpperCase()) { conversion(it) }
+    val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
+    return convert(name.toUpperCase(), envvarSplit = split) { conversion(it) }
 }

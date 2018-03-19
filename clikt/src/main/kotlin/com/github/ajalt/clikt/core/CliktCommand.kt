@@ -12,12 +12,15 @@ abstract class CliktCommand(
         val help: String = "",
         val epilog: String = "",
         name: String? = null,
-        val invokeWithoutSubcommand: Boolean = false) {
+        val invokeWithoutSubcommand: Boolean = false,
+        autoEnvvarPrefix: String? = null) {
     val name = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument> = mutableListOf()
     internal var contextConfig: Context.Builder.() -> Unit = {}
+    var autoEnvvarPrefix: String? = autoEnvvarPrefix
+        internal set
     private var _context: Context? = null
     val context: Context
         get() {
@@ -98,12 +101,26 @@ abstract class CliktCommand(
     abstract fun run()
 }
 
+private fun normalizeEnvvar(prefix: String?, name: String): String? = prefix.let {
+    return it + "_" + name.replace(Regex("\\W"), "_").toUpperCase()
+}
+
 fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {
     subcommands += commands
+    for (sub in commands) {
+        if (sub.autoEnvvarPrefix == null) {
+            sub.autoEnvvarPrefix = normalizeEnvvar(autoEnvvarPrefix, sub.name)
+        }
+    }
 }
 
 fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
     subcommands += commands
+    for (sub in commands) {
+        if (sub.autoEnvvarPrefix == null) {
+            sub.autoEnvvarPrefix = normalizeEnvvar(autoEnvvarPrefix, sub.name)
+        }
+    }
 }
 
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {

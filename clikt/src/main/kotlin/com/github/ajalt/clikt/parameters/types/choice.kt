@@ -11,7 +11,9 @@ private fun mvar(choices: Iterable<String>): String {
     return choices.joinToString("|", prefix = "[", postfix = "]")
 }
 
-private fun errorMessage(choice: String, choices: Map<String, *>) = "invalid choice: $choice. (choose from ${choices.keys.joinToString(", ")})"
+private fun errorMessage(choice: String, choices: Map<String, *>): String {
+    return "invalid choice: $choice. (choose from ${choices.keys.joinToString(", ")})"
+}
 
 fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }

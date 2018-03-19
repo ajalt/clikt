@@ -69,6 +69,24 @@ class OptionWithValues<AllT, EachT, ValueT>(
         thisRef.registerOption(this)
         return this
     }
+
+    fun <AllT, EachT, ValueT> copy(
+            transformValue: ValueTransformer<ValueT>,
+            transformEach: ArgsTransformer<EachT, ValueT>,
+            transformAll: CallsTransformer<AllT, EachT>,
+            names: Set<String> = this.names,
+            explicitMetavar: String? = this.explicitMetavar,
+            defaultMetavar: String? = this.defaultMetavar,
+            nargs: Int = this.nargs,
+            help: String = this.help,
+            hidden: Boolean = this.hidden,
+            envvar: String? = this.envvar,
+            envvarSplit: Regex = this.envvarSplit,
+            parser: OptionWithValuesParser = this.parser
+    ): OptionWithValues<AllT, EachT, ValueT> {
+        return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, hidden,
+                envvar, envvarSplit, parser, transformValue, transformEach, transformAll)
+    }
 }
 
 internal typealias NullableOption<EachT, ValueT> = OptionWithValues<EachT?, EachT, ValueT>
@@ -98,8 +116,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
 
 fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<AllT, EachT>)
         : OptionWithValues<AllT, EachT, ValueT> {
-    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
-            help, hidden, envvar, envvarSplit, parser, transformValue, transformEach, transform)
+    return copy(transformValue, transformEach, transform)
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
@@ -120,8 +137,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
     require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
     require(nargs > 0) { "Options cannot have nargs < 0" }
     require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
-    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, hidden,
-            envvar, envvarSplit, parser, transformValue, transform, defaultAllProcessor())
+    return copy(transformValue, transform, defaultAllProcessor(), nargs = nargs)
 }
 
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.paired()
@@ -136,10 +152,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
 
 fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT> {
-    return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs,
-            help, hidden, envvar, envvarSplit, parser, transformValue, transformEach) {
-        transformAll(it).also { validator(this, it) }
-    }
+    return copy(transformValue, transformEach, { transformAll(it).also { validator(this, it) } })
 }
 
 inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", envvarSplit: Regex? = null,
@@ -154,8 +167,9 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE", envvarSplit: R
             fail(err.message ?: "")
         }
     }
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help, hidden, envvar,
-            envvarSplit ?: this.envvarSplit, parser, proc, defaultEachProcessor(), defaultAllProcessor())
+    return copy(proc, defaultEachProcessor(), defaultAllProcessor(),
+            defaultMetavar = metavar,
+            envvarSplit = envvarSplit ?: this.envvarSplit)
 }
 
 

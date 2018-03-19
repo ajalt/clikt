@@ -52,18 +52,14 @@ fun <T> ProcessedArgument<T?, T>.restrictTo(range: ClosedRange<T>, clamp: Boolea
 
 fun <T> OptionWithValues<T, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : OptionDelegate<T> where T : Number, T : Comparable<T> {
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help,
-            hidden, envvar, envvarSplit, parser,
-            { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
+    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } },
             transformEach, transformAll)
 }
 
 @JvmName("nullableRestrictTo")
 fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : OptionDelegate<T?> where T : Number, T : Comparable<T> {
-    return OptionWithValues(names, explicitMetavar, metavar, nargs, help,
-            hidden, envvar, envvarSplit, parser,
-            { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
+    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } },
             transformEach, transformAll)
 }
 

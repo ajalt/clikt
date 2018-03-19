@@ -29,7 +29,7 @@ interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
 
 internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {
     if (names.isNotEmpty()) {
-        val invalidName = names.find { !it.matches(Regex("\\p{Punct}{1,2}\\w+")) }
+        val invalidName = names.find { !it.matches(Regex("\\p{Punct}{1,2}[\\w-_]+")) }
         require(invalidName == null) { "Invalid option name \"$invalidName\"" }
         return names
     }
@@ -44,7 +44,6 @@ internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: 
     val name = splitOptionPrefix(names.maxBy { it.length }!!).second
     if (name.isEmpty()) return null
     return autoEnvvarPrefix + "_" + name.replace(Regex("\\W"), "_").toUpperCase()
-
 }
 
 /** Split an option token into a pair of prefix to simple name. */

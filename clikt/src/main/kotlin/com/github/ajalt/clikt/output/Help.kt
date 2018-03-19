@@ -43,11 +43,24 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
     protected val maxColWidth: Int = maxColWidth ?: (this.width / 2.5).toInt()
 
     override fun formatUsage(parameters: List<HelpFormatter.ParameterHelp>, programName: String): String {
-        return buildString { formatUsage(this, parameters, programName) }
+        return buildString { this.addUsage(parameters, programName) }
     }
 
-    private fun formatUsage(sb: StringBuilder, parameters: List<HelpFormatter.ParameterHelp>,
-                            programName: String): Unit = with(sb) {
+
+    override fun formatHelp(prolog: String,
+                            epilog: String,
+                            parameters: List<HelpFormatter.ParameterHelp>,
+                            programName: String) = buildString {
+        addUsage(parameters, programName)
+        addProlog(prolog)
+        addOptions(parameters)
+        addArguments(parameters)
+        addCommands(parameters)
+        addEpilog(epilog)
+    }
+
+    protected open fun StringBuilder.addUsage(parameters: List<HelpFormatter.ParameterHelp>,
+                                         programName: String) {
         val prog = "$usageTitle $programName"
         val usage = buildString {
             if (parameters.any { it is HelpFormatter.ParameterHelp.Option }) {
@@ -79,18 +92,15 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
         }
     }
 
-
-    override fun formatHelp(prolog: String,
-                            epilog: String,
-                            parameters: List<HelpFormatter.ParameterHelp>,
-                            programName: String) = buildString {
-        formatUsage(this, parameters, programName)
+    protected open fun StringBuilder.addProlog(prolog: String) {
         if (prolog.isNotEmpty()) {
             section("")
             prolog.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ",
                     preserveParagraph = true)
         }
+    }
 
+    protected open fun StringBuilder.addOptions(parameters: List<HelpFormatter.ParameterHelp>) {
         val options = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>().map {
             val names = mutableListOf(joinOptionNames(it.names))
             if (it.secondaryNames.isNotEmpty()) names += joinOptionNames(it.secondaryNames)
@@ -101,7 +111,9 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
             section(optionsTitle)
             appendDefinitionList(options)
         }
+    }
 
+    protected open fun StringBuilder.addArguments(parameters: List<HelpFormatter.ParameterHelp>) {
         val arguments = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Argument>().map {
             it.name to it.help
         }
@@ -110,7 +122,9 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
             section(argumentsTitle)
             appendDefinitionList(arguments)
         }
+    }
 
+    protected open fun StringBuilder.addCommands(parameters: List<HelpFormatter.ParameterHelp>) {
         val commands = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Subcommand>().map {
             it.name to it.help
         }
@@ -119,25 +133,27 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
             section(commandsTitle)
             appendDefinitionList(commands)
         }
+    }
 
+    protected open fun StringBuilder.addEpilog(epilog: String) {
         if (epilog.isNotEmpty()) {
             section("")
             epilog.wrapText(this, width, preserveParagraph = true)
         }
     }
 
-    protected fun joinOptionNames(names: Set<String>): String {
+    protected open fun joinOptionNames(names: Set<String>): String {
         return names.sortedBy { it.startsWith("--") }.joinToString(", ")
     }
 
-    protected fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
+    protected open fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         val metavar = " " + option.metavar
         if (option.repeatable) return "$metavar..."
         return metavar
     }
 
-    private fun StringBuilder.appendDefinitionList(rows: List<Pair<String, String>>) {
+    protected fun StringBuilder.appendDefinitionList(rows: List<Pair<String, String>>) {
         if (rows.isEmpty()) return
         val firstWidth = measureFirstColumn(rows)
         val secondWidth = width - firstWidth - colSpacing
@@ -154,7 +170,6 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
 
             val t = second.wrapText(secondWidth, subsequentIndent = subsequentIndent)
             append(t)
-
         }
     }
 

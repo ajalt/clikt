@@ -1,4 +1,0 @@
-custom help formatter
-examples
-    add readmes
-    argparse style help formatter

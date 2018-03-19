@@ -1,5 +1,12 @@
 subprojects {
+    apply plugin: 'application'
+
     dependencies {
         implementation project(':clikt')
+    }
+    run {
+        if (project.hasProperty("taskArgs")) {
+            args taskArgs.split()
+        }
     }
 }

@@ -1,5 +1,4 @@
 include 'clikt'
-include 'samples:echo'
 include 'samples:cp'
 include 'samples:repo'
 include 'samples:validation'

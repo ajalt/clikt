@@ -28,12 +28,7 @@ class ArgparseHelpFormatter: PlaintextHelpFormatter(
     }
 }
 
-class Echo : CliktCommand(help = """
-    Echo the STRING(s) to standard output
-
-    This command works like the echo example, but uses a custom help formatter that outputs help in a format
-    similar to Python's argparse module.
-    """) {
+class Echo : CliktCommand(help = "Echo the STRING(s) to standard output") {
     init {
         context { helpFormatter = ArgparseHelpFormatter() }
     }

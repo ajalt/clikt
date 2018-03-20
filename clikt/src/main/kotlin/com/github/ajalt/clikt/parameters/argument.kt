@@ -15,8 +15,7 @@ interface Argument {
     val required: Boolean
     val help: String
     val parameterHelp: ParameterHelp?
-    var rawValues: List<String>
-    fun finalize(context: Context) // TODO take the invocations as a param
+    fun finalize(context: Context, values: List<String>)
 }
 
 interface ArgumentDelegate<out T> : Argument, ReadOnlyProperty<CliktCommand, T> {
@@ -24,7 +23,7 @@ interface ArgumentDelegate<out T> : Argument, ReadOnlyProperty<CliktCommand, T> 
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
 }
 
-class ArgumentTransformContext(val argument: Argument): Argument by argument {
+class ArgumentTransformContext(val argument: Argument) : Argument by argument {
     fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
 }
 
@@ -49,7 +48,6 @@ class ProcessedArgument<AllT, ValueT>(
         private set
     private var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
 
-    override var rawValues: List<String> = emptyList()
     override val parameterHelp
         get() = ParameterHelp.Argument(name, help, required && nargs == 1 || nargs > 1, nargs < 0)
 
@@ -62,9 +60,9 @@ class ProcessedArgument<AllT, ValueT>(
         return this
     }
 
-    override fun finalize(context: Context) {
+    override fun finalize(context: Context, values: List<String>) {
         val ctx = ArgumentTransformContext(this)
-        value = processAll(ctx, rawValues.map { processValue(ctx, it) })
+        value = processAll(ctx, values.map { processValue(ctx, it) })
     }
 }
 

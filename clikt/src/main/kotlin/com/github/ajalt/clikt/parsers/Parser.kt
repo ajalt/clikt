@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
+import com.sun.org.apache.xpath.internal.Arg
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -89,9 +90,7 @@ internal object Parser {
             if (o !is EagerOption && o !in invocationsByOption) o.finalize(context, emptyList())
         }
 
-        parseArguments(positionalArgs, arguments)
-
-        command.arguments.forEach { it.finalize(context) }
+        parseArguments(positionalArgs, arguments).forEach { (it, v) -> it.finalize(context, v) }
 
         if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
             throw PrintHelpMessage(command)
@@ -136,7 +135,8 @@ internal object Parser {
                 "Error parsing short option ${argv[index]}: no parser consumed value.")
     }
 
-    private fun parseArguments(positionalArgs: List<String>, arguments: List<Argument>): Int {
+    private fun parseArguments(positionalArgs: List<String>, arguments: List<Argument>): Map<Argument, List<String>> {
+        val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
         // values.
@@ -156,7 +156,7 @@ internal object Parser {
                 if (remaining == 0) throw MissingParameter(argument)
                 else throw IncorrectArgumentNargs(argument)
             }
-            argument.rawValues = argument.rawValues + positionalArgs.subList(i, i + consumed)
+            out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed)
             i += consumed
         }
 
@@ -166,6 +166,6 @@ internal object Parser {
                     positionalArgs.slice(i..positionalArgs.lastIndex)
                             .joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
         }
-        return i
+        return out
     }
 }

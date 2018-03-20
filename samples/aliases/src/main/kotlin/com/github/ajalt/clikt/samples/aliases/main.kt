@@ -41,7 +41,8 @@ class Commit: CliktCommand(help="clone a repository") {
 }
 
 fun main(args: Array<String>) {
-    AliasedCli(File("src/main/kotlin/com/github/ajalt/clikt/samples/aliases/aliases.cfg"))
+    // The file path is relative to the project root for use with `runsample`
+    AliasedCli(File("samples/aliases/src/main/kotlin/com/github/ajalt/clikt/samples/aliases/aliases.cfg"))
             .subcommands(Push(), Pull(), Clone(), Commit())
             .main(args)
 }

@@ -3,7 +3,6 @@
 # The first argument must be the name of the sample task (e.g. echo).
 # Any remaining arguments are forwarded to the sample's argv.
 
-# get task name
 task=$1
 shift 1
 
@@ -12,19 +11,6 @@ if [ ! -d "samples/${task}" ]; then
     exit 1
 fi
 
-# create a temp file for task arguments. This allows us to send arguments
-# containing nested quotes and whitespace.
-tempfile=$(mktemp --tmpdir "$(basename $0).tmp.XXXXXX")
+./gradlew --quiet :samples:${task}:installDist
 
-# on cygwin, convert path to windows format
-if [[ "$(uname)" = CYGWIN* ]]; then
-    tempfile=$(cygpath --mixed ${tempfile})
-fi
-
-# place each argument on a separate line, surrounded by quotes
-printf '"%s"
-' "$@" > ${tempfile}
-
-./gradlew --quiet :samples:${task}:run -PtaskArgsFile="${tempfile}"
-
-rm -f "${tempfile}"
+./samples/${task}/build/install/${task}/bin/${task} "$@"

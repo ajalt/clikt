@@ -7,8 +7,5 @@ from the root command to subcommands.
 ```
 ./runsample repo --help
 ./runsample repo clone --help
+./runsample setuser
 ```
-
-Note that the gradle run task (and, by extension, `runsample`) doesn't
-support interactive input, so if you want to call the `setuser`
-subcommand, you should use the built distribution.

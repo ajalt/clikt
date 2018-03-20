@@ -23,29 +23,24 @@ class AliasedCli(private val configFile: File) : CliktCommand(
 
 
 class Push: CliktCommand(help="push changes") {
-    override fun run() {
-        println("push")
-    }
+    override fun run() = println("push")
 }
 
 class Pull: CliktCommand(help="pull changes") {
-    override fun run() {
-        println("pull")
-    }
+    override fun run() = println("pull")
 }
 
 class Clone: CliktCommand(help="clone a repository") {
-    override fun run() {
-        println("clone")
-    }
+    override fun run() = println("clone")
 }
 
 class Commit: CliktCommand(help="clone a repository") {
     val message by option("-m", "--message").multiple()
-    override fun run() {
-        println("commit message=${message.joinToString("\n")}")
-    }
+    override fun run() = println("commit message=${message.joinToString("\n")}")
 }
-fun main(args: Array<String>) = AliasedCli(File("aliases.cfg"))
-        .subcommands(Push(), Pull(), Clone(), Commit())
-        .main(args)
+
+fun main(args: Array<String>) {
+    AliasedCli(File("src/main/kotlin/com/github/ajalt/clikt/samples/aliases/aliases.cfg"))
+            .subcommands(Push(), Pull(), Clone(), Commit())
+            .main(args)
+}

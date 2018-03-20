@@ -7,6 +7,8 @@ subprojects {
     run {
         if (project.hasProperty("taskArgs")) {
             args taskArgs.split()
+        } else if (project.hasProperty("taskArgsFile")) {
+            args new File(taskArgsFile).text.split()
         }
     }
 }

@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.samples.validation
 
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.convert
 import com.github.ajalt.clikt.parameters.options.option
@@ -41,11 +42,11 @@ class Cli : CliktCommand(help = "Validation examples") {
         if (biggerCount != null && count != null && biggerCount!! <= count!!) {
             throw BadParameterValue("--bigger-count must be larger than --count")
         }
-        println("count: $count")
-        println("biggerCount: $biggerCount")
-        println("quad: $quad")
-        println("sum: $sum")
-        println("url: $url")
+        TermUi.echo("count: $count")
+        TermUi.echo("biggerCount: $biggerCount")
+        TermUi.echo("quad: $quad")
+        TermUi.echo("sum: $sum")
+        TermUi.echo("url: $url")
     }
 
 }

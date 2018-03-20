@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.samples.aliases
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import java.io.File
@@ -23,20 +24,20 @@ class AliasedCli(private val configFile: File) : CliktCommand(
 
 
 class Push: CliktCommand(help="push changes") {
-    override fun run() = println("push")
+    override fun run() = TermUi.echo("push")
 }
 
 class Pull: CliktCommand(help="pull changes") {
-    override fun run() = println("pull")
+    override fun run() = TermUi.echo("pull")
 }
 
 class Clone: CliktCommand(help="clone a repository") {
-    override fun run() = println("clone")
+    override fun run() = TermUi.echo("clone")
 }
 
 class Commit: CliktCommand(help="clone a repository") {
     val message by option("-m", "--message").multiple()
-    override fun run() = println("commit message=${message.joinToString("\n")}")
+    override fun run() = TermUi.echo("commit message=${message.joinToString("\n")}")
 }
 
 fun main(args: Array<String>) {

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
@@ -80,19 +81,19 @@ abstract class CliktCommand(
         try {
             parse(argv)
         } catch (e: PrintHelpMessage) {
-            println(e.command.getFormattedHelp())
+            TermUi.echo(e.command.getFormattedHelp())
             exitProcess(0)
         } catch (e: PrintMessage) {
-            println(e.message)
+            TermUi.echo(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-            println(e.helpMessage(context))
+            TermUi.echo(e.helpMessage(context))
             exitProcess(1)
         } catch (e: CliktError) {
-            println(e.message)
+            TermUi.echo(e.message)
             exitProcess(1)
         } catch (e: Abort) {
-            println("Aborted!")
+            TermUi.echo("Aborted!")
             exitProcess(1)
         }
     }

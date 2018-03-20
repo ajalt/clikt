@@ -8,6 +8,19 @@ import java.io.IOException
 
 object TermUi {
     /**
+     * Print the [message] to the screen.
+     *
+     * This is similar to [print] or [println], but converts newlines to the system line separator.
+     *
+     * @param message The message to print.
+     * @param trailingNewline if true, behave like [println], otherwise behave like [print]
+     */
+    fun echo(message: Any?, trailingNewline: Boolean = true) {
+        val text = message?.toString()?.replace(Regex("\r?\n"), System.lineSeparator()) ?: "null"
+        if (trailingNewline) println(text) else print(text)
+    }
+
+    /**
      * Edit [text] in the [editor].
      *
      * This blocks until the editor is closed.
@@ -66,7 +79,7 @@ object TermUi {
                 val result = try {
                     convert?.invoke(value)
                 } catch (err: UsageError) {
-                    println(err.helpMessage(null))
+                    echo(err.helpMessage(null))
                     continue
                 }
 
@@ -80,7 +93,7 @@ object TermUi {
                     if (value2.isNotEmpty()) break
                 }
                 if (value == value2) return result
-                println("Error: the two entered values do not match")
+                echo("Error: the two entered values do not match")
             }
         } catch (err: IOError) {
             return null
@@ -111,7 +124,7 @@ object TermUi {
                 "n", "no" -> false
                 "" -> default
                 else -> {
-                    println("Error: invalid input")
+                    echo("Error: invalid input")
                     continue@l
                 }
             }
@@ -138,7 +151,7 @@ object TermUi {
             }
         } else {
             try {
-                System.out.print(prompt)
+                echo(prompt, trailingNewline = false)
                 System.`in`.bufferedReader().readLine()
             } catch (err: IOException) {
                 null

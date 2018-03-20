@@ -36,8 +36,8 @@ class Echo : CliktCommand(help = """
     init {
         context { helpFormatter = ArgparseHelpFormatter() }
     }
-    private val suppressNewline by option("-n", help = "do not output the trailing newline").flag()
-    private val strings by argument(help = "do not output the trailing newline").multiple()
+    val suppressNewline by option("-n", help = "do not output the trailing newline").flag()
+    val strings by argument(help = "do not output the trailing newline").multiple()
 
     override fun run() {
         print(strings.joinToString(separator = " ", postfix = if (suppressNewline) "" else "\n"))

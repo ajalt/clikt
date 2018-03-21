@@ -27,34 +27,18 @@ import kotlin.system.exitProcess
  *   name.
  * @param invokeWithoutSubcommand Used when this command has subcommands, and this command is called
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
- * @param autoEnvvarPrefix If given, enables automatic environment variable name inference for this command
- *   and its subcommands. This value will be prefixed to the inferred names.
  */
-abstract class CliktCommand(
+abstract class CliktCommand constructor(
         val help: String = "",
         val epilog: String = "",
         name: String? = null,
-        val invokeWithoutSubcommand: Boolean = false,
-        autoEnvvarPrefix: String? = null) {
+        val invokeWithoutSubcommand: Boolean = false) {
     val name = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument> = mutableListOf()
     internal var contextConfig: Context.Builder.() -> Unit = {}
-    var autoEnvvarPrefix: String? = autoEnvvarPrefix
-        internal set
     private var _context: Context? = null
-
-    /**
-     * This command's context.
-     *
-     * @throws NullPointerException if accessed before [parse] or [main] are called.
-     */
-    val context: Context
-        get() {
-            checkNotNull(_context) { "Context accessed before parse has been called." }
-            return _context!!
-        }
 
     private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
 
@@ -70,12 +54,23 @@ abstract class CliktCommand(
         }
     }
 
-    /** The help displayed in the commands list when this command is used as a subcommand. */
-    protected fun shortHelp(): String = help.split(".", "\n", limit = 2).first().trim()
-
     private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
             arguments.mapNotNull { it.parameterHelp } +
             subcommands.map { ParameterHelp.Subcommand(it.name, it.shortHelp()) }
+
+    /**
+     * This command's context.
+     *
+     * @throws NullPointerException if accessed before [parse] or [main] are called.
+     */
+    val context: Context
+        get() {
+            checkNotNull(_context) { "Context accessed before parse has been called." }
+            return _context!!
+        }
+
+    /** The help displayed in the commands list when this command is used as a subcommand. */
+    protected fun shortHelp(): String = help.split(".", "\n", limit = 2).first().trim()
 
     /**
      * Register an option with this command.
@@ -171,28 +166,14 @@ abstract class CliktCommand(
     abstract fun run()
 }
 
-private fun normalizeEnvvar(prefix: String?, name: String): String? = prefix.let {
-    return it + "_" + name.replace(Regex("\\W"), "_").toUpperCase()
-}
-
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {
     subcommands += commands
-    for (sub in commands) {
-        if (sub.autoEnvvarPrefix == null) {
-            sub.autoEnvvarPrefix = normalizeEnvvar(autoEnvvarPrefix, sub.name)
-        }
-    }
 }
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
     subcommands += commands
-    for (sub in commands) {
-        if (sub.autoEnvvarPrefix == null) {
-            sub.autoEnvvarPrefix = normalizeEnvvar(autoEnvvarPrefix, sub.name)
-        }
-    }
 }
 
 /**

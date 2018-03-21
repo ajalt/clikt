@@ -46,7 +46,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         private set
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        val env = inferEnvvar(names, envvar, context.command.autoEnvvarPrefix)
+        val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
         val inv = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
             invocations
         } else {

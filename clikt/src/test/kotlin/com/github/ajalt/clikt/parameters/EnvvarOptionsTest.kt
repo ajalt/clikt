@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
@@ -47,7 +48,7 @@ class EnvvarOptionsTest {
         env["FO"] = "foo"
         env["C_BAR"] = "11"
 
-        class C : CliktCommand(autoEnvvarPrefix = "C") {
+        class C : CliktCommand() {
             val foo by option(envvar = "FO")
             val bar by option().int()
             val baz by option()
@@ -58,7 +59,7 @@ class EnvvarOptionsTest {
             }
         }
 
-        C().parse(emptyArray())
+        C().context { autoEnvvarPrefix = "C" }.parse(emptyArray())
     }
 
     @Test
@@ -69,7 +70,10 @@ class EnvvarOptionsTest {
         env["CMD2_QUX"] = "qux"
         env["CMD2_SUB3_QUZ"] = "quz"
 
-        class C : CliktCommand(autoEnvvarPrefix = "C") {
+        class C : CliktCommand() {
+            init {
+                context { autoEnvvarPrefix = "C" }
+            }
             override fun run() = Unit
         }
 
@@ -82,7 +86,10 @@ class EnvvarOptionsTest {
             }
         }
 
-        class Sub2 : CliktCommand(autoEnvvarPrefix = "CMD2") {
+        class Sub2 : CliktCommand() {
+            init {
+                context { autoEnvvarPrefix = "CMD2" }
+            }
             val baz by option(envvar = "BAZ")
             val qux by option()
             override fun run() {

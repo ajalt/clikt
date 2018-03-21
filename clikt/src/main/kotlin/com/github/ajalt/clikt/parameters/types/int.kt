@@ -10,5 +10,8 @@ internal fun valueToInt(it: String): Int {
     return it.toIntOrNull() ?: throw BadParameterValue("$it is not a valid integer")
 }
 
+/** Convert the argument values to float */
 fun RawArgument.int() = convert { valueToInt(it) }
+
+/** Convert the option values to float */
 fun RawOption.int() = convert("INT") { valueToInt(it) }

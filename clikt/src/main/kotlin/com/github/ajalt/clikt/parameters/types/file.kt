@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.ProcessedArgument
 import com.github.ajalt.clikt.parameters.RawArgument
@@ -10,44 +9,63 @@ import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 import java.io.File
 
-private fun convertToFile(exists: Boolean,
+private fun pathType(fileOkay: Boolean, folderOkay: Boolean): String = when {
+    fileOkay && !folderOkay -> "File"
+    !fileOkay && folderOkay -> "Directory"
+    else -> "Path"
+}
+
+private fun convertToFile(path: String,
+                          exists: Boolean,
                           fileOkay: Boolean,
                           folderOkay: Boolean,
                           writable: Boolean,
-                          readable: Boolean): Pair<String, (String) -> File> {
-    val name = when {
-        fileOkay && !folderOkay -> "File"
-        !fileOkay && folderOkay -> "Directory"
-        else -> "Path"
-    }
-
-    return name to { path ->
-        File(path).also {
-            if (exists && !it.exists()) throw BadParameterValue("$name \"$it\" does not exist.")
-            if (!fileOkay && it.isFile) throw BadParameterValue("$name \"$it\" is a file")
-            if (!folderOkay && it.isDirectory) throw BadParameterValue("$name \"$it\" is a directory.")
-            if (writable && !it.canWrite()) throw BadParameterValue("$name \"$it\" is not writable.")
-            if (readable && !it.canRead()) throw BadParameterValue("$name \"$it\" is not readable.")
-        }
+                          readable: Boolean,
+                          fail: (String) -> Unit): File {
+    val name = pathType(fileOkay, folderOkay)
+    return File(path).also {
+        if (exists && !it.exists()) fail("$name \"$it\" does not exist.")
+        if (!fileOkay && it.isFile) fail("$name \"$it\" is a file")
+        if (!folderOkay && it.isDirectory) fail("$name \"$it\" is a directory.")
+        if (writable && !it.canWrite()) fail("$name \"$it\" is not writable.")
+        if (readable && !it.canRead()) fail("$name \"$it\" is not readable.")
     }
 }
 
-
+/**
+ * Convert the argument to a [File].
+ *
+ * @param exists If true, fail if the given path does not exist
+ * @param fileOkay If false, fail if the given path is a file
+ * @param folderOkay If false, fail if the given path is not a directory
+ * @param writable If false, fail of the given path is not writable
+ * @param readable If false, fail of the given path is not readable
+ */
 fun RawArgument.file(exists: Boolean = false,
                      fileOkay: Boolean = true,
                      folderOkay: Boolean = true,
                      writable: Boolean = false,
-                     readable: Boolean = false): ProcessedArgument<File, File> {
-    val (_, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
-    return convert { conversion(it) }
+                     readable: Boolean = false): ProcessedArgument<File, File> = convert {
+    convertToFile(it, exists, fileOkay, folderOkay, writable, readable) { fail(it) }
 }
 
+/**
+ * Convert the option to a [File].
+ *
+ * @param exists If true, fail if the given path does not exist
+ * @param fileOkay If false, fail if the given path is a file
+ * @param folderOkay If false, fail if the given path is not a directory
+ * @param writable If false, fail of the given path is not writable
+ * @param readable If false, fail of the given path is not readable
+ */
 fun RawOption.file(exists: Boolean = false,
                    fileOkay: Boolean = true,
                    folderOkay: Boolean = true,
                    writable: Boolean = false,
                    readable: Boolean = false): NullableOption<File, File> {
-    val (name, conversion) = convertToFile(exists, fileOkay, folderOkay, writable, readable)
+    val name = pathType(fileOkay, folderOkay)
     val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
-    return convert(name.toUpperCase(), envvarSplit = split) { conversion(it) }
+    return convert(name.toUpperCase(), envvarSplit = split) {
+        convertToFile(it, exists, fileOkay, folderOkay, writable, readable) { fail(it) }
+    }
 }

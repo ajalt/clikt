@@ -24,7 +24,12 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
 
 
 // Arguments
-
+/**
+ * Restrict the argument values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ArgumentDelegate<T> where T : Number, T : Comparable<T> {
     return ProcessedArgument(name, nargs, required, help,
@@ -32,6 +37,12 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
             processAll)
 }
 
+/**
+ * Restrict the argument values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 @JvmName("nullableRestrictTo")
 fun <T> ProcessedArgument<T?, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ArgumentDelegate<T?> where T : Number, T : Comparable<T> {
@@ -40,9 +51,21 @@ fun <T> ProcessedArgument<T?, T>.restrictTo(min: T? = null, max: T? = null, clam
             processAll)
 }
 
+/**
+ * Restrict the argument values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
         where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)
 
+/**
+ * Restrict the argument values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 @JvmName("nullableRestrictTo")
 fun <T> ProcessedArgument<T?, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
         where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)
@@ -50,12 +73,24 @@ fun <T> ProcessedArgument<T?, T>.restrictTo(range: ClosedRange<T>, clamp: Boolea
 
 // Options
 
+/**
+ * Restrict the option values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 fun <T> OptionWithValues<T, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : OptionDelegate<T> where T : Number, T : Comparable<T> {
     return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } },
             transformEach, transformAll)
 }
 
+/**
+ * Restrict the option values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 @JvmName("nullableRestrictTo")
 fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : OptionDelegate<T?> where T : Number, T : Comparable<T> {
@@ -63,9 +98,21 @@ fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, cl
             transformEach, transformAll)
 }
 
+/**
+ * Restrict the option values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 fun <T> OptionWithValues<T, T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
         where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)
 
+/**
+ * Restrict the option values to fit into a range.
+ *
+ * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
+ * silently clamped to fit in the range.
+ */
 @JvmName("nullableRestrictTo")
 fun <T> OptionWithValues<T?, T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
         where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)

@@ -3,14 +3,17 @@ buildscript {
 
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16"
     }
 }
 
 apply plugin: 'idea'
+apply plugin: 'org.jetbrains.dokka'
 
 subprojects {
     apply plugin: 'kotlin'

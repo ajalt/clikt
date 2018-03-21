@@ -2,8 +2,15 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.parameters.options.Option
 
+/**
+ * A parser for [Option]s.
+ *
+ * All functions should be pure, since the same command instance can parse arguments multiple times.
+ */
 interface OptionParser {
     /**
+     * Parse a single short option and its value.
+     *
      * @param name The name of the flag used to invoke this option
      * @param argv The entire list of command line arguments for the command
      * @param index The index of the option flag in [argv], which may contain multiple short parameters.
@@ -12,13 +19,21 @@ interface OptionParser {
     fun parseShortOpt(option: Option, name: String, argv: List<String>, index: Int, optionIndex: Int): ParseResult
 
     /**
+     * Parse a single long option and its value.
+     *
      * @param name The name of the flag used to invoke this option
      * @param argv The entire list of command line arguments for the command
      * @param index The index of the option flag in [argv], which may contain an '=' with the first value
      */
     fun parseLongOpt(option: Option, name: String, argv: List<String>, index: Int, explicitValue: String?): ParseResult
 
-    // TODO docs, note about purity
+    /**
+     * The input from a single instance of an option input.
+     *
+     * @param name The name that was used to invoke the option. May be empty if the value was not retrieved
+     *   from the command line (e.g. values from environment variables).
+     * @param values The values provided to the option. Will always have a size equal to [Option.nargs].
+     */
     data class Invocation(val name: String, val values: List<String>)
 
     /**

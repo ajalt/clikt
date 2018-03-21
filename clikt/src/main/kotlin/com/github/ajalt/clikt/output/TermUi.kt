@@ -49,11 +49,26 @@ object TermUi {
         Editor(editor, env, requireSave, extension).editFile(filename)
     }
 
-    // TODO finish docs. Default is a string since it's shown the the user. Wouldn't want to map it to
-    // something that doesn't have toString
     /**
      * Prompt a user for text input.
      *
+     * If the user send a terminate signal (e,g, ctrl-c) while the prompt is active, null will be returned.
+     *
+     * @param text The text to display for the prompt.
+     * @param default The default value to use for the input. If the user enters a newline without any other
+     *   value, [default] will be returned. This parameter is a String instead of [T], since it will be
+     *   displayed to the user.
+     * @param hideInput If true, the user's input will not be echoed back to the screen. This is commonly used
+     *   for password inputs.
+     * @param requireConfirmation If true, the user will be required to enter the same value twice before it
+     *   is accepted.
+     * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
+     * @param promptSuffix A delimiter printed between the [text] and the user's input.
+     * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @param convert A callback that will convert the text that the user enters to the return value of the
+     *   function. If the callback raises a [UsageError], its message will be printed and the user will be
+     *   asked to enter a new value. If [default] is not null and the user does not input a value, the value
+     *   of [default] will be passed to this callback.
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     fun <T> prompt(text: String,

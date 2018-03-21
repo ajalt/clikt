@@ -11,6 +11,13 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/**
+ * An [Option] that has no values.
+ *
+ * @property envvar The name of the environment variable for this option. Overrides automatic names.
+ * @property transformEnvvar Called to transform string values from envvars into the option type.
+ * @property transformAll Called to transform all invocations of this option into the final option type.
+ */
 // `T` is deliberately not an out parameter.
 @Suppress("AddVarianceModifier")
 class FlagOption<T>(
@@ -20,7 +27,7 @@ class FlagOption<T>(
         override val hidden: Boolean,
         val envvar: String?,
         val transformEnvvar: OptionTransformContext.(String) -> T,
-        val transformAll: CallsTransformer<T, String>) : OptionDelegate<T> {
+        val transformAll: CallsTransformer<String, T>) : OptionDelegate<T> {
     override val metavar: String? = null
     override val nargs: Int get() = 0
     override val parser = FlagOptionParser

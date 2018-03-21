@@ -7,6 +7,15 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/**
+ * An optional command line parameter that takes a fixed number of values.
+ *
+ * @property metavar A name representing the values for this option that can be displayed to the user.
+ * @property help The description of this option, usually a single line.
+ * @property parser The parser for this option's values
+ * @property names The names that can be used to invoke this option. They must start with a punctuation character.
+ * @property secondaryNames Names that can be used for a secondary purpose, like disabling flag options.
+ */
 interface Option {
     val metavar: String?
     val help: String
@@ -17,11 +26,12 @@ interface Option {
     val hidden: Boolean
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
         get() = if (hidden) null
-        else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs > 1)
+        else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs)
 
     fun finalize(context: Context, invocations: List<OptionParser.Invocation>)
 }
 
+/** An option that functions as a property delegate */
 interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
     /** Implementations must call [CliktCommand.registerOption] */
     operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>

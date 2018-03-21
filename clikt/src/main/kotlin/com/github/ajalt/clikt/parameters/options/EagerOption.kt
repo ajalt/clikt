@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 
+/** An [Option] with no values that is [finalize]d before other types of options. */
 class EagerOption(
         override val names: Set<String>,
         override val nargs: Int,
@@ -28,6 +29,7 @@ class EagerOption(
 internal fun helpOption(names: Set<String>, message: String) = EagerOption(names, 0, message, false,
         callback = { ctx, _ -> throw PrintHelpMessage(ctx.command) })
 
+/** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(
         version: String,
         help: String = "Show the version and exit.",

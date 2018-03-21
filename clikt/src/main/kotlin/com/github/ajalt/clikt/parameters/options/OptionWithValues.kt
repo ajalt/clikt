@@ -19,8 +19,8 @@ class OptionTransformContext(val option: Option) : Option by option {
 }
 
 typealias ValueTransformer<ValueT> = OptionCallTransformContext.(String) -> ValueT
-typealias ArgsTransformer<EachT, ValueT> = OptionCallTransformContext.(List<ValueT>) -> EachT
-typealias CallsTransformer<AllT, EachT> = OptionTransformContext.(List<EachT>) -> AllT
+typealias ArgsTransformer<ValueT, EachT> = OptionCallTransformContext.(List<ValueT>) -> EachT
+typealias CallsTransformer<EachT, AllT> = OptionTransformContext.(List<EachT>) -> AllT
 typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
@@ -37,8 +37,8 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val envvarSplit: Regex,
         override val parser: OptionWithValuesParser,
         val transformValue: ValueTransformer<ValueT>,
-        val transformEach: ArgsTransformer<EachT, ValueT>,
-        val transformAll: CallsTransformer<AllT, EachT>) : OptionDelegate<AllT> {
+        val transformEach: ArgsTransformer<ValueT, EachT>,
+        val transformAll: CallsTransformer<EachT, AllT>) : OptionDelegate<AllT> {
     override val metavar: String? get() = explicitMetavar ?: defaultMetavar
     private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
@@ -72,8 +72,8 @@ class OptionWithValues<AllT, EachT, ValueT>(
 
     fun <AllT, EachT, ValueT> copy(
             transformValue: ValueTransformer<ValueT>,
-            transformEach: ArgsTransformer<EachT, ValueT>,
-            transformAll: CallsTransformer<AllT, EachT>,
+            transformEach: ArgsTransformer<ValueT, EachT>,
+            transformAll: CallsTransformer<EachT, AllT>,
             names: Set<String> = this.names,
             explicitMetavar: String? = this.explicitMetavar,
             defaultMetavar: String? = this.defaultMetavar,
@@ -96,7 +96,7 @@ internal typealias RawOption = NullableOption<String, String>
 internal fun <T : Any> defaultEachProcessor(): ArgsTransformer<T, T> = { it.single() }
 
 @PublishedApi
-internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T?, T> = { it.lastOrNull() }
+internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.lastOrNull() }
 
 @Suppress("unused")
 fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null,
@@ -114,7 +114,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
         transformEach = defaultEachProcessor(),
         transformAll = defaultAllProcessor())
 
-fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<AllT, EachT>)
+fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<EachT, AllT>)
         : OptionWithValues<AllT, EachT, ValueT> {
     return copy(transformValue, transformEach, transform)
 }
@@ -133,7 +133,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
         : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { it }
 
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformNargs(
-        nargs: Int, transform: ArgsTransformer<EachOutT, ValueT>): NullableOption<EachOutT, ValueT> {
+        nargs: Int, transform: ArgsTransformer<ValueT, EachOutT>): NullableOption<EachOutT, ValueT> {
     require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
     require(nargs > 0) { "Options cannot have nargs < 0" }
     require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }

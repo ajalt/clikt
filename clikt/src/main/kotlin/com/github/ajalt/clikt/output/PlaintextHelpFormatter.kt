@@ -125,7 +125,7 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
     protected open fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         val metavar = " " + option.metavar
-        if (option.repeatable) return "$metavar..."
+        if (option.nargs > 1) return "$metavar..."
         return metavar
     }
 

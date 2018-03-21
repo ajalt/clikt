@@ -1,11 +1,11 @@
 package com.github.ajalt.clikt.output
 
-fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentIndent: String = "",
+internal fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentIndent: String = "",
                     preserveParagraph: Boolean = false): String = buildString {
     wrapText(this, width, initialIndent, subsequentIndent, preserveParagraph)
 }
 
-fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = "",
+internal fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = "",
                     subsequentIndent: String = "", preserveParagraph: Boolean = false) {
     require(initialIndent.length < width) { "initialIndent >= width: ${initialIndent.length} >= $width" }
     require(subsequentIndent.length < width) { "subsequentIndent >= width: ${subsequentIndent.length} >= $width" }
@@ -45,7 +45,7 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
     }
 }
 
-fun StringBuilder.appendRepeat(text: String, repeat: Int): StringBuilder {
+internal fun StringBuilder.appendRepeat(text: String, repeat: Int): StringBuilder {
     ensureCapacity(capacity() + text.length * repeat)
     for (i in 0 until repeat) append(text)
     return this

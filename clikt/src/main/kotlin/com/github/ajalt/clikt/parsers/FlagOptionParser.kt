@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
 
+/** A parser for options that take no values. */
 object FlagOptionParser : OptionParser {
     override fun parseLongOpt(option: Option, name: String, argv: List<String>,
                               index: Int, explicitValue: String?): ParseResult {

@@ -10,24 +10,34 @@ import kotlin.reflect.KProperty
 /**
  * An optional command line parameter that takes a fixed number of values.
  *
- * @property metavar A name representing the values for this option that can be displayed to the user.
- * @property help The description of this option, usually a single line.
- * @property parser The parser for this option's values
- * @property names The names that can be used to invoke this option. They must start with a punctuation character.
- * @property secondaryNames Names that can be used for a secondary purpose, like disabling flag options.
+ * Options can take any fixed number of values, including 0.
  */
 interface Option {
+    /** A name representing the values for this option that can be displayed to the user. */
     val metavar: String?
+    /** The description of this option, usually a single line. */
     val help: String
+    /** The parser for this option's values. */
     val parser: OptionParser
+    /** The names that can be used to invoke this option. They must start with a punctuation character. */
     val names: Set<String>
+    /** Names that can be used for a secondary purpose, like disabling flag options. */
     val secondaryNames: Set<String>
+    /** The number of values that must be given to this option. */
     val nargs: Int
+    /** If true, this option should not appear in help output. */
     val hidden: Boolean
+    /** Information about this option for the help output. */
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
         get() = if (hidden) null
         else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs)
 
+    /**
+     * Called after this command's argv is parsed to transform and store the option's value.
+     *
+     * @param context The context for this parse
+     * @param invocations A possibly empty list of invocations of this option.
+     */
     fun finalize(context: Context, invocations: List<OptionParser.Invocation>)
 }
 

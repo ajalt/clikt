@@ -34,10 +34,10 @@ class OptionTransformContext(val option: Option) : Option by option {
 typealias ValueTransformer<ValueT> = OptionCallTransformContext.(String) -> ValueT
 
 /**
- * A callback that transforms all the values from a list to the call type.
+ * A callback that transforms all the values for a call to the call type.
  *
  * The input list will always have a size equal to `nargs`
- * */
+ */
 typealias ArgsTransformer<ValueT, EachT> = OptionCallTransformContext.(List<ValueT>) -> EachT
 
 /**
@@ -47,7 +47,7 @@ typealias ArgsTransformer<ValueT, EachT> = OptionCallTransformContext.(List<Valu
  */
 typealias CallsTransformer<EachT, AllT> = OptionTransformContext.(List<EachT>) -> AllT
 
-/** A callback that transforms all of the calls to the final option type */
+/** A callback validates the final option type */
 typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 
 /**
@@ -146,6 +146,7 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
  * functions like [int], [paired], and [multiple].
  *
  * @param names The names that can be used to invoke this option. They must start with a punctuation character.
+ *   If not given, a name is inferred from the property name.
  * @param help The description of this option, usually a single line.
  * @param metavar A name representing the values for this option that can be displayed to the user.
  *   Automatically inferred from the type.
@@ -238,7 +239,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
 }
 
 /**
- * Check the final option type and raise an error if it's not valid.
+ * Check the final option value and raise an error if it's not valid.
  *
  * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
  * if the value is not valid.
@@ -251,9 +252,9 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
 /**
  * Convert the option value type.
  *
- * Called once for each value in each invocation of the option. If any errors are thrown, they are caught and
- * a [BadParameterValue] is thrown with the error message. You can call `fail` to throw a [BadParameterValue]
- * manually.
+ * The [conversion] is called once for each value in each invocation of the option. If any errors are thrown,
+ * they are caught and a [BadParameterValue] is thrown with the error message. You can call `fail` to throw a
+ * [BadParameterValue] manually.
  *
  * @param metavar The metavar for the type. Overridden by a metavar passed to [option].
  * @param envvarSplit If the value is read from an envvar, the pattern to split the value on. The default

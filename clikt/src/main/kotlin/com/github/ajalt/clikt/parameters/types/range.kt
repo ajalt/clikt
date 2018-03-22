@@ -33,8 +33,8 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
 fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ArgumentDelegate<T> where T : Number, T : Comparable<T> {
     return ProcessedArgument(name, nargs, required, help,
-            { checkRange(processValue(it), min, max, clamp) { fail(it) } },
-            processAll)
+            { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
+            transformAll)
 }
 
 /**
@@ -47,8 +47,8 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
 fun <T> ProcessedArgument<T?, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ArgumentDelegate<T?> where T : Number, T : Comparable<T> {
     return ProcessedArgument(name, nargs, required, help,
-            { checkRange(processValue(it), min, max, clamp) { fail(it) } },
-            processAll)
+            { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
+            transformAll)
 }
 
 /**

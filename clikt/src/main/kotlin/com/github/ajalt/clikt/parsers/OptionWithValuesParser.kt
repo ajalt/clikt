@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.IncorrectOptionNargs
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
+/** An option that takes one more values */
 object OptionWithValuesParser : OptionParser {
     override fun parseLongOpt(option: Option, name: String, argv: List<String>,
                               index: Int, explicitValue: String?): ParseResult {

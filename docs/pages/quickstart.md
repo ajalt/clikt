@@ -1,4 +1,8 @@
-# Quick Start
+---
+title: Quick Start
+sidebar: home_sidebar
+permalink: quickstart.html
+---
 
 You can get the library using any maven-compatible build system.
 Installation instructions can be found in the [README](/README.md).

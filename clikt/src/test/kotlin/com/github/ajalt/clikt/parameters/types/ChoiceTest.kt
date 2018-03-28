@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.assertThrows
@@ -12,9 +13,8 @@ import org.junit.Test
 class ChoiceTypeTest {
     @Test
     fun `choice option strings`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option("-x", "--xx").choice("foo", "bar")
-            override fun run() = Unit
         }
 
         C().apply {
@@ -33,11 +33,9 @@ class ChoiceTypeTest {
 
     @Test
     fun `choice option map`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option("-x", "--xx")
                     .choice("foo" to 1, "bar" to 2)
-
-            override fun run() = Unit
         }
 
         C().apply {

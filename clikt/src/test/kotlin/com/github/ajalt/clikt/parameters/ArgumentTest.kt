@@ -14,7 +14,7 @@ class ArgumentTest {
     fun `one required argument`() {
         class C : CliktCommand() {
             val foo by argument()
-            override fun run() = Unit
+            override fun run() = fail("should not be called")
         }
 
         assertThrows<MissingParameter> { C().parse(splitArgv("")) }
@@ -113,9 +113,8 @@ class ArgumentTest {
 
     @Test
     fun `misused arguments with nargs=2`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument().paired()
-            override fun run() = Unit
         }
         assertThrows<IncorrectArgumentNargs> { C().parse(splitArgv("foo")) }
                 .hasMessage("argument X takes 2 values")
@@ -127,9 +126,8 @@ class ArgumentTest {
 
     @Test
     fun `misused arguments with nargs=3`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument().triple()
-            override fun run() = Unit
         }
 
         assertThrows<IncorrectArgumentNargs> { C().parse(splitArgv("foo bar")) }
@@ -238,13 +236,11 @@ class ArgumentTest {
     fun `argument validators`() {
         var called = false
 
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument().validate {
                 called = true
                 assertThat(it).isEqualTo("foo")
             }
-
-            override fun run() = Unit
         }
 
         C().parse(splitArgv("foo"))
@@ -263,12 +259,10 @@ class ArgumentTest {
 
     @Test
     fun `allowInterspersedArgs=true`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument()
             val y by option("-y").counted()
             val z by argument()
-
-            override fun run() = Unit
         }
 
         C().context { allowInterspersedArgs = true }.apply {
@@ -283,12 +277,10 @@ class ArgumentTest {
 
     @Test
     fun `allowInterspersedArgs=false`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument()
             val y by option("-y").counted()
             val z by argument()
-
-            override fun run() = Unit
         }
 
         C().context { allowInterspersedArgs = false }.apply {
@@ -303,7 +295,7 @@ class ArgumentTest {
 
     @Test
     fun `convert catches exceptions`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument().convert {
                 when (it) {
                     "uerr" -> fail("failed")
@@ -311,8 +303,6 @@ class ArgumentTest {
                 }
                 it
             }
-
-            override fun run() = Unit
         }
 
         assertThrows<BadParameterValue> { C().parse(splitArgv("uerr")) }

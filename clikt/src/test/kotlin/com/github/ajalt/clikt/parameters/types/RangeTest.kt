@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.parameters.argument
 import com.github.ajalt.clikt.parameters.optional
 import com.github.ajalt.clikt.parameters.options.default
@@ -12,9 +13,8 @@ import org.junit.Test
 class RangeTest {
     @Test
     fun `restrictTo option min`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(min = 1)
-            override fun run() = Unit
         }
 
         softly {
@@ -54,9 +54,8 @@ class RangeTest {
 
     @Test
     fun `restrictTo option max`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(max = 1)
-            override fun run() = Unit
         }
 
         softly {
@@ -96,9 +95,8 @@ class RangeTest {
 
     @Test
     fun `restrictTo option range`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(1..2)
-            override fun run() = Unit
         }
 
         softly {
@@ -123,10 +121,9 @@ class RangeTest {
 
     @Test
     fun `restrictTo option default`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option("-x", "--xx").int().default(2).restrictTo(1..2)
             val y by option("-y", "--yy").int().default(3).restrictTo(min = 3, max = 4)
-            override fun run() = Unit
         }
 
         softly {
@@ -154,12 +151,11 @@ class RangeTest {
 
     @Test
     fun `restrictTo argument`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument().int().restrictTo(min = 1, max=2)
             val y by argument().int().restrictTo(3..4)
             val z by argument().int().optional().restrictTo(min=5, max=6)
             val w by argument().int().optional().restrictTo(7..8)
-            override fun run() = Unit
         }
 
         softly {
@@ -193,12 +189,11 @@ class RangeTest {
 
     @Test
     fun `restrictTo argument clamp`() {
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by argument().int().restrictTo(min = 1, max=2, clamp=true)
             val y by argument().int().restrictTo(3..4, clamp=true)
             val z by argument().int().optional().restrictTo(min=5, max=6, clamp=true)
             val w by argument().int().optional().restrictTo(7..8, clamp=true)
-            override fun run() = Unit
         }
 
         softly {

@@ -54,9 +54,7 @@ class ContextTest {
 
     @Test
     fun `default help option names`() {
-        class C : CliktCommand() {
-            override fun run() = Unit
-        }
+        class C : NoRunCliktCommand()
 
         assertThrows<PrintHelpMessage> { C().parse(splitArgv("--help")) }
         assertThrows<PrintHelpMessage> { C().parse(splitArgv("-h")) }

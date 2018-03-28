@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.*
@@ -70,11 +71,10 @@ class EnvvarOptionsTest {
         env["CMD2_QUX"] = "qux"
         env["CMD2_SUB3_QUZ"] = "quz"
 
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             init {
                 context { autoEnvvarPrefix = "C" }
             }
-            override fun run() = Unit
         }
 
         class Sub : CliktCommand(name = "cmd1") {

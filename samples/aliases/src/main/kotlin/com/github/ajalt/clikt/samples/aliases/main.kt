@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.samples.aliases
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.multiple
@@ -12,14 +13,12 @@ import java.io.File
  * @param configFile A config file containing aliases, one per line, in the form `token = alias`. Aliases can
  *   have multiple tokens (e.g. `cm = commit -m`).
  */
-class AliasedCli(private val configFile: File) : CliktCommand(
+class AliasedCli(private val configFile: File) : NoRunCliktCommand(
         help = "An example that supports aliased subcommands") {
     override fun aliases(): Map<String, List<String>> {
         return configFile.readLines().map { it.split("=", limit = 2) }
                 .associate { it[0].trim() to it[1].trim().split(Regex("\\s+")) }
     }
-
-    override fun run() = Unit
 }
 
 

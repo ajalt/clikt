@@ -1,7 +1,5 @@
-.summary {
-    color: #808080;
-    border-left: 5px solid #E50E51;
-    font-size:16px;
+body > div.container {
+    margin-bottom: 40px;
 }
 
 h1 {
@@ -35,6 +33,13 @@ h4 {
     font-size: 16px;
     line-height: 20px;
     font-weight: 700
+}
+
+footer {
+    background-color: #1a1a1a;
+    color: #b2b2b2;
+    margin: 0;
+    padding: 24px;
 }
 
 #mysidebar > li > a {
@@ -193,4 +198,10 @@ li.sidebarTitle {
 
 .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
     background-color: #E50E51;
+}
+
+.summary {
+    color: #808080;
+    border-left: 5px solid #E50E51;
+    font-size:16px;
 }

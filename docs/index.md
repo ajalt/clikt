@@ -3,7 +3,7 @@ sidebar: home_sidebar
 permalink: index.html
 ---
 
-<div align="center">
+<div align="center" style="margin-bottom:42px;">
 {% include image.html file="wordmark.svg" max-width="700" %}
 </div>
 

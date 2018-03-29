@@ -14,7 +14,7 @@ Installation instructions can be found in the [README](/README.md).
 
 Clikt command line interfaces are created by using property delegates
 inside of a [CliktCommand]<!-- TODO -->. The normal way to use Clikt is to forward
-`argv` from your `main` funciton to [CliktCommand.main]<!-- TODO -->.
+`argv` from your `main` function to [CliktCommand.main]<!-- TODO -->.
 
 The simplest command with no parameters would look like this:
 
@@ -58,7 +58,7 @@ on Windows.
 ## Nesting Commands
 
 Instances of any command can be attached to other commands, allowing
-arbitrary nesting of commands. For eaxmple, you could write a script to
+arbitrary nesting of commands. For example, you could write a script to
 manage a database:
 
 ```kotlin
@@ -133,3 +133,5 @@ Options:
   --count INT  Number of greetings
   -h, --help   Show this message and exit
 ```
+
+{% include links.html %}

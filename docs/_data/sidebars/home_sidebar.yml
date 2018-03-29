@@ -5,11 +5,16 @@ entries:
   levels: one
   folders:
 
-  - title: Quickstart
+  - title: Docs
     output: web, pdf
     folderitems:
 
     - title: Quickstart
       url: /quickstart.html
+      output: web
+      type: page
+
+    - title: Why Clikt?
+      url: /whyclikt.html
       output: web
       type: page

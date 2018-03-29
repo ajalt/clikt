@@ -7,10 +7,7 @@ import com.github.ajalt.clikt.parameters.multiple
 import com.github.ajalt.clikt.parameters.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.assertThrows
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.fail
 import org.junit.Test
 
@@ -33,9 +30,8 @@ class IntTypeTest {
 
     @Test
     fun `int option error`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             val foo by option().int()
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<BadParameterValue> { C().parse(splitArgv("--foo bar")) }

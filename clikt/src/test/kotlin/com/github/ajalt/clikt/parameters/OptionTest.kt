@@ -2,10 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.testing.assertThrows
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.*
 import org.junit.Test
@@ -41,12 +38,10 @@ class OptionTest {
 
     @Test
     fun `no such option`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             val foo by option()
             val bar by option()
             val baz by option()
-
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<NoSuchOption> {
@@ -387,7 +382,7 @@ class OptionTest {
 
     @Test
     fun `convert catches exceptions`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             init {
                 context { allowInterspersedArgs = false }
             }
@@ -399,8 +394,6 @@ class OptionTest {
                 }
                 it
             }
-
-            override fun run() = fail("should not  be called")
         }
 
         assertThrows<BadParameterValue> { C().parse(splitArgv("--x=uerr")) }

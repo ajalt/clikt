@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parameters.options.versionOption
+import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.splitArgv
 import org.assertj.core.api.Fail.fail
@@ -12,12 +13,10 @@ import org.junit.Test
 class EagerOptionsTest {
     @Test
     fun `version default`() {
-        class C : CliktCommand(name = "prog") {
+        class C : NeverCalledCliktCommand(name = "prog") {
             init {
                 versionOption("1.2.3")
             }
-
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<PrintMessage> {
@@ -27,12 +26,10 @@ class EagerOptionsTest {
 
     @Test
     fun `version custom message`() {
-        class C : CliktCommand(name = "prog") {
+        class C : NeverCalledCliktCommand(name = "prog") {
             init {
                 versionOption("1.2.3", names = setOf("--foo")) { "$it bar" }
             }
-
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<PrintMessage> {
@@ -42,12 +39,10 @@ class EagerOptionsTest {
 
     @Test
     fun `multiple eager options`() {
-        class C : CliktCommand(name = "prog") {
+        class C : NeverCalledCliktCommand(name = "prog") {
             init {
                 versionOption("1.2.3")
             }
-
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<PrintHelpMessage> {

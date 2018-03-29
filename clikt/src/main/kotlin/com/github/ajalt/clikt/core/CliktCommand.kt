@@ -93,6 +93,9 @@ abstract class CliktCommand constructor(
      * custom argument.
      */
     fun registerArgument(argument: Argument) {
+        require(argument.nargs > 0 || arguments.none { it.nargs < 0 }) {
+            "Cannot declare multiple arguments with variable numbers of values"
+        }
         arguments += argument
     }
 

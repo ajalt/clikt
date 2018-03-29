@@ -12,9 +12,8 @@ import org.junit.Test
 class ArgumentTest {
     @Test
     fun `one required argument`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             val foo by argument()
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<MissingParameter> { C().parse(splitArgv("")) }
@@ -174,10 +173,9 @@ class ArgumentTest {
 
     @Test
     fun `two arguments nargs=-1,1 empty argv`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             val foo by argument().multiple()
             val bar by argument()
-            override fun run() = fail("should not be called. $foo, $bar")
         }
         assertThrows<MissingParameter> {
             C().parse(splitArgv(""))
@@ -205,10 +203,9 @@ class ArgumentTest {
 
     @Test
     fun `two arguments nargs=1,-1 empty argv`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             val foo by argument()
             val bar by argument().multiple()
-            override fun run() = fail("should not be called. $foo, $bar")
         }
 
         assertThrows<MissingParameter> { C().parse(splitArgv("")) }
@@ -249,9 +246,8 @@ class ArgumentTest {
 
     @Test
     fun `eager option with required argument not given`() {
-        class C : CliktCommand() {
+        class C : NeverCalledCliktCommand() {
             val x by argument()
-            override fun run() = fail("should not be called")
         }
 
         assertThrows<PrintHelpMessage> { C().parse(splitArgv("--help")) }
@@ -317,5 +313,14 @@ class ArgumentTest {
                             && it.argument != null
                             && it.argument!!.name == "X"
                 }
+    }
+
+    @Test
+    fun `multiple args with nargs=-1`() {
+        class C : NeverCalledCliktCommand() {
+            val foo by argument().multiple()
+            val bar by argument().multiple()
+        }
+        assertThrows<IllegalArgumentException> { C() }
     }
 }

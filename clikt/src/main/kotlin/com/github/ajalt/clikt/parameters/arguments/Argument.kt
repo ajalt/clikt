@@ -80,7 +80,7 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
 
 // `AllT` is deliberately not an out parameter.
 @Suppress("AddVarianceModifier")
-class ProcessedArgument<AllT, ValueT>(
+class ProcessedArgument<AllT, ValueT> constructor(
         name: String,
         override val nargs: Int,
         override val required: Boolean,
@@ -110,6 +110,17 @@ class ProcessedArgument<AllT, ValueT>(
     override fun finalize(context: Context, values: List<String>) {
         val ctx = ArgumentTransformContext(this)
         value = transformAll(ctx, values.map { transformValue(ctx, it) })
+    }
+
+    /** Create a new argument that is a copy of this one with different transforms. */
+    fun <AllT, ValueT> copy(
+            transformValue: ArgValueTransformer<ValueT>,
+            transformAll: ArgCallsTransformer<AllT, ValueT>,
+            name: String = this.name,
+            nargs: Int = this.nargs,
+            required: Boolean = this.required,
+            help: String = this.help): ProcessedArgument<AllT, ValueT> {
+        return ProcessedArgument(name, nargs, required, help, transformValue, transformAll)
     }
 }
 
@@ -149,8 +160,9 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
         nargs: Int? = null,
         required: Boolean? = null,
         transform: ArgCallsTransformer<AllOutT, ValueT>): ProcessedArgument<AllOutT, ValueT> {
-    return ProcessedArgument(name, nargs ?: this.nargs, required ?: this.required,
-            help, transformValue, transform)
+    return copy(transformValue, transform,
+            nargs = nargs ?: this.nargs,
+            required = required ?: this.required)
 }
 
 /** Return null instead of throwing an error if no value is given. */
@@ -193,7 +205,7 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ArgumentDelegate<T> {
  * manually.
  */
 inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransformer<T>): ProcessedArgument<T, T> {
-    val proc: ArgValueTransformer<T> = {
+    val conv: ArgValueTransformer<T> = {
         try {
             conversion(it)
         } catch (err: UsageError) {
@@ -203,7 +215,7 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
             fail(err.message ?: "")
         }
     }
-    return ProcessedArgument(name, nargs, required, help, proc, defaultAllProcessor())
+    return copy(conv, defaultAllProcessor())
 }
 
 /**
@@ -214,8 +226,8 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
  */
 fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT> {
-    return transformAll(required = false) {
+    return copy(transformValue, {
         transformAll(it).also { validator(ArgumentTransformContext(argument), it) }
-    }
+    })
 }
 

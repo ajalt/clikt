@@ -234,7 +234,7 @@ class ArgumentTest {
         var called = false
 
         class C : NoRunCliktCommand() {
-            val x by argument().validate {
+            val x: String by argument().validate {
                 called = true
                 require(it == "foo")
             }
@@ -242,6 +242,8 @@ class ArgumentTest {
 
         C().parse(splitArgv("foo"))
         assertTrue(called)
+
+        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
     }
 
     @Test

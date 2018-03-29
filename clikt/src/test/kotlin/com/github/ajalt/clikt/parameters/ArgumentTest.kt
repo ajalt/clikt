@@ -1,11 +1,11 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.fail
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

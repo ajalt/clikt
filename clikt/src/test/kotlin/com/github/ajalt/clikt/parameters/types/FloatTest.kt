@@ -2,13 +2,12 @@ package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.parameters.argument
-import com.github.ajalt.clikt.parameters.multiple
-import com.github.ajalt.clikt.parameters.optional
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.*
-import org.assertj.core.api.Assertions.fail
 import org.junit.Test
 
 class FloatTest {

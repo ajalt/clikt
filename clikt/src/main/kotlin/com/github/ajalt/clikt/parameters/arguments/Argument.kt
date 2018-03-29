@@ -1,4 +1,4 @@
-package com.github.ajalt.clikt.parameters
+package com.github.ajalt.clikt.parameters.arguments
 
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand

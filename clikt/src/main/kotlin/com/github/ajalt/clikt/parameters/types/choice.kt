@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.parameters.ProcessedArgument
-import com.github.ajalt.clikt.parameters.RawArgument
-import com.github.ajalt.clikt.parameters.convert
+import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
+import com.github.ajalt.clikt.parameters.arguments.RawArgument
+import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert

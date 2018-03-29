@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.parameters.ArgumentDelegate
-import com.github.ajalt.clikt.parameters.ProcessedArgument
+import com.github.ajalt.clikt.parameters.arguments.ArgumentDelegate
+import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.options.OptionDelegate
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
 

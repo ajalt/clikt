@@ -1,13 +1,12 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.Argument
+import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
-import com.sun.org.apache.xpath.internal.Arg
 import java.util.*
 import kotlin.collections.HashMap
 

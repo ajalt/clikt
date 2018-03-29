@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.parameters.Argument
-import com.github.ajalt.clikt.parameters.convert
+import com.github.ajalt.clikt.parameters.arguments.Argument
+import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
 
 /** An internal error that signals Clikt to abort. */

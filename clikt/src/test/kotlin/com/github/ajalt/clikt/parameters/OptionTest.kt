@@ -366,11 +366,11 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option().validate {
                 calledX = true
-                assertThat(it).isEqualTo("foo")
+                require(it == "foo") { "invalid value $it" }
             }
             val y by option().flag().validate {
                 calledY = true
-                assertThat(it).isTrue()
+                require(it)
             }
 
             override fun run() {

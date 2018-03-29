@@ -17,8 +17,8 @@ data class Quad(val a: Int, val b: Int, val c: Int, val d: Int)
 class Cli : CliktCommand(help = "Validation examples") {
     val count by option(help = "A positive even number").int()
             .validate {
-                if (it != null && (it < 0 || it % 2 != 0)) {
-                    fail("Should be a positive, even integer")
+                require(it == null || it > 0 && it % 2 == 0) {
+                    "Should be a positive, even integer"
                 }
             }
 

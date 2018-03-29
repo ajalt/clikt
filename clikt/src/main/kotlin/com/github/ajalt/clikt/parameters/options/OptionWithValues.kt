@@ -18,6 +18,11 @@ import kotlin.reflect.KProperty
 class OptionCallTransformContext(val name: String, val option: Option) : Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
+
+    /** If [value] is false, call [fail] with the output of [lazyMessage] */
+    inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
+        if (!value) fail(lazyMessage())
+    }
 }
 
 /**
@@ -28,6 +33,11 @@ class OptionCallTransformContext(val name: String, val option: Option) : Option 
 class OptionTransformContext(val option: Option) : Option by option {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw UsageError(message, option)
+
+    /** If [value] is false, call [fail] with the output of [lazyMessage] */
+    inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
+        if (!value) fail(lazyMessage())
+    }
 }
 
 /** A callback that transforms a single value from a string to the value type */
@@ -129,8 +139,8 @@ class OptionWithValues<AllT, EachT, ValueT>(
     }
 }
 
-internal typealias NullableOption<EachT, ValueT> = OptionWithValues<EachT?, EachT, ValueT>
-internal typealias RawOption = NullableOption<String, String>
+typealias NullableOption<EachT, ValueT> = OptionWithValues<EachT?, EachT, ValueT>
+typealias RawOption = NullableOption<String, String>
 
 @PublishedApi
 internal fun <T : Any> defaultEachProcessor(): ArgsTransformer<T, T> = { it.single() }

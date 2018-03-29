@@ -19,27 +19,31 @@ import kotlin.reflect.KProperty
 interface Argument {
     /** The metavar for this argument. */
     val name: String
+
     /**
      * The number of values that this argument takes. Negative [nargs] indicates a variable number
      *   of values. Cannot be 0.
      */
     val nargs: Int
+
     /** If true, an error will be thrown if this argument is not given on the command line. */
     val required: Boolean
+
     /**
      * The description of this argument.
      *
      * It's usually better to leave this null and describe options in the usage line of the command instead.
      */
     val help: String
+
     /** Information about this argument for the help output. */
     val parameterHelp: ParameterHelp.Argument?
 
     /**
-     * Called after this command's argv is parsed to transform and store the option's value.
+     * Called after this command's argv is parsed to transform and store the argument's value.
      *
      * @param context The context for this parse
-     * @param invocations A possibly empty list of invocations of this option.
+     * @param values A possibly empty list of values provided to this argument.
      */
     fun finalize(context: Context, values: List<String>)
 }
@@ -58,6 +62,11 @@ interface ArgumentDelegate<out T> : Argument, ReadOnlyProperty<CliktCommand, T> 
 class ArgumentTransformContext(val argument: Argument) : Argument by argument {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
+
+    /** If [value] is false, call [fail] with the output of [lazyMessage] */
+    inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
+        if (!value) fail(lazyMessage())
+    }
 }
 
 /** A callback that transforms a single value from a string to the value type */
@@ -132,7 +141,7 @@ fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
  *
  * Used to implement functions like [paired] and [multiple].
  *
- * @param nargs The number of values required by this option. A negative [nargs] indicates a variable number
+ * @param nargs The number of values required by this argument. A negative [nargs] indicates a variable number
  *   of values.
  * @param required If true, an error with be thrown if no values are provided to this argument.
  */
@@ -184,7 +193,8 @@ fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ArgumentDelegate<T> {
  * manually.
  */
 inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransformer<T>): ProcessedArgument<T, T> {
-    val proc: ArgValueTransformer<T> = {try {
+    val proc: ArgValueTransformer<T> = {
+        try {
             conversion(it)
         } catch (err: UsageError) {
             err.argument = argument
@@ -205,7 +215,7 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
 fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT> {
     return transformAll(required = false) {
-        transformAll(it).also { validator(ArgumentTransformContext(this@validate), it) }
+        transformAll(it).also { validator(ArgumentTransformContext(argument), it) }
     }
 }
 

@@ -239,7 +239,7 @@ class ArgumentTest {
         class C : NoRunCliktCommand() {
             val x by argument().validate {
                 called = true
-                assertThat(it).isEqualTo("foo")
+                require(it == "foo")
             }
         }
 

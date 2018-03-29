@@ -51,15 +51,15 @@ from its README:
 ```kotlin
 class MyArgs(parser: ArgParser) {
     val v: Boolean by parser.flagging(help="enable verbose mode")
-    val name: String? by parser.storing(help="name of the user")
+    val username: String? by parser.storing(help="name of the user")
     val count: Int? by parser.storing(help="number of the widgets") { toInt() }
-    val source: String by parser.positional(help="source filename")
-    val destination: List<String> by parser.positional(help="destination filename")
+    val source: List<String> by parser.positionalList(help="source filenames")
+    val destination: String by parser.positional(help="destination")
 }
 
 fun main(args: Array<String>) = mainBody {
     ArgParser(args).parseInto(::MyArgs).run {
-        println("Hello, $name!")
+        println("Hello, $username!")
         println("Moving $count widgets from $source to $destination.")
     }
 }
@@ -72,8 +72,8 @@ class Cli : CliktCommand() {
     val v: Boolean by option(help = "enable verbose mode").flag()
     val username: String? by option(help = "name of the user")
     val count: Int? by option(help = "number of the widgets").int()
-    val source: String by argument(help = "source filename")
-    val destination: List<String> by argument(help = "destination filename").multiple()
+    val source: List<String> by argument(help = "source filenames").multiple()
+    val destination: String by argument(help = "destination")
     override fun run() {
         println("Hello, $name!")
         println("Moving $count widgets from $source to $destination.")
@@ -108,7 +108,7 @@ class MyArgs(parser: ArgParser) {
 }
 ```
 
-Clikt has that functionality built in as `paired()`,  <!-- TODO: link to paired -->
+Clikt has that functionality built in as `option().paired()`,  <!-- TODO: link to paired -->
 but you could implement it yourself like this:
 
 ```kotlin
@@ -128,8 +128,36 @@ creation of Clikt:
 * Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with `option()`, and all arguments with `argument()`.
 
 Some of these problems can be solved by writing more code, and some
-can't. Either way, Clikt attempts to consistent, intuitive, composable
-interface that tries to do the right thing without forcing you to think
-about edge cases.
+can't. On the other hand, Clikt attempts to consistent, intuitive,
+composable interface that tries to do the right thing without forcing
+you to think about edge cases.
+
+## Why not a Java library like JCommander?
+
+There are a lot of command line libraries for Java. Most are verbose and
+not composable. One popular Java library that is usable from Kotlin is
+[JCommander](http://jcommander.org/).
+
+JCommander uses annotations to define parameters, and reflection to set
+fields. This is functional for simple types, but defining your own types
+requires you to register a type adapter with the `JCommander` builder,
+and many types of customization are not possible.
+
+For example, options that take multiple values cannot be converted
+to other types. The JCommander docs explain:
+
+> ... only List<String> is allowed for parameters that define an arity.
+> You will have to convert these values yourself if the parameters you
+> need are of type Integer or other (this limitation is due to Java’s
+> erasure).
+
+You also can't customize many aspect of parsing in JCommander. It can't
+infer parameter names. With JCommander, you can't have an option with
+multiple values and multiple occurances at the same time. You can't have
+more than one argument, and it can only take one value or an unlimited
+number of values. You can't nest subcommands.
+
+JCommander is a great library if you're writing code in Java, but we can
+do much better with Kotlin.
 
 {% include links.html %}

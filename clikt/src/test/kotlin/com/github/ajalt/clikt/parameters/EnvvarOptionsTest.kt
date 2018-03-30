@@ -135,6 +135,7 @@ class EnvvarOptionsTest {
     fun `flag envvars`() = parameterized(
             row(null, null, false, 0),
             row("true", "3", true, 3),
+            row("YES", "3", true, 3),
             row("false", "5", false, 5)) { (fv, bv, ef, eb) ->
         env["FOO"] = fv
         env["BAR"] = bv

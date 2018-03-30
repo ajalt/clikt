@@ -63,9 +63,9 @@ class FlagOption<T>(
 fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
     return FlagOption(names, secondaryNames.toSet(), help, hidden, envvar,
             transformEnvvar = {
-                when (it) {
-                    "true", "t", "1", "yes", "y" -> true
-                    "false", "f", "0", "no", "n" -> false
+                when (it.toLowerCase()) {
+                    "true", "t", "1", "yes", "y", "on" -> true
+                    "false", "f", "0", "no", "n", "off" -> false
                     else -> throw BadParameterValue("${System.getenv(envvar)} is not a valid boolean", this)
                 }
             },
@@ -78,7 +78,7 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
  * Turn an option into a flag that counts the number of times the option occurs on the command line.
  */
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, secondaryNames, help, hidden, envvar,
+    return FlagOption(names, emptySet(), help, hidden, envvar,
             transformEnvvar = { valueToInt(it) },
             transformAll = { it.size })
 }
@@ -86,7 +86,7 @@ fun RawOption.counted(): FlagOption<Int> {
 /** Turn an option into a set of flags that each map to a value. */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(choices.keys, secondaryNames, help, hidden, null,
+    return FlagOption(choices.keys, emptySet(), help, hidden, null,
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },

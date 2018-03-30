@@ -80,9 +80,10 @@ arguments.
 
 <!--  TODO link functions -->
 * `Int`: `option().int()` and `argument().int()`
+* `Long`: `option().long()` and `argument().long()`
 
-  By default, any value that fits in an `Int` is accepted. You can
-  restrict the values to a range with `restrictTo()`.
+  By default, any value that fits in the integer type is accepted. You
+  can restrict the values to a range with `restrictTo()`.
 
 * `Float`: `option().float()` and `argument().float()`
 * `Double`: `option().double()` and `argument().double()`

@@ -6,12 +6,12 @@ import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 
-internal fun valueToInt(it: String): Int {
-    return it.toIntOrNull() ?: throw BadParameterValue("$it is not a valid integer")
+internal fun valueToLong(it: String): Long {
+    return it.toLongOrNull() ?: throw BadParameterValue("$it is not a valid integer")
 }
 
-/** Convert the argument values to an `Int` */
-fun RawArgument.int() = convert { valueToInt(it) }
+/** Convert the argument values to a `Long` */
+fun RawArgument.long() = convert { valueToLong(it) }
 
-/** Convert the option values to an `Int` */
-fun RawOption.int() = convert("INT") { valueToInt(it) }
+/** Convert the option values to a `Long` */
+fun RawOption.long() = convert("INT") { valueToLong(it) }

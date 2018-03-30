@@ -222,12 +222,19 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
  * Check the final argument value and raise an error if it's not valid.
  *
  * The [validator] is called with the final argument type (the output of [transformAll]), and should call
- * `fail` if the value is not valid.
+ * `fail` if the value is not valid. It is not called if the final value is null.
  */
-fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
+fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT> {
     return copy(transformValue, {
         transformAll(it).also { validator(ArgumentTransformContext(argument), it) }
     })
 }
 
+@JvmName("nullableValidate")
+fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.validate(validator: ArgValidator<AllT>)
+        : ArgumentDelegate<AllT?> {
+    return copy(transformValue, {
+        transformAll(it).also { if (it != null) validator(ArgumentTransformContext(argument), it) }
+    })
+}

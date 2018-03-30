@@ -354,29 +354,66 @@ class OptionTest {
     }
 
     @Test
-    fun `option validators`() {
-        var calledX = false
-        var calledY = false
+    fun `option validator basic`() {
+        var called = false
 
-        class C : CliktCommand() {
+        class C : NoRunCliktCommand() {
             val x by option().validate {
-                calledX = true
+                called = true
                 require(it == "foo") { "invalid value $it" }
             }
-            val y by option().flag().validate {
-                calledY = true
-                require(it)
+        }
+
+        with(C()) {
+            parse(splitArgv("--x=foo"))
+            assertThat(x).isEqualTo("foo")
+        }
+        assertTrue(called)
+
+        called = false
+        C().parse(splitArgv(""))
+        assertFalse(called)
+    }
+
+    @Test
+    fun `option validator required`() {
+        var called = false
+
+        class C : CliktCommand() {
+            val x by option().required().validate {
+                called = true
+                require(it == "foo") { "invalid value $it" }
             }
 
             override fun run() {
                 assertThat(x).isEqualTo("foo")
-                assertThat(y).isTrue()
             }
         }
 
-        C().parse(splitArgv("--x foo --y"))
-        assertTrue(calledX)
-        assertTrue(calledY)
+        C().parse(splitArgv("--x=foo"))
+        assertTrue(called)
+
+        called = false
+        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+    }
+
+    @Test
+    fun `option validator flag`() {
+        var called = false
+
+        class C : CliktCommand() {
+            val x by option().flag().validate {
+                called = true
+                require(it)
+            }
+
+            override fun run() {
+                assertThat(x).isTrue()
+            }
+        }
+
+        C().parse(splitArgv("--x"))
+        assertTrue(called)
     }
 
 

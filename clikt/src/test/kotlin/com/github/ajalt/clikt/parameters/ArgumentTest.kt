@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -230,7 +231,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `argument validators`() {
+    fun `argument validator non-null`() {
         var called = false
 
         class C : NoRunCliktCommand() {
@@ -244,6 +245,25 @@ class ArgumentTest {
         assertTrue(called)
 
         assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+    }
+
+    @Test
+    fun `argument validator nullable`() {
+        var called = false
+
+        class C : NoRunCliktCommand() {
+            val x: String? by argument().optional().validate {
+                called = true
+                require(it == "foo")
+            }
+        }
+
+        C().parse(splitArgv("foo"))
+        assertTrue(called)
+
+        called = false
+        C().parse(splitArgv(""))
+        assertFalse(called)
     }
 
     @Test

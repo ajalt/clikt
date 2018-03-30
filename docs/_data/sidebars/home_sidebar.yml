@@ -18,3 +18,8 @@ entries:
       url: /whyclikt.html
       output: web
       type: page
+
+    - title: Parameters
+      url: /parameters.html
+      output: web
+      type: page

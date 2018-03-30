@@ -7,27 +7,33 @@ import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 
-/** An [Option] with no values that is [finalize]d before other types of options. */
+/**
+ * An [Option] with no values that is [finalize]d before other types of options.
+ *
+ * @param callback This callback is called when the option is encountered on the command line. If you want to
+ *   print a message and halt execution normally, you should throw a [PrintMessage] exception. The callback it
+ *   passed the current execution context as a parameter.
+ */
 class EagerOption(
         override val names: Set<String>,
         override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
-        private val callback: EagerOption.(Context, List<OptionParser.Invocation>) -> Unit) : Option {
+        private val callback: OptionValidator<Context>) : Option {
     constructor(vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
-                callback: EagerOption.(Context, List<OptionParser.Invocation>) -> Unit)
+                callback: OptionValidator<Context>)
             : this(names.toSet(), nvalues, help, hidden, callback)
 
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
     override val metavar: String? get() = null
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        this.callback(context, invocations)
+        this.callback(OptionTransformContext(this), context)
     }
 }
 
 internal fun helpOption(names: Set<String>, message: String) = EagerOption(names, 0, message, false,
-        callback = { ctx, _ -> throw PrintHelpMessage(ctx.command) })
+        callback = { throw PrintHelpMessage(it.command) })
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(
@@ -35,7 +41,5 @@ inline fun <T : CliktCommand> T.versionOption(
         help: String = "Show the version and exit.",
         names: Set<String> = setOf("--version"),
         crossinline message: (String) -> String = { "$commandName version $it" }): T = apply {
-    registerOption(EagerOption(names, 0, help, false) { _, _ ->
-        throw PrintMessage(message(version))
-    })
+    registerOption(EagerOption(names, 0, help, false) { throw PrintMessage(message(version)) })
 }

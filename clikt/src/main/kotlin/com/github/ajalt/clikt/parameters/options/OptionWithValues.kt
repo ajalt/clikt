@@ -252,7 +252,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
  * Check the final option value and raise an error if it's not valid.
  *
  * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
- * if the value is not valid. It is not called if the final value is null.
+ * if the value is not valid. It is not called if the delegate value is null.
  */
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT> {

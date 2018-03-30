@@ -53,6 +53,13 @@ class FlagOption<T>(
     }
 }
 
+/**
+ * Turn an option into a boolean flag.
+ *
+ * @param secondaryNames additional names for that option that cause the option value to be false. It's good
+ *   practice to provide secondary names so that users can disable an option that was previously enabled.
+ * @param default the value for this property if the option is not given on the command line.
+ */
 fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
     return FlagOption(names, secondaryNames.toSet(), help, hidden, envvar,
             transformEnvvar = {
@@ -67,12 +74,16 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
             })
 }
 
+/**
+ * Turn an option into a flag that counts the number of times the option occurs on the command line.
+ */
 fun RawOption.counted(): FlagOption<Int> {
     return FlagOption(names, secondaryNames, help, hidden, envvar,
             transformEnvvar = { valueToInt(it) },
             transformAll = { it.size })
 }
 
+/** Turn an option into a set of flags that each map to a value. */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return FlagOption(choices.keys, secondaryNames, help, hidden, null,
@@ -82,14 +93,22 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
             transformAll = { it.map { choices[it]!! }.lastOrNull() })
 }
 
+/** Turn an option into a set of flags that each map to a value. */
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
 
+/** Set a default value for a option. */
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
     return FlagOption(names, secondaryNames, help, hidden, envvar,
             transformEnvvar = { transformEnvvar(it) ?: value },
             transformAll = { transformAll(it) ?: value })
 }
 
+/**
+ * Check the final option value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
+ * if the value is not valid. It is not called if the delegate value is null.
+ */
 fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDelegate<T> {
     return FlagOption(names, secondaryNames, help, hidden, envvar,
             transformEnvvar = { transformEnvvar(it).also { validator(this, it) } },

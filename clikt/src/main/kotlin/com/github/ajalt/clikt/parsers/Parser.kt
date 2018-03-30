@@ -19,7 +19,7 @@ internal object Parser {
         var args = argv
         val command = context.command
         val aliases = command.aliases()
-        val subcommands = command.subcommands.associateBy { it.name }
+        val subcommands = command.subcommands.associateBy { it.commandName }
         val optionsByName = HashMap<String, Option>()
         val arguments = command.arguments
         val prefixes = mutableSetOf<String>()

@@ -34,7 +34,7 @@ inline fun <T : CliktCommand> T.versionOption(
         version: String,
         help: String = "Show the version and exit.",
         names: Set<String> = setOf("--version"),
-        crossinline message: (String) -> String = { "$name version $it" }): T = apply {
+        crossinline message: (String) -> String = { "$commandName version $it" }): T = apply {
     registerOption(EagerOption(names, 0, help, false) { _, _ ->
         throw PrintMessage(message(version))
     })

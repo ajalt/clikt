@@ -29,11 +29,13 @@ import kotlin.system.exitProcess
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
  */
 abstract class CliktCommand constructor(
-        val help: String = "",
-        val epilog: String = "",
+        help: String = "",
+        epilog: String = "",
         name: String? = null,
         val invokeWithoutSubcommand: Boolean = false) {
-    val name = name ?: javaClass.simpleName.split("$").last().toLowerCase()
+    val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
+    val commandHelp = help
+    val commandHelpEpilog = epilog
     internal var subcommands: List<CliktCommand> = emptyList()
     internal val options: MutableList<Option> = mutableListOf()
     internal val arguments: MutableList<Argument> = mutableListOf()
@@ -56,7 +58,7 @@ abstract class CliktCommand constructor(
 
     private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
             arguments.mapNotNull { it.parameterHelp } +
-            subcommands.map { ParameterHelp.Subcommand(it.name, it.shortHelp()) }
+            subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp()) }
 
     /**
      * This command's context.
@@ -70,7 +72,7 @@ abstract class CliktCommand constructor(
         }
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
-    protected fun shortHelp(): String = help.split(".", "\n", limit = 2).first().trim()
+    protected fun shortHelp(): String = commandHelp.split(".", "\n", limit = 2).first().trim()
 
     /**
      * Register an option with this command.
@@ -102,13 +104,14 @@ abstract class CliktCommand constructor(
     /** Return the usage string for this command. */
     open fun getFormattedUsage(): String {
         if (_context == null) createContext()
-        return context.helpFormatter.formatUsage(allHelpParams(), programName = name)
+        return context.helpFormatter.formatUsage(allHelpParams(), programName = commandName)
     }
 
     /** Return the full help string for this command. */
     open fun getFormattedHelp(): String {
         if (_context == null) createContext()
-        return context.helpFormatter.formatHelp(help, epilog, allHelpParams(), programName = name)
+        return context.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
+                allHelpParams(), programName = commandName)
     }
 
     /**

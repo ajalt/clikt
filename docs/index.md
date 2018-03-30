@@ -28,11 +28,11 @@ Clikt has:
  ```kotlin
 class Hello : CliktCommand() {
     val count: Int by option(help="Number of greetings").int().default(1)
-    val username: String by option(help="The person to greet").prompt("Your name")
+    val name: String by option(help="The person to greet").prompt("Your name")
 
     override fun run() {
         for (i in 1..count) {
-            TermUi.echo("Hello $username!")
+            TermUi.echo("Hello $name!")
         }
     }
 }
@@ -57,9 +57,9 @@ $ ./hello --help
 Usage: hello [OPTIONS]
 
 Options:
-  --count INT      Number of greetings
-  --username TEXT  The person to greet
-  -h, --help       Show this message and exit
+  --count INT  Number of greetings
+  --name TEXT  The person to greet
+  -h, --help   Show this message and exit
 ```
 
 Errors are also taken care of:

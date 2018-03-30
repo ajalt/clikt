@@ -113,11 +113,11 @@ TODO --> property delegates:
 ```kotlin
 class Hello : CliktCommand() {
     val count by option(help="Number of greetings").int().default(1)
-    val username by argument()
+    val name by argument()
 
     override fun run() {
         for (i in 1..count) {
-            TermUi.echo("Hello $username!")
+            TermUi.echo("Hello $name!")
         }
     }
 }

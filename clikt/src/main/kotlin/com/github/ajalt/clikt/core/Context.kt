@@ -72,7 +72,7 @@ class Context(val parent: Context?,
         var helpFormatter: HelpFormatter = parent?.helpFormatter ?: PlaintextHelpFormatter()
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
-            it + "_" + command.name.replace(Regex("\\W"), "_").toUpperCase()
+            it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
         }
 
         fun build(): Context {

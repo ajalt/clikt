@@ -85,8 +85,9 @@ arguments.
   restrict the values to a range with `restrictTo()`.
 
 * `Float`: `option().float()` and `argument().float()`
+* `Double`: `option().double()` and `argument().double()`
 
-  Like with integers, you can restrict the input to a range with
+  As with integers, you can restrict the input to a range with
   `restrictTo()`.
 
 * `option().choice()` and `argument().choice()`

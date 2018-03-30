@@ -10,8 +10,8 @@ private fun valueToFloat(it: String): Float {
     return it.toFloatOrNull() ?: throw BadParameterValue("$it is not a valid floating point value")
 }
 
-/** Convert the argument values to float */
+/** Convert the argument values to a `Float` */
 fun RawArgument.float() = convert { valueToFloat(it) }
 
-/** Convert the option values to float */
+/** Convert the option values to a `Float` */
 fun RawOption.float() = convert("FLOAT") { valueToFloat(it) }

@@ -140,20 +140,20 @@ internal object Parser {
         // includes optional single value args, so it might be bigger than the number of provided
         // values.
         val endSize = arguments.asReversed()
-                .takeWhile { it.nargs > 0 }
-                .sumBy { it.nargs }
+                .takeWhile { it.nvalues > 0 }
+                .sumBy { it.nvalues }
 
         var i = 0
         for (argument in arguments) {
             val remaining = positionalArgs.size - i
             val consumed = when {
-                argument.nargs <= 0 -> maxOf(0, remaining - endSize)
-                argument.nargs > 0 && !argument.required && remaining == 0 -> 0
-                else -> argument.nargs
+                argument.nvalues <= 0 -> maxOf(0, remaining - endSize)
+                argument.nvalues > 0 && !argument.required && remaining == 0 -> 0
+                else -> argument.nvalues
             }
             if (consumed > remaining) {
                 if (remaining == 0) throw MissingParameter(argument)
-                else throw IncorrectArgumentNargs(argument)
+                else throw IncorrectArgumentValueCount(argument)
             }
             out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed)
             i += consumed

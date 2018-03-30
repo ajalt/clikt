@@ -67,7 +67,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one argument nargs=2`() {
+    fun `one argument nvalues=2`() {
         class C : CliktCommand() {
             val x by argument().paired()
             override fun run() {
@@ -82,7 +82,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one optional argument nargs=2`() = parameterized(
+    fun `one optional argument nvalues=2`() = parameterized(
             row("", null),
             row("foo bar", "foo" to "bar")
     ) { (argv, expected) ->
@@ -97,7 +97,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one optional argument nargs=3`() = parameterized(
+    fun `one optional argument nvalues=3`() = parameterized(
             row("", null),
             row("foo bar baz", Triple("foo", "bar", "baz"))
     ) { (argv, expected) ->
@@ -112,11 +112,11 @@ class ArgumentTest {
     }
 
     @Test
-    fun `misused arguments with nargs=2`() {
+    fun `misused arguments with nvalues=2`() {
         class C : NoRunCliktCommand() {
             val x by argument().paired()
         }
-        assertThrows<IncorrectArgumentNargs> { C().parse(splitArgv("foo")) }
+        assertThrows<IncorrectArgumentValueCount> { C().parse(splitArgv("foo")) }
                 .hasMessage("argument X takes 2 values")
         assertThrows<UsageError> { C().parse(splitArgv("foo bar baz")) }
                 .hasMessage("Got unexpected extra argument (baz)")
@@ -125,12 +125,12 @@ class ArgumentTest {
     }
 
     @Test
-    fun `misused arguments with nargs=3`() {
+    fun `misused arguments with nvalues=3`() {
         class C : NoRunCliktCommand() {
             val x by argument().triple()
         }
 
-        assertThrows<IncorrectArgumentNargs> { C().parse(splitArgv("foo bar")) }
+        assertThrows<IncorrectArgumentValueCount> { C().parse(splitArgv("foo bar")) }
                 .hasMessage("argument X takes 3 values")
         assertThrows<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
                 .hasMessage("Got unexpected extra argument (qux)")
@@ -138,7 +138,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one argument nargs=-1`() = parameterized(
+    fun `one argument nvalues=-1`() = parameterized(
             row("", emptyList()),
             row("foo", listOf("foo")),
             row("foo bar", listOf("foo", "bar")),
@@ -155,7 +155,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nargs=-1,1`() = parameterized(
+    fun `two arguments nvalues=-1,1`() = parameterized(
             row("foo", emptyList(), "foo"),
             row("foo bar", listOf("foo"), "bar"),
             row("foo bar baz", listOf("foo", "bar"), "baz")
@@ -173,7 +173,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nargs=-1,1 empty argv`() {
+    fun `two arguments nvalues=-1,1 empty argv`() {
         class C : NeverCalledCliktCommand() {
             val foo by argument().multiple()
             val bar by argument()
@@ -184,7 +184,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nargs=1,-1`() = parameterized(
+    fun `two arguments nvalues=1,-1`() = parameterized(
             row("", null, emptyList<String>()),
             row("foo", "foo", emptyList()),
             row("foo bar", "foo", listOf("bar")),
@@ -203,7 +203,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nargs=1,-1 empty argv`() {
+    fun `two arguments nvalues=1,-1 empty argv`() {
         class C : NeverCalledCliktCommand() {
             val foo by argument()
             val bar by argument().multiple()
@@ -338,7 +338,7 @@ class ArgumentTest {
     }
 
     @Test
-    fun `multiple args with nargs=-1`() {
+    fun `multiple args with nvalues=-1`() {
         class C : NeverCalledCliktCommand() {
             val foo by argument().multiple()
             val bar by argument().multiple()

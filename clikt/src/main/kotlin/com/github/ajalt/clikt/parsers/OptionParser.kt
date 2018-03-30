@@ -32,7 +32,7 @@ interface OptionParser {
      *
      * @param name The name that was used to invoke the option. May be empty if the value was not retrieved
      *   from the command line (e.g. values from environment variables).
-     * @param values The values provided to the option. Will always have a size equal to [Option.nargs].
+     * @param values The values provided to the option. Will always have a size equal to [Option.nvalues].
      */
     data class Invocation(val name: String, val values: List<String>)
 

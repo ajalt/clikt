@@ -30,13 +30,13 @@ interface HelpFormatter {
          * @param secondaryNames Secondary names that can be used to e.g. disable the option
          * @param metavar The metavar to display for the option if it takes values
          * @param help The option's description
-         * @param nargs The number of values that this option takes
+         * @param nvalues The number of values that this option takes
          */
         data class Option(val names: Set<String>,
                           val secondaryNames: Set<String>,
                           val metavar: String?,
                           val help: String,
-                          val nargs: Int) : ParameterHelp()
+                          val nvalues: Int) : ParameterHelp()
 
         /**
          * @param name The name / metavar for this argument

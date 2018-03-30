@@ -10,13 +10,13 @@ import com.github.ajalt.clikt.parsers.OptionParser
 /** An [Option] with no values that is [finalize]d before other types of options. */
 class EagerOption(
         override val names: Set<String>,
-        override val nargs: Int,
+        override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
         private val callback: EagerOption.(Context, List<OptionParser.Invocation>) -> Unit) : Option {
-    constructor(vararg names: String, nargs: Int = 0, help: String = "", hidden: Boolean = false,
+    constructor(vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
                 callback: EagerOption.(Context, List<OptionParser.Invocation>) -> Unit)
-            : this(names.toSet(), nargs, help, hidden, callback)
+            : this(names.toSet(), nvalues, help, hidden, callback)
 
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser

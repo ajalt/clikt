@@ -46,7 +46,7 @@ typealias ValueTransformer<ValueT> = OptionCallTransformContext.(String) -> Valu
 /**
  * A callback that transforms all the values for a call to the call type.
  *
- * The input list will always have a size equal to `nargs`
+ * The input list will always have a size equal to `nvalues`
  */
 typealias ArgsTransformer<ValueT, EachT> = OptionCallTransformContext.(List<ValueT>) -> EachT
 
@@ -64,7 +64,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  * An [Option] that takes one or more values.
  *
  * @property explicitMetavar The metavar to use. Specified at option creation, overrides [defaultMetavar].
- * @property defaultMetavar The metavar to use if [explicitMetavar] is null. Set by [transformNargs].
+ * @property defaultMetavar The metavar to use if [explicitMetavar] is null. Set by [transformValues].
  * @property envvar The environment variable name to use.
  * @property envvarSplit The pattern to split envvar values on. If the envvar splits into multiple values,
  *   each one will be treated like a separate invocation of the option.
@@ -79,7 +79,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val explicitMetavar: String?,
         val defaultMetavar: String?,
-        override val nargs: Int,
+        override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
         val envvar: String?,
@@ -127,14 +127,14 @@ class OptionWithValues<AllT, EachT, ValueT>(
             names: Set<String> = this.names,
             explicitMetavar: String? = this.explicitMetavar,
             defaultMetavar: String? = this.defaultMetavar,
-            nargs: Int = this.nargs,
+            nvalues: Int = this.nvalues,
             help: String = this.help,
             hidden: Boolean = this.hidden,
             envvar: String? = this.envvar,
             envvarSplit: Regex = this.envvarSplit,
             parser: OptionWithValuesParser = this.parser
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, explicitMetavar, defaultMetavar, nargs, help, hidden,
+        return OptionWithValues(names, explicitMetavar, defaultMetavar, nvalues, help, hidden,
                 envvar, envvarSplit, parser, transformValue, transformEach, transformAll)
     }
 }
@@ -170,7 +170,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
         names = names.toSet(),
         explicitMetavar = metavar,
         defaultMetavar = "TEXT",
-        nargs = 1,
+        nvalues = 1,
         help = help,
         hidden = hidden,
         envvar = envvar,
@@ -184,7 +184,7 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
  * Transform all calls to the option to the final option type.
  *
  * The input is a list of calls, one for each time the option appears on the command line. The values in the
- * list are the output of calls to [transformNargs]. If the option does not appear from any source (command
+ * list are the output of calls to [transformValues]. If the option does not appear from any source (command
  * line or envvar), this will be called with an empty list.
  *
  * Used to implement functions like [default] and [multiple].
@@ -221,31 +221,31 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
 /**
  * Change the number of values that this option takes.
  *
- * The input will be a list of size [nargs], with each item in the list being the output of a call to
- * [convert]. [nargs] must be 2 or greater, since options cannot take a variable number of values, and
- * [option] has [nargs] = 1 by default. If you want to change the type of an option with one value, use
+ * The input will be a list of size [nvalues], with each item in the list being the output of a call to
+ * [convert]. [nvalues] must be 2 or greater, since options cannot take a variable number of values, and
+ * [option] has [nvalues] = 1 by default. If you want to change the type of an option with one value, use
  * [convert] instead.
  *
  * Used to implement functions like [paired] and [triple].
  */
-fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformNargs(
-        nargs: Int, transform: ArgsTransformer<ValueT, EachOutT>): NullableOption<EachOutT, ValueT> {
-    require(nargs != 0) { "Cannot set nargs = 0. Use flag() instead." }
-    require(nargs > 0) { "Options cannot have nargs < 0" }
-    require(nargs > 1) { "Cannot set nargs = 1. Use convert() instead." }
-    return copy(transformValue, transform, defaultAllProcessor(), nargs = nargs)
+fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
+        nvalues: Int, transform: ArgsTransformer<ValueT, EachOutT>): NullableOption<EachOutT, ValueT> {
+    require(nvalues != 0) { "Cannot set nvalues = 0. Use flag() instead." }
+    require(nvalues > 0) { "Options cannot have nvalues < 0" }
+    require(nvalues > 1) { "Cannot set nvalues = 1. Use convert() instead." }
+    return copy(transformValue, transform, defaultAllProcessor(), nvalues = nvalues)
 }
 
 /** Change to option to take two values, held in a [Pair] */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.paired()
         : NullableOption<Pair<ValueT, ValueT>, ValueT> {
-    return transformNargs(nargs = 2) { it[0] to it[1] }
+    return transformValues(nvalues = 2) { it[0] to it[1] }
 }
 
 /** Change to option to take three values, held in a [Triple] */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
         : NullableOption<Triple<ValueT, ValueT, ValueT>, ValueT> {
-    return transformNargs(nargs = 3) { Triple(it[0], it[1], it[2]) }
+    return transformValues(nvalues = 3) { Triple(it[0], it[1], it[2]) }
 }
 
 /**

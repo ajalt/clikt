@@ -132,7 +132,7 @@ class OptionTest {
 
 
     @Test
-    fun `two options nargs=2`() = parameterized(
+    fun `two options nvalues=2`() = parameterized(
             row("", null, null),
             row("--xx 1 3", "1" to "3", null),
             row("--yy 5 7", null, "5" to "7"),
@@ -161,7 +161,7 @@ class OptionTest {
     }
 
     @Test
-    fun `two options nargs=3`() {
+    fun `two options nvalues=3`() {
         val xvalue = Triple("1", "2", "3")
         val yvalue = Triple("5", "6", "7")
         parameterized(
@@ -194,7 +194,7 @@ class OptionTest {
     }
 
     @Test
-    fun `two options nargs=2 usage errors`() {
+    fun `two options nvalues=2 usage errors`() {
         class C : CliktCommand() {
             val x by option("-x", "--xx").paired()
             val y by option("-y", "--yy").paired()
@@ -202,7 +202,7 @@ class OptionTest {
                 fail("should not be called $x, $y")
             }
         }
-        assertThrows<IncorrectOptionNargs> { C().parse(splitArgv("-x")) }
+        assertThrows<IncorrectOptionValueCount> { C().parse(splitArgv("-x")) }
                 .hasMessage("-x option requires 2 arguments")
         assertThrows<UsageError> { C().parse(splitArgv("--yy foo bar baz")) }
                 .hasMessage("Got unexpected extra argument (baz)")

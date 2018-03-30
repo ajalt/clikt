@@ -29,7 +29,7 @@ class FlagOption<T>(
         val transformEnvvar: OptionTransformContext.(String) -> T,
         val transformAll: CallsTransformer<String, T>) : OptionDelegate<T> {
     override val metavar: String? = null
-    override val nargs: Int get() = 0
+    override val nvalues: Int get() = 0
     override val parser = FlagOptionParser
     private var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
     override var names: Set<String> = names

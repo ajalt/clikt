@@ -24,13 +24,13 @@ interface Option {
     /** Names that can be used for a secondary purpose, like disabling flag options. */
     val secondaryNames: Set<String>
     /** The number of values that must be given to this option. */
-    val nargs: Int
+    val nvalues: Int
     /** If true, this option should not appear in help output. */
     val hidden: Boolean
     /** Information about this option for the help output. */
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
         get() = if (hidden) null
-        else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nargs)
+        else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues)
 
     /**
      * Called after this command's argv is parsed to transform and store the option's value.

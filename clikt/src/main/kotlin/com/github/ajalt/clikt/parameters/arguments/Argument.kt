@@ -21,10 +21,11 @@ interface Argument {
     val name: String
 
     /**
-     * The number of values that this argument takes. Negative [nargs] indicates a variable number
-     *   of values. Cannot be 0.
+     * The number of values that this argument takes.
+     *
+     * Negative [nvalues] indicates a variable number of values. Cannot be 0.
      */
-    val nargs: Int
+    val nvalues: Int
 
     /** If true, an error will be thrown if this argument is not given on the command line. */
     val required: Boolean
@@ -82,13 +83,13 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
 @Suppress("AddVarianceModifier")
 class ProcessedArgument<AllT, ValueT> constructor(
         name: String,
-        override val nargs: Int,
+        override val nvalues: Int,
         override val required: Boolean,
         override val help: String,
         val transformValue: ArgValueTransformer<ValueT>,
         val transformAll: ArgCallsTransformer<AllT, ValueT>) : ArgumentDelegate<AllT> {
     init {
-        require(nargs != 0) { "Arguments cannot have nargs == 0" }
+        require(nvalues != 0) { "Arguments cannot have nvalues == 0" }
     }
 
     override var name: String = name
@@ -96,7 +97,7 @@ class ProcessedArgument<AllT, ValueT> constructor(
     private var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
 
     override val parameterHelp
-        get() = ParameterHelp.Argument(name, help, required && nargs == 1 || nargs > 1, nargs < 0)
+        get() = ParameterHelp.Argument(name, help, required && nvalues == 1 || nvalues > 1, nvalues < 0)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
@@ -117,10 +118,10 @@ class ProcessedArgument<AllT, ValueT> constructor(
             transformValue: ArgValueTransformer<ValueT>,
             transformAll: ArgCallsTransformer<AllT, ValueT>,
             name: String = this.name,
-            nargs: Int = this.nargs,
+            nvalues: Int = this.nvalues,
             required: Boolean = this.required,
             help: String = this.help): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nargs, required, help, transformValue, transformAll)
+        return ProcessedArgument(name, nvalues, required, help, transformValue, transformAll)
     }
 }
 
@@ -148,20 +149,20 @@ fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
  * Transform all values to the final argument type.
  *
  * The input is a list of values, one for each value on the command line. The values in the
- * list are the output of calls to [convert]. The input list will have a size of [nargs] if [nargs] is > 0.
+ * list are the output of calls to [convert]. The input list will have a size of [nvalues] if [nvalues] is > 0.
  *
  * Used to implement functions like [paired] and [multiple].
  *
- * @param nargs The number of values required by this argument. A negative [nargs] indicates a variable number
+ * @param nvalues The number of values required by this argument. A negative [nvalues] indicates a variable number
  *   of values.
  * @param required If true, an error with be thrown if no values are provided to this argument.
  */
 fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
-        nargs: Int? = null,
+        nvalues: Int? = null,
         required: Boolean? = null,
         transform: ArgCallsTransformer<AllOutT, ValueT>): ProcessedArgument<AllOutT, ValueT> {
     return copy(transformValue, transform,
-            nargs = nargs ?: this.nargs,
+            nvalues = nvalues ?: this.nvalues,
             required = required ?: this.required)
 }
 
@@ -173,17 +174,17 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional()
 
 /** Accept any number of values to this argument. */
 fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): ProcessedArgument<List<T>, T> {
-    return transformAll(nargs = -1, required = required) { it }
+    return transformAll(nvalues = -1, required = required) { it }
 }
 
 /** Require exactly two values to this argument. */
 fun <T : Any> ProcessedArgument<T, T>.paired(): ProcessedArgument<Pair<T, T>, T> {
-    return transformAll(nargs = 2) { it[0] to it[1] }
+    return transformAll(nvalues = 2) { it[0] to it[1] }
 }
 
 /** Require exactly three values to this argument. */
 fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T>, T> {
-    return transformAll(nargs = 3) { Triple(it[0], it[1], it[2]) }
+    return transformAll(nvalues = 3) { Triple(it[0], it[1], it[2]) }
 }
 
 /** If the argument is not given, use [value] instead of throwing an error. */

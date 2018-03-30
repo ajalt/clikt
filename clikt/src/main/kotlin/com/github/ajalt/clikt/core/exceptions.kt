@@ -127,20 +127,20 @@ open class NoSuchOption(protected val givenName: String,
 }
 
 /** An option was supplied but the number of values supplied to the option was incorrect. */
-open class IncorrectOptionNargs(option: Option,
-                                private val givenName: String) : UsageError("", option) {
+open class IncorrectOptionValueCount(option: Option,
+                                     private val givenName: String) : UsageError("", option) {
     override fun formatMessage(): String {
-        return when (option!!.nargs) {
+        return when (option!!.nvalues) {
             0 -> "$givenName option does not take a value"
             1 -> "$givenName option requires an argument"
-            else -> "$givenName option requires ${option!!.nargs} arguments"
+            else -> "$givenName option requires ${option!!.nvalues} arguments"
         }
     }
 }
 
 /** An argument was supplied but the number of values supplied was incorrect. */
-open class IncorrectArgumentNargs(argument: Argument) : UsageError("", argument) {
+open class IncorrectArgumentValueCount(argument: Argument) : UsageError("", argument) {
     override fun formatMessage(): String {
-        return "argument ${inferParamName()} takes ${argument!!.nargs} values"
+        return "argument ${inferParamName()} takes ${argument!!.nvalues} values"
     }
 }

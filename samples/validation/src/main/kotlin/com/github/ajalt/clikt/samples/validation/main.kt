@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.transformAll
-import com.github.ajalt.clikt.parameters.options.transformNargs
+import com.github.ajalt.clikt.parameters.options.transformValues
 import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.int
 import java.net.URL
@@ -27,7 +27,7 @@ class Cli : CliktCommand(help = "Validation examples") {
 
     val quad by option(help = "A four-valued option")
             .int()
-            .transformNargs(4) { Quad(it[0], it[1], it[2], it[3]) }
+            .transformValues(4) { Quad(it[0], it[1], it[2], it[3]) }
 
     val sum by option(help = "All values will be added")
             .int()

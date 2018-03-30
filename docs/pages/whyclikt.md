@@ -113,7 +113,7 @@ but you could implement it yourself like this:
 
 ```kotlin
 class Cli : CliktCommand() {
-    val v by option().transformNargs(2) { it[0] to it[1] }
+    val v by option(help="this takes two values").transformValues(2) { it[0] to it[1] }
 }
 ```
 
@@ -121,7 +121,7 @@ The Clikt version is of course much simpler, but there are more
 fundamental issues with the `kotlin-argparser` version that drove the
 creation of Clikt:
 
-* Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all of the code for each type. With Clikt, you could just do `option().int().transformNargs(2) { it[0] to it[1] }`
+* Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all of the code for each type. With Clikt, you could just do `option().int().transformValues(2) { it[0] to it[1] }`
 * Its inheritance-based design means that supporting types, multiple values, and multiple option occurances would require a combinatorial copies of the above code. With Clikt, these are all orthoganal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
 * Option name inferrence is not automatic, requiring you to wrap the delegate with yet another function.

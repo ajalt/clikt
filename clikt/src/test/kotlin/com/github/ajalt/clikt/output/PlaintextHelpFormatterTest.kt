@@ -18,17 +18,17 @@ private fun <T> l(vararg t: T) = listOf(*t)
 private fun opt(names: List<String>,
                 metavar: String? = null,
                 help: String = "",
-                nargs: Int = 1,
+                nvalues: Int = 1,
                 secondaryNames: List<String> = emptyList()): ParameterHelp.Option {
-    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nargs)
+    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues)
 }
 
 private fun opt(name: String,
                 metavar: String? = null,
                 help: String = "",
-                nargs: Int = 1,
+                nvalues: Int = 1,
                 secondaryNames: List<String> = emptyList()): ParameterHelp.Option {
-    return opt(l(name), metavar, help, nargs, secondaryNames)
+    return opt(l(name), metavar, help, nvalues, secondaryNames)
 }
 
 private fun arg(name: String,
@@ -187,7 +187,7 @@ class PlaintextHelpFormatterTest {
     fun `formatHelp option wrapping`() {
         val f = PlaintextHelpFormatter(width = 54, maxColWidth = 12)
         assertThat(f.formatHelp("", "", l(
-                opt(l("-x"), "X", nargs = 2, help = "one very very very very very very long option"),
+                opt(l("-x"), "X", nvalues = 2, help = "one very very very very very very long option"),
                 opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
                 opt(l("-z", "--zzzzzzzzzzzzz"), "ZZZZZZZZ", help = "a short option"),
                 opt(l("-t", "--entirely-too-long-option"), "WOWSOLONG",

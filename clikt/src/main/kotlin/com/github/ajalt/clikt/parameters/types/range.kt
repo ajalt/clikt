@@ -32,7 +32,7 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
  */
 fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ArgumentDelegate<T> where T : Number, T : Comparable<T> {
-    return ProcessedArgument(name, nargs, required, help,
+    return ProcessedArgument(name, nvalues, required, help,
             { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
             transformAll)
 }
@@ -46,7 +46,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
 @JvmName("nullableRestrictTo")
 fun <T> ProcessedArgument<T?, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ArgumentDelegate<T?> where T : Number, T : Comparable<T> {
-    return ProcessedArgument(name, nargs, required, help,
+    return ProcessedArgument(name, nvalues, required, help,
             { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
             transformAll)
 }

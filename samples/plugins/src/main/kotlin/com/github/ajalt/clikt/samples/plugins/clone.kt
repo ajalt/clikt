@@ -6,8 +6,8 @@ import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.switch
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.bind
 import com.github.salomonbrys.kodein.inSet
@@ -24,8 +24,7 @@ class Clone : CliktCommand(
     val src: String by argument()
     val dest: String? by argument().optional()
     val shallow: Boolean by option(help = "Makes a checkout shallow or deep.  Deep by default.")
-            .switch("--shallow" to true, "--deep" to false)
-            .default(false)
+            .flag("--deep")
 
     val rev: String by option("--rev", "-r", help = "Clone a specific revision instead of HEAD.")
             .default("HEAD")

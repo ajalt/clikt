@@ -51,8 +51,7 @@ class Clone : CliktCommand(
     val src: String by argument()
     val dest: String? by argument().optional()
     val shallow: Boolean by option(help = "Makes a checkout shallow or deep.  Deep by default.")
-            .switch("--shallow" to true, "--deep" to false)
-            .default(false)
+            .flag("--deep")
 
     val rev: String by option("--rev", "-r", help = "Clone a specific revision instead of HEAD.")
             .default("HEAD")

@@ -6,28 +6,27 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.file
 import java.io.File
 
 class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
-    private val interactive by option("-i", "--interactive", help = "prompt before overwrite").flag()
-    private val recursive by option("-r", "--recursive", help = "copy directories recursively").flag()
-    private val source by argument().multiple()
-    private val dest by argument()
+    val interactive by option("-i", "--interactive", help = "prompt before overwrite").flag()
+    val recursive by option("-r", "--recursive", help = "copy directories recursively").flag()
+    val source by argument().file(exists = true).multiple()
+    val dest by argument().file(fileOkay = false)
 
     override fun run() {
-        val destFile = File(dest)
-        for (fname in source) {
-            val sourceFile = File(fname)
+        for (file in source) {
             try {
-                if (recursive) sourceFile.copyRecursively(destFile)
-                else sourceFile.copyTo(destFile)
+                if (recursive) file.copyRecursively(dest)
+                else file.copyTo(dest)
             } catch (e: FileAlreadyExistsException) {
                 if (interactive) {
                     val response = TermUi.confirm("overwrite '$dest'?", default = true)
                     if (response == false) continue
                 }
-                if (recursive) sourceFile.copyRecursively(destFile, overwrite = true)
-                else sourceFile.copyTo(destFile, overwrite = true)
+                if (recursive) file.copyRecursively(dest, overwrite = true)
+                else file.copyTo(dest, overwrite = true)
             }
         }
     }

@@ -34,9 +34,9 @@ arguments only have a single metavar.
 ```kotlin
 class Cli : CliktCommand() {
     val inferredOpt by option()
-    val inferredArg by argument()
+    val inferred by argument()
     val explicitOpt by option("-e", "--explicit")
-    val explicitArg by argument("EXPLICIT")
+    val explicitArg by argument("<explicit>")
     override fun run() = Unit
 }
 ```
@@ -44,7 +44,7 @@ class Cli : CliktCommand() {
 The above class will generate the following help page:
 
 ```
-Usage: cli [OPTIONS] INFERREDARG EXPLICIT
+Usage: cli [OPTIONS] INFERRED <explicit>
 
 Options:
   --inferred-opt TEXT
@@ -52,7 +52,7 @@ Options:
   -h, --help           Show this message and exit
 ```
 
-## Parameter Types
+## Parameter Types {#types}
 
 Both options and arguments can convert the String that the user inputs
 to other types.
@@ -73,7 +73,7 @@ val opt: Int? by option(help="an option").int()
 val arg: Int by argument(help="an argument").int()
 ```
 
-### Built-in types
+### Built-in types {#builtintypes}
 
 There are a number of built in types that can be applied to options and
 arguments.
@@ -178,7 +178,7 @@ Options:
   -h, --help   Show this message and exit
 ```
 
-## Parameter Validation
+## Parameter Validation {#validation}
 
 After converting a value to a new type, you can perform additional
 validation on the converted value with `option().validate()` and

@@ -7,3 +7,12 @@ entries:
 
   - title: Other Links
     folderitems:
+
+    - title: Parameter Types
+      url: /parameters.html#types
+
+    - title: Built-In Types
+      url: /parameters.html#builtintypes
+
+    - title: Parameter Validation
+      url: /parameters.html#validation

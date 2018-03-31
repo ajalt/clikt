@@ -23,3 +23,8 @@ entries:
       url: /parameters.html
       output: web
       type: page
+
+    - title: Options
+      url: /options.html
+      output: web
+      type: page

@@ -19,7 +19,8 @@ val d: Pair<Int, Int> by option().int().paired().default(0 to 0)
 val e: Pair<Float, Float> by option().float().paired().default(0f to 0f)
 ```
 
-There are three type of behavior that can be customized independently:
+There are three main types of behavior that can be customized
+independently:
 
 1. The type of each value in the option
 
@@ -50,8 +51,9 @@ code.
 The default option takes one value of type `String`. The property is
 nullable. If the option is not given on the command line, the property
 value will be null. If the option is given at least once, the property
-will return the value of the last occurrence of the option. The command
-line name is automatically inferred to a lowercase hyphen-separated name.
+will return the value of the last occurrence of the option. If you don't
+specify names for the option, one is lowercase hyphen-separated name is
+automatically inferred from the property.
 
 ```kotlin
 class Hello: CliktCommand() {
@@ -77,7 +79,7 @@ on the command line. You can instead return a default value with
 
 ```kotlin
 class Pow : CliktCommand() {
-    val exp by option().double().default(1.0)
+    val exp by option("-e", "--exp").double().default(1.0)
     override fun run() {
         TermUi.echo("2 ^ $exp = ${Math.pow(2.0, exp)}")
     }
@@ -87,7 +89,7 @@ class Pow : CliktCommand() {
 And on the command line:
 
 ```
-$ ./pow --exp 8
+$ ./pow -e 8
 2 ^ 8.0 = 256.0
 
 $ ./pow
@@ -333,7 +335,7 @@ Your hidden password: hunter2
 ```
 
 
-## Eager Options
+## Eager Options {#eageroptions}
 
 Sometimes you want an option to halt execution immediately and print a
 message. For example, the built-on `--help` option, or the `--version`

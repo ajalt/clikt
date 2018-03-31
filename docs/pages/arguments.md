@@ -91,7 +91,7 @@ Copying files [file.txt, file.md] to out/
 
 Clikt normally parses any value that starts with punctuation as an
 option, which allows users to intermix options and arguments. However,
-sometimes you need to pass a value that starts with puntuation to an
+sometimes you need to pass a value that starts with punctuation to an
 argument. For example, you might have a file named `-file.txt` that you
 want to use as an argument.
 
@@ -121,8 +121,6 @@ $ ./touch --verbose -- --foo.txt bar.txt
 --foo.txt
 bar.txt
 ```
-
-
 
 
 {% include links.html %}

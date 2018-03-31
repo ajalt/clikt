@@ -16,3 +16,6 @@ entries:
 
     - title: Parameter Validation
       url: /parameters.html#validation
+
+    - title: Eager Options
+      url: /options.html#eageroptions

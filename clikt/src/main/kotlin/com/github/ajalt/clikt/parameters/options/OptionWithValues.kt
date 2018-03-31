@@ -63,8 +63,8 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 /**
  * An [Option] that takes one or more values.
  *
- * @property explicitMetavar The metavar to use. Specified at option creation, overrides [defaultMetavar].
- * @property defaultMetavar The metavar to use if [explicitMetavar] is null. Set by [transformValues].
+ * @property metavarExplicit The metavar to use. Specified at option creation; overrides [metavarDefault].
+ * @property metavarDefault The metavar to use if [metavarExplicit] is null. Set by [transformValues].
  * @property envvar The environment variable name to use.
  * @property envvarSplit The pattern to split envvar values on. If the envvar splits into multiple values,
  *   each one will be treated like a separate invocation of the option.
@@ -77,8 +77,8 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 @Suppress("AddVarianceModifier")
 class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
-        val explicitMetavar: String?,
-        val defaultMetavar: String?,
+        val metavarExplicit: String?,
+        val metavarDefault: String?,
         override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
@@ -88,7 +88,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
         val transformAll: CallsTransformer<EachT, AllT>) : OptionDelegate<AllT> {
-    override val metavar: String? get() = explicitMetavar ?: defaultMetavar
+    override val metavar: String? get() = metavarExplicit ?: metavarDefault
     private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
@@ -125,8 +125,8 @@ class OptionWithValues<AllT, EachT, ValueT>(
             transformEach: ArgsTransformer<ValueT, EachT>,
             transformAll: CallsTransformer<EachT, AllT>,
             names: Set<String> = this.names,
-            explicitMetavar: String? = this.explicitMetavar,
-            defaultMetavar: String? = this.defaultMetavar,
+            metavarExplicit: String? = this.metavarExplicit,
+            metavarDefault: String? = this.metavarDefault,
             nvalues: Int = this.nvalues,
             help: String = this.help,
             hidden: Boolean = this.hidden,
@@ -134,7 +134,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
             envvarSplit: Regex = this.envvarSplit,
             parser: OptionWithValuesParser = this.parser
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, explicitMetavar, defaultMetavar, nvalues, help, hidden,
+        return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden,
                 envvar, envvarSplit, parser, transformValue, transformEach, transformAll)
     }
 }
@@ -168,8 +168,8 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
 fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null,
                         hidden: Boolean = false, envvar: String? = null): RawOption = OptionWithValues(
         names = names.toSet(),
-        explicitMetavar = metavar,
-        defaultMetavar = "TEXT",
+        metavarExplicit = metavar,
+        metavarDefault = "TEXT",
         nvalues = 1,
         help = help,
         hidden = hidden,
@@ -290,7 +290,7 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE",
         }
     }
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(),
-            defaultMetavar = metavar,
+            metavarDefault = metavar,
             envvarSplit = envvarSplit)
 }
 

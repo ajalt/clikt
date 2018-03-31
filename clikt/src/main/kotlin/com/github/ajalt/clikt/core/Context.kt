@@ -66,11 +66,30 @@ class Context(val parent: Context?,
 
     class Builder(private val command: CliktCommand,
                   private val parent: Context? = null) {
+        /**
+         * If false, options and arguments cannot be mixed; the first time an argument is encountered, all
+         * remaining tokens are parsed as arguments.
+         */
         var allowInterspersedArgs: Boolean = parent?.allowInterspersedArgs ?: true
+        /**
+         * The names to use for the help option.
+         *
+         * If any names in the set conflict with other options, the conflicting name will not be used for the
+         * help option. If the set is empty, or contains no unique names, no help option will be added.
+         */
         var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
+        /** The description of the help option.*/
         var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
+        /** The help formatter for this command*/
         var helpFormatter: HelpFormatter = parent?.helpFormatter ?: PlaintextHelpFormatter()
+        /** An optional transformation function that is called to transform command line*/
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
+        /**
+         * The prefix to add to inferred envvar names.
+         *
+         * If null, the prefix is based on the parent's prefix, if there is one. If no command specifies, a
+         * prefix, envvar lookup is disabled.
+         */
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
             it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
         }
@@ -110,7 +129,7 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
 
 /** Find the closest object of type [T], setting `context.`[obj] if one is not found. */
 @Suppress("unused")
-inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T?> {
+inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
             return thisRef.context.findObject(default)

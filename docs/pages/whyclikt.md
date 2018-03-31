@@ -122,9 +122,9 @@ fundamental issues with the `kotlin-argparser` version that drove the
 creation of Clikt:
 
 * Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all of the code for each type. With Clikt, you could just do `option().int().transformValues(2) { it[0] to it[1] }`
-* Its inheritance-based design means that supporting types, multiple values, and multiple option occurances would require a combinatorial copies of the above code. With Clikt, these are all orthoganal.
+* Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial copies of the above code. With Clikt, these are all orthoganal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
-* Option name inferrence is not automatic, requiring you to wrap the delegate with yet another function.
+* Option name inference is not automatic, requiring you to wrap the delegate with yet another function.
 * Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with `option()`, and all arguments with `argument()`.
 
 Some of these problems can be solved by writing more code, and some
@@ -153,7 +153,7 @@ to other types. The JCommander docs explain:
 
 You also can't customize many aspect of parsing in JCommander. It can't
 infer parameter names. With JCommander, you can't have an option with
-multiple values and multiple occurances at the same time. You can't have
+multiple values and multiple occurrences at the same time. You can't have
 more than one argument, and it can only take one value or an unlimited
 number of values. You can't nest subcommands.
 

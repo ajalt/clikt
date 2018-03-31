@@ -19,7 +19,7 @@ val d: Pair<Int, Int> by option().int().paired().default(0 to 0)
 val e: Pair<Float, Float> by option().float().paired().default(0f to 0f)
 ```
 
-There are three type of behavior that can be customized independentaly:
+There are three type of behavior that can be customized independently:
 
 1. The type of each value in the option
 
@@ -50,7 +50,8 @@ code.
 The default option takes one value of type `String`. The property is
 nullable. If the option is not given on the command line, the property
 value will be null. If the option is given at least once, the property
-wil return the value of the last occurance of the option.
+will return the value of the last occurrence of the option. The command
+line name is automatically inferred to a lowercase hyphen-separated name.
 
 ```kotlin
 class Hello: CliktCommand() {
@@ -137,12 +138,12 @@ Tesseract has dimensions 6x7x8x9
 ## Multiple Options
 
 Normally, when an option is provided on the command line more than once,
-only the values from the last occurance are used. But sometimes you want
+only the values from the last occurrence are used. But sometimes you want
 to keep all values provided. For example, `git commit -m foo -m bar`
 would create a commit message with two lines: `foo` and `bar. To get
 this behavior with Clikt, you can use `multiple()`. This will cause the
 property delegate value to be a list, where each item in the list is the
-values from one occurance of the option. If the option is never given,
+values from one occurrence of the option. If the option is never given,
 the list will be empty.
 
 ```kotlin
@@ -177,7 +178,7 @@ turn an option into a boolean flag with `flag()`. That function takes an
 optional list of secondary names that will be added to any existing or
 inferred names for the option. If the option is invoked with one of the
 secondary names, the delegate will return false. It's a good idea to
-always set seconadry names so that a user can disable the flag if it was
+always set secondary names so that a user can disable the flag if it was
 enabled previously.
 
 
@@ -277,7 +278,6 @@ Options:
   -h, --help         Show this message and exit
 ```
 
-
 ## Prompting for input
 
 In some cases, you might want to create an option that uses the value
@@ -318,7 +318,7 @@ passwords.
 class Login : CliktCommand() {
     val password by option().prompt(requireConfirmation = true, hideInput = true)
     override fun run() {
-        TermUi.echo("Securely printing password to the screen: $password")
+        TermUi.echo("Your hidden password: $password")
     }
 }
 ```
@@ -329,7 +329,7 @@ And on the command line:
 $ ./login
 Password:
 Repeat for confirmation:
-Securely printing password to the screen: hunter2
+Your hidden password: hunter2
 ```
 
 
@@ -398,6 +398,120 @@ class Cli : CliktCommand() {
 
 ## Values from Environment Variables
 
+Clikt supports reading option values from environment variables if they
+aren't given on the command line. This feature is helpful when
+automating tools. For example, when using `git commit`, you can set the
+author date with a command line parameter: `git commit
+--date=10/21/2015`. But you can also set it with an environment
+variable: `GIT_AUTHOR_DATE=10/21/2015 git commit`.
+
+Clikt will read option values from environment variables as long as it
+has an envvar name for the option. There are two ways to set that name:
+you can set the name manually for an option, or you can enable automatic
+envvar name inference.
+
+To set the envvar name manually, pass the name to `option()`:
+
+```kotlin
+class Hello : CliktCommand() {
+    val name by option(envvar = "MY_NAME")
+    override fun run() {
+        TermUi.echo("Hello $name")
+    }
+}
+```
+
+And on the command line:
+
+```
+$ export MY_NAME=Foo
+$ ./hello
+Hello Foo
+
+$ export MY_NAME=Foo
+$ ./hello --name=Bar
+Hello Bar
+```
+
+You can enable automatic envvar name inference by
+setting the `autoEnvvarPrefix` on a command's `Context`. This will cause
+all options without an explicit envvar name to be given an uppercase
+underscore-separated envvar name. Since the prefix is set on the
+`Context`, it is propagated to subcommands. If you have a a subcommand
+called `foo` with an option `--bar`, and your prefix is `MY_TOOL`, the
+option's envvar name will be `MY_TOOL_FOO_BAR`.
+
+```kotlin
+class Hello : CliktCommand() {
+    init {
+        context { autoEnvvarPrefix = "HELLO" }
+    }
+    val name by option()
+    override fun run() {
+        TermUi.echo("Hello $name")
+    }
+}
+```
+
+And on the command line:
+
+```
+$ export HELLO_NAME=Foo
+$ ./hello
+Hello Foo
+```
+
+## Multiple Values from Environment Variables
+
+You might need to allow users to specify multiple values for an option
+in a single environment variable. You can do this by creating an option
+with `multiple()`. The environment variable's value will be split
+according a regex, which defaults to split on whitespace for most types.
+`file()` will change the pattern to split according to the operating
+system's path splitting rules. On Windows, it will split on semicolons
+(`;`). On other systems, it will split on colons (`:`).
+
+```kotlin
+class Hello : CliktCommand() {
+    val names by option(envvar = "NAMES").multiple()
+    override fun run() {
+        for (name in names) TermUi.echo("Hello $name")
+    }
+}
+```
+
+And on the command line:
+
+```
+$ export NAMES=Foo Bar
+$ ./hello
+Hello Foo
+Hello Bar
+```
+
+## Option Transformation Order
+
+Clikt has a large number of extension functions that can modify options.
+When applying multiple functions to the same option, there's only one
+valid order for the functions to be applied. For example,
+`option().default(3).int()` will not compile, because `default()` must
+be applied after the value type conversion. Similarly, you can only
+apply one transform of each type. So `option().int().float()` is
+invalid (since `int()` and `float()` both change the value type), as is
+`option().default("").multiple()` (since `default()` and `multiple()`
+both transform the call list).
+
+Here's an integer option with every available transform in a valid
+order:
+
+```kotlin
+val opt by option()
+        .int()
+        .restrictTo(1..100)
+        .paired()
+        .default(1 to 2)
+        .validate { require(it.second % 2 == 0) }
+```
 
 
 {% include links.html %}

@@ -58,7 +58,7 @@ Both options and arguments can convert the String that the user inputs
 to other types.
 
 Types work by transforming the return value of the property delegate. By
-default parameters havea string type:
+default parameters have a string type:
 
 ```kotlin
 val opt: String? by option(help="an option")
@@ -83,7 +83,9 @@ arguments.
 * `Long`: `option().long()` and `argument().long()`
 
   By default, any value that fits in the integer type is accepted. You
-  can restrict the values to a range with `restrictTo()`.
+  can restrict the values to a range with `restrictTo()`, which allows
+  you to either clamp the input to the range, or fail with an error if
+  the input is outside the range.
 
 * `Float`: `option().float()` and `argument().float()`
 * `Double`: `option().double()` and `argument().double()`
@@ -94,7 +96,7 @@ arguments.
 * `option().choice()` and `argument().choice()`
 
   You can restrict the values to a set of values, and optionally map the
-  input to a new value. For example, to craete an option that only
+  input to a new value. For example, to create an option that only
   accepts the value "A" or "B":
 
   ```kotlin

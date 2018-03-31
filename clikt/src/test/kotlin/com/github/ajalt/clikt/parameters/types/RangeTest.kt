@@ -6,7 +6,9 @@ import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.paired
 import com.github.ajalt.clikt.testing.*
 import org.junit.Test
 
@@ -122,8 +124,8 @@ class RangeTest {
     @Test
     fun `restrictTo option default`() {
         class C : NoRunCliktCommand() {
-            val x by option("-x", "--xx").int().default(2).restrictTo(1..2)
-            val y by option("-y", "--yy").int().default(3).restrictTo(min = 3, max = 4)
+            val x by option("-x", "--xx").int().restrictTo(1..2).default(2)
+            val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).default(3)
         }
 
         softly {
@@ -150,12 +152,42 @@ class RangeTest {
     }
 
     @Test
+    fun `restrictTo option multiple`() {
+        class C : NoRunCliktCommand() {
+            val x by option("-x", "--xx").int().restrictTo(1..2).multiple()
+            val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).paired()
+        }
+
+        softly {
+            C().apply {
+                parse(splitArgv(""))
+                assertThat(x).isEmpty()
+                assertThat(y).isNull()
+            }
+            C().apply {
+                parse(splitArgv("-x1 -x2"))
+                assertThat(x).containsExactly(1, 2)
+                assertThat(y).isNull()
+            }
+            C().apply {
+                parse(splitArgv("-y 3 4"))
+                assertThat(x).isEmpty()
+                assertThat(y).isEqualTo(3 to 4)
+            }
+            assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
+                    .hasMessage("Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2.")
+            assertThrows<BadParameterValue> { C().parse(splitArgv("-y10 1")) }
+                    .hasMessage("Invalid value for \"-y\": 10 is not in the valid range of 3 to 4.")
+        }
+    }
+
+    @Test
     fun `restrictTo argument`() {
         class C : NoRunCliktCommand() {
             val x by argument().int().restrictTo(min = 1, max=2)
             val y by argument().int().restrictTo(3..4)
-            val z by argument().int().optional().restrictTo(min=5, max=6)
-            val w by argument().int().optional().restrictTo(7..8)
+            val z by argument().int().restrictTo(min=5, max=6).optional()
+            val w by argument().int().restrictTo(7..8).optional()
         }
 
         softly {
@@ -192,8 +224,8 @@ class RangeTest {
         class C : NoRunCliktCommand() {
             val x by argument().int().restrictTo(min = 1, max=2, clamp=true)
             val y by argument().int().restrictTo(3..4, clamp=true)
-            val z by argument().int().optional().restrictTo(min=5, max=6, clamp=true)
-            val w by argument().int().optional().restrictTo(7..8, clamp=true)
+            val z by argument().int().restrictTo(min=5, max=6, clamp=true).optional()
+            val w by argument().int().restrictTo(7..8, clamp=true).optional()
         }
 
         softly {

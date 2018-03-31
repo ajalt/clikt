@@ -55,7 +55,7 @@ line name is automatically inferred to a lowercase hyphen-separated name.
 
 ```kotlin
 class Hello: CliktCommand() {
-    val name by option()
+    val name by option(help="your name")
     override fun run() {
         TermUi.echo("Hello, $name!")
     }
@@ -505,7 +505,7 @@ Here's an integer option with every available transform in a valid
 order:
 
 ```kotlin
-val opt by option()
+val opt: Pair<Int, Int> by option("-o", "--opt")
         .int()
         .restrictTo(1..100)
         .paired()

@@ -28,3 +28,8 @@ entries:
       url: /options.html
       output: web
       type: page
+
+    - title: Arguments
+      url: /arguments.html
+      output: web
+      type: page

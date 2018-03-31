@@ -64,8 +64,8 @@ class Context(val parent: Context?,
     /** Throw a [UsageError] with the given message */
     fun fail(message: String = ""): Nothing = throw UsageError(message)
 
-    class Builder(private val command: CliktCommand,
-                  private val parent: Context? = null) {
+    class Builder(command: CliktCommand,
+                  parent: Context? = null) {
         /**
          * If false, options and arguments cannot be mixed; the first time an argument is encountered, all
          * remaining tokens are parsed as arguments.
@@ -93,16 +93,15 @@ class Context(val parent: Context?,
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
             it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
         }
-
-        fun build(): Context {
-            return Context(parent, command, allowInterspersedArgs, autoEnvvarPrefix,
-                    helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer)
-        }
     }
 
     companion object {
         inline fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
-            return Builder(command, parent).run { block(); build() }
+            with(Builder(command, parent)) {
+                block()
+                return Context(parent, command, allowInterspersedArgs, autoEnvvarPrefix,
+                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer)
+            }
         }
     }
 }

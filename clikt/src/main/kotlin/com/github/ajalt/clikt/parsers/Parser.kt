@@ -41,30 +41,31 @@ internal object Parser {
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         var minAliasI = 0
         loop@ while (i <= args.lastIndex) {
-            val tok = context.tokenTransformer(context, args[i])
-            val prefix = splitOptionPrefix(tok).first
+            val arg = args[i]
+            val normArg = context.tokenTransformer(context, arg)
+            val prefix = splitOptionPrefix(arg).first
             when {
-                tok == "--" -> {
+                arg == "--" -> {
                     i += 1
                     canParseOptions = false
                 }
-                canParseOptions && ('=' in tok || tok in longNames || prefix.length > 1) -> {
-                    val (opt, result) = parseLongOpt(args, tok, i, optionsByName)
+                canParseOptions && ('=' in arg || normArg in longNames || prefix.length > 1) -> {
+                    val (opt, result) = parseLongOpt(context, args, arg, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount
                 }
-                canParseOptions && tok.length >= 2 && prefix.isNotEmpty() -> {
-                    val (count, invokes) = parseShortOpt(args, tok, i, optionsByName)
+                canParseOptions && arg.length >= 2 && prefix.isNotEmpty() -> {
+                    val (count, invokes) = parseShortOpt(context, args, arg, i, optionsByName)
                     invocations += invokes
                     i += count
                 }
-                i >= minAliasI && tok in aliases -> {
-                    args = aliases[tok]!! + args.slice(i + 1..args.lastIndex)
+                i >= minAliasI && arg in aliases -> {
+                    args = aliases[arg]!! + args.slice(i + 1..args.lastIndex)
                     i = 0
-                    minAliasI = aliases[tok]!!.size
+                    minAliasI = aliases[arg]!!.size
                 }
-                tok in subcommands -> {
-                    subcommand = subcommands[tok]!!
+                normArg in subcommands -> {
+                    subcommand = subcommands[normArg]!!
                     break@loop
                 }
                 else -> {
@@ -103,28 +104,31 @@ internal object Parser {
         }
     }
 
-    private fun parseLongOpt(argv: List<String>, arg: String, index: Int,
+    private fun parseLongOpt(context: Context, argv: List<String>, arg: String,
+                             index: Int,
                              optionsByName: Map<String, Option>): Pair<Option, ParseResult> {
         val equalsIndex = arg.indexOf('=')
-        val (name, value) = if (equalsIndex >= 0) {
+        var (name, value) = if (equalsIndex >= 0) {
             arg.substring(0, equalsIndex) to arg.substring(equalsIndex + 1)
         } else {
             arg to null
         }
+        name = context.tokenTransformer(context, name)
         val option = optionsByName[name] ?: throw NoSuchOption(name,
                 possibilities = optionsByName.keys.filter { it.startsWith(name) })
         val result = option.parser.parseLongOpt(option, name, argv, index, value)
         return option to result
     }
 
-    private fun parseShortOpt(argv: List<String>, arg: String, index: Int,
+    private fun parseShortOpt(context: Context, argv: List<String>, arg: String,
+                              index: Int,
                               optionsByName: Map<String, Option>): Pair<Int, List<Pair<Option, Invocation>>> {
         val prefix = arg[0].toString()
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         for ((i, opt) in arg.withIndex()) {
             if (i == 0) continue // skip the dash
 
-            val name = prefix + opt
+            val name = context.tokenTransformer(context, prefix + opt)
             val option = optionsByName[name] ?: throw NoSuchOption(name)
             val result = option.parser.parseShortOpt(option, name, argv, index, i)
             invocations += option to result.invocation

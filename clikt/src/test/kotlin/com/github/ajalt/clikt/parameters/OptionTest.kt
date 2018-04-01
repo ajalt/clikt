@@ -505,9 +505,10 @@ class OptionTest {
     @Test
     fun `normalized tokens`() = parameterized(
             row("", null),
-            row("--XX 3", "3"),
-            row("--xx 3", "3"),
-            row("-Xx", "x")) { (argv, expected) ->
+            row("--XX FOO", "FOO"),
+            row("--XX=FOO", "FOO"),
+            row("--xx=FOO", "FOO"),
+            row("-XX", "X")) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {

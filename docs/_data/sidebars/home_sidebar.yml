@@ -48,3 +48,8 @@ entries:
       url: /utilities.html
       output: web
       type: page
+
+    - title: Exception Handling
+      url: /exceptions.html
+      output: web
+      type: page

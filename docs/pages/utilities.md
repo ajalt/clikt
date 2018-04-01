@@ -65,7 +65,7 @@ if (TermUi.confirm("Continue?") == true) {
 }
 ```
 
-If you simply want to abort the program in the user gives a negatvie
+If you simply want to abort the program in the user gives a negative
 response, you can pass `abort=true`:
 
 ```kotlin

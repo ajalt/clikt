@@ -87,7 +87,7 @@ Commands:
 
 ## Help Option Customization
 
-Clikt handles the help option is specially. It is added autmatically to
+Clikt handles the help option is specially. It is added automatically to
 every command. Any help option name that conflicts with another option is
 not used for the help option. If the help option has no unique names, it
 is not added.

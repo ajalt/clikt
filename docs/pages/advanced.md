@@ -42,7 +42,7 @@ class Commit: CliktCommand() {
 fun main(args: Array<String>) = Repo().subcommands(Commit()).main(args)
 ```
 
-And on the comand line:
+And on the command line:
 
 ```
 $ ./repo ci -m 'my message'
@@ -58,7 +58,7 @@ Note that aliases are not expanded recursively: none of the tokens that
 an alias expands to will be expanded again, even if they match another
 alias.
 
-You also use this fucionality to implement command prefixes:
+You also use this functionality to implement command prefixes:
 
 ```kotlin
 class Tool : CliktCommand() {
@@ -94,7 +94,7 @@ class Bar: CliktCommand() {
 fun main(args: Array<String>) = Tool().subcommands(Foo(), Bar()).main(args)
 ```
 
-Which alows you to call the subcommands like this:
+Which allows you to call the subcommands like this:
 
 ```
 $ ./tool ba
@@ -108,7 +108,7 @@ command names. However, there's another way to modify user input that
 works on more types of tokens. You can set a `tokenTransformer` on the
 [command's context](commands.html#customcontext) that will be called for
 each option and command name that is input. This can be used to
-implement case-insenitive parsing, for example:
+implement case-insensitive parsing, for example:
 
 ```kotlin
 class Hello : CliktCommand() {

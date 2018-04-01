@@ -74,6 +74,10 @@ abstract class CliktCommand constructor(
     /** The help displayed in the commands list when this command is used as a subcommand. */
     protected fun shortHelp(): String = Regex("\\S.*\$", RegexOption.MULTILINE).find(commandHelp)?.value ?: ""
 
+
+    /** The names of all direct children of this command */
+    fun registeredSubcommandNames(): List<String> = subcommands.map { it.commandName }
+
     /**
      * Register an option with this command.
      *

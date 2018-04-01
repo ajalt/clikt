@@ -43,3 +43,8 @@ entries:
       url: /advanced.html
       output: web
       type: page
+
+    - title: Utilities
+      url: /utilities.html
+      output: web
+      type: page

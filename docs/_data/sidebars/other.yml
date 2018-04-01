@@ -17,6 +17,9 @@ entries:
     - title: Parameter Validation
       url: /parameters.html#validation
 
+    - title: Prompting For Input
+      url: /options.html#prompting
+
     - title: Eager Options
       url: /options.html#eageroptions
 

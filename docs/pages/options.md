@@ -284,7 +284,7 @@ Options:
   -h, --help         Show this message and exit
 ```
 
-## Prompting for input
+## Prompting For Input {#prompting}
 
 In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input

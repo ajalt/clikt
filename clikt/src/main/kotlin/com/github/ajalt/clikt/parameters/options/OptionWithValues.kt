@@ -15,7 +15,8 @@ import kotlin.reflect.KProperty
  * @property name The name that was used to invoke this option.
  * @property option The option that was invoked
  */
-class OptionCallTransformContext(val name: String, val option: Option) : Option by option {
+class OptionCallTransformContext(val name: String, val option: Option,
+                                 val context: Context) : Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
 
@@ -30,7 +31,7 @@ class OptionCallTransformContext(val name: String, val option: Option) : Option 
  *
  * @property option The option that was invoked
  */
-class OptionTransformContext(val option: Option) : Option by option {
+class OptionTransformContext(val option: Option, val context: Context) : Option by option {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw UsageError(message, option)
 
@@ -102,8 +103,8 @@ class OptionWithValues<AllT, EachT, ValueT>(
             System.getenv(env).split(envvarSplit).map { OptionParser.Invocation(env, listOf(it)) }
         }
 
-        value = transformAll(OptionTransformContext(this), inv.map {
-            val tc = OptionCallTransformContext(it.name, this)
+        value = transformAll(OptionTransformContext(this, context), inv.map {
+            val tc = OptionCallTransformContext(it.name, this, context)
             transformEach(tc, it.values.map { v -> transformValue(tc, v) })
         })
     }
@@ -325,7 +326,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
     else {
         TermUi.prompt(promptText, default, hideInput, requireConfirmation,
                 confirmationPrompt, promptSuffix, showDefault) {
-            val ctx = OptionCallTransformContext("", this)
+            val ctx = OptionCallTransformContext("", this, context)
             transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))
         } ?: throw Abort()
     }

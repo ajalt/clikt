@@ -60,7 +60,7 @@ interface ArgumentDelegate<out T> : Argument, ReadOnlyProperty<CliktCommand, T> 
  *
  * @property argument The argument that was invoked
  */
-class ArgumentTransformContext(val argument: Argument) : Argument by argument {
+class ArgumentTransformContext(val argument: Argument, val context: Context) : Argument by argument {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
 
@@ -109,7 +109,7 @@ class ProcessedArgument<AllT, ValueT> constructor(
     }
 
     override fun finalize(context: Context, values: List<String>) {
-        val ctx = ArgumentTransformContext(this)
+        val ctx = ArgumentTransformContext(this, context)
         value = transformAll(ctx, values.map { transformValue(ctx, it) })
     }
 
@@ -228,7 +228,7 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
 fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT> {
     return copy(transformValue, {
-        transformAll(it).also { validator(ArgumentTransformContext(argument), it) }
+        transformAll(it).also { validator(ArgumentTransformContext(argument, context), it) }
     })
 }
 
@@ -236,6 +236,6 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: Arg
 fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT?> {
     return copy(transformValue, {
-        transformAll(it).also { if (it != null) validator(ArgumentTransformContext(argument), it) }
+        transformAll(it).also { if (it != null) validator(ArgumentTransformContext(argument, context), it) }
     })
 }

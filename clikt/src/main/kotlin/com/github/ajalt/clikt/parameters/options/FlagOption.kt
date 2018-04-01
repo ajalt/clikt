@@ -38,9 +38,9 @@ class FlagOption<T>(
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
         val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
         value = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
-            transformAll(OptionTransformContext(this), invocations.map { it.name })
+            transformAll(OptionTransformContext(this, context), invocations.map { it.name })
         } else {
-            transformEnvvar(OptionTransformContext(this), System.getenv(env))
+            transformEnvvar(OptionTransformContext(this, context), System.getenv(env))
         }
     }
 

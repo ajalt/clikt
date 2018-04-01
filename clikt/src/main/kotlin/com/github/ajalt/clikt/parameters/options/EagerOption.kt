@@ -19,21 +19,21 @@ class EagerOption(
         override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
-        private val callback: OptionValidator<Context>) : Option {
+        private val callback: OptionTransformContext.() -> Unit) : Option {
     constructor(vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
-                callback: OptionValidator<Context>)
+                callback: OptionTransformContext.() -> Unit)
             : this(names.toSet(), nvalues, help, hidden, callback)
 
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
     override val metavar: String? get() = null
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        this.callback(OptionTransformContext(this), context)
+        this.callback(OptionTransformContext(this, context))
     }
 }
 
 internal fun helpOption(names: Set<String>, message: String) = EagerOption(names, 0, message, false,
-        callback = { throw PrintHelpMessage(it.command) })
+        callback = { throw PrintHelpMessage(context.command) })
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(

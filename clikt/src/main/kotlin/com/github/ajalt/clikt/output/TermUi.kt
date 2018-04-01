@@ -157,7 +157,7 @@ object TermUi {
      *   is not interactive, this argument is ignored.
      * @return A line from stdin, or null if an IOError occurs.
      */
-    fun promptForLine(prompt: String, hideInput: Boolean): String? {
+    private fun promptForLine(prompt: String, hideInput: Boolean): String? {
         val console = System.console()
         return if (console != null) {
             when {

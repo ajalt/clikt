@@ -244,8 +244,8 @@ class PlaintextHelpFormatterTest {
     fun `integration test`() {
         @Suppress("unused")
         class C : CliktCommand(name = "program",
-                help =
-                """This is a program.
+                help ="""
+                This is a program.
 
                 This is the prolog.
                 """,
@@ -260,13 +260,21 @@ class PlaintextHelpFormatterTest {
             override fun run() = Unit
         }
 
-        class Sub : CliktCommand(help = "a subcommand") {
+        class Sub : CliktCommand(help = """
+            a subcommand
+
+            with extra help
+            """) {
+            override fun run() = Unit
+        }
+
+        class Sub2 : CliktCommand(help = "another command") {
             override fun run() = Unit
         }
 
         val c = C()
                 .versionOption("1.0")
-                .subcommands(Sub())
+                .subcommands(Sub(), Sub2())
 
         assertThat(c.getFormattedHelp()).isEqualTo(
                 """
@@ -284,7 +292,8 @@ class PlaintextHelpFormatterTest {
                 |  -h, --help        Show this message and exit
                 |
                 |Commands:
-                |  sub  a subcommand
+                |  sub   a subcommand
+                |  sub2  another command
                 |
                 |This is the epilog
                 """.trimMargin("|"))

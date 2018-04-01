@@ -72,7 +72,7 @@ abstract class CliktCommand constructor(
         }
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
-    protected fun shortHelp(): String = commandHelp.split(".", "\n", limit = 2).first().trim()
+    protected fun shortHelp(): String = Regex("\\S.*\$", RegexOption.MULTILINE).find(commandHelp)?.value ?: ""
 
     /**
      * Register an option with this command.

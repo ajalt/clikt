@@ -17,14 +17,14 @@ open class CliktError(message: String? = null, cause: Exception? = null) : Runti
 /**
  * An exception that indicates that the command's help should be printed.
  *
- * Execution should be immediately halted with and error.
+ * Execution should be immediately halted with an error.
  */
 class PrintHelpMessage(val command: CliktCommand) : CliktError()
 
 /**
- * An exception that indicates that the message should be printed.
+ * An exception that indicates that a message should be printed.
  *
- * Execution should be immediately halted with and error.
+ * Execution should be immediately halted without an error.
  */
 class PrintMessage(message: String) : CliktError(message)
 

@@ -1,13 +1,11 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Fail.fail
 import org.junit.Test
 
 class EagerOptionsTest {

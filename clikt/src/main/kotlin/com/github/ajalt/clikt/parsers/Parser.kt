@@ -7,8 +7,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
-import java.util.*
-import kotlin.collections.HashMap
 
 internal object Parser {
     fun parse(argv: Array<String>, context: Context) {

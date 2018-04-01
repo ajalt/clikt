@@ -38,3 +38,8 @@ entries:
       url: /documenting.html
       output: web
       type: page
+
+    - title: Advanced Patters
+      url: /advanced.html
+      output: web
+      type: page

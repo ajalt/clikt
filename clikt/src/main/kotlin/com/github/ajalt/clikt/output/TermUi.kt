@@ -78,7 +78,7 @@ object TermUi {
                    confirmationPrompt: String = "Repeat for confirmation: ",
                    promptSuffix: String = ": ",
                    showDefault: Boolean = true,
-                   convert: ((String) -> T)? = null): T? {
+                   convert: ((String) -> T)): T? {
         val prompt = buildPrompt(text, promptSuffix, showDefault, default)
 
         try {
@@ -89,10 +89,10 @@ object TermUi {
 
                     if (value.isNotBlank()) break
                     // Skip confirmation prompt if default is used
-                    else if (default != null) return convert?.invoke(default)
+                    else if (default != null) return convert.invoke(default)
                 }
                 val result = try {
-                    convert?.invoke(value)
+                    convert.invoke(value)
                 } catch (err: UsageError) {
                     echo(err.helpMessage(null))
                     continue
@@ -113,6 +113,17 @@ object TermUi {
         } catch (err: IOError) {
             return null
         }
+    }
+
+    fun prompt(text: String,
+               default: String? = null,
+               hideInput: Boolean = false,
+               requireConfirmation: Boolean = false,
+               confirmationPrompt: String = "Repeat for confirmation: ",
+               promptSuffix: String = ": ",
+               showDefault: Boolean = true): String? {
+        return prompt(text, default, hideInput, requireConfirmation,
+                confirmationPrompt, promptSuffix, showDefault, { it })
     }
 
     /**

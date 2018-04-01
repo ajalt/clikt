@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +21,23 @@ class PromptOptionsTest {
     val stdin = TextFromStandardInputStream.emptyStandardInputStream()
 
     @Test
-    fun `prompt`() {
+    fun `manual prompt`() {
+        stdin.provideLines("bar")
+        val input = TermUi.prompt("Foo")
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: ")
+        assertThat(input).isEqualTo("bar")
+    }
+
+    @Test
+    fun `manual prompt conversion`() {
+        stdin.provideLines("bar", "11")
+        val input = TermUi.prompt("Foo") { it.toIntOrNull() ?: throw UsageError("boo") }
+        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: Error: boo\nFoo: ")
+        assertThat(input).isEqualTo(11)
+    }
+
+    @Test
+    fun `prompt option`() {
         stdin.provideLines("bar")
 
         class C : CliktCommand() {

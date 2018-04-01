@@ -19,3 +19,9 @@ entries:
 
     - title: Eager Options
       url: /options.html#eageroptions
+
+    - title: Customizing Name
+      url: /commands.html#customname
+
+    - title: Customizing Contexts
+      url: /commands.html#customcontext

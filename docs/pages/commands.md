@@ -60,6 +60,44 @@ Verbose mode is on
 executing
 ```
 
+## Customizing Command Name {#customname}
+
+The default name for subcommands is inferred as a lowercase name from
+the command class name. You can also set a name manually in the
+`CliktCommand` constructor.
+
+```kotlin
+class Tool : CliktCommand() {
+    override fun run()= Unit
+}
+
+class Execute : CliktCommand(name = "RUN-ME") {
+    override fun run() {
+        TermUi.echo("executing")
+    }
+}
+
+fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
+```
+
+And on the command line:
+
+```
+$ ./tool RUN-ME
+executing
+```
+
+```
+$ ./tool -h
+Usage: tool [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -h, --help  Show this message and exit
+
+Commands:
+  RUN-ME
+```
+
 ## Passing Parameters
 
 When calling subcommands, the position of options and arguments on the
@@ -205,5 +243,44 @@ $./tool execute
 about to run execute
 running subcommand
 ```
+
+## Customizing Contexts {#customcontext}
+
+`Context`s have a number of properties that can be customized, and which
+are inherited by child commands. You can change these properties with
+the `context` builder fucntion, which can be called in an `init` block,
+or on a command instance.
+
+For example, you can change the default help message for the `--help`
+option. These definitions are equivalent:
+
+```kotlin
+class Cli : NoRunCliktCommand() {
+    init {
+        context { helpOptionMessage = "print the help" }
+    }
+}
+fun main(args: Array<String>) = Cli().main(args)
+```
+
+and
+
+```kotlin
+class Cli : NoRunCliktCommand()
+fun main(args: Array<String>) = Cli()
+    .context { helpOptionMessage = "print the help" }
+    .main(splitArgv(""))
+```
+
+Any they work like:
+
+```
+$ ./cli --help
+Usage: cli [OPTIONS]
+
+Options:
+  -h, --help  print the help
+```
+
 
 {% include links.html %}

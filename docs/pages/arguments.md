@@ -116,7 +116,9 @@ $ ./touch --foo.txt
 Usage: touch [OPTIONS] [FILES]...
 
 Error: no such option: "--foo.txt".
+```
 
+```
 $ ./touch --verbose -- --foo.txt bar.txt
 --foo.txt
 bar.txt

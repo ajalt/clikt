@@ -91,7 +91,9 @@ And on the command line:
 ```
 $ ./pow -e 8
 2 ^ 8.0 = 256.0
+```
 
+```
 $ ./pow
 2 ^ 1.0 = 2.0
 ```
@@ -142,7 +144,7 @@ Tesseract has dimensions 6x7x8x9
 Normally, when an option is provided on the command line more than once,
 only the values from the last occurrence are used. But sometimes you want
 to keep all values provided. For example, `git commit -m foo -m bar`
-would create a commit message with two lines: `foo` and `bar. To get
+would create a commit message with two lines: `foo` and `bar`. To get
 this behavior with Clikt, you can use `multiple()`. This will cause the
 property delegate value to be a list, where each item in the list is the
 values from one occurrence of the option. If the option is never given,
@@ -198,7 +200,9 @@ And on the command line:
 ```
 $ ./cli -o
 true
+```
 
+```
 $ ./cli --on --off
 false
 ```
@@ -301,7 +305,9 @@ Which behaves like:
 ```
 ./hello --name=foo
 Hello foo
+```
 
+```
 ./hello
 Name: foo
 Hello foo
@@ -403,9 +409,9 @@ class Cli : CliktCommand() {
 Clikt supports reading option values from environment variables if they
 aren't given on the command line. This feature is helpful when
 automating tools. For example, when using `git commit`, you can set the
-author date with a command line parameter: `git commit
---date=10/21/2015`. But you can also set it with an environment
-variable: `GIT_AUTHOR_DATE=10/21/2015 git commit`.
+author date with a command line parameter:
+`git commit --date=10/21/2015`. But you can also set it with an
+environment variable: `GIT_AUTHOR_DATE=10/21/2015 git commit`.
 
 Clikt will read option values from environment variables as long as it
 has an envvar name for the option. There are two ways to set that name:
@@ -429,7 +435,9 @@ And on the command line:
 $ export MY_NAME=Foo
 $ ./hello
 Hello Foo
+```
 
+```
 $ export MY_NAME=Foo
 $ ./hello --name=Bar
 Hello Bar

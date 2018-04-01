@@ -33,3 +33,8 @@ entries:
       url: /arguments.html
       output: web
       type: page
+
+    - title: Documenting Scripts
+      url: /documenting.html
+      output: web
+      type: page

@@ -108,8 +108,9 @@ class MyArgs(parser: ArgParser) {
 }
 ```
 
-Clikt has that functionality built in as `option().paired()`,  <!-- TODO: link to paired -->
-but you could implement it yourself like this:
+Clikt has that functionality built in as
+{% include apidoc.html pkg="parameters.options" fun="pair" text="option().pair()" -%}
+, but you could implement it yourself like this:
 
 ```kotlin
 class Cli : CliktCommand() {
@@ -125,7 +126,7 @@ creation of Clikt:
 * Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial copies of the above code. With Clikt, these are all orthoganal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
 * Option name inference is not automatic, requiring you to wrap the delegate with yet another function.
-* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with `option()`, and all arguments with `argument()`.
+* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with {% include apidoc.html pkg="parameters.options" fun="option" text="option()" %}, and all arguments with {% include apidoc.html pkg="parameters.arguments" fun="argument" text="argument()" %}.
 
 Some of these problems can be solved by writing more code, and some
 can't. On the other hand, Clikt attempts to consistent, intuitive,
@@ -140,8 +141,9 @@ not composable. One popular Java library that is usable from Kotlin is
 
 JCommander uses annotations to define parameters, and reflection to set
 fields. This is functional for simple types, but defining your own types
-requires you to register a type adapter with the `JCommander` builder,
-and many types of customization are not possible.
+requires you to register a type adapter with the `JCommander` builder.
+This means that type errors are not caught until runtime, and many types
+of customization are not possible.
 
 For example, options that take multiple values cannot be converted
 to other types. The JCommander docs explain:

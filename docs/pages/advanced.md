@@ -4,8 +4,6 @@ sidebar: home_sidebar
 permalink: advanced.html
 ---
 
-<!--  TODO: add docs links -->
-
 Clikt has reasonable behavior by default, but is also very customizable
 for advanced use cases.
 
@@ -17,9 +15,10 @@ invoke a command by typing a prefix of its name, or user-defined aliases
 like the way you can configure git to accept `git ci` as an alias for
 `git commit`.
 
-To implement command aliases, override `CliktCommand.aliases()` in your
-command. This function is called once at the start of parsing, and
-return a map of aliases to the tokens that they alias to.
+To implement command aliases, override {% include apidoc.html pkg="core"
+class="clikt-command" fun="aliases" %} in your command. This function is
+called once at the start of parsing, and returns a map of aliases to the
+tokens that they alias to.
 
 To implement git-style aliases:
 
@@ -105,10 +104,12 @@ Running Bar
 
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
-works on more types of tokens. You can set a `tokenTransformer` on the
-[command's context](commands.html#customcontext) that will be called for
-each option and command name that is input. This can be used to
-implement case-insensitive parsing, for example:
+works on more types of tokens. You can set a {% include apidoc.html
+pkg="core" class="context" fun="token-transformer"
+text="tokenTransformer" %} on the [command's
+context](commands.html#customcontext) that will be called for each
+option and command name that is input. This can be used to implement
+case-insensitive parsing, for example:
 
 ```kotlin
 class Hello : CliktCommand() {

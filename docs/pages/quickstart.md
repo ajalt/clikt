@@ -47,10 +47,8 @@ Options:
 
 ## Echoing
 
-
-
 Why does this example use {% include apidoc.html pkg="output"
-name="term-ui" fun=echo %} instead of
+class="term-ui" fun="echo" %} instead of
 [println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
 Although `println` works, it can cause problems with multi-platform
 support. {% include apidoc.html pkg="output" class="term-ui" fun="echo"

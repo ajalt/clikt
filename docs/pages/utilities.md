@@ -4,8 +4,6 @@ sidebar: home_sidebar
 permalink: utilities.html
 ---
 
-<!--  TODO: add docs links -->
-
 Writing command line interfaces often involves more than just parsing
 the command line. Clikt also provides functions to perform actions
 commonly used in command line programs.
@@ -13,11 +11,12 @@ commonly used in command line programs.
 ## Launching Editors
 
 If you need to ask users for multi-line input, or need to have the user
-edit a file, you can do so through `TermUi.editText` and
-`TermUi.EditFile`. These functions open the program defined in the
-`VISUAL` or `EDITOR` environment variables, or a sensible default if
-neither are defined. The functions return the edited text if the user
-saved their changes.
+edit a file, you can do so through {% include apidoc.html pkg="output"
+class="term-ui" fun="edit-text" %} and {% include apidoc.html
+pkg="output" class="term-ui" fun="edit-file" %}. These functions open
+the program defined in the `VISUAL` or `EDITOR` environment variables,
+or a sensible default if neither are defined. The functions return the
+edited text if the user saved their changes.
 
 For example:
 
@@ -34,10 +33,12 @@ fun getCommitMessage(): String? {
 ## Input Prompts
 
 Options can [prompt for values automatically](options.html#prompting),
-but you can also do so manually with `TermUi.prompt`. By default, it
-accepts any input string, but you can also pass in a conversion
-function. If the conversion raises a `UsageError`, the prompt will ask
-the user to enter a different value.
+but you can also do so manually with {% include apidoc.html pkg="output"
+class="term-ui" fun="prompt" %}. By default, it accepts any input
+string, but you can also pass in a conversion function. If the
+conversion raises a {% include apidoc.html pkg="core"
+class="usage-error" %}, the prompt will ask the user to enter a
+different value.
 
 ```kotlin
 val input = TermUi.prompt("Enter a number") {
@@ -57,7 +58,8 @@ Twice your number is 22
 
 ## Confirmation Prompts
 
-You can also ask the user for a yes or no response with `TermUi.confirm`:
+You can also ask the user for a yes or no response with {% include
+apidoc.html pkg="output" class="term-ui" fun="confirm" %}:
 
 ```kotlin
 if (TermUi.confirm("Continue?") == true) {

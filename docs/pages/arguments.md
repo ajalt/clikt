@@ -4,18 +4,18 @@ sidebar: home_sidebar
 permalink: arguments.html
 ---
 
-<!--  TODO: add docs links -->
-
 Arguments are declared and customized similarly to
 [options](options.html), but are provided on the command line
-positionally instead of by name. Arguments are declared with
-`argument()`, and the order that they are declared defines the order
-that they must be provided on the command line.
+positionally instead of by name. Arguments are declared with {% include
+apidoc.html pkg="parameters.arguments" fun="argument" name="argument()"
+%}, and the order that they are declared defines the order that they
+must be provided on the command line.
 
 ## Basic Arguments
 
-By default, `argument()` takes a single `String` value which is required
-to be provided on the command line.
+By default, {% include apidoc.html pkg="parameters.arguments"
+fun="argument" %} takes a single `String` value which is required to be
+provided on the command line.
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -62,10 +62,13 @@ Options:
 
 ## Variadic Arguments
 
-Unlike [options](options.html), arguments can take a variable (or
-unlimited) number of values. This is especially common when taking file
-paths, since they are frequently expanded with a glob pattern on the
-command line.
+Like [options](options.html), arguments can take any fixed number of
+values, which you can change with functions like {% include apidoc.html
+pkg="parameters.arguments" fun="pair" %} and {% include apidoc.html
+pkg="parameters.arguments" fun="triple" %}. Unlike options, arguments
+can take a variable (or unlimited) number of values. This is especially
+common when taking file paths, since they are frequently expanded with a
+glob pattern on the command line.
 
 You can declare any number of arguments with fixed numbers of values,
 but only one variadic argument.

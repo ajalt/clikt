@@ -34,6 +34,11 @@ entries:
       output: web
       type: page
 
+    - title: Commands
+      url: /commands.html
+      output: web
+      type: page
+
     - title: Documenting Scripts
       url: /documenting.html
       output: web

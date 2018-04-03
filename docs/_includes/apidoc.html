@@ -1,4 +1,5 @@
 {%- assign names = include.class | split: "-" -%}
+{%- assign fnames = include.fun | split: "-" -%}
 <a href="api/clikt/com.github.ajalt.clikt.{{ include.pkg }}/
 {%- if include.class -%}
     -{{ include.class }}/
@@ -17,7 +18,10 @@
     {%- endfor -%}
     {%- if include.fun -%}
         {%- if include.class -%}.{%- endif -%}
-        {{include.fun}}
+        {{fnames[0]}}
+        {%- for it in fnames offset:1 -%}
+            {{it | capitalize}}
+        {%- endfor -%}
     {%- endif -%}
 {%- endif -%}
-</a>
+</a>{%- if false -%}this prevents adding an accidental newline here{%- endif -%}

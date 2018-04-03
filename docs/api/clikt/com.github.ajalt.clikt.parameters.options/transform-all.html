@@ -1,0 +1,19 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>transformAll - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="index.html">com.github.ajalt.clikt.parameters.options</a>&nbsp;/&nbsp;<a href="./transform-all.html">transformAll</a><br/>
+<br/>
+<h1>transformAll</h1>
+<a name="com.github.ajalt.clikt.parameters.options$transformAll(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.transformAll.EachT, com.github.ajalt.clikt.parameters.options.transformAll.EachT, com.github.ajalt.clikt.parameters.options.transformAll.ValueT)), kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.options.transformAll.EachT)), com.github.ajalt.clikt.parameters.options.transformAll.AllT)))"></a>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">, </span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="transform-all.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">transformAll</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$transformAll(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.transformAll.EachT, com.github.ajalt.clikt.parameters.options.transformAll.EachT, com.github.ajalt.clikt.parameters.options.transformAll.ValueT)), kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.options.transformAll.EachT)), com.github.ajalt.clikt.parameters.options.transformAll.AllT)))/transform">transform</span><span class="symbol">:</span>&nbsp;<a href="-calls-transformer.html"><span class="identifier">CallsTransformer</span></a><span class="symbol">&lt;</span><a href="transform-all.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="transform-all.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Transform all calls to the option to the final option type.</p>
+<p>The input is a list of calls, one for each time the option appears on the command line. The values in the
+list are the output of calls to <a href="transform-values.html">transformValues</a>. If the option does not appear from any source (command
+line or envvar), this will be called with an empty list.</p>
+<p>Used to implement functions like <a href="default.html">default</a> and <a href="multiple.html">multiple</a>.</p>
+</BODY>
+</HTML>

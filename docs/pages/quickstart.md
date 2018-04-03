@@ -13,8 +13,8 @@ Installation instructions can be found in the [README](/README.md).
 # Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
-inside of a [CliktCommand]<!-- TODO -->. The normal way to use Clikt is to forward
-`argv` from your `main` function to [CliktCommand.main]<!-- TODO -->.
+inside of a {% include apidoc.html pkg="core" class="clikt-command" %}. The normal way to use Clikt is to forward
+`argv` from your `main` function to {% include apidoc.html pkg="core" class="clikt-command" fun="main" %}.
 
 The simplest command with no parameters would look like this:
 
@@ -47,13 +47,17 @@ Options:
 
 ## Echoing
 
-Why does this example use [TermUi.echo]<!-- TODO --> instead of
+
+
+Why does this example use {% include apidoc.html pkg="output"
+name="term-ui" fun=echo %} instead of
 [println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
 Although `println` works, it can cause problems with multi-platform
-support. [TermUi.echo]<!-- TODO --> automatically translates line breaks into the
-line separator for the current platform. So you don't have to worry
-that some of your users will see mangled output because you didn't test
-on Windows.
+support. {% include apidoc.html pkg="output" class="term-ui" fun="echo"
+text="echo"%} automatically translates line breaks into the line
+separator for the current platform. So you don't have to worry that some
+of your users will see mangled output because you didn't test on
+Windows.
 
 ## Nesting Commands
 
@@ -107,8 +111,7 @@ Commands:
 
 ## Adding parameters
 
-To add parameters, use the [option] <!-- TODO --> and [argument] <!--
-TODO --> property delegates:
+To add parameters, use the {% include apidoc.html pkg="parameters.options" fun="option" %} and {% include apidoc.html pkg="parameters.arguments" fun="argument" %} property delegates:
 
 ```kotlin
 class Hello : CliktCommand() {

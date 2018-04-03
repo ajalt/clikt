@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OptionParser - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.parsers</a>&nbsp;/&nbsp;<a href="./index.html">OptionParser</a><br/>
+<br/>
+<h1>OptionParser</h1>
+<code><span class="keyword">interface </span><span class="identifier">OptionParser</span></code>
+<p>A parser for <a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a>s.</p>
+<p>All functions should be pure, since the same command instance can parse arguments multiple times.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-invocation/index.html">Invocation</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Invocation</span></code>
+<p>The input from a single instance of an option input.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-parse-result/index.html">ParseResult</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ParseResult</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="parse-long-opt.html">parseLongOpt</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">parseLongOpt</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseLongOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.String)/option">option</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseLongOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseLongOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.String)/argv">argv</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseLongOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.String)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseLongOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.String)/explicitValue">explicitValue</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="-parse-result/index.html"><span class="identifier">ParseResult</span></a></code>
+<p>Parse a single long option and its value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="parse-short-opt.html">parseShortOpt</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">parseShortOpt</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseShortOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)/option">option</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseShortOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseShortOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)/argv">argv</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseShortOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)/index">index</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parsers.OptionParser$parseShortOpt(com.github.ajalt.clikt.parameters.options.Option, kotlin.String, kotlin.collections.List((kotlin.String)), kotlin.Int, kotlin.Int)/optionIndex">optionIndex</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-parse-result/index.html"><span class="identifier">ParseResult</span></a></code>
+<p>Parse a single short option and its value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-flag-option-parser/index.html">FlagOptionParser</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">FlagOptionParser</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">OptionParser</span></a></code>
+<p>A parser for options that take no values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-option-with-values-parser/index.html">OptionWithValuesParser</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">OptionWithValuesParser</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">OptionParser</span></a></code>
+<p>An option that takes one more values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

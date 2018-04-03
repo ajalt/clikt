@@ -1,0 +1,108 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>IncorrectOptionValueCount - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.core</a>&nbsp;/&nbsp;<a href="./index.html">IncorrectOptionValueCount</a><br/>
+<br/>
+<h1>IncorrectOptionValueCount</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">IncorrectOptionValueCount</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-usage-error/index.html"><span class="identifier">UsageError</span></a></code>
+<p>An option was supplied but the number of values supplied to the option was incorrect.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">IncorrectOptionValueCount</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.IncorrectOptionValueCount$<init>(com.github.ajalt.clikt.parameters.options.Option, kotlin.String)/option">option</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.IncorrectOptionValueCount$<init>(com.github.ajalt.clikt.parameters.options.Option, kotlin.String)/givenName">givenName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span></code>
+<p>An option was supplied but the number of values supplied to the option was incorrect.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-usage-error/argument.html">argument</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">argument</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.parameters.arguments/-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">?</span></code>
+<p>The argument that caused this error. This may be set after the error is thrown.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-usage-error/message.html">message</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">message</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-usage-error/option.html">option</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">option</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">?</span></code>
+<p>The option that caused this error. This may be set after the error is thrown.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-usage-error/param-name.html">paramName</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">paramName</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>The name of the parameter that caused the error. If possible, this should be set to the
+actual name used. If not set, it will be inferred from <a href="../-usage-error/argument.html">argument</a> or <a href="../-usage-error/option.html">option</a> if either is set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-usage-error/text.html">text</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">text</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Extra text to add to the message. Not all subclasses uses this.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="format-message.html">formatMessage</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">formatMessage</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-usage-error/help-message.html">helpMessage</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">helpMessage</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.UsageError$helpMessage(com.github.ajalt.clikt.core.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-context/index.html"><span class="identifier">Context</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-usage-error/infer-param-name.html">inferParamName</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">inferParamName</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

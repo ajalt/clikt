@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TermUi.editText - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.output</a>&nbsp;/&nbsp;<a href="index.html">TermUi</a>&nbsp;/&nbsp;<a href="./edit-text.html">editText</a><br/>
+<br/>
+<h1>editText</h1>
+<a name="com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)"></a>
+<code><span class="keyword">fun </span><span class="identifier">editText</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/text">text</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/editor">editor</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/env">env</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;emptyMap()<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/requireSave">requireSave</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/extension">extension</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;".txt"<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Edit <a href="edit-text.html#com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/text">text</a> in the <a href="edit-text.html#com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/editor">editor</a>.</p>
+<p>This blocks until the editor is closed.</p>
+<h3>Parameters</h3>
+<p><a name="text"></a>
+<code>text</code> - The text to edit.</p>
+<p><a name="editor"></a>
+<code>editor</code> - The path to the editor to use. Defaults to automatic detection.</p>
+<p><a name="env"></a>
+<code>env</code> - Environment variables to forward to the editor.</p>
+<p><a name="requireSave"></a>
+<code>requireSave</code> - If true, null will be returned if the editor is closed without saving.</p>
+<p><a name="extension"></a>
+<code>extension</code> - The extension of the temporary file that the editor will open. This can affect syntax
+coloring etc.</p>
+<h3>Exceptions</h3>
+<p><a name="CliktError"></a>
+<code>CliktError</code> - if the editor cannot be opened.</p>
+<p><strong>Return</strong><br/>
+The edited text, or null if <a href="edit-text.html#com.github.ajalt.clikt.output.TermUi$editText(kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Boolean, kotlin.String)/requireSave">requireSave</a> is true and the editor was closed without saving.</p>
+</BODY>
+</HTML>

@@ -1,0 +1,270 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CliktCommand - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.core</a>&nbsp;/&nbsp;<a href="./index.html">CliktCommand</a><br/>
+<br/>
+<h1>CliktCommand</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">CliktCommand</span></code>
+<p>The <a href="./index.html">CliktCommand</a> is the core of command line interfaces in Clikt.</p>
+<p>Command line interfaces created by creating a subclass of <a href="./index.html">CliktCommand</a> with properties defined with
+<a href="../../com.github.ajalt.clikt.parameters.options/option.html">option</a> and <a href="../../com.github.ajalt.clikt.parameters.arguments/argument.html">argument</a>. You can then parse <code>argv</code> by calling <a href="main.html">main</a>, which will take care of printing
+errors and help to the user. If you want to handle output yourself, you can use <a href="parse.html">parse</a> instead.</p>
+<p>Once the command line has been parsed and all of the parameters are populated, <a href="run.html">run</a> is called.</p>
+<h3>Parameters</h3>
+<p><a name="help"></a>
+<code>help</code> - The help for this command. The first line is used in the usage string, and the entire string is
+used in the help output. Paragraphs are automatically re-wrapped to the terminal width.</p>
+<p><a name="epilog"></a>
+<code>epilog</code> - Text to display at the end of the full help output. It is automatically re-wrapped to the
+terminal width.</p>
+<p><a name="name"></a>
+<code>name</code> - The name of the program to use in the help output. If not given, it is inferred from the class
+name.</p>
+<p><a name="invokeWithoutSubcommand"></a>
+<code>invokeWithoutSubcommand</code> - Used when this command has subcommands, and this command is called
+without a subcommand. If true, <a href="run.html">run</a> will be called. By default, a <a href="../-print-help-message/index.html">PrintHelpMessage</a> is thrown instead.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">CliktCommand</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/epilog">epilog</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/invokeWithoutSubcommand">invokeWithoutSubcommand</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span></code>
+<p>The <a href="./index.html">CliktCommand</a> is the core of command line interfaces in Clikt.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="command-help.html">commandHelp</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commandHelp</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="command-help-epilog.html">commandHelpEpilog</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commandHelpEpilog</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="command-name.html">commandName</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commandName</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="context.html">context</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">context</span><span class="symbol">: </span><a href="../-context/index.html"><span class="identifier">Context</span></a></code>
+<p>This command's context.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="invoke-without-subcommand.html">invokeWithoutSubcommand</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">invokeWithoutSubcommand</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Used when this command has subcommands, and this command is called
+without a subcommand. If true, <a href="run.html">run</a> will be called. By default, a <a href="../-print-help-message/index.html">PrintHelpMessage</a> is thrown instead.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="aliases.html">aliases</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">aliases</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>A list of command aliases.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-formatted-help.html">getFormattedHelp</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getFormattedHelp</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Return the full help string for this command.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-formatted-usage.html">getFormattedUsage</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getFormattedUsage</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Return the usage string for this command.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="main.html">main</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">main</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$main(kotlin.Array((kotlin.String)))/argv">argv</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Parse the command line and print helpful output if any errors occur.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="parse.html">parse</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$parse(kotlin.Array((kotlin.String)), com.github.ajalt.clikt.core.Context)/argv">argv</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$parse(kotlin.Array((kotlin.String)), com.github.ajalt.clikt.core.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../-context/index.html"><span class="identifier">Context</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Parse the command line and throw an exception if parsing fails.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register-argument.html">registerArgument</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerArgument</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$registerArgument(com.github.ajalt.clikt.parameters.arguments.Argument)/argument">argument</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.parameters.arguments/-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Register an argument with this command.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register-option.html">registerOption</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerOption</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$registerOption(com.github.ajalt.clikt.parameters.options.Option)/option">option</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Register an option with this command.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="registered-subcommand-names.html">registeredSubcommandNames</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registeredSubcommandNames</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>The names of all direct children of this command</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="run.html">run</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">run</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Perform actions after parsing is complete and this command is invoked.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="short-help.html">shortHelp</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">shortHelp</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The help displayed in the commands list when this command is used as a subcommand.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.github.ajalt.clikt.parameters.arguments/argument.html">argument</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">argument</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$argument(com.github.ajalt.clikt.core.CliktCommand, kotlin.String, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$argument(com.github.ajalt.clikt.core.CliktCommand, kotlin.String, kotlin.String)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">RawArgument</span></code>
+<p>Create a property delegate argument.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../context.html">context</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">&gt;</span> <a href="../context.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="identifier">context</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core$context(com.github.ajalt.clikt.core.context.T, kotlin.Function1((com.github.ajalt.clikt.core.Context.Builder, kotlin.Unit)))/block">block</span><span class="symbol">:</span>&nbsp;<a href="../-context/-builder/index.html"><span class="identifier">Builder</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../context.html#T"><span class="identifier">T</span></a></code>
+<p>Configure this command's <a href="../-context/index.html">Context</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../find-object.html">findObject</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">findObject</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="../find-object.html#T"><span class="identifier">T</span></a><span class="symbol">?</span><span class="symbol">&gt;</span></code>
+<p>Find the closest object of type <a href="../find-object.html#T">T</a>, or null</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">findObject</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core$findObject(com.github.ajalt.clikt.core.CliktCommand, kotlin.Function0((com.github.ajalt.clikt.core.findObject.T)))/default">default</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../find-object.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="../find-object.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Find the closest object of type <a href="../find-object.html#T">T</a>, setting <code>context.</code><a href="#">obj</a> if one is not found.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.github.ajalt.clikt.parameters.options/option.html">option</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">option</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/metavar">metavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/hidden">hidden</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/envvar">envvar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option.html"><span class="identifier">RawOption</span></a></code>
+<p>Create a property delegate option.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../require-object.html">requireObject</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">requireObject</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="../require-object.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Find the closest object of type <a href="../require-object.html#T">T</a>, or throw a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-null-pointer-exception/index.html">NullPointerException</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../subcommands.html">subcommands</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">&gt;</span> <a href="../subcommands.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="identifier">subcommands</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core$subcommands(com.github.ajalt.clikt.core.subcommands.T, kotlin.collections.Iterable((com.github.ajalt.clikt.core.CliktCommand)))/commands">commands</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html"><span class="identifier">Iterable</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../subcommands.html#T"><span class="identifier">T</span></a></code><br/>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">&gt;</span> <a href="../subcommands.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="identifier">subcommands</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.ajalt.clikt.core$subcommands(com.github.ajalt.clikt.core.subcommands.T, kotlin.Array((com.github.ajalt.clikt.core.CliktCommand)))/commands">commands</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../subcommands.html#T"><span class="identifier">T</span></a></code>
+<p>Add the given commands as a subcommand of this command.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.github.ajalt.clikt.parameters.options/version-option.html">versionOption</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">&gt;</span> <a href="../../com.github.ajalt.clikt.parameters.options/version-option.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="identifier">versionOption</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/version">version</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Show the version and exit."<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;setOf("--version")<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/message">message</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{ "$commandName version $it" }<span class="symbol">)</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.parameters.options/version-option.html#T"><span class="identifier">T</span></a></code>
+<p>Add an eager option to this command that, when invoked, prints a version message and exits.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-no-run-clikt-command/index.html">NoRunCliktCommand</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">NoRunCliktCommand</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a></code>
+<p>A <a href="./index.html">CliktCommand</a> that has a default implementation of <a href="run">CliktCommand.run</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

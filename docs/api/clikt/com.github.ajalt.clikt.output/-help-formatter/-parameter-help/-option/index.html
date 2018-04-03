@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>HelpFormatter.ParameterHelp.Option - clikt</title>
+<link rel="stylesheet" href="..\..\..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../../../index.html">com.github.ajalt.clikt.output</a>&nbsp;/&nbsp;<a href="../../index.html">HelpFormatter</a>&nbsp;/&nbsp;<a href="../index.html">ParameterHelp</a>&nbsp;/&nbsp;<a href="./index.html">Option</a><br/>
+<br/>
+<h1>Option</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Option</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../index.html"><span class="identifier">ParameterHelp</span></a></code>
+<h3>Parameters</h3>
+<p><a name="names"></a>
+<code>names</code> - The names that can be used to invoke this option</p>
+<p><a name="secondaryNames"></a>
+<code>secondaryNames</code> - Secondary names that can be used to e.g. disable the option</p>
+<p><a name="metavar"></a>
+<code>metavar</code> - The metavar to display for the option if it takes values</p>
+<p><a name="help"></a>
+<code>help</code> - The option's description</p>
+<p><a name="nvalues"></a>
+<code>nvalues</code> - The number of values that this option takes</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Option</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Option$<init>(kotlin.collections.Set((kotlin.String)), kotlin.collections.Set((kotlin.String)), kotlin.String, kotlin.String, kotlin.Int)/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Option$<init>(kotlin.collections.Set((kotlin.String)), kotlin.collections.Set((kotlin.String)), kotlin.String, kotlin.String, kotlin.Int)/secondaryNames">secondaryNames</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Option$<init>(kotlin.collections.Set((kotlin.String)), kotlin.collections.Set((kotlin.String)), kotlin.String, kotlin.String, kotlin.Int)/metavar">metavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Option$<init>(kotlin.collections.Set((kotlin.String)), kotlin.collections.Set((kotlin.String)), kotlin.String, kotlin.String, kotlin.Int)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Option$<init>(kotlin.collections.Set((kotlin.String)), kotlin.collections.Set((kotlin.String)), kotlin.String, kotlin.String, kotlin.Int)/nvalues">nvalues</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="help.html">help</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">help</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The option's description</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="metavar.html">metavar</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">metavar</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>The metavar to display for the option if it takes values</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="names.html">names</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">names</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>The names that can be used to invoke this option</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="nvalues.html">nvalues</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">nvalues</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>The number of values that this option takes</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="secondary-names.html">secondaryNames</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">secondaryNames</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>Secondary names that can be used to e.g. disable the option</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

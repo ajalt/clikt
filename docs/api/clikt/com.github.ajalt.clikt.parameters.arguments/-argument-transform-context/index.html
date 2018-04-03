@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ArgumentTransformContext - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.parameters.arguments</a>&nbsp;/&nbsp;<a href="./index.html">ArgumentTransformContext</a><br/>
+<br/>
+<h1>ArgumentTransformContext</h1>
+<code><span class="keyword">class </span><span class="identifier">ArgumentTransformContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-argument/index.html"><span class="identifier">Argument</span></a></code>
+<p>A receiver for argument transformers.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">ArgumentTransformContext</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$<init>(com.github.ajalt.clikt.parameters.arguments.Argument, com.github.ajalt.clikt.core.Context)/argument">argument</span><span class="symbol">:</span>&nbsp;<a href="../-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$<init>(com.github.ajalt.clikt.parameters.arguments.Argument, com.github.ajalt.clikt.core.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.core/-context/index.html"><span class="identifier">Context</span></a><span class="symbol">)</span></code>
+<p>A receiver for argument transformers.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="argument.html">argument</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">argument</span><span class="symbol">: </span><a href="../-argument/index.html"><span class="identifier">Argument</span></a></code>
+<p>The argument that was invoked</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="context.html">context</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">context</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html"><span class="identifier">Context</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="fail.html">fail</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">fail</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$fail(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing/index.html"><span class="identifier">Nothing</span></a></code>
+<p>Throw an exception indicating that usage was incorrect.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="require.html">require</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">require</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$require(kotlin.Boolean, kotlin.Function0((kotlin.String)))/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$require(kotlin.Boolean, kotlin.Function0((kotlin.String)))/lazyMessage">lazyMessage</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{ "invalid value" }<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>If <a href="require.html#com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$require(kotlin.Boolean, kotlin.Function0((kotlin.String)))/value">value</a> is false, call <a href="fail.html">fail</a> with the output of <a href="require.html#com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext$require(kotlin.Boolean, kotlin.Function0((kotlin.String)))/lazyMessage">lazyMessage</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

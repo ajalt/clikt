@@ -1,5 +1,9 @@
 apply plugin: 'org.jetbrains.dokka'
 
+dokka {
+    outputDirectory = "$rootDir/docs/api"
+}
+
 task javadocJar(type: Jar, dependsOn: dokka) {
     classifier = 'javadoc'
     from dokka.outputDirectory

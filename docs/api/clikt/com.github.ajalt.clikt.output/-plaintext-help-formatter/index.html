@@ -1,0 +1,186 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>PlaintextHelpFormatter - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.output</a>&nbsp;/&nbsp;<a href="./index.html">PlaintextHelpFormatter</a><br/>
+<br/>
+<h1>PlaintextHelpFormatter</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">PlaintextHelpFormatter</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-help-formatter/index.html"><span class="identifier">HelpFormatter</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">PlaintextHelpFormatter</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/indent">indent</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"  "<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/width">width</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/maxWidth">maxWidth</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;78<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/maxColWidth">maxColWidth</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/usageTitle">usageTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Usage:"<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/optionsTitle">optionsTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Options:"<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/argumentsTitle">argumentsTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Arguments:"<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/commandsTitle">commandsTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Commands:"<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/optionsMetavar">optionsMetavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"[OPTIONS]"<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/commandMetavar">commandMetavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"COMMAND [ARGS]..."<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$<init>(kotlin.String, kotlin.Int, kotlin.Int, kotlin.Int, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.Int)/colSpacing">colSpacing</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;2<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="arguments-title.html">argumentsTitle</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">argumentsTitle</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="col-spacing.html">colSpacing</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">colSpacing</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="command-metavar.html">commandMetavar</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commandMetavar</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="commands-title.html">commandsTitle</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">commandsTitle</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="indent.html">indent</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">indent</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="max-col-width.html">maxColWidth</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">maxColWidth</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="options-metavar.html">optionsMetavar</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">optionsMetavar</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="options-title.html">optionsTitle</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">optionsTitle</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="usage-title.html">usageTitle</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">usageTitle</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="width.html">width</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">width</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="add-arguments.html">addArguments</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">addArguments</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addArguments(java.lang.StringBuilder, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)))/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-help-formatter/-parameter-help/index.html"><span class="identifier">ParameterHelp</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="add-commands.html">addCommands</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">addCommands</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addCommands(java.lang.StringBuilder, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)))/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-help-formatter/-parameter-help/index.html"><span class="identifier">ParameterHelp</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="add-epilog.html">addEpilog</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">addEpilog</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addEpilog(java.lang.StringBuilder, kotlin.String)/epilog">epilog</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="add-options.html">addOptions</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">addOptions</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addOptions(java.lang.StringBuilder, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)))/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-help-formatter/-parameter-help/index.html"><span class="identifier">ParameterHelp</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="add-prolog.html">addProlog</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">addProlog</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addProlog(java.lang.StringBuilder, kotlin.String)/prolog">prolog</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="add-usage.html">addUsage</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">addUsage</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addUsage(java.lang.StringBuilder, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-help-formatter/-parameter-help/index.html"><span class="identifier">ParameterHelp</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$addUsage(java.lang.StringBuilder, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/programName">programName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="append-definition-list.html">appendDefinitionList</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-string-builder/index.html"><span class="identifier">StringBuilder</span></a><span class="symbol">.</span><span class="identifier">appendDefinitionList</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$appendDefinitionList(java.lang.StringBuilder, kotlin.collections.List((kotlin.Pair((kotlin.String, )))))/rows">rows</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="format-help.html">formatHelp</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">formatHelp</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$formatHelp(kotlin.String, kotlin.String, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/prolog">prolog</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$formatHelp(kotlin.String, kotlin.String, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/epilog">epilog</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$formatHelp(kotlin.String, kotlin.String, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-help-formatter/-parameter-help/index.html"><span class="identifier">ParameterHelp</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$formatHelp(kotlin.String, kotlin.String, kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/programName">programName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Create the full help string.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="format-usage.html">formatUsage</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">formatUsage</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$formatUsage(kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../-help-formatter/-parameter-help/index.html"><span class="identifier">ParameterHelp</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$formatUsage(kotlin.collections.List((com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp)), kotlin.String)/programName">programName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Create the one-line usage information for a command.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="join-option-names.html">joinOptionNames</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">joinOptionNames</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$joinOptionNames(kotlin.collections.Set((kotlin.String)))/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="option-metavar.html">optionMetavar</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">optionMetavar</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.PlaintextHelpFormatter$optionMetavar(com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp.Option)/option">option</span><span class="symbol">:</span>&nbsp;<a href="../-help-formatter/-parameter-help/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

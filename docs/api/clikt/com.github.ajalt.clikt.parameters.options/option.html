@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>option - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="index.html">com.github.ajalt.clikt.parameters.options</a>&nbsp;/&nbsp;<a href="./option.html">option</a><br/>
+<br/>
+<h1>option</h1>
+<a name="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)"></a>
+<code><span class="keyword">fun </span><a href="../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">option</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/metavar">metavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/hidden">hidden</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/envvar">envvar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="-raw-option.html"><span class="identifier">RawOption</span></a></code>
+<p>Create a property delegate option.</p>
+<p>By default, the property will return null if the option does not appear on the command line. If the option
+is invoked multiple times, the value from the last invocation will be used The option can be modified with
+functions like <a href="../com.github.ajalt.clikt.parameters.types/int.html">int</a>, <a href="paired.html">paired</a>, and <a href="multiple.html">multiple</a>.</p>
+<h3>Parameters</h3>
+<p><a name="names"></a>
+<code>names</code> - The names that can be used to invoke this option. They must start with a punctuation character.
+If not given, a name is inferred from the property name.</p>
+<p><a name="help"></a>
+<code>help</code> - The description of this option, usually a single line.</p>
+<p><a name="metavar"></a>
+<code>metavar</code> - A name representing the values for this option that can be displayed to the user.
+Automatically inferred from the type.</p>
+<p><a name="hidden"></a>
+<code>hidden</code> - Hide this option from help outputs.</p>
+<p><a name="envvar"></a>
+<code>envvar</code> - The environment variable that will be used for the value if one is not given on the command
+line.</p>
+</BODY>
+</HTML>

@@ -1,0 +1,23 @@
+{%- assign names = include.class | split: "-" -%}
+<a href="api/clikt/com.github.ajalt.clikt.{{ include.pkg }}/
+{%- if include.class -%}
+    -{{ include.class }}/
+{%- endif -%}
+{%- if {{include.fun}} -%}
+    {{include.fun}}
+{%- else -%}
+    index
+{%-endif-%}
+.html">
+{%- if include.text -%}
+    {{include.text}}
+{%- else -%}
+    {%- for it in names -%}
+        {{ it | capitalize }}
+    {%- endfor -%}
+    {%- if include.fun -%}
+        {%- if include.class -%}.{%- endif -%}
+        {{include.fun}}
+    {%- endif -%}
+{%- endif -%}
+</a>

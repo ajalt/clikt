@@ -1,0 +1,279 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>com.github.ajalt.clikt.parameters.options - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="./index.html">com.github.ajalt.clikt.parameters.options</a><br/>
+<br/>
+<h2>Package com.github.ajalt.clikt.parameters.options</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-eager-option/index.html">EagerOption</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">EagerOption</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-option/index.html"><span class="identifier">Option</span></a></code>
+<p>An <a href="-option/index.html">Option</a> with no values that is <a href="-eager-option/finalize.html">finalize</a>d before other types of options.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-flag-option/index.html">FlagOption</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">FlagOption</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-option-delegate/index.html"><span class="identifier">OptionDelegate</span></a><span class="symbol">&lt;</span><a href="-flag-option/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>An <a href="-option/index.html">Option</a> that has no values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-option/index.html">Option</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Option</span></code>
+<p>An optional command line parameter that takes a fixed number of values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-option-call-transform-context/index.html">OptionCallTransformContext</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OptionCallTransformContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-option/index.html"><span class="identifier">Option</span></a></code>
+<p>A receiver for options transformers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-option-delegate/index.html">OptionDelegate</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">OptionDelegate</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-option/index.html"><span class="identifier">Option</span></a><span class="symbol">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="-option-delegate/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>An option that functions as a property delegate</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-option-transform-context/index.html">OptionTransformContext</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OptionTransformContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-option/index.html"><span class="identifier">Option</span></a></code>
+<p>A receiver for options transformers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-option-with-values/index.html">OptionWithValues</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OptionWithValues</span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">, </span><span class="identifier">EachT</span><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-option-delegate/index.html"><span class="identifier">OptionDelegate</span></a><span class="symbol">&lt;</span><a href="-option-with-values/index.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span></code>
+<p>An <a href="-option/index.html">Option</a> that takes one or more values.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Type Aliases</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-args-transformer.html">ArgsTransformer</a></p>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">ArgsTransformer</span><span class="symbol">&lt;</span><span class="identifier">ValueT</span><span class="symbol">, </span><span class="identifier">EachT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-option-call-transform-context/index.html"><span class="identifier">OptionCallTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="-args-transformer.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-args-transformer.html#EachT"><span class="identifier">EachT</span></a></code>
+<p>A callback that transforms all the values for a call to the call type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-calls-transformer.html">CallsTransformer</a></p>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">CallsTransformer</span><span class="symbol">&lt;</span><span class="identifier">EachT</span><span class="symbol">, </span><span class="identifier">AllT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-option-transform-context/index.html"><span class="identifier">OptionTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="-calls-transformer.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-calls-transformer.html#AllT"><span class="identifier">AllT</span></a></code>
+<p>A callback that transforms all of the calls to the final option type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-nullable-option.html">NullableOption</a></p>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">NullableOption</span><span class="symbol">&lt;</span><span class="identifier">EachT</span><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="-nullable-option.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">?</span><span class="symbol">,</span>&nbsp;<a href="-nullable-option.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="-nullable-option.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-option-validator.html">OptionValidator</a></p>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">OptionValidator</span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-option-transform-context/index.html"><span class="identifier">OptionTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="-option-validator.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>A callback validates the final option type</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-raw-option.html">RawOption</a></p>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">RawOption</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-value-transformer.html">ValueTransformer</a></p>
+</td>
+<td>
+<code><span class="keyword">typealias </span><span class="identifier">ValueTransformer</span><span class="symbol">&lt;</span><span class="identifier">ValueT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-option-call-transform-context/index.html"><span class="identifier">OptionCallTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-value-transformer.html#ValueT"><span class="identifier">ValueT</span></a></code>
+<p>A callback that transforms a single value from a string to the value type</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="convert.html">convert</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-raw-option.html"><span class="identifier">RawOption</span></a><span class="symbol">.</span><span class="identifier">convert</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String, kotlin.text.Regex, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, kotlin.String, com.github.ajalt.clikt.parameters.options.convert.T)))/metavar">metavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"VALUE"<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String, kotlin.text.Regex, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, kotlin.String, com.github.ajalt.clikt.parameters.options.convert.T)))/envvarSplit">envvarSplit</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><span class="identifier">Regex</span></a>&nbsp;<span class="symbol">=</span>&nbsp;this.envvarSplit<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String, kotlin.text.Regex, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, kotlin.String, com.github.ajalt.clikt.parameters.options.convert.T)))/conversion">conversion</span><span class="symbol">:</span>&nbsp;<a href="-value-transformer.html"><span class="identifier">ValueTransformer</span></a><span class="symbol">&lt;</span><a href="convert.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="convert.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="convert.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Convert the option value type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="counted.html">counted</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="-raw-option.html"><span class="identifier">RawOption</span></a><span class="symbol">.</span><span class="identifier">counted</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">&gt;</span></code>
+<p>Turn an option into a flag that counts the number of times the option occurs on the command line.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="default.html">default</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">?</span><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">default</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.default.T)), com.github.ajalt.clikt.parameters.options.default.T)/value">value</span><span class="symbol">:</span>&nbsp;<a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Set a default value for a option.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="default.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="default.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">default</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.ValueT)), com.github.ajalt.clikt.parameters.options.default.EachT)/value">value</span><span class="symbol">:</span>&nbsp;<a href="default.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="default.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="default.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="default.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>If the option is not called on the command line (and is not set in an envvar), use <a href="default.html#com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.ValueT)), com.github.ajalt.clikt.parameters.options.default.EachT)/value">value</a> for the option.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="flag.html">flag</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="-raw-option.html"><span class="identifier">RawOption</span></a><span class="symbol">.</span><span class="identifier">flag</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.options$flag(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.Array((kotlin.String)), kotlin.Boolean)/secondaryNames">secondaryNames</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$flag(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.Array((kotlin.String)), kotlin.Boolean)/default">default</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span><span class="symbol">: </span><a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">&gt;</span></code>
+<p>Turn an option into a boolean flag.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="multiple.html">multiple</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="multiple.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="multiple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">multiple</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="multiple.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="multiple.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="multiple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Make the option return a list of calls; each item in the list is the value of one call.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="option.html">option</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><a href="../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">option</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/metavar">metavar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/hidden">hidden</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.CliktCommand, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String)/envvar">envvar</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="-raw-option.html"><span class="identifier">RawOption</span></a></code>
+<p>Create a property delegate option.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="paired.html">paired</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="paired.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="paired.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">paired</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="paired.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">,</span>&nbsp;<a href="paired.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="paired.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Change to option to take two values, held in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="prompt.html">prompt</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="prompt.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="prompt.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">prompt</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/text">text</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/default">default</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/hideInput">hideInput</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/requireConfirmation">requireConfirmation</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/confirmationPrompt">confirmationPrompt</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Repeat for confirmation: "<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/promptSuffix">promptSuffix</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;": "<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$prompt(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.prompt.T, com.github.ajalt.clikt.parameters.options.prompt.T, )), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/showDefault">showDefault</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="prompt.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="prompt.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="prompt.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>If the option isn't given on the command line, prompt the user for manual input.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="required.html">required</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="required.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="required.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">required</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="required.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="required.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="required.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../com.github.ajalt.clikt.core/-missing-parameter/index.html">MissingParameter</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="switch.html">switch</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-raw-option.html"><span class="identifier">RawOption</span></a><span class="symbol">.</span><span class="identifier">switch</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$switch(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.collections.Map((kotlin.String, com.github.ajalt.clikt.parameters.options.switch.T)))/choices">choices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="switch.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="switch.html#T"><span class="identifier">T</span></a><span class="symbol">?</span><span class="symbol">&gt;</span></code><br/>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-raw-option.html"><span class="identifier">RawOption</span></a><span class="symbol">.</span><span class="identifier">switch</span><span class="symbol">(</span><span class="keyword">vararg</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.options$switch(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.Array((kotlin.Pair((kotlin.String, com.github.ajalt.clikt.parameters.options.switch.T)))))/choices">choices</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="switch.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="switch.html#T"><span class="identifier">T</span></a><span class="symbol">?</span><span class="symbol">&gt;</span></code>
+<p>Turn an option into a set of flags that each map to a value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="transform-all.html">transformAll</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">, </span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="transform-all.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">transformAll</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$transformAll(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.transformAll.EachT, com.github.ajalt.clikt.parameters.options.transformAll.EachT, com.github.ajalt.clikt.parameters.options.transformAll.ValueT)), kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.options.transformAll.EachT)), com.github.ajalt.clikt.parameters.options.transformAll.AllT)))/transform">transform</span><span class="symbol">:</span>&nbsp;<a href="-calls-transformer.html"><span class="identifier">CallsTransformer</span></a><span class="symbol">&lt;</span><a href="transform-all.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="transform-all.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Transform all calls to the option to the final option type.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="transform-values.html">transformValues</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachInT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">EachOutT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="transform-values.html#EachInT"><span class="identifier">EachInT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-values.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">transformValues</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$transformValues(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.transformValues.EachInT, com.github.ajalt.clikt.parameters.options.transformValues.EachInT, com.github.ajalt.clikt.parameters.options.transformValues.ValueT)), kotlin.Int, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.options.transformValues.ValueT)), com.github.ajalt.clikt.parameters.options.transformValues.EachOutT)))/nvalues">nvalues</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$transformValues(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.transformValues.EachInT, com.github.ajalt.clikt.parameters.options.transformValues.EachInT, com.github.ajalt.clikt.parameters.options.transformValues.ValueT)), kotlin.Int, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.options.transformValues.ValueT)), com.github.ajalt.clikt.parameters.options.transformValues.EachOutT)))/transform">transform</span><span class="symbol">:</span>&nbsp;<a href="-args-transformer.html"><span class="identifier">ArgsTransformer</span></a><span class="symbol">&lt;</span><a href="transform-values.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-values.html#EachOutT"><span class="identifier">EachOutT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="transform-values.html#EachOutT"><span class="identifier">EachOutT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-values.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Change the number of values that this option takes.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="triple.html">triple</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="triple.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">triple</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><span class="identifier">Triple</span></a><span class="symbol">&lt;</span><a href="triple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="triple.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Change to option to take three values, held in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="validate.html">validate</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-flag-option/index.html"><span class="identifier">FlagOption</span></a><span class="symbol">&lt;</span><a href="validate.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">validate</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$validate(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.validate.T)), kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.validate.T, kotlin.Unit)))/validator">validator</span><span class="symbol">:</span>&nbsp;<a href="-option-validator.html"><span class="identifier">OptionValidator</span></a><span class="symbol">&lt;</span><a href="validate.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-option-delegate/index.html"><span class="identifier">OptionDelegate</span></a><span class="symbol">&lt;</span><a href="validate.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code><br/>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">AllT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">EachT</span><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="validate.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">,</span>&nbsp;<a href="validate.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="validate.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">validate</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$validate(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.validate.AllT, com.github.ajalt.clikt.parameters.options.validate.EachT, com.github.ajalt.clikt.parameters.options.validate.ValueT)), kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.validate.AllT, kotlin.Unit)))/validator">validator</span><span class="symbol">:</span>&nbsp;<a href="-option-validator.html"><span class="identifier">OptionValidator</span></a><span class="symbol">&lt;</span><a href="validate.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-option-delegate/index.html"><span class="identifier">OptionDelegate</span></a><span class="symbol">&lt;</span><a href="validate.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span></code>
+<p>Check the final option value and raise an error if it's not valid.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="version-option.html">versionOption</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">&gt;</span> <a href="version-option.html#T"><span class="identifier">T</span></a><span class="symbol">.</span><span class="identifier">versionOption</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/version">version</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"Show the version and exit."<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/names">names</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;setOf("--version")<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options$versionOption(com.github.ajalt.clikt.parameters.options.versionOption.T, kotlin.String, kotlin.String, kotlin.collections.Set((kotlin.String)), kotlin.Function1((kotlin.String, )))/message">message</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{ "$commandName version $it" }<span class="symbol">)</span><span class="symbol">: </span><a href="version-option.html#T"><span class="identifier">T</span></a></code>
+<p>Add an eager option to this command that, when invoked, prints a version message and exits.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

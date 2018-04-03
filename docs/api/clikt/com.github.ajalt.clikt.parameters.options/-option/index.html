@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Option - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.parameters.options</a>&nbsp;/&nbsp;<a href="./index.html">Option</a><br/>
+<br/>
+<h1>Option</h1>
+<code><span class="keyword">interface </span><span class="identifier">Option</span></code>
+<p>An optional command line parameter that takes a fixed number of values.</p>
+<p>Options can take any fixed number of values, including 0.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="help.html">help</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">help</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The description of this option, usually a single line.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="hidden.html">hidden</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">hidden</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>If true, this option should not appear in help output.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="metavar.html">metavar</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">metavar</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>A name representing the values for this option that can be displayed to the user.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="names.html">names</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">names</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>The names that can be used to invoke this option. They must start with a punctuation character.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="nvalues.html">nvalues</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">nvalues</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>The number of values that must be given to this option.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="parameter-help.html">parameterHelp</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">parameterHelp</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-option/index.html"><span class="identifier">Option</span></a><span class="symbol">?</span></code>
+<p>Information about this option for the help output.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="parser.html">parser</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">parser</span><span class="symbol">: </span><a href="../../com.github.ajalt.clikt.parsers/-option-parser/index.html"><span class="identifier">OptionParser</span></a></code>
+<p>The parser for this option's values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="secondary-names.html">secondaryNames</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">secondaryNames</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>Names that can be used for a secondary purpose, like disabling flag options.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="finalize.html">finalize</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">finalize</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.options.Option$finalize(com.github.ajalt.clikt.core.Context, kotlin.collections.List((com.github.ajalt.clikt.parsers.OptionParser.Invocation)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="../../com.github.ajalt.clikt.core/-context/index.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.options.Option$finalize(com.github.ajalt.clikt.core.Context, kotlin.collections.List((com.github.ajalt.clikt.parsers.OptionParser.Invocation)))/invocations">invocations</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/index.html"><span class="identifier">Invocation</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called after this command's argv is parsed to transform and store the option's value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-eager-option/index.html">EagerOption</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">EagerOption</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Option</span></a></code>
+<p>An <a href="./index.html">Option</a> with no values that is <a href="../-eager-option/finalize.html">finalize</a>d before other types of options.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-option-call-transform-context/index.html">OptionCallTransformContext</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OptionCallTransformContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Option</span></a></code>
+<p>A receiver for options transformers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-option-delegate/index.html">OptionDelegate</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">OptionDelegate</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Option</span></a><span class="symbol">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="../../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="../-option-delegate/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>An option that functions as a property delegate</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-option-transform-context/index.html">OptionTransformContext</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OptionTransformContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Option</span></a></code>
+<p>A receiver for options transformers.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

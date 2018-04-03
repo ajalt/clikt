@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>TermUi.confirm - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.output</a>&nbsp;/&nbsp;<a href="index.html">TermUi</a>&nbsp;/&nbsp;<a href="./confirm.html">confirm</a><br/>
+<br/>
+<h1>confirm</h1>
+<a name="com.github.ajalt.clikt.output.TermUi$confirm(kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.Boolean)"></a>
+<code><span class="keyword">fun </span><span class="identifier">confirm</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$confirm(kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.Boolean)/text">text</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$confirm(kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.Boolean)/default">default</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$confirm(kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.Boolean)/abort">abort</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$confirm(kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.Boolean)/promptSuffix">promptSuffix</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;": "<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.output.TermUi$confirm(kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.Boolean)/showDefault">showDefault</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;true<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">?</span></code>
+<p>Prompt for user confirmation.</p>
+<p>Responses will be read from stdin, even if it's redirected to a file.</p>
+<h3>Parameters</h3>
+<p><a name="text"></a>
+<code>text</code> - the question to ask</p>
+<p><a name="default"></a>
+<code>default</code> - the default, used if stdin is empty</p>
+<p><a name="abort"></a>
+<code>abort</code> - if <code>true</code>, a negative answer aborts the program by raising <a href="../../com.github.ajalt.clikt.core/-abort/index.html">Abort</a></p>
+<p><a name="promptSuffix"></a>
+<code>promptSuffix</code> - a string added after the question and choices</p>
+<p><a name="showDefault"></a>
+<code>showDefault</code> - if false, the choices will not be shown in the prompt.</p>
+<p><strong>Return</strong><br/>
+the user's response, or null if stdin is not interactive and EOF was encountered.</p>
+</BODY>
+</HTML>

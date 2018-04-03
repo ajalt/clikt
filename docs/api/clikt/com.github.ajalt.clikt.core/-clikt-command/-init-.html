@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CliktCommand.<init> - clikt</title>
+<link rel="stylesheet" href="..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../index.html">com.github.ajalt.clikt.core</a>&nbsp;/&nbsp;<a href="index.html">CliktCommand</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="com.github.ajalt.clikt.core.CliktCommand$&lt;init&gt;(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)"></a>
+<code><span class="identifier">CliktCommand</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/epilog">epilog</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.CliktCommand$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.Boolean)/invokeWithoutSubcommand">invokeWithoutSubcommand</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span></code>
+<p>The <a href="index.html">CliktCommand</a> is the core of command line interfaces in Clikt.</p>
+<p>Command line interfaces created by creating a subclass of <a href="index.html">CliktCommand</a> with properties defined with
+<a href="../../com.github.ajalt.clikt.parameters.options/option.html">option</a> and <a href="../../com.github.ajalt.clikt.parameters.arguments/argument.html">argument</a>. You can then parse <code>argv</code> by calling <a href="main.html">main</a>, which will take care of printing
+errors and help to the user. If you want to handle output yourself, you can use <a href="parse.html">parse</a> instead.</p>
+<p>Once the command line has been parsed and all of the parameters are populated, <a href="run.html">run</a> is called.</p>
+<h3>Parameters</h3>
+<p><a name="help"></a>
+<code>help</code> - The help for this command. The first line is used in the usage string, and the entire string is
+used in the help output. Paragraphs are automatically re-wrapped to the terminal width.</p>
+<p><a name="epilog"></a>
+<code>epilog</code> - Text to display at the end of the full help output. It is automatically re-wrapped to the
+terminal width.</p>
+<p><a name="name"></a>
+<code>name</code> - The name of the program to use in the help output. If not given, it is inferred from the class
+name.</p>
+<p><a name="invokeWithoutSubcommand"></a>
+<code>invokeWithoutSubcommand</code> - Used when this command has subcommands, and this command is called
+without a subcommand. If true, <a href="run.html">run</a> will be called. By default, a <a href="../-print-help-message/index.html">PrintHelpMessage</a> is thrown instead.</p>
+</BODY>
+</HTML>

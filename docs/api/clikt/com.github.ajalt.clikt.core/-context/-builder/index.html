@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Context.Builder - clikt</title>
+<link rel="stylesheet" href="..\..\..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../../../index.html">clikt</a>&nbsp;/&nbsp;<a href="../../index.html">com.github.ajalt.clikt.core</a>&nbsp;/&nbsp;<a href="../index.html">Context</a>&nbsp;/&nbsp;<a href="./index.html">Builder</a><br/>
+<br/>
+<h1>Builder</h1>
+<code><span class="keyword">class </span><span class="identifier">Builder</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Builder</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core.Context.Builder$<init>(com.github.ajalt.clikt.core.CliktCommand, com.github.ajalt.clikt.core.Context)/command">command</span><span class="symbol">:</span>&nbsp;<a href="../../-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.core.Context.Builder$<init>(com.github.ajalt.clikt.core.CliktCommand, com.github.ajalt.clikt.core.Context)/parent">parent</span><span class="symbol">:</span>&nbsp;<a href="../index.html"><span class="identifier">Context</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="allow-interspersed-args.html">allowInterspersedArgs</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">allowInterspersedArgs</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>If false, options and arguments cannot be mixed; the first time an argument is encountered, all
+remaining tokens are parsed as arguments.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="auto-envvar-prefix.html">autoEnvvarPrefix</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">autoEnvvarPrefix</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>The prefix to add to inferred envvar names.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="help-formatter.html">helpFormatter</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">helpFormatter</span><span class="symbol">: </span><a href="../../../com.github.ajalt.clikt.output/-help-formatter/index.html"><span class="identifier">HelpFormatter</span></a></code>
+<p>The help formatter for this command</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="help-option-message.html">helpOptionMessage</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">helpOptionMessage</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The description of the help option.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="help-option-names.html">helpOptionNames</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">helpOptionNames</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>The names to use for the help option.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="token-transformer.html">tokenTransformer</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">tokenTransformer</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">Context</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>An optional transformation function that is called to transform command line</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

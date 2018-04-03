@@ -126,7 +126,7 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
     }
 }
 
-/** Find the closest object of type [T], setting `context.`[obj] if one is not found. */
+/** Find the closest object of type [T], setting `context.obj` if one is not found. */
 @Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {

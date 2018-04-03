@@ -52,24 +52,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one default argument with optional`() = parameterized(
-            row("", "def"),
-            row("asd", "asd")
-    ) { (argv, expected) ->
-        class C : CliktCommand() {
-            val x by argument().optional().default("def")
-            override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
-            }
-        }
-
-        C().parse(splitArgv(argv))
-    }
-
-    @Test
     fun `one argument nvalues=2`() {
         class C : CliktCommand() {
-            val x by argument().paired()
+            val x by argument().pair()
             override fun run() {
                 assertThat(x).isEqualTo("1" to "2")
             }
@@ -87,7 +72,7 @@ class ArgumentTest {
             row("foo bar", "foo" to "bar")
     ) { (argv, expected) ->
         class C : CliktCommand() {
-            val x by argument().paired().optional()
+            val x by argument().pair().optional()
             override fun run() {
                 assertThat(x).called("x").isEqualTo(expected)
             }
@@ -114,7 +99,7 @@ class ArgumentTest {
     @Test
     fun `misused arguments with nvalues=2`() {
         class C : NoRunCliktCommand() {
-            val x by argument().paired()
+            val x by argument().pair()
         }
         assertThrows<IncorrectArgumentValueCount> { C().parse(splitArgv("foo")) }
                 .hasMessage("argument X takes 2 values")

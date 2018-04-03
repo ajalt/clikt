@@ -27,6 +27,12 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
  *
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * argument().int().restrictTo(max=10, clamp=true)
+ * ```
  */
 fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ProcessedArgument<T, T> where T : Number, T : Comparable<T> {
@@ -40,6 +46,12 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
  *
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * argument().int().restrictTo(1..10, clamp=true)
+ * ```
  */
 fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
         where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)
@@ -51,6 +63,12 @@ fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean
  *
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * option().int().restrictTo(max=10, clamp=true)
+ * ```
  */
 fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : OptionWithValues<T?, T, T> where T : Number, T : Comparable<T> {
@@ -64,6 +82,12 @@ fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, cl
  *
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * option().int().restrictTo(1..10, clamp=true)
+ * ```
  */
 fun <T> OptionWithValues<T?, T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
         where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)

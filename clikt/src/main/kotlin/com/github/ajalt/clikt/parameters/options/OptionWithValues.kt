@@ -154,7 +154,7 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
  *
  * By default, the property will return null if the option does not appear on the command line. If the option
  * is invoked multiple times, the value from the last invocation will be used The option can be modified with
- * functions like [int], [paired], and [multiple].
+ * functions like [int], [pair], and [multiple].
  *
  * @param names The names that can be used to invoke this option. They must start with a punctuation character.
  *   If not given, a name is inferred from the property name.
@@ -197,6 +197,14 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(trans
 
 /**
  * If the option is not called on the command line (and is not set in an envvar), use [value] for the option.
+ *
+ * This must be applied after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
+ * ```
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
         : OptionWithValues<EachT, EachT, ValueT> {
@@ -205,6 +213,14 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
 
 /**
  * If the option is not called on the command line (and is not set in an envvar), throw a [MissingParameter].
+ *
+ * This must be applied after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: Pair<Int, Int> by option().int().pair().required()
+ * ```
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required()
         : OptionWithValues<EachT, EachT, ValueT> {
@@ -214,7 +230,13 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required()
 /**
  * Make the option return a list of calls; each item in the list is the value of one call.
  *
- * If the option is never called, the list will be empty.
+ * If the option is never called, the list will be empty. This must be applied after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
+ * ```
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
         : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { it }
@@ -227,7 +249,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
  * [option] has [nvalues] = 1 by default. If you want to change the type of an option with one value, use
  * [convert] instead.
  *
- * Used to implement functions like [paired] and [triple].
+ * Used to implement functions like [pair] and [triple]. This must be applied before any other transforms.
  */
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
         nvalues: Int, transform: ArgsTransformer<ValueT, EachOutT>): NullableOption<EachOutT, ValueT> {
@@ -237,13 +259,33 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
     return copy(transformValue, transform, defaultAllProcessor(), nvalues = nvalues)
 }
 
-/** Change to option to take two values, held in a [Pair] */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.paired()
+/**
+ * Change to option to take two values, held in a [Pair]
+ *
+ * This must be called after converting the value type, and before other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: Pair<Int, Int>? by option().int().pair()
+ * ```
+ */
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
         : NullableOption<Pair<ValueT, ValueT>, ValueT> {
     return transformValues(nvalues = 2) { it[0] to it[1] }
 }
 
-/** Change to option to take three values, held in a [Triple] */
+/**
+ * Change to option to take three values, held in a [Triple]
+ *
+ * This must be called after converting the value type, and before other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: Triple<Int, Int, Int>? by option().int().triple()
+ * ```
+ */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
         : NullableOption<Triple<ValueT, ValueT, ValueT>, ValueT> {
     return transformValues(nvalues = 3) { Triple(it[0], it[1], it[2]) }
@@ -254,12 +296,34 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
  *
  * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
  * if the value is not valid. It is not called if the delegate value is null.
+ *
+ * You can also call `require` to fail automatically if an expression is false.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
+ * ```
  */
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT> {
     return copy(transformValue, transformEach, { transformAll(it).also { validator(this, it) } })
 }
 
+/**
+ * Check the final option value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
+ * if the value is not valid. It is not called if the delegate value is null.
+ *
+ * You can also call `require` to fail automatically if an expression is false.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
+ * ```
+ */
 @JvmName("nullableValidate")
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT?> {

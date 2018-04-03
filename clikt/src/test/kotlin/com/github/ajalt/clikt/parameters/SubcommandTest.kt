@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.arguments.paired
+import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
@@ -99,7 +99,7 @@ class SubcommandTest {
 
         class Sub1 : CliktCommand(name = "sub1") {
             var called = false
-            val z by argument().paired()
+            val z by argument().pair()
             override fun run() {
                 called = true
                 assertThat(z).called("z").isEqualTo("2" to "3")

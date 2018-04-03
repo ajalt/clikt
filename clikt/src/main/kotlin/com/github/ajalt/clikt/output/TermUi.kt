@@ -28,7 +28,8 @@ object TermUi {
      * @param text The text to edit.
      * @param editor The path to the editor to use. Defaults to automatic detection.
      * @param env Environment variables to forward to the editor.
-     * @param requireSave If true, null will be returned if the editor is closed without saving.
+     * @param requireSave If the editor is closed without saving, null will be returned if true, otherwise
+     *   [text] will be returned.
      * @param extension The extension of the temporary file that the editor will open. This can affect syntax
      *   coloring etc.
      * @return The edited text, or null if [requireSave] is true and the editor was closed without saving.

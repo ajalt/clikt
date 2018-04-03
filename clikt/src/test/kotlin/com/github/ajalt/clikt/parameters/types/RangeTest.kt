@@ -8,7 +8,7 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.paired
+import com.github.ajalt.clikt.parameters.options.pair
 import com.github.ajalt.clikt.testing.*
 import org.junit.Test
 
@@ -155,7 +155,7 @@ class RangeTest {
     fun `restrictTo option multiple`() {
         class C : NoRunCliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(1..2).multiple()
-            val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).paired()
+            val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).pair()
         }
 
         softly {

@@ -149,8 +149,8 @@ class OptionTest {
             row("-x1 3 -y5 7", "1" to "3", "5" to "7")
     ) { (argv, ex, ey) ->
         class C : CliktCommand() {
-            val x by option("-x", "--xx").paired()
-            val y by option("-y", "--yy").paired()
+            val x by option("-x", "--xx").pair()
+            val y by option("-y", "--yy").pair()
             override fun run() {
                 assertThat(x).called("x").isEqualTo(ex)
                 assertThat(y).called("y").isEqualTo(ey)
@@ -196,8 +196,8 @@ class OptionTest {
     @Test
     fun `two options nvalues=2 usage errors`() {
         class C : CliktCommand() {
-            val x by option("-x", "--xx").paired()
-            val y by option("-y", "--yy").paired()
+            val x by option("-x", "--xx").pair()
+            val y by option("-y", "--yy").pair()
             override fun run() {
                 fail("should not be called $x, $y")
             }

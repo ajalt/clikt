@@ -17,38 +17,86 @@ private fun errorMessage(choice: String, choices: Map<String, *>): String {
 
 // arguments
 
-/** Convert the argument based on a fixed set of values. */
+/**
+ * Convert the argument based on a fixed set of values.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * argument().choice(mapOf("foo" to 1, "bar" to 2))
+ * ```
+ */
 fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return convert { choices[it] ?: fail(errorMessage(it, choices)) }
 }
 
-/** Convert the argument based on a fixed set of values. */
+/**
+ * Convert the argument based on a fixed set of values.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * argument().choice("foo" to 1, "bar" to 2)
+ * ```
+ */
 fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>): ProcessedArgument<T, T> {
     return choice(mapOf(*choices))
 }
 
-/** Convert the argument based on a fixed set of values. */
+/**
+ * Restrict the argument to a fixed set of values.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * argument().choice("foo", "bar")
+ * ```
+ */
 fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String> {
     return choice(choices.associateBy { it })
 }
 
 // options
 
-/** Convert the option based on a fixed set of values. */
+/**
+ * Convert the option based on a fixed set of values.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * option().choice(mapOf("foo" to 1, "bar" to 2))
+ * ```
+ */
 fun <T : Any> RawOption.choice(choices: Map<String, T>,
                                metavar: String = mvar(choices.keys)): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return convert(metavar) { choices[it] ?: fail(errorMessage(it, choices)) }
 }
 
-/** Convert the option based on a fixed set of values. */
+/**
+ * Convert the option based on a fixed set of values.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * option().choice("foo" to 1, "bar" to 2)
+ * ```
+ */
 fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
                                metavar: String = mvar(choices.map { it.first })): NullableOption<T, T> {
     return choice(mapOf(*choices), metavar)
 }
 
-/** Convert the option based on a fixed set of values. */
+/**
+ * Restrict the option to a fixed set of values.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * option().choice("foo", "bar")
+ * ```
+ */
 fun RawOption.choice(vararg choices: String,
                      metavar: String = mvar(choices.asIterable())): NullableOption<String, String> {
     return choice(choices.associateBy { it }, metavar)

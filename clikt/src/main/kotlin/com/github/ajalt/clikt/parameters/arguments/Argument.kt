@@ -79,6 +79,12 @@ typealias ArgCallsTransformer<AllT, EachT> = ArgumentTransformContext.(List<Each
 /** A callback validates the final argument type */
 typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
 
+/**
+ * An [Argument] delegate implementation that transforms its values .
+ *
+ * @property transformValue Called in [finalize] to transform each value provided to the argument.
+ * @property transformAll Called in [finalize] to transform the list of values to the final type.
+ */
 // `AllT` is deliberately not an out parameter.
 @Suppress("AddVarianceModifier")
 class ProcessedArgument<AllT, ValueT> constructor(
@@ -151,7 +157,7 @@ fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
  * The input is a list of values, one for each value on the command line. The values in the
  * list are the output of calls to [convert]. The input list will have a size of [nvalues] if [nvalues] is > 0.
  *
- * Used to implement functions like [paired] and [multiple].
+ * Used to implement functions like [pair] and [multiple].
  *
  * @param nvalues The number of values required by this argument. A negative [nvalues] indicates a variable number
  *   of values.
@@ -166,35 +172,80 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
             required = required ?: this.required)
 }
 
-/** Return null instead of throwing an error if no value is given. */
+/**
+ * Return null instead of throwing an error if no value is given.
+ *
+ * This must be called after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val arg: Int? by argument().int().optional()
+ * ```
+ */
 fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional()
         : ProcessedArgument<AllT?, ValueT> = transformAll(required = false) {
     if (it.isEmpty()) null else transformAll(it)
 }
 
-/** Accept any number of values to this argument. */
+/**
+ * Accept any number of values to this argument.
+ *
+ * Only one argument in a command may use this function, and the command may not have subcommands. This must
+ * be called after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val arg: List<Int> by argument().int().multiple()
+ * ```
+ */
 fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): ProcessedArgument<List<T>, T> {
     return transformAll(nvalues = -1, required = required) { it }
 }
 
-/** Require exactly two values to this argument. */
-fun <T : Any> ProcessedArgument<T, T>.paired(): ProcessedArgument<Pair<T, T>, T> {
+/**
+ * Require exactly two values to this argument, and store them in a [Pair].
+ *
+ * This must be called after converting the value type, and before other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val arg: Pair<Int, Int> by argument().int().pair()
+ * ```
+ */
+fun <T : Any> ProcessedArgument<T, T>.pair(): ProcessedArgument<Pair<T, T>, T> {
     return transformAll(nvalues = 2) { it[0] to it[1] }
 }
 
-/** Require exactly three values to this argument. */
+/**
+ * Require exactly three values to this argument, and store them in a [Triple]
+ *
+ * This must be called after converting the value type, and before other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val arg: Triple<Int, Int, Int> by argument().int().triple()
+ * ```
+ */
 fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T>, T> {
     return transformAll(nvalues = 3) { Triple(it[0], it[1], it[2]) }
 }
 
-/** If the argument is not given, use [value] instead of throwing an error. */
+/**
+ * If the argument is not given, use [value] instead of throwing an error.
+ *
+ * This must be applied after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val arg: Pair<Int, Int> by argument().int().pair().default(1 to 2)
+ * ```
+ */
 fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
-    return transformAll(required = false) { it.firstOrNull() ?: value }
-}
-
-/** If the argument is not given, use [value] instead of returning null. */
-@JvmName("nullableDefault")
-fun <T : Any> ProcessedArgument<T?, T>.default(value: T): ArgumentDelegate<T> {
     return transformAll(required = false) { it.firstOrNull() ?: value }
 }
 
@@ -223,7 +274,15 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
  * Check the final argument value and raise an error if it's not valid.
  *
  * The [validator] is called with the final argument type (the output of [transformAll]), and should call
- * `fail` if the value is not valid. It is not called if the final value is null.
+ * `fail` if the value is not valid.
+ *
+ * You can also call `require` to fail automatically if an expression is false.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
+ * ```
  */
 fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT> {
@@ -232,6 +291,20 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: Arg
     })
 }
 
+/**
+ * Check the final argument value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final argument type (the output of [transformAll]), and should call
+ * `fail` if the value is not valid. It is not called if the delegate value is null.
+ *
+ * You can also call `require` to fail automatically if an expression is false.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
+ * ```
+ */
 @JvmName("nullableValidate")
 fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT?> {

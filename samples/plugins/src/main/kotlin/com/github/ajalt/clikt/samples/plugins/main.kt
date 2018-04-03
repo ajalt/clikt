@@ -23,7 +23,7 @@ class Cli : CliktCommand(
     val repoHome: String by option(help = "Changes the repository folder location.")
             .default(".repo")
     val config: List<Pair<String, String>> by option(help = "Overrides a config key/value pair.")
-            .paired()
+            .pair()
             .multiple()
     val verbose: Boolean by option("-v", "--verbose", help = "Enables verbose mode.")
             .flag()

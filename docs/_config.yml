@@ -39,7 +39,7 @@ defaults:
   -
     scope:
       path: ""
-      type: "home"
+      type: "pages"
     values:
       layout: "page"
       comments: false

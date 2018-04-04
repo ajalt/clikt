@@ -1,6 +1,7 @@
 ---
 sidebar: home_sidebar
 permalink: index.html
+topnav: topnav
 ---
 
 <div align="center" style="margin-bottom:42px;">

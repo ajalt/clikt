@@ -35,11 +35,6 @@ kramdown:
 
 # filter used to process markdown. note that kramdown differs from github-flavored markdown in some subtle ways
 
-collections:
-  tooltips:
-    output: false
-# collections are declared here. this renders the content in _tooltips and processes it, but doesn't output it as actual files in the output unless you change output to true
-
 defaults:
   -
     scope:
@@ -57,9 +52,6 @@ defaults:
 sidebars:
 - home_sidebar
 - other
-
-description: "Clikt: Simple, powerful command line parser for Kotlin."
-# the description is used in the feed.xml file
 
 # needed for sitemap.xml file only
 url: https://ajalt.github.io/clikt/

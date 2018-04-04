@@ -6,13 +6,13 @@ permalink: documenting.html
 
 Clikt takes care of creating formatted help messages for commands. There
 are a number of ways to customize the default behavior. You can also
-implement your own {% include apidoc.html pkg="output"
+implement your own {% include api.html pkg="output"
 class="help-formatter" %} and set it on the [command's
 context](commands.html#customcontext).
 
 ## Help Texts
 
-{% include apidoc.html pkg="core" class="clikt-command" text="Commands"
+{% include api.html pkg="core" class="clikt-command" text="Commands"
 %} and parameters accept a `help` argument. Commands also accept an
 `epilog` argument, which is printed after the parameters and commands on
 the help page. All text is automatically re-wrapped to the terminal

@@ -78,22 +78,22 @@ val arg: Int by argument(help="an argument").int()
 There are a number of built in types that can be applied to options and
 arguments.
 
-* `Int`: {% include apidoc.html pkg="parameters.types" fun="int" text="option().int() and argument().int()" %}
-* `Long`: {% include apidoc.html pkg="parameters.types" fun="long" text="option().long() and argument().long()" %}
+* `Int`: {% include api.html pkg="parameters.types" fun="int" text="option().int() and argument().int()" %}
+* `Long`: {% include api.html pkg="parameters.types" fun="long" text="option().long() and argument().long()" %}
 
   By default, any value that fits in the integer type is accepted. You
-  can restrict the values to a range with {% include apidoc.html
+  can restrict the values to a range with {% include api.html
   pkg="parameters.types" fun="restrict-to" text="restrictTo()" %}, which
   allows you to either clamp the input to the range, or fail with an
   error if the input is outside the range.
 
-* `Float`: {% include apidoc.html pkg="parameters.types" fun="float" text="option().float() and argument().float()" %}
-* `Double`: {% include apidoc.html pkg="parameters.types" fun="double" text="option().double() and argument().double()" %}
+* `Float`: {% include api.html pkg="parameters.types" fun="float" text="option().float() and argument().float()" %}
+* `Double`: {% include api.html pkg="parameters.types" fun="double" text="option().double() and argument().double()" %}
 
   As with integers, you can restrict the input to a range with {%
-  include apidoc.html pkg="parameters.types" fun="restrict-to" text="restrictTo()" %}.
+  include api.html pkg="parameters.types" fun="restrict-to" text="restrictTo()" %}.
 
-* {% include apidoc.html pkg="parameters.types" fun="choice" text="option().choice() and argument().choice()" %}
+* {% include api.html pkg="parameters.types" fun="choice" text="option().choice() and argument().choice()" %}
 
   You can restrict the values to a set of values, and optionally map the
   input to a new value. For example, to create an option that only
@@ -111,7 +111,7 @@ arguments.
   val color: Color by argument().choice("RED" to Color.RED, "GREEN" to Color.GREEN)
   ```
 
-* `File`: {% include apidoc.html pkg="parameters.types" fun="file" text="option().file() and argument().file()" %}
+* `File`: {% include api.html pkg="parameters.types" fun="file" text="option().file() and argument().file()" %}
 
   These conversion functions take extra parameters that allow you to
   require that values are file paths that have certain attributes, such
@@ -120,9 +120,9 @@ arguments.
 ### Custom types
 
 You can convert parameter values to a custom type by using {%
-include apidoc.html pkg="parameters.arguments" fun="convert" text="argument().convert()"
+include api.html pkg="parameters.arguments" fun="convert" text="argument().convert()"
 %} and {%
-include apidoc.html pkg="parameters.options" fun="convert" text="option().convert()"
+include api.html pkg="parameters.options" fun="convert" text="option().convert()"
 %}. These functions take a lambda that converts the input `String` to
 any type. If the parameter takes multiple values, or an option appears
 multiple times in `argv`, the conversion lambda is called once for each
@@ -155,7 +155,7 @@ Error: Invalid value for "--opt": For input string: "foo"
 ```
 
 You can also pass {%
-include apidoc.html pkg="parameters.options" fun="convert" text="option().convert()"
+include api.html pkg="parameters.options" fun="convert" text="option().convert()"
 %} a metavar that will be printed in the help page instead of the
 default of `VALUE`. We can modify the above example to use a metavar and
 an explicit error message:
@@ -189,9 +189,9 @@ Options:
 
 After converting a value to a new type, you can perform additional
 validation on the converted value with {%
-include apidoc.html pkg="parameters.options" fun="validate" text="option().validate()"
+include api.html pkg="parameters.options" fun="validate" text="option().validate()"
 %} and {%
-include apidoc.html pkg="parameters.arguments" fun="validate" text="argument().validate()"
+include api.html pkg="parameters.arguments" fun="validate" text="argument().validate()"
 %}.
 `validate` takes a lambda that returns nothing, but can call
 `fail("error message")` if the value is invalid. You can also call

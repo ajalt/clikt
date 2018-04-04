@@ -13,8 +13,8 @@ Installation instructions can be found in the [README](/README.md).
 # Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
-inside of a {% include apidoc.html pkg="core" class="clikt-command" %}. The normal way to use Clikt is to forward
-`argv` from your `main` function to {% include apidoc.html pkg="core" class="clikt-command" fun="main" %}.
+inside of a {% include api.html pkg="core" class="clikt-command" %}. The normal way to use Clikt is to forward
+`argv` from your `main` function to {% include api.html pkg="core" class="clikt-command" fun="main" %}.
 
 The simplest command with no parameters would look like this:
 
@@ -47,11 +47,11 @@ Options:
 
 ## Echoing
 
-Why does this example use {% include apidoc.html pkg="output"
+Why does this example use {% include api.html pkg="output"
 class="term-ui" fun="echo" %} instead of
 [println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
 Although `println` works, it can cause problems with multi-platform
-support. {% include apidoc.html pkg="output" class="term-ui" fun="echo"
+support. {% include api.html pkg="output" class="term-ui" fun="echo"
 text="echo"%} automatically translates line breaks into the line
 separator for the current platform. So you don't have to worry that some
 of your users will see mangled output because you didn't test on
@@ -109,7 +109,7 @@ Commands:
 
 ## Adding parameters
 
-To add parameters, use the {% include apidoc.html pkg="parameters.options" fun="option" %} and {% include apidoc.html pkg="parameters.arguments" fun="argument" %} property delegates:
+To add parameters, use the {% include api.html pkg="parameters.options" fun="option" %} and {% include api.html pkg="parameters.arguments" fun="argument" %} property delegates:
 
 ```kotlin
 class Hello : CliktCommand() {

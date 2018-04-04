@@ -7,13 +7,13 @@ permalink: arguments.html
 Arguments are declared and customized similarly to
 [options](options.html), but are provided on the command line
 positionally instead of by name. Arguments are declared with {% include
-apidoc.html pkg="parameters.arguments" fun="argument" name="argument()"
+api.html pkg="parameters.arguments" fun="argument" name="argument()"
 %}, and the order that they are declared defines the order that they
 must be provided on the command line.
 
 ## Basic Arguments
 
-By default, {% include apidoc.html pkg="parameters.arguments"
+By default, {% include api.html pkg="parameters.arguments"
 fun="argument" %} takes a single `String` value which is required to be
 provided on the command line.
 
@@ -63,8 +63,8 @@ Options:
 ## Variadic Arguments
 
 Like [options](options.html), arguments can take any fixed number of
-values, which you can change with functions like {% include apidoc.html
-pkg="parameters.arguments" fun="pair" %} and {% include apidoc.html
+values, which you can change with functions like {% include api.html
+pkg="parameters.arguments" fun="pair" %} and {% include api.html
 pkg="parameters.arguments" fun="triple" %}. Unlike options, arguments
 can take a variable (or unlimited) number of values. This is especially
 common when taking file paths, since they are frequently expanded with a

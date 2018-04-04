@@ -5,13 +5,13 @@ permalink: commands.html
 ---
 
 Clikt supports arbitrarily nested commands. You can add one command as a
-child of another with the {% include apidoc.html pkg="core"
+child of another with the {% include api.html pkg="core"
 fun="subcommands" text="echo" %} function, which can be called either in
 an `init` block, or on an existing instance.
 
 ## Executing nested commands
 
-For commands with no children, {% include apidoc.html pkg="core"
+For commands with no children, {% include api.html pkg="core"
 class="clikt-command" fun="run" text="run"%} is called whenever the
 command line is parsed (unless parsing is aborted from an error or an
 option like `--help`).
@@ -64,7 +64,7 @@ executing
 
 The default name for subcommands is inferred as a lowercase name from
 the command class name. You can also set a name manually in the {%
-include apidoc.html pkg="core" class="clikt-command" %} constructor.
+include api.html pkg="core" class="clikt-command" %} constructor.
 
 ```kotlin
 class Tool : CliktCommand() {
@@ -160,7 +160,7 @@ out `Tool`'s help page as if you just typed `./tool --help`.
 Normally nested command are independent of each other: a child can't
 access its parent's parameters. This makes composing commands much
 easier, but what if you want to pass information to a child command? You
-can do so with the command's {% include apidoc.html pkg="core"
+can do so with the command's {% include api.html pkg="core"
 class="context" %}.
 
 Every time the command line is parsed, each command creates a new
@@ -198,8 +198,8 @@ $ ./tool --verbose execute
 Verbose mode is on
 ```
 
-The {% include apidoc.html pkg="core" fun="find-object" %} and {%
-include apidoc.html pkg="core" fun="require-object" %} functions will
+The {% include api.html pkg="core" fun="find-object" %} and {%
+include api.html pkg="core" fun="require-object" %} functions will
 walk up the context tree until they find an object with the given type.
 If no such object exists, they will either return `null`, throw an
 exception, or create an instance of the object and store it on the
@@ -207,7 +207,7 @@ command's context, depending on which overload you call.
 
 ## Running Parent Command Without Children
 
-Normally, if a command has children, {% include apidoc.html pkg="core"
+Normally, if a command has children, {% include api.html pkg="core"
 class="clikt-command" fun="run" text="run" %} is not called unless a
 child command is invoked on the command line. Instead, `--help` is
 called on the parent. If you want to change this behavior to always call
@@ -249,10 +249,10 @@ running subcommand
 
 ## Customizing Contexts {#customcontext}
 
-{% include apidoc.html pkg="core" class="context" text="Contexts" %}
+{% include api.html pkg="core" class="context" text="Contexts" %}
 have a number of properties that can be customized, and which are
 inherited by child commands. You can change these properties with the {%
-include apidoc.html pkg="core" fun="context" %} builder function, which
+include api.html pkg="core" fun="context" %} builder function, which
 can be called in an `init` block, or on a command instance.
 
 For example, you can change the default help message for the `--help`

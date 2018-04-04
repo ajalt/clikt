@@ -5,9 +5,9 @@ permalink: options.html
 ---
 
 Options are added to commands by defining a property delegate with the {%
-include apidoc.html pkg="parameters.options" fun="option" %} function.
+include api.html pkg="parameters.options" fun="option" %} function.
 The option behavior and delegate type can be customized by calling
-extension functions on the {% include apidoc.html
+extension functions on the {% include api.html
 pkg="parameters.options" fun="option" %} call. For example, here are
 some different option declarations:
 
@@ -25,26 +25,26 @@ independently:
 1. The type of each value in the option
 
    The value type is `String` by default, but can be customized with
-   built-in functions like {% include apidoc.html pkg="parameters.types"
-   fun="int" %} or {% include apidoc.html pkg="parameters.types"
-   fun="choice" %}, or manually with {% include apidoc.html
+   built-in functions like {% include api.html pkg="parameters.types"
+   fun="int" %} or {% include api.html pkg="parameters.types"
+   fun="choice" %}, or manually with {% include api.html
    pkg="parameters.options" fun="convert" %}. This is detailed in the
    [parameters](parameters.html#types) page.
 
 2. The number of values that the option requires
 
    Options take one value by default, but this can be changed with
-   built-in functions like {% include apidoc.html
-   pkg="parameters.options" fun="pair" %} and {% include apidoc.html
+   built-in functions like {% include api.html
+   pkg="parameters.options" fun="pair" %} and {% include api.html
    pkg="parameters.options" fun="triple" -%}, or manually with {% include
-   apidoc.html pkg="parameters.options" fun="transform-values" -%}.
+   api.html pkg="parameters.options" fun="transform-values" -%}.
 
 3. How to handle all calls to the option (i.e. if the option is not given, or is given more than once).
 
    By defualt, the option delegate value is the null if the option is
    not given on the command line, but you can change this behavior with
-   functions like {% include apidoc.html pkg="parameters.options"
-   fun="default" %} and {% include apidoc.html pkg="parameters.options"
+   functions like {% include api.html pkg="parameters.options"
+   fun="default" %} and {% include api.html pkg="parameters.options"
    fun="multiple" %}.
 
 Since the three types of customizations are orthogonal, you can choose
@@ -81,7 +81,7 @@ Hello, Foo!
 
 By default, option delegates return `null` if the option wasn't provided
 on the command line. You can instead return a default value with {%
-include apidoc.html pkg="parameters.options" fun="default" %}.
+include api.html pkg="parameters.options" fun="default" %}.
 
 ```kotlin
 class Pow : CliktCommand() {
@@ -109,15 +109,15 @@ $ ./pow
 
 Options can take any fixed number of values. If you want a variable
 number of values, you need to use and argument instead. There are built
-in functions for options that take two values ({% include apidoc.html
+in functions for options that take two values ({% include api.html
 pkg="parameters.options" fun="pair" %}, which uses a `Pair`), or three
-values ({% include apidoc.html pkg="parameters.options" fun="triple" %},
+values ({% include api.html pkg="parameters.options" fun="triple" %},
 which uses a `Triple`).  You can change the type of each value as normal
-with functions like {% include apidoc.html pkg="parameters.types"
+with functions like {% include api.html pkg="parameters.types"
 fun="int" %}.
 
 If you need more values, you can provide your own container with {%
-include apidoc.html pkg="parameters.options" fun="transform-values" %}.
+include api.html pkg="parameters.options" fun="transform-values" %}.
 You give that function the number of values you want, and a lambda that
 will transform a list of values into the output container. The list will
 always have a size equal to the number you specify. If the user provides
@@ -155,7 +155,7 @@ Normally, when an option is provided on the command line more than once,
 only the values from the last occurrence are used. But sometimes you
 want to keep all values provided. For example, `git commit -m foo -m
 bar` would create a commit message with two lines: `foo` and `bar`. To
-get this behavior with Clikt, you can use {% include apidoc.html
+get this behavior with Clikt, you can use {% include api.html
 pkg="parameters.options" fun="multiple" %}. This will cause the property
 delegate value to be a list, where each item in the list is the value of
 from one occurrence of the option. If the option is never given, the
@@ -178,7 +178,7 @@ foo
 bar
 ```
 
-You can combine {% include apidoc.html pkg="parameters.options"
+You can combine {% include api.html pkg="parameters.options"
 fun="multiple" %} with item type conversions and multiple values. For
 example:
 
@@ -190,7 +190,7 @@ val opt: List<Pair<Int, Int>> option().int().pair().multiple()
 
 Flags are options that don't take a value. Boolean flags can be enabled
 or disabled, depending on the name used to invoke the option. You can
-turn an option into a boolean flag with {% include apidoc.html
+turn an option into a boolean flag with {% include api.html
 pkg="parameters.options" fun="flag" %}. That function takes an optional
 list of secondary names that will be added to any existing or inferred
 names for the option. If the option is invoked with one of the secondary
@@ -223,7 +223,7 @@ false
 ## Counted Flag Options
 
 You might want a flag option that counts the number of times it occurs
-on the command line. You can use {% include apidoc.html
+on the command line. You can use {% include api.html
 pkg="parameters.options" fun="counted" %} for this.
 
 ```kotlin
@@ -245,7 +245,7 @@ Verbosity level: 3
 ## Feature Switch Flags
 
 Another way to use flags to to assign a value to each option name. You
-can do this with {% include apidoc.html pkg="parameters.options"
+can do this with {% include api.html pkg="parameters.options"
 fun="switch" %}, which takes a map of option names to values. Note that
 the names in the map replace any previously specified or inferred names.
 
@@ -268,7 +268,7 @@ You picked size small
 ## Choice Options
 
 You can restrict the values that a regular option can take to a set of
-values using {% include apidoc.html pkg="parameters.types"
+values using {% include api.html pkg="parameters.types"
 fun="choice" %}. You can also map the input values to new types.
 
 ```kotlin
@@ -308,7 +308,7 @@ Options:
 In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input
 if one is not provided. Clikt can take care of this for you with the {%
-include apidoc.html pkg="parameters.options" fun="prompt" %} function.
+include api.html pkg="parameters.options" fun="prompt" %} function.
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -333,7 +333,7 @@ Hello foo
 ```
 
 The default prompt string is based on the option name, but {% include
-apidoc.html pkg="parameters.options" fun="prompt" %} takes a number of
+api.html pkg="parameters.options" fun="prompt" %} takes a number of
 parameters to customize the output.
 
 ## Password prompts
@@ -370,7 +370,7 @@ associated with them, and they stop command line parsing as soon as
 they're encountered.
 
 The `--help` option is added automatically to commands, and `--version`
-can be added using {% include apidoc.html pkg="parameters.options"
+can be added using {% include api.html pkg="parameters.options"
 fun="version-option" %}. Since the option doesn't have a value, you
 can't define it using a property delegate. Instead, call the function on
 a command directly, either in an `init` block, or on a command instance.
@@ -400,14 +400,14 @@ $ ./cli --version
 cli version 1.0
 ```
 If you want to define your own option with a similar behavior, you can
-do so by creating an instance of {% include apidoc.html
+do so by creating an instance of {% include api.html
 pkg="parameters.options" class="eager-option" %} and passing it to {%
-include apidoc.html pkg="core" class="clikt-command"
+include api.html pkg="core" class="clikt-command"
 fun="register-option" %}. `EagerOption`s have a `callback` that is
 called when the option is encountered on the command line. To print a
 message and halt execution normally from the callback, you can throw
-a {% include apidoc.html pkg="core" class="print-message" %} exception,
-and {% include apidoc.html pkg="core" class="clikt-command" fun="main"
+a {% include api.html pkg="core" class="print-message" %} exception,
+and {% include api.html pkg="core" class="clikt-command" fun="main"
 %} will take care of printing the message.
 
 You can define your own version option like this:
@@ -440,7 +440,7 @@ has an envvar name for the option. There are two ways to set that name:
 you can set the name manually for an option, or you can enable automatic
 envvar name inference.
 
-To set the envvar name manually, pass the name to {% include apidoc.html
+To set the envvar name manually, pass the name to {% include api.html
 pkg="parameters.options" fun="option" %}:
 
 ```kotlin
@@ -467,10 +467,10 @@ Hello Bar
 ```
 
 You can enable automatic envvar name inference by setting the
-`autoEnvvarPrefix` on a command's {% include apidoc.html pkg="core"
+`autoEnvvarPrefix` on a command's {% include api.html pkg="core"
 fun="context" %}. This will cause all options without an explicit envvar
 name to be given an uppercase underscore-separated envvar name. Since
-the prefix is set on the {% include apidoc.html pkg="core" fun="context"
+the prefix is set on the {% include api.html pkg="core" fun="context"
 %}, it is propagated to subcommands. If you have a a subcommand called
 `foo` with an option `--bar`, and your prefix is `MY_TOOL`, the option's
 envvar name will be `MY_TOOL_FOO_BAR`.
@@ -499,9 +499,9 @@ Hello Foo
 
 You might need to allow users to specify multiple values for an option
 in a single environment variable. You can do this by creating an option
-with {% include apidoc.html pkg="parameters.options" fun="multiple" %}.
+with {% include api.html pkg="parameters.options" fun="multiple" %}.
 The environment variable's value will be split according a regex, which
-defaults to split on whitespace for most types. {% include apidoc.html
+defaults to split on whitespace for most types. {% include api.html
 pkg="parameters.options" fun="file" %} will change the pattern to split
 according to the operating system's path splitting rules. On Windows, it
 will split on semicolons (`;`). On other systems, it will split on
@@ -531,14 +531,14 @@ Clikt has a large number of extension functions that can modify options.
 When applying multiple functions to the same option, there's only one
 valid order for the functions to be applied. For example,
 `option().default(3).int()` will not compile, because {% include
-apidoc.html pkg="parameters.options" fun="default" %} must be applied
+api.html pkg="parameters.options" fun="default" %} must be applied
 after the value type conversion. Similarly, you can only apply one
 transform of each type. So `option().int().float()` is invalid (since {%
-include apidoc.html pkg="parameters.types" fun="int" %} and {% include
-apidoc.html pkg="parameters.types" fun="float" %} both change the value
+include api.html pkg="parameters.types" fun="int" %} and {% include
+api.html pkg="parameters.types" fun="float" %} both change the value
 type), as is `option().default("").multiple()` (since {% include
-apidoc.html pkg="parameters.options" fun="default" %} and {% include
-apidoc.html pkg="parameters.options" fun="multiple" %} both transform
+api.html pkg="parameters.options" fun="default" %} and {% include
+api.html pkg="parameters.options" fun="multiple" %} both transform
 the call list).
 
 Here's an integer option with one of each available transform in a valid

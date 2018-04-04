@@ -15,7 +15,7 @@ invoke a command by typing a prefix of its name, or user-defined aliases
 like the way you can configure git to accept `git ci` as an alias for
 `git commit`.
 
-To implement command aliases, override {% include apidoc.html pkg="core"
+To implement command aliases, override {% include api.html pkg="core"
 class="clikt-command" fun="aliases" %} in your command. This function is
 called once at the start of parsing, and returns a map of aliases to the
 tokens that they alias to.
@@ -104,7 +104,7 @@ Running Bar
 
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
-works on more types of tokens. You can set a {% include apidoc.html
+works on more types of tokens. You can set a {% include api.html
 pkg="core" class="context" fun="token-transformer"
 text="tokenTransformer" %} on the [command's
 context](commands.html#customcontext) that will be called for each

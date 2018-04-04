@@ -11,8 +11,8 @@ commonly used in command line programs.
 ## Launching Editors
 
 If you need to ask users for multi-line input, or need to have the user
-edit a file, you can do so through {% include apidoc.html pkg="output"
-class="term-ui" fun="edit-text" %} and {% include apidoc.html
+edit a file, you can do so through {% include api.html pkg="output"
+class="term-ui" fun="edit-text" %} and {% include api.html
 pkg="output" class="term-ui" fun="edit-file" %}. These functions open
 the program defined in the `VISUAL` or `EDITOR` environment variables,
 or a sensible default if neither are defined. The functions return the
@@ -33,10 +33,10 @@ fun getCommitMessage(): String? {
 ## Input Prompts
 
 Options can [prompt for values automatically](options.html#prompting),
-but you can also do so manually with {% include apidoc.html pkg="output"
+but you can also do so manually with {% include api.html pkg="output"
 class="term-ui" fun="prompt" %}. By default, it accepts any input
 string, but you can also pass in a conversion function. If the
-conversion raises a {% include apidoc.html pkg="core"
+conversion raises a {% include api.html pkg="core"
 class="usage-error" %}, the prompt will ask the user to enter a
 different value.
 
@@ -59,7 +59,7 @@ Twice your number is 22
 ## Confirmation Prompts
 
 You can also ask the user for a yes or no response with {% include
-apidoc.html pkg="output" class="term-ui" fun="confirm" %}:
+api.html pkg="output" class="term-ui" fun="confirm" %}:
 
 ```kotlin
 if (TermUi.confirm("Continue?") == true) {

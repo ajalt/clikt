@@ -14,14 +14,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- toggle sidebar button -->
                 <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
-                <!-- entries without drop-downs appear here -->
-
-{% assign topnav = site.data[page.topnav] %}
-{% assign topnav_dropdowns = site.data[page.topnav].topnav_dropdowns %}
-
-                {% for entry in topnav.topnav %}
-                {% for item in entry.items %}
-                {% if item.external_url %}
+                {%- assign topnav = site.data[page.topnav] -%}
+                {%- assign topnav_dropdowns = site.data[page.topnav].topnav_dropdowns -%}
+                {%- for entry in topnav.topnav -%}
+                {%- for item in entry.items -%}
+                {%- if item.external_url -%}
                 <li><a href="{{item.external_url}}" target="_blank">{{item.title}}</a></li>
                 {% elsif page.url contains item.url %}
                 <li class="active"><a href="{{item.url | remove: "/"}}">{{item.title}}</a></li>
@@ -30,8 +27,6 @@
                 {% endif %}
                 {% endfor %}
                 {% endfor %}
-                <!-- entries with drop-downs appear here -->
-                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
                 {% for entry in topnav_dropdowns %}
                 {% for folder in entry.folders %}
                 <li class="dropdown">
@@ -48,11 +43,8 @@
                         {% endfor %}
                     </ul>
                 </li>
-                {% endfor %}
-                {% endfor %}
-                {% if site.feedback_disable == null or site.feedback_disable == false %}
-		{% endif %}
-                <!--comment out this block if you want to hide search-->
+                {%- endfor -%}
+                {%- endfor -%}
                 <li>
                     <!--start search-->
                     <div id="search-demo-container">

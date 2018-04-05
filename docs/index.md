@@ -72,4 +72,16 @@ Usage: hello [OPTIONS]
 Error: no such option: "--whoops".
 ```
 
+# Documentation Contents
+
+{% include toc.html %}
+
+# API Reference
+
+* [Commands and Exceptions](api/clikt/com.github.ajalt.clikt.core/index.html)
+* [Options](api/clikt/com.github.ajalt.clikt.parameters.options/index.html)
+* [Arguments](api/clikt/com.github.ajalt.clikt.parameters.arguments/index.html)
+* [Parameter Type Conversions](api/clikt/com.github.ajalt.clikt.parameters.types/index.html)
+* [Output Formatting](api/clikt/com.github.ajalt.clikt.output/index.html)
+
 {% include links.html %}

@@ -81,10 +81,6 @@ footer {
     color: #497bb7;
 }
 
-#mysidebar li.active > a {
-    color: #333;
-}
-
 #mysidebar ul a:hover {
     color: #f47810;
 }

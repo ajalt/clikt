@@ -10,7 +10,7 @@ Installation instructions can be found in the [README](/README.md).
 <!-- TODO: talk about app plugin
  https://docs.gradle.org/current/userguide/application_plugin.html  -->
 
-# Basic Concepts
+## Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
 inside of a {% include api.html pkg="core" class="clikt-command" %}. The normal way to use Clikt is to forward
@@ -107,7 +107,7 @@ Commands:
 ```
 
 
-## Adding parameters
+## Adding Parameters
 
 To add parameters, use the {% include api.html pkg="parameters.options" fun="option" %} and {% include api.html pkg="parameters.arguments" fun="argument" %} property delegates:
 

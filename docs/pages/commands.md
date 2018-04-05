@@ -9,7 +9,7 @@ child of another with the {% include api.html pkg="core"
 fun="subcommands" text="echo" %} function, which can be called either in
 an `init` block, or on an existing instance.
 
-## Executing nested commands
+## Executing Nested Commands
 
 For commands with no children, {% include api.html pkg="core"
 class="clikt-command" fun="run" text="run"%} is called whenever the
@@ -155,7 +155,7 @@ But executing `./tool --help execute`, with the option _before_ the
 subcommand, will cause the parent's help option to be invoked, printing
 out `Tool`'s help page as if you just typed `./tool --help`.
 
-## Nested Handling and Contexts
+## Nested Handling And Contexts
 
 Normally nested command are independent of each other: a child can't
 access its parent's parameters. This makes composing commands much
@@ -205,7 +205,7 @@ If no such object exists, they will either return `null`, throw an
 exception, or create an instance of the object and store it on the
 command's context, depending on which overload you call.
 
-## Running Parent Command Without Children
+## Running Parent Command Without Children {#invoke-parent}
 
 Normally, if a command has children, {% include api.html pkg="core"
 class="clikt-command" fun="run" text="run" %} is not called unless a

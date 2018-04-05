@@ -5,56 +5,147 @@ entries:
   levels: one
   folders:
 
-  - title: Docs
-    output: web, pdf
+  - title: Quickstart
+    url: /quickstart.html
     folderitems:
 
-    - title: Quickstart
-      url: /quickstart.html
-      output: web
-      type: page
+    - title: Basic Concepts
+      url: /quickstart.html#basic-concepts
+    - title: Echoing
+      url: /quickstart.html#echoing
+    - title: Nesting Commands
+      url: /quickstart.html#nesting-commands
+    - title: Adding Parameters
+      url: /quickstart.html#adding-parameters
 
-    - title: Why Clikt?
-      url: /whyclikt.html
-      output: web
-      type: page
+  - title: Why Clikt?
+    url: /whyclikt.html
+    folderitems:
 
-    - title: Parameters
-      url: /parameters.html
-      output: web
-      type: page
+    - title: Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+      shorttitle: Why Not Another Kotlin Library?
+      url: /whyclikt.html#why-not-kotlin
+    - title: Why not a Java library like JCommander?
+      shorttitle: Why Not a Java library?
+      url: /whyclikt.html#why-not-java
 
-    - title: Options
-      url: /options.html
-      output: web
-      type: page
+  - title: Parameters
+    url: /parameters.html
+    folderitems:
 
-    - title: Arguments
-      url: /arguments.html
-      output: web
-      type: page
+    - title: Differences
+      url: /parameters.html#differences
+    - title: Parameter Names
+      url: /parameters.html#parameter-names
+    - title: Parameter Types
+      url: /parameters.html#types
+    - title: Built-In Types
+      url: /parameters.html#builtintypes
+    - title: Custom Types
+      url: /parameters.html#custom-types
+    - title: Parameter Validation
+      url: /parameters.html#validation
 
-    - title: Commands
-      url: /commands.html
-      output: web
-      type: page
+  - title: Options
+    url: /options.html
+    folderitems:
 
-    - title: Documenting Scripts
-      url: /documenting.html
-      output: web
-      type: page
+    - title: Basic Options
+      url: /options.html#basic-options
+    - title: Default Values
+      url: /options.html#default-values
+    - title: Multi Value Options
+      url: /options.html#multi-value-options
+    - title: Multiple Options
+      url: /options.html#multiple-options
+    - title: Boolean Flag Options
+      url: /options.html#boolean-flag-options
+    - title: Counted Flag Options
+      url: /options.html#counted-flag-options
+    - title: Feature Switch Flags
+      url: /options.html#feature-switch-flags
+    - title: Choice Options
+      url: /options.html#choice-options
+    - title: Prompting For Input
+      url: /options.html#prompting
+    - title: Password Prompts
+      url: /options.html#password-prompts
+    - title: Eager Options
+      url: /options.html#eageroptions
+    - title: Values From Environment Variables
+      url: /options.html#envvars
+    - title: Multiple Values from Environment Variables
+      url: /options.html#multiple-envvars
+    - title: Option Transformation Order
+      url: /options.html#-ption-transformation-order
 
-    - title: Advanced Patters
-      url: /advanced.html
-      output: web
-      type: page
+  - title: Arguments
+    url: /arguments.html
+    folderitems:
 
-    - title: Utilities
-      url: /utilities.html
-      output: web
-      type: page
+    - title: Basic Arguments
+      url: /arguments.html#basic-arguments
+    - title: Variadic Arguments
+      url: /arguments.html#variadic-arguments
+    - title: Option-Like Arguments
+      url: /arguments.html#option-like-arguments
 
-    - title: Exception Handling
-      url: /exceptions.html
-      output: web
-      type: page
+  - title: Commands
+    url: /commands.html
+    folderitems:
+    
+    - title: Executing Nested Commands
+      url: /commands.html#executing-nested-commands
+    - title: Customizing Command Name
+      url: /commands.html#customname
+    - title: Passing Parameters
+      url: /commands.html#passing-parameters
+    - title: Nested Handling And Contexts
+      url: /commands.html#nested-handling-and-contexts
+    - title: Running Parent Command Without Children
+      url: /commands.html#invoke-parent
+    - title: Customizing Contexts
+      url: /commands.html#customcontext
+
+  - title: Documenting Scripts
+    url: /documenting.html
+    folderitems:
+
+    - title: Help Texts
+      url: /documenting.html#help-texts
+    - title: Subcommand Short Help
+      url: /documenting.html#subcommand-short-help 
+    - title: Help Option Customization
+      url: /documenting.html#help-option-customization 
+
+  - title: Advanced Patters
+    url: /advanced.html
+    folderitems:
+
+    - title: Command Aliases
+      url: /documenting.html#command-aliases
+    - title: Token Normalization
+      url: /documenting.html#token-normalization
+
+  - title: Utilities
+    url: /utilities.html
+    folderitems:
+
+    - title: Launching Editors
+      url: /utilities.html#launching-editors
+    - title: Input Prompts
+      url: /utilities.html#input-prompts
+    - title: Confirmation Prompts
+      url: /utilities.html#confirmation-prompts
+
+  - title: Exception Handling
+    url: /exceptions.html
+    folderitems:
+
+    - title: Where are Exceptions Handled?
+      url: /exceptions.html#handling
+    - title: Handling Exceptions Manually
+      url: /exceptions.html#handling-exceptions-manually
+    - title: Which Exceptions Exist?
+      url: /exceptions.html#hierarchy
+

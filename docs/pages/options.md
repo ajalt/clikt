@@ -336,7 +336,7 @@ The default prompt string is based on the option name, but {% include
 api.html pkg="parameters.options" fun="prompt" %} takes a number of
 parameters to customize the output.
 
-## Password prompts
+## Password Prompts
 
 You can also create a option that uses a hidden prompt and asks for
 confirmation. This combination of behavior is commonly used for
@@ -426,7 +426,7 @@ class Cli : CliktCommand() {
 }
 ```
 
-## Values from Environment Variables
+## Values From Environment Variables {#envvars}
 
 Clikt supports reading option values from environment variables if they
 aren't given on the command line. This feature is helpful when
@@ -495,7 +495,7 @@ $ ./hello
 Hello Foo
 ```
 
-## Multiple Values from Environment Variables
+## Multiple Values from Environment Variables {#multiple-envvars}
 
 You might need to allow users to specify multiple values for an option
 in a single environment variable. You can do this by creating an option

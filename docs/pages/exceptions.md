@@ -8,7 +8,7 @@ Clikt uses exceptions internally to signal that processing has ended
 early for any reason. This includes incorrect command line usage, or
 printing a help page.
 
-## Where are Exceptions Handled?
+## Where are Exceptions Handled? {#handling}
 
 When you call {% include api.html pkg="core" class="clikt-command"
 fun="main" %}, it will parse the command line and catch any {% include
@@ -43,7 +43,7 @@ fun="main" text="main" %}.
 fun main(args: Array<String>) = Cli().parse(args)
 ```
 
-## Which Exceptions Exist?
+## Which Exceptions Exist? {#hierarchy}
 
 Clikt will throw {% include api.html pkg="core" class="abort" %} if
 it needs to halt execution immediately without a specific message. All

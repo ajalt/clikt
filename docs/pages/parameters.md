@@ -73,7 +73,7 @@ val opt: Int? by option(help="an option").int()
 val arg: Int by argument(help="an argument").int()
 ```
 
-### Built-in types {#builtintypes}
+## Built-In Types {#builtintypes}
 
 There are a number of built in types that can be applied to options and
 arguments.
@@ -117,7 +117,7 @@ arguments.
   require that values are file paths that have certain attributes, such
   as that they are directories, or they are writable files.
 
-### Custom types
+## Custom Types
 
 You can convert parameter values to a custom type by using {%
 include api.html pkg="parameters.arguments" fun="convert" text="argument().convert()"

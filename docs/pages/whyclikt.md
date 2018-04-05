@@ -30,7 +30,7 @@ formatted differently. "Best practices" might not be the best for you,
 so Clikt tries to make implementing uncommon use-cases as easy as
 possible.
 
-## Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+## Why not a Kotlin library like kotlin-argparse or kotlinx.cli? {#why-not-kotlin}
 
 Clikt didn't invent the idea of a property delegate-based cli parser.
 JetBrains made [kotlinx.cli](https://github.com/Kotlin/kotlinx.cli),
@@ -133,7 +133,7 @@ can't. On the other hand, Clikt attempts to consistent, intuitive,
 composable interface that tries to do the right thing without forcing
 you to think about edge cases.
 
-## Why not a Java library like JCommander?
+## Why not a Java library like JCommander? {#why-not-java}
 
 There are a lot of command line libraries for Java. Most are verbose and
 not composable. One popular Java library that is usable from Kotlin is

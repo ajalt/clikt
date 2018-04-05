@@ -146,9 +146,10 @@ a[data-toggle="tooltip"] {
     color: #d1d1d1;
 }
 
-/* not sure if using this ...*/
-.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
-    border-color: #49525e !important;
+.navbar-inverse .navbar-nav > li > iframe {
+    background-color: transparent;
+    margin-top:14px;
+    margin-left:10px;
 }
 
 .btn-primary {

@@ -3,19 +3,24 @@
 <ul id="mysidebar" class="nav">
     {%- for entry in sidebar -%}
     {%- for folder in entry.folders -%}
+    {%- assign firstEntry = true -%}
     <li>
         <a href="#">{{ folder.title }}</a>
         <ul>
             {%- for folderitem in folder.folderitems -%}
-                {%- assign folderurl = folderitem.url | split: "#" -%}
+                {%- assign folder_url_parts = folderitem.url | split: "#" -%}
+                {%- if firstEntry -%}
+                    {%- assign firstEntry = false -%}
+                    {%- assign href = folder_url_parts[0] | remove: "/" -%}
+                {%- else -%}
+                    {%- assign href = folderitem.url | remove: "/" -%}
+                {%- endif -%}
                 {%- if folderitem.external_url -%}
                 <li><a href="{{folderitem.external_url}}" target="_blank">{{folderitem.title}}</a></li>
-                {%- elsif page.url == folderurl[0] -%}
-                <li class="active"><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}</a></li>
-                {%- elsif folderitem.type == "empty" -%}
-                <li><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}</a></li>
+                {%- elsif page.url == folder_url_parts[0] -%}
+                <li class="active"><a href="{{ href }}">{{folderitem.title}}</a></li>
                 {%- else -%}
-                <li><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}</a></li>
+                <li><a href="{{ href }}">{{folderitem.title}}</a></li>
                 {%- endif -%}
             {%- endfor -%}
         </ul>

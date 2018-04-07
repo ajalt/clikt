@@ -22,19 +22,19 @@ class AliasedCli(private val configFile: File) : NoRunCliktCommand(
 }
 
 
-class Push: CliktCommand(help="push changes") {
+class Push : CliktCommand(help = "push changes") {
     override fun run() = TermUi.echo("push")
 }
 
-class Pull: CliktCommand(help="pull changes") {
+class Pull : CliktCommand(help = "pull changes") {
     override fun run() = TermUi.echo("pull")
 }
 
-class Clone: CliktCommand(help="clone a repository") {
+class Clone : CliktCommand(help = "clone a repository") {
     override fun run() = TermUi.echo("clone")
 }
 
-class Commit: CliktCommand(help="clone a repository") {
+class Commit : CliktCommand(help = "clone a repository") {
     val message by option("-m", "--message").multiple()
     override fun run() = TermUi.echo("commit message=${message.joinToString("\n")}")
 }

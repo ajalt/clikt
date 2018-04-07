@@ -184,9 +184,9 @@ class RangeTest {
     @Test
     fun `restrictTo argument`() {
         class C : NoRunCliktCommand() {
-            val x by argument().int().restrictTo(min = 1, max=2)
+            val x by argument().int().restrictTo(min = 1, max = 2)
             val y by argument().int().restrictTo(3..4)
-            val z by argument().int().restrictTo(min=5, max=6).optional()
+            val z by argument().int().restrictTo(min = 5, max = 6).optional()
             val w by argument().int().restrictTo(7..8).optional()
         }
 
@@ -222,10 +222,10 @@ class RangeTest {
     @Test
     fun `restrictTo argument clamp`() {
         class C : NoRunCliktCommand() {
-            val x by argument().int().restrictTo(min = 1, max=2, clamp=true)
-            val y by argument().int().restrictTo(3..4, clamp=true)
-            val z by argument().int().restrictTo(min=5, max=6, clamp=true).optional()
-            val w by argument().int().restrictTo(7..8, clamp=true).optional()
+            val x by argument().int().restrictTo(min = 1, max = 2, clamp = true)
+            val y by argument().int().restrictTo(3..4, clamp = true)
+            val z by argument().int().restrictTo(min = 5, max = 6, clamp = true).optional()
+            val w by argument().int().restrictTo(7..8, clamp = true).optional()
         }
 
         softly {

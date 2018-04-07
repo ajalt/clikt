@@ -1,12 +1,12 @@
 package com.github.ajalt.clikt.output
 
 internal fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentIndent: String = "",
-                    preserveParagraph: Boolean = false): String = buildString {
+                             preserveParagraph: Boolean = false): String = buildString {
     wrapText(this, width, initialIndent, subsequentIndent, preserveParagraph)
 }
 
 internal fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = "",
-                    subsequentIndent: String = "", preserveParagraph: Boolean = false) {
+                             subsequentIndent: String = "", preserveParagraph: Boolean = false) {
     require(initialIndent.length < width) { "initialIndent >= width: ${initialIndent.length} >= $width" }
     require(subsequentIndent.length < width) { "subsequentIndent >= width: ${subsequentIndent.length} >= $width" }
     with(sb) {

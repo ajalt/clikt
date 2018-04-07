@@ -90,6 +90,7 @@ class EnvvarOptionsTest {
             init {
                 context { autoEnvvarPrefix = "CMD2" }
             }
+
             val baz by option(envvar = "BAZ")
             val qux by option()
             override fun run() {

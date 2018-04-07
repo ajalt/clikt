@@ -244,7 +244,7 @@ class PlaintextHelpFormatterTest {
     fun `integration test`() {
         @Suppress("unused")
         class C : CliktCommand(name = "program",
-                help ="""
+                help = """
                 This is a program.
 
                 This is the prolog.

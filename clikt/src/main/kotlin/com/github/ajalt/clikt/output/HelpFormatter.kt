@@ -52,7 +52,8 @@ interface HelpFormatter {
         /**
          * @param name The name for this command
          * @param help The command's description
-         */  data class Subcommand(val name: String,
+         */
+        data class Subcommand(val name: String,
                               val help: String) : ParameterHelp()
     }
 }

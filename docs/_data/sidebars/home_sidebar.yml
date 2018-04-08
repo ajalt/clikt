@@ -1,5 +1,3 @@
-# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
-
 entries:
 - title: sidebar
   levels: one
@@ -38,13 +36,13 @@ entries:
     - title: Parameter Names
       url: /parameters.html#parameter-names
     - title: Parameter Types
-      url: /parameters.html#types
+      url: /parameters.html#parameter-types
     - title: Built-In Types
-      url: /parameters.html#builtintypes
+      url: /parameters.html#built-in-types
     - title: Custom Types
       url: /parameters.html#custom-types
     - title: Parameter Validation
-      url: /parameters.html#validation
+      url: /parameters.html#parameter-validation
 
   - title: Options
     url: /options.html
@@ -71,7 +69,7 @@ entries:
     - title: Choice Options
       url: /options.html#choice-options
     - title: Prompting For Input
-      url: /options.html#prompting
+      url: /options.html#prompting-for-input
     - title: Password Prompts
       url: /options.html#password-prompts
     - title: Eager Options
@@ -103,7 +101,7 @@ entries:
     - title: Executing Nested Commands
       url: /commands.html#executing-nested-commands
     - title: Customizing Command Name
-      url: /commands.html#customname
+      url: /commands.html#customizing-command-name
     - title: Passing Parameters
       url: /commands.html#passing-parameters
     - title: Nested Handling And Contexts
@@ -111,7 +109,7 @@ entries:
     - title: Running Parent Command Without Children
       url: /commands.html#invoke-parent
     - title: Customizing Contexts
-      url: /commands.html#customcontext
+      url: /commands.html#customizing-contexts
 
   - title: Documenting Scripts
     url: /documenting.html

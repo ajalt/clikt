@@ -60,7 +60,7 @@ Verbose mode is on
 executing
 ```
 
-## Customizing Command Name {#customname}
+## Customizing Command Name
 
 The default name for subcommands is inferred as a lowercase name from
 the command class name. You can also set a name manually in the {%
@@ -247,7 +247,7 @@ about to run execute
 running subcommand
 ```
 
-## Customizing Contexts {#customcontext}
+## Customizing Contexts
 
 {% include api.html pkg="core" class="context" text="Contexts" %}
 have a number of properties that can be customized, and which are

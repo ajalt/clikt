@@ -8,7 +8,7 @@ Clikt takes care of creating formatted help messages for commands. There
 are a number of ways to customize the default behavior. You can also
 implement your own {% include api.html pkg="output"
 class="help-formatter" %} and set it on the [command's
-context](commands.html#customcontext).
+context](commands.html#customizing-contexts).
 
 ## Help Texts
 
@@ -55,8 +55,8 @@ describe arguments in the command help.
 ## Subcommand Short Help
 
 Subcommands are listed in the help page based on their
-[name](commands.html#customname). They have a short help string which is
-the first line of their help.
+[name](commands.html#customizing-command-name). They have a short help
+string which is the first line of their help.
 
 ```kotiln
 class Tool : NoRunCliktCommand()
@@ -93,7 +93,7 @@ not used for the help option. If the help option has no unique names, it
 is not added.
 
 You can change the help option's name and help message on the
-[command's context](commands.html#customcontext):
+[command's context](commands.html#customizing-contexts):
 
 ```
 class Tool : NoRunCliktCommand() {

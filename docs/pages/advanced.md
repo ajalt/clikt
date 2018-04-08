@@ -106,10 +106,10 @@ To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
 works on more types of tokens. You can set a {% include api.html
 pkg="core" class="context" fun="token-transformer"
-text="tokenTransformer" %} on the [command's
-context](commands.html#customcontext) that will be called for each
-option and command name that is input. This can be used to implement
-case-insensitive parsing, for example:
+text="tokenTransformer" %} on the
+[command's context](commands.html#customizing-contexts) that will be
+called for each option and command name that is input. This can be used
+to implement case-insensitive parsing, for example:
 
 ```kotlin
 class Hello : CliktCommand() {

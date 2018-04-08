@@ -103,7 +103,7 @@ independently:
    fun="int" %} or {% include api.html pkg="parameters.types"
    fun="choice" %}, or manually with {% include api.html
    pkg="parameters.options" fun="convert" %}. This is detailed in the
-   [parameters](parameters.html#types) page.
+   [parameters](parameters.html#parameter-types) page.
 
 2. The number of values that the option requires
 
@@ -376,7 +376,7 @@ Options:
   -h, --help         Show this message and exit
 ```
 
-## Prompting For Input {#prompting}
+## Prompting For Input
 
 In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input

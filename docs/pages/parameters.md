@@ -52,7 +52,7 @@ Options:
   -h, --help           Show this message and exit
 ```
 
-## Parameter Types {#types}
+## Parameter Types
 
 Both options and arguments can convert the String that the user inputs
 to other types.
@@ -73,7 +73,7 @@ val opt: Int? by option(help="an option").int()
 val arg: Int by argument(help="an argument").int()
 ```
 
-## Built-In Types {#builtintypes}
+## Built-In Types
 
 There are a number of built in types that can be applied to options and
 arguments.
@@ -185,7 +185,7 @@ Options:
   -h, --help   Show this message and exit
 ```
 
-## Parameter Validation {#validation}
+## Parameter Validation
 
 After converting a value to a new type, you can perform additional
 validation on the converted value with {%

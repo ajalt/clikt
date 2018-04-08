@@ -32,7 +32,7 @@ fun getCommitMessage(): String? {
 
 ## Input Prompts
 
-Options can [prompt for values automatically](options.html#prompting),
+Options can [prompt for values automatically](options.html#prompting-for-input),
 but you can also do so manually with {% include api.html pkg="output"
 class="term-ui" fun="prompt" %}. By default, it accepts any input
 string, but you can also pass in a conversion function. If the

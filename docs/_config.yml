@@ -44,14 +44,13 @@ defaults:
       layout: "page"
       comments: false
       search: true
-      sidebar: home_sidebar
+      sidebar: clikt_sidebar
       topnav: topnav
 
 # these are defaults used for the frontmatter for these file types
 
 sidebars:
-- home_sidebar
-- other
+- clikt_sidebar
 
 # needed for sitemap.xml file only
 url: https://ajalt.github.io/clikt/

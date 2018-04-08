@@ -1,6 +1,6 @@
 ---
 title: Advanced Patters
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: advanced.html
 ---
 

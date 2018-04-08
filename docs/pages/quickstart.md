@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: quickstart.html
 ---
 

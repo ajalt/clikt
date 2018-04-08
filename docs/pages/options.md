@@ -1,6 +1,6 @@
 ---
 title: Options
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: options.html
 ---
 

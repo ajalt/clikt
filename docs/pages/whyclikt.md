@@ -1,6 +1,6 @@
 ---
 title: Why Clikt?
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: whyclikt.html
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Documenting Scripts
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: documenting.html
 ---
 

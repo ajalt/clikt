@@ -1,6 +1,6 @@
 ---
 title: Parameters
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: parameters.html
 ---
 

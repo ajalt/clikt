@@ -1,6 +1,6 @@
 ---
 title: Exception Handling
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: exceptions.html
 ---
 

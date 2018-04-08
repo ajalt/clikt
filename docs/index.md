@@ -1,5 +1,5 @@
 ---
-sidebar: home_sidebar
+sidebar: clikt_sidebar
 permalink: index.html
 topnav: topnav
 ---

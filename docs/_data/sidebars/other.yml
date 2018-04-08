@@ -21,7 +21,7 @@ entries:
       url: /options.html#prompting
 
     - title: Eager Options
-      url: /options.html#eageroptions
+      url: /options.html#eager-options
 
     - title: Customizing Name
       url: /commands.html#customname

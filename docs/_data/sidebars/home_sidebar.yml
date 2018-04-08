@@ -52,8 +52,12 @@ entries:
 
     - title: Basic Options
       url: /options.html#basic-options
-    - title: Default Values
-      url: /options.html#default-values
+    - title: Option Names
+      url: /options.html#option-names
+    - title: Option Names
+      url: /options.html#option-names
+    - title: Customizing Options
+      url: /options.html#customizing-options
     - title: Multi Value Options
       url: /options.html#multi-value-options
     - title: Multiple Options
@@ -71,13 +75,15 @@ entries:
     - title: Password Prompts
       url: /options.html#password-prompts
     - title: Eager Options
-      url: /options.html#eageroptions
+      url: /options.html#eager-options
     - title: Values From Environment Variables
       url: /options.html#envvars
     - title: Multiple Values from Environment Variables
       url: /options.html#multiple-envvars
+    - title: Windows and Java-Style Option Prefixes
+      url: /options.html#-option-prefixes
     - title: Option Transformation Order
-      url: /options.html#-ption-transformation-order
+      url: /options.html#-option-transformation-order
 
   - title: Arguments
     url: /arguments.html

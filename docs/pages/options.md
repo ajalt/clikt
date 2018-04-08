@@ -6,6 +6,80 @@ permalink: options.html
 
 Options are added to commands by defining a property delegate with the {%
 include api.html pkg="parameters.options" fun="option" %} function.
+
+## Basic Options
+
+The default option takes one value of type `String`. The property is
+nullable. If the option is not given on the command line, the property
+value will be null. If the option is given at least once, the property
+will return the value of the last occurrence of the option.
+
+```kotlin
+class Hello: CliktCommand() {
+    val name by option(help="your name")
+    override fun run() {
+        TermUi.echo("Hello, $name!")
+    }
+}
+```
+
+And on the command line:
+
+```
+$ ./hello --name=Foo
+Hello, Foo!
+```
+
+## Option Names
+
+If you don't specify names for an option, a lowercase hyphen-separated
+name is automatically inferred from the property. For example, `val
+myOpt by option()` will create an option that can be called with
+`--my-opt`.
+
+You can also specify any number of names for an option manually:
+
+```kotlin
+class Hello: CliktCommand() {
+    val name by option("-n", "--name", help="your name")
+    override fun run() {
+        TermUi.echo("Hello, $name!")
+    }
+}
+```
+
+Option names that are two characters long (like `-n`) are treated as
+POSIX-style short options. You call them with a value like this:
+
+```
+$ ./hello -nfoo
+Hello, foo!
+```
+
+or:
+
+```
+$ ./hello -n foo
+Hello, foo!
+```
+
+All other option names are considered long options, and can be called
+like this:
+
+```
+$ ./hello --name=foo
+Hello, foo!
+```
+
+or:
+
+```
+$ ./hello --name foo
+Hello, foo!
+```
+
+## Customizing Options
+
 The option behavior and delegate type can be customized by calling
 extension functions on the {% include api.html
 pkg="parameters.options" fun="option" %} call. For example, here are
@@ -41,7 +115,7 @@ independently:
 
 3. How to handle all calls to the option (i.e. if the option is not given, or is given more than once).
 
-   By defualt, the option delegate value is the null if the option is
+   By default, the option delegate value is the null if the option is
    not given on the command line, but you can change this behavior with
    functions like {% include api.html pkg="parameters.options"
    fun="default" %} and {% include api.html pkg="parameters.options"
@@ -51,31 +125,6 @@ Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
 can be used with all of the existing functions without any repeated
 code.
-
-## Basic Options
-
-The default option takes one value of type `String`. The property is
-nullable. If the option is not given on the command line, the property
-value will be null. If the option is given at least once, the property
-will return the value of the last occurrence of the option. If you don't
-specify names for the option, one is lowercase hyphen-separated name is
-automatically inferred from the property.
-
-```kotlin
-class Hello: CliktCommand() {
-    val name by option(help="your name")
-    override fun run() {
-        TermUi.echo("Hello, $name!")
-    }
-}
-```
-
-And on the command line:
-
-```
-$ ./hello --name=Foo
-Hello, Foo!
-```
 
 ## Default Values
 
@@ -121,12 +170,13 @@ include api.html pkg="parameters.options" fun="transform-values" %}.
 You give that function the number of values you want, and a lambda that
 will transform a list of values into the output container. The list will
 always have a size equal to the number you specify. If the user provides
-a different number of values, the parser will inform the user and your
+a different number of values, Clikt will inform the user and your
 lambda won't be called.
 
 ```kotlin
 data class Quad<out T>(val a: T, val b: T, val c: T, val d: T)
 fun <T> Quad<T>.toList(): List<T> = listOf(a, b, c, d)
+
 class Geometry : CliktCommand() {
     val square by option().int().pair()
     val cube by option().int().triple()
@@ -219,6 +269,29 @@ true
 $ ./cli --on --off
 false
 ```
+
+
+Multiple short flag options can be combined when called on the command
+line:
+
+```kotlin
+class Cli : CliktCommand() {
+    val flagA by option("-a").flag()
+    val flagB by option("-b").flag()
+    val foo by option("-f")
+    override fun run() {
+        TermUi.echo("$flagA $flagB $foo")
+    }
+}
+```
+
+And on the command line:
+
+```
+$ ./cli -abfFoo
+true true Foo
+```
+
 
 ## Counted Flag Options
 
@@ -361,7 +434,7 @@ Your hidden password: hunter2
 ```
 
 
-## Eager Options {#eageroptions}
+## Eager Options
 
 Sometimes you want an option to halt execution immediately and print a
 message. For example, the built-on `--help` option, or the `--version`
@@ -524,6 +597,52 @@ $ ./hello
 Hello Foo
 Hello Bar
 ```
+
+## Windows and Java-Style Option Prefixes {#option-prefixes}
+
+When specifying option names manually, you can use any prefix (as long
+as it's entirely punctuation).
+
+For example, you can make a Windows-style interface with slashes:
+
+```kotlin
+class Hello: CliktCommand() {
+    val name by option("/name", help="your name")
+    override fun run() {
+        TermUi.echo("Hello, $name!")
+    }
+}
+```
+
+An on the command line:
+
+```
+$ ./hello /name Foo
+Hello, Foo!
+```
+
+Or you can make a Java-style interface that uses single-dashes for long
+options:
+
+```kotlin
+class Hello: CliktCommand() {
+    val name by option("-name", help="your name")
+    override fun run() {
+        TermUi.echo("Hello, $name!")
+    }
+}
+```
+
+An on the command line:
+
+```
+$ ./hello -name Foo
+Hello, Foo!
+```
+
+Note that inferred names will always have a POSIX-style prefix like
+`--name`. If you want to use a different prefix, you should specify all
+option names manually.
 
 ## Option Transformation Order
 

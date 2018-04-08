@@ -132,6 +132,11 @@ a[data-toggle="tooltip"] {
     cursor: default;
 }
 
+.navbar {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
 .navbar-inverse {
     background-color: #49525e;
     border-color: #5b893c;
@@ -148,7 +153,7 @@ a[data-toggle="tooltip"] {
 
 .navbar-inverse .navbar-nav > li > iframe {
     background-color: transparent;
-    margin-top:14px;
+    margin-top:16px;
     margin-left:10px;
 }
 

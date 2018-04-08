@@ -10,18 +10,19 @@ topnav: topnav
 
 Clikt *(pronounced "clicked")* is a Kotlin library for creating
 beautiful command line interfaces in a composable way with as little
-code as necessary. It's the "Command Line Interface for Kotlin". It’s
+code as necessary. It's the "Command Line Interface for Kotlin". It's
 highly configurable but comes with sensible defaults out of the box.
 
-It aims to make the process of writing command line tools simple and
-intuitive while supporting a wide variety of use cases, and allowing
+Inspired by Python's [Click](https://github.com/pallets/click), it is
+designed to make the process of writing command line tools simple and
+intuitive while supporting a wide variety of use cases and allowing
 advanced customization when needed.
 
 Clikt has:
 
  * arbitrary nesting of commands
  * composable, type safe parameter values
- * automatic help page generation
+ * support for a wide variety of command line interface styles
 
  What does it look like? Here's a complete example of a simple Clikt
  program:
@@ -83,5 +84,21 @@ Error: no such option: "--whoops".
 * [Arguments](api/clikt/com.github.ajalt.clikt.parameters.arguments/index.html)
 * [Parameter Type Conversions](api/clikt/com.github.ajalt.clikt.parameters.types/index.html)
 * [Output Formatting](api/clikt/com.github.ajalt.clikt.output/index.html)
+
+# License
+
+    Copyright 2018 AJ Alt
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 {% include links.html %}

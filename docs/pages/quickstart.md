@@ -5,7 +5,7 @@ permalink: quickstart.html
 ---
 
 You can get the library using any maven-compatible build system.
-Installation instructions can be found in the [README](/README.md).
+Installation instructions can be found in the [README](https://github.com/ajalt/clikt).
 
 ## Basic Concepts
 

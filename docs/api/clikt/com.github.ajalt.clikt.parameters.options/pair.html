@@ -1,0 +1,19 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>pair - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="index.html">com.github.ajalt.clikt.parameters.options</a>&nbsp;/&nbsp;<a href="./pair.html">pair</a><br/>
+<br/>
+<h1>pair</h1>
+<a name="com.github.ajalt.clikt.parameters.options$pair(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.pair.EachT, com.github.ajalt.clikt.parameters.options.pair.EachT, com.github.ajalt.clikt.parameters.options.pair.ValueT)))"></a>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="pair.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="pair.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">pair</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="pair.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">,</span>&nbsp;<a href="pair.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="pair.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>Change to option to take two values, held in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a></p>
+<p>This must be called after converting the value type, and before other transforms.</p>
+<p>Example:</p>
+<pre><code class="lang-kotlin">val opt: Pair&lt;Int, Int&gt;? by option().int().pair()
+</code></pre>
+</BODY>
+</HTML>

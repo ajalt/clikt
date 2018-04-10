@@ -1,0 +1,19 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>pair - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="index.html">com.github.ajalt.clikt.parameters.arguments</a>&nbsp;/&nbsp;<a href="./pair.html">pair</a><br/>
+<br/>
+<h1>pair</h1>
+<a name="com.github.ajalt.clikt.parameters.arguments$pair(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.pair.T, )))"></a>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">pair</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Require exactly two values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.</p>
+<p>This must be called after converting the value type, and before other transforms.</p>
+<p>Example:</p>
+<pre><code class="lang-kotlin">val arg: Pair&lt;Int, Int&gt; by argument().int().pair()
+</code></pre>
+</BODY>
+</HTML>

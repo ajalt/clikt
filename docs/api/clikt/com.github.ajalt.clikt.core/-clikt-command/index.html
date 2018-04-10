@@ -210,7 +210,7 @@ without a subcommand. If true, <a href="run.html">run</a> will be called. By def
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">findObject</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="../find-object.html#T"><span class="identifier">T</span></a><span class="symbol">?</span><span class="symbol">&gt;</span></code>
 <p>Find the closest object of type <a href="../find-object.html#T">T</a>, or null</p>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">findObject</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.core$findObject(com.github.ajalt.clikt.core.CliktCommand, kotlin.Function0((com.github.ajalt.clikt.core.findObject.T)))/default">default</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../find-object.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="../find-object.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Find the closest object of type <a href="../find-object.html#T">T</a>, setting <code>context.</code><a href="#">obj</a> if one is not found.</p>
+<p>Find the closest object of type <a href="../find-object.html#T">T</a>, setting <code>context.obj</code> if one is not found.</p>
 </td>
 </tr>
 <tr>
@@ -261,7 +261,7 @@ without a subcommand. If true, <a href="run.html">run</a> will be called. By def
 </td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">NoRunCliktCommand</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CliktCommand</span></a></code>
-<p>A <a href="./index.html">CliktCommand</a> that has a default implementation of <a href="run">CliktCommand.run</a>.</p>
+<p>A <a href="./index.html">CliktCommand</a> that has a default implementation of <a href="run.html">CliktCommand.run</a> that is a no-op.</p>
 </td>
 </tr>
 </tbody>

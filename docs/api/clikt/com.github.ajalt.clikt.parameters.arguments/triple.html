@@ -10,6 +10,10 @@
 <h1>triple</h1>
 <a name="com.github.ajalt.clikt.parameters.arguments$triple(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.triple.T, )))"></a>
 <code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">triple</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><span class="identifier">Triple</span></a><span class="symbol">&lt;</span><a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Require exactly three values to this argument.</p>
+<p>Require exactly three values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a></p>
+<p>This must be called after converting the value type, and before other transforms.</p>
+<p>Example:</p>
+<pre><code class="lang-kotlin">val arg: Triple&lt;Int, Int, Int&gt; by argument().int().triple()
+</code></pre>
 </BODY>
 </HTML>

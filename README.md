@@ -3,15 +3,14 @@
     <p><img src="docs/images/animation.png"></p>
 </h1>
 
-Clikt *(pronounced "clicked")* is a Kotlin library for creating
-beautiful command line interfaces in a composable way with as little
-code as necessary. It's the "Command Line Interface for Kotlin". It's
-highly configurable but comes with sensible defaults out of the box.
+Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
+command line interfaces simple and intuitive. It the "Command Line
+Interface for Kotlin".
 
 Inspired by Python's [Click](https://github.com/pallets/click), it is
-designed to make the process of writing command line tools simple and
-intuitive while supporting a wide variety of use cases and allowing
-advanced customization when needed.
+designed to make the process of writing command line tools efortless
+while supporting a wide variety of use cases and allowing advanced
+customization when needed.
 
 Clikt has:
 
@@ -22,7 +21,7 @@ Clikt has:
  What does it look like? Here's a complete example of a simple Clikt
  program:
 
- ```kotlin
+```kotlin
 class Hello : CliktCommand() {
     val count: Int by option(help="Number of greetings").int().default(1)
     val name: String by option(help="The person to greet").prompt("Your name")
@@ -35,11 +34,11 @@ class Hello : CliktCommand() {
 }
 
 fun main(args: Array<String>) = Hello().main(args)
- ```
+```
 
  And here's what it looks like when run:
 
- ```
+```
  $ ./hello --count=3
  Your name: John
  Hello John!

@@ -8,15 +8,14 @@ topnav: topnav
 {% include image.html file="wordmark.svg" max-width="700" %}
 </div>
 
-Clikt *(pronounced "clicked")* is a Kotlin library for creating
-beautiful command line interfaces in a composable way with as little
-code as necessary. It's the "Command Line Interface for Kotlin". It's
-highly configurable but comes with sensible defaults out of the box.
+Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
+command line interfaces simple and intuitive. It the "Command Line
+Interface for Kotlin".
 
 Inspired by Python's [Click](https://github.com/pallets/click), it is
-designed to make the process of writing command line tools simple and
-intuitive while supporting a wide variety of use cases and allowing
-advanced customization when needed.
+designed to make the process of writing command line tools efortless
+while supporting a wide variety of use cases and allowing advanced
+customization when needed.
 
 Clikt has:
 

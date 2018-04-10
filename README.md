@@ -76,17 +76,12 @@ them with the included [`runsample` script](runsample).
 
 ## Installation
 
-Clikt is distributed with [jitpack](https://jitpack.io/#ajalt/clikt).
+Clikt is distributed with
+[Jcenter](https://bintray.com/ajalt/maven/clikt) and
+[Jitpack](https://jitpack.io/#ajalt/clikt).
 
-First, add Jitpack to your gradle repositories.
-
-```groovy
-repositories {
-    maven { url "https://jitpack.io" }
-}
-```
-
-Then add the dependency on Clikt.
+Make sure one either jcenter or jitpack is included in your repository
+list, then you can add Clikt to your project:
 
 ```groovy
 dependencies {

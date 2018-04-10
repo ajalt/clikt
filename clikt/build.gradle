@@ -1,5 +1,19 @@
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = VERSION_NAME
+group = GROUP
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+    }
+}
 
 dokka {
     outputDirectory = "$rootDir/docs/api"
@@ -35,6 +49,34 @@ install {
                     distribution 'repo'
                 }
             }
+            scm {
+                connection "https://github.com/ajalt/clikt.git"
+                url "https://github.com/ajalt/clikt"
+            }
+            developers {
+                developer {
+                    name 'AJ Alt'
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintray.user') ? project.property('bintray.user') : ''
+    key = project.hasProperty('bintray.apikey') ? project.property('bintray.apikey') : ''
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'clikt'
+        licenses = ['Apache-2.0']
+        vcsUrl = "https://github.com/ajalt/clikt.git"
+
+        version {
+            name = project.version
+            desc = project.description
+            released = new Date()
+            vcsTag = project.version
         }
     }
 }

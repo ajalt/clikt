@@ -9,8 +9,8 @@ import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
 internal object Parser {
-    fun parse(argv: Array<String>, context: Context) {
-        parse(argv.asList(), context, 0)
+    fun parse(argv: List<String>, context: Context) {
+        parse(argv, context, 0)
     }
 
     private tailrec fun parse(argv: List<String>, context: Context, startingArgI: Int) {

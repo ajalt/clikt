@@ -132,9 +132,13 @@ abstract class CliktCommand constructor(
      *
      * You should use [main] instead unless you want to handle output yourself.
      */
-    fun parse(argv: Array<String>, context: Context? = null) {
-        createContext(context)
+    fun parse(argv: List<String>, parentContext: Context? = null) {
+        createContext(parentContext)
         Parser.parse(argv, this.context)
+    }
+
+    fun parse(argv: Array<String>, parentContext: Context? = null) {
+        parse(argv.asList(), parentContext)
     }
 
     /**
@@ -143,7 +147,7 @@ abstract class CliktCommand constructor(
      * This function calls [parse] and catches and [CliktError]s that are thrown. Other error are allowed to
      * pass through.
      */
-    fun main(argv: Array<String>) {
+    fun main(argv: List<String>) {
         try {
             parse(argv)
         } catch (e: PrintHelpMessage) {
@@ -163,6 +167,8 @@ abstract class CliktCommand constructor(
             exitProcess(1)
         }
     }
+
+    fun main(argv: Array<String>) = main(argv.asList())
 
     /**
      * Perform actions after parsing is complete and this command is invoked.

@@ -9,7 +9,7 @@ entries:
 
     - title: Basic Concepts
       url: /quickstart.html#basic-concepts
-    - title: Echoing
+    - title: Printing to Stdout and Stderr
       url: /quickstart.html#echoing
     - title: Nesting Commands
       url: /quickstart.html#nesting-commands

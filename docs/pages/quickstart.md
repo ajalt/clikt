@@ -42,7 +42,7 @@ Options:
   -h, --help  Show this message and exit
 ```
 
-## Echoing
+## Printing to Stdout and Stderr {#echoing}
 
 Why does this example use {% include api.html pkg="output"
 class="term-ui" fun="echo" %} instead of
@@ -52,7 +52,8 @@ support. {% include api.html pkg="output" class="term-ui" fun="echo"
 text="echo"%} automatically translates line breaks into the line
 separator for the current platform. So you don't have to worry that some
 of your users will see mangled output because you didn't test on
-Windows.
+Windows. You can also pass `err=true` to `echo` to print to stderr
+instead of stdout.
 
 ## Nesting Commands
 

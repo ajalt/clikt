@@ -13,11 +13,13 @@ object TermUi {
      * This is similar to [print] or [println], but converts newlines to the system line separator.
      *
      * @param message The message to print.
-     * @param trailingNewline if true, behave like [println], otherwise behave like [print]
+     * @param trailingNewline If true, behave like [println], otherwise behave like [print]
+     * @param err If true, print to stderr instead of stdout
      */
-    fun echo(message: Any?, trailingNewline: Boolean = true) {
+    fun echo(message: Any?, trailingNewline: Boolean = true, err: Boolean = false) {
         val text = message?.toString()?.replace(Regex("\r?\n"), System.lineSeparator()) ?: "null"
-        if (trailingNewline) println(text) else print(text)
+        val ps = if (err) System.err else System.out
+        if (trailingNewline) ps.println(text) else ps.print(text)
     }
 
     /**

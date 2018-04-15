@@ -4,8 +4,12 @@ import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
 
-/** An internal error that signals Clikt to abort. */
-class Abort : RuntimeException()
+/**
+ * An internal error that signals Clikt to abort.
+ *
+ * @property error If true, print "Aborted" and exit with an error code. Otherwise, exit with no error code.
+ */
+class Abort(val error: Boolean = true) : RuntimeException()
 
 /**
  * An exception during command line processing that should be shown to the user.

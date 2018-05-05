@@ -47,12 +47,12 @@ internal object Parser {
                     i += 1
                     canParseOptions = false
                 }
-                canParseOptions && ('=' in arg || normArg in longNames || prefix.length > 1) -> {
+                canParseOptions && ('=' in arg || normArg in longNames || prefix.length > 1 && prefix in prefixes) -> {
                     val (opt, result) = parseLongOpt(context, args, arg, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount
                 }
-                canParseOptions && arg.length >= 2 && prefix.isNotEmpty() -> {
+                canParseOptions && arg.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
                     val (count, invokes) = parseShortOpt(context, args, arg, i, optionsByName)
                     invocations += invokes
                     i += count

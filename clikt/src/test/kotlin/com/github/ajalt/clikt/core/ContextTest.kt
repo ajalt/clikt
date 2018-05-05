@@ -62,7 +62,7 @@ class ContextTest {
             C().context { helpOptionNames = setOf("-x") }.parse(splitArgv("-x"))
         }
         assertThrows<NoSuchOption> {
-            C().context { helpOptionNames = setOf("-x") }.parse(splitArgv("--help"))
+            C().context { helpOptionNames = setOf("--x") }.parse(splitArgv("--help"))
         }
     }
 }

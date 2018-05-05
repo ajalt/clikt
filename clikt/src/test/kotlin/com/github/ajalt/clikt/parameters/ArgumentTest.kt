@@ -330,4 +330,58 @@ class ArgumentTest {
         }
         assertThrows<IllegalArgumentException> { C() }
     }
+
+    @Test
+    fun `punctuation in arg prefix unix style`() = parameterized(
+            row("/foo"),
+            row("\\foo")
+    ) { (argv) ->
+        class C : CliktCommand() {
+            val x by argument()
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(argv)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `punctuation in arg prefix unix style error`() {
+        class C : NeverCalledCliktCommand() {
+            val x by argument()
+        }
+        assertThrows<NoSuchOption> { C().parse(splitArgv("-foo")) }
+    }
+
+    @Test
+    fun `punctuation in arg prefix windows style`() = parameterized(
+            row("-foo"),
+            row("--foo")
+    ) { (argv) ->
+        class C : CliktCommand() {
+            init {
+                context { helpOptionNames = setOf("/help") }
+            }
+
+            val x by argument()
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(argv)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `punctuation in arg prefix windows style error`() {
+        class C : NeverCalledCliktCommand() {
+            init {
+                context { helpOptionNames = setOf("/help") }
+            }
+
+            val x by argument()
+        }
+        assertThrows<NoSuchOption> { C().parse(splitArgv("/foo")) }
+    }
 }

@@ -237,9 +237,11 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required()
  * ```kotlin
  * val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
  * ```
+ *
+ * @param default The value to use if the option is not supplied. Defaults to an empty list.
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple()
-        : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { it }
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(default: List<EachT> = emptyList())
+        : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { if (it.isEmpty()) default else it }
 
 /**
  * Change the number of values that this option takes.

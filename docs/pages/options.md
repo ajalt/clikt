@@ -209,7 +209,7 @@ get this behavior with Clikt, you can use {% include api.html
 pkg="parameters.options" fun="multiple" %}. This will cause the property
 delegate value to be a list, where each item in the list is the value of
 from one occurrence of the option. If the option is never given, the
-list will be empty.
+list will be empty (or you can specify a list to use).
 
 ```kotlin
 class Commit : CliktCommand() {
@@ -652,13 +652,14 @@ valid order for the functions to be applied. For example,
 `option().default(3).int()` will not compile, because {% include
 api.html pkg="parameters.options" fun="default" %} must be applied
 after the value type conversion. Similarly, you can only apply one
-transform of each type. So `option().int().float()` is invalid (since {%
+transform of each type. So `option().int().float()` is invalid since {%
 include api.html pkg="parameters.types" fun="int" %} and {% include
 api.html pkg="parameters.types" fun="float" %} both change the value
-type), as is `option().default("").multiple()` (since {% include
-api.html pkg="parameters.options" fun="default" %} and {% include
-api.html pkg="parameters.options" fun="multiple" %} both transform
-the call list).
+type, as is `option().default("").multiple()` since {% include api.html
+pkg="parameters.options" fun="default" %} and {% include api.html
+pkg="parameters.options" fun="multiple" %} both transform the call list
+(if you need a custom default value for `multiple`, you can pass it one
+as an argument).
 
 Here's an integer option with one of each available transform in a valid
 order:

@@ -331,6 +331,30 @@ class OptionTest {
     }
 
     @Test
+    fun `multiple option default`() {
+        class C : CliktCommand() {
+            val x by option().multiple()
+            override fun run() {
+                assertThat(x).isEqualTo(listOf<String>())
+            }
+        }
+
+        C().parse(splitArgv(""))
+    }
+
+    @Test
+    fun `multiple option custom default`() {
+        class C : CliktCommand() {
+            val x by option().multiple(listOf("foo"))
+            override fun run() {
+                assertThat(x).isEqualTo(listOf("foo"))
+            }
+        }
+
+        C().parse(splitArgv(""))
+    }
+
+    @Test
     fun `option metavars`() {
         class C : CliktCommand() {
             val x by option()

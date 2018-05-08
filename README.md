@@ -85,7 +85,7 @@ list, then you can add Clikt to your project:
 
 ```groovy
 dependencies {
-   compile 'com.github.ajalt:clikt:1.1.0'
+   compile 'com.github.ajalt:clikt:1.2.0'
 }
 ```
 

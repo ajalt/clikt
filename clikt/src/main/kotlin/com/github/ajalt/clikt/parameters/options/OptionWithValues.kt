@@ -212,6 +212,22 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
 }
 
 /**
+ * If the option is not called on the command line (and is not set in an envvar), use the lazy [value] for the option.
+ *
+ * This must be applied after all other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: Pair<Int, Int> by option().int().pair().defaultLazy { (1..100).sum() to 2 }
+ * ```
+ */
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(value: () -> EachT)
+    : OptionWithValues<EachT, EachT, ValueT> {
+    return transformAll { it.lastOrNull() ?: value() }
+}
+
+/**
  * If the option is not called on the command line (and is not set in an envvar), throw a [MissingParameter].
  *
  * This must be applied after all other transforms.

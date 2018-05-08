@@ -316,6 +316,22 @@ class OptionTest {
     }
 
     @Test
+    fun `default lazy option`() = parameterized(
+            row("", "55"),
+            row("--x 3", "3"),
+            row("-x4", "4")) { (argv, expected) ->
+        class C : CliktCommand() {
+            private val sum: Int by lazy { (1..10).sum() }
+            val x by option("-x", "--x").defaultLazy { "$sum" }
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
     fun `required option`() {
         class C : CliktCommand() {
             val x by option().required()

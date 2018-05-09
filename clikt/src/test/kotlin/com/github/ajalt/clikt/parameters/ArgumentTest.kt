@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.counted
+import com.github.ajalt.clikt.parameters.options.defaultLazy
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.*
 import org.assertj.core.api.Assertions.assertThat
@@ -48,6 +49,24 @@ class ArgumentTest {
             }
         }
 
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `defaultLazy argument`() = parameterized(
+            row("", "default", true),
+            row("foo", "foo", false)) { (argv, expected, ec) ->
+        var called = false
+
+        class C : CliktCommand() {
+            val x by argument().defaultLazy { called = true; "default" }
+            override fun run() {
+                assertThat(x).called("x").isEqualTo(expected)
+                assertThat(called).isEqualTo(ec)
+            }
+        }
+
+        assertThat(called).isFalse
         C().parse(splitArgv(argv))
     }
 

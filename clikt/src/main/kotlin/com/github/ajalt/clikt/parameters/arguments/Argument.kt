@@ -6,6 +6,8 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
+import com.github.ajalt.clikt.parameters.options.NullableOption
+import com.github.ajalt.clikt.parameters.options.OptionWithValues
 import com.github.ajalt.clikt.parameters.options.transformAll
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.properties.ReadOnlyProperty
@@ -247,6 +249,22 @@ fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T
  */
 fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
     return transformAll(required = false) { it.firstOrNull() ?: value }
+}
+
+/**
+ * If the argument is not given, call [value] and use its return value instead of throwing an error.
+ *
+ * This must be applied after all other transforms. If the argument is given on the command line, [value] will
+ * not be called.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val arg: Pair<Int, Int> by argument().int().pair().defaultLazy { expensiveOperation() }
+ * ```
+ */
+inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -> T): ArgumentDelegate<T> {
+    return transformAll(required = false) { it.firstOrNull() ?: value() }
 }
 
 /**

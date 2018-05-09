@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>defaultLazy - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="index.html">com.github.ajalt.clikt.parameters.options</a>&nbsp;/&nbsp;<a href="./default-lazy.html">defaultLazy</a><br/>
+<br/>
+<h1>defaultLazy</h1>
+<a name="com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">EachT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-nullable-option.html"><span class="identifier">NullableOption</span></a><span class="symbol">&lt;</span><a href="default-lazy.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="default-lazy.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">defaultLazy</span><span class="symbol">(</span><span class="keyword">crossinline</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="default-lazy.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-option-with-values/index.html"><span class="identifier">OptionWithValues</span></a><span class="symbol">&lt;</span><a href="default-lazy.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="default-lazy.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">,</span>&nbsp;<a href="default-lazy.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
+<p>If the option is not called on the command line (and is not set in an envvar), call the <a href="default-lazy.html#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</a> and use its
+return value for the option.</p>
+<p>This must be applied after all other transforms. If the option is given on the command line, <a href="default-lazy.html#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</a> will
+not be called.</p>
+<p>Example:</p>
+<pre><code class="lang-kotlin">val opt: Pair&lt;Int, Int&gt; by option().int().pair().defaultLazy { expensiveOperation() }
+</code></pre>
+</BODY>
+</HTML>

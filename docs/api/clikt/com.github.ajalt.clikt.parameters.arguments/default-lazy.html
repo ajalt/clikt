@@ -1,0 +1,20 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>defaultLazy - clikt</title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="index.html">com.github.ajalt.clikt.parameters.arguments</a>&nbsp;/&nbsp;<a href="./default-lazy.html">defaultLazy</a><br/>
+<br/>
+<h1>defaultLazy</h1>
+<a name="com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))"></a>
+<code><span class="keyword">inline</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">defaultLazy</span><span class="symbol">(</span><span class="keyword">crossinline</span> <span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-argument-delegate/index.html"><span class="identifier">ArgumentDelegate</span></a><span class="symbol">&lt;</span><a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>If the argument is not given, call <a href="default-lazy.html#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value">value</a> and use its return value instead of throwing an error.</p>
+<p>This must be applied after all other transforms. If the argument is given on the command line, <a href="default-lazy.html#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value">value</a> will
+not be called.</p>
+<p>Example:</p>
+<pre><code class="lang-kotlin">val arg: Pair&lt;Int, Int&gt; by argument().int().pair().defaultLazy { expensiveOperation() }
+</code></pre>
+</BODY>
+</HTML>

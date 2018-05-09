@@ -153,6 +153,11 @@ $ ./pow
 2 ^ 1.0 = 2.0
 ```
 
+If the default value is expensive to compute, you can use {% include
+api.html pkg="parameters.options" fun="default-lazy" %} instead of {%
+include api.html pkg="parameters.options" fun="default" %}. It has the
+same effect, but you give it a lambda returning the default value, and
+the lambda will only be called if the default value is used.
 
 ## Multi Value Options
 

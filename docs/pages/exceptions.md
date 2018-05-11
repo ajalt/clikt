@@ -14,11 +14,12 @@ When you call {% include api.html pkg="core" class="clikt-command"
 fun="main" %}, it will parse the command line and catch any {% include
 api.html pkg="core" class="clikt-error" %} and {% include api.html
 pkg="core" class="abort" %} exceptions. If it catches one, it will then
-print out the appropriate information to stdout, and exit the process.
-If the caught exception is a {% include api.html pkg="core"
+print out the appropriate information and exit the process. If the
+caught exception is a {% include api.html pkg="core"
 class="print-message" %} or {% include api.html pkg="core"
-class="print-help-message" %}, the process exit status will be 0.
-Otherwise it will exist with status 1.
+class="print-help-message" %}, the process exit status will be 0 and the
+message will be printed to stdout. Otherwise it will exit with status 1
+and print the message to stderr.
 
 Any other types of exceptions indicate a programming error, and are not
 caught by {% include api.html pkg="core" class="clikt-command"

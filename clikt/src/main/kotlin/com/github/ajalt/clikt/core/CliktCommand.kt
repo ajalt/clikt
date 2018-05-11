@@ -157,13 +157,13 @@ abstract class CliktCommand constructor(
             TermUi.echo(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-            TermUi.echo(e.helpMessage(context))
+            TermUi.echo(e.helpMessage(context), err = true)
             exitProcess(1)
         } catch (e: CliktError) {
-            TermUi.echo(e.message)
+            TermUi.echo(e.message, err = true)
             exitProcess(1)
         } catch (e: Abort) {
-            TermUi.echo("Aborted!")
+            TermUi.echo("Aborted!", err = true)
             exitProcess(1)
         }
     }

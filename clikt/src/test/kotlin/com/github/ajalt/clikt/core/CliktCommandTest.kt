@@ -3,11 +3,11 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import org.junit.Test
 
 
@@ -23,25 +23,25 @@ class CliktCommandTest {
 
         C().apply {
             parse(emptyArray())
-            assertThat(ran).isTrue()
+            ran shouldBe true
         }
 
         var child = C()
         C().subcommands(child).apply {
-            assertThrows<PrintHelpMessage> {
+            shouldThrow<PrintHelpMessage> {
                 parse(emptyArray())
             }
-            assertThat(ran).isFalse()
-            assertThat(child.ran).isFalse()
+            ran shouldBe false
+            child.ran shouldBe false
         }
 
         child = C()
         C().subcommands(child).apply {
             parse(splitArgv("foo"))
-            assertThat(ran).isTrue()
-            assertThat(context.invokedSubcommand).isEqualTo(child)
-            assertThat(child.ran).isTrue()
-            assertThat(child.context.invokedSubcommand).isNull()
+            ran shouldBe true
+            context.invokedSubcommand shouldBe child
+            child.ran shouldBe true
+            child.context.invokedSubcommand shouldBe null
         }
     }
 
@@ -56,31 +56,30 @@ class CliktCommandTest {
 
         C().apply {
             parse(emptyArray())
-            assertThat(ran).isTrue()
+            ran shouldBe true
         }
 
         var child = C()
         C().subcommands(listOf(child)).apply {
             parse(emptyArray())
-            assertThat(ran).isTrue()
-            assertThat(context.invokedSubcommand).isNull()
-            assertThat(child.ran).isFalse()
+            ran shouldBe true
+            context.invokedSubcommand shouldBe null
+            child.ran shouldBe false
         }
 
         child = C()
         C().subcommands(child).apply {
             parse(splitArgv("foo"))
-            assertThat(ran).isTrue()
-            assertThat(context.invokedSubcommand).isEqualTo(child)
-            assertThat(child.ran).isTrue()
-            assertThat(child.context.invokedSubcommand).isNull()
+            ran shouldBe true
+            context.invokedSubcommand shouldBe child
+            child.ran shouldBe true
+            child.context.invokedSubcommand shouldBe null
         }
     }
 
     @Test
     fun `aliases`() = parameterized(
             row("-xx", "x", emptyList()),
-            row("y y", "y", emptyList()),
             row("a", "a", listOf("b")),
             row("a", "a", listOf("b")),
             row("b", null, listOf("-xa")),
@@ -91,8 +90,8 @@ class CliktCommandTest {
             val x by option("-x", "--xx")
             val y by argument().multiple()
             override fun run() {
-                assertThat(x).isEqualTo(ex)
-                assertThat(y).isEqualTo(ey)
+                x shouldBe ex
+                y shouldBe ey
             }
 
             override fun aliases() = mapOf(

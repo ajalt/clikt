@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import org.junit.Test
 
 class ContextTest {
@@ -15,16 +15,16 @@ class ContextTest {
             val o4 by findObject<Int>()
 
             override fun run() {
-                assertThat(context.findRoot()).isEqualTo(context)
+                context.findRoot() shouldBe context
             }
         }
 
         val c = C().apply { parse(emptyArray()) }
 
-        assertThat(c.o1).isNull()
-        assertThat(c.o2).isEqualTo("foo")
-        assertThat(c.o3).isEqualTo("foo")
-        assertThat(c.o4).isNull()
+        c.o1 shouldBe null
+        c.o2 shouldBe "foo"
+        c.o3 shouldBe "foo"
+        c.o4 shouldBe null
     }
 
     @Test
@@ -40,28 +40,32 @@ class ContextTest {
             val o4 by findObject<Int>()
 
             override fun run() {
-                assertThat(context.findRoot()).isEqualTo(context)
+                context.findRoot() shouldBe context
             }
         }
 
         val child = C()
         val parent = C().subcommands(child).apply { parse(emptyArray()) }
-        assertThat(parent.o1).isEqualTo(child.o1).isNull()
-        assertThat(parent.o2).isEqualTo(child.o2).isEqualTo(foo)
-        assertThat(parent.o3).isEqualTo(child.o3).isEqualTo(foo)
-        assertThat(parent.o4).isEqualTo(child.o4).isNull()
+        parent.o1 shouldBe child.o1
+        parent.o1 shouldBe null
+        parent.o2 shouldBe child.o2
+        parent.o2 shouldBe foo
+        parent.o3 shouldBe child.o3
+        parent.o3 shouldBe foo
+        parent.o4 shouldBe child.o4
+        parent.o4 shouldBe null
     }
 
     @Test
     fun `default help option names`() {
         class C : NoRunCliktCommand()
 
-        assertThrows<PrintHelpMessage> { C().parse(splitArgv("--help")) }
-        assertThrows<PrintHelpMessage> { C().parse(splitArgv("-h")) }
-        assertThrows<PrintHelpMessage> {
+        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("--help")) }
+        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("-h")) }
+        shouldThrow<PrintHelpMessage> {
             C().context { helpOptionNames = setOf("-x") }.parse(splitArgv("-x"))
         }
-        assertThrows<NoSuchOption> {
+        shouldThrow<NoSuchOption> {
             C().context { helpOptionNames = setOf("--x") }.parse(splitArgv("--help"))
         }
     }

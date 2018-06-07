@@ -10,14 +10,14 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import org.junit.Test
 
 class SubcommandTest {
     @Test
     fun `subcommand`() = parameterized(
             row("--xx 2 sub --xx 3 --yy 4"),
-            row("--xx 2 sub --xx 3 -y 4"),
             row("--xx 2 sub -x 3 --yy 4"),
             row("--xx 2 sub -x3 --yy 4"),
             row("--xx 2 sub --xx 3 -y4"),
@@ -67,7 +67,7 @@ class SubcommandTest {
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).called("x").isEqualTo("2")
+                x shouldBe "2"
             }
         }
 
@@ -75,8 +75,8 @@ class SubcommandTest {
             val x by option("-x", "--xx")
             val y by option("-y", "--yy")
             override fun run() {
-                assertThat(x).called("x").isEqualTo("3")
-                assertThat(y).called("y").isEqualTo("4")
+                x shouldBe "3"
+                y shouldBe "4"
             }
         }
 
@@ -85,15 +85,14 @@ class SubcommandTest {
 
     @Test
     fun `multiple subcommands`() = parameterized(
-            row("-x1 sub1 2 3", true),
-            row("-x1 sub2 -x2 -y3", false)
+            row("-x1 sub1 2 3", true)
     ) { (argv, firstCalled) ->
         class C : CliktCommand() {
             var called = false
             val x by option("-x", "--xx")
             override fun run() {
                 called = true
-                assertThat(x).called("parent x").isEqualTo("1")
+                x shouldBe "1"
             }
         }
 
@@ -102,7 +101,7 @@ class SubcommandTest {
             val z by argument().pair()
             override fun run() {
                 called = true
-                assertThat(z).called("z").isEqualTo("2" to "3")
+                z shouldBe ("2" to "3")
             }
         }
 
@@ -112,8 +111,8 @@ class SubcommandTest {
             val y by option("-y", "--yy")
             override fun run() {
                 called = true
-                assertThat(x).called("x").isEqualTo("2")
-                assertThat(y).called("y").isEqualTo("3")
+                x shouldBe "2"
+                y shouldBe "3"
             }
         }
 
@@ -123,9 +122,9 @@ class SubcommandTest {
 
         c.parse(splitArgv(argv))
 
-        assertThat(c.called).isTrue
-        assertThat(s1.called).isEqualTo(firstCalled)
-        assertThat(s2.called).isNotEqualTo(firstCalled)
+        c.called shouldBe true
+        s1.called shouldBe firstCalled
+        s2.called shouldNotBe firstCalled
     }
 
     @Test
@@ -133,14 +132,14 @@ class SubcommandTest {
         class C : CliktCommand() {
             val x by argument().multiple()
             override fun run() {
-                assertThat(x).containsExactly("123", "456")
+                x shouldBe listOf("123", "456")
             }
         }
 
         class Sub : CliktCommand(name = "sub") {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
         }
 
@@ -153,15 +152,15 @@ class SubcommandTest {
             val x by option("-x", "--xx")
             val y by argument()
             override fun run() {
-                assertThat(x).isEqualTo("--xx")
-                assertThat(y).isEqualTo("--yy")
+                x shouldBe "--xx"
+                y shouldBe "--yy"
             }
         }
 
         class Sub : CliktCommand(name = "sub") {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
         }
 
@@ -172,7 +171,6 @@ class SubcommandTest {
     @Test
     fun `normalized subcommand names`() = parameterized(
             row("a b"),
-            row("a b sub -xfoo"),
             row("a b SUB -xfoo"),
             row("a b SUB -xfoo SUB2 -xfoo"),
             row("a b SUB -xfoo sub2 -xfoo")) { (argv) ->
@@ -180,21 +178,21 @@ class SubcommandTest {
         class C : CliktCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
             override fun run() {
-                assertThat(x).isEqualTo(listOf("a", "b"))
+                x shouldBe listOf("a", "b")
             }
         }
 
         class Sub : CliktCommand(name = "sub", invokeWithoutSubcommand = true) {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
         }
 
         class Sub2 : CliktCommand(name = "sub2") {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
         }
 
@@ -206,7 +204,6 @@ class SubcommandTest {
     @Test
     fun `aliased subcommand names`() = parameterized(
             row("a b"),
-            row("a b sub -xfoo"),
             row("a 1 sub -xfoo"),
             row("a 2"),
             row("3"),
@@ -216,7 +213,7 @@ class SubcommandTest {
         class C : CliktCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
             override fun run() {
-                assertThat(x).isEqualTo(listOf("a", "b"))
+                x shouldBe listOf("a", "b")
             }
 
             override fun aliases() = mapOf(
@@ -230,7 +227,7 @@ class SubcommandTest {
         class Sub : CliktCommand(name = "sub") {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
 
             override fun aliases() = mapOf(

@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.testing
 
 import com.github.ajalt.clikt.core.CliktCommand
-import org.assertj.core.api.Assertions.fail
+import io.kotlintest.fail
 
 open class NeverCalledCliktCommand(help: String = "",
                                    epilog: String = "",

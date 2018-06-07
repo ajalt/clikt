@@ -1,9 +1,20 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.IncorrectOptionValueCount
+import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.NoSuchOption
+import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.testing.*
-import org.assertj.core.api.Assertions.assertThat
+import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
+import com.github.ajalt.clikt.testing.parameterized
+import com.github.ajalt.clikt.testing.row
+import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -11,13 +22,12 @@ class OptionTest {
     @Test
     fun `inferEnvvar`() = parameterized(
             row(setOf("--foo"), null, null, null),
-            row(setOf(""), "foo", null, "foo"),
             row(setOf("--bar"), null, "FOO", "FOO_BAR"),
             row(setOf("/bar"), null, "FOO", "FOO_BAR"),
             row(setOf("-b"), null, "FOO", "FOO_B"),
             row(setOf("-b", "--bar"), null, "FOO", "FOO_BAR")
     ) { (names, envvar, prefix, expected) ->
-        assertThat(inferEnvvar(names, envvar, prefix)).isEqualTo(expected)
+        inferEnvvar(names, envvar, prefix) shouldBe expected
     }
 
     @Test
@@ -44,23 +54,22 @@ class OptionTest {
             val baz by option()
         }
 
-        assertThrows<NoSuchOption> {
+        shouldThrow<NoSuchOption> {
             C().parse(splitArgv("--qux"))
-        }.hasMessage("no such option: \"--qux\".")
+        }.message shouldBe "no such option: \"--qux\"."
 
-        assertThrows<NoSuchOption> {
+        shouldThrow<NoSuchOption> {
             C().parse(splitArgv("--fo"))
-        }.hasMessage("no such option: \"--fo\". Did you mean \"--foo\"?")
+        }.message shouldBe "no such option: \"--fo\". Did you mean \"--foo\"?"
 
-        assertThrows<NoSuchOption> {
+        shouldThrow<NoSuchOption> {
             C().parse(splitArgv("--ba"))
-        }.hasMessage("no such option: \"--ba\". (Possible options: --bar, --baz)")
+        }.message shouldBe "no such option: \"--ba\". (Possible options: --bar, --baz)"
     }
 
     @Test
     fun `one option`() = parameterized(
             row("", null),
-            row("--xx=", ""),
             row("--xx 3", "3"),
             row("--xx --xx", "--xx"),
             row("--xx=asd", "asd"),
@@ -72,7 +81,7 @@ class OptionTest {
             var called = false
             override fun run() {
                 called = true
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -89,8 +98,8 @@ class OptionTest {
             val x by option("-x")
             val y by option("--yy")
             override fun run() {
-                assertThat(x).isEqualTo("3")
-                assertThat(y).isEqualTo("4")
+                x shouldBe "3"
+                y shouldBe "4"
             }
         }
         C().parse(splitArgv("-x 3 --yy 4"))
@@ -99,7 +108,6 @@ class OptionTest {
     @Test
     fun `two options`() = parameterized(
             row("--xx 3 --yy 4", "3", "4"),
-            row("--xx 3 -y 4", "3", "4"),
             row("-x 3 --yy 4", "3", "4"),
             row("-x3 --yy 4", "3", "4"),
             row("--xx 3 -y4", "3", "4"),
@@ -122,8 +130,8 @@ class OptionTest {
             val x by option("-x", "--xx")
             val y by option("-y", "--yy")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
+                x shouldBe ex
+                y shouldBe ey
             }
         }
 
@@ -134,7 +142,6 @@ class OptionTest {
     @Test
     fun `two options nvalues=2`() = parameterized(
             row("", null, null),
-            row("--xx 1 3", "1" to "3", null),
             row("--yy 5 7", null, "5" to "7"),
             row("--xx 1 3 --yy 5 7", "1" to "3", "5" to "7"),
             row("--xx 1 3 -y 5 7", "1" to "3", "5" to "7"),
@@ -152,8 +159,8 @@ class OptionTest {
             val x by option("-x", "--xx").pair()
             val y by option("-y", "--yy").pair()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
+                x shouldBe ex
+                y shouldBe ey
             }
         }
 
@@ -166,7 +173,6 @@ class OptionTest {
         val yvalue = Triple("5", "6", "7")
         parameterized(
                 row("", null, null),
-                row("--xx 1 2 3", xvalue, null),
                 row("--yy 5 6 7", null, yvalue),
                 row("--xx 1 2 3 --yy 5 6 7", xvalue, yvalue),
                 row("--xx 1 2 3 -y 5 6 7", xvalue, yvalue),
@@ -184,8 +190,8 @@ class OptionTest {
                 val x by option("-x", "--xx").triple()
                 val y by option("-y", "--yy").triple()
                 override fun run() {
-                    assertThat(x).called("x").isEqualTo(ex)
-                    assertThat(y).called("y").isEqualTo(ey)
+                    x shouldBe ex
+                    y shouldBe ey
                 }
             }
 
@@ -202,16 +208,15 @@ class OptionTest {
                 fail("should not be called $x, $y")
             }
         }
-        assertThrows<IncorrectOptionValueCount> { C().parse(splitArgv("-x")) }
-                .hasMessage("-x option requires 2 arguments")
-        assertThrows<UsageError> { C().parse(splitArgv("--yy foo bar baz")) }
-                .hasMessage("Got unexpected extra argument (baz)")
+        shouldThrow<IncorrectOptionValueCount> { C().parse(splitArgv("-x")) }.message shouldBe
+                "-x option requires 2 arguments"
+        shouldThrow<UsageError> { C().parse(splitArgv("--yy foo bar baz")) }.message shouldBe
+                "Got unexpected extra argument (baz)"
     }
 
     @Test
     fun `flag options`() = parameterized(
             row("", false, false, null),
-            row("-x", true, false, null),
             row("-xx", true, false, null),
             row("-xX", false, false, null),
             row("-Xx", true, false, null),
@@ -237,9 +242,9 @@ class OptionTest {
             val y by option("-y", "--yy").flag()
             val z by option("-z", "--zz")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
-                assertThat(z).called("z").isEqualTo(ez)
+                x shouldBe ex
+                y shouldBe ey
+                z shouldBe ez
             }
         }
 
@@ -249,14 +254,13 @@ class OptionTest {
     @Test
     fun `switch options`() = parameterized(
             row("", null, -1),
-            row("-x -y", 1, 3),
             row("--xx -yy", 2, 4)) { (argv, ex, ey) ->
         class C : CliktCommand() {
             val x by option().switch("-x" to 1, "--xx" to 2)
             val y by option().switch("-y" to 3, "-yy" to 4).default(-1)
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
+                x shouldBe ex
+                y shouldBe ey
             }
         }
 
@@ -266,7 +270,6 @@ class OptionTest {
     @Test
     fun `counted options`() = parameterized(
             row("", 0, false, null),
-            row("-x", 1, false, null),
             row("-x -x", 2, false, null),
             row("-xx", 2, false, null),
             row("-xx -xx", 4, false, null),
@@ -291,9 +294,9 @@ class OptionTest {
             val y by option("-y", "--yy").flag()
             val z by option("-z", "--zz")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
-                assertThat(z).called("z").isEqualTo(ez)
+                x shouldBe ex
+                y shouldBe ey
+                z shouldBe ez
             }
         }
 
@@ -303,12 +306,11 @@ class OptionTest {
     @Test
     fun `default option`() = parameterized(
             row("", "def"),
-            row("--xx 3", "3"),
             row("-x4", "4")) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").default("def")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -318,19 +320,18 @@ class OptionTest {
     @Test
     fun `defaultLazy option`() = parameterized(
             row("", "default", true),
-            row("--x foo", "foo", false),
             row("-xbar", "bar", false)) { (argv, expected, ec) ->
         var called = false
 
         class C : CliktCommand() {
             val x by option("-x", "--x").defaultLazy { called = true; "default" }
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
-                assertThat(called).isEqualTo(ec)
+                x shouldBe expected
+                called shouldBe ec
             }
         }
 
-        assertThat(called).isFalse
+        called shouldBe false
         C().parse(splitArgv(argv))
     }
 
@@ -339,14 +340,13 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option().required()
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
         }
 
         C().parse(splitArgv("--x=foo"))
 
-        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
-                .hasMessage("Missing option \"--x\".")
+        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }.message shouldBe "Missing option \"--x\"."
     }
 
     @Test
@@ -354,7 +354,7 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option().multiple()
             override fun run() {
-                assertThat(x).isEqualTo(listOf<String>())
+                x shouldBe listOf<String>()
             }
         }
 
@@ -366,7 +366,7 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option().multiple(listOf("foo"))
             override fun run() {
-                assertThat(x).isEqualTo(listOf("foo"))
+                x shouldBe listOf("foo")
             }
         }
 
@@ -382,13 +382,14 @@ class OptionTest {
             val w by option().convert("BAR") { it }
             val u by option().flag()
             override fun run() {
-                assertThat(options).allMatch {
-                    it is EagerOption || // skip help option
+                options.forEach {
+                    if (it is EagerOption || // skip help option
                             "--x" in it.names && it.metavar == "TEXT" ||
                             "--y" in it.names && it.metavar == "FOO" ||
                             "--z" in it.names && it.metavar == "FOO" ||
                             "--w" in it.names && it.metavar == "BAR" ||
-                            "--u" in it.names && it.metavar == null
+                            "--u" in it.names && it.metavar == null)
+                    else fail("bad option $it")
                 }
             }
         }
@@ -409,7 +410,7 @@ class OptionTest {
 
         with(C()) {
             parse(splitArgv("--x=foo"))
-            assertThat(x).isEqualTo("foo")
+            x shouldBe "foo"
         }
         assertTrue(called)
 
@@ -429,7 +430,7 @@ class OptionTest {
             }
 
             override fun run() {
-                assertThat(x).isEqualTo("foo")
+                x shouldBe "foo"
             }
         }
 
@@ -437,7 +438,7 @@ class OptionTest {
         assertTrue(called)
 
         called = false
-        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
     }
 
     @Test
@@ -451,7 +452,7 @@ class OptionTest {
             }
 
             override fun run() {
-                assertThat(x).isTrue()
+                x shouldBe true
             }
         }
 
@@ -476,16 +477,13 @@ class OptionTest {
             }
         }
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("--x=uerr")) }
-                .matches { it is BadParameterValue && it.paramName == "--x" }
-        assertThrows<BadParameterValue> { C().parse(splitArgv("--x=err")) }
-                .matches { it is BadParameterValue && it.paramName == "--x" }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--x=uerr")) }.paramName shouldBe "--x"
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--x=err")) }.paramName shouldBe "--x"
     }
 
     @Test
     fun `one option with slash prefix`() = parameterized(
             row("", null),
-            row("/xx=", ""),
             row("/xx 3", "3"),
             row("/xx=asd", "asd"),
             row("/x 4", "4"),
@@ -494,7 +492,7 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option("/x", "/xx")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -504,7 +502,6 @@ class OptionTest {
     @Test
     fun `one option with java prefix`() = parameterized(
             row("", null),
-            row("-xx=", ""),
             row("-xx 3", "3"),
             row("-xx=asd", "asd"),
             row("-x 4", "4"),
@@ -513,7 +510,7 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option("-x", "-xx")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -523,7 +520,6 @@ class OptionTest {
     @Test
     fun `two options with chmod prefixes`() = parameterized(
             row("", false, false),
-            row("+x", true, false),
             row("-x", false, false),
             row("-x +x", true, false),
             row("+x -x", false, false),
@@ -537,8 +533,8 @@ class OptionTest {
             val x by option("+x").flag("-x")
             val y by option("+y").flag("-y")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
+                x shouldBe ex
+                y shouldBe ey
             }
         }
 
@@ -548,14 +544,13 @@ class OptionTest {
     @Test
     fun `normalized tokens`() = parameterized(
             row("", null),
-            row("--XX FOO", "FOO"),
             row("--XX=FOO", "FOO"),
             row("--xx=FOO", "FOO"),
             row("-XX", "X")) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -565,12 +560,11 @@ class OptionTest {
     @Test
     fun `aliased tokens`() = parameterized(
             row("", null),
-            row("--xx 3", "3"),
             row("--yy 3", "3")) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 

@@ -5,9 +5,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import org.junit.Test
 
 class ChoiceTypeTest {
@@ -19,16 +19,16 @@ class ChoiceTypeTest {
 
         C().apply {
             parse(splitArgv("-xfoo"))
-            assertThat(x).isEqualTo("foo")
+            x shouldBe "foo"
         }
 
         C().apply {
             parse(splitArgv("--xx=bar"))
-            assertThat(x).isEqualTo("bar")
+            x shouldBe "bar"
         }
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("--xx baz")) }
-                .hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx baz")) }
+                .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -40,19 +40,19 @@ class ChoiceTypeTest {
 
         C().apply {
             parse(splitArgv("-xfoo"))
-            assertThat(x).isEqualTo(1)
+            x shouldBe 1
         }
 
         C().apply {
             parse(splitArgv("--xx=bar"))
-            assertThat(x).isEqualTo(2)
+            x shouldBe 2
         }
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("-x baz")) }
-                .hasMessage("Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)")
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("-x baz")) }
+                .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=baz")) }
-                .hasMessage("Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)")
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx=baz")) }
+                .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -60,22 +60,22 @@ class ChoiceTypeTest {
         class C : CliktCommand() {
             val x by argument().choice("foo", "bar")
             override fun run() {
-                assertThat(arguments[0].name).isEqualTo("X")
+                arguments[0].name shouldBe "X"
             }
         }
 
         C().apply {
             parse(splitArgv("foo"))
-            assertThat(x).isEqualTo("foo")
+            x shouldBe "foo"
         }
 
         C().apply {
             parse(splitArgv("bar"))
-            assertThat(x).isEqualTo("bar")
+            x shouldBe "bar"
         }
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("baz")) }
-                .hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("baz")) }
+                .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -83,21 +83,21 @@ class ChoiceTypeTest {
         class C : CliktCommand() {
             val x by argument().choice("foo" to 1, "bar" to 2)
             override fun run() {
-                assertThat(arguments[0].name).isEqualTo("X")
+                arguments[0].name shouldBe "X"
             }
         }
 
         C().apply {
             parse(splitArgv("foo"))
-            assertThat(x).isEqualTo(1)
+            x shouldBe 1
         }
 
         C().apply {
             parse(splitArgv("bar"))
-            assertThat(x).isEqualTo(2)
+            x shouldBe 2
         }
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("baz")) }
-                .hasMessage("Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)")
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("baz")) }
+                .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
     }
 }

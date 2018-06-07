@@ -4,13 +4,17 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.options.counted
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.multiple
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.parameterized
 import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
@@ -35,8 +39,8 @@ class EnvvarOptionsTest {
             val foo by option(envvar = "FO")
             val bar by option()
             override fun run() {
-                assertThat(foo).isEqualTo("foo")
-                assertThat(bar).isNull()
+                foo shouldBe "foo"
+                bar shouldBe null
             }
         }
 
@@ -54,9 +58,9 @@ class EnvvarOptionsTest {
             val bar by option().int()
             val baz by option()
             override fun run() {
-                assertThat(foo).isEqualTo("foo")
-                assertThat(bar).isEqualTo(11)
-                assertThat(baz).isNull()
+                foo shouldBe "foo"
+                bar shouldBe 11
+                baz shouldBe null
             }
         }
 
@@ -81,8 +85,8 @@ class EnvvarOptionsTest {
             val foo by option(envvar = "FOO")
             val bar by option()
             override fun run() {
-                assertThat(foo).isEqualTo("foo")
-                assertThat(bar).isEqualTo("bar")
+                foo shouldBe "foo"
+                bar shouldBe "bar"
             }
         }
 
@@ -94,15 +98,15 @@ class EnvvarOptionsTest {
             val baz by option(envvar = "BAZ")
             val qux by option()
             override fun run() {
-                assertThat(baz).isEqualTo("baz")
-                assertThat(qux).isEqualTo("qux")
+                baz shouldBe "baz"
+                qux shouldBe "qux"
             }
         }
 
         class Sub3 : CliktCommand() {
             val quz by option()
             override fun run() {
-                assertThat(quz).isEqualTo("quz")
+                quz shouldBe "quz"
             }
         }
 
@@ -118,8 +122,8 @@ class EnvvarOptionsTest {
             val foo by option(envvar = "FOO").file()
             val bar by option(envvar = "BAR").file().multiple()
             override fun run() {
-                assertThat(foo).isEqualTo(File("/home"))
-                assertThat(bar).containsExactly(File("/bar"), File("/baz"))
+                foo shouldBe File("/home")
+                bar shouldBe listOf(File("/bar"), File("/baz"))
             }
         }
 
@@ -135,7 +139,6 @@ class EnvvarOptionsTest {
     @Test
     fun `flag envvars`() = parameterized(
             row(null, null, false, 0),
-            row("true", "3", true, 3),
             row("YES", "3", true, 3),
             row("false", "5", false, 5)) { (fv, bv, ef, eb) ->
         env["FOO"] = fv
@@ -148,13 +151,13 @@ class EnvvarOptionsTest {
             val foo by option(envvar = "FOO").flag("--no-foo").validate { called1 = true }
             val bar by option(envvar = "BAR").counted().validate { called2 = true }
             override fun run() {
-                assertThat(foo).isEqualTo(ef)
-                assertThat(bar).isEqualTo(eb)
+                foo shouldBe ef
+                bar shouldBe eb
             }
         }
 
         C().parse(emptyArray())
-        assertThat(called1).isTrue
-        assertThat(called2).isTrue
+        called1 shouldBe true
+        called2 shouldBe true
     }
 }

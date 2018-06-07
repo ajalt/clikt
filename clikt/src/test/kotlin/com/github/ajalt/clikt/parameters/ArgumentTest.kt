@@ -1,12 +1,34 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.arguments.*
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.IncorrectArgumentValueCount
+import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.NoSuchOption
+import com.github.ajalt.clikt.core.PrintHelpMessage
+import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.convert
+import com.github.ajalt.clikt.parameters.arguments.default
+import com.github.ajalt.clikt.parameters.arguments.defaultLazy
+import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.optional
+import com.github.ajalt.clikt.parameters.arguments.pair
+import com.github.ajalt.clikt.parameters.arguments.triple
+import com.github.ajalt.clikt.parameters.arguments.validate
 import com.github.ajalt.clikt.parameters.options.counted
-import com.github.ajalt.clikt.parameters.options.defaultLazy
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.*
-import org.assertj.core.api.Assertions.assertThat
+import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
+import com.github.ajalt.clikt.testing.parameterized
+import com.github.ajalt.clikt.testing.row
+import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.matchers.string.contain
+import io.kotlintest.should
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -18,19 +40,18 @@ class ArgumentTest {
             val foo by argument()
         }
 
-        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
-                .hasMessage("Missing argument \"FOO\".")
+        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
+                .message shouldBe "Missing argument \"FOO\"."
     }
 
     @Test
     fun `one optional argument`() = parameterized(
-            row("", null),
-            row("asd", "asd")
+            row("", null)
     ) { (argv, expected) ->
         class C : CliktCommand() {
             val x by argument().optional()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -39,13 +60,12 @@ class ArgumentTest {
 
     @Test
     fun `one default argument`() = parameterized(
-            row("", "def"),
-            row("asd", "asd")
+            row("", "def")
     ) { (argv, expected) ->
         class C : CliktCommand() {
             val x by argument().default("def")
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -54,19 +74,19 @@ class ArgumentTest {
 
     @Test
     fun `defaultLazy argument`() = parameterized(
-            row("", "default", true),
-            row("foo", "foo", false)) { (argv, expected, ec) ->
+            row("", "default", true)
+    ) { (argv, expected, ec) ->
         var called = false
 
         class C : CliktCommand() {
             val x by argument().defaultLazy { called = true; "default" }
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
-                assertThat(called).isEqualTo(ec)
+                x shouldBe expected
+                called shouldBe ec
             }
         }
 
-        assertThat(called).isFalse
+        called shouldBe false
         C().parse(splitArgv(argv))
     }
 
@@ -75,25 +95,24 @@ class ArgumentTest {
         class C : CliktCommand() {
             val x by argument().pair()
             override fun run() {
-                assertThat(x).isEqualTo("1" to "2")
+                x shouldBe ("1" to "2")
             }
         }
 
         C().parse(splitArgv("1 2"))
 
-        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
-                .hasMessage("Missing argument \"X\".")
+        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
+                .message shouldBe "Missing argument \"X\"."
     }
 
     @Test
     fun `one optional argument nvalues=2`() = parameterized(
-            row("", null),
-            row("foo bar", "foo" to "bar")
+            row("", null)
     ) { (argv, expected) ->
         class C : CliktCommand() {
             val x by argument().pair().optional()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -102,13 +121,12 @@ class ArgumentTest {
 
     @Test
     fun `one optional argument nvalues=3`() = parameterized(
-            row("", null),
-            row("foo bar baz", Triple("foo", "bar", "baz"))
+            row("", null)
     ) { (argv, expected) ->
         class C : CliktCommand() {
             val x by argument().triple().optional()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -120,12 +138,12 @@ class ArgumentTest {
         class C : NoRunCliktCommand() {
             val x by argument().pair()
         }
-        assertThrows<IncorrectArgumentValueCount> { C().parse(splitArgv("foo")) }
-                .hasMessage("argument X takes 2 values")
-        assertThrows<UsageError> { C().parse(splitArgv("foo bar baz")) }
-                .hasMessage("Got unexpected extra argument (baz)")
-        assertThrows<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
-                .hasMessage("Got unexpected extra arguments (baz qux)")
+        shouldThrow<IncorrectArgumentValueCount> { C().parse(splitArgv("foo")) }
+                .message shouldBe "argument X takes 2 values"
+        shouldThrow<UsageError> { C().parse(splitArgv("foo bar baz")) }
+                .message shouldBe "Got unexpected extra argument (baz)"
+        shouldThrow<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
+                .message shouldBe "Got unexpected extra arguments (baz qux)"
     }
 
     @Test
@@ -134,24 +152,23 @@ class ArgumentTest {
             val x by argument().triple()
         }
 
-        assertThrows<IncorrectArgumentValueCount> { C().parse(splitArgv("foo bar")) }
-                .hasMessage("argument X takes 3 values")
-        assertThrows<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
-                .hasMessage("Got unexpected extra argument (qux)")
+        shouldThrow<IncorrectArgumentValueCount> { C().parse(splitArgv("foo bar")) }
+                .message shouldBe "argument X takes 3 values"
+        shouldThrow<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
+                .message shouldBe "Got unexpected extra argument (qux)"
 
     }
 
     @Test
     fun `one argument nvalues=-1`() = parameterized(
             row("", emptyList()),
-            row("foo", listOf("foo")),
             row("foo bar", listOf("foo", "bar")),
             row("foo bar baz", listOf("foo", "bar", "baz"))
     ) { (argv, expected) ->
         class C : CliktCommand() {
             val x by argument().multiple()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -161,15 +178,14 @@ class ArgumentTest {
     @Test
     fun `two arguments nvalues=-1,1`() = parameterized(
             row("foo", emptyList(), "foo"),
-            row("foo bar", listOf("foo"), "bar"),
             row("foo bar baz", listOf("foo", "bar"), "baz")
     ) { (argv, ex, ey) ->
         class C : CliktCommand() {
             val foo by argument().multiple()
             val bar by argument()
             override fun run() {
-                assertThat(foo).called("foo").isEqualTo(ex)
-                assertThat(bar).called("bar").isEqualTo(ey)
+                foo shouldBe ex
+                bar shouldBe ey
             }
         }
 
@@ -182,15 +198,14 @@ class ArgumentTest {
             val foo by argument().multiple()
             val bar by argument()
         }
-        assertThrows<MissingParameter> {
+        shouldThrow<MissingParameter> {
             C().parse(splitArgv(""))
-        }.hasMessageContaining("BAR")
+        }.message!! should contain("BAR")
     }
 
     @Test
     fun `two arguments nvalues=1,-1`() = parameterized(
             row("", null, emptyList<String>()),
-            row("foo", "foo", emptyList()),
             row("foo bar", "foo", listOf("bar")),
             row("foo bar baz", "foo", listOf("bar", "baz"))
     ) { (argv, ex, ey) ->
@@ -198,8 +213,8 @@ class ArgumentTest {
             val foo by argument().optional()
             val bar by argument().multiple()
             override fun run() {
-                assertThat(foo).called("foo").isEqualTo(ex)
-                assertThat(bar).called("bar").isEqualTo(ey)
+                foo shouldBe ex
+                bar shouldBe ey
             }
         }
 
@@ -213,21 +228,20 @@ class ArgumentTest {
             val bar by argument().multiple()
         }
 
-        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
-                .hasMessageContaining("Missing argument \"FOO\".")
+        val ex = shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
+        ex.message!! should contain("Missing argument \"FOO\".")
     }
 
     @Test
     fun `value -- with argument`() = parameterized(
-            row("--xx --xx -- --xx", "--xx", "--xx"),
-            row("--xx --xx bar --", "--xx", "bar")
+            row("--xx --xx -- --xx", "--xx", "--xx")
     ) { (argv, ex, ey) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             val y by argument()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(ex)
-                assertThat(y).called("y").isEqualTo(ey)
+                x shouldBe ex
+                y shouldBe ey
             }
         }
 
@@ -248,7 +262,7 @@ class ArgumentTest {
         C().parse(splitArgv("foo"))
         assertTrue(called)
 
-        assertThrows<MissingParameter> { C().parse(splitArgv("")) }
+        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
     }
 
     @Test
@@ -276,7 +290,7 @@ class ArgumentTest {
             val x by argument()
         }
 
-        assertThrows<PrintHelpMessage> { C().parse(splitArgv("--help")) }
+        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("--help")) }
     }
 
     @Test
@@ -289,11 +303,9 @@ class ArgumentTest {
 
         C().context { allowInterspersedArgs = true }.apply {
             parse(splitArgv("-y 1 -y 2 -y"))
-            softly {
-                assertThat(x).isEqualTo("1")
-                assertThat(y).isEqualTo(3)
-                assertThat(z).isEqualTo("2")
-            }
+            x shouldBe "1"
+            y shouldBe 3
+            z shouldBe "2"
         }
     }
 
@@ -307,11 +319,9 @@ class ArgumentTest {
 
         C().context { allowInterspersedArgs = false }.apply {
             parse(splitArgv("-y 1 -y"))
-            softly {
-                assertThat(x).isEqualTo("1")
-                assertThat(y).isEqualTo(1)
-                assertThat(z).isEqualTo("-y")
-            }
+            x shouldBe "1"
+            y shouldBe 1
+            z shouldBe "-y"
         }
     }
 
@@ -327,18 +337,13 @@ class ArgumentTest {
             }
         }
 
-        assertThrows<BadParameterValue> { C().parse(splitArgv("uerr")) }
-                .matches {
-                    it is BadParameterValue
-                            && it.argument != null
-                            && it.argument!!.name == "X"
-                }
-        assertThrows<BadParameterValue> { C().parse(splitArgv("err")) }
-                .matches {
-                    it is BadParameterValue
-                            && it.argument != null
-                            && it.argument!!.name == "X"
-                }
+        var ex = shouldThrow<BadParameterValue> { C().parse(splitArgv("uerr")) }
+        ex.argument shouldNotBe null
+        ex.argument?.name shouldBe "X"
+
+        ex = shouldThrow { C().parse(splitArgv("err")) }
+        ex.argument shouldNotBe null
+        ex.argument?.name shouldBe "X"
     }
 
     @Test
@@ -347,18 +352,17 @@ class ArgumentTest {
             val foo by argument().multiple()
             val bar by argument().multiple()
         }
-        assertThrows<IllegalArgumentException> { C() }
+        shouldThrow<IllegalArgumentException> { C() }
     }
 
     @Test
     fun `punctuation in arg prefix unix style`() = parameterized(
-            row("/foo"),
-            row("\\foo")
+            row("/foo")
     ) { (argv) ->
         class C : CliktCommand() {
             val x by argument()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(argv)
+                x shouldBe argv
             }
         }
 
@@ -370,7 +374,7 @@ class ArgumentTest {
         class C : NeverCalledCliktCommand() {
             val x by argument()
         }
-        assertThrows<NoSuchOption> { C().parse(splitArgv("-foo")) }
+        shouldThrow<NoSuchOption> { C().parse(splitArgv("-foo")) }
     }
 
     @Test
@@ -385,7 +389,7 @@ class ArgumentTest {
 
             val x by argument()
             override fun run() {
-                assertThat(x).called("x").isEqualTo(argv)
+                x shouldBe argv
             }
         }
 
@@ -401,6 +405,6 @@ class ArgumentTest {
 
             val x by argument()
         }
-        assertThrows<NoSuchOption> { C().parse(splitArgv("/foo")) }
+        shouldThrow<NoSuchOption> { C().parse(splitArgv("/foo")) }
     }
 }

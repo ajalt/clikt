@@ -9,7 +9,13 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.pair
-import com.github.ajalt.clikt.testing.*
+import com.github.ajalt.clikt.testing.parameterized
+import com.github.ajalt.clikt.testing.row
+import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.matchers.beEmpty
+import io.kotlintest.should
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import org.junit.Test
 
 class RangeTest {
@@ -19,35 +25,32 @@ class RangeTest {
             val x by option("-x", "--xx").int().restrictTo(min = 1)
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv(""))
-                assertThat(x).isNull()
-            }
-            C().apply {
-                parse(splitArgv("-x1"))
-                assertThat(x).isEqualTo(1)
-            }
-            C().apply {
-                parse(splitArgv("-x3"))
-                assertThat(x).isEqualTo(3)
-            }
-            assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=0")) }
-                    .hasMessage("Invalid value for \"--xx\": 0 is smaller than the minimum valid value of 1.")
+        C().apply {
+            parse(splitArgv(""))
+            x shouldBe null
         }
+        C().apply {
+            parse(splitArgv("-x1"))
+            x shouldBe 1
+        }
+        C().apply {
+            parse(splitArgv("-x3"))
+            x shouldBe 3
+        }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx=0")) }
+                .message shouldBe "Invalid value for \"--xx\": 0 is smaller than the minimum valid value of 1."
     }
 
     @Test
     fun `restrictTo option min clamp`() = parameterized(
             row("", null),
-            row("--xx 3", 3),
             row("--xx=1", 1),
             row("--xx -123", 1),
             row("-x0", 1)) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(min = 1, clamp = true)
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -60,35 +63,32 @@ class RangeTest {
             val x by option("-x", "--xx").int().restrictTo(max = 1)
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv(""))
-                assertThat(x).isNull()
-            }
-            C().apply {
-                parse(splitArgv("-x1"))
-                assertThat(x).isEqualTo(1)
-            }
-            C().apply {
-                parse(splitArgv("-x0"))
-                assertThat(x).isEqualTo(0)
-            }
-            assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=2")) }
-                    .hasMessage("Invalid value for \"--xx\": 2 is larger than the maximum valid value of 1.")
+        C().apply {
+            parse(splitArgv(""))
+            x shouldBe null
         }
+        C().apply {
+            parse(splitArgv("-x1"))
+            x shouldBe 1
+        }
+        C().apply {
+            parse(splitArgv("-x0"))
+            x shouldBe 0
+        }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx=2")) }
+                .message shouldBe "Invalid value for \"--xx\": 2 is larger than the maximum valid value of 1."
     }
 
     @Test
     fun `restrictTo option max clamp`() = parameterized(
             row("", null),
-            row("--xx 0", 0),
             row("--xx=1", 1),
             row("--xx 123", 1),
             row("-x2", 1)) { (argv, expected) ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(max = 1, clamp = true)
             override fun run() {
-                assertThat(x).called("x").isEqualTo(expected)
+                x shouldBe expected
             }
         }
 
@@ -101,24 +101,22 @@ class RangeTest {
             val x by option("-x", "--xx").int().restrictTo(1..2)
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv(""))
-                assertThat(x).isNull()
-            }
-            C().apply {
-                parse(splitArgv("-x1"))
-                assertThat(x).isEqualTo(1)
-            }
-            C().apply {
-                parse(splitArgv("-x2"))
-                assertThat(x).isEqualTo(2)
-            }
-            assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
-                    .hasMessage("Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2.")
-            assertThrows<BadParameterValue> { C().parse(splitArgv("-x0")) }
-                    .hasMessage("Invalid value for \"-x\": 0 is not in the valid range of 1 to 2.")
+        C().apply {
+            parse(splitArgv(""))
+            x shouldBe null
         }
+        C().apply {
+            parse(splitArgv("-x1"))
+            x shouldBe 1
+        }
+        C().apply {
+            parse(splitArgv("-x2"))
+            x shouldBe 2
+        }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
+                .message shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("-x0")) }
+                .message shouldBe "Invalid value for \"-x\": 0 is not in the valid range of 1 to 2."
     }
 
     @Test
@@ -128,27 +126,25 @@ class RangeTest {
             val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).default(3)
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv(""))
-                assertThat(x).isEqualTo(2)
-                assertThat(y).isEqualTo(3)
-            }
-            C().apply {
-                parse(splitArgv("-x1"))
-                assertThat(x).isEqualTo(1)
-                assertThat(y).isEqualTo(3)
-            }
-            C().apply {
-                parse(splitArgv("-y4"))
-                assertThat(x).isEqualTo(2)
-                assertThat(y).isEqualTo(4)
-            }
-            assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
-                    .hasMessage("Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2.")
-            assertThrows<BadParameterValue> { C().parse(splitArgv("-y10")) }
-                    .hasMessage("Invalid value for \"-y\": 10 is not in the valid range of 3 to 4.")
+        C().apply {
+            parse(splitArgv(""))
+            x shouldBe 2
+            y shouldBe 3
         }
+        C().apply {
+            parse(splitArgv("-x1"))
+            x shouldBe 1
+            y shouldBe 3
+        }
+        C().apply {
+            parse(splitArgv("-y4"))
+            x shouldBe 2
+            y shouldBe 4
+        }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
+                .message shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("-y10")) }
+                .message shouldBe "Invalid value for \"-y\": 10 is not in the valid range of 3 to 4."
     }
 
     @Test
@@ -158,27 +154,25 @@ class RangeTest {
             val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).pair()
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv(""))
-                assertThat(x).isEmpty()
-                assertThat(y).isNull()
-            }
-            C().apply {
-                parse(splitArgv("-x1 -x2"))
-                assertThat(x).containsExactly(1, 2)
-                assertThat(y).isNull()
-            }
-            C().apply {
-                parse(splitArgv("-y 3 4"))
-                assertThat(x).isEmpty()
-                assertThat(y).isEqualTo(3 to 4)
-            }
-            assertThrows<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
-                    .hasMessage("Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2.")
-            assertThrows<BadParameterValue> { C().parse(splitArgv("-y10 1")) }
-                    .hasMessage("Invalid value for \"-y\": 10 is not in the valid range of 3 to 4.")
+        C().apply {
+            parse(splitArgv(""))
+            x should beEmpty()
+            y shouldBe null
         }
+        C().apply {
+            parse(splitArgv("-x1 -x2"))
+            x shouldBe listOf(1, 2)
+            y shouldBe null
+        }
+        C().apply {
+            parse(splitArgv("-y 3 4"))
+            x should beEmpty()
+            y shouldBe (3 to 4)
+        }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("--xx=3")) }
+                .message shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("-y10 1")) }
+                .message shouldBe "Invalid value for \"-y\": 10 is not in the valid range of 3 to 4."
     }
 
     @Test
@@ -190,33 +184,31 @@ class RangeTest {
             val w by argument().int().restrictTo(7..8).optional()
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv("1 3 5 7"))
-                assertThat(x).isEqualTo(1)
-                assertThat(y).isEqualTo(3)
-                assertThat(z).isEqualTo(5)
-                assertThat(w).isEqualTo(7)
-            }
-            C().apply {
-                parse(splitArgv("1 3"))
-                assertThat(x).isEqualTo(1)
-                assertThat(y).isEqualTo(3)
-                assertThat(z).isEqualTo(null)
-                assertThat(w).isEqualTo(null)
-            }
-            C().apply {
-                parse(splitArgv("2 4 6 8"))
-                assertThat(x).isEqualTo(2)
-                assertThat(y).isEqualTo(4)
-                assertThat(z).isEqualTo(6)
-                assertThat(w).isEqualTo(8)
-            }
-            assertThrows<BadParameterValue> { C().parse(splitArgv("0 4 6 8")) }
-                    .hasMessage("Invalid value for \"X\": 0 is not in the valid range of 1 to 2.")
-            assertThrows<BadParameterValue> { C().parse(splitArgv("1 4 6 10")) }
-                    .hasMessage("Invalid value for \"W\": 10 is not in the valid range of 7 to 8.")
+        C().apply {
+            parse(splitArgv("1 3 5 7"))
+            x shouldBe 1
+            y shouldBe 3
+            z shouldBe 5
+            w shouldBe 7
         }
+        C().apply {
+            parse(splitArgv("1 3"))
+            x shouldBe 1
+            y shouldBe 3
+            z shouldBe null
+            w shouldBe null
+        }
+        C().apply {
+            parse(splitArgv("2 4 6 8"))
+            x shouldBe 2
+            y shouldBe 4
+            z shouldBe 6
+            w shouldBe 8
+        }
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("0 4 6 8")) }
+                .message shouldBe "Invalid value for \"X\": 0 is not in the valid range of 1 to 2."
+        shouldThrow<BadParameterValue> { C().parse(splitArgv("1 4 6 10")) }
+                .message shouldBe "Invalid value for \"W\": 10 is not in the valid range of 7 to 8."
     }
 
     @Test
@@ -228,28 +220,26 @@ class RangeTest {
             val w by argument().int().restrictTo(7..8, clamp = true).optional()
         }
 
-        softly {
-            C().apply {
-                parse(splitArgv("0 0 0 0"))
-                assertThat(x).isEqualTo(1)
-                assertThat(y).isEqualTo(3)
-                assertThat(z).isEqualTo(5)
-                assertThat(w).isEqualTo(7)
-            }
-            C().apply {
-                parse(splitArgv("0 0"))
-                assertThat(x).isEqualTo(1)
-                assertThat(y).isEqualTo(3)
-                assertThat(z).isEqualTo(null)
-                assertThat(w).isEqualTo(null)
-            }
-            C().apply {
-                parse(splitArgv("9 9 9 9"))
-                assertThat(x).isEqualTo(2)
-                assertThat(y).isEqualTo(4)
-                assertThat(z).isEqualTo(6)
-                assertThat(w).isEqualTo(8)
-            }
+        C().apply {
+            parse(splitArgv("0 0 0 0"))
+            x shouldBe 1
+            y shouldBe 3
+            z shouldBe 5
+            w shouldBe 7
+        }
+        C().apply {
+            parse(splitArgv("0 0"))
+            x shouldBe 1
+            y shouldBe 3
+            z shouldBe null
+            w shouldBe null
+        }
+        C().apply {
+            parse(splitArgv("9 9 9 9"))
+            x shouldBe 2
+            y shouldBe 4
+            z shouldBe 6
+            w shouldBe 8
         }
     }
 }

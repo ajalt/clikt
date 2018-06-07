@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -24,16 +24,16 @@ class PromptOptionsTest {
     fun `manual prompt`() {
         stdin.provideLines("bar")
         val input = TermUi.prompt("Foo")
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: ")
-        assertThat(input).isEqualTo("bar")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: "
+        input shouldBe "bar"
     }
 
     @Test
     fun `manual prompt conversion`() {
         stdin.provideLines("bar", "11")
         val input = TermUi.prompt("Foo") { it.toIntOrNull() ?: throw UsageError("boo") }
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: Error: boo\nFoo: ")
-        assertThat(input).isEqualTo(11)
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Error: boo\nFoo: "
+        input shouldBe 11
     }
 
     @Test
@@ -43,11 +43,11 @@ class PromptOptionsTest {
         class C : CliktCommand() {
             val foo by option().prompt()
             override fun run() {
-                assertThat(foo).isEqualTo("bar")
+                foo shouldBe "bar"
             }
         }
         C().parse(emptyArray())
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: ")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: "
     }
 
     @Test
@@ -57,11 +57,11 @@ class PromptOptionsTest {
         class C : CliktCommand() {
             val foo by option().prompt("INPUT")
             override fun run() {
-                assertThat(foo).isEqualTo("foo")
+                foo shouldBe "foo"
             }
         }
         C().parse(emptyArray())
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("INPUT: ")
+        stdout.logWithNormalizedLineSeparator shouldBe "INPUT: "
     }
 
     @Test
@@ -73,13 +73,13 @@ class PromptOptionsTest {
             val bar by option("/bar").prompt()
             val baz by option("--some-thing").prompt()
             override fun run() {
-                assertThat(foo).isEqualTo("foo")
-                assertThat(bar).isEqualTo("bar")
-                assertThat(baz).isEqualTo("baz")
+                foo shouldBe "foo"
+                bar shouldBe "bar"
+                baz shouldBe "baz"
             }
         }
         C().parse(emptyArray())
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: Bar: Some thing: ")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: Some thing: "
     }
 
     @Test
@@ -90,12 +90,12 @@ class PromptOptionsTest {
             val foo by option().prompt()
             val bar by option().prompt()
             override fun run() {
-                assertThat(foo).isEqualTo("foo")
-                assertThat(bar).isEqualTo("bar")
+                foo shouldBe "foo"
+                bar shouldBe "bar"
             }
         }
         C().parse(emptyArray())
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo: Bar: ")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
     }
 
     @Test
@@ -105,12 +105,12 @@ class PromptOptionsTest {
         class C : CliktCommand() {
             val foo by option().prompt(default = "baz")
             override fun run() {
-                assertThat(foo).isEqualTo("bar")
+                foo shouldBe "bar"
             }
         }
 
         C().parse(emptyArray())
-        assertThat(stdout.logWithNormalizedLineSeparator).isEqualTo("Foo [baz]: ")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo [baz]: "
     }
 
     @Test
@@ -120,7 +120,7 @@ class PromptOptionsTest {
         class C : CliktCommand() {
             val foo by option().prompt(default = "baz")
             override fun run() {
-                assertThat(foo).isEqualTo("baz")
+                foo shouldBe "baz"
             }
         }
 

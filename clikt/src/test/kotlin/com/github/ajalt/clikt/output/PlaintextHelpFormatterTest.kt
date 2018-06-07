@@ -9,8 +9,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.softly
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.shouldBe
 import org.junit.Test
 
 private fun <T> l(vararg t: T) = listOf(*t)
@@ -43,35 +42,23 @@ class PlaintextHelpFormatterTest {
     @Test
     fun formatUsage() {
         val f = PlaintextHelpFormatter()
-        softly {
-            assertThat(f.formatUsage(l(), programName = "prog1")).isEqualTo("Usage: prog1")
-            assertThat(f.formatUsage(l(opt("-x")), programName = "prog2")).isEqualTo(
-                    "Usage: prog2 [OPTIONS]")
-            assertThat(f.formatUsage(l(arg("FOO")), programName = "prog3")).isEqualTo(
-                    "Usage: prog3 [FOO]")
-            assertThat(f.formatUsage(l(arg("FOO", required = true)), programName = "prog4")).isEqualTo(
-                    "Usage: prog4 FOO")
-            assertThat(f.formatUsage(l(arg("FOO", repeatable = true)), programName = "prog5")).isEqualTo(
-                    "Usage: prog5 [FOO]...")
-            assertThat(f.formatUsage(l(arg("FOO", required = true, repeatable = true)), programName = "prog6")).isEqualTo(
-                    "Usage: prog6 FOO...")
-            assertThat(f.formatUsage(l(
-                    arg("FOO", required = true, repeatable = true),
-                    opt("-x"),
-                    arg("BAR")), programName = "prog7")).isEqualTo(
-                    "Usage: prog7 [OPTIONS] FOO... [BAR]")
-            assertThat(f.formatUsage(l(
-                    opt("-x"),
-                    arg("FOO"),
-                    sub("bar")), programName = "prog8")).isEqualTo(
-                    "Usage: prog8 [OPTIONS] [FOO] COMMAND [ARGS]...")
-        }
+        f.formatUsage(l(), programName = "prog1") shouldBe "Usage: prog1"
+        f.formatUsage(l(opt("-x")), programName = "prog2") shouldBe "Usage: prog2 [OPTIONS]"
+        f.formatUsage(l(arg("FOO")), programName = "prog3") shouldBe "Usage: prog3 [FOO]"
+        f.formatUsage(l(arg("FOO", required = true)), programName = "prog4") shouldBe "Usage: prog4 FOO"
+        f.formatUsage(l(arg("FOO", repeatable = true)), programName = "prog5") shouldBe "Usage: prog5 [FOO]..."
+        f.formatUsage(l(arg("FOO", required = true, repeatable = true)), programName = "prog6") shouldBe "Usage: prog6 FOO..."
+        f.formatUsage(l(
+                arg("FOO", required = true, repeatable = true), opt("-x"), arg("BAR")), programName = "prog7"
+        ) shouldBe "Usage: prog7 [OPTIONS] FOO... [BAR]"
+        f.formatUsage(l(opt("-x"), arg("FOO"), sub("bar")), programName = "prog8"
+        ) shouldBe "Usage: prog8 [OPTIONS] [FOO] COMMAND [ARGS]..."
     }
 
     @Test
     fun `formatUsage wrapping options string`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatUsage(l(
+        f.formatUsage(l(
                 opt("-x"),
                 arg("FIRST", required = true),
                 arg("SECOND", required = true),
@@ -79,18 +66,18 @@ class PlaintextHelpFormatterTest {
                 arg("FOURTH", required = true),
                 arg("FIFTH", required = true),
                 arg("SIXTH", required = true)
-        ), programName = "cli a_very_long command")).isEqualTo(
+        ), programName = "cli a_very_long command") shouldBe
                 """
                 |Usage: cli a_very_long command [OPTIONS] FIRST SECOND
                 |                               THIRD FOURTH FIFTH
                 |                               SIXTH
-                """.trimMargin())
+                """.trimMargin()
     }
 
     @Test
     fun `formatUsage wrapping command name`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatUsage(l(
+        f.formatUsage(l(
                 opt("-x"),
                 arg("FIRST", required = true),
                 arg("SECOND", required = true),
@@ -98,47 +85,47 @@ class PlaintextHelpFormatterTest {
                 arg("FOURTH", required = true),
                 arg("FIFTH", required = true),
                 arg("SIXTH", required = true)
-        ), programName = "cli a_very_very_very_long command")).isEqualTo(
+        ), programName = "cli a_very_very_very_long command") shouldBe
                 """
                 |Usage: cli a_very_very_very_long command
                 |           [OPTIONS] FIRST SECOND THIRD FOURTH FIFTH
                 |           SIXTH
-                """.trimMargin())
+                """.trimMargin()
     }
 
     @Test
     fun `formatHelp one opt`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-                programName = "prog")).isEqualTo(
+        f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+                programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
                 |Options:
                 |  -a, --aa INT  some thing to live by
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
     fun `formatHelp one opt secondary name`() {
         val f = PlaintextHelpFormatter(width = 60)
-        assertThat(f.formatHelp("", "", l(opt(l("--aa", "-a"),
+        f.formatHelp("", "", l(opt(l("--aa", "-a"),
                 null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))),
-                programName = "prog")).isEqualTo(
+                programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
                 |Options:
                 |  -a, --aa / -A, --no-aa  some thing to know
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
     fun `formatHelp one opt prolog`() {
         val f = PlaintextHelpFormatter()
-        assertThat(f.formatHelp(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.",
+        f.formatHelp(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.",
                 parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-                programName = "prog")).isEqualTo(
+                programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -148,13 +135,13 @@ class PlaintextHelpFormatterTest {
                 |  -a, --aa INT  some thing to live by
                 |
                 |Dolor Sit Amet.
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
     fun `formatHelp one opt prolog multi paragraph`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp(prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        f.formatHelp(prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
                 Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
                 turpis bibendum egestas.
@@ -163,7 +150,7 @@ class PlaintextHelpFormatterTest {
                 consectetur ex.
                 """, epilog = "",
                 parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-                programName = "prog")).isEqualTo(
+                programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -180,19 +167,19 @@ class PlaintextHelpFormatterTest {
                 |
                 |Options:
                 |  -a, --aa INT  some thing to live by
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
     fun `formatHelp option wrapping`() {
         val f = PlaintextHelpFormatter(width = 54, maxColWidth = 12)
-        assertThat(f.formatHelp("", "", l(
+        f.formatHelp("", "", l(
                 opt(l("-x"), "X", nvalues = 2, help = "one very very very very very very long option"),
                 opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
                 opt(l("-z", "--zzzzzzzzzzzzz"), "ZZZZZZZZ", help = "a short option"),
                 opt(l("-t", "--entirely-too-long-option"), "WOWSOLONG",
                         help = "this option has a long name and a long descrption")
-        ), programName = "prog")).isEqualTo(
+        ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -205,39 +192,39 @@ class PlaintextHelpFormatterTest {
                 |  -t, --entirely-too-long-option WOWSOLONG
                 |                this option has a long name and a long
                 |                descrption
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
     fun `formatHelp arguments`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp("", "", l(
+        f.formatHelp("", "", l(
                 arg("FOO", "some thing to live by", required = true),
                 arg("BAR", "another argument")),
-                programName = "prog")).isEqualTo(
+                programName = "prog") shouldBe
                 """
                 |Usage: prog FOO [BAR]
                 |
                 |Arguments:
                 |  FOO  some thing to live by
                 |  BAR  another argument
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
     fun `formatHelp subcommands`() {
         val f = PlaintextHelpFormatter(width = 54)
-        assertThat(f.formatHelp("", "", l(
+        f.formatHelp("", "", l(
                 sub("foo", "some thing to live by"),
                 sub("bar", "another argument")),
-                programName = "prog")).isEqualTo(
+                programName = "prog") shouldBe
                 """
                 |Usage: prog COMMAND [ARGS]...
                 |
                 |Commands:
                 |  foo  some thing to live by
                 |  bar  another argument
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 
     @Test
@@ -276,7 +263,7 @@ class PlaintextHelpFormatterTest {
                 .versionOption("1.0")
                 .subcommands(Sub(), Sub2())
 
-        assertThat(c.getFormattedHelp()).isEqualTo(
+        c.getFormattedHelp() shouldBe
                 """
                 |Usage: program [OPTIONS] ARG [MULTI]... COMMAND [ARGS]...
                 |
@@ -296,6 +283,6 @@ class PlaintextHelpFormatterTest {
                 |  sub2  another command
                 |
                 |This is the epilog
-                """.trimMargin("|"))
+                """.trimMargin("|")
     }
 }

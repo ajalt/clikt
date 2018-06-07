@@ -4,8 +4,9 @@ import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.assertThrows
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import org.junit.Test
 
 class EagerOptionsTest {
@@ -17,9 +18,9 @@ class EagerOptionsTest {
             }
         }
 
-        assertThrows<PrintMessage> {
+        shouldThrow<PrintMessage> {
             C().parse(splitArgv("--version"))
-        }.hasMessage("prog version 1.2.3")
+        }.message shouldBe "prog version 1.2.3"
     }
 
     @Test
@@ -30,9 +31,9 @@ class EagerOptionsTest {
             }
         }
 
-        assertThrows<PrintMessage> {
+        shouldThrow<PrintMessage> {
             C().parse(splitArgv("--foo"))
-        }.hasMessage("1.2.3 bar")
+        }.message shouldBe "1.2.3 bar"
     }
 
     @Test
@@ -43,12 +44,12 @@ class EagerOptionsTest {
             }
         }
 
-        assertThrows<PrintHelpMessage> {
+        shouldThrow<PrintHelpMessage> {
             C().parse(splitArgv("--help --version"))
         }
 
-        assertThrows<PrintMessage> {
+        shouldThrow<PrintMessage> {
             C().parse(splitArgv("--version --help"))
-        }.hasMessage("prog version 1.2.3")
+        }.message shouldBe "prog version 1.2.3"
     }
 }

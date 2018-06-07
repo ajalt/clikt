@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.splitArgv
-import org.assertj.core.api.Assertions.assertThat
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import org.junit.Test
 import java.io.File
 
@@ -14,7 +14,7 @@ class FileTypeTest {
         class C : CliktCommand() {
             val x by option("-x", "--xx").file()
             override fun run() {
-                assertThat(x).isInstanceOf(File::class.java)
+                x!!.shouldBeInstanceOf<File>()
             }
         }
 
@@ -26,7 +26,7 @@ class FileTypeTest {
         class C : CliktCommand() {
             val x by argument().file()
             override fun run() {
-                assertThat(x).isInstanceOf(File::class.java)
+                x.shouldBeInstanceOf<File>()
             }
         }
 

@@ -38,8 +38,8 @@ private fun convertToFile(path: String,
  * @param exists If true, fail if the given path does not exist
  * @param fileOkay If false, fail if the given path is a file
  * @param folderOkay If false, fail if the given path is not a directory
- * @param writable If false, fail of the given path is not writable
- * @param readable If false, fail of the given path is not readable
+ * @param writable If true, fail if the given path is not writable
+ * @param readable If true, fail if the given path is not readable
  */
 fun RawArgument.file(exists: Boolean = false,
                      fileOkay: Boolean = true,
@@ -55,8 +55,8 @@ fun RawArgument.file(exists: Boolean = false,
  * @param exists If true, fail if the given path does not exist
  * @param fileOkay If false, fail if the given path is a file
  * @param folderOkay If false, fail if the given path is not a directory
- * @param writable If false, fail of the given path is not writable
- * @param readable If false, fail of the given path is not readable
+ * @param writable If true, fail if the given path is not writable
+ * @param readable If true, fail if the given path is not readable
  */
 fun RawOption.file(exists: Boolean = false,
                    fileOkay: Boolean = true,

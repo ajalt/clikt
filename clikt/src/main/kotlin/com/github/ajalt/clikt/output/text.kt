@@ -32,7 +32,7 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
     var currentWidth = initialIndent.length
     for ((i, word) in words.withIndex()) {
         if (i > 0) {
-            if (currentWidth + word.length >= width) {
+            if (currentWidth + word.length + 1 > width) {
                 append("\n").append(subsequentIndent)
                 currentWidth = subsequentIndent.length
             } else {

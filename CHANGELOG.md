@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [1.3.0] - 2018-06-23
 ### Added
 - `defaultLazy` extension for options and arguments
 

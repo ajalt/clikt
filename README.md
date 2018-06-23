@@ -76,16 +76,13 @@ them with the included [`runsample` script](runsample).
 
 ## Installation
 
-Clikt is distributed with
+Clikt is distributed through Maven Central,
 [Jcenter](https://bintray.com/ajalt/maven/clikt) and
 [Jitpack](https://jitpack.io/#ajalt/clikt).
 
-Make sure one either jcenter or jitpack is included in your repository
-list, then you can add Clikt to your project:
-
 ```groovy
 dependencies {
-   compile 'com.github.ajalt:clikt:1.2.0'
+   implementation 'com.github.ajalt:clikt:1.3.0'
 }
 ```
 

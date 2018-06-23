@@ -11,12 +11,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.2'
     }
-}
-
-dokka {
-    outputDirectory = "$rootDir/docs/api"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -35,49 +31,30 @@ task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
 }
 
 artifacts {
-    archives sourcesJar
     archives javadocJar
+    archives sourcesJar
 }
 
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-            scm {
-                connection "https://github.com/ajalt/clikt.git"
-                url "https://github.com/ajalt/clikt"
-            }
-            developers {
-                developer {
-                    name 'AJ Alt'
-                }
-            }
-        }
+dokka {
+    outputDirectory = "$rootDir/docs/api"
+}
+
+ext {
+    pkgName = 'clikt'
+    pkgDesc = 'Intuitive command line interface parsing for Kotlin'
+    githubRepo = 'github.com/ajalt/clikt'
+    pkgLicense = 'Apache-2.0'
+    pkgLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    devInfo = {
+        id 'ajalt'
+        name 'AJ Alt'
+        url 'https://github.com/ajalt'
     }
+    bintrayUser = System.getenv('BINTRAY_USER')
+    bintrayKey = System.getenv('BINTRAY_API_KEY')
+    mavenUserToken = System.getenv('MAVEN_USER_TOKEN')
+    mavenUserPass = System.getenv('MAVEN_USER_PASS')
+    deployDryRun = false
 }
 
-bintray {
-    user = project.hasProperty('bintray.user') ? project.property('bintray.user') : ''
-    key = project.hasProperty('bintray.apikey') ? project.property('bintray.apikey') : ''
-    configurations = ['archives']
-    pkg {
-        repo = 'maven'
-        name = 'clikt'
-        licenses = ['Apache-2.0']
-        vcsUrl = "https://github.com/ajalt/clikt.git"
-
-        version {
-            name = project.version
-            desc = project.description
-            released = new Date()
-            vcsTag = project.version
-        }
-    }
-}
-
+apply from: new File(rootDir, 'deploy.gradle')

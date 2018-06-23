@@ -132,25 +132,30 @@ open class PlaintextHelpFormatter(protected val indent: String = "  ",
     protected fun StringBuilder.appendDefinitionList(rows: List<Pair<String, String>>) {
         if (rows.isEmpty()) return
         val firstWidth = measureFirstColumn(rows)
-        val secondWidth = width - firstWidth - colSpacing
-        val subsequentIndent by lazy(LazyThreadSafetyMode.NONE) { " ".repeat(indent.length + firstWidth + colSpacing) }
+        val subsequentIndent = " ".repeat(indent.length + firstWidth + colSpacing)
         for ((i, row) in rows.withIndex()) {
             val (first, second) = row
             if (i > 0) append("\n")
-            append(indent).append(first)
-            if (first.length > maxColWidth) {
-                append("\n").append(subsequentIndent)
+
+            val initialIndent = if (first.length > maxColWidth) {
+                // If the first column is too wide, append it and start the second column on a new line
+                append(indent).append(first).append("\n")
+                subsequentIndent
             } else {
-                appendRepeat(" ", firstWidth - first.length + colSpacing)
+                // If the first column fits, use it as the initial indent for wrapping
+                buildString {
+                    append(indent).append(first)
+                    // Pad the difference between this column's width and the table's first column width
+                    appendRepeat(" ", firstWidth - first.length + colSpacing)
+                }
             }
 
-            val t = second.wrapText(secondWidth, subsequentIndent = subsequentIndent)
-            append(t)
+            second.wrapText(this, width, initialIndent = initialIndent, subsequentIndent = subsequentIndent)
         }
     }
 
     private fun measureFirstColumn(rows: List<Pair<String, String>>): Int =
-            rows.maxBy({ it.first.length })?.first?.length?.coerceAtMost(maxColWidth) ?: maxColWidth
+            rows.maxBy { it.first.length }?.first?.length?.coerceAtMost(maxColWidth) ?: maxColWidth
 
     private fun StringBuilder.section(title: String) {
         append("\n").append(title).append("\n")

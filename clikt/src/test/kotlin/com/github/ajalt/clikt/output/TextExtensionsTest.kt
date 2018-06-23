@@ -15,13 +15,13 @@ class TextExtensionsTest {
             row("a c".wrapText(width = 2), "a\nc"),
             row("a b c".wrapText(width = 3), "a b\nc"),
             row("a bc".wrapText(width = 3), "a\nbc"),
-            row("abc".wrapText(initialIndent = "1", subsequentIndent = "2"), "1abc"),
-            row("a b c".wrapText(width = 4, initialIndent = "1", subsequentIndent = "2"), "1a b\n2c"),
-            row("a b c".wrapText(width = 3, initialIndent = "1 "), "1 a\nb c"),
+            row("abc".wrapText(initialIndent = "=", subsequentIndent = "-"), "=abc"),
+            row("a b c".wrapText(width = 4, initialIndent = "=", subsequentIndent = "-"), "=a b\n-c"),
+            row("a b c".wrapText(width = 3, initialIndent = "= "), "= a\nb c"),
             row("a\n\nb".wrapText(width = 3, preserveParagraph = true), "a\n\nb"),
             row("a b c\n\nd e f".wrapText(width = 3, preserveParagraph = true), "a b\nc\n\nd e\nf"),
-            row("a b c\n\nd e f".wrapText(width = 4, initialIndent = "1",
-                    subsequentIndent = "2", preserveParagraph = true), "1a b\n2c\n\n2d e\n2f"),
+            row("a b c\n\nd e f".wrapText(width = 4, initialIndent = "=",
+                    subsequentIndent = "-", preserveParagraph = true), "=a b\n-c\n\n-d e\n-f"),
             row("".wrapText(), "")
     ) { (actual, expected) ->
         actual shouldBe expected

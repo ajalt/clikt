@@ -196,6 +196,24 @@ class PlaintextHelpFormatterTest {
     }
 
     @Test
+    fun `formatHelp option wrapping long help issue #10`() {
+        val f = PlaintextHelpFormatter(width = 62)
+        f.formatHelp("", "", l(
+                opt(l("-L", "--lorem-ipsum"),
+                        help = "Lorem ipsum dolor sit amet, consectetur e  adipiscing elit. Nulla vitae " +
+                                "porta nisi.  Interdum et malesuada fames ac ante ipsum")
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -L, --lorem-ipsum  Lorem ipsum dolor sit amet, consectetur e
+                |                     adipiscing elit. Nulla vitae porta nisi.
+                |                     Interdum et malesuada fames ac ante ipsum
+                """.trimMargin("|")
+    }
+
+    @Test
     fun `formatHelp arguments`() {
         val f = PlaintextHelpFormatter(width = 54)
         f.formatHelp("", "", l(

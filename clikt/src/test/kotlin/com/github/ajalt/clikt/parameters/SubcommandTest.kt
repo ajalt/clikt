@@ -7,16 +7,16 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
+import io.kotlintest.tables.row
 import org.junit.Test
 
 class SubcommandTest {
     @Test
-    fun `subcommand`() = parameterized(
+    fun `subcommand`() = forall(
             row("--xx 2 sub --xx 3 --yy 4"),
             row("--xx 2 sub -x 3 --yy 4"),
             row("--xx 2 sub -x3 --yy 4"),
@@ -63,7 +63,7 @@ class SubcommandTest {
             row("-x2 sub -x3 -y 4"),
             row("-x2 sub -x 3 -y4"),
             row("-x2 sub -x3 -y4")
-    ) { (argv) ->
+    ) { argv ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {
@@ -84,9 +84,9 @@ class SubcommandTest {
     }
 
     @Test
-    fun `multiple subcommands`() = parameterized(
+    fun `multiple subcommands`() = forall(
             row("-x1 sub1 2 3", true)
-    ) { (argv, firstCalled) ->
+    ) { argv, firstCalled ->
         class C : CliktCommand() {
             var called = false
             val x by option("-x", "--xx")
@@ -169,11 +169,11 @@ class SubcommandTest {
     }
 
     @Test
-    fun `normalized subcommand names`() = parameterized(
+    fun `normalized subcommand names`() = forall(
             row("a b"),
             row("a b SUB -xfoo"),
             row("a b SUB -xfoo SUB2 -xfoo"),
-            row("a b SUB -xfoo sub2 -xfoo")) { (argv) ->
+            row("a b SUB -xfoo sub2 -xfoo")) { argv ->
 
         class C : CliktCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
@@ -202,13 +202,13 @@ class SubcommandTest {
     }
 
     @Test
-    fun `aliased subcommand names`() = parameterized(
+    fun `aliased subcommand names`() = forall(
             row("a b"),
             row("a 1 sub -xfoo"),
             row("a 2"),
             row("3"),
             row("a b 4 -xfoo"),
-            row("a b 4 1")) { (argv) ->
+            row("a b 4 1")) { argv ->
 
         class C : CliktCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()

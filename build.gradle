@@ -30,7 +30,7 @@ subprojects {
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
         testImplementation 'junit:junit:4.12'
-        testImplementation 'io.kotlintest:kotlintest-assertions:3.1.6'
+        testImplementation 'io.kotlintest:kotlintest-assertions:3.1.7'
         testImplementation 'com.github.stefanbirkner:system-rules:1.17.0'
     }
 

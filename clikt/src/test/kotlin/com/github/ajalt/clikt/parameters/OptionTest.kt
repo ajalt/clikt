@@ -10,23 +10,24 @@ import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Assert.*
 import org.junit.Test
 
+@Suppress("unused")
 class OptionTest {
     @Test
-    fun `inferEnvvar`() = parameterized(
+    fun `inferEnvvar`() = forall(
             row(setOf("--foo"), null, null, null),
             row(setOf("--bar"), null, "FOO", "FOO_BAR"),
             row(setOf("/bar"), null, "FOO", "FOO_BAR"),
             row(setOf("-b"), null, "FOO", "FOO_B"),
             row(setOf("-b", "--bar"), null, "FOO", "FOO_BAR")
-    ) { (names, envvar, prefix, expected) ->
+    ) { names, envvar, prefix, expected ->
         inferEnvvar(names, envvar, prefix) shouldBe expected
     }
 
@@ -68,14 +69,14 @@ class OptionTest {
     }
 
     @Test
-    fun `one option`() = parameterized(
+    fun `one option`() = forall(
             row("", null),
             row("--xx 3", "3"),
             row("--xx --xx", "--xx"),
             row("--xx=asd", "asd"),
             row("-x 4", "4"),
             row("-x -x", "-x"),
-            row("-xfoo", "foo")) { (argv, expected) ->
+            row("-xfoo", "foo")) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             var called = false
@@ -106,7 +107,7 @@ class OptionTest {
     }
 
     @Test
-    fun `two options`() = parameterized(
+    fun `two options`() = forall(
             row("--xx 3 --yy 4", "3", "4"),
             row("-x 3 --yy 4", "3", "4"),
             row("-x3 --yy 4", "3", "4"),
@@ -125,7 +126,7 @@ class OptionTest {
             row("--xx=3", "3", null),
             row("-x 3", "3", null),
             row("-x3", "3", null)
-    ) { (argv, ex, ey) ->
+    ) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             val y by option("-y", "--yy")
@@ -140,7 +141,7 @@ class OptionTest {
 
 
     @Test
-    fun `two options nvalues=2`() = parameterized(
+    fun `two options nvalues=2`() = forall(
             row("", null, null),
             row("--yy 5 7", null, "5" to "7"),
             row("--xx 1 3 --yy 5 7", "1" to "3", "5" to "7"),
@@ -154,7 +155,7 @@ class OptionTest {
             row("-x1 3 -y 5 7", "1" to "3", "5" to "7"),
             row("-x 1 3 -y5 7", "1" to "3", "5" to "7"),
             row("-x1 3 -y5 7", "1" to "3", "5" to "7")
-    ) { (argv, ex, ey) ->
+    ) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").pair()
             val y by option("-y", "--yy").pair()
@@ -171,7 +172,7 @@ class OptionTest {
     fun `two options nvalues=3`() {
         val xvalue = Triple("1", "2", "3")
         val yvalue = Triple("5", "6", "7")
-        parameterized(
+        forall(
                 row("", null, null),
                 row("--yy 5 6 7", null, yvalue),
                 row("--xx 1 2 3 --yy 5 6 7", xvalue, yvalue),
@@ -185,7 +186,7 @@ class OptionTest {
                 row("-x1 2 3 -y 5 6 7", xvalue, yvalue),
                 row("-x 1 2 3 -y5 6 7", xvalue, yvalue),
                 row("-x1 2 3 -y5 6 7", xvalue, yvalue)
-        ) { (argv, ex, ey) ->
+        ) { argv, ex, ey ->
             class C : CliktCommand() {
                 val x by option("-x", "--xx").triple()
                 val y by option("-y", "--yy").triple()
@@ -215,7 +216,7 @@ class OptionTest {
     }
 
     @Test
-    fun `flag options`() = parameterized(
+    fun `flag options`() = forall(
             row("", false, false, null),
             row("-xx", true, false, null),
             row("-xX", false, false, null),
@@ -236,7 +237,7 @@ class OptionTest {
             row("-xyzxyz", true, true, "xyz"),
             row("-xXyzXyz", false, true, "Xyz"),
             row("-xzfoo", true, false, "foo")
-    ) { (argv, ex, ey, ez) ->
+    ) { argv, ex, ey, ez ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").flag("-X", "--no-xx")
             val y by option("-y", "--yy").flag()
@@ -252,9 +253,9 @@ class OptionTest {
     }
 
     @Test
-    fun `switch options`() = parameterized(
+    fun `switch options`() = forall(
             row("", null, -1),
-            row("--xx -yy", 2, 4)) { (argv, ex, ey) ->
+            row("--xx -yy", 2, 4)) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option().switch("-x" to 1, "--xx" to 2)
             val y by option().switch("-y" to 3, "-yy" to 4).default(-1)
@@ -268,7 +269,7 @@ class OptionTest {
     }
 
     @Test
-    fun `counted options`() = parameterized(
+    fun `counted options`() = forall(
             row("", 0, false, null),
             row("-x -x", 2, false, null),
             row("-xx", 2, false, null),
@@ -288,7 +289,7 @@ class OptionTest {
             row("-xyxzxyz", 2, true, "xyz"),
             row("-xyzxyz", 1, true, "xyz"),
             row("-xzfoo", 1, false, "foo")
-    ) { (argv, ex, ey, ez) ->
+    ) { argv, ex, ey, ez ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").counted()
             val y by option("-y", "--yy").flag()
@@ -304,9 +305,9 @@ class OptionTest {
     }
 
     @Test
-    fun `default option`() = parameterized(
+    fun `default option`() = forall(
             row("", "def"),
-            row("-x4", "4")) { (argv, expected) ->
+            row("-x4", "4")) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").default("def")
             override fun run() {
@@ -318,9 +319,9 @@ class OptionTest {
     }
 
     @Test
-    fun `defaultLazy option`() = parameterized(
+    fun `defaultLazy option`() = forall(
             row("", "default", true),
-            row("-xbar", "bar", false)) { (argv, expected, ec) ->
+            row("-xbar", "bar", false)) { argv, expected, ec ->
         var called = false
 
         class C : CliktCommand() {
@@ -354,7 +355,7 @@ class OptionTest {
         class C : CliktCommand() {
             val x by option().multiple()
             override fun run() {
-                x shouldBe listOf<String>()
+                x shouldBe listOf()
             }
         }
 
@@ -482,13 +483,13 @@ class OptionTest {
     }
 
     @Test
-    fun `one option with slash prefix`() = parameterized(
+    fun `one option with slash prefix`() = forall(
             row("", null),
             row("/xx 3", "3"),
             row("/xx=asd", "asd"),
             row("/x 4", "4"),
             row("/x /xx /xx foo", "foo"),
-            row("/xfoo", "foo")) { (argv, expected) ->
+            row("/xfoo", "foo")) { argv, expected ->
         class C : CliktCommand() {
             val x by option("/x", "/xx")
             override fun run() {
@@ -500,13 +501,13 @@ class OptionTest {
     }
 
     @Test
-    fun `one option with java prefix`() = parameterized(
+    fun `one option with java prefix`() = forall(
             row("", null),
             row("-xx 3", "3"),
             row("-xx=asd", "asd"),
             row("-x 4", "4"),
             row("-x -xx -xx foo", "foo"),
-            row("-xfoo", "foo")) { (argv, expected) ->
+            row("-xfoo", "foo")) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "-xx")
             override fun run() {
@@ -518,7 +519,7 @@ class OptionTest {
     }
 
     @Test
-    fun `two options with chmod prefixes`() = parameterized(
+    fun `two options with chmod prefixes`() = forall(
             row("", false, false),
             row("-x", false, false),
             row("-x +x", true, false),
@@ -528,7 +529,7 @@ class OptionTest {
             row("-y +y", false, true),
             row("+y -y", false, false),
             row("-x -y", false, false),
-            row("-x -y +xy", true, true)) { (argv, ex, ey) ->
+            row("-x -y +xy", true, true)) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option("+x").flag("-x")
             val y by option("+y").flag("-y")
@@ -542,11 +543,11 @@ class OptionTest {
     }
 
     @Test
-    fun `normalized tokens`() = parameterized(
+    fun `normalized tokens`() = forall(
             row("", null),
             row("--XX=FOO", "FOO"),
             row("--xx=FOO", "FOO"),
-            row("-XX", "X")) { (argv, expected) ->
+            row("-XX", "X")) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {
@@ -558,9 +559,9 @@ class OptionTest {
     }
 
     @Test
-    fun `aliased tokens`() = parameterized(
+    fun `aliased tokens`() = forall(
             row("", null),
-            row("--yy 3", "3")) { (argv, expected) ->
+            row("--yy 3", "3")) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             override fun run() {

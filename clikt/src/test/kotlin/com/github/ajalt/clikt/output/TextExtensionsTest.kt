@@ -1,13 +1,13 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
+import io.kotlintest.tables.row
 import org.junit.Test
 
 class TextExtensionsTest {
     @Test
-    fun `wrapText`() = parameterized(
+    fun `wrapText`() = forall(
             row("abc".wrapText(), "abc"),
             row("abc\n".wrapText(), "abc"),
             row("abc\n".wrapText(width = 2), "abc"),
@@ -23,18 +23,18 @@ class TextExtensionsTest {
             row("a b c\n\nd e f".wrapText(width = 4, initialIndent = "=",
                     subsequentIndent = "-", preserveParagraph = true), "=a b\n-c\n\n-d e\n-f"),
             row("".wrapText(), "")
-    ) { (actual, expected) ->
+    ) { actual, expected ->
         actual shouldBe expected
     }
 
     @Test
-    fun `appendRepeat`() = parameterized(
+    fun `appendRepeat`() = forall(
             row("a", 0, ""),
             row("a", 1, "a"),
             row("a", 2, "aa"),
             row("a", 3, "aaa"),
             row("ab", 2, "abab")
-    ) { (text, repeat, expected) ->
+    ) { text, repeat, expected ->
         StringBuilder().appendRepeat(text, repeat).toString() shouldBe expected
     }
 }

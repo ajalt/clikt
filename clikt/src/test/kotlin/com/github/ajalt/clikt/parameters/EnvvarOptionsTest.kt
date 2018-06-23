@@ -11,10 +11,10 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
+import io.kotlintest.tables.row
 import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
@@ -137,10 +137,12 @@ class EnvvarOptionsTest {
     }
 
     @Test
-    fun `flag envvars`() = parameterized(
+    fun `flag envvars`() = forall(
             row(null, null, false, 0),
             row("YES", "3", true, 3),
-            row("false", "5", false, 5)) { (fv, bv, ef, eb) ->
+            row("false", "5", false, 5)
+    ) { fv, bv, ef, eb ->
+
         env["FOO"] = fv
         env["BAR"] = bv
 

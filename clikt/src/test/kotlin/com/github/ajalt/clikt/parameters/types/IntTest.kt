@@ -8,19 +8,20 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Test
 
+@Suppress("unused")
 class IntTypeTest {
     @Test
-    fun `int option`() = parameterized(
+    fun `int option`() = forall(
             row("", null),
             row("--xx=4", 4),
-            row("-x5", 5)) { (argv, expected) ->
+            row("-x5", 5)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").int()
             override fun run() {
@@ -42,10 +43,10 @@ class IntTypeTest {
     }
 
     @Test
-    fun `int option with default`() = parameterized(
+    fun `int option with default`() = forall(
             row("", 111),
             row("--xx=4", 4),
-            row("-x5", 5)) { (argv, expected) ->
+            row("-x5", 5)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").int().default(111)
             override fun run() {
@@ -56,10 +57,10 @@ class IntTypeTest {
     }
 
     @Test
-    fun `int argument`() = parameterized(
+    fun `int argument`() = forall(
             row("", null, emptyList<Int>()),
             row("1 2", 1, listOf(2)),
-            row("1 2 3", 1, listOf(2, 3))) { (argv, ex, ey) ->
+            row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by argument().int().optional()
             val y by argument().int().multiple()

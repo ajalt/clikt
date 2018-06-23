@@ -9,13 +9,13 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.pair
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.matchers.beEmpty
 import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Test
 
 class RangeTest {
@@ -42,11 +42,11 @@ class RangeTest {
     }
 
     @Test
-    fun `restrictTo option min clamp`() = parameterized(
+    fun `restrictTo option min clamp`() = forall(
             row("", null),
             row("--xx=1", 1),
             row("--xx -123", 1),
-            row("-x0", 1)) { (argv, expected) ->
+            row("-x0", 1)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(min = 1, clamp = true)
             override fun run() {
@@ -80,11 +80,11 @@ class RangeTest {
     }
 
     @Test
-    fun `restrictTo option max clamp`() = parameterized(
+    fun `restrictTo option max clamp`() = forall(
             row("", null),
             row("--xx=1", 1),
             row("--xx 123", 1),
-            row("-x2", 1)) { (argv, expected) ->
+            row("-x2", 1)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").int().restrictTo(max = 1, clamp = true)
             override fun run() {

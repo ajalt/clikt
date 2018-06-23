@@ -8,19 +8,19 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Test
 
 class FloatTest {
     @Test
-    fun `float option`() = parameterized(
+    fun `float option`() = forall(
             row("", null),
             row("--xx=4.0", 4f),
-            row("-x5.5", 5.5f)) { (argv, expected) ->
+            row("-x5.5", 5.5f)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").float()
             override fun run() {
@@ -42,10 +42,10 @@ class FloatTest {
     }
 
     @Test
-    fun `float option with default`() = parameterized(
+    fun `float option with default`() = forall(
             row("", -1f),
             row("--xx=4.0", 4f),
-            row("-x5.5", 5.5f)) { (argv, expected) ->
+            row("-x5.5", 5.5f)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").float().default(-1f)
             override fun run() {
@@ -56,10 +56,10 @@ class FloatTest {
     }
 
     @Test
-    fun `float argument`() = parameterized(
-            row("", null, emptyList<Float>()),
+    fun `float argument`() = forall(
+            row("", null, emptyList()),
             row("1.1 2", 1.1f, listOf(2f)),
-            row("1.1 2 3", 1.1f, listOf(2f, 3f))) { (argv, ex, ey) ->
+            row("1.1 2 3", 1.1f, listOf(2f, 3f))) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by argument().float().optional()
             val y by argument().float().multiple()

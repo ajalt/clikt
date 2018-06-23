@@ -8,20 +8,21 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Test
 
+@Suppress("unused")
 class DoubleTest {
     @Test
-    fun `double option`() = parameterized(
+    fun `double option`() = forall(
             row("", null),
             row("--xx 3", 3.0),
             row("--xx=4.0", 4.0),
-            row("-x5.5", 5.5)) { (argv, expected) ->
+            row("-x5.5", 5.5)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").double()
             override fun run() {
@@ -43,10 +44,10 @@ class DoubleTest {
     }
 
     @Test
-    fun `double option with default`() = parameterized(
+    fun `double option with default`() = forall(
             row("", -1.0),
             row("--xx=4.0", 4.0),
-            row("-x5.5", 5.5)) { (argv, expected) ->
+            row("-x5.5", 5.5)) { argv, expected ->
         class C : CliktCommand() {
             val x by option("-x", "--xx").double().default(-1.0)
             override fun run() {
@@ -57,10 +58,10 @@ class DoubleTest {
     }
 
     @Test
-    fun `double argument`() = parameterized(
+    fun `double argument`() = forall(
             row("", null, emptyList<Float>()),
             row("1.1 2", 1.1, listOf(2.0)),
-            row("1.1 2 3", 1.1, listOf(2.0, 3.0))) { (argv, ex, ey) ->
+            row("1.1 2 3", 1.1, listOf(2.0, 3.0))) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by argument().double().optional()
             val y by argument().double().multiple()

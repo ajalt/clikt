@@ -21,18 +21,19 @@ import com.github.ajalt.clikt.parameters.arguments.validate
 import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.matchers.string.contain
 import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+@Suppress("unused")
 class ArgumentTest {
     @Test
     fun `one required argument`() {
@@ -45,9 +46,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one optional argument`() = parameterized(
+    fun `one optional argument`() = forall(
             row("", null)
-    ) { (argv, expected) ->
+    ) { argv, expected ->
         class C : CliktCommand() {
             val x by argument().optional()
             override fun run() {
@@ -59,9 +60,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one default argument`() = parameterized(
+    fun `one default argument`() = forall(
             row("", "def")
-    ) { (argv, expected) ->
+    ) { argv, expected ->
         class C : CliktCommand() {
             val x by argument().default("def")
             override fun run() {
@@ -73,9 +74,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `defaultLazy argument`() = parameterized(
+    fun `defaultLazy argument`() = forall(
             row("", "default", true)
-    ) { (argv, expected, ec) ->
+    ) { argv, expected, ec ->
         var called = false
 
         class C : CliktCommand() {
@@ -106,9 +107,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one optional argument nvalues=2`() = parameterized(
+    fun `one optional argument nvalues=2`() = forall(
             row("", null)
-    ) { (argv, expected) ->
+    ) { argv, expected ->
         class C : CliktCommand() {
             val x by argument().pair().optional()
             override fun run() {
@@ -120,9 +121,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one optional argument nvalues=3`() = parameterized(
+    fun `one optional argument nvalues=3`() = forall(
             row("", null)
-    ) { (argv, expected) ->
+    ) { argv, expected ->
         class C : CliktCommand() {
             val x by argument().triple().optional()
             override fun run() {
@@ -160,11 +161,11 @@ class ArgumentTest {
     }
 
     @Test
-    fun `one argument nvalues=-1`() = parameterized(
+    fun `one argument nvalues=-1`() = forall(
             row("", emptyList()),
             row("foo bar", listOf("foo", "bar")),
             row("foo bar baz", listOf("foo", "bar", "baz"))
-    ) { (argv, expected) ->
+    ) { argv, expected ->
         class C : CliktCommand() {
             val x by argument().multiple()
             override fun run() {
@@ -176,10 +177,10 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nvalues=-1,1`() = parameterized(
+    fun `two arguments nvalues=-1,1`() = forall(
             row("foo", emptyList(), "foo"),
             row("foo bar baz", listOf("foo", "bar"), "baz")
-    ) { (argv, ex, ey) ->
+    ) { argv, ex, ey ->
         class C : CliktCommand() {
             val foo by argument().multiple()
             val bar by argument()
@@ -204,11 +205,11 @@ class ArgumentTest {
     }
 
     @Test
-    fun `two arguments nvalues=1,-1`() = parameterized(
-            row("", null, emptyList<String>()),
+    fun `two arguments nvalues=1,-1`() = forall(
+            row("", null, emptyList()),
             row("foo bar", "foo", listOf("bar")),
             row("foo bar baz", "foo", listOf("bar", "baz"))
-    ) { (argv, ex, ey) ->
+    ) { argv, ex, ey ->
         class C : CliktCommand() {
             val foo by argument().optional()
             val bar by argument().multiple()
@@ -233,9 +234,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `value -- with argument`() = parameterized(
+    fun `value -- with argument`() = forall(
             row("--xx --xx -- --xx", "--xx", "--xx")
-    ) { (argv, ex, ey) ->
+    ) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             val y by argument()
@@ -356,9 +357,9 @@ class ArgumentTest {
     }
 
     @Test
-    fun `punctuation in arg prefix unix style`() = parameterized(
+    fun `punctuation in arg prefix unix style`() = forall(
             row("/foo")
-    ) { (argv) ->
+    ) { argv ->
         class C : CliktCommand() {
             val x by argument()
             override fun run() {
@@ -378,10 +379,10 @@ class ArgumentTest {
     }
 
     @Test
-    fun `punctuation in arg prefix windows style`() = parameterized(
+    fun `punctuation in arg prefix windows style`() = forall(
             row("-foo"),
             row("--foo")
-    ) { (argv) ->
+    ) { argv ->
         class C : CliktCommand() {
             init {
                 context { helpOptionNames = setOf("/help") }

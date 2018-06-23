@@ -3,11 +3,11 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.parameterized
-import com.github.ajalt.clikt.testing.row
 import com.github.ajalt.clikt.testing.splitArgv
+import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.Test
 
 
@@ -78,14 +78,14 @@ class CliktCommandTest {
     }
 
     @Test
-    fun `aliases`() = parameterized(
+    fun `aliases`() = forall(
             row("-xx", "x", emptyList()),
             row("a", "a", listOf("b")),
             row("a", "a", listOf("b")),
             row("b", null, listOf("-xa")),
             row("recurse", null, listOf("recurse")),
             row("recurse2", "foo", listOf("recurse", "recurse2"))
-    ) { (argv, ex, ey) ->
+    ) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option("-x", "--xx")
             val y by argument().multiple()

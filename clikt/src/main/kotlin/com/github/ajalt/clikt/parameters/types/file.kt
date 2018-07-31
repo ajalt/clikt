@@ -25,7 +25,7 @@ private fun convertToFile(path: String,
     val name = pathType(fileOkay, folderOkay)
     return File(path).also {
         if (exists && !it.exists()) fail("$name \"$it\" does not exist.")
-        if (!fileOkay && it.isFile) fail("$name \"$it\" is a file")
+        if (!fileOkay && it.isFile) fail("$name \"$it\" is a file.")
         if (!folderOkay && it.isDirectory) fail("$name \"$it\" is a directory.")
         if (writable && !it.canWrite()) fail("$name \"$it\" is not writable.")
         if (readable && !it.canRead()) fail("$name \"$it\" is not readable.")

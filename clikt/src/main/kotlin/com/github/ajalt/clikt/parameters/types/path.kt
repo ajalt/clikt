@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters.types
 
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
@@ -28,7 +29,7 @@ private fun convertToPath(path: String,
     val name = pathType(fileOkay, folderOkay)
     return fileSystem.getPath(path).also {
         if (exists && !Files.exists(it)) fail("$name \"$it\" does not exist.")
-        if (!fileOkay && Files.isRegularFile(it)) fail("$name \"$it\" is a file")
+        if (!fileOkay && Files.isRegularFile(it)) fail("$name \"$it\" is a file.")
         if (!folderOkay && Files.isDirectory(it)) fail("$name \"$it\" is a directory.")
         if (writable && !Files.isWritable(it)) fail("$name \"$it\" is not writable.")
         if (readable && !Files.isReadable(it)) fail("$name \"$it\" is not readable.")
@@ -72,7 +73,7 @@ fun RawOption.path(exists: Boolean = false,
                    readable: Boolean = false,
                    fileSystem: FileSystem = java.nio.file.FileSystems.getDefault()): NullableOption<Path, Path> {
     val name = pathType(fileOkay, folderOkay)
-    val split = if (com.github.ajalt.clikt.output.TermUi.isWindows) kotlin.text.Regex.fromLiteral(";") else kotlin.text.Regex.fromLiteral(":")
+    val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
     return convert(name.toUpperCase(), envvarSplit = split) {
         convertToPath(it, exists, fileOkay, folderOkay, writable, readable, fileSystem) { fail(it) }
     }

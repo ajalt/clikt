@@ -122,14 +122,14 @@ entries:
     - title: Help Option Customization
       url: /documenting.html#help-option-customization
 
-  - title: Advanced Patters
+  - title: Advanced Patterns
     url: /advanced.html
     folderitems:
 
     - title: Command Aliases
-      url: /documenting.html#command-aliases
+      url: /advanced.html#command-aliases
     - title: Token Normalization
-      url: /documenting.html#token-normalization
+      url: /advanced.html#token-normalization
 
   - title: Utilities
     url: /utilities.html

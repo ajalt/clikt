@@ -112,6 +112,7 @@ arguments.
   ```
 
 * `File`: {% include api.html pkg="parameters.types" fun="file" text="option().file() and argument().file()" %}
+* `Path`: {% include api.html pkg="parameters.types" fun="path" text="option().path() and argument().path()" %}
 
   These conversion functions take extra parameters that allow you to
   require that values are file paths that have certain attributes, such

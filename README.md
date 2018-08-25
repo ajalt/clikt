@@ -76,7 +76,7 @@ them with the included [`runsample` script](runsample).
 
 ## Installation
 
-Clikt is distributed through Maven Central,
+Clikt is distributed through [Maven Central](https://mvnrepository.com/artifact/com.github.ajalt/clikt),
 [Jcenter](https://bintray.com/ajalt/maven/clikt) and
 [Jitpack](https://jitpack.io/#ajalt/clikt).
 

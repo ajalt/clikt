@@ -45,19 +45,19 @@ class Commit : CliktCommand(
 
             val message = TermUi.editText(text)
             if (message == null) {
-                TermUi.echo("Aborted!")
+                echo("Aborted!")
                 return
             }
             message.split(marker, limit = 2)[0].trim().apply {
                 if (this.isEmpty()) {
-                    TermUi.echo("Aborting commit due to empty commit message.")
+                    echo("Aborting commit due to empty commit message.")
                     return
                 }
             }
         }
-        TermUi.echo("Files to be commited: $files")
-        TermUi.echo("Commit message:")
-        TermUi.echo(msg)
+        echo("Files to be commited: $files")
+        echo("Commit message:")
+        echo(msg)
     }
 }
 

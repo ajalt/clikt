@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.PlaintextHelpFormatter
+import com.github.ajalt.clikt.output.defaultCliktConsole
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -32,7 +34,8 @@ class Context(val parent: Context?,
               val helpOptionNames: Set<String>,
               val helpOptionMessage: String,
               val helpFormatter: HelpFormatter,
-              val tokenTransformer: Context.(String) -> String) {
+              val tokenTransformer: Context.(String) -> String,
+              val console: CliktConsole) {
     var invokedSubcommand: CliktCommand? = null
         internal set
     var obj: Any? = null
@@ -93,6 +96,13 @@ class Context(val parent: Context?,
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
             it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
         }
+
+        /**
+         * The console that will handle reading and writing text.
+         *
+         * The default uses [System.in] and [System.out].
+         */
+        var console: CliktConsole = defaultCliktConsole()
     }
 
     companion object {
@@ -100,7 +110,7 @@ class Context(val parent: Context?,
             with(Builder(command, parent)) {
                 block()
                 return Context(parent, command, allowInterspersedArgs, autoEnvvarPrefix,
-                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer)
+                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console)
             }
         }
     }

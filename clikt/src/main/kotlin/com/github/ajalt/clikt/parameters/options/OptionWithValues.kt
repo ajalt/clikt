@@ -1,6 +1,11 @@
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.Abort
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
@@ -225,7 +230,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
  * ```
  */
 inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(crossinline value: () -> EachT)
-    : OptionWithValues<EachT, EachT, ValueT> {
+        : OptionWithValues<EachT, EachT, ValueT> {
     return transformAll { it.lastOrNull() ?: value() }
 }
 
@@ -406,12 +411,12 @@ fun <T : Any> NullableOption<T, T>.prompt(
             ?.replace(Regex("\\W"), " ")?.capitalize() ?: "Value"
 
     val provided = it.lastOrNull()
-    if (provided != null) provided
-    else {
-        TermUi.prompt(promptText, default, hideInput, requireConfirmation,
-                confirmationPrompt, promptSuffix, showDefault) {
+    when (provided) {
+        null -> TermUi.prompt(promptText, default, hideInput, requireConfirmation,
+                confirmationPrompt, promptSuffix, showDefault, context.console) {
             val ctx = OptionCallTransformContext("", this, context)
             transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))
-        } ?: throw Abort()
-    }
+        }
+        else -> provided
+    } ?: throw Abort()
 }

@@ -15,8 +15,8 @@ class Delete : CliktCommand(
     val repo: Repo by requireObject()
 
     override fun run() {
-        TermUi.echo("Destroying repo ${repo.home}")
-        TermUi.echo("Deleted!")
+        echo("Destroying repo ${repo.home}")
+        echo("Deleted!")
     }
 }
 

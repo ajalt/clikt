@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Ability to use alternate output streams rather than stdin and stdout by setting `Context.console`.
 
 ## [1.4.0] - 2018-07-31
 ### Added
@@ -8,7 +10,7 @@
 
 ### Changed
 - Clikt now targets JVM 8 bytecode
-- Responses to `TermUi.confirm()` are now case-insensitive 
+- Responses to `TermUi.confirm()` are now case-insensitive
 
 ## [1.3.0] - 2018-06-23
 ### Added

@@ -28,7 +28,7 @@ import kotlin.system.exitProcess
  * @param invokeWithoutSubcommand Used when this command has subcommands, and this command is called
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
  */
-abstract class CliktCommand constructor(
+abstract class CliktCommand(
         help: String = "",
         epilog: String = "",
         name: String? = null,
@@ -128,6 +128,21 @@ abstract class CliktCommand constructor(
     open fun aliases(): Map<String, List<String>> = emptyMap()
 
     /**
+     * Print the [message] to the screen.
+     *
+     * This is similar to [print] or [println], but converts newlines to the system line separator.
+     *
+     * This is equivalent to calling [TermUi.echo] with the console from the current context.
+     *
+     * @param message The message to print.
+     * @param trailingNewline If true, behave like [println], otherwise behave like [print]
+     * @param err If true, print to stderr instead of stdout
+     */
+    fun echo(message: Any?, trailingNewline: Boolean = true, err: Boolean = false) {
+        TermUi.echo(message, trailingNewline, err, context.console)
+    }
+
+    /**
      * Parse the command line and throw an exception if parsing fails.
      *
      * You should use [main] instead unless you want to handle output yourself.
@@ -151,19 +166,19 @@ abstract class CliktCommand constructor(
         try {
             parse(argv)
         } catch (e: PrintHelpMessage) {
-            TermUi.echo(e.command.getFormattedHelp())
+            echo(e.command.getFormattedHelp())
             exitProcess(0)
         } catch (e: PrintMessage) {
-            TermUi.echo(e.message)
+            echo(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-            TermUi.echo(e.helpMessage(context), err = true)
+            echo(e.helpMessage(context), err = true)
             exitProcess(1)
         } catch (e: CliktError) {
-            TermUi.echo(e.message, err = true)
+            echo(e.message, err = true)
             exitProcess(1)
         } catch (e: Abort) {
-            TermUi.echo("Aborted!", err = true)
+            echo("Aborted!", err = true)
             exitProcess(1)
         }
     }

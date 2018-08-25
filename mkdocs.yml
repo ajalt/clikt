@@ -1,0 +1,91 @@
+site_name: Clikt
+repo_name: Clikt
+repo_url: https://github.com/ajalt/clikt
+site_description: "Clikt: Simple, powerful command line parser for Kotlin"
+site_author: AJ Alt
+remote_branch: master
+
+copyright: 'Copyright &copy; 2018 AJ Alt'
+
+
+theme:
+  name: 'material'
+  logo: img/wordmark_small.svg
+  palette:
+    primary: 'blue grey'
+    accent: 'amber'
+  
+markdown_extensions:
+    - smarty
+    - toc:
+        permalink: true
+
+nav:
+  - 'Quickstart':
+    - 'Basic Concepts': quickstart.md
+    - 'Printing to Stdout and Stderr': quickstart/#echoing
+    - 'Nesting Commands': quickstart/#nesting-commands
+    - 'Adding Parameters': quickstart/#adding-parameters
+    - 'Developing Command Line Applications With Gradle': quickstart/#developing
+  - 'Why Clikt?':
+    - 'Why not a Kotlin library like kotlin-argparse or kotlinx.cli?': whyclikt/#why-not-kotlin
+    - 'Why not a Java library like JCommander?': whyclikt/#why-not-java
+  - 'Parameters':
+    - 'Differences': parameters.md
+    - 'Parameter Names': parameters/#parameter-names
+    - 'Parameter Types': parameters/#parameter-types
+    - 'Built-In Types': parameters/#built-in-types
+    - 'Custom Types': parameters/#custom-types
+    - 'Parameter Validation': parameters/#parameter-validation
+  - 'Options':
+    - 'Basic Options': options.md
+    - 'Option Names': options/#option-names
+    - 'Option Names': options/#option-names
+    - 'Customizing Options': options/#customizing-options
+    - 'Multi Value Options': options/#multi-value-options
+    - 'Multiple Options': options/#multiple-options
+    - 'Boolean Flag Options': options/#boolean-flag-options
+    - 'Counted Flag Options': options/#counted-flag-options
+    - 'Feature Switch Flags': options/#feature-switch-flags
+    - 'Choice Options': options/#choice-options
+    - 'Prompting For Input': options/#prompting-for-input
+    - 'Password Prompts': options/#password-prompts
+    - 'Eager Options': options/#eager-options
+    - 'Values From Environment Variables': options/#envvars
+    - 'Multiple Values from Environment Variables': options/#multiple-envvars
+    - 'Windows and Java-Style Option Prefixes': options/#-option-prefixes
+    - 'Option Transformation Order': options/#-option-transformation-order
+  - 'Arguments':
+    - 'Basic Arguments': arguments.md
+    - 'Variadic Arguments': arguments/#variadic-arguments
+    - 'Option-Like Arguments': arguments/#option-like-arguments
+  - 'Commands':
+    - 'Executing Nested Commands': commands.md
+    - 'Customizing Command Name': commands/#customizing-command-name
+    - 'Passing Parameters': commands/#passing-parameters
+    - 'Nested Handling And Contexts': commands/#nested-handling-and-contexts
+    - 'Running Parent Command Without Children': commands/#invoke-parent
+    - 'Customizing Contexts': commands/#customizing-contexts
+  - 'Documenting Scripts':
+    - 'Help Texts': documenting.md
+    - 'Subcommand Short Help': documenting/#subcommand-short-help
+    - 'Help Option Customization': documenting/#help-option-customization
+  - 'Advanced Patterns':
+    - 'Command Aliases': advanced.md
+    - 'Token Normalization': advanced/#token-normalization
+  - 'Utilities':
+    - 'Launching Editors': utilities.md
+    - 'Input Prompts': utilities/#input-prompts
+    - 'Confirmation Prompts': utilities/#confirmation-prompts
+  - 'Exception Handling':
+    - 'Where are Exceptions Handled?': exceptions.md
+    - 'Handling Exceptions Manually': exceptions/#handling-exceptions-manually
+    - 'Which Exceptions Exist?': exceptions/#hierarchy
+  - 'API reference':
+    - 'Commands and Exceptions': api/clikt/com.github.ajalt.clikt.core/index.html
+    - 'Options': api/clikt/com.github.ajalt.clikt.parameters.options/index.html
+    - 'Arguments': api/clikt/com.github.ajalt.clikt.parameters.arguments/index.html
+    - 'Parameter Type Conversions': api/clikt/com.github.ajalt.clikt.parameters.types/index.html
+    - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/index.html
+
+

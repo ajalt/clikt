@@ -1,11 +1,5 @@
----
-sidebar: clikt_sidebar
-permalink: index.html
-topnav: topnav
----
-
-<div align="center" style="margin-bottom:42px;">
-{% include image.html file="wordmark.svg" max-width="700" %}
+<div align="center" style="margin-bottom:42px;max-width:700px">
+    <img alt="wordmark" src="img/wordmark.svg" />
 </div>
 
 Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
@@ -26,7 +20,7 @@ Clikt has:
  What does it look like? Here's a complete example of a simple Clikt
  program:
 
- ```kotlin
+```kotlin
 class Hello : CliktCommand() {
     val count: Int by option(help="Number of greetings").int().default(1)
     val name: String by option(help="The person to greet").prompt("Your name")
@@ -39,11 +33,11 @@ class Hello : CliktCommand() {
 }
 
 fun main(args: Array<String>) = Hello().main(args)
- ```
+```
 
- And here's what it looks like when run:
+And here's what it looks like when run:
 
- ```
+```
  $ ./hello --count=3
  Your name: John
  Hello John!
@@ -72,10 +66,6 @@ Usage: hello [OPTIONS]
 Error: no such option: "--whoops".
 ```
 
-# Documentation Contents
-
-{% include toc.html %}
-
 # API Reference
 
 * [Commands and Exceptions](api/clikt/com.github.ajalt.clikt.core/index.html)
@@ -99,5 +89,3 @@ Error: no such option: "--whoops".
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-{% include links.html %}

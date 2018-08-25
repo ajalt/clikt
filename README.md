@@ -1,6 +1,6 @@
 <h1 align="center">
-    <img src="docs/images/wordmark.svg">
-    <p><img src="docs/images/animation.png"></p>
+    <img src="docs/img/wordmark.svg">
+    <p><img src="docs/img/animation.png"></p>
 </h1>
 
 Clikt *(pronounced "clicked")* is a Kotlin library that makes writing

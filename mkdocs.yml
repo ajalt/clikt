@@ -7,13 +7,15 @@ remote_branch: master
 
 copyright: 'Copyright &copy; 2018 AJ Alt'
 
-
 theme:
   name: 'material'
   logo: img/wordmark_small.svg
   palette:
     primary: 'blue grey'
     accent: 'amber'
+
+extra_css:
+  - 'css/extra.css'
 
 markdown_extensions:
   - smarty

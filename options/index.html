@@ -1,0 +1,2067 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Clikt: Simple, powerful command line parser for Kotlin">
+      
+      
+      
+        <meta name="author" content="AJ Alt">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../img/favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.2, mkdocs-material-3.0.3">
+    
+    
+      
+        <title>Basic Options - Clikt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546e7a">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../#options" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
+          
+            <img src="../img/wordmark_small.svg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Clikt
+              </span>
+              <span class="md-header-nav__topic">
+                Basic Options
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Clikt
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="Clikt" class="md-nav__button md-logo">
+      
+        <img src="../img/wordmark_small.svg" width="48" height="48">
+      
+    </a>
+    Clikt
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      Clikt
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Quickstart
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Quickstart
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../quickstart/" title="Basic Concepts" class="md-nav__link">
+      Basic Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../quickstart/#printing-to-stdout-and-stderr" title="Printing to Stdout and Stderr" class="md-nav__link">
+      Printing to Stdout and Stderr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../quickstart/#nesting-commands" title="Nesting Commands" class="md-nav__link">
+      Nesting Commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../quickstart/#adding-parameters" title="Adding Parameters" class="md-nav__link">
+      Adding Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../quickstart/#developing-command-line-applications-with-gradle" title="Developing Command Line Applications With Gradle" class="md-nav__link">
+      Developing Command Line Applications With Gradle
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Why Clikt?
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Why Clikt?
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../whyclikt/#why-not-a-kotlin-library-like-kotlin-argparse-or-kotlinxcli-why-not-kotlin" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../whyclikt/#why-not-a-java-library-like-jcommander" title="Why not a Java library like JCommander?" class="md-nav__link">
+      Why not a Java library like JCommander?
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Parameters
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Parameters
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../parameters/" title="Differences" class="md-nav__link">
+      Differences
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../parameters/#parameter-names" title="Parameter Names" class="md-nav__link">
+      Parameter Names
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../parameters/#parameter-types" title="Parameter Types" class="md-nav__link">
+      Parameter Types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../parameters/#built-in-types" title="Built-In Types" class="md-nav__link">
+      Built-In Types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../parameters/#custom-types" title="Custom Types" class="md-nav__link">
+      Custom Types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../parameters/#parameter-validation" title="Parameter Validation" class="md-nav__link">
+      Parameter Validation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Options
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Options
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Basic Options
+      </label>
+    
+    <a href="./" title="Basic Options" class="md-nav__link md-nav__link--active">
+      Basic Options
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-options" title="Basic Options" class="md-nav__link">
+    Basic Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-names" title="Option Names" class="md-nav__link">
+    Option Names
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-options" title="Customizing Options" class="md-nav__link">
+    Customizing Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-values" title="Default Values" class="md-nav__link">
+    Default Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-value-options" title="Multi Value Options" class="md-nav__link">
+    Multi Value Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-options" title="Multiple Options" class="md-nav__link">
+    Multiple Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
+    Boolean Flag Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#counted-flag-options" title="Counted Flag Options" class="md-nav__link">
+    Counted Flag Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-switch-flags" title="Feature Switch Flags" class="md-nav__link">
+    Feature Switch Flags
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choice-options" title="Choice Options" class="md-nav__link">
+    Choice Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompting-for-input" title="Prompting For Input" class="md-nav__link">
+    Prompting For Input
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#password-prompts" title="Password Prompts" class="md-nav__link">
+    Password Prompts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eager-options" title="Eager Options" class="md-nav__link">
+    Eager Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#values-from-environment-variables" title="Values From Environment Variables" class="md-nav__link">
+    Values From Environment Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
+    Multiple Values from Environment Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-and-java-style-option-prefixes" title="Windows and Java-Style Option Prefixes" class="md-nav__link">
+    Windows and Java-Style Option Prefixes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-transformation-order" title="Option Transformation Order" class="md-nav__link">
+    Option Transformation Order
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#option-names" title="Option Names" class="md-nav__link">
+      Option Names
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#option-names" title="Option Names" class="md-nav__link">
+      Option Names
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#customizing-options" title="Customizing Options" class="md-nav__link">
+      Customizing Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#multi-value-options" title="Multi Value Options" class="md-nav__link">
+      Multi Value Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#multiple-options" title="Multiple Options" class="md-nav__link">
+      Multiple Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
+      Boolean Flag Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#counted-flag-options" title="Counted Flag Options" class="md-nav__link">
+      Counted Flag Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#feature-switch-flags" title="Feature Switch Flags" class="md-nav__link">
+      Feature Switch Flags
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#choice-options" title="Choice Options" class="md-nav__link">
+      Choice Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#prompting-for-input" title="Prompting For Input" class="md-nav__link">
+      Prompting For Input
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#password-prompts" title="Password Prompts" class="md-nav__link">
+      Password Prompts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#eager-options" title="Eager Options" class="md-nav__link">
+      Eager Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#values-from-environment-variables" title="Values From Environment Variables" class="md-nav__link">
+      Values From Environment Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
+      Multiple Values from Environment Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#windows-and-java-style-option-prefixes" title="Windows and Java-Style Option Prefixes" class="md-nav__link">
+      Windows and Java-Style Option Prefixes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="#-option-transformation-order" title="Option Transformation Order" class="md-nav__link">
+      Option Transformation Order
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Arguments
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Arguments
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../arguments/" title="Basic Arguments" class="md-nav__link">
+      Basic Arguments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../arguments/#variadic-arguments" title="Variadic Arguments" class="md-nav__link">
+      Variadic Arguments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../arguments/#option-like-arguments" title="Option-Like Arguments" class="md-nav__link">
+      Option-Like Arguments
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Commands
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/" title="Executing Nested Commands" class="md-nav__link">
+      Executing Nested Commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#customizing-command-name" title="Customizing Command Name" class="md-nav__link">
+      Customizing Command Name
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#passing-parameters" title="Passing Parameters" class="md-nav__link">
+      Passing Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#nested-handling-and-contexts" title="Nested Handling And Contexts" class="md-nav__link">
+      Nested Handling And Contexts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#running-parent-command-without-children" title="Running Parent Command Without Children" class="md-nav__link">
+      Running Parent Command Without Children
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#customizing-contexts" title="Customizing Contexts" class="md-nav__link">
+      Customizing Contexts
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Documenting Scripts
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Documenting Scripts
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/" title="Help Texts" class="md-nav__link">
+      Help Texts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
+      Subcommand Short Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#help-option-customization" title="Help Option Customization" class="md-nav__link">
+      Help Option Customization
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Advanced Patterns
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Advanced Patterns
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../advanced/" title="Command Aliases" class="md-nav__link">
+      Command Aliases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../advanced/#token-normalization" title="Token Normalization" class="md-nav__link">
+      Token Normalization
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Utilities
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Utilities
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../utilities/" title="Launching Editors" class="md-nav__link">
+      Launching Editors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../utilities/#input-prompts" title="Input Prompts" class="md-nav__link">
+      Input Prompts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../utilities/#confirmation-prompts" title="Confirmation Prompts" class="md-nav__link">
+      Confirmation Prompts
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Exception Handling
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Exception Handling
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exceptions/" title="Where are Exceptions Handled?" class="md-nav__link">
+      Where are Exceptions Handled?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exceptions/#handling-exceptions-manually" title="Handling Exceptions Manually" class="md-nav__link">
+      Handling Exceptions Manually
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../exceptions/#which-exceptions-exist" title="Which Exceptions Exist?" class="md-nav__link">
+      Which Exceptions Exist?
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+    
+    <label class="md-nav__link" for="nav-11">
+      API reference
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-11">
+        API reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/clikt/com.github.ajalt.clikt.core/" title="Commands and Exceptions" class="md-nav__link">
+      Commands and Exceptions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/" title="Options" class="md-nav__link">
+      Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/" title="Arguments" class="md-nav__link">
+      Arguments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/" title="Parameter Type Conversions" class="md-nav__link">
+      Parameter Type Conversions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/clikt/com.github.ajalt.clikt.output/" title="Output Formatting" class="md-nav__link">
+      Output Formatting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-options" title="Basic Options" class="md-nav__link">
+    Basic Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-names" title="Option Names" class="md-nav__link">
+    Option Names
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-options" title="Customizing Options" class="md-nav__link">
+    Customizing Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-values" title="Default Values" class="md-nav__link">
+    Default Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-value-options" title="Multi Value Options" class="md-nav__link">
+    Multi Value Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-options" title="Multiple Options" class="md-nav__link">
+    Multiple Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
+    Boolean Flag Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#counted-flag-options" title="Counted Flag Options" class="md-nav__link">
+    Counted Flag Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-switch-flags" title="Feature Switch Flags" class="md-nav__link">
+    Feature Switch Flags
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choice-options" title="Choice Options" class="md-nav__link">
+    Choice Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompting-for-input" title="Prompting For Input" class="md-nav__link">
+    Prompting For Input
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#password-prompts" title="Password Prompts" class="md-nav__link">
+    Password Prompts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eager-options" title="Eager Options" class="md-nav__link">
+    Eager Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#values-from-environment-variables" title="Values From Environment Variables" class="md-nav__link">
+    Values From Environment Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
+    Multiple Values from Environment Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-and-java-style-option-prefixes" title="Windows and Java-Style Option Prefixes" class="md-nav__link">
+    Windows and Java-Style Option Prefixes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-transformation-order" title="Option Transformation Order" class="md-nav__link">
+    Option Transformation Order
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/ajalt/clikt/edit/master/docs/options.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h1>
+<p>Options are added to commands by defining a property delegate with the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option</code></a> function.</p>
+<h2 id="basic-options">Basic Options<a class="headerlink" href="#basic-options" title="Permanent link">&para;</a></h2>
+<p>The default option takes one value of type <code>String</code>. The property is
+nullable. If the option is not given on the command line, the property
+value will be null. If the option is given at least once, the property
+will return the value of the last occurrence of the option.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./hello --name=Foo
+Hello, Foo!
+</pre></div>
+
+<h2 id="option-names">Option Names<a class="headerlink" href="#option-names" title="Permanent link">&para;</a></h2>
+<p>If you don&rsquo;t specify names for an option, a lowercase hyphen-separated
+name is automatically inferred from the property. For example, <code>val
+myOpt by option()</code> will create an option that can be called with
+<code>--my-opt</code>.</p>
+<p>You can also specify any number of names for an option manually:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-n&quot;</span><span class="p">,</span> <span class="s">&quot;--name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Option names that are two characters long (like <code>-n</code>) are treated as
+POSIX-style short options. You call them with a value like this:</p>
+<div class="codehilite"><pre><span></span>$ ./hello -nfoo
+Hello, foo!
+</pre></div>
+
+<p>or:</p>
+<div class="codehilite"><pre><span></span>$ ./hello -n foo
+Hello, foo!
+</pre></div>
+
+<p>All other option names are considered long options, and can be called
+like this:</p>
+<div class="codehilite"><pre><span></span>$ ./hello --name=foo
+Hello, foo!
+</pre></div>
+
+<p>or:</p>
+<div class="codehilite"><pre><span></span>$ ./hello --name foo
+Hello, foo!
+</pre></div>
+
+<h2 id="customizing-options">Customizing Options<a class="headerlink" href="#customizing-options" title="Permanent link">&para;</a></h2>
+<p>The option behavior and delegate type can be customized by calling
+extension functions on the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option</code></a> call. For example, here are
+some different option declarations:</p>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">c</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">d</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0</span> <span class="n">to</span> <span class="m">0</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">e</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">,</span> <span class="n">Float</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">float</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0f</span> <span class="n">to</span> <span class="m">0f</span><span class="p">)</span>
+</pre></div>
+
+<p>There are three main types of behavior that can be customized
+independently:</p>
+<ol>
+<li>The type of each value in the option</li>
+</ol>
+<p>The value type is <code>String</code> by default, but can be customized with
+   built-in functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int.html"><code>int</code></a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice.html"><code>choice</code></a>, or manually with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert.html"><code>convert</code></a>. This is detailed in the
+   <a href="../parameters/#parameter-types">parameters</a> page.</p>
+<ol>
+<li>The number of values that the option requires</li>
+</ol>
+<p>Options take one value by default, but this can be changed with
+   built-in functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/pair.html"><code>pair</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/triple.html"><code>triple</code></a>, or manually with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.html"><code>transformValues</code></a>.</p>
+<ol>
+<li>How to handle all calls to the option (i.e. if the option is not given, or is given more than once).</li>
+</ol>
+<p>By default, the option delegate value is the null if the option is
+   not given on the command line, but you can change this behavior with
+   functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a>.</p>
+<p>Since the three types of customizations are orthogonal, you can choose
+which ones you want to use, and if you implement a new customization, it
+can be used with all of the existing functions without any repeated
+code.</p>
+<h2 id="default-values">Default Values<a class="headerlink" href="#default-values" title="Permanent link">&para;</a></h2>
+<p>By default, option delegates return <code>null</code> if the option wasn&rsquo;t provided
+on the command line. You can instead return a default value with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Pow</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">exp</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--exp&quot;</span><span class="p">).</span><span class="n">double</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">1.0</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;2 ^ $exp = ${Math.pow(2.0, exp)}&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./pow -e 8
+2 ^ 8.0 = 256.0
+</pre></div>
+
+<div class="codehilite"><pre><span></span>$ ./pow
+2 ^ 1.0 = 2.0
+</pre></div>
+
+<p>If the default value is expensive to compute, you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy.html"><code>defaultLazy</code></a> instead of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a>. It has the
+same effect, but you give it a lambda returning the default value, and
+the lambda will only be called if the default value is used.</p>
+<h2 id="multi-value-options">Multi Value Options<a class="headerlink" href="#multi-value-options" title="Permanent link">&para;</a></h2>
+<p>Options can take any fixed number of values. If you want a variable
+number of values, you need to use and argument instead. There are built
+in functions for options that take two values (<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/pair.html"><code>pair</code></a>, which uses a <code>Pair</code>), or three
+values (<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/triple.html"><code>triple</code></a>,
+which uses a <code>Triple</code>).  You can change the type of each value as normal
+with functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int.html"><code>int</code></a>.</p>
+<p>If you need more values, you can provide your own container with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.html"><code>transformValues</code></a>.
+You give that function the number of values you want, and a lambda that
+will transform a list of values into the output container. The list will
+always have a size equal to the number you specify. If the user provides
+a different number of values, Clikt will inform the user and your
+lambda won&rsquo;t be called.</p>
+<div class="codehilite"><pre><span></span><span class="k">data</span> <span class="k">class</span> <span class="nc">Quad</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;(</span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">b</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">c</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">d</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span>
+<span class="k">fun</span> <span class="err">&lt;</span><span class="nf">T</span><span class="p">&gt;</span> <span class="n">Quad</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="n">toList</span><span class="p">():</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Geometry</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">square</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">cube</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">triple</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">tesseract</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">transformValues</span><span class="p">(</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span> <span class="n">Quad</span><span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="m">0</span><span class="p">],</span> <span class="n">it</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="n">it</span><span class="p">[</span><span class="m">2</span><span class="p">],</span> <span class="n">it</span><span class="p">[</span><span class="m">3</span><span class="p">])</span> <span class="p">}</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Square has dimensions ${square?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Cube has dimensions ${cube?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Tesseract has dimensions ${tesseract?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./geometry --square 1 2 --cube 3 4 5 --tesseract 6 7 8 9
+Square has dimensions 1x2
+Cube has dimensions 3x4x5
+Tesseract has dimensions 6x7x8x9
+</pre></div>
+
+<h2 id="multiple-options">Multiple Options<a class="headerlink" href="#multiple-options" title="Permanent link">&para;</a></h2>
+<p>Normally, when an option is provided on the command line more than once,
+only the values from the last occurrence are used. But sometimes you
+want to keep all values provided. For example, <code>git commit -m foo -m
+bar</code> would create a commit message with two lines: <code>foo</code> and <code>bar</code>. To
+get this behavior with Clikt, you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a>. This will cause the property
+delegate value to be a list, where each item in the list is the value of
+from one occurrence of the option. If the option is never given, the
+list will be empty (or you can specify a list to use).</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Commit</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">message</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-m&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">()</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">))</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./commit -m foo -m bar
+foo
+bar
+</pre></div>
+
+<p>You can combine <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a> with item type conversions and multiple values. For
+example:</p>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;&gt;</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">multiple</span><span class="p">()</span>
+</pre></div>
+
+<h2 id="boolean-flag-options">Boolean Flag Options<a class="headerlink" href="#boolean-flag-options" title="Permanent link">&para;</a></h2>
+<p>Flags are options that don&rsquo;t take a value. Boolean flags can be enabled
+or disabled, depending on the name used to invoke the option. You can
+turn an option into a boolean flag with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/flag.html"><code>flag</code></a>. That function takes an optional
+list of secondary names that will be added to any existing or inferred
+names for the option. If the option is invoked with one of the secondary
+names, the delegate will return false. It&rsquo;s a good idea to always set
+secondary names so that a user can disable the flag if it was enabled
+previously.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">flag</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;--on&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;--off&quot;</span><span class="p">,</span> <span class="s">&quot;-O&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./cli -o
+true
+</pre></div>
+
+<div class="codehilite"><pre><span></span>$ ./cli --on --off
+false
+</pre></div>
+
+<p>Multiple short flag options can be combined when called on the command
+line:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">flagA</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-a&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">flagB</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-b&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">()</span>
+    <span class="k">val</span> <span class="py">foo</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-f&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;$flagA $flagB $foo&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./cli -abfFoo
+true true Foo
+</pre></div>
+
+<h2 id="counted-flag-options">Counted Flag Options<a class="headerlink" href="#counted-flag-options" title="Permanent link">&para;</a></h2>
+<p>You might want a flag option that counts the number of times it occurs
+on the command line. You can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/counted.html"><code>counted</code></a> for this.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Log</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">verbosity</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">).</span><span class="n">counted</span><span class="p">()</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Verbosity level: $verbosity&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./log -vvv
+Verbosity level: 3
+</pre></div>
+
+<h2 id="feature-switch-flags">Feature Switch Flags<a class="headerlink" href="#feature-switch-flags" title="Permanent link">&para;</a></h2>
+<p>Another way to use flags to to assign a value to each option name. You
+can do this with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/switch.html"><code>switch</code></a>, which takes a map of option names to values. Note that
+the names in the map replace any previously specified or inferred names.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Size</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">size</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">switch</span><span class="p">(</span><span class="s">&quot;--large&quot;</span> <span class="n">to</span> <span class="s">&quot;large&quot;</span><span class="p">,</span> <span class="s">&quot;--small&quot;</span> <span class="n">to</span> <span class="s">&quot;small&quot;</span><span class="p">).</span><span class="n">default</span><span class="p">(</span><span class="s">&quot;unknown&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;You picked size $size&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./size --small
+You picked size small
+</pre></div>
+
+<h2 id="choice-options">Choice Options<a class="headerlink" href="#choice-options" title="Permanent link">&para;</a></h2>
+<p>You can restrict the values that a regular option can take to a set of
+values using <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice.html"><code>choice</code></a>. You can also map the input values to new types.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Digest</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">hash</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;md5&quot;</span><span class="p">,</span> <span class="s">&quot;sha1&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./digest --hash=md5
+md5
+</pre></div>
+
+<div class="codehilite"><pre><span></span>$ ./digest --hash=sha256
+Usage: digest [OPTIONS]
+
+Error: Invalid value for &quot;--hash&quot;: invalid choice: sha256. (choose from md5, sha1)
+</pre></div>
+
+<div class="codehilite"><pre><span></span>$ ./digest --help
+Usage: digest [OPTIONS]
+
+Options:
+  --hash [md5|sha1]
+  -h, --help         Show this message and exit
+</pre></div>
+
+<h2 id="prompting-for-input">Prompting For Input<a class="headerlink" href="#prompting-for-input" title="Permanent link">&para;</a></h2>
+<p>In some cases, you might want to create an option that uses the value
+given on the command line if there is one, but prompt the user for input
+if one is not provided. Clikt can take care of this for you with the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html"><code>prompt</code></a> function.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">prompt</span><span class="p">()</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Which behaves like:</p>
+<div class="codehilite"><pre><span></span>./hello --name=foo
+Hello foo
+</pre></div>
+
+<div class="codehilite"><pre><span></span>./hello
+Name: foo
+Hello foo
+</pre></div>
+
+<p>The default prompt string is based on the option name, but <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html"><code>prompt</code></a> takes a number of
+parameters to customize the output.</p>
+<h2 id="password-prompts">Password Prompts<a class="headerlink" href="#password-prompts" title="Permanent link">&para;</a></h2>
+<p>You can also create a option that uses a hidden prompt and asks for
+confirmation. This combination of behavior is commonly used for
+passwords.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Login</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">password</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">prompt</span><span class="p">(</span><span class="n">requireConfirmation</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">hideInput</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your hidden password: $password&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./login
+Password:
+Repeat for confirmation:
+Your hidden password: hunter2
+</pre></div>
+
+<h2 id="eager-options">Eager Options<a class="headerlink" href="#eager-options" title="Permanent link">&para;</a></h2>
+<p>Sometimes you want an option to halt execution immediately and print a
+message. For example, the built-on <code>--help</code> option, or the <code>--version</code>
+option that many programs have. Neither of these options have any value
+associated with them, and they stop command line parsing as soon as
+they&rsquo;re encountered.</p>
+<p>The <code>--help</code> option is added automatically to commands, and <code>--version</code>
+can be added using <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/version-option.html"><code>versionOption</code></a>. Since the option doesn&rsquo;t have a value, you
+can&rsquo;t define it using a property delegate. Instead, call the function on
+a command directly, either in an <code>init</code> block, or on a command instance.</p>
+<p>These definitions are equivalent:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">versionOption</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+
+<p>and</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span>
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">versionOption</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+
+<p>Any they work like:</p>
+<p><div class="codehilite"><pre><span></span>$ ./cli --version
+cli version 1.0
+</pre></div>
+If you want to define your own option with a similar behavior, you can
+do so by creating an instance of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/-eager-option/"><code>EagerOption</code></a> and passing it to <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option.html"><code>CliktCommand.registerOption</code></a>. <code>EagerOption</code>s have a <code>callback</code> that is
+called when the option is encountered on the command line. To print a
+message and halt execution normally from the callback, you can throw
+a <a href="../api/clikt/com.github.ajalt.clikt.core/-print-message/"><code>PrintMessage</code></a> exception,
+and <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html"><code>CliktCommand.main</code></a> will take care of printing the message.</p>
+<p>You can define your own version option like this:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">registerOption</span><span class="p">(</span><span class="n">EagerOption</span><span class="p">(</span><span class="s">&quot;--version&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">PrintMessage</span><span class="p">(</span><span class="s">&quot;$commandName version 1.0&quot;</span><span class="p">)</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2 id="values-from-environment-variables">Values From Environment Variables<a class="headerlink" href="#values-from-environment-variables" title="Permanent link">&para;</a></h2>
+<p>Clikt supports reading option values from environment variables if they
+aren&rsquo;t given on the command line. This feature is helpful when
+automating tools. For example, when using <code>git commit</code>, you can set the
+author date with a command line parameter:
+<code>git commit --date=10/21/2015</code>. But you can also set it with an
+environment variable: <code>GIT_AUTHOR_DATE=10/21/2015 git commit</code>.</p>
+<p>Clikt will read option values from environment variables as long as it
+has an envvar name for the option. There are two ways to set that name:
+you can set the name manually for an option, or you can enable automatic
+envvar name inference.</p>
+<p>To set the envvar name manually, pass the name to <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option</code></a>:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">envvar</span> <span class="p">=</span> <span class="s">&quot;MY_NAME&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ export MY_NAME=Foo
+$ ./hello
+Hello Foo
+</pre></div>
+
+<div class="codehilite"><pre><span></span>$ export MY_NAME=Foo
+$ ./hello --name=Bar
+Hello Bar
+</pre></div>
+
+<p>You can enable automatic envvar name inference by setting the
+<code>autoEnvvarPrefix</code> on a command&rsquo;s <a href="../api/clikt/com.github.ajalt.clikt.core/context.html"><code>context</code></a>. This will cause all options without an explicit envvar
+name to be given an uppercase underscore-separated envvar name. Since
+the prefix is set on the <a href="../api/clikt/com.github.ajalt.clikt.core/context.html"><code>context</code></a>, it is propagated to subcommands. If you have a a subcommand called
+<code>foo</code> with an option <code>--bar</code>, and your prefix is <code>MY_TOOL</code>, the option&rsquo;s
+envvar name will be <code>MY_TOOL_FOO_BAR</code>.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">context</span> <span class="p">{</span> <span class="n">autoEnvvarPrefix</span> <span class="p">=</span> <span class="s">&quot;HELLO&quot;</span> <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ export HELLO_NAME=Foo
+$ ./hello
+Hello Foo
+</pre></div>
+
+<h2 id="multiple-values-from-environment-variables">Multiple Values from Environment Variables<a class="headerlink" href="#multiple-values-from-environment-variables" title="Permanent link">&para;</a></h2>
+<p>You might need to allow users to specify multiple values for an option
+in a single environment variable. You can do this by creating an option
+with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a>.
+The environment variable&rsquo;s value will be split according a regex, which
+defaults to split on whitespace for most types. <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html"><code>file</code></a> will change the pattern to split
+according to the operating system&rsquo;s path splitting rules. On Windows, it
+will split on semicolons (<code>;</code>). On other systems, it will split on
+colons (<code>:</code>).</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">names</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">envvar</span> <span class="p">=</span> <span class="s">&quot;NAMES&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">()</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">name</span> <span class="k">in</span> <span class="n">names</span><span class="p">)</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And on the command line:</p>
+<div class="codehilite"><pre><span></span>$ export NAMES=Foo Bar
+$ ./hello
+Hello Foo
+Hello Bar
+</pre></div>
+
+<h2 id="windows-and-java-style-option-prefixes">Windows and Java-Style Option Prefixes<a class="headerlink" href="#windows-and-java-style-option-prefixes" title="Permanent link">&para;</a></h2>
+<p>When specifying option names manually, you can use any prefix (as long
+as it&rsquo;s entirely punctuation).</p>
+<p>For example, you can make a Windows-style interface with slashes:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;/name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>An on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./hello /name Foo
+Hello, Foo!
+</pre></div>
+
+<p>Or you can make a Java-style interface that uses single-dashes for long
+options:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>An on the command line:</p>
+<div class="codehilite"><pre><span></span>$ ./hello -name Foo
+Hello, Foo!
+</pre></div>
+
+<p>Note that inferred names will always have a POSIX-style prefix like
+<code>--name</code>. If you want to use a different prefix, you should specify all
+option names manually.</p>
+<h2 id="option-transformation-order">Option Transformation Order<a class="headerlink" href="#option-transformation-order" title="Permanent link">&para;</a></h2>
+<p>Clikt has a large number of extension functions that can modify options.
+When applying multiple functions to the same option, there&rsquo;s only one
+valid order for the functions to be applied. For example,
+<code>option().default(3).int()</code> will not compile, because <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> must be applied
+after the value type conversion. Similarly, you can only apply one
+transform of each type. So <code>option().int().float()</code> is invalid since <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int.html"><code>int</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/float.html"><code>float</code></a> both change the value
+type, as is <code>option().default(&quot;&quot;).multiple()</code> since <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a> both transform the call list
+(if you need a custom default value for <code>multiple</code>, you can pass it one
+as an argument).</p>
+<p>Here&rsquo;s an integer option with one of each available transform in a valid
+order:</p>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;--opt&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">int</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">restrictTo</span><span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">100</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">pair</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">default</span><span class="p">(</span><span class="m">1</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">validate</span> <span class="p">{</span> <span class="n">require</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">second</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">}</span>
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../parameters/" title="Differences" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Differences
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../arguments/" title="Basic Arguments" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Basic Arguments
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 AJ Alt
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.583bbe55.js"></script>
+      
+      <script>app.initialize({version:"1.0.2",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

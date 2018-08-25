@@ -1,7 +1,0 @@
-subprojects {
-    apply plugin: 'application'
-
-    dependencies {
-        implementation project(':clikt')
-    }
-}

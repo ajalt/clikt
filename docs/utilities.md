@@ -26,7 +26,7 @@ fun getCommitMessage(): String? {
 
 ## Input Prompts
 
-Options can [prompt for values automatically](options.html#prompting-for-input),
+Options can [prompt for values automatically](options.md#prompting-for-input),
 but you can also do so manually with [`TermUi.prompt`](api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt.html). By default, it accepts any input
 string, but you can also pass in a conversion function. If the
 conversion raises a [`UsageError`](api/clikt/com.github.ajalt.clikt.core/-usage-error/index.html), the prompt will ask the user to enter a

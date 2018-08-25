@@ -6,7 +6,7 @@ an `init` block, or on an existing instance.
 
 ## Executing Nested Commands
 
-For commands with no children,[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is called whenever the
+For commands with no children, [`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is called whenever the
 command line is parsed (unless parsing is aborted from an error or an
 option like `--help`).
 

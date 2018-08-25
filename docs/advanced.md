@@ -100,7 +100,7 @@ Running Bar
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
 works on more types of tokens. You can set a [`tokenTransformer`](api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html) on the
-[command's context](commands.html#customizing-contexts) that will be
+[command's context](commands.md#customizing-contexts) that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:
 

@@ -1,7 +1,7 @@
 # Arguments
 
 Arguments are declared and customized similarly to
-[options](options.html), but are provided on the command line
+[options](options.md), but are provided on the command line
 positionally instead of by name. Arguments are declared with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html), and the order that they are declared defines the order that they
 must be provided on the command line.
 
@@ -55,7 +55,7 @@ Options:
 
 ## Variadic Arguments
 
-Like [options](options.html), arguments can take any fixed number of
+Like [options](options.md), arguments can take any fixed number of
 values, which you can change with functions like [`pair`](api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.html) and [`triple`](api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.html). Unlike options, arguments
 can take a variable (or unlimited) number of values. This is especially
 common when taking file paths, since they are frequently expanded with a

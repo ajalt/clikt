@@ -3,7 +3,7 @@
 Clikt takes care of creating formatted help messages for commands. There
 are a number of ways to customize the default behavior. You can also
 implement your own [`HelpFormatter`](api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.html) and set it on the [command's
-context](commands.html#customizing-contexts).
+context](commands.md#customizing-contexts).
 
 ## Help Texts
 
@@ -49,7 +49,7 @@ describe arguments in the command help.
 ## Subcommand Short Help
 
 Subcommands are listed in the help page based on their
-[name](commands.html#customizing-command-name). They have a short help
+[name](commands.md#customizing-command-name). They have a short help
 string which is the first line of their help.
 
 ```kotiln
@@ -87,7 +87,7 @@ not used for the help option. If the help option has no unique names, it
 is not added.
 
 You can change the help option's name and help message on the
-[command's context](commands.html#customizing-contexts):
+[command's context](commands.md#customizing-contexts):
 
 ```
 class Tool : NoRunCliktCommand() {

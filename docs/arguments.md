@@ -1,20 +1,13 @@
----
-title: Arguments
-sidebar: clikt_sidebar
-permalink: arguments.html
----
+# Arguments
 
 Arguments are declared and customized similarly to
 [options](options.html), but are provided on the command line
-positionally instead of by name. Arguments are declared with {% include
-api.html pkg="parameters.arguments" fun="argument" name="argument()"
-%}, and the order that they are declared defines the order that they
+positionally instead of by name. Arguments are declared with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html), and the order that they are declared defines the order that they
 must be provided on the command line.
 
 ## Basic Arguments
 
-By default, {% include api.html pkg="parameters.arguments"
-fun="argument" %} takes a single `String` value which is required to be
+By default, [`argument`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html) takes a single `String` value which is required to be
 provided on the command line.
 
 ```kotlin
@@ -63,9 +56,7 @@ Options:
 ## Variadic Arguments
 
 Like [options](options.html), arguments can take any fixed number of
-values, which you can change with functions like {% include api.html
-pkg="parameters.arguments" fun="pair" %} and {% include api.html
-pkg="parameters.arguments" fun="triple" %}. Unlike options, arguments
+values, which you can change with functions like [`pair`](api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.html) and [`triple`](api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.html). Unlike options, arguments
 can take a variable (or unlimited) number of values. This is especially
 common when taking file paths, since they are frequently expanded with a
 glob pattern on the command line.
@@ -126,6 +117,3 @@ $ ./touch --verbose -- --foo.txt bar.txt
 --foo.txt
 bar.txt
 ```
-
-
-{% include links.html %}

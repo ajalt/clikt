@@ -1,8 +1,4 @@
----
-title: Utilities
-sidebar: clikt_sidebar
-permalink: utilities.html
----
+# Utilities
 
 Writing command line interfaces often involves more than just parsing
 the command line. Clikt also provides functions to perform actions
@@ -11,9 +7,7 @@ commonly used in command line programs.
 ## Launching Editors
 
 If you need to ask users for multi-line input, or need to have the user
-edit a file, you can do so through {% include api.html pkg="output"
-class="term-ui" fun="edit-text" %} and {% include api.html
-pkg="output" class="term-ui" fun="edit-file" %}. These functions open
+edit a file, you can do so through [`TermUi.editText`](api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html) and [`TermUi.editFile`](api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html). These functions open
 the program defined in the `VISUAL` or `EDITOR` environment variables,
 or a sensible default if neither are defined. The functions return the
 edited text if the user saved their changes.
@@ -33,11 +27,9 @@ fun getCommitMessage(): String? {
 ## Input Prompts
 
 Options can [prompt for values automatically](options.html#prompting-for-input),
-but you can also do so manually with {% include api.html pkg="output"
-class="term-ui" fun="prompt" %}. By default, it accepts any input
+but you can also do so manually with [`TermUi.prompt`](api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt.html). By default, it accepts any input
 string, but you can also pass in a conversion function. If the
-conversion raises a {% include api.html pkg="core"
-class="usage-error" %}, the prompt will ask the user to enter a
+conversion raises a [`UsageError`](api/clikt/com.github.ajalt.clikt.core/-usage-error/index.html), the prompt will ask the user to enter a
 different value.
 
 ```kotlin
@@ -58,8 +50,7 @@ Twice your number is 22
 
 ## Confirmation Prompts
 
-You can also ask the user for a yes or no response with {% include
-api.html pkg="output" class="term-ui" fun="confirm" %}:
+You can also ask the user for a yes or no response with [`TermUi.confirm`](api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm.html):
 
 ```kotlin
 if (TermUi.confirm("Continue?") == true) {
@@ -74,5 +65,3 @@ response, you can pass `abort=true`:
 TermUi.confirm("Continue?", abort=true)
 ```
 
-
-{% include links.html %}

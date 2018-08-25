@@ -1,18 +1,12 @@
----
-title: Commands
-sidebar: clikt_sidebar
-permalink: commands.html
----
+# Commands
 
 Clikt supports arbitrarily nested commands. You can add one command as a
-child of another with the {% include api.html pkg="core"
-fun="subcommands" text="echo" %} function, which can be called either in
+child of another with the [`echo`](api/clikt/com.github.ajalt.clikt.core/subcommands.html) function, which can be called either in
 an `init` block, or on an existing instance.
 
 ## Executing Nested Commands
 
-For commands with no children, {% include api.html pkg="core"
-class="clikt-command" fun="run" text="run"%} is called whenever the
+For commands with no children,[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is called whenever the
 command line is parsed (unless parsing is aborted from an error or an
 option like `--help`).
 
@@ -63,8 +57,7 @@ executing
 ## Customizing Command Name
 
 The default name for subcommands is inferred as a lowercase name from
-the command class name. You can also set a name manually in the {%
-include api.html pkg="core" class="clikt-command" %} constructor.
+the command class name. You can also set a name manually in the [`CliktCommand`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html) constructor.
 
 ```kotlin
 class Tool : CliktCommand() {
@@ -160,8 +153,7 @@ out `Tool`'s help page as if you just typed `./tool --help`.
 Normally nested command are independent of each other: a child can't
 access its parent's parameters. This makes composing commands much
 easier, but what if you want to pass information to a child command? You
-can do so with the command's {% include api.html pkg="core"
-class="context" %}.
+can do so with the command's [`Context`](api/clikt/com.github.ajalt.clikt.core/-context/index.html).
 
 Every time the command line is parsed, each command creates a new
 context object for itself that is liked to its parent's context.
@@ -198,17 +190,15 @@ $ ./tool --verbose execute
 Verbose mode is on
 ```
 
-The {% include api.html pkg="core" fun="find-object" %} and {%
-include api.html pkg="core" fun="require-object" %} functions will
+The [`findObject`](api/clikt/com.github.ajalt.clikt.core/find-object.html) and [`requireObject`](api/clikt/com.github.ajalt.clikt.core/require-object.html) functions will
 walk up the context tree until they find an object with the given type.
 If no such object exists, they will either return `null`, throw an
 exception, or create an instance of the object and store it on the
 command's context, depending on which overload you call.
 
-## Running Parent Command Without Children {#invoke-parent}
+## Running Parent Command Without Children
 
-Normally, if a command has children, {% include api.html pkg="core"
-class="clikt-command" fun="run" text="run" %} is not called unless a
+Normally, if a command has children, [`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is not called unless a
 child command is invoked on the command line. Instead, `--help` is
 called on the parent. If you want to change this behavior to always call
 `run()` on the parent, you can do so by setting
@@ -249,10 +239,9 @@ running subcommand
 
 ## Customizing Contexts
 
-{% include api.html pkg="core" class="context" text="Contexts" %}
+[Contexts](api/clikt/com.github.ajalt.clikt.core/-context/index.html)
 have a number of properties that can be customized, and which are
-inherited by child commands. You can change these properties with the {%
-include api.html pkg="core" fun="context" %} builder function, which
+inherited by child commands. You can change these properties with the [`context`](api/clikt/com.github.ajalt.clikt.core/context.html) builder function, which
 can be called in an `init` block, or on a command instance.
 
 For example, you can change the default help message for the `--help`
@@ -285,6 +274,3 @@ Usage: cli [OPTIONS]
 Options:
   -h, --help  print the help
 ```
-
-
-{% include links.html %}

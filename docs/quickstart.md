@@ -1,8 +1,4 @@
----
-title: Quick Start
-sidebar: clikt_sidebar
-permalink: quickstart.html
----
+# Quick Start
 
 You can get the library using any maven-compatible build system.
 Installation instructions can be found in the [README](https://github.com/ajalt/clikt).
@@ -10,8 +6,8 @@ Installation instructions can be found in the [README](https://github.com/ajalt/
 ## Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
-inside of a {% include api.html pkg="core" class="clikt-command" %}. The normal way to use Clikt is to forward
-`argv` from your `main` function to {% include api.html pkg="core" class="clikt-command" fun="main" %}.
+inside of a [CliktCommmand](api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html). The normal way to use Clikt is to forward
+`argv` from your `main` function to [ClktCommand.main](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html).
 
 The simplest command with no parameters would look like this:
 
@@ -42,14 +38,12 @@ Options:
   -h, --help  Show this message and exit
 ```
 
-## Printing to Stdout and Stderr {#echoing}
+## Printing to Stdout and Stderr
 
-Why does this example use {% include api.html pkg="output"
-class="term-ui" fun="echo" %} instead of
+Why does this example use [TermUi.echo](api/clikt/com.github.ajalt.clikt.output/-term-ui/echo.html) instead of
 [println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
 Although `println` works, it can cause problems with multi-platform
-support. {% include api.html pkg="output" class="term-ui" fun="echo"
-text="echo"%} automatically translates line breaks into the line
+support. [echo](api/clikt/com.github.ajalt.clikt.output/-term-ui/echo.html) automatically translates line breaks into the line
 separator for the current platform. So you don't have to worry that some
 of your users will see mangled output because you didn't test on
 Windows. You can also pass `err=true` to `echo` to print to stderr
@@ -107,7 +101,7 @@ Commands:
 
 ## Adding Parameters
 
-To add parameters, use the {% include api.html pkg="parameters.options" fun="option" %} and {% include api.html pkg="parameters.arguments" fun="argument" %} property delegates:
+To add parameters, use the [option](api/clikt/com.github.ajalt.clikt.parameters.options/option.html) and [argument](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html) property delegates:
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -133,7 +127,7 @@ Options:
   -h, --help   Show this message and exit
 ```
 
-## Developing Command Line Applications With Gradle {#developing}
+## Developing Command Line Applications With Gradle
 
 When you write a command line application, you probably want to be able
 to run it without invoking `java -jar ...` every time. If you're using
@@ -157,5 +151,3 @@ provided by the plugin. This builds all the distribution scripts in your
 build folder, which you can then execute normally. See Clikt's
 [runsample](https://github.com/ajalt/clikt/blob/master/runsample) script
 for an example of this approach.
-
-{% include links.html %}

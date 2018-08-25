@@ -1,11 +1,6 @@
----
-title: Options
-sidebar: clikt_sidebar
-permalink: options.html
----
+# Options
 
-Options are added to commands by defining a property delegate with the {%
-include api.html pkg="parameters.options" fun="option" %} function.
+Options are added to commands by defining a property delegate with the [`[option, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/option.html) function.
 
 ## Basic Options
 
@@ -81,8 +76,7 @@ Hello, foo!
 ## Customizing Options
 
 The option behavior and delegate type can be customized by calling
-extension functions on the {% include api.html
-pkg="parameters.options" fun="option" %} call. For example, here are
+extension functions on the [`[option, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/option.html) call. For example, here are
 some different option declarations:
 
 ```kotlin
@@ -99,27 +93,19 @@ independently:
 1. The type of each value in the option
 
    The value type is `String` by default, but can be customized with
-   built-in functions like {% include api.html pkg="parameters.types"
-   fun="int" %} or {% include api.html pkg="parameters.types"
-   fun="choice" %}, or manually with {% include api.html
-   pkg="parameters.options" fun="convert" %}. This is detailed in the
+   built-in functions like [`[int, ]`](api/clikt/com.github.ajalt.clikt.parameters.types/int.html) or [`[choice, ]`](api/clikt/com.github.ajalt.clikt.parameters.types/choice.html), or manually with [`[convert, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/convert.html). This is detailed in the
    [parameters](parameters.html#parameter-types) page.
 
 2. The number of values that the option requires
 
    Options take one value by default, but this can be changed with
-   built-in functions like {% include api.html
-   pkg="parameters.options" fun="pair" %} and {% include api.html
-   pkg="parameters.options" fun="triple" -%}, or manually with {% include
-   api.html pkg="parameters.options" fun="transform-values" -%}.
+   built-in functions like [`[pair, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/pair.html) and [`[triple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/triple.html), or manually with [`[transform, Values]`](api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.html).
 
 3. How to handle all calls to the option (i.e. if the option is not given, or is given more than once).
 
    By default, the option delegate value is the null if the option is
    not given on the command line, but you can change this behavior with
-   functions like {% include api.html pkg="parameters.options"
-   fun="default" %} and {% include api.html pkg="parameters.options"
-   fun="multiple" %}.
+   functions like [`[default, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html) and [`[multiple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html).
 
 Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
@@ -129,8 +115,7 @@ code.
 ## Default Values
 
 By default, option delegates return `null` if the option wasn't provided
-on the command line. You can instead return a default value with {%
-include api.html pkg="parameters.options" fun="default" %}.
+on the command line. You can instead return a default value with [`[default, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html).
 
 ```kotlin
 class Pow : CliktCommand() {
@@ -153,9 +138,7 @@ $ ./pow
 2 ^ 1.0 = 2.0
 ```
 
-If the default value is expensive to compute, you can use {% include
-api.html pkg="parameters.options" fun="default-lazy" %} instead of {%
-include api.html pkg="parameters.options" fun="default" %}. It has the
+If the default value is expensive to compute, you can use [`[default, Lazy]`](api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy.html) instead of [`[default, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html). It has the
 same effect, but you give it a lambda returning the default value, and
 the lambda will only be called if the default value is used.
 
@@ -163,15 +146,12 @@ the lambda will only be called if the default value is used.
 
 Options can take any fixed number of values. If you want a variable
 number of values, you need to use and argument instead. There are built
-in functions for options that take two values ({% include api.html
-pkg="parameters.options" fun="pair" %}, which uses a `Pair`), or three
-values ({% include api.html pkg="parameters.options" fun="triple" %},
+in functions for options that take two values ([`[pair, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/pair.html), which uses a `Pair`), or three
+values ([`[triple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/triple.html),
 which uses a `Triple`).  You can change the type of each value as normal
-with functions like {% include api.html pkg="parameters.types"
-fun="int" %}.
+with functions like [`[int, ]`](api/clikt/com.github.ajalt.clikt.parameters.types/int.html).
 
-If you need more values, you can provide your own container with {%
-include api.html pkg="parameters.options" fun="transform-values" %}.
+If you need more values, you can provide your own container with [`[transform, Values]`](api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.html).
 You give that function the number of values you want, and a lambda that
 will transform a list of values into the output container. The list will
 always have a size equal to the number you specify. If the user provides
@@ -210,8 +190,7 @@ Normally, when an option is provided on the command line more than once,
 only the values from the last occurrence are used. But sometimes you
 want to keep all values provided. For example, `git commit -m foo -m
 bar` would create a commit message with two lines: `foo` and `bar`. To
-get this behavior with Clikt, you can use {% include api.html
-pkg="parameters.options" fun="multiple" %}. This will cause the property
+get this behavior with Clikt, you can use [`[multiple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html). This will cause the property
 delegate value to be a list, where each item in the list is the value of
 from one occurrence of the option. If the option is never given, the
 list will be empty (or you can specify a list to use).
@@ -233,8 +212,7 @@ foo
 bar
 ```
 
-You can combine {% include api.html pkg="parameters.options"
-fun="multiple" %} with item type conversions and multiple values. For
+You can combine [`[multiple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html) with item type conversions and multiple values. For
 example:
 
 ```kotlin
@@ -245,8 +223,7 @@ val opt: List<Pair<Int, Int>> option().int().pair().multiple()
 
 Flags are options that don't take a value. Boolean flags can be enabled
 or disabled, depending on the name used to invoke the option. You can
-turn an option into a boolean flag with {% include api.html
-pkg="parameters.options" fun="flag" %}. That function takes an optional
+turn an option into a boolean flag with [`[flag, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/flag.html). That function takes an optional
 list of secondary names that will be added to any existing or inferred
 names for the option. If the option is invoked with one of the secondary
 names, the delegate will return false. It's a good idea to always set
@@ -301,8 +278,7 @@ true true Foo
 ## Counted Flag Options
 
 You might want a flag option that counts the number of times it occurs
-on the command line. You can use {% include api.html
-pkg="parameters.options" fun="counted" %} for this.
+on the command line. You can use [`[counted, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/counted.html) for this.
 
 ```kotlin
 class Log : CliktCommand() {
@@ -323,8 +299,7 @@ Verbosity level: 3
 ## Feature Switch Flags
 
 Another way to use flags to to assign a value to each option name. You
-can do this with {% include api.html pkg="parameters.options"
-fun="switch" %}, which takes a map of option names to values. Note that
+can do this with [`[switch, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/switch.html), which takes a map of option names to values. Note that
 the names in the map replace any previously specified or inferred names.
 
 ```kotlin
@@ -346,8 +321,7 @@ You picked size small
 ## Choice Options
 
 You can restrict the values that a regular option can take to a set of
-values using {% include api.html pkg="parameters.types"
-fun="choice" %}. You can also map the input values to new types.
+values using [`[choice, ]`](api/clikt/com.github.ajalt.clikt.parameters.types/choice.html). You can also map the input values to new types.
 
 ```kotlin
 class Digest : CliktCommand() {
@@ -385,8 +359,7 @@ Options:
 
 In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input
-if one is not provided. Clikt can take care of this for you with the {%
-include api.html pkg="parameters.options" fun="prompt" %} function.
+if one is not provided. Clikt can take care of this for you with the [`[prompt, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html) function.
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -410,8 +383,7 @@ Name: foo
 Hello foo
 ```
 
-The default prompt string is based on the option name, but {% include
-api.html pkg="parameters.options" fun="prompt" %} takes a number of
+The default prompt string is based on the option name, but [`[prompt, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html) takes a number of
 parameters to customize the output.
 
 ## Password Prompts
@@ -448,8 +420,7 @@ associated with them, and they stop command line parsing as soon as
 they're encountered.
 
 The `--help` option is added automatically to commands, and `--version`
-can be added using {% include api.html pkg="parameters.options"
-fun="version-option" %}. Since the option doesn't have a value, you
+can be added using [`[version, Option]`](api/clikt/com.github.ajalt.clikt.parameters.options/version-option.html). Since the option doesn't have a value, you
 can't define it using a property delegate. Instead, call the function on
 a command directly, either in an `init` block, or on a command instance.
 
@@ -478,15 +449,11 @@ $ ./cli --version
 cli version 1.0
 ```
 If you want to define your own option with a similar behavior, you can
-do so by creating an instance of {% include api.html
-pkg="parameters.options" class="eager-option" %} and passing it to {%
-include api.html pkg="core" class="clikt-command"
-fun="register-option" %}. `EagerOption`s have a `callback` that is
+do so by creating an instance of [`Eager, Option`](api/clikt/com.github.ajalt.clikt.parameters.options/-eager-option/index.html) and passing it to [`CliktCommand.[register, Option]`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option.html). `EagerOption`s have a `callback` that is
 called when the option is encountered on the command line. To print a
 message and halt execution normally from the callback, you can throw
-a {% include api.html pkg="core" class="print-message" %} exception,
-and {% include api.html pkg="core" class="clikt-command" fun="main"
-%} will take care of printing the message.
+a [`Print, Message`](api/clikt/com.github.ajalt.clikt.core/-print-message/index.html) exception,
+and [`CliktCommand.[main, ]`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html) will take care of printing the message.
 
 You can define your own version option like this:
 
@@ -504,7 +471,7 @@ class Cli : CliktCommand() {
 }
 ```
 
-## Values From Environment Variables {#envvars}
+## Values From Environment Variables
 
 Clikt supports reading option values from environment variables if they
 aren't given on the command line. This feature is helpful when
@@ -518,8 +485,7 @@ has an envvar name for the option. There are two ways to set that name:
 you can set the name manually for an option, or you can enable automatic
 envvar name inference.
 
-To set the envvar name manually, pass the name to {% include api.html
-pkg="parameters.options" fun="option" %}:
+To set the envvar name manually, pass the name to [`[option, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/option.html):
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -545,11 +511,9 @@ Hello Bar
 ```
 
 You can enable automatic envvar name inference by setting the
-`autoEnvvarPrefix` on a command's {% include api.html pkg="core"
-fun="context" %}. This will cause all options without an explicit envvar
+`autoEnvvarPrefix` on a command's [`[context, ]`](api/clikt/com.github.ajalt.clikt.core/context.html). This will cause all options without an explicit envvar
 name to be given an uppercase underscore-separated envvar name. Since
-the prefix is set on the {% include api.html pkg="core" fun="context"
-%}, it is propagated to subcommands. If you have a a subcommand called
+the prefix is set on the [`[context, ]`](api/clikt/com.github.ajalt.clikt.core/context.html), it is propagated to subcommands. If you have a a subcommand called
 `foo` with an option `--bar`, and your prefix is `MY_TOOL`, the option's
 envvar name will be `MY_TOOL_FOO_BAR`.
 
@@ -573,14 +537,13 @@ $ ./hello
 Hello Foo
 ```
 
-## Multiple Values from Environment Variables {#multiple-envvars}
+## Multiple Values from Environment Variables
 
 You might need to allow users to specify multiple values for an option
 in a single environment variable. You can do this by creating an option
-with {% include api.html pkg="parameters.options" fun="multiple" %}.
+with [`[multiple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html).
 The environment variable's value will be split according a regex, which
-defaults to split on whitespace for most types. {% include api.html
-pkg="parameters.options" fun="file" %} will change the pattern to split
+defaults to split on whitespace for most types. [`[file, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/file.html) will change the pattern to split
 according to the operating system's path splitting rules. On Windows, it
 will split on semicolons (`;`). On other systems, it will split on
 colons (`:`).
@@ -603,7 +566,7 @@ Hello Foo
 Hello Bar
 ```
 
-## Windows and Java-Style Option Prefixes {#option-prefixes}
+## Windows and Java-Style Option Prefixes
 
 When specifying option names manually, you can use any prefix (as long
 as it's entirely punctuation).
@@ -654,15 +617,10 @@ option names manually.
 Clikt has a large number of extension functions that can modify options.
 When applying multiple functions to the same option, there's only one
 valid order for the functions to be applied. For example,
-`option().default(3).int()` will not compile, because {% include
-api.html pkg="parameters.options" fun="default" %} must be applied
+`option().default(3).int()` will not compile, because [`[default, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html) must be applied
 after the value type conversion. Similarly, you can only apply one
-transform of each type. So `option().int().float()` is invalid since {%
-include api.html pkg="parameters.types" fun="int" %} and {% include
-api.html pkg="parameters.types" fun="float" %} both change the value
-type, as is `option().default("").multiple()` since {% include api.html
-pkg="parameters.options" fun="default" %} and {% include api.html
-pkg="parameters.options" fun="multiple" %} both transform the call list
+transform of each type. So `option().int().float()` is invalid since [`[int, ]`](api/clikt/com.github.ajalt.clikt.parameters.types/int.html) and [`[float, ]`](api/clikt/com.github.ajalt.clikt.parameters.types/float.html) both change the value
+type, as is `option().default("").multiple()` since [`[default, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html) and [`[multiple, ]`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html) both transform the call list
 (if you need a custom default value for `multiple`, you can pass it one
 as an argument).
 
@@ -677,6 +635,3 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
         .default(1 to 2)
         .validate { require(it.second % 2 == 0) }
 ```
-
-
-{% include links.html %}

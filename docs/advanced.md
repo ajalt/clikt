@@ -1,8 +1,4 @@
----
-title: Advanced Patters
-sidebar: clikt_sidebar
-permalink: advanced.html
----
+# Advanced Patters
 
 Clikt has reasonable behavior by default, but is also very customizable
 for advanced use cases.
@@ -15,8 +11,7 @@ invoke a command by typing a prefix of its name, or user-defined aliases
 like the way you can configure git to accept `git ci` as an alias for
 `git commit`.
 
-To implement command aliases, override {% include api.html pkg="core"
-class="clikt-command" fun="aliases" %} in your command. This function is
+To implement command aliases, override [`CliktCommand.aliases`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html) in your command. This function is
 called once at the start of parsing, and returns a map of aliases to the
 tokens that they alias to.
 
@@ -104,9 +99,7 @@ Running Bar
 
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
-works on more types of tokens. You can set a {% include api.html
-pkg="core" class="context" fun="token-transformer"
-text="tokenTransformer" %} on the
+works on more types of tokens. You can set a [`tokenTransformer`](api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html) on the
 [command's context](commands.html#customizing-contexts) that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:
@@ -126,6 +119,3 @@ class Hello : CliktCommand() {
 $ ./hello --NAME=Foo
 Hello Foo!
 ```
-
-
-{% include links.html %}

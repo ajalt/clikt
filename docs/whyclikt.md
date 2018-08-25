@@ -1,8 +1,4 @@
----
-title: Why Clikt?
-sidebar: clikt_sidebar
-permalink: whyclikt.html
----
+# Why Clikt?
 
 There are existing Kotlin libraries for creating command line interfaces,
 and many Java libraries work in Kotlin as well. However, none of them
@@ -30,7 +26,7 @@ formatted differently. "Best practices" might not be the best for you,
 so Clikt tries to make implementing uncommon use-cases as easy as
 possible.
 
-## Why not a Kotlin library like kotlin-argparse or kotlinx.cli? {#why-not-kotlin}
+## Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
 
 Clikt didn't invent the idea of a property delegate-based cli parser.
 JetBrains made [kotlinx.cli](https://github.com/Kotlin/kotlinx.cli),
@@ -108,9 +104,7 @@ class MyArgs(parser: ArgParser) {
 }
 ```
 
-Clikt has that functionality built in as
-{% include api.html pkg="parameters.options" fun="pair" text="option().pair()" -%}
-, but you could implement it yourself like this:
+Clikt has that functionality built in as [`option().pair()`](api/clikt/com.github.ajalt.clikt.parameters.options/pair.html), but you could implement it yourself like this:
 
 ```kotlin
 class Cli : CliktCommand() {
@@ -126,14 +120,14 @@ creation of Clikt:
 * Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial copies of the above code. With Clikt, these are all orthoganal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
 * Option name inference is not automatic, requiring you to wrap the delegate with yet another function.
-* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with {% include api.html pkg="parameters.options" fun="option" text="option()" %}, and all arguments with {% include api.html pkg="parameters.arguments" fun="argument" text="argument()" %}.
+* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`](api/clikt/com.github.ajalt.clikt.parameters.options/option.html), and all arguments with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html).
 
 Some of these problems can be solved by writing more code, and some
 can't. On the other hand, Clikt attempts to consistent, intuitive,
 composable interface that tries to do the right thing without forcing
 you to think about edge cases.
 
-## Why not a Java library like JCommander? {#why-not-java}
+## Why not a Java library like JCommander?
 
 There are a lot of command line libraries for Java. Most are verbose and
 not composable. One popular Java library that is usable from Kotlin is
@@ -161,5 +155,3 @@ number of values. You can't nest subcommands.
 
 JCommander is a great library if you're writing code in Java, but we can
 do much better with Kotlin.
-
-{% include links.html %}

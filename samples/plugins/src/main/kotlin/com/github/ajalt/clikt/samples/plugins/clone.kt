@@ -31,12 +31,12 @@ class Clone : CliktCommand(
 
     override fun run() {
         val destName = dest ?: File(src).name
-        TermUi.echo("Cloning repo $src to ${File(destName).absolutePath}")
+        echo("Cloning repo $src to ${File(destName).absolutePath}")
         repo.home = destName
         if (shallow) {
-            TermUi.echo("Making shallow checkout")
+            echo("Making shallow checkout")
         }
-        TermUi.echo("Checking out revision $rev")
+        echo("Checking out revision $rev")
     }
 }
 

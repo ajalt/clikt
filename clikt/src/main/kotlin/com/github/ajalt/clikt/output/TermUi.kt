@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.UsageError
 import java.io.IOError
-import java.io.IOException
 
 object TermUi {
     /**
@@ -15,11 +14,14 @@ object TermUi {
      * @param message The message to print.
      * @param trailingNewline If true, behave like [println], otherwise behave like [print]
      * @param err If true, print to stderr instead of stdout
+     * @param console The console to echo to
      */
-    fun echo(message: Any?, trailingNewline: Boolean = true, err: Boolean = false) {
-        val text = message?.toString()?.replace(Regex("\r?\n"), System.lineSeparator()) ?: "null"
-        val ps = if (err) System.err else System.out
-        if (trailingNewline) ps.println(text) else ps.print(text)
+    fun echo(message: Any?,
+             trailingNewline: Boolean = true,
+             err: Boolean = false,
+             console: CliktConsole = defaultCliktConsole()) {
+        val text = message?.toString()?.replace(Regex("\r?\n"), console.lineSeparator) ?: "null"
+        console.print(if (trailingNewline) text + console.lineSeparator else text, err)
     }
 
     /**
@@ -81,6 +83,7 @@ object TermUi {
                    confirmationPrompt: String = "Repeat for confirmation: ",
                    promptSuffix: String = ": ",
                    showDefault: Boolean = true,
+                   console: CliktConsole = defaultCliktConsole(),
                    convert: ((String) -> T)): T? {
         val prompt = buildPrompt(text, promptSuffix, showDefault, default)
 
@@ -88,7 +91,7 @@ object TermUi {
             while (true) {
                 var value: String
                 while (true) {
-                    value = promptForLine(prompt, hideInput) ?: return null
+                    value = console.promptForLine(prompt, hideInput) ?: return null
 
                     if (value.isNotBlank()) break
                     // Skip confirmation prompt if default is used
@@ -97,7 +100,7 @@ object TermUi {
                 val result = try {
                     convert.invoke(value)
                 } catch (err: UsageError) {
-                    echo(err.helpMessage(null))
+                    echo(err.helpMessage(null), console=console)
                     continue
                 }
 
@@ -105,13 +108,13 @@ object TermUi {
 
                 var value2: String
                 while (true) {
-                    value2 = promptForLine(confirmationPrompt, hideInput) ?: return null
+                    value2 = console.promptForLine(confirmationPrompt, hideInput) ?: return null
                     // No need to convert the confirmation, since it is valid if it matches the
                     // first value.
                     if (value2.isNotEmpty()) break
                 }
                 if (value == value2) return result
-                echo("Error: the two entered values do not match")
+                echo("Error: the two entered values do not match", console=console)
             }
         } catch (err: IOError) {
             return null
@@ -126,7 +129,7 @@ object TermUi {
                promptSuffix: String = ": ",
                showDefault: Boolean = true): String? {
         return prompt(text, default, hideInput, requireConfirmation,
-                confirmationPrompt, promptSuffix, showDefault, { it })
+                confirmationPrompt, promptSuffix, showDefault) { it }
     }
 
     /**
@@ -141,19 +144,23 @@ object TermUi {
      * @param showDefault if false, the choices will not be shown in the prompt.
      * @return the user's response, or null if stdin is not interactive and EOF was encountered.
      */
-    fun confirm(text: String, default: Boolean = false, abort: Boolean = false,
-                promptSuffix: String = ": ", showDefault: Boolean = true): Boolean? {
+    fun confirm(text: String,
+                default: Boolean = false,
+                abort: Boolean = false,
+                promptSuffix: String = ": ",
+                showDefault: Boolean = true,
+                console: CliktConsole = defaultCliktConsole()): Boolean? {
         val prompt = buildPrompt(text, promptSuffix, showDefault,
                 if (default) "Y/n" else "y/N")
         val rv: Boolean
         l@ while (true) {
-            val input = promptForLine(prompt, false)?.trim()?.toLowerCase() ?: return null
+            val input = console.promptForLine(prompt, false)?.trim()?.toLowerCase() ?: return null
             rv = when (input) {
                 "y", "yes" -> true
                 "n", "no" -> false
                 "" -> default
                 else -> {
-                    echo("Error: invalid input")
+                    echo("Error: invalid input", console=console)
                     continue@l
                 }
             }
@@ -161,31 +168,6 @@ object TermUi {
         }
         if (abort && !rv) throw Abort()
         return rv
-    }
-
-    /**
-     * Print [prompt] to stdout and read a line from stdin.
-     *
-     * @param prompt The text to display to the user
-     * @param hideInput If true, the user's input will not be echoed to the screen. If either stdin or stdout
-     *   is not interactive, this argument is ignored.
-     * @return A line from stdin, or null if an IOError occurs.
-     */
-    private fun promptForLine(prompt: String, hideInput: Boolean): String? {
-        val console = System.console()
-        return if (console != null) {
-            when {
-                hideInput -> console.readPassword(prompt)?.let { String(it) }
-                else -> console.readLine(prompt)
-            }
-        } else {
-            try {
-                echo(prompt, trailingNewline = false)
-                System.`in`.bufferedReader().readLine()
-            } catch (err: IOException) {
-                null
-            }
-        }
     }
 
     /** True if the current platform is a version of windows. */

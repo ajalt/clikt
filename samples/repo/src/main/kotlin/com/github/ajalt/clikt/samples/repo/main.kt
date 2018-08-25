@@ -58,12 +58,12 @@ class Clone : CliktCommand(
 
     override fun run() {
         val destName = dest ?: File(src).name
-        TermUi.echo("Cloning repo $src to ${File(destName).absolutePath}")
+        echo("Cloning repo $src to ${File(destName).absolutePath}")
         repo.home = destName
         if (shallow) {
-            TermUi.echo("Making shallow checkout")
+            echo("Making shallow checkout")
         }
-        TermUi.echo("Checking out revision $rev")
+        echo("Checking out revision $rev")
     }
 }
 
@@ -74,8 +74,8 @@ class Delete : CliktCommand(
     val repo: Repo by requireObject()
 
     override fun run() {
-        TermUi.echo("Destroying repo ${repo.home}")
-        TermUi.echo("Deleted!")
+        echo("Destroying repo ${repo.home}")
+        echo("Deleted!")
     }
 }
 
@@ -96,7 +96,7 @@ class SetUser : CliktCommand(
         repo.config["username"] = username
         repo.config["email"] = email
         repo.config["password"] = "*".repeat(password.length)
-        TermUi.echo("Changed credentials.")
+        echo("Changed credentials.")
     }
 }
 
@@ -132,19 +132,19 @@ class Commit : CliktCommand(
 
             val message = TermUi.editText(text)
             if (message == null) {
-                TermUi.echo("Aborted!")
+                echo("Aborted!")
                 return
             }
             message.split(marker, limit = 2)[0].trim().apply {
                 if (this.isEmpty()) {
-                    TermUi.echo("Aborting commit due to empty commit message.")
+                    echo("Aborting commit due to empty commit message.")
                     return
                 }
             }
         }
-        TermUi.echo("Files to be commited: $files")
-        TermUi.echo("Commit message:")
-        TermUi.echo(msg)
+        echo("Files to be commited: $files")
+        echo("Commit message:")
+        echo(msg)
     }
 }
 

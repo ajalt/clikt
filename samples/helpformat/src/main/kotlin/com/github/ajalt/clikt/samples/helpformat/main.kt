@@ -38,7 +38,7 @@ class Echo : CliktCommand(help = "Echo the STRING(s) to standard output") {
     override fun run() {
         val message = if (strings.isEmpty()) String(System.`in`.readBytes())
         else strings.joinToString(" ", postfix = if (suppressNewline) "" else "\n")
-        TermUi.echo(message, trailingNewline = false)
+        echo(message, trailingNewline = false)
     }
 }
 

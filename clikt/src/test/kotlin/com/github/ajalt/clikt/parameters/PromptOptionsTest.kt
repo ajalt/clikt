@@ -2,9 +2,14 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
+import io.kotlintest.matchers.beEmpty
+import io.kotlintest.matchers.collections.containExactly
+import io.kotlintest.should
 import io.kotlintest.shouldBe
 import org.junit.Rule
 import org.junit.Test
@@ -51,7 +56,43 @@ class PromptOptionsTest {
     }
 
     @Test
-    fun `prompt custom name`() {
+    fun `custom console`() {
+        val console = object : CliktConsole {
+            val prompts = mutableListOf<String>()
+            val prints = mutableListOf<String>()
+
+            override fun promptForLine(prompt: String, hideInput: Boolean): String? {
+                prompts += prompt
+                return "bar"
+            }
+
+            override fun print(text: String, error: Boolean) {
+                prints += text
+            }
+
+            override val lineSeparator: String get() = "\n"
+        }
+
+        class C : CliktCommand() {
+            init {
+                context {
+                    this.console = console
+                }
+            }
+
+            val foo by option().prompt()
+            override fun run() {
+                foo shouldBe "bar"
+            }
+        }
+        C().parse(emptyArray())
+        console.prompts should containExactly("Foo: ")
+        console.prints should beEmpty()
+        stdout.logWithNormalizedLineSeparator shouldBe ""
+    }
+
+    @Test
+    fun `custom name`() {
         stdin.provideLines("foo")
 
         class C : CliktCommand() {
@@ -65,7 +106,7 @@ class PromptOptionsTest {
     }
 
     @Test
-    fun `prompt inferred names`() {
+    fun `inferred names`() {
         stdin.provideLines("foo", "bar", "baz")
 
         class C : CliktCommand() {
@@ -83,7 +124,7 @@ class PromptOptionsTest {
     }
 
     @Test
-    fun `prompt two options`() {
+    fun `two options`() {
         stdin.provideLines("foo", "bar")
 
         class C : CliktCommand() {
@@ -99,7 +140,7 @@ class PromptOptionsTest {
     }
 
     @Test
-    fun `prompt default`() {
+    fun default() {
         stdin.provideLines("bar")
 
         class C : CliktCommand() {
@@ -114,7 +155,7 @@ class PromptOptionsTest {
     }
 
     @Test
-    fun `prompt default no stdin`() {
+    fun `default no stdin`() {
         stdin.provideLines("")
 
         class C : CliktCommand() {

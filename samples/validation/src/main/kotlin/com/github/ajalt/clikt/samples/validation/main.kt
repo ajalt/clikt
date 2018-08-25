@@ -42,11 +42,11 @@ class Cli : CliktCommand(help = "Validation examples") {
         if (biggerCount != null && count != null && biggerCount!! <= count!!) {
             throw BadParameterValue("--bigger-count must be larger than --count")
         }
-        TermUi.echo("count: $count")
-        TermUi.echo("biggerCount: $biggerCount")
-        TermUi.echo("quad: $quad")
-        TermUi.echo("sum: $sum")
-        TermUi.echo("url: $url")
+        echo("count: $count")
+        echo("biggerCount: $biggerCount")
+        echo("quad: $quad")
+        echo("sum: $sum")
+        echo("url: $url")
     }
 
 }

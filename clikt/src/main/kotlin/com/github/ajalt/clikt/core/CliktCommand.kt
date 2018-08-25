@@ -138,7 +138,7 @@ abstract class CliktCommand(
      * @param trailingNewline If true, behave like [println], otherwise behave like [print]
      * @param err If true, print to stderr instead of stdout
      */
-    fun echo(message: Any?, trailingNewline: Boolean = true, err: Boolean = false) {
+    protected fun echo(message: Any?, trailingNewline: Boolean = true, err: Boolean = false) {
         TermUi.echo(message, trailingNewline, err, context.console)
     }
 

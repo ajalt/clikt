@@ -1,8 +1,10 @@
 # Changelog
 
 ## [Unreleased]
+
+## [1.5.0] - 2018-08-26
 ### Added
-- Ability to use alternate output streams rather than stdin and stdout by setting `Context.console`.
+- Ability to use alternate output streams rather than stdin and stdout by setting `Context.console` or by passing a console to `TermUI` functions.
 
 ## [1.4.0] - 2018-07-31
 ### Added

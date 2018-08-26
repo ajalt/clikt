@@ -19,13 +19,13 @@ the help page is printed and `run` is not called.
 class Tool : CliktCommand() {
     val verbose by option().flag("--no-verbose")
     override fun run() {
-        TermUi.echo("Verbose mode is ${if (verbose) "on" else "off"}")
+        echo("Verbose mode is ${if (verbose) "on" else "off"}")
     }
 }
 
 class Execute : CliktCommand() {
     override fun run() {
-        TermUi.echo("executing")
+        echo("executing")
     }
 }
 
@@ -66,7 +66,7 @@ class Tool : CliktCommand() {
 
 class Execute : CliktCommand(name = "RUN-ME") {
     override fun run() {
-        TermUi.echo("executing")
+        echo("executing")
     }
 }
 
@@ -176,7 +176,7 @@ class Tool : CliktCommand() {
 class Execute : CliktCommand() {
     val config by requireObject<Map<String, String>>()
     override fun run() {
-        TermUi.echo("Verbose mode is ${config["VERBOSE"]}")
+        echo("Verbose mode is ${config["VERBOSE"]}")
     }
 }
 
@@ -210,16 +210,16 @@ one.
 class Tool : CliktCommand(invokeWithoutSubcommand = true) {
     override fun run() {
         if (context.invokedSubcommand == null) {
-            TermUi.echo("invoked without a subcommand")
+            echo("invoked without a subcommand")
         } else {
-            TermUi.echo("about to run ${context.invokedSubcommand!!.commandName}")
+            echo("about to run ${context.invokedSubcommand!!.commandName}")
         }
     }
 }
 
 class Execute : CliktCommand() {
     override fun run() {
-        TermUi.echo("running subcommand")
+        echo("running subcommand")
     }
 }
 

@@ -1,3 +1,7 @@
+---
+title: 'Clikt: Simple, powerful command line parser for Kotlin'
+---
+
 <div align="center" style="margin-bottom:42px;max-width:700px">
     <img alt="wordmark" src="img/wordmark.svg" />
 </div>
@@ -27,7 +31,7 @@ class Hello : CliktCommand() {
 
     override fun run() {
         for (i in 1..count) {
-            TermUi.echo("Hello $name!")
+            echo("Hello $name!")
         }
     }
 }

@@ -14,7 +14,7 @@ The simplest command with no parameters would look like this:
 ```kotlin
 class Hello: CliktCommand() {
     override fun run() {
-        TermUi.echo("Hello World!")
+        echo("Hello World!")
     }
 }
 
@@ -40,7 +40,7 @@ Options:
 
 ## Printing to Stdout and Stderr
 
-Why does this example use [TermUi.echo](api/clikt/com.github.ajalt.clikt.output/-term-ui/echo.html) instead of
+Why does this example use [echo](api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo.html) instead of
 [println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
 Although `println` works, it can cause problems with multi-platform
 support. [echo](api/clikt/com.github.ajalt.clikt.output/-term-ui/echo.html) automatically translates line breaks into the line
@@ -62,13 +62,13 @@ class Database: CliktCommand() {
 
 class Init: CliktCommand(help="Initialize the database") {
     override fun run() {
-        TermUi.echo("Initialized the database.")
+        echo("Initialized the database.")
     }
 }
 
 class Drop: CliktCommand(help="Drop the database") {
     override fun run() {
-        TermUi.echo("Dropped the database.")
+        echo("Dropped the database.")
     }
 }
 
@@ -110,7 +110,7 @@ class Hello : CliktCommand() {
 
     override fun run() {
         for (i in 1..count) {
-            TermUi.echo("Hello $name!")
+            echo("Hello $name!")
         }
     }
 }

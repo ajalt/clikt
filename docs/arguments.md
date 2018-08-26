@@ -14,7 +14,7 @@ provided on the command line.
 class Hello : CliktCommand() {
     val name by argument()
     override fun run() {
-        TermUi.echo("Hello $name!")
+        echo("Hello $name!")
     }
 }
 ```
@@ -69,7 +69,7 @@ class Copy : CliktCommand() {
     val source by argument().file(exists = true).multiple()
     val dest by argument().file(fileOkay = false)
     override fun run() {
-        TermUi.echo("Copying files $source to $dest")
+        echo("Copying files $source to $dest")
     }
 }
 ```
@@ -98,7 +98,7 @@ class Touch : CliktCommand() {
     val verbose by option().flag()
     val files by argument().multiple()
     override fun run() {
-        if (verbose) TermUi.echo(files.joinToString("\n"))
+        if (verbose) echo(files.joinToString("\n"))
     }
 }
 ```

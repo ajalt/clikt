@@ -129,7 +129,7 @@ For example, you can create an option of type `BigDecimal` like this:
 ```kotlin
 class Cli: CliktCommand() {
     val opt by option().convert { it.toBigDecimal() }
-    override fun run() = TermUi.echo("opt=$opt")
+    override fun run() = echo("opt=$opt")
 }
 ```
 
@@ -154,7 +154,7 @@ class Cli: CliktCommand() {
     val opt by option(help="a real number").convert("FLOAT") {
         it.toBigDecimalOrNull() ?: fail("A real number is required")
     }
-    override fun run() = TermUi.echo("opt=$opt")
+    override fun run() = echo("opt=$opt")
 }
 ```
 

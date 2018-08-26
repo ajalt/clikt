@@ -28,7 +28,7 @@ class Hello : CliktCommand() {
 
     override fun run() {
         for (i in 1..count) {
-            TermUi.echo("Hello $name!")
+            echo("Hello $name!")
         }
     }
 }

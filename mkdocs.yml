@@ -84,6 +84,7 @@ nav:
   - 'Advanced Patterns':
     - 'Command Aliases': advanced.md
     - 'Token Normalization': advanced/#token-normalization
+    - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
   - 'Utilities':
     - 'Launching Editors': utilities.md
     - 'Input Prompts': utilities/#input-prompts

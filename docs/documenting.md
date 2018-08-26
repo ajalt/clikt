@@ -21,7 +21,7 @@ class Hello : CliktCommand(help = """
 
     val count by option("-c", "--count", help = "number of greetings").int().default(1)
     val name by argument()
-    override fun run() = repeat(count) { TermUi.echo("Hello $name!") }
+    override fun run() = repeat(count) { echo("Hello $name!") }
 }
 ```
 

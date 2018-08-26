@@ -29,7 +29,7 @@ class Repo : NoRunCliktCommand() {
 class Commit: CliktCommand() {
     val message by option("-m").default("")
     override fun run() {
-        TermUi.echo("Committing with message: $message")
+        echo("Committing with message: $message")
     }
 }
 
@@ -75,13 +75,13 @@ class Tool : CliktCommand() {
 
 class Foo: CliktCommand() {
     override fun run() {
-        TermUi.echo("Running Foo")
+        echo("Running Foo")
     }
 }
 
 class Bar: CliktCommand() {
     override fun run() {
-        TermUi.echo("Running Bar")
+        echo("Running Bar")
     }
 }
 
@@ -111,7 +111,7 @@ class Hello : CliktCommand() {
     }
 
     val name by option()
-    override fun run() = TermUi.echo("Hello $name!")
+    override fun run() = echo("Hello $name!")
 }
 ```
 
@@ -119,3 +119,38 @@ class Hello : CliktCommand() {
 $ ./hello --NAME=Foo
 Hello Foo!
 ```
+
+## Replacing stdin and stdout
+
+By default, functions like [`CliktCommand.main`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html)
+and [`option().prompt()`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html)
+read from `System.in` and write to `System.out`. If you want to use
+clikt in an environment where the standard streams aren't available, you
+can set your own implementation of [`CliktConsole`](api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.html)
+when [customizing the command context](commands.md#customizing-contexts).
+
+```kotlin
+object MyConsole : CliktConsole {
+    override fun promptForLine(prompt: String, hideInput: Boolean): String? {
+        MyOutputStream.write(prompt)
+        return if (hideInput) MyInputStream.readPassword()
+        else MyInputStream.readLine()
+    }
+
+    override fun print(text: String, error: Boolean) {
+        if (error) MyOutputStream.writeError(prompt)
+        else MyOutputStream.write(prompt)
+    }
+
+    override val lineSeparator: String get() = "\n"
+}
+
+class CustomCLI : CliktCommand() {
+    init { context { this.console = MyConsole } }
+    override fun run() {}
+}
+```
+
+If you are using
+[`TermUI`](api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html)
+directly, you can also pass your custom console as an argument.

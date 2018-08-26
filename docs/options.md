@@ -13,7 +13,7 @@ will return the value of the last occurrence of the option.
 class Hello: CliktCommand() {
     val name by option(help="your name")
     override fun run() {
-        TermUi.echo("Hello, $name!")
+        echo("Hello, $name!")
     }
 }
 ```
@@ -38,7 +38,7 @@ You can also specify any number of names for an option manually:
 class Hello: CliktCommand() {
     val name by option("-n", "--name", help="your name")
     override fun run() {
-        TermUi.echo("Hello, $name!")
+        echo("Hello, $name!")
     }
 }
 ```
@@ -121,7 +121,7 @@ on the command line. You can instead return a default value with [`default`](api
 class Pow : CliktCommand() {
     val exp by option("-e", "--exp").double().default(1.0)
     override fun run() {
-        TermUi.echo("2 ^ $exp = ${Math.pow(2.0, exp)}")
+        echo("2 ^ $exp = ${Math.pow(2.0, exp)}")
     }
 }
 ```
@@ -167,9 +167,9 @@ class Geometry : CliktCommand() {
     val cube by option().int().triple()
     val tesseract by option().int().transformValues(4) { Quad(it[0], it[1], it[2], it[3]) }
     override fun run() {
-        TermUi.echo("Square has dimensions ${square?.toList()?.joinToString("x")}")
-        TermUi.echo("Cube has dimensions ${cube?.toList()?.joinToString("x")}")
-        TermUi.echo("Tesseract has dimensions ${tesseract?.toList()?.joinToString("x")}")
+        echo("Square has dimensions ${square?.toList()?.joinToString("x")}")
+        echo("Cube has dimensions ${cube?.toList()?.joinToString("x")}")
+        echo("Tesseract has dimensions ${tesseract?.toList()?.joinToString("x")}")
     }
 }
 ```
@@ -199,7 +199,7 @@ list will be empty (or you can specify a list to use).
 class Commit : CliktCommand() {
     val message by option("-m").multiple()
     override fun run() {
-        TermUi.echo(message.joinToString("\n"))
+        echo(message.joinToString("\n"))
     }
 }
 ```
@@ -235,7 +235,7 @@ previously.
 class Cli : CliktCommand() {
     val flag by option("--on", "-o").flag("--off", "-O", default = false)
     override fun run() {
-        TermUi.echo(flag)
+        echo(flag)
     }
 }
 ```
@@ -262,7 +262,7 @@ class Cli : CliktCommand() {
     val flagB by option("-b").flag()
     val foo by option("-f")
     override fun run() {
-        TermUi.echo("$flagA $flagB $foo")
+        echo("$flagA $flagB $foo")
     }
 }
 ```
@@ -284,7 +284,7 @@ on the command line. You can use [`counted`](api/clikt/com.github.ajalt.clikt.pa
 class Log : CliktCommand() {
     val verbosity by option("-v").counted()
     override fun run() {
-        TermUi.echo("Verbosity level: $verbosity")
+        echo("Verbosity level: $verbosity")
     }
 }
 ```
@@ -306,7 +306,7 @@ the names in the map replace any previously specified or inferred names.
 class Size : CliktCommand() {
     val size by option().switch("--large" to "large", "--small" to "small").default("unknown")
     override fun run() {
-        TermUi.echo("You picked size $size")
+        echo("You picked size $size")
     }
 }
 ```
@@ -327,7 +327,7 @@ values using [`choice`](api/clikt/com.github.ajalt.clikt.parameters.types/choice
 class Digest : CliktCommand() {
     val hash by option().choice("md5", "sha1")
     override fun run() {
-        TermUi.echo(hash)
+        echo(hash)
     }
 }
 ```
@@ -365,7 +365,7 @@ if one is not provided. Clikt can take care of this for you with the [`prompt`](
 class Hello : CliktCommand() {
     val name by option().prompt()
     override fun run() {
-        TermUi.echo("Hello $name")
+        echo("Hello $name")
     }
 }
 ```
@@ -396,7 +396,7 @@ passwords.
 class Login : CliktCommand() {
     val password by option().prompt(requireConfirmation = true, hideInput = true)
     override fun run() {
-        TermUi.echo("Your hidden password: $password")
+        echo("Your hidden password: $password")
     }
 }
 ```
@@ -491,7 +491,7 @@ To set the envvar name manually, pass the name to [`option`](api/clikt/com.githu
 class Hello : CliktCommand() {
     val name by option(envvar = "MY_NAME")
     override fun run() {
-        TermUi.echo("Hello $name")
+        echo("Hello $name")
     }
 }
 ```
@@ -524,7 +524,7 @@ class Hello : CliktCommand() {
     }
     val name by option()
     override fun run() {
-        TermUi.echo("Hello $name")
+        echo("Hello $name")
     }
 }
 ```
@@ -552,7 +552,7 @@ colons (`:`).
 class Hello : CliktCommand() {
     val names by option(envvar = "NAMES").multiple()
     override fun run() {
-        for (name in names) TermUi.echo("Hello $name")
+        for (name in names) echo("Hello $name")
     }
 }
 ```
@@ -577,7 +577,7 @@ For example, you can make a Windows-style interface with slashes:
 class Hello: CliktCommand() {
     val name by option("/name", help="your name")
     override fun run() {
-        TermUi.echo("Hello, $name!")
+        echo("Hello, $name!")
     }
 }
 ```
@@ -596,7 +596,7 @@ options:
 class Hello: CliktCommand() {
     val name by option("-name", help="your name")
     override fun run() {
-        TermUi.echo("Hello, $name!")
+        echo("Hello, $name!")
     }
 }
 ```

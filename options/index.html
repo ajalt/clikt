@@ -350,7 +350,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../whyclikt/#why-not-a-kotlin-library-like-kotlin-argparse-or-kotlinxcli-why-not-kotlin" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
+    <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
       Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
     </a>
   </li>
@@ -1108,6 +1108,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../advanced/#replacing-stdin-and-stdout" title="Replacing stdin and stdout" class="md-nav__link">
+      Replacing stdin and stdout
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1485,7 +1497,7 @@ will return the value of the last occurrence of the option.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1504,7 +1516,7 @@ myOpt by option()</code> will create an option that can be called with
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-n&quot;</span><span class="p">,</span> <span class="s">&quot;--name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1571,7 +1583,7 @@ on the command line. You can instead return a default value with <a href="../api
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Pow</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">exp</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--exp&quot;</span><span class="p">).</span><span class="n">double</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">1.0</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;2 ^ $exp = ${Math.pow(2.0, exp)}&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;2 ^ $exp = ${Math.pow(2.0, exp)}&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1609,9 +1621,9 @@ lambda won&rsquo;t be called.</p>
     <span class="k">val</span> <span class="py">cube</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">triple</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">tesseract</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">transformValues</span><span class="p">(</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span> <span class="n">Quad</span><span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="m">0</span><span class="p">],</span> <span class="n">it</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="n">it</span><span class="p">[</span><span class="m">2</span><span class="p">],</span> <span class="n">it</span><span class="p">[</span><span class="m">3</span><span class="p">])</span> <span class="p">}</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Square has dimensions ${square?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Cube has dimensions ${cube?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Tesseract has dimensions ${tesseract?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Square has dimensions ${square?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Cube has dimensions ${cube?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Tesseract has dimensions ${tesseract?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1635,7 +1647,7 @@ list will be empty (or you can specify a list to use).</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Commit</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">message</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-m&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">))</span>
+        <span class="n">echo</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">))</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1663,7 +1675,7 @@ previously.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">flag</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;--on&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;--off&quot;</span><span class="p">,</span> <span class="s">&quot;-O&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1684,7 +1696,7 @@ line:</p>
     <span class="k">val</span> <span class="py">flagB</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-b&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">foo</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-f&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;$flagA $flagB $foo&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;$flagA $flagB $foo&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1700,7 +1712,7 @@ on the command line. You can use <a href="../api/clikt/com.github.ajalt.clikt.pa
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Log</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">verbosity</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">).</span><span class="n">counted</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Verbosity level: $verbosity&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Verbosity level: $verbosity&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1717,7 +1729,7 @@ the names in the map replace any previously specified or inferred names.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Size</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">size</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">switch</span><span class="p">(</span><span class="s">&quot;--large&quot;</span> <span class="n">to</span> <span class="s">&quot;large&quot;</span><span class="p">,</span> <span class="s">&quot;--small&quot;</span> <span class="n">to</span> <span class="s">&quot;small&quot;</span><span class="p">).</span><span class="n">default</span><span class="p">(</span><span class="s">&quot;unknown&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;You picked size $size&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;You picked size $size&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1733,7 +1745,7 @@ values using <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choic
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Digest</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">hash</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;md5&quot;</span><span class="p">,</span> <span class="s">&quot;sha1&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1764,7 +1776,7 @@ if one is not provided. Clikt can take care of this for you with the <a href="..
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">prompt</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1788,7 +1800,7 @@ passwords.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Login</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">password</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">prompt</span><span class="p">(</span><span class="n">requireConfirmation</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">hideInput</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your hidden password: $password&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your hidden password: $password&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1863,7 +1875,7 @@ envvar name inference.</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">envvar</span> <span class="p">=</span> <span class="s">&quot;MY_NAME&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1891,7 +1903,7 @@ envvar name will be <code>MY_TOOL_FOO_BAR</code>.</p>
     <span class="p">}</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1914,7 +1926,7 @@ colons (<code>:</code>).</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">names</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">envvar</span> <span class="p">=</span> <span class="s">&quot;NAMES&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">name</span> <span class="k">in</span> <span class="n">names</span><span class="p">)</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">name</span> <span class="k">in</span> <span class="n">names</span><span class="p">)</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1933,7 +1945,7 @@ as it&rsquo;s entirely punctuation).</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;/name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1948,7 +1960,7 @@ options:</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>

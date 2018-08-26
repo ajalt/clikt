@@ -1,8 +1,15 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.Context
 import java.io.Console
 import java.io.IOException
 
+/**
+ * An object that is used by commands and parameters to show text to the user and read input.
+ *
+ * By default, stdin and stdout are used, but you can provide an implementation of this interface to
+ * [Context.console] to customize the behavior.
+ */
 interface CliktConsole {
     /**
      * Show the [prompt] to the user, and return a line of their response.

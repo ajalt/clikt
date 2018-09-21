@@ -2,16 +2,15 @@ package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.inSet
-import com.github.salomonbrys.kodein.provider
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.provider
 import java.io.File
 
 class Clone : CliktCommand(
@@ -40,6 +39,6 @@ class Clone : CliktCommand(
     }
 }
 
-val cloneModule = Kodein.Module {
+val cloneModule = Kodein.Module("clone") {
     bind<CliktCommand>().inSet() with provider { Clone() }
 }

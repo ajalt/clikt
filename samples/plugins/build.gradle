@@ -1,6 +1,5 @@
 mainClassName = 'com.github.ajalt.clikt.samples.plugins.MainKt'
 
 dependencies {
-    compile 'com.github.salomonbrys.kodein:kodein:4.1.0'
-    compile 'com.github.salomonbrys.kodein:kodein-conf:4.1.0'
+    compile 'org.kodein.di:kodein-di-generic-jvm:5.2.0'
 }

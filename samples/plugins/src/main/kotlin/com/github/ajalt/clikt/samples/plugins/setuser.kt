@@ -5,10 +5,10 @@ import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.inSet
-import com.github.salomonbrys.kodein.provider
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.provider
 
 class SetUser : CliktCommand(
         name = "setuser",
@@ -31,6 +31,6 @@ class SetUser : CliktCommand(
     }
 }
 
-val setuserModule = Kodein.Module {
+val setuserModule = Kodein.Module("setuser") {
     bind<CliktCommand>().inSet() with provider { SetUser() }
 }

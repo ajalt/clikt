@@ -8,10 +8,10 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.inSet
-import com.github.salomonbrys.kodein.provider
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.inSet
+import org.kodein.di.generic.provider
 import java.io.File
 
 class Commit : CliktCommand(
@@ -61,6 +61,6 @@ class Commit : CliktCommand(
     }
 }
 
-val commitModule = Kodein.Module {
+val commitModule = Kodein.Module("commit") {
     bind<CliktCommand>().inSet() with provider { Commit() }
 }

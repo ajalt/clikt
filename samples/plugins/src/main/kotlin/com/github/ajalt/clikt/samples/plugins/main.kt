@@ -3,10 +3,10 @@ package com.github.ajalt.clikt.samples.plugins
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.*
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.bind
-import com.github.salomonbrys.kodein.instance
-import com.github.salomonbrys.kodein.setBinding
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.setBinding
 
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
         import(commitModule)
     }
 
-    val commands: Set<CliktCommand> = kodein.instance()
+    val commands: Set<CliktCommand> by kodein.instance()
 
     Cli().subcommands(commands).main(args)
 }

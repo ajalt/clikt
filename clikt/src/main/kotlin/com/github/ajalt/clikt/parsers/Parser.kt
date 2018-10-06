@@ -17,13 +17,13 @@ internal object Parser {
         var args = argv
         val command = context.command
         val aliases = command.aliases()
-        val subcommands = command.subcommands.associateBy { it.commandName }
+        val subcommands = command._subcommands.associateBy { it.commandName }
         val optionsByName = HashMap<String, Option>()
-        val arguments = command.arguments
+        val arguments = command._arguments
         val prefixes = mutableSetOf<String>()
         val longNames = mutableSetOf<String>()
 
-        for (option in command.options) {
+        for (option in command._options) {
             for (name in option.names + option.secondaryNames) {
                 optionsByName[name] = option
                 if (name.length > 2) longNames += name
@@ -84,7 +84,7 @@ internal object Parser {
         invocationsByOption.forEach { (o, inv) -> if (o !is EagerOption) o.finalize(context, inv) }
 
         // Finalize the options with values so that they can apply default values etc.
-        for (o in command.options) {
+        for (o in command._options) {
             if (o !is EagerOption && o !in invocationsByOption) o.finalize(context, emptyList())
         }
 

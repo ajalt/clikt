@@ -28,6 +28,7 @@ import kotlin.system.exitProcess
  * @param invokeWithoutSubcommand Used when this command has subcommands, and this command is called
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
  */
+@Suppress("PropertyName")
 abstract class CliktCommand(
         help: String = "",
         epilog: String = "",
@@ -36,29 +37,29 @@ abstract class CliktCommand(
     val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog
-    internal var subcommands: List<CliktCommand> = emptyList()
-    internal val options: MutableList<Option> = mutableListOf()
-    internal val arguments: MutableList<Argument> = mutableListOf()
-    internal var contextConfig: Context.Builder.() -> Unit = {}
+    internal var _subcommands: List<CliktCommand> = emptyList()
+    internal val _options: MutableList<Option> = mutableListOf()
+    internal val _arguments: MutableList<Argument> = mutableListOf()
+    internal var _contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
 
-    private fun registeredOptionNames() = options.flatMapTo(HashSet()) { it.names }
+    private fun registeredOptionNames() = _options.flatMapTo(HashSet()) { it.names }
 
     private fun createContext(parent: Context? = null) {
-        _context = Context.build(this, parent, contextConfig)
+        _context = Context.build(this, parent, _contextConfig)
 
         if (context.helpOptionNames.isEmpty()) return
         val names = context.helpOptionNames - registeredOptionNames()
-        if (names.isNotEmpty()) options += helpOption(names, context.helpOptionMessage)
+        if (names.isNotEmpty()) _options += helpOption(names, context.helpOptionMessage)
 
-        for (command in subcommands) {
+        for (command in _subcommands) {
             command.createContext(context)
         }
     }
 
-    private fun allHelpParams() = options.mapNotNull { it.parameterHelp } +
-            arguments.mapNotNull { it.parameterHelp } +
-            subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp()) }
+    private fun allHelpParams() = _options.mapNotNull { it.parameterHelp } +
+            _arguments.mapNotNull { it.parameterHelp } +
+            _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp()) }
 
     /**
      * This command's context.
@@ -76,7 +77,7 @@ abstract class CliktCommand(
 
 
     /** The names of all direct children of this command */
-    fun registeredSubcommandNames(): List<String> = subcommands.map { it.commandName }
+    fun registeredSubcommandNames(): List<String> = _subcommands.map { it.commandName }
 
     /**
      * Register an option with this command.
@@ -89,7 +90,7 @@ abstract class CliktCommand(
         for (name in option.names) {
             require(name !in names) { "Duplicate option name $name" }
         }
-        options += option
+        _options += option
     }
 
     /**
@@ -99,10 +100,10 @@ abstract class CliktCommand(
      * custom argument.
      */
     fun registerArgument(argument: Argument) {
-        require(argument.nvalues > 0 || arguments.none { it.nvalues < 0 }) {
+        require(argument.nvalues > 0 || _arguments.none { it.nvalues < 0 }) {
             "Cannot declare multiple arguments with variable numbers of values"
         }
-        arguments += argument
+        _arguments += argument
     }
 
     /** Return the usage string for this command. */
@@ -199,12 +200,12 @@ abstract class CliktCommand(
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {
-    subcommands += commands
+    _subcommands += commands
 }
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
-    subcommands += commands
+    _subcommands += commands
 }
 
 /**
@@ -214,5 +215,5 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
  * here.
  */
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
-    contextConfig = block
+    _contextConfig = block
 }

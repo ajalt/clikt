@@ -383,7 +383,7 @@ class OptionTest {
             val w by option().convert("BAR") { it }
             val u by option().flag()
             override fun run() {
-                options.forEach {
+                _options.forEach {
                     if (it is EagerOption || // skip help option
                             "--x" in it.names && it.metavar == "TEXT" ||
                             "--y" in it.names && it.metavar == "FOO" ||

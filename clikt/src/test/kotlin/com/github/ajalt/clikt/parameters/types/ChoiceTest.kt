@@ -60,7 +60,7 @@ class ChoiceTypeTest {
         class C : CliktCommand() {
             val x by argument().choice("foo", "bar")
             override fun run() {
-                arguments[0].name shouldBe "X"
+                _arguments[0].name shouldBe "X"
             }
         }
 
@@ -83,7 +83,7 @@ class ChoiceTypeTest {
         class C : CliktCommand() {
             val x by argument().choice("foo" to 1, "bar" to 2)
             override fun run() {
-                arguments[0].name shouldBe "X"
+                _arguments[0].name shouldBe "X"
             }
         }
 

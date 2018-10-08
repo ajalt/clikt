@@ -1,7 +1,7 @@
 # Commands
 
 Clikt supports arbitrarily nested commands. You can add one command as a
-child of another with the [`echo`](api/clikt/com.github.ajalt.clikt.core/subcommands.html) function, which can be called either in
+child of another with the [`subcommands`](api/clikt/com.github.ajalt.clikt.core/subcommands.html) function, which can be called either in
 an `init` block, or on an existing instance.
 
 ## Executing Nested Commands

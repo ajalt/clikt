@@ -267,6 +267,19 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(default: List<E
         : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { if (it.isEmpty()) default else it }
 
 /**
+ * Make the [multiple] option return a unique set of calls
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: Set<Int> by option().int().multiple().unique()
+ * ```
+ */
+fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique(): OptionWithValues<Set<EachT>, EachT, ValueT> = copy(transformValue, transformEach, transformAll = {
+    transformAll(it).toSet()
+})
+
+/**
  * Change the number of values that this option takes.
  *
  * The input will be a list of size [nvalues], with each item in the list being the output of a call to

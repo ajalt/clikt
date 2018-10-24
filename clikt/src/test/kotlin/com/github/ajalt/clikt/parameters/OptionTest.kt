@@ -375,6 +375,45 @@ class OptionTest {
     }
 
     @Test
+    fun `multiple with unique option default`() {
+        val command = object : CliktCommand() {
+            val x by option().multiple().unique()
+            override fun run() {
+                x shouldBe emptySet()
+            }
+        }
+
+        command.parse(splitArgv(""))
+    }
+
+    @Test
+    fun `multiple with unique option custom default`() {
+        val command = object : CliktCommand() {
+            val x by option().multiple(listOf("foo", "bar", "bar")).unique()
+            override fun run() {
+                x shouldBe setOf("foo", "bar")
+            }
+        }
+
+        command.parse(splitArgv(""))
+    }
+
+    @Test
+    fun `multiple with unique option parsed`() = forall(
+        row("--arg foo", setOf("foo")),
+        row("--arg foo --arg bar --arg baz", setOf("foo", "bar", "baz")),
+        row("--arg foo --arg foo --arg foo", setOf("foo"))
+    ) { argv, expected ->
+        val command = object : CliktCommand() {
+            val arg by option().multiple().unique()
+            override fun run() {
+                arg shouldBe expected
+            }
+        }
+        command.parse(splitArgv(argv))
+    }
+
+    @Test
     fun `option metavars`() {
         class C : CliktCommand() {
             val x by option()

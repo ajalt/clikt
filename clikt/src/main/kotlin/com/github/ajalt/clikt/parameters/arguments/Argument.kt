@@ -207,6 +207,19 @@ fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): Proce
 }
 
 /**
+ * Only store unique values for this argument
+ *
+ * Example:
+ *
+ * ```
+ * val arg: Set<Int> by argument().int().multiple().unique()
+ * ```
+ */
+fun <T : Any> ProcessedArgument<List<T>, T>.unique(): ProcessedArgument<Set<T>, T> {
+    return transformAll(nvalues = -1) { it.toSet() }
+}
+
+/**
  * Require exactly two values to this argument, and store them in a [Pair].
  *
  * This must be called after converting the value type, and before other transforms.

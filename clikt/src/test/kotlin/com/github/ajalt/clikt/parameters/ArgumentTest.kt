@@ -9,15 +9,7 @@ import com.github.ajalt.clikt.core.NoSuchOption
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.arguments.convert
-import com.github.ajalt.clikt.parameters.arguments.default
-import com.github.ajalt.clikt.parameters.arguments.defaultLazy
-import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.arguments.optional
-import com.github.ajalt.clikt.parameters.arguments.pair
-import com.github.ajalt.clikt.parameters.arguments.triple
-import com.github.ajalt.clikt.parameters.arguments.validate
+import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
@@ -158,6 +150,21 @@ class ArgumentTest {
         shouldThrow<UsageError> { C().parse(splitArgv("foo bar baz qux")) }
                 .message shouldBe "Got unexpected extra argument (qux)"
 
+    }
+
+    @Test
+    fun `one argument multiple-unique nvalues=-1`() = forall(
+        row("", emptySet()),
+        row("foo foo", setOf("foo")),
+        row("foo bar", setOf("foo", "bar"))
+    ) { argv, expected ->
+        val command = object : CliktCommand() {
+            val x by argument().multiple().unique()
+            override fun run() {
+                x shouldBe expected
+            }
+        }
+        command.parse(splitArgv(argv))
     }
 
     @Test

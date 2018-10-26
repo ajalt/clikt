@@ -8,6 +8,8 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.Parser
+import java.io.OutputStream
+import java.io.PrintStream
 import kotlin.system.exitProcess
 
 /**
@@ -42,6 +44,16 @@ abstract class CliktCommand(
     internal val _arguments: MutableList<Argument> = mutableListOf()
     internal var _contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
+
+    /**
+     * A [PrintStream] that sends output to the console output stream.
+     */
+    protected val out = printStream { echo(it, trailingNewline = false) }
+
+    /**
+     * A [PrintStream] that sends output to the console error stream.
+     */
+    protected val err = printStream { echo(it, trailingNewline = false, err = true) }
 
     private fun registeredOptionNames() = _options.flatMapTo(HashSet()) { it.names }
 
@@ -144,6 +156,49 @@ abstract class CliktCommand(
     }
 
     /**
+     * Write a line separator to the console output stream.
+     *
+     * For writing to the console error stream, see [err].println()
+     */
+    protected fun println() = out.println()
+
+    /**
+     * Write [message] followed by a line separator to the console output stream.
+     *
+     * For writing to the console error stream, see [err].println([message])
+     *
+     * @param message The message to print.
+     */
+    protected fun println(message: String) = out.println(message)
+
+    /**
+     * Write [message] followed by a line separator to the console output stream.
+     *
+     * For writing to the console error stream, see [err].println([message])
+     *
+     * @param message The message to print.
+     */
+    protected fun println(message: Any?) = out.println(message)
+
+    /**
+     * Write [message] to the console output stream.
+     *
+     * For writing to the console error stream, see [err].print([message])
+     *
+     * @param message The message to print.
+     */
+    protected fun print(message: String) = out.print(message)
+
+    /**
+     * Write [message] to the console output stream stream.
+     *
+     * For writing to the console error stream, see [err].print([message])
+     *
+     * @param message The message to print.
+     */
+    protected fun print(message: Any?) = out.print(message)
+
+    /**
      * Parse the command line and throw an exception if parsing fails.
      *
      * You should use [main] instead unless you want to handle output yourself.
@@ -197,6 +252,13 @@ abstract class CliktCommand(
      */
     abstract fun run()
 }
+
+/** Creates a [PrintStream] delegate that executes [write] when something should be output. */
+internal inline fun printStream(crossinline write: (String) -> Unit): PrintStream = PrintStream(object : OutputStream() {
+    override fun write(b: Int) {
+        write(b.toChar().toString())
+    }
+})
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {

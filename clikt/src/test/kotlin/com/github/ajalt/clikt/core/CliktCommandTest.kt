@@ -105,4 +105,15 @@ class CliktCommandTest {
 
         C().parse(splitArgv(argv))
     }
+
+    @Test
+    fun `printStream properly converts the value through to the write function`() {
+        val output = StringBuilder()
+        val printStream = printStream { output.append(it) }
+
+        val message = "\tThis is a test\r\nEverything came back!"
+        printStream.print(message)
+
+        output.toString() shouldBe message
+    }
 }

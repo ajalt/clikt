@@ -38,11 +38,8 @@ interface CliktConsole {
     val lineSeparator: String
 }
 
-class InteractiveCliktConsole(private val console: Console) : CliktConsole {
-    override fun promptForLine(prompt: String, hideInput: Boolean) = when {
-        hideInput -> console.readPassword(prompt)?.let { String(it) }
-        else -> console.readLine(prompt)
-    }
+abstract class SystemCliktConsole internal constructor(): CliktConsole {
+    override val lineSeparator: String get() = System.lineSeparator()
 
     override fun print(text: String, error: Boolean) {
         if (error) {
@@ -51,27 +48,22 @@ class InteractiveCliktConsole(private val console: Console) : CliktConsole {
             System.out
         }.print(text)
     }
-
-    override val lineSeparator: String get() = System.lineSeparator()
 }
 
-class NonInteractiveCliktConsole : CliktConsole {
+class InteractiveCliktConsole(private val console: Console) : SystemCliktConsole() {
+    override fun promptForLine(prompt: String, hideInput: Boolean) = when {
+        hideInput -> console.readPassword(prompt)?.let { String(it) }
+        else -> console.readLine(prompt)
+    }
+}
+
+class NonInteractiveCliktConsole : SystemCliktConsole() {
     override fun promptForLine(prompt: String, hideInput: Boolean) = try {
         print(prompt, false)
         System.`in`.bufferedReader().readLine()
     } catch (err: IOException) {
         null
     }
-
-    override fun print(text: String, error: Boolean) {
-        if (error) {
-            System.err
-        } else {
-            System.out
-        }.print(text)
-    }
-
-    override val lineSeparator: String get() = System.lineSeparator()
 }
 
 fun defaultCliktConsole(): CliktConsole {

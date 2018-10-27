@@ -169,28 +169,10 @@ abstract class CliktCommand(
      *
      * @param message The message to print.
      */
-    protected fun println(message: String) = out.println(message)
-
-    /**
-     * Write [message] followed by a line separator to the console output stream.
-     *
-     * For writing to the console error stream, see [err].println([message])
-     *
-     * @param message The message to print.
-     */
     protected fun println(message: Any?) = out.println(message)
 
     /**
      * Write [message] to the console output stream.
-     *
-     * For writing to the console error stream, see [err].print([message])
-     *
-     * @param message The message to print.
-     */
-    protected fun print(message: String) = out.print(message)
-
-    /**
-     * Write [message] to the console output stream stream.
      *
      * For writing to the console error stream, see [err].print([message])
      *

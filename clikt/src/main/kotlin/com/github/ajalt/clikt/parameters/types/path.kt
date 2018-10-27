@@ -60,8 +60,8 @@ fun RawArgument.path(
  * Convert the option to a [Path].
  *
  * @param exists If true, fail if the given path does not exist
- * @param fileOkay If false, fail if the given path is a file
- * @param folderOkay If false, fail if the given path is not a directory
+ * @param fileOkay If true, fail if the given path is a file
+ * @param folderOkay If true, fail if the given path is not a directory
  * @param writable If true, fail if the given path is not writable
  * @param readable If true, fail if the given path is not readable
  * @param fileSystem If specified, the [FileSystem] with which to resolve paths.

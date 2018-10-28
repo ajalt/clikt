@@ -4,7 +4,7 @@
 </h1>
 
 Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
-command line interfaces simple and intuitive. It the "Command Line
+command line interfaces simple and intuitive. It's the "Command Line
 Interface for Kotlin".
 
 Inspired by Python's [Click](https://github.com/pallets/click), it is

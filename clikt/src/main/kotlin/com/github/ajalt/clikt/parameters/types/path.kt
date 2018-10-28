@@ -41,7 +41,7 @@ private fun convertToPath(path: String,
  *
  * @param exists If true, fail if the given path does not exist
  * @param fileOkay If false, fail if the given path is a file
- * @param folderOkay If false, fail if the given path is not a directory
+ * @param folderOkay If false, fail if the given path is a directory
  * @param writable If true, fail if the given path is not writable
  * @param readable If true, fail if the given path is not readable
  * @param fileSystem If specified, the [FileSystem] with which to resolve paths.
@@ -61,7 +61,7 @@ fun RawArgument.path(
  *
  * @param exists If true, fail if the given path does not exist
  * @param fileOkay If false, fail if the given path is a file
- * @param folderOkay If false, fail if the given path is not a directory
+ * @param folderOkay If false, fail if the given path is a directory
  * @param writable If true, fail if the given path is not writable
  * @param readable If true, fail if the given path is not readable
  * @param fileSystem If specified, the [FileSystem] with which to resolve paths.

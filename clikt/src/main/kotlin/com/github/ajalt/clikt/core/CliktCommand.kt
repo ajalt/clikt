@@ -46,14 +46,14 @@ abstract class CliktCommand(
     private var _context: Context? = null
 
     /**
-     * A [PrintStream] that sends output to the console output stream.
+     * A [ConsoleStream] that sends output to the console output stream.
      */
-    protected val out = printStream { echo(it, trailingNewline = false) }
+    protected val out = ConsoleStream.Output(this)
 
     /**
-     * A [PrintStream] that sends output to the console error stream.
+     * A [ConsoleStream] that sends output to the console error stream.
      */
-    protected val err = printStream { echo(it, trailingNewline = false, err = true) }
+    protected val err = ConsoleStream.Error(this)
 
     private fun registeredOptionNames() = _options.flatMapTo(HashSet()) { it.names }
 
@@ -233,14 +233,34 @@ abstract class CliktCommand(
      * parsed.
      */
     abstract fun run()
-}
 
-/** Creates a [PrintStream] delegate that executes [write] when something should be output. */
-internal inline fun printStream(crossinline write: (String) -> Unit): PrintStream = PrintStream(object : OutputStream() {
-    override fun write(b: Int) {
-        write(b.toChar().toString())
+    /**
+     * Specialized stream that delegates to [CliktCommand.echo] for console output.
+     */
+    sealed class ConsoleStream(private val command: CliktCommand, private val isError: Boolean){
+        /**
+         * Write a line separator to the console.
+         */
+        fun println() = println("") // use "" so [null] is not printed
+
+        /**
+         * Write [message] followed by a line separator to the console.
+         */
+        fun println(message: Any?) {
+            command.echo(message, trailingNewline = true, err = isError)
+        }
+
+        /**
+         * Write [message] to the console.
+         */
+        fun print(message: Any?) {
+            command.echo(message, trailingNewline = false, err = isError)
+        }
+
+        class Output(command: CliktCommand) : ConsoleStream(command, isError = false)
+        class Error(command: CliktCommand) : ConsoleStream(command, isError = true)
     }
-})
+}
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {

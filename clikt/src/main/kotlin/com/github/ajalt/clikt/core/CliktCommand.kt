@@ -8,8 +8,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.Parser
-import java.io.OutputStream
-import java.io.PrintStream
 import kotlin.system.exitProcess
 
 /**

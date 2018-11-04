@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- `.multiple().unique()` modifier for options and arguments.
 
 ## [1.5.0] - 2018-08-26
 ### Added

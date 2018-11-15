@@ -102,7 +102,7 @@ class Context(val parent: Context?,
          *
          * The default uses [System.in] and [System.out].
          */
-        var console: CliktConsole = defaultCliktConsole()
+        var console: CliktConsole = parent?.console ?: defaultCliktConsole()
     }
 
     companion object {

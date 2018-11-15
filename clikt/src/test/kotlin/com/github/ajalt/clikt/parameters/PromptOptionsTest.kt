@@ -43,16 +43,18 @@ class PromptOptionsTest {
 
     @Test
     fun `prompt option`() {
-        stdin.provideLines("bar")
+        stdin.provideLines("foo", "bar")
 
         class C : CliktCommand() {
             val foo by option().prompt()
+            val bar by option().prompt()
             override fun run() {
-                foo shouldBe "bar"
+                foo shouldBe "foo"
+                bar shouldBe "bar"
             }
         }
         C().parse(emptyArray())
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: "
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
     }
 
     @Test

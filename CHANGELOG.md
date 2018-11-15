@@ -4,6 +4,9 @@
 ### Added
 - `.multiple().unique()` modifier for options and arguments.
 
+### Fixed
+- Support multi-line input when redirecting stdin
+
 ## [1.5.0] - 2018-08-26
 ### Added
 - Ability to use alternate output streams rather than stdin and stdout by setting `Context.console` or by passing a console to `TermUI` functions.

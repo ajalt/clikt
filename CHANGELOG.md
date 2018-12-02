@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [1.6.0] - 2018-12-02
 ### Added
 - `.multiple().unique()` modifier for options and arguments.
 
@@ -31,7 +33,7 @@
 
 ## [1.2.0] - 2018-05-07
 ### Added
-- Default parameter to option().default()
+- Default parameter to `option().default()`
 
 ### Changed
 - Treat tokens with unknown prefixes as arguments (this makes it easier

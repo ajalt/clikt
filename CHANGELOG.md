@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Arguments with `multiple(required=true)` now report an error if no argument is given on the command line.
 
 ## [1.6.0] - 2018-12-02
 ### Added

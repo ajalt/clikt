@@ -1,14 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.IncorrectArgumentValueCount
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.NoRunCliktCommand
-import com.github.ajalt.clikt.core.NoSuchOption
-import com.github.ajalt.clikt.core.PrintHelpMessage
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
@@ -154,9 +146,9 @@ class ArgumentTest {
 
     @Test
     fun `one argument multiple-unique nvalues=-1`() = forall(
-        row("", emptySet()),
-        row("foo foo", setOf("foo")),
-        row("foo bar", setOf("foo", "bar"))
+            row("", emptySet()),
+            row("foo foo", setOf("foo")),
+            row("foo bar", setOf("foo", "bar"))
     ) { argv, expected ->
         val command = object : CliktCommand() {
             val x by argument().multiple().unique()
@@ -170,6 +162,7 @@ class ArgumentTest {
     @Test
     fun `one argument nvalues=-1`() = forall(
             row("", emptyList()),
+            row("foo", listOf("foo")),
             row("foo bar", listOf("foo", "bar")),
             row("foo bar baz", listOf("foo", "bar", "baz"))
     ) { argv, expected ->
@@ -181,6 +174,31 @@ class ArgumentTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `one required argument nvalues=-1`() = forall(
+            row("foo", listOf("foo")),
+            row("foo bar", listOf("foo", "bar")),
+            row("foo bar baz", listOf("foo", "bar", "baz"))
+    ) { argv, expected ->
+        class C : CliktCommand() {
+            val x by argument().multiple(required = true)
+            override fun run() {
+                x shouldBe expected
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `one required argument nvalues=-1, empty argv`() {
+        class C : NoRunCliktCommand() {
+            val x by argument().multiple(required = true)
+        }
+
+        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
     }
 
     @Test

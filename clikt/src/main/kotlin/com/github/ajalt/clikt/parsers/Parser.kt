@@ -149,7 +149,7 @@ internal object Parser {
         for (argument in arguments) {
             val remaining = positionalArgs.size - i
             val consumed = when {
-                argument.nvalues <= 0 -> maxOf(0, remaining - endSize)
+                argument.nvalues <= 0 -> maxOf(if (argument.required) 1 else 0, remaining - endSize)
                 argument.nvalues > 0 && !argument.required && remaining == 0 -> 0
                 else -> argument.nvalues
             }

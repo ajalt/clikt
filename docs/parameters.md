@@ -7,8 +7,8 @@ and arguments are frequently required.
 
 ## Differences
 
-Arguments have the advantage of being able to accepts a variable number
-of values, while Options are limited to a fixed number values. Other
+Arguments have the advantage of being able to accept a variable number
+of values, while Options are limited to a fixed number of values. Other
 than that restriction, options have more capabilities than arguments.
 
 Options can:

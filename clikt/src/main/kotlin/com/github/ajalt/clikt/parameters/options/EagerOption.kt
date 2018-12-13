@@ -38,7 +38,7 @@ internal fun helpOption(names: Set<String>, message: String) = EagerOption(names
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(
         version: String,
-        help: String = "Show the version and exit.",
+        help: String = "Show the version and exit",
         names: Set<String> = setOf("--version"),
         crossinline message: (String) -> String = { "$commandName version $it" }): T = apply {
     registerOption(EagerOption(names, 0, help, false) { throw PrintMessage(message(version)) })

@@ -29,10 +29,26 @@ class GenerateCompletionOption(
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
         val invocation = invocations.firstOrNull()?: return
-        val shell = invocation.values.first()
+        val shell = resolveShell(invocation.values.first())
         val generator = CompletionGenerators.getCompletionGenerator(shell)
-            ?: throw BadParameterValue("Unsupported shell: $shell", this)
+            ?: throw BadParameterValue("Unsupported shell \"$shell\"", this)
         throw PrintMessage(generator.generateCompletion(context.findRoot().command))
+    }
+
+    private fun resolveShell(value: String): String =
+        when (value) {
+            "auto" -> guessShell()
+            else -> value
+        }
+
+    private fun guessShell(): String {
+        val envVar = System.getenv("SHELL")
+            .orEmpty()
+            .substringAfterLast('/')
+        if (envVar.isBlank()) {
+            throw BadParameterValue("Cannot guess shell: env var SHELL is undefined")
+        }
+        return envVar
     }
 }
 

@@ -293,7 +293,7 @@ class PlaintextHelpFormatterTest {
                 |  --foo INT         foo option help
                 |  -b, --bar META    bar option help
                 |  --baz / --no-baz  baz option help
-                |  --version         Show the version and exit.
+                |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit
                 |
                 |Commands:

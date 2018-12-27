@@ -1,7 +1,10 @@
 package com.github.ajalt.clikt.parameters.options
 
+import com.github.ajalt.clikt.completion.CompletionGenerators
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.parsers.OptionParser
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 
@@ -25,7 +28,11 @@ class GenerateCompletionOption(
         get() = "SHELL"
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        TODO("Not implemented")
+        val invocation = invocations.firstOrNull()?: return
+        val shell = invocation.values.first()
+        val generator = CompletionGenerators.getCompletionGenerator(shell)
+            ?: throw BadParameterValue("Unsupported shell: $shell", this)
+        throw PrintMessage(generator.generateCompletion(context.findRoot().command))
     }
 }
 

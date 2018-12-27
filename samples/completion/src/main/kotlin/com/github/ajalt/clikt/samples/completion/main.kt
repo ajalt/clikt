@@ -1,11 +1,16 @@
 package com.github.ajalt.clikt.samples.completion
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.generateCompletionOption
+import com.github.ajalt.clikt.parameters.options.versionOption
 
 class CompletionDemo : CliktCommand(
     name = "completion-demo"
 ) {
-    // TODO: Add generate completion option
+    init {
+        versionOption("1.2.3")
+        generateCompletionOption()
+    }
 
     override fun run() {
         echo("This command only demonstrates the generation of programmable auto completion commands")

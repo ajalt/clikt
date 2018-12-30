@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
@@ -88,6 +89,47 @@ class PromptOptionsTest {
             }
         }
         C().parse(emptyArray())
+        console.prompts should containExactly("Foo: ")
+        console.prints should beEmpty()
+        stdout.logWithNormalizedLineSeparator shouldBe ""
+    }
+
+    @Test
+    fun `custom console inherited by subcommand`() {
+        val console = object : CliktConsole {
+            val prompts = mutableListOf<String>()
+            val prints = mutableListOf<String>()
+
+            override fun promptForLine(prompt: String, hideInput: Boolean): String? {
+                prompts += prompt
+                return "bar"
+            }
+
+            override fun print(text: String, error: Boolean) {
+                prints += text
+            }
+
+            override val lineSeparator: String get() = "\n"
+        }
+
+        class C : CliktCommand() {
+            init {
+                context {
+                    this.console = console
+                }
+            }
+
+            override fun run() {}
+        }
+
+        class S : CliktCommand() {
+            val foo by option().prompt()
+            override fun run() {
+                foo shouldBe "bar"
+            }
+        }
+
+        C().subcommands(S()).parse(listOf("s"))
         console.prompts should containExactly("Foo: ")
         console.prints should beEmpty()
         stdout.logWithNormalizedLineSeparator shouldBe ""

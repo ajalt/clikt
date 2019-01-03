@@ -180,7 +180,7 @@ abstract class CliktCommand(
             exitProcess(1)
         } catch (e: Abort) {
             echo("Aborted!", err = true)
-            exitProcess(1)
+            exitProcess(if (e.error) 1 else 0)
         }
     }
 

@@ -49,17 +49,18 @@ open class UsageError private constructor(
         val text: String? = null,
         var paramName: String? = null,
         var option: Option? = null,
-        var argument: Argument? = null) : CliktError() {
-    constructor(text: String, paramName: String? = null)
-            : this(text, paramName, null, null)
+        var argument: Argument? = null,
+        var context: Context? = null) : CliktError() {
+    constructor(text: String, paramName: String? = null, context: Context? = null)
+            : this(text, paramName, null, null, context)
 
-    constructor(text: String, argument: Argument)
-            : this(text, null, null, argument)
+    constructor(text: String, argument: Argument, context: Context? = null)
+            : this(text, null, null, argument, context)
 
-    constructor(text: String, option: Option)
-            : this(text, null, option, null)
+    constructor(text: String, option: Option, context: Context? = null)
+            : this(text, null, option, null, context)
 
-    fun helpMessage(context: Context? = null): String = buildString {
+    fun helpMessage(): String = buildString {
         context?.let { append(it.command.getFormattedUsage()).append("\n\n") }
         append("Error: ").append(formatMessage())
     }
@@ -80,10 +81,10 @@ open class UsageError private constructor(
  * A parameter was given the correct number of values, but of invalid format or type.
  */
 open class BadParameterValue : UsageError {
-    constructor(text: String) : super(text)
-    constructor(text: String, paramName: String) : super(text, paramName)
-    constructor(text: String, argument: Argument) : super(text, argument)
-    constructor(text: String, option: Option) : super(text, option)
+    constructor(text: String, context: Context? = null) : super(text, null, context)
+    constructor(text: String, paramName: String, context: Context? = null) : super(text, paramName, context)
+    constructor(text: String, argument: Argument, context: Context? = null) : super(text, argument, context)
+    constructor(text: String, option: Option, context: Context? = null) : super(text, option, context)
 
     override fun formatMessage(): String {
         if (inferParamName().isEmpty()) return "Invalid value: $text"
@@ -93,20 +94,11 @@ open class BadParameterValue : UsageError {
 
 /** A required parameter was not provided */
 open class MissingParameter : UsageError {
-    /**
-     * @param paramName The name of the parameter that caused the error
-     * @param text Extra text to display in the message
-     * @param paramType A string indicating the type of parameter.
-     */
-    constructor(paramName: String, paramType: String = "parameter") : super("", paramName) {
-        this.paramType = paramType
-    }
-
-    constructor(argument: Argument) : super("", argument) {
+    constructor(argument: Argument, context: Context? = null) : super("", argument, context) {
         this.paramType = "argument"
     }
 
-    constructor(option: Option) : super("", option) {
+    constructor(option: Option, context: Context? = null) : super("", option, context) {
         this.paramType = "option"
     }
 
@@ -118,8 +110,11 @@ open class MissingParameter : UsageError {
 }
 
 /** An option was provided that does not exist. */
-open class NoSuchOption(protected val givenName: String,
-                        protected val possibilities: List<String> = emptyList()) : UsageError("") {
+open class NoSuchOption(
+        protected val givenName: String,
+        protected val possibilities: List<String> = emptyList(),
+        context: Context? = null
+) : UsageError("", context = context) {
     override fun formatMessage(): String {
         return "no such option: \"$givenName\"." + when {
             possibilities.size == 1 -> " Did you mean \"${possibilities[0]}\"?"
@@ -131,8 +126,11 @@ open class NoSuchOption(protected val givenName: String,
 }
 
 /** An option was supplied but the number of values supplied to the option was incorrect. */
-open class IncorrectOptionValueCount(option: Option,
-                                     private val givenName: String) : UsageError("", option) {
+open class IncorrectOptionValueCount(
+        option: Option,
+        private val givenName: String,
+        context: Context? = null
+) : UsageError("", option, context) {
     override fun formatMessage(): String {
         return when (option!!.nvalues) {
             0 -> "$givenName option does not take a value"
@@ -143,7 +141,10 @@ open class IncorrectOptionValueCount(option: Option,
 }
 
 /** An argument was supplied but the number of values supplied was incorrect. */
-open class IncorrectArgumentValueCount(argument: Argument) : UsageError("", argument) {
+open class IncorrectArgumentValueCount(
+        argument: Argument,
+        context: Context? = null
+) : UsageError("", argument, context) {
     override fun formatMessage(): String {
         return "argument ${inferParamName()} takes ${argument!!.nvalues} values"
     }

@@ -100,7 +100,7 @@ object TermUi {
                 val result = try {
                     convert.invoke(value)
                 } catch (err: UsageError) {
-                    echo(err.helpMessage(null), console=console)
+                    echo(err.helpMessage(), console=console)
                     continue
                 }
 

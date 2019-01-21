@@ -1,6 +1,12 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.IncorrectArgumentValueCount
+import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.NoSuchOption
+import com.github.ajalt.clikt.core.PrintHelpMessage
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
@@ -80,31 +86,44 @@ internal object Parser {
 
         val invocationsByOption = invocations.groupBy({ it.first }, { it.second })
 
-        invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
-        invocationsByOption.forEach { (o, inv) -> if (o !is EagerOption) o.finalize(context, inv) }
+        try {
+            // Finalize eager options
+            invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
 
-        // Finalize the options with values so that they can apply default values etc.
-        for (o in command._options) {
-            if (o !is EagerOption && o !in invocationsByOption) o.finalize(context, emptyList())
+            // Finalize remaining options that occurred on the command line
+            invocationsByOption.forEach { (o, inv) -> if (o !is EagerOption) o.finalize(context, inv) }
+
+            // Finalize options not provided on the command line so that they can apply default values etc.
+            command._options.forEach { o ->
+                if (o !is EagerOption && o !in invocationsByOption) o.finalize(context, emptyList())
+            }
+
+            parseArguments(positionalArgs, arguments).forEach { (it, v) -> it.finalize(context, v) }
+
+            if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
+                throw PrintHelpMessage(command)
+            }
+
+            command.context.invokedSubcommand = subcommand
+            command.run()
+        } catch (e: UsageError) {
+            // Augment usage errors with the current context if they don't have one
+            if (e.context == null) e.context = context
+            throw e
         }
-
-        parseArguments(positionalArgs, arguments).forEach { (it, v) -> it.finalize(context, v) }
-
-        if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
-            throw PrintHelpMessage(command)
-        }
-
-        command.context.invokedSubcommand = subcommand
-        command.run()
 
         if (subcommand != null) {
             parse(args, subcommand.context, i + 1)
         }
     }
 
-    private fun parseLongOpt(context: Context, argv: List<String>, arg: String,
-                             index: Int,
-                             optionsByName: Map<String, Option>): Pair<Option, ParseResult> {
+    private fun parseLongOpt(
+            context: Context,
+            argv: List<String>,
+            arg: String,
+            index: Int,
+            optionsByName: Map<String, Option>
+    ): Pair<Option, ParseResult> {
         val equalsIndex = arg.indexOf('=')
         var (name, value) = if (equalsIndex >= 0) {
             arg.substring(0, equalsIndex) to arg.substring(equalsIndex + 1)
@@ -118,9 +137,13 @@ internal object Parser {
         return option to result
     }
 
-    private fun parseShortOpt(context: Context, argv: List<String>, arg: String,
-                              index: Int,
-                              optionsByName: Map<String, Option>): Pair<Int, List<Pair<Option, Invocation>>> {
+    private fun parseShortOpt(
+            context: Context,
+            argv: List<String>,
+            arg: String,
+            index: Int,
+            optionsByName: Map<String, Option>
+    ): Pair<Int, List<Pair<Option, Invocation>>> {
         val prefix = arg[0].toString()
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         for ((i, opt) in arg.withIndex()) {
@@ -136,7 +159,10 @@ internal object Parser {
                 "Error parsing short option ${argv[index]}: no parser consumed value.")
     }
 
-    private fun parseArguments(positionalArgs: List<String>, arguments: List<Argument>): Map<Argument, List<String>> {
+    private fun parseArguments(
+            positionalArgs: List<String>,
+            arguments: List<Argument>
+    ): Map<Argument, List<String>> {
         val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided

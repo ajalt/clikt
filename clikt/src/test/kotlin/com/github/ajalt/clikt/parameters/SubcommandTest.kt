@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -11,6 +13,7 @@ import com.github.ajalt.clikt.testing.splitArgv
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
 import org.junit.Test
 
@@ -237,5 +240,38 @@ class SubcommandTest {
 
         C().subcommands(Sub())
                 .parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `command usage`() {
+        class Parent : NoRunCliktCommand() {
+            val arg by argument()
+        }
+
+        shouldThrow<UsageError> {
+            Parent().parse(splitArgv(""))
+        }.helpMessage() shouldBe """
+            |Usage: parent [OPTIONS] ARG
+            |
+            |Error: Missing argument "ARG".
+            """.trimMargin()
+    }
+
+    @Test
+    fun `subcommand usage`() {
+        class Parent : NoRunCliktCommand()
+        class Child : NoRunCliktCommand()
+        class Grandchild : NoRunCliktCommand() {
+            val arg by argument()
+        }
+
+        shouldThrow<UsageError> {
+            Parent().subcommands(Child().subcommands(Grandchild()))
+                    .parse(splitArgv("child grandchild"))
+        }.helpMessage() shouldBe """
+            |Usage: parent child grandchild [OPTIONS] ARG
+            |
+            |Error: Missing argument "ARG".
+            """.trimMargin()
     }
 }

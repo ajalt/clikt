@@ -61,6 +61,13 @@ abstract class CliktCommand(
             _arguments.mapNotNull { it.parameterHelp } +
             _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp()) }
 
+    private fun getCommandNameWithParents(): String {
+        if (_context == null) createContext()
+        return generateSequence(context) { it.parent }.toList()
+                .asReversed()
+                .joinToString(" ") { it.command.commandName }
+    }
+
     /**
      * This command's context.
      *
@@ -108,15 +115,15 @@ abstract class CliktCommand(
 
     /** Return the usage string for this command. */
     open fun getFormattedUsage(): String {
-        if (_context == null) createContext()
-        return context.helpFormatter.formatUsage(allHelpParams(), programName = commandName)
+        val programName = getCommandNameWithParents()
+        return context.helpFormatter.formatUsage(allHelpParams(), programName = programName)
     }
 
     /** Return the full help string for this command. */
     open fun getFormattedHelp(): String {
-        if (_context == null) createContext()
+        val programName = getCommandNameWithParents()
         return context.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
-                allHelpParams(), programName = commandName)
+                allHelpParams(), programName = programName)
     }
 
     /**
@@ -173,7 +180,7 @@ abstract class CliktCommand(
             echo(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-            echo(e.helpMessage(context), err = true)
+            echo(e.helpMessage(), err = true)
             exitProcess(1)
         } catch (e: CliktError) {
             echo(e.message, err = true)

@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- `printHelpOnEmptyArgs` parameter to `CliktCommand` constructor. ([#41](https://github.com/ajalt/clikt/issues/41))
+
 ### Fixed
 - Usage errors now correctly print subcommand names. ([#47](https://github.com/ajalt/clikt/issues/47))
 - Arguments with `multiple(required=true)` now report an error if no argument is given on the command line. ([#36](https://github.com/ajalt/clikt/issues/36))

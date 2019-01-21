@@ -38,6 +38,10 @@ internal object Parser {
         }
         prefixes.remove("")
 
+        if (startingArgI > args.lastIndex && command.printHelpOnEmptyArgs) {
+            throw PrintHelpMessage(command)
+        }
+
         val positionalArgs = ArrayList<String>()
         var i = startingArgI
         var subcommand: CliktCommand? = null

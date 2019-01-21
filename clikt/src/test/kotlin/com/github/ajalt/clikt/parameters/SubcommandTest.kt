@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.splitArgv
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
@@ -19,7 +20,7 @@ import org.junit.Test
 
 class SubcommandTest {
     @Test
-    fun `subcommand`() = forall(
+    fun subcommand() = forall(
             row("--xx 2 sub --xx 3 --yy 4"),
             row("--xx 2 sub -x 3 --yy 4"),
             row("--xx 2 sub -x3 --yy 4"),
@@ -243,25 +244,10 @@ class SubcommandTest {
     }
 
     @Test
-    fun `command usage`() {
-        class Parent : NoRunCliktCommand() {
-            val arg by argument()
-        }
-
-        shouldThrow<UsageError> {
-            Parent().parse(splitArgv(""))
-        }.helpMessage() shouldBe """
-            |Usage: parent [OPTIONS] ARG
-            |
-            |Error: Missing argument "ARG".
-            """.trimMargin()
-    }
-
-    @Test
     fun `subcommand usage`() {
         class Parent : NoRunCliktCommand()
         class Child : NoRunCliktCommand()
-        class Grandchild : NoRunCliktCommand() {
+        class Grandchild : NeverCalledCliktCommand() {
             val arg by argument()
         }
 

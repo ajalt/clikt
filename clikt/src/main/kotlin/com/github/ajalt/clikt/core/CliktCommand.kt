@@ -27,13 +27,16 @@ import kotlin.system.exitProcess
  *   name.
  * @param invokeWithoutSubcommand Used when this command has subcommands, and this command is called
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
+ * @param printHelpOnEmptyArgs If this command is called with no values on the command line, print a
+ *   help message (by throwing [PrintHelpMessage]) if this is true, otherwise run normally.
  */
 @Suppress("PropertyName")
 abstract class CliktCommand(
         help: String = "",
         epilog: String = "",
         name: String? = null,
-        val invokeWithoutSubcommand: Boolean = false) {
+        val invokeWithoutSubcommand: Boolean = false,
+        val printHelpOnEmptyArgs: Boolean = false) {
     val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog

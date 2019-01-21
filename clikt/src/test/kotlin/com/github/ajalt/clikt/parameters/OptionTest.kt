@@ -21,7 +21,7 @@ import org.junit.Test
 @Suppress("unused")
 class OptionTest {
     @Test
-    fun `inferEnvvar`() = forall(
+    fun inferEnvvar() = forall(
             row(setOf("--foo"), null, null, null),
             row(setOf("--bar"), null, "FOO", "FOO_BAR"),
             row(setOf("/bar"), null, "FOO", "FOO_BAR"),

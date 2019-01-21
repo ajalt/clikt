@@ -6,9 +6,9 @@ an `init` block, or on an existing instance.
 
 ## Executing Nested Commands
 
-For commands with no children, [`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is called whenever the
-command line is parsed (unless parsing is aborted from an error or an
-option like `--help`).
+For commands with no children,
+[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is called whenever the
+command line is parsed (unless parsing is aborted from an error or an option like `--help`).
 
 If a command has children, this isn't the case. Instead, its `run` is
 called only if a child command is invoked, just before the subcommand's
@@ -262,13 +262,41 @@ and
 class Cli : NoRunCliktCommand()
 fun main(args: Array<String>) = Cli()
     .context { helpOptionMessage = "print the help" }
-    .main(splitArgv(""))
+    .main(args)
 ```
 
 Any they work like:
 
 ```
 $ ./cli --help
+Usage: cli [OPTIONS]
+
+Options:
+  -h, --help  print the help
+```
+
+## Printing the help message when no arguments are given
+
+Normally, if a command is called with no values on the command line, a usage error is printed if
+there are required parameters, or
+[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html) is called if there aren't
+any.
+
+You can change this behavior by passing `printHelpOnEmptyArgs = true` to your's command's
+constructor. This will cause a help message to be printed when to values are provided on the command
+line, regardless of the parameters in your command.
+
+```kotlin
+class Cli : CliktCommand() {
+    override fun run() { echo("Command ran") }
+}
+fun main(args: Array<String>) = Cli().main(args)
+```
+
+Which will print the help message, even without `--help`:
+
+```
+$ ./cli
 Usage: cli [OPTIONS]
 
 Options:

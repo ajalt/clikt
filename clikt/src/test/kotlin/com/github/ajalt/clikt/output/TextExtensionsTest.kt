@@ -7,7 +7,7 @@ import org.junit.Test
 
 class TextExtensionsTest {
     @Test
-    fun `wrapText`() = forall(
+    fun wrapText() = forall(
             row("abc".wrapText(), "abc"),
             row("abc\n".wrapText(), "abc"),
             row("abc\n".wrapText(width = 2), "abc"),
@@ -28,7 +28,7 @@ class TextExtensionsTest {
     }
 
     @Test
-    fun `appendRepeat`() = forall(
+    fun appendRepeat() = forall(
             row("a", 0, ""),
             row("a", 1, "a"),
             row("a", 2, "aa"),

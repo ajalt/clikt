@@ -22,20 +22,23 @@ import kotlin.reflect.KProperty
  *   options, the conflicting name will not be used for the help option. If the set is empty, or contains no
  *   unique names, no help option will be added.
  * @property helpOptionMessage The description of the help option.
- * @property helpFormatter The help formatter for this command
+ * @property helpFormatter The help formatter for this command.
  * @property tokenTransformer An optional transformation function that is called to transform command line
  *   tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive
  *   behavior.
+ * @property console The console to use to print messages.
  */
-class Context(val parent: Context?,
-              val command: CliktCommand,
-              val allowInterspersedArgs: Boolean,
-              val autoEnvvarPrefix: String?,
-              val helpOptionNames: Set<String>,
-              val helpOptionMessage: String,
-              val helpFormatter: HelpFormatter,
-              val tokenTransformer: Context.(String) -> String,
-              val console: CliktConsole) {
+class Context(
+        val parent: Context?,
+        val command: CliktCommand,
+        val allowInterspersedArgs: Boolean,
+        val autoEnvvarPrefix: String?,
+        val helpOptionNames: Set<String>,
+        val helpOptionMessage: String,
+        val helpFormatter: HelpFormatter,
+        val tokenTransformer: Context.(String) -> String,
+        val console: CliktConsole
+) {
     var invokedSubcommand: CliktCommand? = null
         internal set
     var obj: Any? = null
@@ -85,7 +88,7 @@ class Context(val parent: Context?,
         var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
         /** The help formatter for this command*/
         var helpFormatter: HelpFormatter = parent?.helpFormatter ?: PlaintextHelpFormatter()
-        /** An optional transformation function that is called to transform command line*/
+        /** An optional transformation function that is called to transform command line */
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
         /**
          * The prefix to add to inferred envvar names.
@@ -100,7 +103,7 @@ class Context(val parent: Context?,
         /**
          * The console that will handle reading and writing text.
          *
-         * The default uses [System.in] and [System.out].
+         * The default uses [System. in] and [System.out].
          */
         var console: CliktConsole = parent?.console ?: defaultCliktConsole()
     }

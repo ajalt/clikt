@@ -8,6 +8,9 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.Parser
+import java.util.*
+import java.util.Collections.emptyList
+import java.util.Collections.emptyMap
 import kotlin.system.exitProcess
 
 /**
@@ -27,13 +30,16 @@ import kotlin.system.exitProcess
  *   name.
  * @param invokeWithoutSubcommand Used when this command has subcommands, and this command is called
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
+ * @param printHelpOnEmptyArgs If this command is called with no values on the command line, print a
+ *   help message (by throwing [PrintHelpMessage]) if this is true, otherwise run normally.
  */
 @Suppress("PropertyName")
 abstract class CliktCommand(
         help: String = "",
         epilog: String = "",
         name: String? = null,
-        val invokeWithoutSubcommand: Boolean = false) {
+        val invokeWithoutSubcommand: Boolean = false,
+        val printHelpOnEmptyArgs: Boolean = false) {
     val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog
@@ -60,6 +66,13 @@ abstract class CliktCommand(
     private fun allHelpParams() = _options.mapNotNull { it.parameterHelp } +
             _arguments.mapNotNull { it.parameterHelp } +
             _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp()) }
+
+    private fun getCommandNameWithParents(): String {
+        if (_context == null) createContext()
+        return generateSequence(context) { it.parent }.toList()
+                .asReversed()
+                .joinToString(" ") { it.command.commandName }
+    }
 
     /**
      * This command's context.
@@ -108,15 +121,15 @@ abstract class CliktCommand(
 
     /** Return the usage string for this command. */
     open fun getFormattedUsage(): String {
-        if (_context == null) createContext()
-        return context.helpFormatter.formatUsage(allHelpParams(), programName = commandName)
+        val programName = getCommandNameWithParents()
+        return context.helpFormatter.formatUsage(allHelpParams(), programName = programName)
     }
 
     /** Return the full help string for this command. */
     open fun getFormattedHelp(): String {
-        if (_context == null) createContext()
+        val programName = getCommandNameWithParents()
         return context.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
-                allHelpParams(), programName = commandName)
+                allHelpParams(), programName = programName)
     }
 
     /**
@@ -173,14 +186,14 @@ abstract class CliktCommand(
             echo(e.message)
             exitProcess(0)
         } catch (e: UsageError) {
-            echo(e.helpMessage(context), err = true)
+            echo(e.helpMessage(), err = true)
             exitProcess(1)
         } catch (e: CliktError) {
             echo(e.message, err = true)
             exitProcess(1)
         } catch (e: Abort) {
             echo("Aborted!", err = true)
-            exitProcess(1)
+            exitProcess(if (e.error) 1 else 0)
         }
     }
 

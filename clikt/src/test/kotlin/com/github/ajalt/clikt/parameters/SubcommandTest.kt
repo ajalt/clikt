@@ -1,22 +1,26 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.splitArgv
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
 import org.junit.Test
 
 class SubcommandTest {
     @Test
-    fun `subcommand`() = forall(
+    fun subcommand() = forall(
             row("--xx 2 sub --xx 3 --yy 4"),
             row("--xx 2 sub -x 3 --yy 4"),
             row("--xx 2 sub -x3 --yy 4"),
@@ -237,5 +241,23 @@ class SubcommandTest {
 
         C().subcommands(Sub())
                 .parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `subcommand usage`() {
+        class Parent : NoRunCliktCommand()
+        class Child : NoRunCliktCommand()
+        class Grandchild : NeverCalledCliktCommand() {
+            val arg by argument()
+        }
+
+        shouldThrow<UsageError> {
+            Parent().subcommands(Child().subcommands(Grandchild()))
+                    .parse(splitArgv("child grandchild"))
+        }.helpMessage() shouldBe """
+            |Usage: parent child grandchild [OPTIONS] ARG
+            |
+            |Error: Missing argument "ARG".
+            """.trimMargin()
     }
 }

@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.splitArgv
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
@@ -77,8 +78,15 @@ class CliktCommandTest {
         }
     }
 
+
     @Test
-    fun `aliases`() = forall(
+    fun `printHelpOnEmptyArgs = true`() {
+        class C : NeverCalledCliktCommand(printHelpOnEmptyArgs = true)
+        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("")) }
+    }
+
+    @Test
+    fun aliases() = forall(
             row("-xx", "x", emptyList()),
             row("a", "a", listOf("b")),
             row("a", "a", listOf("b")),
@@ -104,5 +112,20 @@ class CliktCommandTest {
         }
 
         C().parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `command usage`() {
+        class Parent : NeverCalledCliktCommand() {
+            val arg by argument()
+        }
+
+        shouldThrow<UsageError> {
+            Parent().parse(splitArgv(""))
+        }.helpMessage() shouldBe """
+            |Usage: parent [OPTIONS] ARG
+            |
+            |Error: Missing argument "ARG".
+            """.trimMargin()
     }
 }

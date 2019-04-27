@@ -9,6 +9,7 @@ object CompletionGenerators {
     fun getCompletionGenerator(shell: String): CompletionGenerator? =
         when (shell) {
             "bash" -> BashCompletionGenerator
+            "zsh" -> ZshCompletionGenerator
             else -> null
         }
 }

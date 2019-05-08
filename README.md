@@ -8,7 +8,7 @@ command line interfaces simple and intuitive. It's the "Command Line
 Interface for Kotlin".
 
 Inspired by Python's [Click](https://github.com/pallets/click), it is
-designed to make the process of writing command line tools efortless
+designed to make the process of writing command line tools effortless
 while supporting a wide variety of use cases and allowing advanced
 customization when needed.
 

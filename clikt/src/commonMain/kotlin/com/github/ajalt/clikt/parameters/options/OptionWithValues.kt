@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
@@ -9,6 +10,7 @@ import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
+import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -117,13 +119,13 @@ class OptionWithValues<AllT, EachT, ValueT>(
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
         val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
-        val inv = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
+        val inv = if (invocations.isNotEmpty() || env == null || readEnvvar(env) == null) {
             when (valueSplit) {
                 null -> invocations
                 else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
             }
         } else {
-            System.getenv(env).split(envvarSplit.value).map { Invocation(env, listOf(it)) }
+            readEnvvar(env)!!.split(envvarSplit.value).map { Invocation(env, listOf(it)) }
         }
 
         value = transformAll(OptionTransformContext(this, context), inv.map {

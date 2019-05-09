@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.GroupableOption
 import com.github.ajalt.clikt.core.ParameterHolder
+import com.github.ajalt.clikt.mpp.isLetterOrDigit
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
@@ -105,7 +106,7 @@ internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: 
 /** Split an option token into a pair of prefix to simple name. */
 internal fun splitOptionPrefix(name: String): Pair<String, String> =
         when {
-            name.length < 2 || name[0].isLetterOrDigit() -> "" to name
+            name.length < 2 || isLetterOrDigit(name[0]) -> "" to name
             name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
             else -> name.slice(0..0) to name.substring(1)
         }

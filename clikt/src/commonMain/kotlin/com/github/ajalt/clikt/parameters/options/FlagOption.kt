@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
@@ -46,10 +47,10 @@ class FlagOption<T>(
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
         val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
-        value = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
+        value = if (invocations.isNotEmpty() || env == null || readEnvvar(env) == null) {
             transformAll(OptionTransformContext(this, context), invocations.map { it.name })
         } else {
-            transformEnvvar(OptionTransformContext(this, context), System.getenv(env))
+            transformEnvvar(OptionTransformContext(this, context), readEnvvar(env)!!)
         }
     }
 
@@ -99,7 +100,7 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
                     "false", "f", "0", "no", "n", "off" -> false
-                    else -> throw BadParameterValue("${System.getenv(envvar)} is not a valid boolean", this)
+                    else -> throw BadParameterValue("$it is not a valid boolean", this)
                 }
             },
             transformAll = {

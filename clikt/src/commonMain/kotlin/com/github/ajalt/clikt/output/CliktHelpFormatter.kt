@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.output
 
-import java.text.BreakIterator
+import com.github.ajalt.clikt.mpp.graphemeLength
+import com.github.ajalt.clikt.mpp.readEnvvar
 
-private val ANSI_CODE_RE = Regex("${"\u001B"}\\[[^m]*m")
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class CliktHelpFormatter(
@@ -22,7 +22,7 @@ open class CliktHelpFormatter(
         protected val showRequiredTag: Boolean = false
 ) : HelpFormatter {
     protected val width: Int = when (width) {
-        null -> minOf(maxWidth, System.getenv("COLUMNS")?.toInt() ?: maxWidth)
+        null -> minOf(maxWidth, readEnvvar("COLUMNS")?.toInt() ?: maxWidth)
         else -> width
     }
 
@@ -220,13 +220,6 @@ open class CliktHelpFormatter(
     private fun StringBuilder.section(title: String) {
         append("\n").append(renderSectionTitle(title)).append("\n")
     }
-
-    /** The number of visible characters in a string */
-    protected val String.graphemeLength: Int
-        get() {
-            val breaks = BreakIterator.getCharacterInstance().also { it.setText(replace(ANSI_CODE_RE, "")) }
-            return generateSequence { breaks.next() }.takeWhile { it != BreakIterator.DONE }.count()
-        }
 
     protected data class DefinitionRow(val col1: String, val col2: String, val marker: String? = null)
 }

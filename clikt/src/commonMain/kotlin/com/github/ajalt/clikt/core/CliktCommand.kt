@@ -1,6 +1,9 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.completion.CompletionGenerator
+import com.github.ajalt.clikt.mpp.exitProcessMpp
+import com.github.ajalt.clikt.mpp.getSimpleClassName
+import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
@@ -10,7 +13,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.Parser
-import kotlin.system.exitProcess
 
 /**
  * The [CliktCommand] is the core of command line interfaces in Clikt.
@@ -46,7 +48,7 @@ abstract class CliktCommand(
         val helpTags: Map<String, String> = emptyMap(),
         private val autoCompleteEnvvar: String? = ""
 ) : ParameterHolder {
-    val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
+    val commandName: String = name ?: getSimpleClassName(this).toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog
     internal var _subcommands: List<CliktCommand> = emptyList()
@@ -91,10 +93,10 @@ abstract class CliktCommand(
             autoCompleteEnvvar.isBlank() -> "_${commandName.replace("-", "_").toUpperCase()}_COMPLETE"
             else -> autoCompleteEnvvar
         }
-        val envval = System.getenv(envvar) ?: return
+        val envval = readEnvvar(envvar) ?: return
         val completion = CompletionGenerator.generateCompletion(command = this, zsh = "zsh" in envval)
         echo(completion, lineSeparator = "\n")
-        exitProcess(1)
+        exitProcessMpp(1)
     }
 
     /**
@@ -223,7 +225,7 @@ abstract class CliktCommand(
     /**
      * Parse the command line and print helpful output if any errors occur.
      *
-     * This function calls [parse] and catches and [CliktError]s that are thrown. Other error are allowed to
+     * This function calls [parse] and catches and [CliktError]s that are thrown. Other errors are allowed to
      * pass through.
      */
     fun main(argv: List<String>) {
@@ -231,19 +233,19 @@ abstract class CliktCommand(
             parse(argv)
         } catch (e: PrintHelpMessage) {
             echo(e.command.getFormattedHelp())
-            exitProcess(0)
+            exitProcessMpp(0)
         } catch (e: PrintMessage) {
             echo(e.message)
-            exitProcess(0)
+            exitProcessMpp(0)
         } catch (e: UsageError) {
             echo(e.helpMessage(), err = true)
-            exitProcess(1)
+            exitProcessMpp(1)
         } catch (e: CliktError) {
             echo(e.message, err = true)
-            exitProcess(1)
+            exitProcessMpp(1)
         } catch (e: Abort) {
             echo("Aborted!", err = true)
-            exitProcess(if (e.error) 1 else 0)
+            exitProcessMpp(if (e.error) 1 else 0)
         }
     }
 
@@ -280,3 +282,4 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
     _contextConfig = block
 }
+

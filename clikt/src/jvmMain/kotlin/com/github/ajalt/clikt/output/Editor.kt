@@ -1,18 +1,21 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktError
+import com.github.ajalt.clikt.mpp.readEnvvar
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
-internal class Editor(private val editorPath: String?,
-                      private val env: Map<String, String>,
-                      private val requireSave: Boolean,
-                      private val extension: String) {
+internal actual class Editor actual constructor(
+        private val editorPath: String?,
+        private val env: Map<String, String>,
+        private val requireSave: Boolean,
+        private val extension: String
+) {
     private fun getEditorPath(): String {
         if (editorPath != null) return editorPath
         for (key in arrayOf("VISUAL", "EDITOR")) {
-            return System.getenv(key) ?: continue
+            return readEnvvar(key) ?: continue
         }
 
         if (TermUi.isWindows) return "notepad"
@@ -36,7 +39,7 @@ internal class Editor(private val editorPath: String?,
         return "vi"
     }
 
-    fun editFile(filename: String) {
+    actual fun editFile(filename: String) {
         val editor = getEditorPath()
         try {
             val process = ProcessBuilder(editor, filename).apply {
@@ -52,7 +55,7 @@ internal class Editor(private val editorPath: String?,
         }
     }
 
-    fun edit(text: String): String? {
+    actual fun edit(text: String): String? {
         var textToEdit = if (text.endsWith("\n")) text else text + "\n"
         if (TermUi.isWindows) {
             textToEdit = textToEdit.replace(Regex("(?<!\r)\n"), "\r\n")

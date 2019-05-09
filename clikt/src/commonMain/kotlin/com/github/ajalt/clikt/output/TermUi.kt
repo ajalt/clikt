@@ -3,7 +3,8 @@ package com.github.ajalt.clikt.output
 import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.UsageError
-import java.io.IOError
+import com.github.ajalt.clikt.mpp.IOError
+import com.github.ajalt.clikt.mpp.isWindows
 
 object TermUi {
     /**
@@ -116,7 +117,7 @@ object TermUi {
                 val result = try {
                     convert.invoke(value)
                 } catch (err: UsageError) {
-                    echo(err.helpMessage(), console=console)
+                    echo(err.helpMessage(), console = console)
                     continue
                 }
 
@@ -130,7 +131,7 @@ object TermUi {
                     if (value2.isNotEmpty()) break
                 }
                 if (value == value2) return result
-                echo("Error: the two entered values do not match", console=console)
+                echo("Error: the two entered values do not match", console = console)
             }
         } catch (err: IOError) {
             return null
@@ -180,7 +181,7 @@ object TermUi {
                 "n", "no" -> false
                 "" -> default
                 else -> {
-                    echo("Error: invalid input", console=console)
+                    echo("Error: invalid input", console = console)
                     continue@l
                 }
             }
@@ -191,9 +192,7 @@ object TermUi {
     }
 
     /** True if the current platform is a version of windows. */
-    val isWindows: Boolean
-        get() = System.getProperty("os.name")
-                .contains(Regex("windows", RegexOption.IGNORE_CASE))
+    val isWindows: Boolean get() = isWindows()
 
     private fun buildPrompt(text: String, suffix: String, showDefault: Boolean,
                             default: String?) = buildString {

@@ -1,9 +1,7 @@
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'maven'
 apply plugin: 'com.jfrog.bintray'
-
-version = VERSION_NAME
-group = GROUP
 
 buildscript {
     repositories {
@@ -12,6 +10,43 @@ buildscript {
 
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.2'
+    }
+}
+
+kotlin {
+    targetFromPreset(presets.jvmWithJava, 'jvm')
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                api 'org.jetbrains.kotlin:kotlin-stdlib-common'
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-test-common'
+                implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+            }
+        }
+        jvmMain {
+            dependencies {
+                api 'org.jetbrains.kotlin:kotlin-stdlib'
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation 'junit:junit:4.12'
+                implementation 'io.kotlintest:kotlintest-assertions:3.3.2'
+                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation 'com.github.stefanbirkner:system-rules:1.18.0'
+                implementation 'com.google.jimfs:jimfs:1.1'
+            }
+        }
+        test {
+            // Not required, but helps IntelliJ configure inter-project dependencies:
+            // https://youtrack.jetbrains.com/issue/KT-31179
+            dependsOn jvmTest
+        }
     }
 }
 
@@ -58,4 +93,19 @@ ext {
     deployDryRun = false
 }
 
-apply from: new File(rootDir, 'deploy.gradle')
+// jvm
+apply plugin: 'java-library'
+
+kotlin.targets.matching { it.platformType.name == 'jvm' }.all { target ->
+    target.project.sourceCompatibility = JavaVersion.VERSION_1_8
+    target.project.targetCompatibility = JavaVersion.VERSION_1_8
+
+    tasks['jar'].configure {
+        manifest {
+            attributes('Automatic-Module-Name': 'com.github.ajalt.clikt')
+        }
+    }
+}
+
+// deploy
+apply from: "$rootDir/deploy.gradle"

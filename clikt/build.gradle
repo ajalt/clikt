@@ -1,5 +1,5 @@
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
-//apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'org.jetbrains.dokka'
 //apply plugin: 'maven'
 //apply plugin: 'com.jfrog.bintray'
 
@@ -15,8 +15,8 @@ buildscript {
 
 kotlin {
     targetFromPreset(presets.jvmWithJava, 'jvm')
-    linuxX64()
-    mingwX64('winX64')
+    linuxX64('linux')
+    mingwX64('win')
 
     sourceSets {
         commonMain {
@@ -49,54 +49,86 @@ kotlin {
             // https://youtrack.jetbrains.com/issue/KT-31179
             dependsOn jvmTest
         }
-        configure([linuxX64Main, winX64Main]) {
+        configure([linuxMain, winMain]) {
             dependsOn commonMain
         }
     }
 }
 
-//task sourcesJar(type: Jar, dependsOn: classes) {
-//    classifier = 'sources'
-//    from sourceSets.main.allSource
-//}
-//
-//task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-//    outputFormat = 'javadoc'
-//    outputDirectory = javadoc.destinationDir
-//}
-//
-//task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
-//    classifier = 'javadoc'
-//    from javadoc.destinationDir
-//}
-//
-//artifacts {
-//    archives javadocJar
-//    archives sourcesJar
-//}
-//
-//dokka {
-//    outputDirectory = "$rootDir/docs/api"
-//    outputFormat = 'gfm'
-//}
-//
-//ext {
-//    pkgName = 'clikt'
-//    pkgDesc = 'Intuitive command line interface parsing for Kotlin'
-//    githubRepo = 'github.com/ajalt/clikt'
-//    pkgLicense = 'Apache-2.0'
-//    pkgLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//    devInfo = {
-//        id 'ajalt'
-//        name 'AJ Alt'
-//        url 'https://github.com/ajalt'
-//    }
-//    bintrayUser = System.getenv('BINTRAY_USER')
-//    bintrayKey = System.getenv('BINTRAY_API_KEY')
-//    mavenUserToken = System.getenv('MAVEN_USER_TOKEN')
-//    mavenUserPass = System.getenv('MAVEN_USER_PASS')
-//    deployDryRun = false
-//}
+dokka {
+    outputDirectory = "$rootDir/docs/api"
+    outputFormat = 'gfm'
+
+    impliedPlatforms = ["Common"]
+
+    kotlinTasks {
+        // dokka fails to retrieve sources from MPP-tasks so they must be set empty to avoid exception
+        // use sourceRoot instead (see below)
+        []
+    }
+    packageOptions {
+        prefix = "com.github.ajalt.clikt"
+        reportUndocumented = false // not everything needs a javadoc
+    }
+    sourceRoot {
+        // assuming there is only a single source dir...
+        path = kotlin.sourceSets.commonMain.kotlin.srcDirs[0]
+        platforms = ["Common"]
+    }
+    if (kotlin.sourceSets.getNames().contains("jvmMain")) {
+        sourceRoot {
+            // assuming there is only a single source dir...
+            path = kotlin.sourceSets.jvmMain.kotlin.srcDirs[0]
+            platforms = ["JVM"]
+        }
+    }
+    if (kotlin.sourceSets.getNames().contains("linuxMain")) {
+        sourceRoot {
+            // assuming there is only a single source dir...
+            path = kotlin.sourceSets.linuxMain.kotlin.srcDirs[0]
+            platforms = ["native"]
+        }
+    }
+    if (kotlin.sourceSets.getNames().contains("winMain")) {
+        sourceRoot {
+            // assuming there is only a single source dir...
+            path = kotlin.sourceSets.winMain.kotlin.srcDirs[0]
+            platforms = ["native"]
+        }
+    }
+}
+
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = javadoc.destinationDir
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+}
+
+ext {
+    pkgName = 'clikt'
+    pkgDesc = 'Intuitive command line interface parsing for Kotlin'
+    githubRepo = 'github.com/ajalt/clikt'
+    pkgLicense = 'Apache-2.0'
+    pkgLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    devInfo = {
+        id 'ajalt'
+        name 'AJ Alt'
+        url 'https://github.com/ajalt'
+    }
+    bintrayUser = System.getenv('BINTRAY_USER')
+    bintrayKey = System.getenv('BINTRAY_API_KEY')
+    mavenUserToken = System.getenv('MAVEN_USER_TOKEN')
+    mavenUserPass = System.getenv('MAVEN_USER_PASS')
+    deployDryRun = false
+}
 
 // jvm
 apply plugin: 'java-library'

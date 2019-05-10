@@ -1,13 +1,13 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
-import java.io.File
 
 internal object Parser {
     fun parse(argv: List<String>, context: Context) {
@@ -225,12 +225,7 @@ internal object Parser {
     }
 
     private fun loadArgFile(filename: String, context: Context): List<String> {
-        val file = File(filename)
-        if (!file.isFile) {
-            throw BadParameterValue("'$file' is not a file", "@-file", context)
-        }
-
-        val text = file.bufferedReader().use { it.readText() }
+        val text = readFileIfExists(filename) ?: throw BadParameterValue("'$filename' is not a file", "@-file", context)
         val toks = mutableListOf<String>()
         var inQuote: Char? = null
         val sb = StringBuilder()

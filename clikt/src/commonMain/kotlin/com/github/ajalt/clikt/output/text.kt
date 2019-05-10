@@ -46,7 +46,7 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
 }
 
 internal fun StringBuilder.appendRepeat(text: String, repeat: Int): StringBuilder {
-    ensureCapacity(capacity() + text.length * repeat)
+//    ensureCapacity(capacity() + text.length * repeat)
     for (i in 0 until repeat) append(text)
     return this
 }

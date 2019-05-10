@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.mpp
 
+import java.io.File
 import java.text.BreakIterator
 import kotlin.system.exitProcess
 
@@ -11,15 +12,12 @@ internal actual val String.graphemeLength: Int
         return generateSequence { breaks.next() }.takeWhile { it != BreakIterator.DONE }.count()
     }
 
-/** Read the value for for the envronment variable [key] */
 internal actual fun readEnvvar(key: String): String? = System.getenv(key)
 
 internal actual fun isWindows(): Boolean {
     return System.getProperty("os.name")
             .contains(Regex("windows", RegexOption.IGNORE_CASE))
 }
-
-internal actual class IOError : Throwable()
 
 internal actual fun exitProcessMpp(status: Int): Nothing {
     exitProcess(status)
@@ -31,4 +29,10 @@ internal actual fun getSimpleClassName(it: Any): String {
 
 internal actual fun isLetterOrDigit(c: Char): Boolean {
     return c.isLetterOrDigit()
+}
+
+internal actual fun readFileIfExists(filename: String): String? {
+    val file = File(filename)
+    if (!file.isFile) return null
+    return file.bufferedReader().use { it.readText() }
 }

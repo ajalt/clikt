@@ -1,9 +1,10 @@
 include 'clikt'
-//include 'samples:copy' TODO reenable samples
-//include 'samples:repo'
-//include 'samples:validation'
-//include 'samples:aliases'
-//include 'samples:helpformat'
-//include 'samples:ansicolors'
+include 'nativesample'
+include 'samples:copy' 
+include 'samples:repo'
+include 'samples:validation'
+include 'samples:aliases'
+include 'samples:helpformat'
+include 'samples:ansicolors'
 include 'samples:plugins'
 

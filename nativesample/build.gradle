@@ -1,0 +1,19 @@
+apply plugin: 'org.jetbrains.kotlin.multiplatform'
+
+kotlin {
+    mingwX64('winX64') {
+        binaries {
+            executable {
+                entryPoint = 'com.github.ajalt.clikt.sample.main'
+            }
+        }
+    }
+
+    sourceSets {
+        winX64Main {
+            dependencies {
+                implementation project(':clikt')
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 subprojects {
     apply plugin: 'application'
+    apply plugin: 'kotlin'
 
     dependencies {
         implementation project(':clikt')

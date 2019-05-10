@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.output
 import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.mpp.IOError
 import com.github.ajalt.clikt.mpp.isWindows
 
 object TermUi {
@@ -133,7 +132,7 @@ object TermUi {
                 if (value == value2) return result
                 echo("Error: the two entered values do not match", console = console)
             }
-        } catch (err: IOError) {
+        } catch (err: Error) {
             return null
         }
     }

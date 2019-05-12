@@ -100,7 +100,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val envvarSplit: ValueWithDefault<Regex>,
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
-        override val completionCandidates: CompletionCandidates, // TODO value with default for this
+        override val completionCandidates: CompletionCandidates,
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
         val transformAll: CallsTransformer<EachT, AllT>,

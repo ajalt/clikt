@@ -93,17 +93,17 @@ arguments.
   input to a new value. For example, to create an option that only
   accepts the value "A" or "B":
 
-  ```kotlin
+ ```kotlin
   val opt: String? by option().choice("A", "B")
-  ```
+ ```
 
   To create an argument that requires the user to choose from the values
   of an enum:
 
-  ```kotlin
+ ```kotlin
   enum class Color { RED, GREEN }
   val color: Color by argument().choice("RED" to Color.RED, "GREEN" to Color.GREEN)
-  ```
+ ```
 
 * `File`: [`option().file()` and `argument().file()`](api/clikt/com.github.ajalt.clikt.parameters.types/file.html)
 * `Path`: [`option().path()` and `argument().path()`](api/clikt/com.github.ajalt.clikt.parameters.types/path.html)
@@ -114,10 +114,12 @@ arguments.
 
 ## Custom Types
 
-You can convert parameter values to a custom type by using [`argument().convert()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/convert.html) and [`option().convert()`](api/clikt/com.github.ajalt.clikt.parameters.options/convert.html). These functions take a lambda that converts the input `String` to
-any type. If the parameter takes multiple values, or an option appears
-multiple times in `argv`, the conversion lambda is called once for each
-value.
+You can convert parameter values to a custom type by using
+[`argument().convert()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/convert.html) and
+[`option().convert()`](api/clikt/com.github.ajalt.clikt.parameters.options/convert.html). These
+functions take a lambda that converts the input `String` to any type. If the parameter takes
+multiple values, or an option appears multiple times in `argv`, the conversion lambda is called once
+for each value.
 
 Any errors that are thrown from the lambda are automatically caught and
 a usage message is printed to the user. If you need to trigger
@@ -145,9 +147,10 @@ Usage: cli [OPTIONS]
 Error: Invalid value for "--opt": For input string: "foo"
 ```
 
-You can also pass [`option().convert()`](api/clikt/com.github.ajalt.clikt.parameters.options/convert.html) a metavar that will be printed in the help page instead of the
-default of `VALUE`. We can modify the above example to use a metavar and
-an explicit error message:
+You can also pass
+[`option().convert()`](api/clikt/com.github.ajalt.clikt.parameters.options/convert.html) a metavar
+that will be printed in the help page instead of the default of `VALUE`. We can modify the above
+example to use a metavar and an explicit error message:
 
 ```kotlin
 class Cli: CliktCommand() {
@@ -176,11 +179,11 @@ Options:
 
 ## Parameter Validation
 
-After converting a value to a new type, you can perform additional
-validation on the converted value with [`option().validate()`](api/clikt/com.github.ajalt.clikt.parameters.options/validate.html) and [`argument().validate()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/validate.html).
-`validate` takes a lambda that returns nothing, but can call
-`fail("error message")` if the value is invalid. You can also call
-`require()`, which will fail if the provided expression is false. The
+After converting a value to a new type, you can perform additional validation on the converted value
+with [`option().validate()`](api/clikt/com.github.ajalt.clikt.parameters.options/validate.html) and
+[`argument().validate()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/validate.html).
+`validate` takes a lambda that returns nothing, but can call `fail("error message")` if the value is
+invalid. You can also call `require()`, which will fail if the provided expression is false. The
 lambda is only called if the value is non-null.
 
 ```kotlin

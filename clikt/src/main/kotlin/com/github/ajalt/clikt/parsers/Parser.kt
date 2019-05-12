@@ -1,12 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.IncorrectArgumentValueCount
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.NoSuchOption
-import com.github.ajalt.clikt.core.PrintHelpMessage
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
@@ -109,6 +103,13 @@ internal object Parser {
             }
 
             command.context.invokedSubcommand = subcommand
+            if (command.context.printExtraMessages) {
+                val console = command.context.console
+                for (warning in command.messages) {
+                    console.print(warning, error = true)
+                    console.print(console.lineSeparator, error = true)
+                }
+            }
             command.run()
         } catch (e: UsageError) {
             // Augment usage errors with the current context if they don't have one

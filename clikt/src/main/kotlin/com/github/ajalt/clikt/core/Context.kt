@@ -18,6 +18,8 @@ import kotlin.reflect.KProperty
  *   encountered, all remaining tokens are parsed as arguments.
  * @property autoEnvvarPrefix The prefix to add to inferred envvar names. If null, the prefix is based on the
  *   parent's prefix, if there is one. If no command specifies, a prefix, envvar lookup is disabled.
+ * @property printExtraMessages Set this to false to prevent extra messages from being printed automatically.
+ *   You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
  * @property helpOptionNames The names to use for the help option. If any names in the set conflict with other
  *   options, the conflicting name will not be used for the help option. If the set is empty, or contains no
  *   unique names, no help option will be added.
@@ -33,6 +35,7 @@ class Context(
         val command: CliktCommand,
         val allowInterspersedArgs: Boolean,
         val autoEnvvarPrefix: String?,
+        val printExtraMessages: Boolean,
         val helpOptionNames: Set<String>,
         val helpOptionMessage: String,
         val helpFormatter: HelpFormatter,
@@ -78,6 +81,12 @@ class Context(
          */
         var allowInterspersedArgs: Boolean = parent?.allowInterspersedArgs ?: true
         /**
+         * Set this to false to prevent extra messages from being printed automatically.
+         *
+         * You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
+         */
+        var printExtraMessages: Boolean = parent?.printExtraMessages ?: true
+        /**
          * The names to use for the help option.
          *
          * If any names in the set conflict with other options, the conflicting name will not be used for the
@@ -112,7 +121,7 @@ class Context(
         inline fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
             with(Builder(command, parent)) {
                 block()
-                return Context(parent, command, allowInterspersedArgs, autoEnvvarPrefix,
+                return Context(parent, command, allowInterspersedArgs, autoEnvvarPrefix, printExtraMessages,
                         helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console)
             }
         }

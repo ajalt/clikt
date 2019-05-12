@@ -9,7 +9,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.Parser
-import java.util.*
 import java.util.Collections.emptyList
 import java.util.Collections.emptyMap
 import kotlin.system.exitProcess
@@ -55,6 +54,7 @@ abstract class CliktCommand(
     internal val _arguments: MutableList<Argument> = mutableListOf()
     internal var _contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
+    private val _messages = mutableListOf<String>()
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
@@ -103,6 +103,14 @@ abstract class CliktCommand(
             checkNotNull(_context) { "Context accessed before parse has been called." }
             return _context!!
         }
+
+    /** All messages issued during parsing. */
+    val messages: List<String> get() = _messages
+
+    /** Add a message to be printed after parsing */
+    fun issueMessage(message: String) {
+        _messages += message
+    }
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
     protected fun shortHelp(): String = Regex("\\S.*\$", RegexOption.MULTILINE).find(commandHelp)?.value ?: ""

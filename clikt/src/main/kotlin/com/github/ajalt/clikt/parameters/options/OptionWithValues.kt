@@ -1,12 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.Abort
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
@@ -22,10 +17,16 @@ import kotlin.reflect.KProperty
  * @property name The name that was used to invoke this option.
  * @property option The option that was invoked
  */
-class OptionCallTransformContext(val name: String, val option: Option,
-                                 val context: Context) : Option by option {
+class OptionCallTransformContext(
+        val name: String,
+        val option: Option,
+        val context: Context
+) : Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
+
+    /** Issue a message that can be shown to the user */
+    fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
@@ -41,6 +42,9 @@ class OptionCallTransformContext(val name: String, val option: Option,
 class OptionTransformContext(val option: Option, val context: Context) : Option by option {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw UsageError(message, option)
+
+    /** Issue a message that can be shown to the user */
+    fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
@@ -249,7 +253,7 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
  *
  * You can customize how the default is shown to the user with [defaultForHelp].
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
@@ -271,7 +275,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT, de
  * is an empty string, so if you have the help formatter configured to show values, you should set
  * this value manually.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: Pair<Int, Int> by option().int().pair().defaultLazy { expensiveOperation() }
@@ -289,7 +293,7 @@ inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
  *
  * This must be applied after all other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: Pair<Int, Int> by option().int().pair().required()
@@ -304,7 +308,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithVa
  *
  * If the option is never called, the list will be empty. This must be applied after all other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
@@ -321,7 +325,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
 /**
  * Make the [multiple] option return a unique set of calls
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: Set<Int> by option().int().multiple().unique()
@@ -356,7 +360,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
  *
  * This must be called after converting the value type, and before other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: Pair<Int, Int>? by option().int().pair()
@@ -372,7 +376,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
  *
  * This must be called after converting the value type, and before other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: Triple<Int, Int, Int>? by option().int().triple()
@@ -388,7 +392,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
  *
  * This must be called after converting the value type, and before other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: List<Int>? by option().int().split(Regex(","))
@@ -416,7 +420,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
  *
  * This must be called after converting the value type, and before other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt: List<Int>? by option().int().split(Regex(","))
@@ -441,7 +445,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
  *
  * You can also call `require` to fail automatically if an expression is false.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
@@ -458,9 +462,10 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
  * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
  * if the value is not valid. It is not called if the delegate value is null.
  *
- * You can also call `require` to fail automatically if an expression is false.
+ * You can also call `require` to fail automatically if an expression is false, or `warn` to show
+ * the user a warning message without aborting.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
@@ -470,6 +475,35 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
         validator: OptionValidator<AllT>): OptionDelegate<AllT?> {
     return copy(transformValue, transformEach, { transformAll(it).also { if (it != null) validator(this, it) } })
+}
+
+/**
+ * Mark this option as deprecated in the help output.
+ *
+ * By default, a tag is added to the help message and a warning is printed if the option is used.
+ *
+ * This should be called after any conversion and validation.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
+ *    .deprecated("WARNING: --opt is deprecated, use --new-opt instead")
+ * ```
+ *
+ * @param message The message to show in the warning or error. If null, no warning is issued.
+ * @param tagName The tag to add to the help message
+ * @param tagValue An extra message to add to the tag
+ * @param error If true, when the option is invoked, a [CliktError] is raised immediately instead of issuing a warning.
+ */
+fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
+        message: String? = "",
+        tagName: String? = "deprecated",
+        tagValue: String = "",
+        error: Boolean = false
+): OptionDelegate<AllT> {
+    val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
+    return copy(transformValue, transformEach, deprecationTransformer(message, error, transformAll), helpTags = helpTags)
 }
 
 /**

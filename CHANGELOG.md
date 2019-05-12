@@ -9,6 +9,7 @@
 - [`option().split()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/split.html),
   and the corresponding
   [`OptionWithValues.valueSplit`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/-option-with-values/value-split.html).
+- Ability to mark options as deprecated with [`option().deprecated()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.html)
 
 ### Changed
 - If multiple `--` tokens are present on the command line, all subsequent occurrences after the first are now

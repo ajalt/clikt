@@ -21,7 +21,7 @@ private fun errorMessage(choice: String, choices: Map<String, *>): String {
 /**
  * Convert the argument based on a fixed set of values.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * argument().choice(mapOf("foo" to 1, "bar" to 2))
@@ -36,7 +36,7 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, 
 /**
  * Convert the argument based on a fixed set of values.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * argument().choice("foo" to 1, "bar" to 2)
@@ -49,7 +49,7 @@ fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>): ProcessedArgu
 /**
  * Restrict the argument to a fixed set of values.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * argument().choice("foo", "bar")
@@ -64,7 +64,7 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
 /**
  * Convert the option based on a fixed set of values.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * option().choice(mapOf("foo" to 1, "bar" to 2))
@@ -81,7 +81,7 @@ fun <T : Any> RawOption.choice(choices: Map<String, T>,
 /**
  * Convert the option based on a fixed set of values.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * option().choice("foo" to 1, "bar" to 2)
@@ -95,7 +95,7 @@ fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
 /**
  * Restrict the option to a fixed set of values.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * option().choice("foo", "bar")

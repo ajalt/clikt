@@ -472,12 +472,13 @@ class Cli : NoRunCliktCommand()
 fun main(args: Array<String>) = Cli().versionOption("1.0").main(args)
 ```
 
-Any they work like:
+And they work like:
 
 ```
 $ ./cli --version
 cli version 1.0
 ```
+
 If you want to define your own option with a similar behavior, you can
 do so by creating an instance of [`EagerOption`](api/clikt/com.github.ajalt.clikt.parameters.options/-eager-option/index.html) and passing it to [`CliktCommand.registerOption`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option.html). `EagerOption`s have a `callback` that is
 called when the option is encountered on the command line. To print a
@@ -499,6 +500,54 @@ class Cli : CliktCommand() {
         // ...
     }
 }
+```
+
+## Deprecating Options
+
+You can communicate to users that an option is deprecated with
+[`option().deprecated()`](api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.html). By
+default, this function will add a tag to the option's help message, and print a warning to stderr if
+the option is used.
+
+You can customize or omit the warning message and help tags, or change the warning into an error.
+
+```kotlin
+class Cli : CliktCommand() {
+   val opt by option(help = "option 1").deprecated()
+   val opt2 by option(help = "option 2").deprecated("WARNING: --opt2 is deprecated, use --new-opt instead", tagName = null)
+   val opt3 by option(help = "option 3").deprecated(tagName = "pending deprecation", tagValue = "use --new-opt instead")
+   val opt4 by option(help = "option 4").deprecated(error = true)
+
+   override fun run() = echo("command run")
+}
+```
+
+And on the command line:
+ 
+```
+$ ./cli --opt=x
+WARNING: option --opt is deprecated
+command run
+
+$ ./cli --opt2=x
+WARNING: --op2 is deprecated, use --new-opt instead
+command run
+
+$ ./cli --opt3=x
+WARNING: option --opt3 is deprecated
+command run
+
+$ ./cli --opt4=x
+ERROR: option --opt4 is deprecated
+
+$ ./cli --help
+Usage: cli [OPTIONS]
+
+Options:
+  --opt TEXT   option 1 (deprecated)
+  --opt2 TEXT  option 2
+  --opt3 TEXT  option 3 (pending deprecation: use --new-opt instead)
+  --opt4 TEXT  option 4 (deprecated)
 ```
 
 ## Values From Environment Variables

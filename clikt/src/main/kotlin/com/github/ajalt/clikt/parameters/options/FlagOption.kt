@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
 import com.github.ajalt.clikt.parsers.FlagOptionParser
@@ -115,4 +112,26 @@ fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDeleg
             transformEnvvar = { transformEnvvar(it).also { validator(this, it) } },
             transformAll = { transformAll(it).also { validator(this, it) } }
     )
+}
+
+/**
+ * Mark this option as deprecated in the help output.
+ *
+ * By default, a tag is added to the help message and a warning is printed if the option is used.
+ *
+ * This should be called after any validation.
+ *
+ * @param message The message to show in the warning or error. If null, no warning is issued.
+ * @param tagName The tag to add to the help message
+ * @param tagValue An extra message to add to the tag
+ * @param error If true, when the option is invoked, a [CliktError] is raised immediately instead of issuing a warning.
+ */
+fun <T> FlagOption<T>.deprecated(
+        message: String? = "",
+        tagName: String? = "deprecated",
+        tagValue: String = "",
+        error: Boolean = false
+): OptionDelegate<T> {
+    val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
+    return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, deprecationTransformer(message, error, transformAll))
 }

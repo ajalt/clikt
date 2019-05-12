@@ -10,5 +10,5 @@ open class NeverCalledCliktCommand(
         invokeWithoutSubcommand: Boolean = false,
         printHelpOnEmptyArgs: Boolean = false
 ) : CliktCommand(help, epilog, name, invokeWithoutSubcommand, printHelpOnEmptyArgs) {
-    override fun run() = fail("run should not be called")
+    final override fun run() = fail("run should not be called")
 }

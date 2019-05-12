@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
@@ -89,3 +90,23 @@ internal fun splitOptionPrefix(name: String): Pair<String, String> =
             name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
             else -> name.slice(0..0) to name.substring(1)
         }
+
+internal fun <EachT, AllT> deprecationTransformer(
+        message: String? = "",
+        error: Boolean = false,
+        transformAll: CallsTransformer<EachT, AllT>
+): CallsTransformer<EachT, AllT> = {
+    if (it.isNotEmpty()) {
+        val msg = when (message) {
+            null -> ""
+            "" -> "${if (error) "ERROR" else "WARNING"}: option ${option.names.maxBy { o -> o.length }} is deprecated"
+            else -> message
+        }
+        if (error) {
+            throw CliktError(msg)
+        } else if (message != null) {
+            message(msg)
+        }
+    }
+    transformAll(it)
+}

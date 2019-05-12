@@ -71,6 +71,9 @@ class ArgumentTransformContext(val argument: Argument, val context: Context) : A
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
 
+    /** Issue a message that can be shown to the user */
+    fun message(message: String) = context.command.issueMessage(message)
+
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
         if (!value) fail(lazyMessage())
@@ -189,7 +192,7 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
  *
  * This must be called after all other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val arg: Int? by argument().int().optional()
@@ -206,7 +209,7 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional()
  * Only one argument in a command may use this function, and the command may not have subcommands. This must
  * be called after all other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val arg: List<Int> by argument().int().multiple()
@@ -219,7 +222,7 @@ fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): Proce
 /**
  * Only store unique values for this argument
  *
- * Example:
+ * ### Example:
  *
  * ```
  * val arg: Set<Int> by argument().int().multiple().unique()
@@ -234,7 +237,7 @@ fun <T : Any> ProcessedArgument<List<T>, T>.unique(): ProcessedArgument<Set<T>, 
  *
  * This must be called after converting the value type, and before other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val arg: Pair<Int, Int> by argument().int().pair()
@@ -249,7 +252,7 @@ fun <T : Any> ProcessedArgument<T, T>.pair(): ProcessedArgument<Pair<T, T>, T> {
  *
  * This must be called after converting the value type, and before other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val arg: Triple<Int, Int, Int> by argument().int().triple()
@@ -264,7 +267,7 @@ fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T
  *
  * This must be applied after all other transforms.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val arg: Pair<Int, Int> by argument().int().pair().default(1 to 2)
@@ -280,7 +283,7 @@ fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
  * This must be applied after all other transforms. If the argument is given on the command line, [value] will
  * not be called.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val arg: Pair<Int, Int> by argument().int().pair().defaultLazy { expensiveOperation() }
@@ -324,7 +327,7 @@ inline fun <T : Any> RawArgument.convert(
  *
  * You can also call `require` to fail automatically if an expression is false.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
@@ -345,7 +348,7 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: Arg
  *
  * You can also call `require` to fail automatically if an expression is false.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * val opt by argument().int().validate { require(it % 2 == 0) { "value must be even" } }

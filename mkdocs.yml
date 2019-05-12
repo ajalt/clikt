@@ -62,6 +62,7 @@ nav:
       - 'Prompting For Input': options/#prompting-for-input
       - 'Password Prompts': options/#password-prompts
       - 'Eager Options': options/#eager-options
+      - 'Deprecating Options': options/#deprecating-options
       - 'Values From Environment Variables': options/#values-from-environment-variables
       - 'Multiple Values from Environment Variables': options/#multiple-values-from-environment-variables
       - 'Windows and Java-Style Option Prefixes': options/#windows-and-java-style-option-prefixes
@@ -77,6 +78,8 @@ nav:
       - 'Nested Handling And Contexts': commands/#nested-handling-and-contexts
       - 'Running Parent Command Without Children': commands/#running-parent-command-without-children
       - 'Customizing Contexts': commands/#customizing-contexts
+      - 'Printing the Help Message When No Arguments Are Given': commands/#printing-the-help-message-when-no-arguments-are-given
+      - 'Issuing Warnings': commands/#issuing-warnings
   - 'Documenting Scripts':
       - 'Help Texts': documenting.md
       - 'Subcommand Short Help': documenting/#subcommand-short-help

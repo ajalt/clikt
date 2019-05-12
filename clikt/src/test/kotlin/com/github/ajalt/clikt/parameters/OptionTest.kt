@@ -213,7 +213,7 @@ class OptionTest {
     fun `two options with split`() = forall(
             row("", null, null),
             row("-x 5 -y a", listOf(5), listOf("a")),
-            row("-x 5,6 -y a:b", listOf(5,6), listOf("a", "b"))
+            row("-x 5,6 -y a:b", listOf(5, 6), listOf("a", "b"))
     ) { argv, ex, ey ->
         class C : CliktCommand() {
             val x by option("-x").int().split(",")
@@ -621,5 +621,37 @@ class OptionTest {
         }
 
         C().context { tokenTransformer = { "--xx" } }.parse(splitArgv(argv))
+    }
+
+    @Test
+    fun `deprecated warning options`() {
+        class C : CliktCommand() {
+            val g by option()
+            val f by option().flag().deprecated()
+            val x by option().deprecated()
+            val y by option().deprecated("warn")
+            val z by option().deprecated()
+            override fun run() {
+                messages shouldBe listOf(
+                        "WARNING: option --f is deprecated",
+                        "WARNING: option --x is deprecated",
+                        "warn"
+                )
+            }
+        }
+        C().context { printExtraMessages = false }.parse(splitArgv("--g=0 --f --x=1 --y=2"))
+    }
+
+    @Test
+    fun `deprecated error option`() {
+        class C : NeverCalledCliktCommand() {
+            val x by option().flag().deprecated(error = true)
+            val y by option().deprecated("err", error = true)
+        }
+        shouldThrow<CliktError> { C().parse(splitArgv("--x")) }
+                .message shouldBe "WARNING: option --x is deprecated"
+
+        shouldThrow<CliktError> { C().parse(splitArgv("--y=1")) }
+                .message shouldBe "err"
     }
 }

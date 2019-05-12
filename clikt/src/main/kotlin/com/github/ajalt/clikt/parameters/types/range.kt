@@ -28,7 +28,7 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * argument().int().restrictTo(max=10, clamp=true)
@@ -45,7 +45,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * argument().int().restrictTo(1..10, clamp=true)
@@ -62,7 +62,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * option().int().restrictTo(max=10, clamp=true)
@@ -80,7 +80,7 @@ fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, cl
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
- * Example:
+ * ### Example:
  *
  * ```kotlin
  * option().int().restrictTo(1..10, clamp=true)

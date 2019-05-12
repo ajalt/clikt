@@ -75,8 +75,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 /**
  * An [Option] that takes one or more values.
  *
- * @property metavarExplicit The metavar to use. Specified at option creation; overrides [metavarDefault].
- * @property metavarDefault The metavar to use if [metavarExplicit] is null. Set by [transformValues].
+ * @property metavarWithDefault The metavar to use. Specified at option creation.
  * @property envvar The environment variable name to use.
  * @property envvarSplit The pattern to split envvar values on. If the envvar splits into multiple values,
  *   each one will be treated like a separate invocation of the option.
@@ -90,14 +89,13 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 // default("").int()
 class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
-        val metavarExplicit: String?,
-        val metavarDefault: String?,
+        val metavarWithDefault: ValueWithDefault<String?>,
         override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         val envvar: String?,
-        val envvarSplit: Regex,
+        val envvarSplit: ValueWithDefault<Regex>,
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
         override val completionCandidates: CompletionCandidates,
@@ -105,7 +103,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val transformEach: ArgsTransformer<ValueT, EachT>,
         val transformAll: CallsTransformer<EachT, AllT>
 ) : OptionDelegate<AllT> {
-    override val metavar: String? get() = metavarExplicit ?: metavarDefault
+    override val metavar: String? get() = metavarWithDefault.value
     private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
@@ -119,7 +117,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
                 else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
             }
         } else {
-            System.getenv(env).split(envvarSplit).map { Invocation(env, listOf(it)) }
+            System.getenv(env).split(envvarSplit.value).map { Invocation(env, listOf(it)) }
         }
 
         value = transformAll(OptionTransformContext(this, context), inv.map {
@@ -145,19 +143,18 @@ class OptionWithValues<AllT, EachT, ValueT>(
             transformEach: ArgsTransformer<ValueT, EachT>,
             transformAll: CallsTransformer<EachT, AllT>,
             names: Set<String> = this.names,
-            metavarExplicit: String? = this.metavarExplicit,
-            metavarDefault: String? = this.metavarDefault,
+            metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
             help: String = this.help,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
-            envvarSplit: Regex = this.envvarSplit,
+            envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidates: CompletionCandidates = this.completionCandidates
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden,
+        return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
                 helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
                 transformValue, transformEach, transformAll)
     }
@@ -187,6 +184,8 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
  * @param hidden Hide this option from help outputs.
  * @param envvar The environment variable that will be used for the value if one is not given on the command
  *   line.
+ * @param envvarSplit The pattern to split the value of the [envvar] on. Defaults to whitespace,
+ *   although some conversions like `file` change the default.
  * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("unused")
@@ -196,17 +195,17 @@ fun CliktCommand.option(
         metavar: String? = null,
         hidden: Boolean = false,
         envvar: String? = null,
+        envvarSplit: Regex? = null,
         helpTags: Map<String, String> = emptyMap()
 ): RawOption = OptionWithValues(
         names = names.toSet(),
-        metavarExplicit = metavar,
-        metavarDefault = "TEXT",
+        metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
         nvalues = 1,
         help = help,
         hidden = hidden,
         helpTags = helpTags,
         envvar = envvar,
-        envvarSplit = Regex("\\s+"),
+        envvarSplit = ValueWithDefault(envvarSplit, Regex("\\s+")),
         valueSplit = null,
         parser = OptionWithValuesParser,
         completionCandidates = CompletionCandidates.None,
@@ -515,12 +514,12 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
  *
  * @param metavar The metavar for the type. Overridden by a metavar passed to [option].
  * @param envvarSplit If the value is read from an envvar, the pattern to split the value on. The default
- *   splits on whitespace.
+ *   splits on whitespace. This value is can be overridden by passing a value to the [option] function.
  * @param completionCandidates candidates to use when completing this option in shell autocomplete
  */
 inline fun <T : Any> RawOption.convert(
         metavar: String = "VALUE",
-        envvarSplit: Regex = this.envvarSplit,
+        envvarSplit: Regex = this.envvarSplit.default,
         completionCandidates: CompletionCandidates = this.completionCandidates,
         crossinline conversion: ValueTransformer<T>
 ): NullableOption<T, T> {
@@ -535,11 +534,10 @@ inline fun <T : Any> RawOption.convert(
         }
     }
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(),
-            metavarDefault = metavar,
-            envvarSplit = envvarSplit,
+            metavarWithDefault = metavarWithDefault.copy(default = metavar),
+            envvarSplit = this.envvarSplit.copy(default = envvarSplit),
             completionCandidates = completionCandidates)
 }
-
 
 /**
  * If the option isn't given on the command line, prompt the user for manual input.

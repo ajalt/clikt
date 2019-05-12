@@ -9,7 +9,8 @@
 - [`option().split()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/split.html),
   and the corresponding
   [`OptionWithValues.valueSplit`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/-option-with-values/value-split.html).
-- Ability to mark options as deprecated with [`option().deprecated()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.html)
+- Marking options as deprecated with [`option().deprecated()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.html)
+- You can manually set the pattern to split envvars on by passing a pattern to the `envvarSplit` parameter of [`option()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/option.html)
 
 ### Changed
 - If multiple `--` tokens are present on the command line, all subsequent occurrences after the first are now
@@ -17,6 +18,7 @@
 - The `PlaintextHelpFormatter` has been replaced with `CliktHelpFormatter`, which is more
   customizable. See [the docs](https://ajalt.github.io/clikt/documenting/) for more info, or the 
   [new sample](samples/ansicolors/README.md) for an example of customizing help output to use ANSI colors.
+- Some of the properties and constructor parameters for [`OptionWithValues`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/-option-with-values/index.html) have changed.
 
 ## [1.7.0] - 2019-03-23
 ### Added

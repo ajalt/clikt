@@ -17,7 +17,7 @@ Options can:
 * Prompt for missing input
 * Load values from environment variables
 
-In general, you arguments are usually used for values like file paths or
+In general, arguments are usually used for values like file paths or
 URLs, or for required values, and options are used for everything else.
 
 ## Parameter Names

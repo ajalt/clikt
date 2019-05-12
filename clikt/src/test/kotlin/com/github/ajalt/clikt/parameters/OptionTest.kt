@@ -649,7 +649,7 @@ class OptionTest {
             val y by option().deprecated("err", error = true)
         }
         shouldThrow<CliktError> { C().parse(splitArgv("--x")) }
-                .message shouldBe "WARNING: option --x is deprecated"
+                .message shouldBe "ERROR: option --x is deprecated"
 
         shouldThrow<CliktError> { C().parse(splitArgv("--y=1")) }
                 .message shouldBe "err"

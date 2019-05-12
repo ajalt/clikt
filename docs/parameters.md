@@ -191,3 +191,33 @@ val opt by option().int().validate {
     require(it % 2 == 0) { "value must be even" }
 }
 ```
+
+The lambdas you pass to `validate` are called after the values for all options and arguments have
+been set, so (unlike in transforms) you can reference other parameters:
+
+```kotlin tab="Example"
+class Tool : CliktCommand() {
+    val number by option().int().default(0)
+    val biggerNumber by option().int().validate {
+        require(it > number) {
+            "--bigger-number must be bigger than --number"
+        }
+    }
+
+    override fun run() {
+        echo("number=$number, biggerNumber=$biggerNumber")
+    }
+}
+```
+
+```text tab="Usage 1"
+$ ./tool --number=1
+number=1, biggerNumber=null
+```
+
+```text tab="Usage 2"
+$ ./tool --number=1 --bigger-number=0
+Usage: tool [OPTIONS]
+
+Error: --bigger-number must be bigger than --number
+```

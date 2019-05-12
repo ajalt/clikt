@@ -30,7 +30,7 @@ private fun errorMessage(choice: String, choices: Map<String, *>): String {
 fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return convert { choices[it] ?: fail(errorMessage(it, choices)) }
-            .run { copy(transformValue, transformAll, completionCandidates = CompletionCandidates.Fixed(choices.keys)) }
+            .run { copy(completionCandidates = CompletionCandidates.Fixed(choices.keys)) }
 }
 
 /**

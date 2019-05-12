@@ -54,10 +54,18 @@ interface Option {
     /**
      * Called after this command's argv is parsed to transform and store the option's value.
      *
+     * You cannot refer to other parameter values during this call, since they might not have been
+     * finalized yet.
+     *
      * @param context The context for this parse
      * @param invocations A possibly empty list of invocations of this option.
      */
     fun finalize(context: Context, invocations: List<OptionParser.Invocation>)
+
+    /**
+     * Called after all of a command's parameters have been [finalize]d to perform validation of the final value.
+     */
+    fun postValidate(context: Context)
 }
 
 /** An option that functions as a property delegate */

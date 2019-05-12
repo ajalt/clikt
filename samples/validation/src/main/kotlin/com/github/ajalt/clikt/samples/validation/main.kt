@@ -1,11 +1,11 @@
 package com.github.ajalt.clikt.samples.validation
 
-import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.convert
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.options.transformAll
 import com.github.ajalt.clikt.parameters.options.transformValues
 import com.github.ajalt.clikt.parameters.options.validate
@@ -22,8 +22,12 @@ class Cli : CliktCommand(help = "Validation examples") {
                 }
             }
 
-    val biggerCount by option(help = "A number larger than --count")
-            .int()
+    val biggerCount by option(help = "A number larger than --count").int()
+            .validate {
+                require(count == null || count!! < it) {
+                    "--bigger-count must be larger than --count"
+                }
+            }
 
     val quad by option(help = "A four-valued option")
             .int()
@@ -37,18 +41,12 @@ class Cli : CliktCommand(help = "Validation examples") {
             .convert { URL(it) }
 
     override fun run() {
-        // You can't refer to another parameter in a validator or converter, since the other parameter might
-        // not be set when they're called. Instead, validate them after parsing.
-        if (biggerCount != null && count != null && biggerCount!! <= count!!) {
-            throw BadParameterValue("--bigger-count must be larger than --count")
-        }
         echo("count: $count")
         echo("biggerCount: $biggerCount")
         echo("quad: $quad")
         echo("sum: $sum")
         echo("url: $url")
     }
-
 }
 
 fun main(args: Array<String>) = Cli().main(args)

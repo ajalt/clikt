@@ -8,8 +8,6 @@ import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.RawOption
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -22,6 +20,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT>(
     override val groupName: String? = null
     override val groupHelp: String? = null
     private var value: OutT by NullableLateinit("Cannot read from option delegate before parsing command line")
+    private var chosenGroup: OptionGroup? = null
 
     override fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
         option.provideDelegate(thisRef, prop) // infer the option name and register it
@@ -52,7 +51,12 @@ class ChoiceGroup<GroupT : OptionGroup, OutT>(
                         context
                 )
         group.finalize(context, invocationsByOption.filterKeys { it in group.options })
+        chosenGroup = group
         value = transform(group)
+    }
+
+    override fun postValidate(context: Context) {
+        chosenGroup?.options?.forEach { it.postValidate(context) }
     }
 }
 
@@ -68,10 +72,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT>(
  * @see com.github.ajalt.clikt.parameters.types.choice
  */
 fun <T : OptionGroup> RawOption.groupChoice(choices: Map<String, T>): ChoiceGroup<T, T?> {
-    return ChoiceGroup(
-            copy(transformValue, transformEach, transformAll, completionCandidates = Fixed(choices.keys)),
-            choices
-    ) { it }
+    return ChoiceGroup(copy(completionCandidates = Fixed(choices.keys)), choices) { it }
 }
 
 /**

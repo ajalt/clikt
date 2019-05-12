@@ -5,6 +5,5 @@ include 'samples:validation'
 include 'samples:aliases'
 include 'samples:helpformat'
 include 'samples:ansicolors'
-// kodein's maven repo seems to be broken as of May 2019, so disable this sample for now
-//include 'samples:plugins'
+include 'samples:plugins'
 

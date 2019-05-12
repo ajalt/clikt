@@ -50,10 +50,10 @@ private fun sub(
         tags: Map<String, String> = emptyMap()
 ) = ParameterHelp.Subcommand(name, help, tags)
 
-class PlaintextHelpFormatterTest {
+class CliktHelpFormatterTest {
     @Test
     fun formatUsage() {
-        val f = PlaintextHelpFormatter()
+        val f = CliktHelpFormatter()
         f.formatUsage(l(), programName = "prog1") shouldBe "Usage: prog1"
         f.formatUsage(l(opt("-x")), programName = "prog2") shouldBe "Usage: prog2 [OPTIONS]"
         f.formatUsage(l(arg("FOO")), programName = "prog3") shouldBe "Usage: prog3 [FOO]"
@@ -69,7 +69,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatUsage wrapping options string`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatUsage(l(
                 opt("-x"),
                 arg("FIRST", required = true),
@@ -88,7 +88,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatUsage wrapping command name`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatUsage(l(
                 opt("-x"),
                 arg("FIRST", required = true),
@@ -107,7 +107,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp one opt`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
                 programName = "prog") shouldBe
                 """
@@ -120,7 +120,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp one opt secondary name`() {
-        val f = PlaintextHelpFormatter(width = 60)
+        val f = CliktHelpFormatter(width = 60)
         f.formatHelp("", "", l(
                 opt(l("--aa", "-a"), null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))
         ), programName = "prog") shouldBe
@@ -134,7 +134,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp one opt prolog`() {
-        val f = PlaintextHelpFormatter()
+        val f = CliktHelpFormatter()
         f.formatHelp(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.",
                 parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
                 programName = "prog") shouldBe
@@ -152,7 +152,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp one opt prolog multi paragraph`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp(prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
                 Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
@@ -184,7 +184,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp option wrapping`() {
-        val f = PlaintextHelpFormatter(width = 54, maxColWidth = 12)
+        val f = CliktHelpFormatter(width = 54, maxColWidth = 12)
         f.formatHelp("", "", l(
                 opt(l("-x"), "X", nvalues = 2, help = "one very very very very very very long option"),
                 opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
@@ -209,7 +209,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp option wrapping long help issue #10`() {
-        val f = PlaintextHelpFormatter(width = 62)
+        val f = CliktHelpFormatter(width = 62)
         f.formatHelp("", "", l(
                 opt(l("-L", "--lorem-ipsum"),
                         help = "Lorem ipsum dolor sit amet, consectetur e  adipiscing elit. Nulla vitae " +
@@ -227,7 +227,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp arguments`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
                 arg("FOO", "some thing to live by", required = true),
                 arg("BAR", "another argument")
@@ -243,7 +243,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `formatHelp subcommands`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
                 sub("foo", "some thing to live by"),
                 sub("bar", "another argument")),
@@ -276,7 +276,7 @@ class PlaintextHelpFormatterTest {
 
             init {
                 context {
-                    helpFormatter = PlaintextHelpFormatter(
+                    helpFormatter = CliktHelpFormatter(
                             showDefaultValues = true,
                             showRequiredTag = true,
                             requiredOptionMarker = "*"
@@ -327,7 +327,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `required option marker`() {
-        val f = PlaintextHelpFormatter(width = 54, requiredOptionMarker = "*")
+        val f = CliktHelpFormatter(width = 54, requiredOptionMarker = "*")
         f.formatHelp("", "", l(
                 opt(l("--aa", "-a"), "INT", "aa option help"),
                 opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
@@ -343,7 +343,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `required option tag`() {
-        val f = PlaintextHelpFormatter(width = 54, showRequiredTag = true)
+        val f = CliktHelpFormatter(width = 54, showRequiredTag = true)
         f.formatHelp("", "", l(
                 opt(l("--aa", "-a"), "INT", "aa option help"),
                 opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
@@ -359,7 +359,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `default option tag`() {
-        val f = PlaintextHelpFormatter(width = 54, showDefaultValues = true)
+        val f = CliktHelpFormatter(width = 54, showDefaultValues = true)
         f.formatHelp("", "", l(
                 opt(l("--aa", "-a"), "INT", "aa option help"),
                 opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.DEFAULT to "123"))
@@ -375,7 +375,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `custom tag`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
                 opt(l("--aa", "-a"), "INT", "aa option help"),
                 opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf("deprecated" to ""))
@@ -391,7 +391,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `argument tag`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
                 arg("ARG1", "arg 1 help"),
                 arg("ARG2", "arg 2 help", tags = mapOf("deprecated" to ""))
@@ -407,7 +407,7 @@ class PlaintextHelpFormatterTest {
 
     @Test
     fun `subcommand tag`() {
-        val f = PlaintextHelpFormatter(width = 54)
+        val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
                 sub("sub1", "sub 1 help"),
                 sub("sub2", "sub 2 help", tags = mapOf("deprecated" to ""))

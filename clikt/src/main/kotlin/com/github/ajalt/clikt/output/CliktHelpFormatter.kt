@@ -7,7 +7,7 @@ import java.text.BreakIterator
 private val ANSI_CODE_RE = Regex("${"\u001B"}\\[[^m]*m")
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class PlaintextHelpFormatter(
+open class CliktHelpFormatter(
         protected val indent: String = "  ",
         width: Int? = null,
         maxWidth: Int = 78,

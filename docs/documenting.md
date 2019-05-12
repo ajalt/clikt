@@ -116,7 +116,7 @@ If you don't want a help option to be added, you can set
 ## Default Values in Help
 
 You can configure the help formatter to show default values in the help output by passing
-`showRequiredTag = true` to the `PlaintextHelpFormatter`. By default, the string value of the
+`showRequiredTag = true` to the `CliktHelpFormatter`. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the `defaultForHelp` parameter of
 [`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html).
@@ -124,7 +124,7 @@ the `defaultForHelp` parameter of
 ```kotlin
 class Tool : NoRunCliktCommand() {
     init {
-        context { helpFormatter = PlaintextHelpFormatter(showDefaultValues = true) }
+        context { helpFormatter = CliktHelpFormatter(showDefaultValues = true) }
     }
 
     val a by option(help = "this is optional").default("value")
@@ -152,12 +152,12 @@ that an option is required.
 
 ### Required Option Marker
 
-You can pass a character to the `requiredOptionMarker` argument of the `PlaintextHelpFormatter`. 
+You can pass a character to the `requiredOptionMarker` argument of the `CliktHelpFormatter`. 
 
 ```kotlin
 class Tool : NoRunCliktCommand() {
     init {
-        context { helpFormatter = PlaintextHelpFormatter(requiredOptionMarker = "*") }
+        context { helpFormatter = CliktHelpFormatter(requiredOptionMarker = "*") }
     }
 
     val option by option(help = "this is optional")
@@ -179,12 +179,12 @@ Options:
 
 ### Required Option Tag
 
-You can also show a tag for required options by passing `showRequiredTag = true` to the `PlaintextHelpFormatter`.
+You can also show a tag for required options by passing `showRequiredTag = true` to the `CliktHelpFormatter`.
 
 ```kotlin
 class Tool : NoRunCliktCommand() {
     init {
-        context { helpFormatter = PlaintextHelpFormatter(showRequiredTag = true) }
+        context { helpFormatter = CliktHelpFormatter(showRequiredTag = true) }
     }
 
     val option by option(help = "this is optional")

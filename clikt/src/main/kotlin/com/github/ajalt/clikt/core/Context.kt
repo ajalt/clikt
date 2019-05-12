@@ -2,7 +2,7 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.output.PlaintextHelpFormatter
+import com.github.ajalt.clikt.output.CliktHelpFormatter
 import com.github.ajalt.clikt.output.defaultCliktConsole
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -87,7 +87,7 @@ class Context(
         /** The description of the help option.*/
         var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
         /** The help formatter for this command*/
-        var helpFormatter: HelpFormatter = parent?.helpFormatter ?: PlaintextHelpFormatter()
+        var helpFormatter: HelpFormatter = parent?.helpFormatter ?: CliktHelpFormatter()
         /** An optional transformation function that is called to transform command line */
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
         /**

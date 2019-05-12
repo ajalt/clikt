@@ -13,6 +13,9 @@
 ### Changed
 - If multiple `--` tokens are present on the command line, all subsequent occurrences after the first are now
   parsed as positional arguments. Previously, subsequent `--` tokens were skipped.  
+- The `PlaintextHelpFormatter` has been replaced with `CliktHelpFormatter`, which is more
+  customizable. See [the docs](https://ajalt.github.io/clikt/documenting/) for more info, or the 
+  [new sample](samples/ansicolors/README.md) for an example of customizing help output to use ANSI colors.
 
 ## [1.7.0] - 2019-03-23
 ### Added

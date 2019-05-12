@@ -402,7 +402,7 @@ If [`choice`](#choice-options) or [`switch`](#feature-switch-flags) options aren
 you can use
 [`mutuallyExclusiveOptions`](api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options.html)
 to group any nullable options into a mutually exclusive group. If more than one of the options in
-the group is given on the command line, an error is reported. 
+the group is given on the command line, the last value is used.
 
 If you want different types for each option, you can wrap them in a sealed class.
 
@@ -428,6 +428,18 @@ Apples(count=10)
 $ ./order --oranges=small
 Oranges(size=small)
 
+$ ./order --apples=10 --oranges=large
+Oranges(size=large)
+
+Usage: order [OPTIONS]
+
+Error: option --apples cannot be used with --oranges
+```
+
+You can enforce that only one of the options is given with
+[`single`](api/clikt/com.github.ajalt.clikt.parameters.groups/single.html):
+
+```
 $ ./order --apples=10 --oranges=small
 Usage: order [OPTIONS]
 
@@ -435,7 +447,7 @@ Error: option --apples cannot be used with --oranges
 ```
 
 Like regular options, you can make the entire group
-[`required`](api/clikt/com.github.ajalt.clikt.parameters.groups/required.html) or give it a
+[`required`](api/clikt/com.github.ajalt.clikt.parameters.groups/required.html), or give it a
 [`default`](api/clikt/com.github.ajalt.clikt.parameters.groups/required.html) value.
 
 Like [other option groups](documenting/#grouping-options-in-help), you can specify a `name` and

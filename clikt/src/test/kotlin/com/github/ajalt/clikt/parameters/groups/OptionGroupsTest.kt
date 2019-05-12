@@ -12,6 +12,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.splitArgv
 import io.kotlintest.data.forall
+import io.kotlintest.fail
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
@@ -88,7 +89,7 @@ class OptionGroupsTest {
     fun `mutually exclusive group`() = forall(
             row("", null, "d"),
             row("--x=1", "1", "d"),
-            row("--x=1 --x=2", "2", "d"),
+            row("--x=1 --y=2", "2", "d"),
             row("--y=3", "3", "d"),
             row("--x=4 --o=5", "4", "5")
     ) { argv, eg, eo ->
@@ -105,14 +106,21 @@ class OptionGroupsTest {
     }
 
     @Test
-    fun `mutually exclusive group collision`() {
-        class C : NeverCalledCliktCommand() {
-            val g by mutuallyExclusiveOptions(option("--x"), option("--y"), option("--z"))
+    fun `mutually exclusive group single`() {
+        class C(val runAllowed: Boolean) : CliktCommand() {
+            val g by mutuallyExclusiveOptions(option("--x"), option("--y"), option("--z")).single()
+            override fun run() {
+                if (!runAllowed) fail("run should not be called")
+            }
         }
-        shouldThrow<MutuallyExclusiveGroupException> { C().parse(splitArgv("--x=1 --y=2")) }
+
+        C(true).apply { parse(splitArgv("--x=1")) }.g shouldBe "1"
+        C(true).apply { parse(splitArgv("--y=1 --y=2")) }.g shouldBe "2"
+
+        shouldThrow<MutuallyExclusiveGroupException> { C(false).parse(splitArgv("--x=1 --y=2")) }
                 .message shouldBe "option --x cannot be used with --y or --z"
 
-        shouldThrow<MutuallyExclusiveGroupException> { C().parse(splitArgv("--y=1 --z=2")) }
+        shouldThrow<MutuallyExclusiveGroupException> { C(false).parse(splitArgv("--y=1 --z=2")) }
                 .message shouldBe "option --x cannot be used with --y or --z"
     }
 

@@ -121,3 +121,5 @@ internal fun <EachT, AllT> deprecationTransformer(
     }
     transformAll(it)
 }
+
+internal fun Option.longestName(): String? = names.maxBy { it.length }

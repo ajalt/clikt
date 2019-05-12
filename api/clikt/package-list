@@ -1,9 +1,11 @@
-$dokka.format:html
-$dokka.linkExtension:html
+$dokka.format:gfm
+$dokka.linkExtension:md
 
+com.github.ajalt.clikt.completion
 com.github.ajalt.clikt.core
 com.github.ajalt.clikt.output
 com.github.ajalt.clikt.parameters.arguments
+com.github.ajalt.clikt.parameters.groups
 com.github.ajalt.clikt.parameters.options
 com.github.ajalt.clikt.parameters.types
 com.github.ajalt.clikt.parsers

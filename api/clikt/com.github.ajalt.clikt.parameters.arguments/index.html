@@ -1,189 +1,1592 @@
-<HTML>
-<HEAD>
-<meta charset="UTF-8">
-<title>com.github.ajalt.clikt.parameters.arguments - clikt</title>
-<link rel="stylesheet" href="../../style.css">
-</HEAD>
-<BODY>
-<a href="../index.html">clikt</a>&nbsp;/&nbsp;<a href="./index.html">com.github.ajalt.clikt.parameters.arguments</a><br/>
-<br/>
-<h2>Package com.github.ajalt.clikt.parameters.arguments</h2>
-<h3>Types</h3>
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Clikt: Simple, powerful command line parser for Kotlin">
+      
+      
+      
+        <meta name="author" content="AJ Alt">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../img/favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.2.0">
+    
+    
+      
+        <title>Clikt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.750b69bd.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.224b79ff.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546e7a">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../../../css/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#package-comgithubajaltcliktparametersarguments" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="Clikt" class="md-header-nav__button md-logo">
+          
+            <img src="../../../img/wordmark_small.svg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Clikt
+            </span>
+            <span class="md-header-nav__topic">
+              Home
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    Clikt
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../.." title="Clikt" class="md-nav__button md-logo">
+      
+        <img src="../../../img/wordmark_small.svg" width="48" height="48">
+      
+    </a>
+    Clikt
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    Clikt
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Quickstart
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Quickstart
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../quickstart/" title="Basic Concepts" class="md-nav__link">
+      Basic Concepts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/quickstart/#printing-to-stdout-and-stderr" title="Printing to Stdout and Stderr" class="md-nav__link">
+      Printing to Stdout and Stderr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/quickstart/#nesting-commands" title="Nesting Commands" class="md-nav__link">
+      Nesting Commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/quickstart/#adding-parameters" title="Adding Parameters" class="md-nav__link">
+      Adding Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/quickstart/#developing-command-line-applications-with-gradle" title="Developing Command Line Applications With Gradle" class="md-nav__link">
+      Developing Command Line Applications With Gradle
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Why Clikt?
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Why Clikt?
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/whyclikt/#why-not-a-java-library-like-jcommander" title="Why not a Java library like JCommander?" class="md-nav__link">
+      Why not a Java library like JCommander?
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Parameters
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Parameters
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../parameters/" title="Differences" class="md-nav__link">
+      Differences
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/parameters/#parameter-names" title="Parameter Names" class="md-nav__link">
+      Parameter Names
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/parameters/#parameter-types" title="Parameter Types" class="md-nav__link">
+      Parameter Types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/parameters/#built-in-types" title="Built-In Types" class="md-nav__link">
+      Built-In Types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/parameters/#custom-types" title="Custom Types" class="md-nav__link">
+      Custom Types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/parameters/#parameter-validation" title="Parameter Validation" class="md-nav__link">
+      Parameter Validation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Options
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Options
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../options/" title="Basic Options" class="md-nav__link">
+      Basic Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#option-names" title="Option Names" class="md-nav__link">
+      Option Names
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#option-names" title="Option Names" class="md-nav__link">
+      Option Names
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#customizing-options" title="Customizing Options" class="md-nav__link">
+      Customizing Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#multi-value-options" title="Multi Value Options" class="md-nav__link">
+      Multi Value Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#multiple-options" title="Multiple Options" class="md-nav__link">
+      Multiple Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
+      Boolean Flag Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#counted-flag-options" title="Counted Flag Options" class="md-nav__link">
+      Counted Flag Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#feature-switch-flags" title="Feature Switch Flags" class="md-nav__link">
+      Feature Switch Flags
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#choice-options" title="Choice Options" class="md-nav__link">
+      Choice Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#mutually-exclusive-option-groups" title="Mutually Exclusive Option Groups" class="md-nav__link">
+      Mutually Exclusive Option Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#co-occurring-option-groups" title="Co-Occurring Option Groups" class="md-nav__link">
+      Co-Occurring Option Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
+      Choice Options With Groups
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#prompting-for-input" title="Prompting For Input" class="md-nav__link">
+      Prompting For Input
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#password-prompts" title="Password Prompts" class="md-nav__link">
+      Password Prompts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#eager-options" title="Eager Options" class="md-nav__link">
+      Eager Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
+      Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#values-from-environment-variables" title="Values From Environment Variables" class="md-nav__link">
+      Values From Environment Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
+      Multiple Values from Environment Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#windows-and-java-style-option-prefixes" title="Windows and Java-Style Option Prefixes" class="md-nav__link">
+      Windows and Java-Style Option Prefixes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/options/#-option-transformation-order" title="Option Transformation Order" class="md-nav__link">
+      Option Transformation Order
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Arguments
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Arguments
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../arguments/" title="Basic Arguments" class="md-nav__link">
+      Basic Arguments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/arguments/#variadic-arguments" title="Variadic Arguments" class="md-nav__link">
+      Variadic Arguments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/arguments/#option-like-arguments" title="Option-Like Arguments" class="md-nav__link">
+      Option-Like Arguments
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Commands
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Commands
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../commands/" title="Executing Nested Commands" class="md-nav__link">
+      Executing Nested Commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#customizing-command-name" title="Customizing Command Name" class="md-nav__link">
+      Customizing Command Name
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#passing-parameters" title="Passing Parameters" class="md-nav__link">
+      Passing Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#nested-handling-and-contexts" title="Nested Handling And Contexts" class="md-nav__link">
+      Nested Handling And Contexts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#running-parent-command-without-children" title="Running Parent Command Without Children" class="md-nav__link">
+      Running Parent Command Without Children
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#customizing-contexts" title="Customizing Contexts" class="md-nav__link">
+      Customizing Contexts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#printing-the-help-message-when-no-arguments-are-given" title="Printing the Help Message When No Arguments Are Given" class="md-nav__link">
+      Printing the Help Message When No Arguments Are Given
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/commands/#issuing-warnings" title="Issuing Warnings" class="md-nav__link">
+      Issuing Warnings
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Documenting Scripts
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Documenting Scripts
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../documenting/" title="Help Texts" class="md-nav__link">
+      Help Texts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
+      Subcommand Short Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/documenting/#help-option-customization" title="Help Option Customization" class="md-nav__link">
+      Help Option Customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/documenting/#default-values-in-help" title="Default Values in Help" class="md-nav__link">
+      Default Values in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/documenting/#required-options-in-help" title="Required Options in Help" class="md-nav__link">
+      Required Options in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/documenting/#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
+      Grouping Options in Help
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Advanced Patterns
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Advanced Patterns
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../advanced/" title="Command Aliases" class="md-nav__link">
+      Command Aliases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/advanced/#token-normalization" title="Token Normalization" class="md-nav__link">
+      Token Normalization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/advanced/#replacing-stdin-and-stdout" title="Replacing stdin and stdout" class="md-nav__link">
+      Replacing stdin and stdout
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/advanced/#command-line-argument-files" title="Command Line Argument Files" class="md-nav__link">
+      Command Line Argument Files
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Utilities
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Utilities
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../utilities/" title="Launching Editors" class="md-nav__link">
+      Launching Editors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/utilities/#input-prompts" title="Input Prompts" class="md-nav__link">
+      Input Prompts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/utilities/#confirmation-prompts" title="Confirmation Prompts" class="md-nav__link">
+      Confirmation Prompts
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Bash Autocomplete
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Bash Autocomplete
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../autocomplete/" title="Supported Functionality" class="md-nav__link">
+      Supported Functionality
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/autocomplete/#enabling-completion" title="Enabling Completion" class="md-nav__link">
+      Enabling Completion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/autocomplete/#customizing-completions" title="Customizing Completions" class="md-nav__link">
+      Customizing Completions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/autocomplete/#limitations" title="Limitations" class="md-nav__link">
+      Limitations
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+    
+    <label class="md-nav__link" for="nav-11">
+      Exception Handling
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-11">
+        Exception Handling
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../exceptions/" title="Where are Exceptions Handled?" class="md-nav__link">
+      Where are Exceptions Handled?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/exceptions/#handling-exceptions-manually" title="Handling Exceptions Manually" class="md-nav__link">
+      Handling Exceptions Manually
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/exceptions/#which-exceptions-exist" title="Which Exceptions Exist?" class="md-nav__link">
+      Which Exceptions Exist?
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
+    
+    <label class="md-nav__link" for="nav-12">
+      API reference
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-12">
+        API reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/api/clikt/com.github.ajalt.clikt.core/" title="Commands and Exceptions" class="md-nav__link">
+      Commands and Exceptions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/api/clikt/com.github.ajalt.clikt.parameters.options/" title="Options" class="md-nav__link">
+      Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/api/clikt/com.github.ajalt.clikt.parameters.arguments/" title="Arguments" class="md-nav__link">
+      Arguments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/api/clikt/com.github.ajalt.clikt.parameters.types/" title="Parameter Type Conversions" class="md-nav__link">
+      Parameter Type Conversions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/api/clikt/com.github.ajalt.clikt.output/" title="Output Formatting" class="md-nav__link">
+      Output Formatting
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#package-comgithubajaltcliktparametersarguments" title="Package com.github.ajalt.clikt.parameters.arguments" class="md-nav__link">
+    Package com.github.ajalt.clikt.parameters.arguments
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types" title="Types" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-aliases" title="Type Aliases" class="md-nav__link">
+    Type Aliases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" title="Functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/ajalt/clikt/edit/master/docs/api/clikt/com.github.ajalt.clikt.parameters.arguments/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Home</h1>
+                
+                <p><a href="../">clikt</a> / <a href="./">com.github.ajalt.clikt.parameters.arguments</a></p>
+<h2 id="package-comgithubajaltcliktparametersarguments">Package com.github.ajalt.clikt.parameters.arguments<a class="headerlink" href="#package-comgithubajaltcliktparametersarguments" title="Permanent link">&para;</a></h2>
+<h3 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h3>
 <table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td>
-<p><a href="-argument/index.html">Argument</a></p>
-</td>
-<td>
-<code><span class="keyword">interface </span><span class="identifier">Argument</span></code>
-<p>A positional parameter to a command.</p>
-</td>
+<td><a href="-argument/">Argument</a></td>
+<td><code>interface Argument</code><br>A positional parameter to a command.</td>
 </tr>
 <tr>
-<td>
-<p><a href="-argument-delegate/index.html">ArgumentDelegate</a></p>
-</td>
-<td>
-<code><span class="keyword">interface </span><span class="identifier">ArgumentDelegate</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-argument/index.html"><span class="identifier">Argument</span></a><span class="symbol">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><span class="identifier">ReadOnlyProperty</span></a><span class="symbol">&lt;</span><a href="../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">,</span>&nbsp;<a href="-argument-delegate/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>An argument that functions as a property delegate</p>
-</td>
+<td><a href="-argument-delegate/">ArgumentDelegate</a></td>
+<td><code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="-argument/"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="-argument-delegate/#T"><code>T</code></a><code>&gt;</code><br>An argument that functions as a property delegate</td>
 </tr>
 <tr>
-<td>
-<p><a href="-argument-transform-context/index.html">ArgumentTransformContext</a></p>
-</td>
-<td>
-<code><span class="keyword">class </span><span class="identifier">ArgumentTransformContext</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-argument/index.html"><span class="identifier">Argument</span></a></code>
-<p>A receiver for argument transformers.</p>
-</td>
+<td><a href="-argument-transform-context/">ArgumentTransformContext</a></td>
+<td><code>class ArgumentTransformContext :</code><a href="-argument/"><code>Argument</code></a><br>A receiver for argument transformers.</td>
 </tr>
 <tr>
-<td>
-<p><a href="-processed-argument/index.html">ProcessedArgument</a></p>
-</td>
-<td>
-<code><span class="keyword">class </span><span class="identifier">ProcessedArgument</span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-argument-delegate/index.html"><span class="identifier">ArgumentDelegate</span></a><span class="symbol">&lt;</span><a href="-processed-argument/index.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span></code>
-<p>An <a href="-argument/index.html">Argument</a> delegate implementation that transforms its values .</p>
-</td>
+<td><a href="-processed-argument/">ProcessedArgument</a></td>
+<td><code>class ProcessedArgument&lt;AllT, ValueT&gt; :</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="-processed-argument/#AllT"><code>AllT</code></a><code>&gt;</code><br>An <a href="-argument/">Argument</a> delegate implementation that transforms its values .</td>
 </tr>
 </tbody>
 </table>
-<h3>Type Aliases</h3>
+<h3 id="type-aliases">Type Aliases<a class="headerlink" href="#type-aliases" title="Permanent link">&para;</a></h3>
 <table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td>
-<p><a href="-arg-calls-transformer.html">ArgCallsTransformer</a></p>
-</td>
-<td>
-<code><span class="keyword">typealias </span><span class="identifier">ArgCallsTransformer</span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">, </span><span class="identifier">EachT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-argument-transform-context/index.html"><span class="identifier">ArgumentTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="-arg-calls-transformer.html#EachT"><span class="identifier">EachT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-arg-calls-transformer.html#AllT"><span class="identifier">AllT</span></a></code>
-<p>A callback that transforms all the values into the final argument type</p>
-</td>
+<td><a href="-arg-calls-transformer/">ArgCallsTransformer</a></td>
+<td><code>typealias ArgCallsTransformer&lt;AllT, EachT&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="-arg-calls-transformer/#EachT"><code>EachT</code></a><code>&gt;) -&gt;</code><a href="-arg-calls-transformer/#AllT"><code>AllT</code></a><br>A callback that transforms all the values into the final argument type</td>
 </tr>
 <tr>
-<td>
-<p><a href="-arg-validator.html">ArgValidator</a></p>
-</td>
-<td>
-<code><span class="keyword">typealias </span><span class="identifier">ArgValidator</span><span class="symbol">&lt;</span><span class="identifier">AllT</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-argument-transform-context/index.html"><span class="identifier">ArgumentTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="-arg-validator.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>A callback validates the final argument type</p>
-</td>
+<td><a href="-arg-validator/">ArgValidator</a></td>
+<td><code>typealias ArgValidator&lt;AllT&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="-arg-validator/#AllT"><code>AllT</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>A callback validates the final argument type</td>
 </tr>
 <tr>
-<td>
-<p><a href="-arg-value-transformer.html">ArgValueTransformer</a></p>
-</td>
-<td>
-<code><span class="keyword">typealias </span><span class="identifier">ArgValueTransformer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;<a href="-argument-transform-context/index.html"><span class="identifier">ArgumentTransformContext</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="-arg-value-transformer.html#T"><span class="identifier">T</span></a></code>
-<p>A callback that transforms a single value from a string to the value type</p>
-</td>
+<td><a href="-arg-value-transformer/">ArgValueTransformer</a></td>
+<td><code>typealias ArgValueTransformer&lt;T&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="-arg-value-transformer/#T"><code>T</code></a><br>A callback that transforms a single value from a string to the value type</td>
 </tr>
 </tbody>
 </table>
-<h3>Functions</h3>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td>
-<p><a href="argument.html">argument</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><a href="../com.github.ajalt.clikt.core/-clikt-command/index.html"><span class="identifier">CliktCommand</span></a><span class="symbol">.</span><span class="identifier">argument</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$argument(com.github.ajalt.clikt.core.CliktCommand, kotlin.String, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$argument(com.github.ajalt.clikt.core.CliktCommand, kotlin.String, kotlin.String)/help">help</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">RawArgument</span></code>
-<p>Create a property delegate argument.</p>
-</td>
+<td><a href="argument/">argument</a></td>
+<td><code>fun</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>.argument(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap()): RawArgument</code><br>Create a property delegate argument.</td>
 </tr>
 <tr>
-<td>
-<p><a href="convert.html">convert</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <span class="identifier">RawArgument</span><span class="symbol">.</span><span class="identifier">convert</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$convert(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((kotlin.String, )), kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, kotlin.String, com.github.ajalt.clikt.parameters.arguments.convert.T)))/conversion">conversion</span><span class="symbol">:</span>&nbsp;<a href="-arg-value-transformer.html"><span class="identifier">ArgValueTransformer</span></a><span class="symbol">&lt;</span><a href="convert.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="convert.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="convert.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Convert the argument's values.</p>
-</td>
+<td><a href="convert/">convert</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; RawArgument.convert(completionCandidates:</code><a href="../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= this.completionCandidates, conversion:</code><a href="-arg-value-transformer/"><code>ArgValueTransformer</code></a><code>&lt;</code><a href="convert/#T"><code>T</code></a><code>&gt;):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="convert/#T"><code>T</code></a><code>,</code><a href="convert/#T"><code>T</code></a><code>&gt;</code><br>Convert the argument&rsquo;s values.</td>
 </tr>
 <tr>
-<td>
-<p><a href="default.html">default</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">default</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$default(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.default.T, )), com.github.ajalt.clikt.parameters.arguments.default.T)/value">value</span><span class="symbol">:</span>&nbsp;<a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-argument-delegate/index.html"><span class="identifier">ArgumentDelegate</span></a><span class="symbol">&lt;</span><a href="default.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>If the argument is not given, use <a href="default.html#com.github.ajalt.clikt.parameters.arguments$default(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.default.T, )), com.github.ajalt.clikt.parameters.arguments.default.T)/value">value</a> instead of throwing an error.</p>
-</td>
+<td><a href="default/">default</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="default/#T"><code>T</code></a><code>,</code><a href="default/#T"><code>T</code></a><code>&gt;.default(value:</code><a href="default/#T"><code>T</code></a><code>):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="default/#T"><code>T</code></a><code>&gt;</code><br>If the argument is not given, use <a href="default/#com.github.ajalt.clikt.parameters.arguments$default(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.default.T, )">value</a>, com.github.ajalt.clikt.parameters.arguments.default.T)/value) instead of throwing an error.</td>
 </tr>
 <tr>
-<td>
-<p><a href="default-lazy.html">defaultLazy</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">defaultLazy</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value">value</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-argument-delegate/index.html"><span class="identifier">ArgumentDelegate</span></a><span class="symbol">&lt;</span><a href="default-lazy.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>If the argument is not given, call <a href="default-lazy.html#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value">value</a> and use its return value instead of throwing an error.</p>
-</td>
+<td><a href="default-lazy/">defaultLazy</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="default-lazy/#T"><code>T</code></a><code>,</code><a href="default-lazy/#T"><code>T</code></a><code>&gt;.defaultLazy(value: () -&gt;</code><a href="default-lazy/#T"><code>T</code></a><code>):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="default-lazy/#T"><code>T</code></a><code>&gt;</code><br>If the argument is not given, call <a href="default-lazy/#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )">value</a>, kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value) and use its return value instead of throwing an error.</td>
 </tr>
 <tr>
-<td>
-<p><a href="multiple.html">multiple</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="multiple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="multiple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">multiple</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$multiple(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.multiple.T, )), kotlin.Boolean)/required">required</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="multiple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="multiple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Accept any number of values to this argument.</p>
-</td>
+<td><a href="multiple/">multiple</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="multiple/#T"><code>T</code></a><code>,</code><a href="multiple/#T"><code>T</code></a><code>&gt;.multiple(required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="multiple/#T"><code>T</code></a><code>&gt;,</code><a href="multiple/#T"><code>T</code></a><code>&gt;</code><br>Accept any number of values to this argument.</td>
 </tr>
 <tr>
-<td>
-<p><a href="optional.html">optional</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">AllT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="optional.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">,</span>&nbsp;<a href="optional.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">optional</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="optional.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">?</span><span class="symbol">,</span>&nbsp;<a href="optional.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
-<p>Return null instead of throwing an error if no value is given.</p>
-</td>
+<td><a href="optional/">optional</a></td>
+<td><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="optional/#AllT"><code>AllT</code></a><code>,</code><a href="optional/#ValueT"><code>ValueT</code></a><code>&gt;.optional():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="optional/#AllT"><code>AllT</code></a><code>?,</code><a href="optional/#ValueT"><code>ValueT</code></a><code>&gt;</code><br>Return null instead of throwing an error if no value is given.</td>
 </tr>
 <tr>
-<td>
-<p><a href="pair.html">pair</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">pair</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="pair.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Require exactly two values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.</p>
-</td>
+<td><a href="pair/">pair</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="pair/#T"><code>T</code></a><code>,</code><a href="pair/#T"><code>T</code></a><code>&gt;.pair():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="pair/#T"><code>T</code></a><code>,</code><a href="pair/#T"><code>T</code></a><code>&gt;,</code><a href="pair/#T"><code>T</code></a><code>&gt;</code><br>Require exactly two values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.</td>
 </tr>
 <tr>
-<td>
-<p><a href="transform-all.html">transformAll</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">AllInT</span><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">, </span><span class="identifier">AllOutT</span><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="transform-all.html#AllInT"><span class="identifier">AllInT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">transformAll</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$transformAll(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.transformAll.AllInT, com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), kotlin.Int, kotlin.Boolean, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), com.github.ajalt.clikt.parameters.arguments.transformAll.AllOutT)))/nvalues">nvalues</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$transformAll(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.transformAll.AllInT, com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), kotlin.Int, kotlin.Boolean, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), com.github.ajalt.clikt.parameters.arguments.transformAll.AllOutT)))/required">required</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$transformAll(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.transformAll.AllInT, com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), kotlin.Int, kotlin.Boolean, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), com.github.ajalt.clikt.parameters.arguments.transformAll.AllOutT)))/transform">transform</span><span class="symbol">:</span>&nbsp;<a href="-arg-calls-transformer.html"><span class="identifier">ArgCallsTransformer</span></a><span class="symbol">&lt;</span><a href="transform-all.html#AllOutT"><span class="identifier">AllOutT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="transform-all.html#AllOutT"><span class="identifier">AllOutT</span></a><span class="symbol">,</span>&nbsp;<a href="transform-all.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span></code>
-<p>Transform all values to the final argument type.</p>
-</td>
+<td><a href="transform-all/">transformAll</a></td>
+<td><code>fun &lt;AllInT, ValueT, AllOutT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="transform-all/#AllInT"><code>AllInT</code></a><code>,</code><a href="transform-all/#ValueT"><code>ValueT</code></a><code>&gt;.transformAll(nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>? = null, required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>? = null, transform:</code><a href="-arg-calls-transformer/"><code>ArgCallsTransformer</code></a><code>&lt;</code><a href="transform-all/#AllOutT"><code>AllOutT</code></a><code>,</code><a href="transform-all/#ValueT"><code>ValueT</code></a><code>&gt;):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="transform-all/#AllOutT"><code>AllOutT</code></a><code>,</code><a href="transform-all/#ValueT"><code>ValueT</code></a><code>&gt;</code><br>Transform all values to the final argument type.</td>
 </tr>
 <tr>
-<td>
-<p><a href="triple.html">triple</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">triple</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><span class="identifier">Triple</span></a><span class="symbol">&lt;</span><a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="triple.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Require exactly three values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a></p>
-</td>
+<td><a href="triple/">triple</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="triple/#T"><code>T</code></a><code>,</code><a href="triple/#T"><code>T</code></a><code>&gt;.triple():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><code>Triple</code></a><code>&lt;</code><a href="triple/#T"><code>T</code></a><code>,</code><a href="triple/#T"><code>T</code></a><code>,</code><a href="triple/#T"><code>T</code></a><code>&gt;,</code><a href="triple/#T"><code>T</code></a><code>&gt;</code><br>Require exactly three values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a></td>
 </tr>
 <tr>
-<td>
-<p><a href="unique.html">unique</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="unique.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="unique.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">unique</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="unique.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="unique.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
-<p>Only store unique values for this argument</p>
-</td>
+<td><a href="unique/">unique</a></td>
+<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="unique/#T"><code>T</code></a><code>&gt;,</code><a href="unique/#T"><code>T</code></a><code>&gt;.unique():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="unique/#T"><code>T</code></a><code>&gt;,</code><a href="unique/#T"><code>T</code></a><code>&gt;</code><br>Only store unique values for this argument</td>
 </tr>
 <tr>
-<td>
-<p><a href="validate.html">validate</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">AllT</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">, </span><span class="identifier">ValueT</span><span class="symbol">&gt;</span> <a href="-processed-argument/index.html"><span class="identifier">ProcessedArgument</span></a><span class="symbol">&lt;</span><a href="validate.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">,</span>&nbsp;<a href="validate.html#ValueT"><span class="identifier">ValueT</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">validate</span><span class="symbol">(</span><span class="identifier" id="com.github.ajalt.clikt.parameters.arguments$validate(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.validate.AllT, com.github.ajalt.clikt.parameters.arguments.validate.ValueT)), kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, com.github.ajalt.clikt.parameters.arguments.validate.AllT, kotlin.Unit)))/validator">validator</span><span class="symbol">:</span>&nbsp;<a href="-arg-validator.html"><span class="identifier">ArgValidator</span></a><span class="symbol">&lt;</span><a href="validate.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="-argument-delegate/index.html"><span class="identifier">ArgumentDelegate</span></a><span class="symbol">&lt;</span><a href="validate.html#AllT"><span class="identifier">AllT</span></a><span class="symbol">&gt;</span></code>
-<p>Check the final argument value and raise an error if it's not valid.</p>
-</td>
+<td><a href="validate/">validate</a></td>
+<td><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="validate/#AllT"><code>AllT</code></a><code>,</code><a href="validate/#ValueT"><code>ValueT</code></a><code>&gt;.validate(validator:</code><a href="-arg-validator/"><code>ArgValidator</code></a><code>&lt;</code><a href="validate/#AllT"><code>AllT</code></a><code>&gt;):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="validate/#AllT"><code>AllT</code></a><code>&gt;</code><br>Check the final argument value and raise an error if it&rsquo;s not valid.</td>
 </tr>
 </tbody>
 </table>
-</BODY>
-</HTML>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2019 AJ Alt
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.39abc4af.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+    
+  </body>
+</html>

@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
@@ -37,6 +38,7 @@ import kotlin.system.exitProcess
  *   to null to disable generation.
  */
 @Suppress("PropertyName")
+@ParameterHolderDsl
 abstract class CliktCommand(
         help: String = "",
         epilog: String = "",
@@ -45,13 +47,14 @@ abstract class CliktCommand(
         val printHelpOnEmptyArgs: Boolean = false,
         val helpTags: Map<String, String> = emptyMap(),
         private val autoCompleteEnvvar: String? = ""
-) {
+) : ParameterHolder {
     val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog
     internal var _subcommands: List<CliktCommand> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
     internal val _arguments: MutableList<Argument> = mutableListOf()
+    internal val _groups: MutableList<ParameterGroup> = mutableListOf()
     internal var _contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
     private val _messages = mutableListOf<String>()
@@ -70,9 +73,12 @@ abstract class CliktCommand(
         }
     }
 
-    private fun allHelpParams() = _options.mapNotNull { it.parameterHelp } +
-            _arguments.mapNotNull { it.parameterHelp } +
-            _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags) }
+    private fun allHelpParams(): List<ParameterHelp> {
+        return _options.mapNotNull { it.parameterHelp } +
+                _arguments.mapNotNull { it.parameterHelp } +
+                _groups.mapNotNull { it.parameterHelp } +
+                _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags) }
+    }
 
     private fun getCommandNameWithParents(): String {
         if (_context == null) createContext()
@@ -132,6 +138,8 @@ abstract class CliktCommand(
         _options += option
     }
 
+    override fun registerOption(option: GroupableOption) = registerOption(option as Option)
+
     /**
      * Register an argument with this command.
      *
@@ -143,6 +151,18 @@ abstract class CliktCommand(
             "Cannot declare multiple arguments with variable numbers of values"
         }
         _arguments += argument
+    }
+
+    /**
+     * Register a group with this command.
+     *
+     * This is called automatically for built in groups, but you need to call this if you want to
+     * add a custom group.
+     */
+    fun registerOptionGroup(group: ParameterGroup) {
+        require(group !in _groups) { "Cannot register the same group twice" }
+        require(group.groupName == null || _groups.none { it.groupName == group.groupName }) { "Cannot register the same group name twice" }
+        _groups += group
     }
 
     /** Return the usage string for this command. */

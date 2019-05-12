@@ -30,6 +30,8 @@ interface HelpFormatter {
          * @param metavar The metavar to display for the option if it takes values
          * @param help The option's description
          * @param nvalues The number of values that this option takes
+         * @param tags Any extra tags to display with the help message for this option
+         * @param groupName The name of the group this option belongs to, if there is one and its name should be shown in the help message
          */
         data class Option(
                 val names: Set<String>,
@@ -37,7 +39,8 @@ interface HelpFormatter {
                 val metavar: String?,
                 val help: String,
                 val nvalues: Int,
-                val tags: Map<String, String>
+                val tags: Map<String, String>,
+                val groupName: String?
         ) : ParameterHelp()
 
         /**
@@ -62,6 +65,18 @@ interface HelpFormatter {
                 val name: String,
                 val help: String,
                 val tags: Map<String, String>
+        ) : ParameterHelp()
+
+        /**
+         * Help for an option group. If the group doesn't have a name or help, you don't need to
+         * create an instance of this class for it.
+         *
+         * @property name The group name
+         * @property help The help text for this group
+         */
+        data class Group(
+                val name: String,
+                val help: String
         ) : ParameterHelp()
     }
 

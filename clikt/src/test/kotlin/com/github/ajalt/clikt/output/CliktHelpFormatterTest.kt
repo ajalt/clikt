@@ -7,6 +7,10 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
+import com.github.ajalt.clikt.parameters.groups.cooccurring
+import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
+import com.github.ajalt.clikt.parameters.groups.required
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import io.kotlintest.shouldBe
@@ -20,9 +24,10 @@ private fun opt(
         help: String = "",
         nvalues: Int = 1,
         secondaryNames: List<String> = emptyList(),
-        tags: Map<String, String> = emptyMap()
+        tags: Map<String, String> = emptyMap(),
+        group: String? = null
 ): ParameterHelp.Option {
-    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags)
+    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, group)
 }
 
 private fun opt(
@@ -226,6 +231,30 @@ class CliktHelpFormatterTest {
     }
 
     @Test
+    fun `formatHelp option groups`() {
+        val f = CliktHelpFormatter(width = 54)
+        f.formatHelp("", "", l(
+                opt(l("--aa", "-a"), "INT", "some thing to live by aa", group = "Grouped"),
+                opt(l("--bb", "-b"), "INT", "some thing to live by bb", group = "Singleton"),
+                opt(l("--cc", "-c"), "INT", "some thing to live by cc", group = "Grouped"),
+                opt(l("--dd", "-d"), "INT", "some thing to live by dd")
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Grouped:
+                |  -a, --aa INT  some thing to live by aa
+                |  -c, --cc INT  some thing to live by cc
+                |
+                |Singleton:
+                |  -b, --bb INT  some thing to live by bb
+                |
+                |Options:
+                |  -d, --dd INT  some thing to live by dd
+                """.trimMargin("|")
+    }
+
+    @Test
     fun `formatHelp arguments`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
@@ -258,8 +287,17 @@ class CliktHelpFormatterTest {
     }
 
     @Test
+    @Suppress("unused")
     fun `integration test`() {
-        @Suppress("unused")
+        class G : OptionGroup("My Group", help = "this is my group") {
+            val groupFoo by option(help = "foo for group").required()
+            val bar by option("-g", "--group-bar", help = "bar for group")
+        }
+
+        class G2 : OptionGroup("Another group") {
+            val groupBaz by option(help = "this group doesn't have help").required()
+        }
+
         class C : NoRunCliktCommand(name = "program",
                 help = """
                 This is a program.
@@ -267,6 +305,20 @@ class CliktHelpFormatterTest {
                 This is the prolog.
                 """,
                 epilog = "This is the epilog") {
+            val g by G().cooccurring()
+            val g2 by G2().cooccurring()
+            val ex by mutuallyExclusiveOptions(
+                    option("--ex-foo", help = "exclusive foo"),
+                    option("--ex-bar", help = "exclusive bar"),
+                    name = "Exclusive",
+                    help = "These options are exclusive"
+            )
+            val ex2 by mutuallyExclusiveOptions(
+                    option("--ex-baz", help = "exclusive baz"),
+                    option("--ex-qux", help = "exclusive qux"),
+                    option("--ex-quz", help = "exclusive quz"),
+                    name = "Exclusive without help"
+            )
             val foo by option(help = "foo option help").int().required()
             val bar by option("-b", "--bar", help = "bar option help", metavar = "META").default("optdef")
             val baz by option(help = "baz option help").flag("--no-baz")
@@ -302,13 +354,34 @@ class CliktHelpFormatterTest {
                 .versionOption("1.0")
                 .subcommands(Sub(), Sub2())
 
-        c.getFormattedHelp() shouldBe
-                """
+        c.getFormattedHelp() shouldBe """
                 |Usage: program [OPTIONS] ARG [MULTI]... COMMAND [ARGS]...
                 |
                 |  This is a program.
                 |
                 |  This is the prolog.
+                |
+                |My Group:
+                |
+                |  this is my group
+                |
+                |* --group-foo TEXT      foo for group (required)
+                |  -g, --group-bar TEXT  bar for group
+                |
+                |Another group:
+                |* --group-baz TEXT  this group doesn't have help (required)
+                |
+                |Exclusive:
+                |
+                |  These options are exclusive
+                |
+                |  --ex-foo TEXT  exclusive foo
+                |  --ex-bar TEXT  exclusive bar
+                |
+                |Exclusive without help:
+                |  --ex-baz TEXT  exclusive baz
+                |  --ex-qux TEXT  exclusive qux
+                |  --ex-quz TEXT  exclusive quz
                 |
                 |Options:
                 |* --foo INT         foo option help (required)

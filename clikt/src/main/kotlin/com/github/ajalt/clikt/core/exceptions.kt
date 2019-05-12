@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
+import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
 
 /**
@@ -147,5 +148,18 @@ open class IncorrectArgumentValueCount(
 ) : UsageError("", argument, context) {
     override fun formatMessage(): String {
         return "argument ${inferParamName()} takes ${argument!!.nvalues} values"
+    }
+}
+
+open class MutuallyExclusiveGroupException(
+        protected val names: List<String>,
+        context: Context? = null
+) : UsageError("", context = context) {
+    init {
+        require(names.size > 1) { "must provide at least two names" }
+    }
+
+    override fun formatMessage(): String {
+        return "option ${names.first()} cannot be used with ${names.drop(1).joinToString(" or ")}"
     }
 }

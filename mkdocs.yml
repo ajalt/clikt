@@ -59,6 +59,8 @@ nav:
       - 'Counted Flag Options': options/#counted-flag-options
       - 'Feature Switch Flags': options/#feature-switch-flags
       - 'Choice Options': options/#choice-options
+      - 'Mutually Exclusive Option Groups': options/#mutually-exclusive-option-groups
+      - 'Co-Occurring Option Groups': options/#co-occurring-option-groups
       - 'Prompting For Input': options/#prompting-for-input
       - 'Password Prompts': options/#password-prompts
       - 'Eager Options': options/#eager-options
@@ -86,6 +88,7 @@ nav:
       - 'Help Option Customization': documenting/#help-option-customization
       - 'Default Values in Help': documenting/#default-values-in-help
       - 'Required Options in Help': documenting/#required-options-in-help
+      - 'Grouping Options in Help': documenting/#grouping-options-in-help
   - 'Advanced Patterns':
       - 'Command Aliases': advanced.md
       - 'Token Normalization': advanced/#token-normalization

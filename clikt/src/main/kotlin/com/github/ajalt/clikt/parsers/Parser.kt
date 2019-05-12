@@ -83,18 +83,30 @@ internal object Parser {
         }
 
         val invocationsByOption = invocations.groupBy({ it.first }, { it.second })
+        val invocationsByGroup = invocations.groupBy { (it.first as? GroupableOption)?.parameterGroup }
+        val invocationsByOptionByGroup = invocationsByGroup.mapValues { (_, invs) -> invs.groupBy({ it.first }, { it.second }).filterKeys { it !is EagerOption } }
 
         try {
             // Finalize eager options
             invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
 
-            // Finalize remaining options that occurred on the command line
-            invocationsByOption.forEach { (o, inv) -> if (o !is EagerOption) o.finalize(context, inv) }
-
-            // Finalize options not provided on the command line so that they can apply default values etc.
-            command._options.forEach { o ->
-                if (o !is EagerOption && o !in invocationsByOption) o.finalize(context, emptyList())
+            // Finalize option groups
+            invocationsByOptionByGroup.forEach { (group, invocations) ->
+                group?.finalize(context, invocations)
             }
+
+            // Finalize remaining un-grouped options that occurred on the command line
+            invocationsByOptionByGroup[null]?.forEach { (o, inv) -> o.finalize(context, inv) }
+
+            // Finalize un-grouped options not provided on the command line so that they can apply default values etc.
+            command._options.forEach { o ->
+                if (o !is EagerOption && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
+                    o.finalize(context, emptyList())
+                }
+            }
+
+            // Finalize groups with no invocations
+            command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
 
             parseArguments(positionalArgs, arguments).forEach { (it, v) -> it.finalize(context, v) }
 

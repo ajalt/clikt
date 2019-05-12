@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
+import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
@@ -102,9 +103,11 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
         val transformAll: CallsTransformer<EachT, AllT>
-) : OptionDelegate<AllT> {
+) : OptionDelegate<AllT>, GroupableOption {
+    override var parameterGroup: ParameterGroup? = null
     override val metavar: String? get() = metavarWithDefault.value
-    private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
+    override var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
+        private set
     override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
         private set
@@ -126,9 +129,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         })
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
-
-    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, AllT> {
+    override operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, AllT> {
         require(secondaryNames.isEmpty()) {
             "Secondary option names are only allowed on flag options."
         }
@@ -189,7 +190,7 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
  * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("unused")
-fun CliktCommand.option(
+fun ParameterHolder.option(
         vararg names: String,
         help: String = "",
         metavar: String? = null,

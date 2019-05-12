@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
 import com.github.ajalt.clikt.parsers.FlagOptionParser
@@ -16,7 +17,6 @@ import kotlin.reflect.KProperty
  * @property transformAll Called to transform all invocations of this option into the final option type.
  */
 // `T` is deliberately not an out parameter.
-@Suppress("AddVarianceModifier")
 class FlagOption<T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
@@ -26,10 +26,12 @@ class FlagOption<T>(
         val envvar: String?,
         val transformEnvvar: OptionTransformContext.(String) -> T,
         val transformAll: CallsTransformer<String, T>) : OptionDelegate<T> {
+    override var parameterGroup: ParameterGroup? = null
     override val metavar: String? = null
     override val nvalues: Int get() = 0
     override val parser = FlagOptionParser
-    private var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
+    override var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
+        private set
     override var names: Set<String> = names
         private set
 
@@ -42,9 +44,7 @@ class FlagOption<T>(
         }
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
-
-    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
+    override operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, T> {
         names = inferOptionNames(names, prop.name)
         thisRef.registerOption(this)
         return this

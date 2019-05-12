@@ -316,8 +316,8 @@ true true Foo
 
 ## Counted Flag Options
 
-You might want a flag option that counts the number of times it occurs
-on the command line. You can use [`counted`](api/clikt/com.github.ajalt.clikt.parameters.options/counted.html) for this.
+You might want a flag option that counts the number of times it occurs on the command line. You can
+use [`counted`](api/clikt/com.github.ajalt.clikt.parameters.options/counted.html) for this.
 
 ```kotlin
 class Log : CliktCommand() {
@@ -337,9 +337,10 @@ Verbosity level: 3
 
 ## Feature Switch Flags
 
-Another way to use flags to to assign a value to each option name. You
-can do this with [`switch`](api/clikt/com.github.ajalt.clikt.parameters.options/switch.html), which takes a map of option names to values. Note that
-the names in the map replace any previously specified or inferred names.
+Another way to use flags is to assign a value to each option name. You can do this with
+[`switch`](api/clikt/com.github.ajalt.clikt.parameters.options/switch.html), which takes a map of
+option names to values. Note that the names in the map replace any previously specified or inferred
+names.
 
 ```kotlin
 class Size : CliktCommand() {
@@ -359,8 +360,9 @@ You picked size small
 
 ## Choice Options
 
-You can restrict the values that a regular option can take to a set of
-values using [`choice`](api/clikt/com.github.ajalt.clikt.parameters.types/choice.html). You can also map the input values to new types.
+You can restrict the values that a regular option can take to a set of values using
+[`choice`](api/clikt/com.github.ajalt.clikt.parameters.types/choice.html). You can also map the
+input values to new types.
 
 ```kotlin
 class Digest : CliktCommand() {
@@ -394,11 +396,100 @@ Options:
   -h, --help         Show this message and exit
 ```
 
+## Mutually Exclusive Option Groups
+
+If [`choice`](#choice-options) or [`switch`](#feature-switch-flags) options aren't flexible enough,
+you can use
+[`mutuallyExclusiveOptions`](api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options.html)
+to group any nullable options into a mutually exclusive group. If more than one of the options in
+the group is given on the command line, an error is reported. 
+
+If you want different types for each option, you can wrap them in a sealed class.
+
+```kotlin
+sealed class Fruit {
+    data class Oranges(val size: String): Fruit()
+    data class Apples(val count: Int): Fruit()
+}
+class Order : CliktCommand() {
+    val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
+            option("--apples").convert { Apples(it.toInt()) },
+            option("--oranges").convert { Oranges(it) }
+    )
+
+    override fun run() = echo(fruit)
+}
+```
+
+```
+$ ./order --apples=10
+Apples(count=10)
+
+$ ./order --oranges=small
+Oranges(size=small)
+
+$ ./order --apples=10 --oranges=small
+Usage: order [OPTIONS]
+
+Error: option --apples cannot be used with --oranges
+```
+
+Like regular options, you can make the entire group
+[`required`](api/clikt/com.github.ajalt.clikt.parameters.groups/required.html) or give it a
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.groups/required.html) value.
+
+Like [other option groups](documenting/#grouping-options-in-help), you can specify a `name` and
+`help` text for the group if you want to set the group apart in the help output.
+
+## Co-Occurring Option Groups
+
+Sometimes you have a set of options that only make sense when specified together. To enforce this,
+you can make an option group [`cooccurring`](api/clikt/com.github.ajalt.clikt.parameters.groups/cooccurring.html).
+
+Co-occurring groups must have at least one
+[`required`](api/clikt/com.github.ajalt.clikt.parameters.options/required.html) option, and may also
+have non-required options. The `required` constraint is enforced if any of the options in the group
+are given on the command line. If none if the options are given, the value of the group is null.
+
+```kotlin
+class UserOptions : OptionGroup() {
+    val name by option().required()
+    val age by option().int()
+}
+class Tool : CliktCommand() {
+    val userOptions by UserOptions().cooccurring()
+    override fun run() {
+        userOptions?.let {
+            echo(it.name)
+            echo(it.age)
+        } ?: echo("No user options")
+    }
+}
+```
+
+```
+$ ./tool
+No user options
+
+$ ./tool --name=jane --age=30
+jane
+30
+
+$ ./tool --age=30
+Usage: tool [OPTIONS]
+
+Error: Missing option "--name".
+```
+
+Like [other option groups](documenting/#grouping-options-in-help), you can specify a `name` and
+`help` text for the group if you want to set the group apart in the help output.
+
 ## Prompting For Input
 
 In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input
-if one is not provided. Clikt can take care of this for you with the [`prompt`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html) function.
+if one is not provided. Clikt can take care of this for you with the
+[`prompt`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html) function.
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -422,7 +513,8 @@ Name: foo
 Hello foo
 ```
 
-The default prompt string is based on the option name, but [`prompt`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html) takes a number of
+The default prompt string is based on the option name, but
+[`prompt`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html) takes a number of
 parameters to customize the output.
 
 ## Password Prompts

@@ -182,7 +182,7 @@ Options:
 You can also show a tag for required options by passing `showRequiredTag = true` to the `CliktHelpFormatter`.
 
 ```kotlin
-class Tool : NoRunCliktCommand() {
+class Tool : CliktCommand() {
     init {
         context { helpFormatter = CliktHelpFormatter(showRequiredTag = true) }
     }
@@ -203,3 +203,44 @@ Options:
   --required TEXT  this is required (required)
   -h, --help       Show this message and exit
 ```
+
+## Grouping Options in Help
+
+You can group options into separate help sections by using
+[OptionGroup](api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html).
+The name of the group will be shown in the output. You can also add an extra help message to be shown with the group.
+
+```kotlin
+class UserOptions : OptionGroup(name = "User Options", help = "Options controlling the user") {
+    val name by option(help = "user name")
+    val age by option(help = "user age").int()
+}
+
+class Tool : NoRunCliktCommand() {
+    val userOptions by UserOptions()
+}
+```
+
+And on the command line:
+
+```
+$ ./tool --help
+Usage: cli [OPTIONS]
+
+User Options:
+
+  Options controlling the user
+
+  --name TEXT  user name
+  --age INT    user age
+
+Options:
+  -h, --help  Show this message and exit
+```
+
+### Note for IntelliJ users:
+
+If you're using IntelliJ, there is a bug in the Kotlin plugin for versions 1.2.31 and under that prevents
+[provideDelegate](api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/index.html)
+from being imported automatically, so you might need to add this import manually: `import
+com.github.ajalt.clikt.parameters.groups.provideDelegate`

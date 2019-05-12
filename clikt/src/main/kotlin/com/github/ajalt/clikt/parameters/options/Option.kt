@@ -1,9 +1,10 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.GroupableOption
+import com.github.ajalt.clikt.core.ParameterHolder
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
@@ -46,7 +47,8 @@ interface Option {
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
         get() = when {
             hidden -> null
-            else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues, helpTags)
+            else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues, helpTags,
+                    groupName = if (this is GroupableOption) parameterGroup?.groupName else null)
         }
 
     /**
@@ -59,9 +61,18 @@ interface Option {
 }
 
 /** An option that functions as a property delegate */
-interface OptionDelegate<out T> : Option, ReadOnlyProperty<CliktCommand, T> {
-    /** Implementations must call [CliktCommand.registerOption] */
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
+interface OptionDelegate<T> : GroupableOption, ReadOnlyProperty<ParameterHolder, T> {
+    /**
+     * The value for this option.
+     *
+     * An exception should be thrown if this property is accessed before [finalize] is called.
+     */
+    val value: T
+
+    /** Implementations must call [ParameterHolder.registerOption] */
+    operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, T>
+
+    override fun getValue(thisRef: ParameterHolder, property: KProperty<*>): T = value
 }
 
 internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {

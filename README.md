@@ -7,8 +7,7 @@ Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
 command line interfaces simple and intuitive. It's the "Command Line
 Interface for Kotlin".
 
-Inspired by Python's [Click](https://github.com/pallets/click), it is
-designed to make the process of writing command line tools effortless
+It is designed to make the process of writing command line tools effortless
 while supporting a wide variety of use cases and allowing advanced
 customization when needed.
 
@@ -76,7 +75,8 @@ them with the included [`runsample` script](runsample).
 
 ## Installation
 
-Clikt is distributed through [Maven Central](https://mvnrepository.com/artifact/com.github.ajalt/clikt),
+Clikt is distributed through 
+[Maven Central](https://mvnrepository.com/artifact/com.github.ajalt/clikt),
 [Jcenter](https://bintray.com/ajalt/maven/clikt) and
 [Jitpack](https://jitpack.io/#ajalt/clikt).
 
@@ -88,7 +88,7 @@ dependencies {
 
 ## License
 
-    Copyright 2018 AJ Alt
+    Copyright 2018-2019 AJ Alt
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -2,8 +2,6 @@ package com.github.ajalt.clikt.output
 
 import java.text.BreakIterator
 
-
-
 private val ANSI_CODE_RE = Regex("${"\u001B"}\\[[^m]*m")
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -85,13 +83,24 @@ open class CliktHelpFormatter(
 
     protected open fun StringBuilder.addProlog(prolog: String) {
         if (prolog.isNotEmpty()) {
-            section("")
+            append("\n\n")
             prolog.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ", preserveParagraph = true)
         }
     }
 
     protected open fun StringBuilder.addOptions(parameters: List<HelpFormatter.ParameterHelp>) {
-        val options = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>().map {
+        val groupsByName = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Group>().associateBy { it.name }
+        parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>()
+                .groupBy { it.groupName }
+                .toList()
+                .sortedBy { it.first == null }
+                .forEach { (title, params) ->
+                    addOptionGroup(title?.let { "$it:" } ?: optionsTitle, groupsByName[title]?.help, params)
+                }
+    }
+
+    protected open fun StringBuilder.addOptionGroup(title: String, help: String?, parameters: List<HelpFormatter.ParameterHelp.Option>) {
+        val options = parameters.map {
             val names = mutableListOf(joinNamesForOption(it.names))
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(it.secondaryNames)
             DefinitionRow(
@@ -102,7 +111,10 @@ open class CliktHelpFormatter(
         }
         if (options.isNotEmpty()) {
             append("\n")
-            section(optionsTitle)
+            section(title)
+            if (help != null) append("\n")
+            help?.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ", preserveParagraph = true)
+            if (help != null) append("\n\n")
             appendDefinitionList(options)
         }
     }
@@ -131,7 +143,7 @@ open class CliktHelpFormatter(
 
     protected open fun StringBuilder.addEpilog(epilog: String) {
         if (epilog.isNotEmpty()) {
-            section("")
+            append("\n\n")
             epilog.wrapText(this, width, preserveParagraph = true)
         }
     }

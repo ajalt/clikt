@@ -1,6 +1,14 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.CliktError
+import com.github.ajalt.clikt.core.IncorrectOptionValueCount
+import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.NoSuchOption
+import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
@@ -359,7 +367,9 @@ class OptionTest {
 
         C().parse(splitArgv("--x=foo"))
 
-        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }.message shouldBe "Missing option \"--x\"."
+        shouldThrow<MissingParameter> {
+            C().parse(splitArgv(""))
+        }.message shouldBe "Missing option \"--x\"."
     }
 
     @Test

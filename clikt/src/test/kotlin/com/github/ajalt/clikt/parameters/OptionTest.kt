@@ -1,14 +1,8 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.IncorrectOptionValueCount
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.NoRunCliktCommand
-import com.github.ajalt.clikt.core.NoSuchOption
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
 import com.github.ajalt.clikt.testing.splitArgv
 import io.kotlintest.data.forall
@@ -216,6 +210,24 @@ class OptionTest {
     }
 
     @Test
+    fun `two options with split`() = forall(
+            row("", null, null),
+            row("-x 5 -y a", listOf(5), listOf("a")),
+            row("-x 5,6 -y a:b", listOf(5,6), listOf("a", "b"))
+    ) { argv, ex, ey ->
+        class C : CliktCommand() {
+            val x by option("-x").int().split(",")
+            val y by option("-y").split(Regex(":"))
+            override fun run() {
+                x shouldBe ex
+                y shouldBe ey
+            }
+        }
+
+        C().parse(splitArgv(argv))
+    }
+
+    @Test
     fun `flag options`() = forall(
             row("", false, false, null),
             row("-xx", true, false, null),
@@ -400,9 +412,9 @@ class OptionTest {
 
     @Test
     fun `multiple with unique option parsed`() = forall(
-        row("--arg foo", setOf("foo")),
-        row("--arg foo --arg bar --arg baz", setOf("foo", "bar", "baz")),
-        row("--arg foo --arg foo --arg foo", setOf("foo"))
+            row("--arg foo", setOf("foo")),
+            row("--arg foo --arg bar --arg baz", setOf("foo", "bar", "baz")),
+            row("--arg foo --arg foo --arg foo", setOf("foo"))
     ) { argv, expected ->
         val command = object : CliktCommand() {
             val arg by option().multiple().unique()

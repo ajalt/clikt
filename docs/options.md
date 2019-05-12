@@ -144,19 +144,24 @@ the lambda will only be called if the default value is used.
 
 ## Multi Value Options
 
-Options can take any fixed number of values. If you want a variable
-number of values, you need to use and argument instead. There are built
-in functions for options that take two values ([`pair`](api/clikt/com.github.ajalt.clikt.parameters.options/pair.html), which uses a `Pair`), or three
-values ([`triple`](api/clikt/com.github.ajalt.clikt.parameters.options/triple.html),
-which uses a `Triple`).  You can change the type of each value as normal
-with functions like [`int`](api/clikt/com.github.ajalt.clikt.parameters.types/int.html).
+Options can take any fixed number of values separated by whitespace, or a variable number of values
+separated by a non-whitespace delimiter you specify. If you want a variable number of values
+separated by whitespace, you need to use an argument instead.
 
-If you need more values, you can provide your own container with [`transformValues`](api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.html).
-You give that function the number of values you want, and a lambda that
-will transform a list of values into the output container. The list will
-always have a size equal to the number you specify. If the user provides
-a different number of values, Clikt will inform the user and your
-lambda won't be called.
+### Options With Fixed Number of Values
+
+There are built in functions for options that take two values
+([`pair`](api/clikt/com.github.ajalt.clikt.parameters.options/pair.html), which uses a `Pair`), or
+three values ([`triple`](api/clikt/com.github.ajalt.clikt.parameters.options/triple.html), which
+uses a `Triple`).  You can change the type of each value as normal with functions like
+[`int`](api/clikt/com.github.ajalt.clikt.parameters.types/int.html).
+
+If you need more values, you can provide your own container with
+[`transformValues`](api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.html). You
+give that function the number of values you want, and a lambda that will transform a list of values
+into the output container. The list will always have a size equal to the number you specify. If the
+user provides a different number of values, Clikt will inform the user and your lambda won't be
+called.
 
 ```kotlin
 data class Quad<out T>(val a: T, val b: T, val c: T, val d: T)
@@ -181,6 +186,31 @@ $ ./geometry --square 1 2 --cube 3 4 5 --tesseract 6 7 8 9
 Square has dimensions 1x2
 Cube has dimensions 3x4x5
 Tesseract has dimensions 6x7x8x9
+```
+
+### Options With a Variable Number of Values
+
+You can use [`split`](api/clikt/com.github.ajalt.clikt.parameters.options/split.html) to allow a
+variable number of values to a single option invocation by separating the values with non-whitespace
+delimiters.
+
+```kotlin
+class C : CliktCommand() {
+    val profiles by option("-P").split(",")
+    override fun run() {
+        for (profile in profiles) {
+            echo(profile)
+        }
+    }
+}
+```
+
+And on the command line:
+
+```
+$ ./split -P profile-1,profile-2
+profile-1
+profile-2
 ```
 
 

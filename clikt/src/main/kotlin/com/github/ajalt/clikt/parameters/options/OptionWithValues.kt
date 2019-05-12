@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -70,6 +70,8 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  * @property envvar The environment variable name to use.
  * @property envvarSplit The pattern to split envvar values on. If the envvar splits into multiple values,
  *   each one will be treated like a separate invocation of the option.
+ * @property valueSplit The pattern to split values from the command line on. By default, values are
+ *   split on whitespace.
  * @property transformValue Called in [finalize] to transform each value provided to each invocation.
  * @property transformEach Called in [finalize] to transform each invocation.
  * @property transformAll Called in [finalize] to transform all invocations into the final value.
@@ -85,6 +87,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         override val hidden: Boolean,
         val envvar: String?,
         val envvarSplit: Regex,
+        val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
         override val completionCandidates: CompletionCandidates,
         val transformValue: ValueTransformer<ValueT>,
@@ -97,12 +100,15 @@ class OptionWithValues<AllT, EachT, ValueT>(
     override var names: Set<String> = names
         private set
 
-    override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
+    override fun finalize(context: Context, invocations: List<Invocation>) {
         val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
         val inv = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
-            invocations
+            when (valueSplit) {
+                null -> invocations
+                else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
+            }
         } else {
-            System.getenv(env).split(envvarSplit).map { OptionParser.Invocation(env, listOf(it)) }
+            System.getenv(env).split(envvarSplit).map { Invocation(env, listOf(it)) }
         }
 
         value = transformAll(OptionTransformContext(this, context), inv.map {
@@ -135,11 +141,12 @@ class OptionWithValues<AllT, EachT, ValueT>(
             hidden: Boolean = this.hidden,
             envvar: String? = this.envvar,
             envvarSplit: Regex = this.envvarSplit,
+            valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidates: CompletionCandidates = this.completionCandidates
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden,
-                envvar, envvarSplit, parser, completionCandidates, transformValue, transformEach, transformAll)
+        return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden, envvar, envvarSplit,
+                valueSplit, parser, completionCandidates, transformValue, transformEach, transformAll)
     }
 }
 
@@ -184,6 +191,7 @@ fun CliktCommand.option(
         hidden = hidden,
         envvar = envvar,
         envvarSplit = Regex("\\s+"),
+        valueSplit = null,
         parser = OptionWithValuesParser,
         completionCandidates = CompletionCandidates.None,
         transformValue = { it },
@@ -303,7 +311,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
 }
 
 /**
- * Change to option to take two values, held in a [Pair]
+ * Change to option to take two values, held in a [Pair].
  *
  * This must be called after converting the value type, and before other transforms.
  *
@@ -319,7 +327,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
 }
 
 /**
- * Change to option to take three values, held in a [Triple]
+ * Change to option to take three values, held in a [Triple].
  *
  * This must be called after converting the value type, and before other transforms.
  *
@@ -332,6 +340,56 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
         : NullableOption<Triple<ValueT, ValueT, ValueT>, ValueT> {
     return transformValues(nvalues = 3) { Triple(it[0], it[1], it[2]) }
+}
+
+/**
+ * Change to option to take any number of values, separated by a [regex].
+ *
+ * This must be called after converting the value type, and before other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: List<Int>? by option().int().split(Regex(","))
+ * ```
+ *
+ * Which can be called like this:
+ *
+ * ```
+ * ./program --opt 1,2,3
+ * ```
+ */
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
+        : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
+    return copy(
+            nvalues = 1,
+            valueSplit = regex,
+            transformValue = transformValue,
+            transformEach = { it },
+            transformAll = defaultAllProcessor()
+    )
+}
+
+/**
+ * Change to option to take any number of values, separated by a string [delimiter].
+ *
+ * This must be called after converting the value type, and before other transforms.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val opt: List<Int>? by option().int().split(Regex(","))
+ * ```
+ *
+ * Which can be called like this:
+ *
+ * ```
+ * ./program --opt 1,2,3
+ * ```
+ */
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
+        : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
+    return split(Regex.fromLiteral(delimiter))
 }
 
 /**

@@ -1,42 +1,54 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.options.flag
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.versionOption
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import io.kotlintest.shouldBe
 import org.junit.Test
 
 private fun <T> l(vararg t: T) = listOf(*t)
 
-private fun opt(names: List<String>,
-                metavar: String? = null,
-                help: String = "",
-                nvalues: Int = 1,
-                secondaryNames: List<String> = emptyList()): ParameterHelp.Option {
-    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues)
+private fun opt(
+        names: List<String>,
+        metavar: String? = null,
+        help: String = "",
+        nvalues: Int = 1,
+        secondaryNames: List<String> = emptyList(),
+        tags: Map<String, String> = emptyMap()
+): ParameterHelp.Option {
+    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags)
 }
 
-private fun opt(name: String,
-                metavar: String? = null,
-                help: String = "",
-                nvalues: Int = 1,
-                secondaryNames: List<String> = emptyList()): ParameterHelp.Option {
-    return opt(l(name), metavar, help, nvalues, secondaryNames)
+private fun opt(
+        name: String,
+        metavar: String? = null,
+        help: String = "",
+        nvalues: Int = 1,
+        secondaryNames: List<String> = emptyList(),
+        tags: Map<String, String> = emptyMap()
+): ParameterHelp.Option {
+    return opt(l(name), metavar, help, nvalues, secondaryNames, tags)
 }
 
-private fun arg(name: String,
-                help: String = "",
-                required: Boolean = false,
-                repeatable: Boolean = false) = ParameterHelp.Argument(name, help, required, repeatable)
+private fun arg(
+        name: String,
+        help: String = "",
+        required: Boolean = false,
+        repeatable: Boolean = false,
+        tags: Map<String, String> = emptyMap()
+) = ParameterHelp.Argument(name, help, required, repeatable, tags)
 
-private fun sub(name: String,
-                help: String = "") = ParameterHelp.Subcommand(name, help)
+private fun sub(
+        name: String,
+        help: String = "",
+        tags: Map<String, String> = emptyMap()
+) = ParameterHelp.Subcommand(name, help, tags)
 
 class PlaintextHelpFormatterTest {
     @Test
@@ -109,9 +121,9 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `formatHelp one opt secondary name`() {
         val f = PlaintextHelpFormatter(width = 60)
-        f.formatHelp("", "", l(opt(l("--aa", "-a"),
-                null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))),
-                programName = "prog") shouldBe
+        f.formatHelp("", "", l(
+                opt(l("--aa", "-a"), null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))
+        ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -218,8 +230,8 @@ class PlaintextHelpFormatterTest {
         val f = PlaintextHelpFormatter(width = 54)
         f.formatHelp("", "", l(
                 arg("FOO", "some thing to live by", required = true),
-                arg("BAR", "another argument")),
-                programName = "prog") shouldBe
+                arg("BAR", "another argument")
+        ), programName = "prog") shouldBe
                 """
                 |Usage: prog FOO [BAR]
                 |
@@ -248,28 +260,37 @@ class PlaintextHelpFormatterTest {
     @Test
     fun `integration test`() {
         @Suppress("unused")
-        class C : CliktCommand(name = "program",
+        class C : NoRunCliktCommand(name = "program",
                 help = """
                 This is a program.
 
                 This is the prolog.
                 """,
                 epilog = "This is the epilog") {
-            val foo by option(help = "foo option help").int()
-            val bar by option("-b", "--bar", help = "bar option help", metavar = "META")
+            val foo by option(help = "foo option help").int().required()
+            val bar by option("-b", "--bar", help = "bar option help", metavar = "META").default("optdef")
             val baz by option(help = "baz option help").flag("--no-baz")
             val hidden by option(help = "hidden", hidden = true)
             val arg by argument()
             val multi by argument().multiple(required = true)
 
-            override fun run() = Unit
+            init {
+                context {
+                    helpFormatter = PlaintextHelpFormatter(
+                            showDefaultValues = true,
+                            showRequiredTag = true,
+                            requiredOptionMarker = "*"
+                    )
+                }
+            }
         }
 
         class Sub : CliktCommand(help = """
             a subcommand
 
             with extra help
-            """) {
+            """,
+                helpTags = mapOf("deprecated" to "")) {
             override fun run() = Unit
         }
 
@@ -290,17 +311,113 @@ class PlaintextHelpFormatterTest {
                 |  This is the prolog.
                 |
                 |Options:
-                |  --foo INT         foo option help
-                |  -b, --bar META    bar option help
+                |* --foo INT         foo option help (required)
+                |  -b, --bar META    bar option help (default: optdef)
                 |  --baz / --no-baz  baz option help
                 |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit
                 |
                 |Commands:
-                |  sub   a subcommand
+                |  sub   a subcommand (deprecated)
                 |  sub2  another command
                 |
                 |This is the epilog
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `required option marker`() {
+        val f = PlaintextHelpFormatter(width = 54, requiredOptionMarker = "*")
+        f.formatHelp("", "", l(
+                opt(l("--aa", "-a"), "INT", "aa option help"),
+                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa INT  aa option help
+                |* -b, --bb INT  bb option help
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `required option tag`() {
+        val f = PlaintextHelpFormatter(width = 54, showRequiredTag = true)
+        f.formatHelp("", "", l(
+                opt(l("--aa", "-a"), "INT", "aa option help"),
+                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa INT  aa option help
+                |  -b, --bb INT  bb option help (required)
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `default option tag`() {
+        val f = PlaintextHelpFormatter(width = 54, showDefaultValues = true)
+        f.formatHelp("", "", l(
+                opt(l("--aa", "-a"), "INT", "aa option help"),
+                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.DEFAULT to "123"))
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa INT  aa option help
+                |  -b, --bb INT  bb option help (default: 123)
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `custom tag`() {
+        val f = PlaintextHelpFormatter(width = 54)
+        f.formatHelp("", "", l(
+                opt(l("--aa", "-a"), "INT", "aa option help"),
+                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf("deprecated" to ""))
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa INT  aa option help
+                |  -b, --bb INT  bb option help (deprecated)
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `argument tag`() {
+        val f = PlaintextHelpFormatter(width = 54)
+        f.formatHelp("", "", l(
+                arg("ARG1", "arg 1 help"),
+                arg("ARG2", "arg 2 help", tags = mapOf("deprecated" to ""))
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog [ARG1] [ARG2]
+                |
+                |Arguments:
+                |  ARG1  arg 1 help
+                |  ARG2  arg 2 help (deprecated)
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `subcommand tag`() {
+        val f = PlaintextHelpFormatter(width = 54)
+        f.formatHelp("", "", l(
+                sub("sub1", "sub 1 help"),
+                sub("sub2", "sub 2 help", tags = mapOf("deprecated" to ""))
+        ), programName = "prog") shouldBe
+                """
+                |Usage: prog COMMAND [ARGS]...
+                |
+                |Commands:
+                |  sub1  sub 1 help
+                |  sub2  sub 2 help (deprecated)
                 """.trimMargin("|")
     }
 }

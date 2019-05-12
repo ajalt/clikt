@@ -16,24 +16,37 @@ import kotlin.reflect.KProperty
 interface Option {
     /** A name representing the values for this option that can be displayed to the user. */
     val metavar: String?
+
     /** The description of this option, usually a single line. */
     val help: String
+
     /** The parser for this option's values. */
     val parser: OptionParser
+
     /** The names that can be used to invoke this option. They must start with a punctuation character. */
     val names: Set<String>
+
     /** Names that can be used for a secondary purpose, like disabling flag options. */
     val secondaryNames: Set<String>
+
     /** The number of values that must be given to this option. */
     val nvalues: Int
+
     /** If true, this option should not appear in help output. */
     val hidden: Boolean
+
+    /** Extra information about this option to pass to the help formatter. */
+    val helpTags: Map<String, String>
+
     /** Optional set of strings to use when the user invokes shell autocomplete on a value for this option. */
     val completionCandidates: CompletionCandidates get() = CompletionCandidates.None
+
     /** Information about this option for the help output. */
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
-        get() = if (hidden) null
-        else HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues)
+        get() = when {
+            hidden -> null
+            else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues, helpTags)
+        }
 
     /**
      * Called after this command's argv is parsed to transform and store the option's value.

@@ -19,10 +19,11 @@ class EagerOption(
         override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
+        override val helpTags: Map<String, String>,
         private val callback: OptionTransformContext.() -> Unit) : Option {
     constructor(vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
-                callback: OptionTransformContext.() -> Unit)
-            : this(names.toSet(), nvalues, help, hidden, callback)
+                helpTags: Map<String, String> = emptyMap(), callback: OptionTransformContext.() -> Unit)
+            : this(names.toSet(), nvalues, help, hidden, helpTags, callback)
 
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
@@ -32,7 +33,7 @@ class EagerOption(
     }
 }
 
-internal fun helpOption(names: Set<String>, message: String) = EagerOption(names, 0, message, false,
+internal fun helpOption(names: Set<String>, message: String) = EagerOption(names, 0, message, false, emptyMap(),
         callback = { throw PrintHelpMessage(context.command) })
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
@@ -41,5 +42,5 @@ inline fun <T : CliktCommand> T.versionOption(
         help: String = "Show the version and exit",
         names: Set<String> = setOf("--version"),
         crossinline message: (String) -> String = { "$commandName version $it" }): T = apply {
-    registerOption(EagerOption(names, 0, help, false) { throw PrintMessage(message(version)) })
+    registerOption(EagerOption(names, 0, help, false, emptyMap()) { throw PrintMessage(message(version)) })
 }

@@ -33,6 +33,7 @@ import kotlin.system.exitProcess
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
  * @param printHelpOnEmptyArgs If this command is called with no values on the command line, print a
  *   help message (by throwing [PrintHelpMessage]) if this is true, otherwise run normally.
+ * @param helpTags Extra information about this option to pass to the help formatter.
  * @param autoCompleteEnvvar The envvar to use to enable shell autocomplete script generation. Set
  *   to null to disable generation.
  */
@@ -43,6 +44,7 @@ abstract class CliktCommand(
         name: String? = null,
         val invokeWithoutSubcommand: Boolean = false,
         val printHelpOnEmptyArgs: Boolean = false,
+        val helpTags: Map<String, String> = emptyMap(),
         private val autoCompleteEnvvar: String? = ""
 ) {
     val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
@@ -54,7 +56,7 @@ abstract class CliktCommand(
     internal var _contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
 
-    private fun registeredOptionNames() = _options.flatMapTo(HashSet()) { it.names }
+    private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
     private fun createContext(parent: Context? = null) {
         _context = Context.build(this, parent, _contextConfig)
@@ -70,7 +72,7 @@ abstract class CliktCommand(
 
     private fun allHelpParams() = _options.mapNotNull { it.parameterHelp } +
             _arguments.mapNotNull { it.parameterHelp } +
-            _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp()) }
+            _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags) }
 
     private fun getCommandNameWithParents(): String {
         if (_context == null) createContext()
@@ -104,7 +106,6 @@ abstract class CliktCommand(
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
     protected fun shortHelp(): String = Regex("\\S.*\$", RegexOption.MULTILINE).find(commandHelp)?.value ?: ""
-
 
     /** The names of all direct children of this command */
     fun registeredSubcommandNames(): List<String> = _subcommands.map { it.commandName }

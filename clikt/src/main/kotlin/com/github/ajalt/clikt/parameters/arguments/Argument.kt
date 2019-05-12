@@ -38,6 +38,9 @@ interface Argument {
      */
     val help: String
 
+    /** Extra information about this argument to pass to the help formatter. */
+    val helpTags: Map<String, String>
+
     /** Optional set of strings to use when the user invokes shell autocomplete on a value for this argument. */
     val completionCandidates: CompletionCandidates get() = CompletionCandidates.None
 
@@ -89,13 +92,12 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  * @property transformValue Called in [finalize] to transform each value provided to the argument.
  * @property transformAll Called in [finalize] to transform the list of values to the final type.
  */
-// `AllT` is deliberately not an out parameter.
-@Suppress("AddVarianceModifier")
 class ProcessedArgument<AllT, ValueT>(
         name: String,
         override val nvalues: Int,
         override val required: Boolean,
         override val help: String,
+        override val helpTags: Map<String, String>,
         override val completionCandidates: CompletionCandidates,
         val transformValue: ArgValueTransformer<ValueT>,
         val transformAll: ArgCallsTransformer<AllT, ValueT>
@@ -109,7 +111,7 @@ class ProcessedArgument<AllT, ValueT>(
     private var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
 
     override val parameterHelp
-        get() = ParameterHelp.Argument(name, help, required && nvalues == 1 || nvalues > 1, nvalues < 0)
+        get() = ParameterHelp.Argument(name, help, required && nvalues == 1 || nvalues > 1, nvalues < 0, helpTags)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
@@ -133,9 +135,10 @@ class ProcessedArgument<AllT, ValueT>(
             nvalues: Int = this.nvalues,
             required: Boolean = this.required,
             help: String = this.help,
+            helpTags: Map<String, String> = this.helpTags,
             completionCandidates: CompletionCandidates = this.completionCandidates
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, completionCandidates, transformValue, transformAll)
+        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidates, transformValue, transformAll)
     }
 }
 
@@ -153,10 +156,11 @@ internal fun <T : Any> defaultAllProcessor(): ArgCallsTransformer<T, T> = { it.s
  *
  * @param name The metavar for this argument. If not given, the name is inferred form the property name.
  * @param help The description of this argument for help output.
+ * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("unused")
-fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
-    return ProcessedArgument(name, 1, true, help, CompletionCandidates.None, { it }, defaultAllProcessor())
+fun CliktCommand.argument(name: String = "", help: String = "", helpTags: Map<String, String> = emptyMap()): RawArgument {
+    return ProcessedArgument(name, 1, true, help, helpTags, CompletionCandidates.None, { it }, defaultAllProcessor())
 }
 
 /**

@@ -21,8 +21,7 @@ interface HelpFormatter {
      * @param parameters Information about the command's parameters
      * @param programName The name of the currently executing program
      */
-    fun formatHelp(prolog: String, epilog: String, parameters: List<ParameterHelp>,
-                   programName: String = ""): String
+    fun formatHelp(prolog: String, epilog: String, parameters: List<ParameterHelp>, programName: String = ""): String
 
     sealed class ParameterHelp {
         /**
@@ -32,11 +31,14 @@ interface HelpFormatter {
          * @param help The option's description
          * @param nvalues The number of values that this option takes
          */
-        data class Option(val names: Set<String>,
-                          val secondaryNames: Set<String>,
-                          val metavar: String?,
-                          val help: String,
-                          val nvalues: Int) : ParameterHelp()
+        data class Option(
+                val names: Set<String>,
+                val secondaryNames: Set<String>,
+                val metavar: String?,
+                val help: String,
+                val nvalues: Int,
+                val tags: Map<String, String>
+        ) : ParameterHelp()
 
         /**
          * @param name The name / metavar for this argument
@@ -44,17 +46,31 @@ interface HelpFormatter {
          * @param required True if this argument must be specified
          * @param repeatable True if this argument takes an unlimited number of values
          */
-        data class Argument(val name: String,
-                            val help: String,
-                            val required: Boolean,
-                            val repeatable: Boolean) : ParameterHelp()
+        data class Argument(
+                val name: String,
+                val help: String,
+                val required: Boolean,
+                val repeatable: Boolean,
+                val tags: Map<String, String>
+        ) : ParameterHelp()
 
         /**
          * @param name The name for this command
          * @param help The command's description
          */
-        data class Subcommand(val name: String,
-                              val help: String) : ParameterHelp()
+        data class Subcommand(
+                val name: String,
+                val help: String,
+                val tags: Map<String, String>
+        ) : ParameterHelp()
+    }
+
+    /** Standard tag names for parameter help */
+    object Tags {
+        /** A value that can be displayed to the user as the default for this option, or null if there is no default. */
+        const val DEFAULT = "default"
+        /** If true, this option is required. Only used for help output. */
+        const val REQUIRED = "required"
     }
 }
 

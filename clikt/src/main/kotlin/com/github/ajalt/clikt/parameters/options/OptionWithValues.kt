@@ -1,7 +1,13 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.Abort
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
@@ -85,6 +91,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         override val nvalues: Int,
         override val help: String,
         override val hidden: Boolean,
+        override val helpTags: Map<String, String>,
         val envvar: String?,
         val envvarSplit: Regex,
         val valueSplit: Regex?,
@@ -139,14 +146,16 @@ class OptionWithValues<AllT, EachT, ValueT>(
             nvalues: Int = this.nvalues,
             help: String = this.help,
             hidden: Boolean = this.hidden,
+            helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
             envvarSplit: Regex = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidates: CompletionCandidates = this.completionCandidates
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden, envvar, envvarSplit,
-                valueSplit, parser, completionCandidates, transformValue, transformEach, transformAll)
+        return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden,
+                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
+                transformValue, transformEach, transformAll)
     }
 }
 
@@ -174,6 +183,7 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
  * @param hidden Hide this option from help outputs.
  * @param envvar The environment variable that will be used for the value if one is not given on the command
  *   line.
+ * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("unused")
 fun CliktCommand.option(
@@ -181,7 +191,8 @@ fun CliktCommand.option(
         help: String = "",
         metavar: String? = null,
         hidden: Boolean = false,
-        envvar: String? = null
+        envvar: String? = null,
+        helpTags: Map<String, String> = emptyMap()
 ): RawOption = OptionWithValues(
         names = names.toSet(),
         metavarExplicit = metavar,
@@ -189,6 +200,7 @@ fun CliktCommand.option(
         nvalues = 1,
         help = help,
         hidden = hidden,
+        helpTags = helpTags,
         envvar = envvar,
         envvarSplit = Regex("\\s+"),
         valueSplit = null,
@@ -207,10 +219,27 @@ fun CliktCommand.option(
  * line or envvar), this will be called with an empty list.
  *
  * Used to implement functions like [default] and [multiple].
+ *
+ * @param defaultForHelp The help text for this option's default value if the help formatter is
+ *   configured to show them, or null if this option has no default or the default value should not be
+ *   shown.This does not affect behavior outside of help formatting.
+ * @param showAsRequired Tell the help formatter that this option should be marked as required. This
+ *   does not affect behavior outside of help formatting.
  */
-fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(transform: CallsTransformer<EachT, AllT>)
-        : OptionWithValues<AllT, EachT, ValueT> {
-    return copy(transformValue, transformEach, transform)
+fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
+        defaultForHelp: String? = this.helpTags[HelpFormatter.Tags.DEFAULT],
+        showAsRequired: Boolean = HelpFormatter.Tags.REQUIRED in this.helpTags,
+        transform: CallsTransformer<EachT, AllT>
+): OptionWithValues<AllT, EachT, ValueT> {
+    val tags = this.helpTags.toMutableMap()
+
+    if (showAsRequired) tags[HelpFormatter.Tags.REQUIRED] = ""
+    else tags.remove(HelpFormatter.Tags.REQUIRED)
+
+    if (defaultForHelp != null) tags[HelpFormatter.Tags.DEFAULT] = defaultForHelp
+    else tags.remove(HelpFormatter.Tags.DEFAULT)
+
+    return copy(transformValue, transformEach, transform, helpTags = tags)
 }
 
 /**
@@ -218,15 +247,17 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(trans
  *
  * This must be applied after all other transforms.
  *
+ * You can customize how the default is shown to the user with [defaultForHelp].
+ *
  * Example:
  *
  * ```kotlin
  * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT, defaultForHelp: String = value.toString())
         : OptionWithValues<EachT, EachT, ValueT> {
-    return transformAll { it.lastOrNull() ?: value }
+    return transformAll(defaultForHelp) { it.lastOrNull() ?: value }
 }
 
 /**
@@ -236,15 +267,21 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT)
  * This must be applied after all other transforms. If the option is given on the command line, [value] will
  * not be called.
  *
+ * You can customize how the default is shown to the user with [defaultForHelp]. The default value
+ * is an empty string, so if you have the help formatter configured to show values, you should set
+ * this value manually.
+ *
  * Example:
  *
  * ```kotlin
  * val opt: Pair<Int, Int> by option().int().pair().defaultLazy { expensiveOperation() }
  * ```
  */
-inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(crossinline value: () -> EachT)
-        : OptionWithValues<EachT, EachT, ValueT> {
-    return transformAll { it.lastOrNull() ?: value() }
+inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
+        defaultForHelp: String = "",
+        crossinline value: () -> EachT
+): OptionWithValues<EachT, EachT, ValueT> {
+    return transformAll(defaultForHelp) { it.lastOrNull() ?: value() }
 }
 
 /**
@@ -258,9 +295,8 @@ inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(cross
  * val opt: Pair<Int, Int> by option().int().pair().required()
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required()
-        : OptionWithValues<EachT, EachT, ValueT> {
-    return transformAll { it.lastOrNull() ?: throw MissingParameter(option) }
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithValues<EachT, EachT, ValueT> {
+    return transformAll(showAsRequired = true) { it.lastOrNull() ?: throw MissingParameter(option) }
 }
 
 /**
@@ -276,8 +312,11 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required()
  *
  * @param default The value to use if the option is not supplied. Defaults to an empty list.
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(default: List<EachT> = emptyList())
-        : OptionWithValues<List<EachT>, EachT, ValueT> = transformAll { if (it.isEmpty()) default else it }
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
+        default: List<EachT> = emptyList()
+): OptionWithValues<List<EachT>, EachT, ValueT> {
+    return transformAll { if (it.isEmpty()) default else it }
+}
 
 /**
  * Make the [multiple] option return a unique set of calls
@@ -288,9 +327,9 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(default: List<E
  * val opt: Set<Int> by option().int().multiple().unique()
  * ```
  */
-fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique(): OptionWithValues<Set<EachT>, EachT, ValueT> = copy(transformValue, transformEach, transformAll = {
-    transformAll(it).toSet()
-})
+fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique(): OptionWithValues<Set<EachT>, EachT, ValueT> {
+    return copy(transformValue, transformEach, { transformAll(it).toSet() })
+}
 
 /**
  * Change the number of values that this option takes.
@@ -303,7 +342,9 @@ fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique():
  * Used to implement functions like [pair] and [triple]. This must be applied before any other transforms.
  */
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
-        nvalues: Int, transform: ArgsTransformer<ValueT, EachOutT>): NullableOption<EachOutT, ValueT> {
+        nvalues: Int,
+        transform: ArgsTransformer<ValueT, EachOutT>
+): NullableOption<EachOutT, ValueT> {
     require(nvalues != 0) { "Cannot set nvalues = 0. Use flag() instead." }
     require(nvalues > 0) { "Options cannot have nvalues < 0" }
     require(nvalues > 1) { "Cannot set nvalues = 1. Use convert() instead." }
@@ -491,8 +532,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
     val promptText = text ?: names.maxBy { it.length }?.let { splitOptionPrefix(it).second }
             ?.replace(Regex("\\W"), " ")?.capitalize() ?: "Value"
 
-    val provided = it.lastOrNull()
-    when (provided) {
+    when (val provided = it.lastOrNull()) {
         null -> TermUi.prompt(promptText, default, hideInput, requireConfirmation,
                 confirmationPrompt, promptSuffix, showDefault, context.console) {
             val ctx = OptionCallTransformContext("", this, context)

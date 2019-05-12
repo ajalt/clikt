@@ -33,7 +33,7 @@ class Echo : CliktCommand(help = "Echo the STRING(s) to standard output") {
         context { helpFormatter = ArgparseHelpFormatter() }
     }
     val suppressNewline by option("-n", help = "do not output the trailing newline").flag()
-    val strings by argument(help = "do not output the trailing newline").multiple()
+    val strings by argument(help = "the strings to echo").multiple()
 
     override fun run() {
         val message = if (strings.isEmpty()) String(System.`in`.readBytes())

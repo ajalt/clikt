@@ -5,4 +5,5 @@ include 'samples:validation'
 include 'samples:aliases'
 include 'samples:helpformat'
 include 'samples:plugins'
+include 'samples:ansicolors'
 

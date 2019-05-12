@@ -1,5 +1,10 @@
 package com.github.ajalt.clikt.output
 
+import java.text.BreakIterator
+
+
+
+private val ANSI_CODE_RE = Regex("${"\u001B"}\\[[^m]*m")
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class PlaintextHelpFormatter(
@@ -68,7 +73,7 @@ open class PlaintextHelpFormatter(
 
         if (usage.isEmpty()) {
             append(prog)
-        } else if (prog.length >= width - 20) {
+        } else if (prog.graphemeLength >= width - 20) {
             append(prog).append("\n")
             val usageIndent = " ".repeat(minOf(width / 3, 11))
             usage.wrapText(this, width, usageIndent, usageIndent)
@@ -147,17 +152,18 @@ open class PlaintextHelpFormatter(
         }
     }
 
-    protected open fun renderTag(tag: String, value: String): String {
-        return if (value.isBlank()) "($tag)" else "($tag: $value)"
-    }
-
     protected open fun joinNamesForOption(names: Set<String>): String {
         return names.sortedBy { it.startsWith("--") }.joinToString(", ") { renderOptionName(it) }
+    }
+
+    protected open fun renderTag(tag: String, value: String): String {
+        return if (value.isBlank()) "($tag)" else "($tag: $value)"
     }
 
     protected open fun renderOptionName(name: String): String = name
     protected open fun renderArgumentName(name: String): String = name
     protected open fun renderSubcommandName(name: String): String = name
+    protected open fun renderSectionTitle(title: String) = title
 
     protected open fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
         if (option.metavar == null) return ""
@@ -175,11 +181,11 @@ open class PlaintextHelpFormatter(
 
             val firstIndent = when {
                 marker.isNullOrEmpty() -> indent
-                else -> marker + indent.drop(marker.length).ifEmpty { " " }
+                else -> marker + indent.drop(marker.graphemeLength).ifEmpty { " " }
             }
-            val subsequentIndent = " ".repeat(firstIndent.length + firstWidth + colSpacing)
+            val subsequentIndent = " ".repeat(firstIndent.graphemeLength + firstWidth + colSpacing)
 
-            val initialIndent = if (col1.length > maxColWidth) {
+            val initialIndent = if (col1.graphemeLength > maxColWidth) {
                 // If the first column is too wide, append it and start the second column on a new line
                 append(firstIndent).append(col1).append("\n")
                 subsequentIndent
@@ -188,7 +194,7 @@ open class PlaintextHelpFormatter(
                 buildString {
                     append(firstIndent).append(col1)
                     // Pad the difference between this column's width and the table's first column width
-                    appendRepeat(" ", firstWidth - col1.length + colSpacing)
+                    appendRepeat(" ", firstWidth - col1.graphemeLength + colSpacing)
                 }
             }
 
@@ -196,14 +202,19 @@ open class PlaintextHelpFormatter(
         }
     }
 
-    protected open fun renderSectionTitle(title: String) = title
-
     private fun measureFirstColumn(rows: List<DefinitionRow>): Int =
-            rows.maxBy { it.col1.length }?.col1?.length?.coerceAtMost(maxColWidth) ?: maxColWidth
+            rows.maxBy { it.col1.graphemeLength }?.col1?.graphemeLength?.coerceAtMost(maxColWidth) ?: maxColWidth
 
     private fun StringBuilder.section(title: String) {
         append("\n").append(renderSectionTitle(title)).append("\n")
     }
+
+    /** The number of visible characters in a string */
+    protected val String.graphemeLength: Int
+        get() {
+            val breaks = BreakIterator.getCharacterInstance().also { it.setText(replace(ANSI_CODE_RE, "")) }
+            return generateSequence { breaks.next() }.takeWhile { it != BreakIterator.DONE }.count()
+        }
 
     protected data class DefinitionRow(val col1: String, val col2: String, val marker: String? = null)
 }

@@ -68,12 +68,12 @@ internal object Parser {
                     i += count
                 }
                 i >= minAliasI && arg in aliases -> {
-                    args = aliases[arg]!! + args.slice(i + 1..args.lastIndex)
+                    args = aliases.getValue(arg) + args.slice(i + 1..args.lastIndex)
                     i = 0
-                    minAliasI = aliases[arg]!!.size
+                    minAliasI = aliases.getValue(arg).size
                 }
                 normArg in subcommands -> {
-                    subcommand = subcommands[normArg]!!
+                    subcommand = subcommands.getValue(normArg)
                     break@loop
                 }
                 else -> {

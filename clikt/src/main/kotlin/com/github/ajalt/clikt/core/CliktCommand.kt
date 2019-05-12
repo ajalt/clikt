@@ -136,8 +136,8 @@ abstract class CliktCommand(
      * A list of command aliases.
      *
      * If the user enters a command that matches the a key in this map, the command is replaced with the
-     * corresponding value in in map. The aliases aren't recursive, so aliases won't be looked up again wile
-     * token from an existing alias are being parsed.
+     * corresponding value in in map. The aliases aren't recursive, so aliases won't be looked up again while
+     * tokens from an existing alias are being parsed.
      */
     open fun aliases(): Map<String, List<String>> = emptyMap()
 

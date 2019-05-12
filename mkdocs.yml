@@ -81,6 +81,8 @@ nav:
       - 'Help Texts': documenting.md
       - 'Subcommand Short Help': documenting/#subcommand-short-help
       - 'Help Option Customization': documenting/#help-option-customization
+      - 'Default Values in Help': documenting/#default-values-in-help
+      - 'Required Options in Help': documenting/#required-options-in-help
   - 'Advanced Patterns':
       - 'Command Aliases': advanced.md
       - 'Token Normalization': advanced/#token-normalization

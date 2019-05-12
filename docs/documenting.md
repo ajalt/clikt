@@ -52,7 +52,7 @@ Subcommands are listed in the help page based on their
 [name](commands.md#customizing-command-name). They have a short help
 string which is the first line of their help.
 
-```kotiln
+```kotlin
 class Tool : NoRunCliktCommand()
 
 class Execute : NoRunCliktCommand(help = """
@@ -89,7 +89,7 @@ is not added.
 You can change the help option's name and help message on the
 [command's context](commands.md#customizing-contexts):
 
-```
+```kotlin
 class Tool : NoRunCliktCommand() {
     init {
         context {
@@ -112,3 +112,94 @@ Options:
 
 If you don't want a help option to be added, you can set
 `helpOptionNames = emptySet()`
+
+## Default Values in Help
+
+You can configure the help formatter to show default values in the help output by passing
+`showRequiredTag = true` to the `PlaintextHelpFormatter`. By default, the string value of the
+default value will be shown. You can show a different value by passing the value you want to show to
+the `defaultForHelp` parameter of
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html).
+
+```kotlin
+class Tool : NoRunCliktCommand() {
+    init {
+        context { helpFormatter = PlaintextHelpFormatter(showDefaultValues = true) }
+    }
+
+    val a by option(help = "this is optional").default("value")
+    val b by option(help = "this is also optional").default("value", defaultForHelp="chosen for you")
+}
+```
+
+And on the command line:
+
+```
+$ ./tool --help
+Usage: tool [OPTIONS]
+
+Options:
+  --a TEXT    this is optional (default: value)
+  --b TEXT    this is also optional (default: chosen for you)
+```
+
+
+## Required Options in Help 
+
+By default, [`required`](api/clikt/com.github.ajalt.clikt.parameters.options/required.html) options
+are displayed the same way as other options. The help formatter includes two different ways to show
+that an option is required.
+
+### Required Option Marker
+
+You can pass a character to the `requiredOptionMarker` argument of the `PlaintextHelpFormatter`. 
+
+```kotlin
+class Tool : NoRunCliktCommand() {
+    init {
+        context { helpFormatter = PlaintextHelpFormatter(requiredOptionMarker = "*") }
+    }
+
+    val option by option(help = "this is optional")
+    val required by option(help = "this is required").required()
+}
+```
+
+And on the command line:
+
+```
+$ ./tool --help
+Usage: tool [OPTIONS]
+
+Options:
+  --option TEXT    this is optional
+* --required TEXT  this is required
+  -h, --help       Show this message and exit
+```
+
+### Required Option Tag
+
+You can also show a tag for required options by passing `showRequiredTag = true` to the `PlaintextHelpFormatter`.
+
+```kotlin
+class Tool : NoRunCliktCommand() {
+    init {
+        context { helpFormatter = PlaintextHelpFormatter(showRequiredTag = true) }
+    }
+
+    val option by option(help = "this is optional")
+    val required by option(help = "this is required").required()
+}
+```
+
+And on the command line:
+
+```
+$ ./tool --help
+Usage: tool [OPTIONS]
+
+Options:
+  --option TEXT    this is optional
+  --required TEXT  this is required (required)
+  -h, --help       Show this message and exit
+```

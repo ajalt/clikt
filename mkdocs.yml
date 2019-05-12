@@ -33,71 +33,76 @@ markdown_extensions:
 
 nav:
   - 'Quickstart':
-    - 'Basic Concepts': quickstart.md
-    - 'Printing to Stdout and Stderr': quickstart/#printing-to-stdout-and-stderr
-    - 'Nesting Commands': quickstart/#nesting-commands
-    - 'Adding Parameters': quickstart/#adding-parameters
-    - 'Developing Command Line Applications With Gradle': quickstart/#developing-command-line-applications-with-gradle
+      - 'Basic Concepts': quickstart.md
+      - 'Printing to Stdout and Stderr': quickstart/#printing-to-stdout-and-stderr
+      - 'Nesting Commands': quickstart/#nesting-commands
+      - 'Adding Parameters': quickstart/#adding-parameters
+      - 'Developing Command Line Applications With Gradle': quickstart/#developing-command-line-applications-with-gradle
   - 'Why Clikt?':
-    - 'Why not a Kotlin library like kotlin-argparse or kotlinx.cli?': whyclikt.md
-    - 'Why not a Java library like JCommander?': whyclikt/#why-not-a-java-library-like-jcommander
+      - 'Why not a Kotlin library like kotlin-argparse or kotlinx.cli?': whyclikt.md
+      - 'Why not a Java library like JCommander?': whyclikt/#why-not-a-java-library-like-jcommander
   - 'Parameters':
-    - 'Differences': parameters.md
-    - 'Parameter Names': parameters/#parameter-names
-    - 'Parameter Types': parameters/#parameter-types
-    - 'Built-In Types': parameters/#built-in-types
-    - 'Custom Types': parameters/#custom-types
-    - 'Parameter Validation': parameters/#parameter-validation
+      - 'Differences': parameters.md
+      - 'Parameter Names': parameters/#parameter-names
+      - 'Parameter Types': parameters/#parameter-types
+      - 'Built-In Types': parameters/#built-in-types
+      - 'Custom Types': parameters/#custom-types
+      - 'Parameter Validation': parameters/#parameter-validation
   - 'Options':
-    - 'Basic Options': options.md
-    - 'Option Names': options/#option-names
-    - 'Option Names': options/#option-names
-    - 'Customizing Options': options/#customizing-options
-    - 'Multi Value Options': options/#multi-value-options
-    - 'Multiple Options': options/#multiple-options
-    - 'Boolean Flag Options': options/#boolean-flag-options
-    - 'Counted Flag Options': options/#counted-flag-options
-    - 'Feature Switch Flags': options/#feature-switch-flags
-    - 'Choice Options': options/#choice-options
-    - 'Prompting For Input': options/#prompting-for-input
-    - 'Password Prompts': options/#password-prompts
-    - 'Eager Options': options/#eager-options
-    - 'Values From Environment Variables': options/#values-from-environment-variables
-    - 'Multiple Values from Environment Variables': options/#multiple-values-from-environment-variables
-    - 'Windows and Java-Style Option Prefixes': options/#windows-and-java-style-option-prefixes
-    - 'Option Transformation Order': options/#-option-transformation-order
+      - 'Basic Options': options.md
+      - 'Option Names': options/#option-names
+      - 'Option Names': options/#option-names
+      - 'Customizing Options': options/#customizing-options
+      - 'Multi Value Options': options/#multi-value-options
+      - 'Multiple Options': options/#multiple-options
+      - 'Boolean Flag Options': options/#boolean-flag-options
+      - 'Counted Flag Options': options/#counted-flag-options
+      - 'Feature Switch Flags': options/#feature-switch-flags
+      - 'Choice Options': options/#choice-options
+      - 'Prompting For Input': options/#prompting-for-input
+      - 'Password Prompts': options/#password-prompts
+      - 'Eager Options': options/#eager-options
+      - 'Values From Environment Variables': options/#values-from-environment-variables
+      - 'Multiple Values from Environment Variables': options/#multiple-values-from-environment-variables
+      - 'Windows and Java-Style Option Prefixes': options/#windows-and-java-style-option-prefixes
+      - 'Option Transformation Order': options/#-option-transformation-order
   - 'Arguments':
-    - 'Basic Arguments': arguments.md
-    - 'Variadic Arguments': arguments/#variadic-arguments
-    - 'Option-Like Arguments': arguments/#option-like-arguments
+      - 'Basic Arguments': arguments.md
+      - 'Variadic Arguments': arguments/#variadic-arguments
+      - 'Option-Like Arguments': arguments/#option-like-arguments
   - 'Commands':
-    - 'Executing Nested Commands': commands.md
-    - 'Customizing Command Name': commands/#customizing-command-name
-    - 'Passing Parameters': commands/#passing-parameters
-    - 'Nested Handling And Contexts': commands/#nested-handling-and-contexts
-    - 'Running Parent Command Without Children': commands/#running-parent-command-without-children
-    - 'Customizing Contexts': commands/#customizing-contexts
+      - 'Executing Nested Commands': commands.md
+      - 'Customizing Command Name': commands/#customizing-command-name
+      - 'Passing Parameters': commands/#passing-parameters
+      - 'Nested Handling And Contexts': commands/#nested-handling-and-contexts
+      - 'Running Parent Command Without Children': commands/#running-parent-command-without-children
+      - 'Customizing Contexts': commands/#customizing-contexts
   - 'Documenting Scripts':
-    - 'Help Texts': documenting.md
-    - 'Subcommand Short Help': documenting/#subcommand-short-help
-    - 'Help Option Customization': documenting/#help-option-customization
+      - 'Help Texts': documenting.md
+      - 'Subcommand Short Help': documenting/#subcommand-short-help
+      - 'Help Option Customization': documenting/#help-option-customization
   - 'Advanced Patterns':
-    - 'Command Aliases': advanced.md
-    - 'Token Normalization': advanced/#token-normalization
-    - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
+      - 'Command Aliases': advanced.md
+      - 'Token Normalization': advanced/#token-normalization
+      - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
   - 'Utilities':
-    - 'Launching Editors': utilities.md
-    - 'Input Prompts': utilities/#input-prompts
-    - 'Confirmation Prompts': utilities/#confirmation-prompts
+      - 'Launching Editors': utilities.md
+      - 'Input Prompts': utilities/#input-prompts
+      - 'Confirmation Prompts': utilities/#confirmation-prompts
+  - 'Bash Autocomplete':
+      - 'Supported Functionality': autocomplete.md
+      - 'Enabling Completion': autocomplete/#enabling-completion
+      - 'Customizing Completions': autocomplete/#customizing-completions
+      - 'Limitations': autocomplete/#limitations
   - 'Exception Handling':
-    - 'Where are Exceptions Handled?': exceptions.md
-    - 'Handling Exceptions Manually': exceptions/#handling-exceptions-manually
-    - 'Which Exceptions Exist?': exceptions/#which-exceptions-exist
+      - 'Where are Exceptions Handled?': exceptions.md
+      - 'Handling Exceptions Manually': exceptions/#handling-exceptions-manually
+      - 'Which Exceptions Exist?': exceptions/#which-exceptions-exist
   - 'API reference':
-    - 'Commands and Exceptions': api/clikt/com.github.ajalt.clikt.core/index.html
-    - 'Options': api/clikt/com.github.ajalt.clikt.parameters.options/index.html
-    - 'Arguments': api/clikt/com.github.ajalt.clikt.parameters.arguments/index.html
-    - 'Parameter Type Conversions': api/clikt/com.github.ajalt.clikt.parameters.types/index.html
-    - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/index.html
+      - 'Commands and Exceptions': api/clikt/com.github.ajalt.clikt.core/index.html
+      - 'Options': api/clikt/com.github.ajalt.clikt.parameters.options/index.html
+      - 'Arguments': api/clikt/com.github.ajalt.clikt.parameters.arguments/index.html
+      - 'Parameter Type Conversions': api/clikt/com.github.ajalt.clikt.parameters.types/index.html
+      - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/index.html
 
 

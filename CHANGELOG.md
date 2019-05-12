@@ -1,6 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- [Bash autocomplete script generation](https://ajalt.github.io/clikt/autocomplete/). A property named
+  `completionCandidates` has been added to `Argument` and `Option` interfaces, and corresponding
+  parameters have been added to the various implementation constructors, as well as the `convert`
+  functions. You can use this to control the values autocomplete that will be suggested.
+
+### Changed
+- If multiple `--` tokens are present on the command line, all subsequent occurrences after the first are now
+  parsed as positional arguments. Previously, subsequent `--` tokens were skipped.  
 
 ## [1.7.0] - 2019-03-23
 ### Added

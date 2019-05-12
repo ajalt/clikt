@@ -1,13 +1,12 @@
 package com.github.ajalt.clikt.parameters.arguments
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
-import com.github.ajalt.clikt.parameters.options.NullableOption
-import com.github.ajalt.clikt.parameters.options.OptionWithValues
 import com.github.ajalt.clikt.parameters.options.transformAll
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.properties.ReadOnlyProperty
@@ -38,6 +37,9 @@ interface Argument {
      * It's usually better to leave this null and describe options in the usage line of the command instead.
      */
     val help: String
+
+    /** Optional set of strings to use when the user invokes shell autocomplete on a value for this argument. */
+    val completionCandidates: CompletionCandidates get() = CompletionCandidates.None
 
     /** Information about this argument for the help output. */
     val parameterHelp: ParameterHelp.Argument?
@@ -89,13 +91,15 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  */
 // `AllT` is deliberately not an out parameter.
 @Suppress("AddVarianceModifier")
-class ProcessedArgument<AllT, ValueT> constructor(
+class ProcessedArgument<AllT, ValueT>(
         name: String,
         override val nvalues: Int,
         override val required: Boolean,
         override val help: String,
+        override val completionCandidates: CompletionCandidates,
         val transformValue: ArgValueTransformer<ValueT>,
-        val transformAll: ArgCallsTransformer<AllT, ValueT>) : ArgumentDelegate<AllT> {
+        val transformAll: ArgCallsTransformer<AllT, ValueT>
+) : ArgumentDelegate<AllT> {
     init {
         require(nvalues != 0) { "Arguments cannot have nvalues == 0" }
     }
@@ -128,8 +132,10 @@ class ProcessedArgument<AllT, ValueT> constructor(
             name: String = this.name,
             nvalues: Int = this.nvalues,
             required: Boolean = this.required,
-            help: String = this.help): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, transformValue, transformAll)
+            help: String = this.help,
+            completionCandidates: CompletionCandidates = this.completionCandidates
+    ): ProcessedArgument<AllT, ValueT> {
+        return ProcessedArgument(name, nvalues, required, help, completionCandidates, transformValue, transformAll)
     }
 }
 
@@ -150,7 +156,7 @@ internal fun <T : Any> defaultAllProcessor(): ArgCallsTransformer<T, T> = { it.s
  */
 @Suppress("unused")
 fun CliktCommand.argument(name: String = "", help: String = ""): RawArgument {
-    return ProcessedArgument(name, 1, true, help, { it }, defaultAllProcessor())
+    return ProcessedArgument(name, 1, true, help, CompletionCandidates.None, { it }, defaultAllProcessor())
 }
 
 /**
@@ -286,8 +292,13 @@ inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -
  * The [conversion] is called once for each value given. If any errors are thrown, they are caught and a
  * [BadParameterValue] is thrown with the error message. You can call `fail` to throw a [BadParameterValue]
  * manually.
+ *
+ * @param completionCandidates candidates to use when completing this argument in shell autocomplete
  */
-inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransformer<T>): ProcessedArgument<T, T> {
+inline fun <T : Any> RawArgument.convert(
+        completionCandidates: CompletionCandidates = this.completionCandidates,
+        crossinline conversion: ArgValueTransformer<T>
+): ProcessedArgument<T, T> {
     val conv: ArgValueTransformer<T> = {
         try {
             conversion(it)
@@ -298,7 +309,7 @@ inline fun <T : Any> RawArgument.convert(crossinline conversion: ArgValueTransfo
             fail(err.message ?: "")
         }
     }
-    return copy(conv, defaultAllProcessor())
+    return copy(conv, defaultAllProcessor(), completionCandidates = completionCandidates)
 }
 
 /**

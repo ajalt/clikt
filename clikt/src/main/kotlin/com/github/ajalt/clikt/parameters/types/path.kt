@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters.types
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
@@ -52,8 +53,11 @@ fun RawArgument.path(
         folderOkay: Boolean = true,
         writable: Boolean = false,
         readable: Boolean = false,
-        fileSystem: FileSystem = FileSystems.getDefault()): ProcessedArgument<Path, Path> = convert {
-    convertToPath(it, exists, fileOkay, folderOkay, writable, readable, fileSystem) { fail(it) }
+        fileSystem: FileSystem = FileSystems.getDefault()
+): ProcessedArgument<Path, Path> {
+    return convert(completionCandidates = CompletionCandidates.Path) {
+        convertToPath(it, exists, fileOkay, folderOkay, writable, readable, fileSystem) { fail(it) }
+    }
 }
 
 /**
@@ -66,15 +70,17 @@ fun RawArgument.path(
  * @param readable If true, fail if the given path is not readable
  * @param fileSystem If specified, the [FileSystem] with which to resolve paths.
  */
-fun RawOption.path(exists: Boolean = false,
-                   fileOkay: Boolean = true,
-                   folderOkay: Boolean = true,
-                   writable: Boolean = false,
-                   readable: Boolean = false,
-                   fileSystem: FileSystem = java.nio.file.FileSystems.getDefault()): NullableOption<Path, Path> {
+fun RawOption.path(
+        exists: Boolean = false,
+        fileOkay: Boolean = true,
+        folderOkay: Boolean = true,
+        writable: Boolean = false,
+        readable: Boolean = false,
+        fileSystem: FileSystem = FileSystems.getDefault()
+): NullableOption<Path, Path> {
     val name = pathType(fileOkay, folderOkay)
     val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
-    return convert(name.toUpperCase(), envvarSplit = split) {
+    return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) {
         convertToPath(it, exists, fileOkay, folderOkay, writable, readable, fileSystem) { fail(it) }
     }
 }

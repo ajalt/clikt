@@ -11,9 +11,9 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
 import java.io.File
 
-data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
+data class RepoConfig(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
-class Cli : CliktCommand(
+class Repo : CliktCommand(
         help = """Repo is a command line tool that showcases how to build complex
         command line interfaces with Clikt.
 
@@ -32,7 +32,7 @@ class Cli : CliktCommand(
             .flag()
 
     override fun run() {
-        val repo = Repo(repoHome, HashMap(), verbose)
+        val repo = RepoConfig(repoHome, HashMap(), verbose)
         for ((k, v) in config) {
             repo.config[k] = v
         }
@@ -47,9 +47,9 @@ class Clone : CliktCommand(
         This will clone the repository at SRC into the folder DEST. If DEST
         is not provided this will automatically use the last path component
         of SRC and create that folder.""") {
-    val repo: Repo by requireObject()
-    val src: String by argument()
-    val dest: String? by argument().optional()
+    val repo: RepoConfig by requireObject()
+    val src: File by argument().file()
+    val dest: File? by argument().file().optional()
     val shallow: Boolean by option(help = "Makes a checkout shallow or deep.  Deep by default.")
             .flag("--deep")
 
@@ -57,7 +57,7 @@ class Clone : CliktCommand(
             .default("HEAD")
 
     override fun run() {
-        val destName = dest ?: File(src).name
+        val destName = dest?.name ?: src.name
         echo("Cloning repo $src to ${File(destName).absolutePath}")
         repo.home = destName
         if (shallow) {
@@ -71,7 +71,7 @@ class Delete : CliktCommand(
         help = """Deletes a repository.
 
         This will throw away the current repository.""") {
-    val repo: Repo by requireObject()
+    val repo: RepoConfig by requireObject()
 
     override fun run() {
         echo("Destroying repo ${repo.home}")
@@ -84,7 +84,7 @@ class SetUser : CliktCommand(
         help = """Sets the user credentials.
 
         This will override the current user config.""") {
-    val repo: Repo by requireObject()
+    val repo: RepoConfig by requireObject()
     val username: String by option(help = "The developer's shown username.")
             .prompt()
     val email: String by option(help = "The developer's email address.")
@@ -109,7 +109,7 @@ class Commit : CliktCommand(
 
         If a list of files is omitted, all changes reported by "repo status"
         will be committed.""") {
-    val repo: Repo by requireObject()
+    val repo: RepoConfig by requireObject()
     val message: List<String> by option("--message", "-m",
             help = "The commit message. If provided multiple times " +
                     "each argument gets converted into a new line.")
@@ -148,7 +148,7 @@ class Commit : CliktCommand(
     }
 }
 
-fun main(args: Array<String>) = Cli()
+fun main(args: Array<String>) = Repo()
         .subcommands(Clone(), Delete(), SetUser(), Commit())
         .main(args)
 

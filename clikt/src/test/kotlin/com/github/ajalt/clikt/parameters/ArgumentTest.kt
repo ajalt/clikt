@@ -31,7 +31,8 @@ class ArgumentTest {
 
     @Test
     fun `one optional argument`() = forall(
-            row("", null)
+            row("", null),
+            row("-- --", "--")
     ) { argv, expected ->
         class C : CliktCommand() {
             val x by argument().optional()

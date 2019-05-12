@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
@@ -32,6 +33,8 @@ import kotlin.system.exitProcess
  *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
  * @param printHelpOnEmptyArgs If this command is called with no values on the command line, print a
  *   help message (by throwing [PrintHelpMessage]) if this is true, otherwise run normally.
+ * @param autoCompleteEnvvar The envvar to use to enable shell autocomplete script generation. Set
+ *   to null to disable generation.
  */
 @Suppress("PropertyName")
 abstract class CliktCommand(
@@ -39,7 +42,9 @@ abstract class CliktCommand(
         epilog: String = "",
         name: String? = null,
         val invokeWithoutSubcommand: Boolean = false,
-        val printHelpOnEmptyArgs: Boolean = false) {
+        val printHelpOnEmptyArgs: Boolean = false,
+        private val autoCompleteEnvvar: String? = ""
+) {
     val commandName = name ?: javaClass.simpleName.split("$").last().toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog
@@ -72,6 +77,18 @@ abstract class CliktCommand(
         return generateSequence(context) { it.parent }.toList()
                 .asReversed()
                 .joinToString(" ") { it.command.commandName }
+    }
+
+    private fun generateCompletion() {
+        if (autoCompleteEnvvar == null) return
+        val envvar = when {
+            autoCompleteEnvvar.isBlank() -> "_${commandName.replace("-", "_").toUpperCase()}_COMPLETE"
+            else -> autoCompleteEnvvar
+        }
+        val envval = System.getenv(envvar) ?: return
+        val completion = CompletionGenerator.generateCompletion(command = this, zsh = "zsh" in envval)
+        echo(completion, lineSeparator = "\n")
+        exitProcess(1)
     }
 
     /**
@@ -152,8 +169,13 @@ abstract class CliktCommand(
      * @param trailingNewline If true, behave like [println], otherwise behave like [print]
      * @param err If true, print to stderr instead of stdout
      */
-    protected fun echo(message: Any?, trailingNewline: Boolean = true, err: Boolean = false) {
-        TermUi.echo(message, trailingNewline, err, context.console)
+    protected fun echo(
+            message: Any?,
+            trailingNewline: Boolean = true,
+            err: Boolean = false,
+            lineSeparator: String = context.console.lineSeparator
+    ) {
+        TermUi.echo(message, trailingNewline, err, context.console, lineSeparator)
     }
 
     /**
@@ -163,6 +185,7 @@ abstract class CliktCommand(
      */
     fun parse(argv: List<String>, parentContext: Context? = null) {
         createContext(parentContext)
+        generateCompletion()
         Parser.parse(argv, this.context)
     }
 

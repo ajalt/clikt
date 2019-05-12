@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters.types
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
@@ -41,12 +42,16 @@ private fun convertToFile(path: String,
  * @param writable If true, fail if the given path is not writable
  * @param readable If true, fail if the given path is not readable
  */
-fun RawArgument.file(exists: Boolean = false,
-                     fileOkay: Boolean = true,
-                     folderOkay: Boolean = true,
-                     writable: Boolean = false,
-                     readable: Boolean = false): ProcessedArgument<File, File> = convert {
-    convertToFile(it, exists, fileOkay, folderOkay, writable, readable) { fail(it) }
+fun RawArgument.file(
+        exists: Boolean = false,
+        fileOkay: Boolean = true,
+        folderOkay: Boolean = true,
+        writable: Boolean = false,
+        readable: Boolean = false
+): ProcessedArgument<File, File> {
+    return convert(completionCandidates = CompletionCandidates.Path) {
+        convertToFile(it, exists, fileOkay, folderOkay, writable, readable) { fail(it) }
+    }
 }
 
 /**
@@ -58,14 +63,16 @@ fun RawArgument.file(exists: Boolean = false,
  * @param writable If true, fail if the given path is not writable
  * @param readable If true, fail if the given path is not readable
  */
-fun RawOption.file(exists: Boolean = false,
-                   fileOkay: Boolean = true,
-                   folderOkay: Boolean = true,
-                   writable: Boolean = false,
-                   readable: Boolean = false): NullableOption<File, File> {
+fun RawOption.file(
+        exists: Boolean = false,
+        fileOkay: Boolean = true,
+        folderOkay: Boolean = true,
+        writable: Boolean = false,
+        readable: Boolean = false
+): NullableOption<File, File> {
     val name = pathType(fileOkay, folderOkay)
     val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
-    return convert(name.toUpperCase(), envvarSplit = split) {
+    return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) {
         convertToFile(it, exists, fileOkay, folderOkay, writable, readable) { fail(it) }
     }
 }

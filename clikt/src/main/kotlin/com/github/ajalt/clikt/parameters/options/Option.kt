@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters.options
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.output.HelpFormatter
@@ -27,6 +28,8 @@ interface Option {
     val nvalues: Int
     /** If true, this option should not appear in help output. */
     val hidden: Boolean
+    /** Optional set of strings to use when the user invokes shell autocomplete on a value for this option. */
+    val completionCandidates: CompletionCandidates get() = CompletionCandidates.None
     /** Information about this option for the help output. */
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
         get() = if (hidden) null

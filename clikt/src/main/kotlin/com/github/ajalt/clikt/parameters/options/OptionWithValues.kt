@@ -1,11 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.Abort
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.completion.CompletionCandidates
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
@@ -80,7 +76,6 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
-@Suppress("AddVarianceModifier")
 class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val metavarExplicit: String?,
@@ -91,9 +86,11 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val envvar: String?,
         val envvarSplit: Regex,
         override val parser: OptionWithValuesParser,
+        override val completionCandidates: CompletionCandidates,
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
-        val transformAll: CallsTransformer<EachT, AllT>) : OptionDelegate<AllT> {
+        val transformAll: CallsTransformer<EachT, AllT>
+) : OptionDelegate<AllT> {
     override val metavar: String? get() = metavarExplicit ?: metavarDefault
     private var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
@@ -138,10 +135,11 @@ class OptionWithValues<AllT, EachT, ValueT>(
             hidden: Boolean = this.hidden,
             envvar: String? = this.envvar,
             envvarSplit: Regex = this.envvarSplit,
-            parser: OptionWithValuesParser = this.parser
+            parser: OptionWithValuesParser = this.parser,
+            completionCandidates: CompletionCandidates = this.completionCandidates
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(names, metavarExplicit, metavarDefault, nvalues, help, hidden,
-                envvar, envvarSplit, parser, transformValue, transformEach, transformAll)
+                envvar, envvarSplit, parser, completionCandidates, transformValue, transformEach, transformAll)
     }
 }
 
@@ -171,8 +169,13 @@ internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.las
  *   line.
  */
 @Suppress("unused")
-fun CliktCommand.option(vararg names: String, help: String = "", metavar: String? = null,
-                        hidden: Boolean = false, envvar: String? = null): RawOption = OptionWithValues(
+fun CliktCommand.option(
+        vararg names: String,
+        help: String = "",
+        metavar: String? = null,
+        hidden: Boolean = false,
+        envvar: String? = null
+): RawOption = OptionWithValues(
         names = names.toSet(),
         metavarExplicit = metavar,
         metavarDefault = "TEXT",
@@ -182,9 +185,11 @@ fun CliktCommand.option(vararg names: String, help: String = "", metavar: String
         envvar = envvar,
         envvarSplit = Regex("\\s+"),
         parser = OptionWithValuesParser,
+        completionCandidates = CompletionCandidates.None,
         transformValue = { it },
         transformEach = defaultEachProcessor(),
-        transformAll = defaultAllProcessor())
+        transformAll = defaultAllProcessor()
+)
 
 /**
  * Transform all calls to the option to the final option type.
@@ -378,10 +383,14 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
  * @param metavar The metavar for the type. Overridden by a metavar passed to [option].
  * @param envvarSplit If the value is read from an envvar, the pattern to split the value on. The default
  *   splits on whitespace.
+ * @param completionCandidates candidates to use when completing this option in shell autocomplete
  */
-inline fun <T : Any> RawOption.convert(metavar: String = "VALUE",
-                                       envvarSplit: Regex = this.envvarSplit,
-                                       crossinline conversion: ValueTransformer<T>): NullableOption<T, T> {
+inline fun <T : Any> RawOption.convert(
+        metavar: String = "VALUE",
+        envvarSplit: Regex = this.envvarSplit,
+        completionCandidates: CompletionCandidates = this.completionCandidates,
+        crossinline conversion: ValueTransformer<T>
+): NullableOption<T, T> {
     val proc: ValueTransformer<T> = {
         try {
             conversion(it)
@@ -394,7 +403,8 @@ inline fun <T : Any> RawOption.convert(metavar: String = "VALUE",
     }
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(),
             metavarDefault = metavar,
-            envvarSplit = envvarSplit)
+            envvarSplit = envvarSplit,
+            completionCandidates = completionCandidates)
 }
 
 

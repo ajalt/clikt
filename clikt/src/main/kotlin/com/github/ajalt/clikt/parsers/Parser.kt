@@ -20,7 +20,7 @@ internal object Parser {
     }
 
     private tailrec fun parse(argv: List<String>, context: Context, startingArgI: Int) {
-        var args = argv
+        var tokens = argv
         val command = context.command
         val aliases = command.aliases()
         val subcommands = command._subcommands.associateBy { it.commandName }
@@ -38,7 +38,7 @@ internal object Parser {
         }
         prefixes.remove("")
 
-        if (startingArgI > args.lastIndex && command.printHelpOnEmptyArgs) {
+        if (startingArgI > tokens.lastIndex && command.printHelpOnEmptyArgs) {
             throw PrintHelpMessage(command)
         }
 
@@ -48,40 +48,40 @@ internal object Parser {
         var canParseOptions = true
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         var minAliasI = 0
-        loop@ while (i <= args.lastIndex) {
-            val arg = args[i]
-            val normArg = context.tokenTransformer(context, arg)
-            val prefix = splitOptionPrefix(arg).first
+        loop@ while (i <= tokens.lastIndex) {
+            val tok = tokens[i]
+            val normTok = context.tokenTransformer(context, tok)
+            val prefix = splitOptionPrefix(tok).first
             when {
-                arg == "--" -> {
+                canParseOptions && tok == "--" -> {
                     i += 1
                     canParseOptions = false
                 }
-                canParseOptions && ('=' in arg || normArg in longNames || prefix.length > 1 && prefix in prefixes) -> {
-                    val (opt, result) = parseLongOpt(context, args, arg, i, optionsByName)
+                canParseOptions && ('=' in tok || normTok in longNames || prefix.length > 1 && prefix in prefixes) -> {
+                    val (opt, result) = parseLongOpt(context, tokens, tok, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount
                 }
-                canParseOptions && arg.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
-                    val (count, invokes) = parseShortOpt(context, args, arg, i, optionsByName)
+                canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
+                    val (count, invokes) = parseShortOpt(context, tokens, tok, i, optionsByName)
                     invocations += invokes
                     i += count
                 }
-                i >= minAliasI && arg in aliases -> {
-                    args = aliases.getValue(arg) + args.slice(i + 1..args.lastIndex)
+                i >= minAliasI && tok in aliases -> {
+                    tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
                     i = 0
-                    minAliasI = aliases.getValue(arg).size
+                    minAliasI = aliases.getValue(tok).size
                 }
-                normArg in subcommands -> {
-                    subcommand = subcommands.getValue(normArg)
+                normTok in subcommands -> {
+                    subcommand = subcommands.getValue(normTok)
                     break@loop
                 }
                 else -> {
                     if (command.context.allowInterspersedArgs) {
-                        positionalArgs += args[i] // arguments aren't transformed
+                        positionalArgs += tokens[i] // arguments aren't transformed
                         i += 1
                     } else {
-                        positionalArgs += args.slice(i..args.lastIndex)
+                        positionalArgs += tokens.slice(i..tokens.lastIndex)
                         break@loop
                     }
                 }
@@ -117,50 +117,50 @@ internal object Parser {
         }
 
         if (subcommand != null) {
-            parse(args, subcommand.context, i + 1)
+            parse(tokens, subcommand.context, i + 1)
         }
     }
 
     private fun parseLongOpt(
             context: Context,
-            argv: List<String>,
-            arg: String,
+            tokens: List<String>,
+            tok: String,
             index: Int,
             optionsByName: Map<String, Option>
     ): Pair<Option, ParseResult> {
-        val equalsIndex = arg.indexOf('=')
+        val equalsIndex = tok.indexOf('=')
         var (name, value) = if (equalsIndex >= 0) {
-            arg.substring(0, equalsIndex) to arg.substring(equalsIndex + 1)
+            tok.substring(0, equalsIndex) to tok.substring(equalsIndex + 1)
         } else {
-            arg to null
+            tok to null
         }
         name = context.tokenTransformer(context, name)
         val option = optionsByName[name] ?: throw NoSuchOption(name,
                 possibilities = optionsByName.keys.filter { it.startsWith(name) })
-        val result = option.parser.parseLongOpt(option, name, argv, index, value)
+        val result = option.parser.parseLongOpt(option, name, tokens, index, value)
         return option to result
     }
 
     private fun parseShortOpt(
             context: Context,
-            argv: List<String>,
-            arg: String,
+            tokens: List<String>,
+            tok: String,
             index: Int,
             optionsByName: Map<String, Option>
     ): Pair<Int, List<Pair<Option, Invocation>>> {
-        val prefix = arg[0].toString()
+        val prefix = tok[0].toString()
         val invocations = mutableListOf<Pair<Option, Invocation>>()
-        for ((i, opt) in arg.withIndex()) {
+        for ((i, opt) in tok.withIndex()) {
             if (i == 0) continue // skip the dash
 
             val name = context.tokenTransformer(context, prefix + opt)
             val option = optionsByName[name] ?: throw NoSuchOption(name)
-            val result = option.parser.parseShortOpt(option, name, argv, index, i)
+            val result = option.parser.parseShortOpt(option, name, tokens, index, i)
             invocations += option to result.invocation
             if (result.consumedCount > 0) return result.consumedCount to invocations
         }
         throw IllegalStateException(
-                "Error parsing short option ${argv[index]}: no parser consumed value.")
+                "Error parsing short option ${tokens[index]}: no parser consumed value.")
     }
 
     private fun parseArguments(

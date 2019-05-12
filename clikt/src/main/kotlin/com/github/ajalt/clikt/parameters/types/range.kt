@@ -36,9 +36,7 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
  */
 fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ProcessedArgument<T, T> where T : Number, T : Comparable<T> {
-    return ProcessedArgument(name, nvalues, required, help,
-            { checkRange(transformValue(it), min, max, clamp) { fail(it) } },
-            transformAll)
+    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } }, transformAll)
 }
 
 /**
@@ -72,8 +70,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean
  */
 fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : OptionWithValues<T?, T, T> where T : Number, T : Comparable<T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } },
-            transformEach, transformAll)
+    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } }, transformEach, transformAll)
 }
 
 

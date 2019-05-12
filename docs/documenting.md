@@ -2,17 +2,17 @@
 
 Clikt takes care of creating formatted help messages for commands. There
 are a number of ways to customize the default behavior. You can also
-implement your own [`HelpFormatter`](api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.html) and set it on the [command's
+implement your own [`HelpFormatter`](/api/clikt/com.github.ajalt.clikt.output/-help-formatter/) and set it on the [command's
 context](commands.md#customizing-contexts).
 
 ## Help Texts
 
-[Commands](api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html) and parameters accept a `help` argument. Commands also accept an
+[Commands](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/) and parameters accept a `help` argument. Commands also accept an
 `epilog` argument, which is printed after the parameters and commands on
 the help page. All text is automatically re-wrapped to the terminal
 width.
 
-```kotlin
+```kotlin tab="Example"
 class Hello : CliktCommand(help = """
     This script prints NAME COUNT times.
 
@@ -25,9 +25,7 @@ class Hello : CliktCommand(help = """
 }
 ```
 
-Which creates the following help page:
-
-```
+```text tab="Usage"
 $ ./hello --help
 Usage: hello [OPTIONS] NAME
 
@@ -52,7 +50,7 @@ Subcommands are listed in the help page based on their
 [name](commands.md#customizing-command-name). They have a short help
 string which is the first line of their help.
 
-```kotlin
+```kotlin tab="Example"
 class Tool : NoRunCliktCommand()
 
 class Execute : NoRunCliktCommand(help = """
@@ -64,9 +62,7 @@ class Execute : NoRunCliktCommand(help = """
 class Abort : NoRunCliktCommand(help="Kill any running commands.")
 ```
 
-Which generates this help page:
-
-```
+```text tab="Usage"
 $ ./tool --help
 Usage: tool [OPTIONS] COMMAND [ARGS]...
 
@@ -89,7 +85,7 @@ is not added.
 You can change the help option's name and help message on the
 [command's context](commands.md#customizing-contexts):
 
-```kotlin
+```kotlin tab="Example"
 class Tool : NoRunCliktCommand() {
     init {
         context {
@@ -100,9 +96,7 @@ class Tool : NoRunCliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./tool /help
 Usage: tool [OPTIONS]
 
@@ -119,9 +113,9 @@ You can configure the help formatter to show default values in the help output b
 `showRequiredTag = true` to the `CliktHelpFormatter`. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the `defaultForHelp` parameter of
-[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default.html).
+[`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/).
 
-```kotlin
+```kotlin tab="Example"
 class Tool : NoRunCliktCommand() {
     init {
         context { helpFormatter = CliktHelpFormatter(showDefaultValues = true) }
@@ -132,9 +126,7 @@ class Tool : NoRunCliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -146,7 +138,7 @@ Options:
 
 ## Required Options in Help 
 
-By default, [`required`](api/clikt/com.github.ajalt.clikt.parameters.options/required.html) options
+By default, [`required`](/api/clikt/com.github.ajalt.clikt.parameters.options/required/) options
 are displayed the same way as other options. The help formatter includes two different ways to show
 that an option is required.
 
@@ -154,7 +146,7 @@ that an option is required.
 
 You can pass a character to the `requiredOptionMarker` argument of the `CliktHelpFormatter`. 
 
-```kotlin
+```kotlin tab="Example"
 class Tool : NoRunCliktCommand() {
     init {
         context { helpFormatter = CliktHelpFormatter(requiredOptionMarker = "*") }
@@ -165,9 +157,7 @@ class Tool : NoRunCliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -181,7 +171,7 @@ Options:
 
 You can also show a tag for required options by passing `showRequiredTag = true` to the `CliktHelpFormatter`.
 
-```kotlin
+```kotlin tab="Example"
 class Tool : CliktCommand() {
     init {
         context { helpFormatter = CliktHelpFormatter(showRequiredTag = true) }
@@ -192,9 +182,7 @@ class Tool : CliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -207,11 +195,11 @@ Options:
 ## Grouping Options in Help
 
 You can group options into separate help sections by using
-[OptionGroup](api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html).
+[OptionGroup](/api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/).
 The name of the group will be shown in the output. You can also add an extra help message to be
 shown with the group. Groups can't be nested.
 
-```kotlin
+```kotlin tab="Example"
 class UserOptions : OptionGroup(name = "User Options", help = "Options controlling the user") {
     val name by option(help = "user name")
     val age by option(help = "user age").int()
@@ -222,9 +210,7 @@ class Tool : NoRunCliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./tool --help
 Usage: cli [OPTIONS]
 
@@ -242,6 +228,6 @@ Options:
 ### Note for IntelliJ users:
 
 If you're using IntelliJ, there is a bug in the Kotlin plugin for versions 1.2.31 and under that prevents
-[provideDelegate](api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/index.html)
+[provideDelegate](/api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/)
 from being imported automatically, so you might need to add this import manually: `import
 com.github.ajalt.clikt.parameters.groups.provideDelegate`

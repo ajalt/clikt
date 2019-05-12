@@ -10,8 +10,7 @@ Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
 command line interfaces simple and intuitive. It the "Command Line
 Interface for Kotlin".
 
-Inspired by Python's [Click](https://github.com/pallets/click), it is
-designed to make the process of writing command line tools effortless
+It is designed to make the process of writing command line tools effortless
 while supporting a wide variety of use cases and allowing advanced
 customization when needed.
 
@@ -72,15 +71,15 @@ Error: no such option: "--whoops".
 
 # API Reference
 
-* [Commands and Exceptions](api/clikt/com.github.ajalt.clikt.core/index.html)
-* [Options](api/clikt/com.github.ajalt.clikt.parameters.options/index.html)
-* [Arguments](api/clikt/com.github.ajalt.clikt.parameters.arguments/index.html)
-* [Parameter Type Conversions](api/clikt/com.github.ajalt.clikt.parameters.types/index.html)
-* [Output Formatting](api/clikt/com.github.ajalt.clikt.output/index.html)
+* [Commands and Exceptions](/api/clikt/com.github.ajalt.clikt.core/)
+* [Options](/api/clikt/com.github.ajalt.clikt.parameters.options/)
+* [Arguments](/api/clikt/com.github.ajalt.clikt.parameters.arguments/)
+* [Parameter Type Conversions](/api/clikt/com.github.ajalt.clikt.parameters.types/)
+* [Output Formatting](/api/clikt/com.github.ajalt.clikt.output/)
 
 # License
 
-    Copyright 2018 AJ Alt
+    Copyright 2018-2019 AJ Alt
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

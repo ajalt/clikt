@@ -37,6 +37,7 @@ artifacts {
 
 dokka {
     outputDirectory = "$rootDir/docs/api"
+    outputFormat = 'gfm'
 }
 
 ext {

@@ -29,7 +29,7 @@ the script once each time your CLI changes, and load it each time your start you
 
 To generate the shell script, you need to invoke your program with a special environment variable.
 You can set the variable name manually with the `autoCompleteEnvvar` parameter in the
-[`CliktCommand` constructor](api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html). By
+[`CliktCommand` constructor](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/). By
 default it's your command's name capitalized, with `-` replaced with `_`, and prefixed with another
 `_`. So if your command name is `my-command`, the variable would be `_MY_COMMAND_COMPLETE=bash` or
 `_MY_COMMAND_COMPLETE=zsh`, depending on your current shell.
@@ -65,13 +65,13 @@ You'll need to regenerate the completion script any time your command structure 
 ## Customizing Completions
 
 There is built-in completion for values for
-[`choice`](api/clikt/com.github.ajalt.clikt.parameters.types/choice.html) parameters, and for
-parameters converted with [`file`](api/clikt/com.github.ajalt.clikt.parameters.types/file.html) and
-[`path`](api/clikt/com.github.ajalt.clikt.parameters.types/path.html).
+[`choice`](/api/clikt/com.github.ajalt.clikt.parameters.types/choice/) parameters, and for
+parameters converted with [`file`](/api/clikt/com.github.ajalt.clikt.parameters.types/file/) and
+[`path`](/api/clikt/com.github.ajalt.clikt.parameters.types/path/).
 
 You can add completion for other parameters with the `completionCandidates` parameter to
-[`option()`](api/clikt/com.github.ajalt.clikt.parameters.options/option.html) and
-[`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html). The value can
+[`option()`](/api/clikt/com.github.ajalt.clikt.parameters.options/option/) and
+[`argument()`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/). The value can
 be one of the following:
 
 - `None`: The default. The parameter's values will not be completed.
@@ -82,7 +82,7 @@ be one of the following:
 
 ## Limitations
 
-[Token Normalization](advanced/#token-normalization) is not supported.
+[Token Normalization](/advanced/#token-normalization) is not supported.
 
 If you have arguments that occur after a `multiple` argument, those arguments won't be
 autocompleted. Partial command lines are ambiguous in those situations, and Clikt assumes that

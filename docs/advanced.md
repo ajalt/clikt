@@ -12,13 +12,13 @@ like the way you can configure git to accept `git ci` as an alias for
 `git commit`.
 
 To implement command aliases, override
-[`CliktCommand.aliases`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html) in your
+[`CliktCommand.aliases`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases/) in your
 command. This function is called once at the start of parsing, and returns a map of aliases to the
 tokens that they alias to.
 
 To implement git-style aliases:
 
-```kotlin
+```kotlin tab="Example"
 class Repo : NoRunCliktCommand() {
     // You could load the aliases from a config file etc.
     override fun aliases(): Map<String, List<String>> = mapOf(
@@ -37,14 +37,12 @@ class Commit: CliktCommand() {
 fun main(args: Array<String>) = Repo().subcommands(Commit()).main(args)
 ```
 
-And on the command line:
-
-```
+```text tab="Usage 1"
 $ ./repo ci -m 'my message'
 Committing with message: my message
 ```
 
-```
+```text tab="Usage 2"
 $ ./repo cm 'my message'
 Committing with message: my message
 ```
@@ -100,12 +98,12 @@ Running Bar
 
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
-works on more types of tokens. You can set a [`tokenTransformer`](api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html) on the
+works on more types of tokens. You can set a [`tokenTransformer`](/api/clikt/com.github.ajalt.clikt.core/-context/token-transformer/) on the
 [command's context](commands.md#customizing-contexts) that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:
 
-```kotlin
+```kotlin tab="Example"
 class Hello : CliktCommand() {
     init {
         context { tokenTransformer = { it.toLowerCase() } }
@@ -116,18 +114,18 @@ class Hello : CliktCommand() {
 }
 ```
 
-```
+```text tab="Usage"
 $ ./hello --NAME=Foo
 Hello Foo!
 ```
 
 ## Replacing stdin and stdout
 
-By default, functions like [`CliktCommand.main`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html)
-and [`option().prompt()`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html)
+By default, functions like [`CliktCommand.main`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/)
+and [`option().prompt()`](/api/clikt/com.github.ajalt.clikt.parameters.options/prompt/)
 read from `System.in` and write to `System.out`. If you want to use
 clikt in an environment where the standard streams aren't available, you
-can set your own implementation of [`CliktConsole`](api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.html)
+can set your own implementation of [`CliktConsole`](/api/clikt/com.github.ajalt.clikt.output/-clikt-console/)
 when [customizing the command context](commands.md#customizing-contexts).
 
 ```kotlin
@@ -153,7 +151,7 @@ class CustomCLI : CliktCommand() {
 ```
 
 If you are using
-[`TermUI`](api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html)
+[`TermUI`](/api/clikt/com.github.ajalt.clikt.output/-term-ui/)
 directly, you can also pass your custom console as an argument.
 
 ## Command Line Argument Files

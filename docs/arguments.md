@@ -2,15 +2,16 @@
 
 Arguments are declared and customized similarly to
 [options](options.md), but are provided on the command line
-positionally instead of by name. Arguments are declared with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html), and the order that they are declared defines the order that they
+positionally instead of by name. Arguments are declared with [`argument()`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/), and the order that they are declared defines the order that they
 must be provided on the command line.
 
 ## Basic Arguments
 
-By default, [`argument`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html) takes a single `String` value which is required to be
+By default, [`argument`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/) takes a single `String` value which is required to be
 provided on the command line.
 
-```kotlin
+```kotlin tab="Example"
+
 class Hello : CliktCommand() {
     val name by argument()
     override fun run() {
@@ -19,9 +20,7 @@ class Hello : CliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./hello Foo
 Hello Foo!
 ```
@@ -30,9 +29,7 @@ Arguments appear in the usage string, but normally aren't listed in the
 help page. It's usually more clear to document arguments in the command
 help.
 
-For example:
-
-```kotlin
+```kotlin tab="Example"
 class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
     private val source by argument().file(exists = true).multiple()
     private val dest by argument().file()
@@ -42,9 +39,7 @@ class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to di
 }
 ```
 
-Which produces the following help:
-
-```
+```text tab="Help Output"
 Usage: cp [OPTIONS] [SOURCE]... DEST
 
   Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.
@@ -55,16 +50,16 @@ Options:
 
 ## Variadic Arguments
 
-Like [options](options.md), arguments can take any fixed number of
-values, which you can change with functions like [`pair`](api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.html) and [`triple`](api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.html). Unlike options, arguments
-can take a variable (or unlimited) number of values. This is especially
-common when taking file paths, since they are frequently expanded with a
-glob pattern on the command line.
+Like [options](options.md), arguments can take any fixed number of values, which you can change with
+functions like [`pair`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/pair/) and
+[`triple`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/triple/). Unlike options,
+arguments can take a variable (or unlimited) number of values. This is especially common when taking
+file paths, since they are frequently expanded with a glob pattern on the command line.
 
 You can declare any number of arguments with fixed numbers of values,
 but only one variadic argument.
 
-```kotlin
+```kotlin tab="Example"
 class Copy : CliktCommand() {
     val source by argument().file(exists = true).multiple()
     val dest by argument().file(fileOkay = false)
@@ -74,9 +69,7 @@ class Copy : CliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage"
 $ ./copy file.* out/
 Copying files [file.txt, file.md] to out/
 ```
@@ -93,7 +86,7 @@ Clikt supports the POSIX convention of using `--` to force all following
 values to be treated as arguments. Any values before the `--` will be
 parsed normally.
 
-```kotlin
+```kotlin tab="Example"
 class Touch : CliktCommand() {
     val verbose by option().flag()
     val files by argument().multiple()
@@ -103,16 +96,14 @@ class Touch : CliktCommand() {
 }
 ```
 
-And on the command line:
-
-```
+```text tab="Usage 1"
 $ ./touch --foo.txt
 Usage: touch [OPTIONS] [FILES]...
 
 Error: no such option: "--foo.txt".
 ```
 
-```
+```text tab="Usage 2"
 $ ./touch --verbose -- --foo.txt bar.txt
 --foo.txt
 bar.txt

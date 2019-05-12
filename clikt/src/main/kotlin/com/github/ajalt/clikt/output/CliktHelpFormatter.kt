@@ -50,7 +50,7 @@ open class CliktHelpFormatter(
             parameters: List<HelpFormatter.ParameterHelp>,
             programName: String
     ) {
-        val prog = "$usageTitle $programName"
+        val prog = "${renderSectionTitle(usageTitle)} $programName"
         val usage = buildString {
             if (parameters.any { it is HelpFormatter.ParameterHelp.Option }) {
                 append(optionsMetavar)

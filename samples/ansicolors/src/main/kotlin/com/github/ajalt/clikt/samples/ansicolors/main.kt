@@ -3,17 +3,18 @@ package com.github.ajalt.clikt.samples.ansicolors
 import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.CliktHelpFormatter
+import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.mordant.TermColors
 
-private val tc = TermColors(TermColors.Level.TRUECOLOR)
 
-class ColorHelpFormatter : CliktHelpFormatter(usageTitle = (tc.bold + tc.underline)("Usage:")) {
+class ColorHelpFormatter : CliktHelpFormatter() {
+    private val tc = TermColors(TermColors.Level.ANSI16)
+
     override fun renderTag(tag: String, value: String) = tc.green(super.renderTag(tag, value))
     override fun renderOptionName(name: String) = tc.yellow(super.renderOptionName(name))
     override fun renderArgumentName(name: String) = tc.yellow(super.renderArgumentName(name))

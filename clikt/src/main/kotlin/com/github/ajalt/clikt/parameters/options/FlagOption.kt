@@ -27,6 +27,7 @@ class FlagOption<T>(
         val transformEnvvar: OptionTransformContext.(String) -> T,
         val transformAll: CallsTransformer<String, T>) : OptionDelegate<T> {
     override var parameterGroup: ParameterGroup? = null
+    override var groupName: String? = null
     override val metavar: String? = null
     override val nvalues: Int get() = 0
     override val parser = FlagOptionParser
@@ -48,6 +49,19 @@ class FlagOption<T>(
         names = inferOptionNames(names, prop.name)
         thisRef.registerOption(this)
         return this
+    }
+
+    fun <T> copy(
+            transformEnvvar: OptionTransformContext.(String) -> T,
+            transformAll: CallsTransformer<String, T>,
+            names: Set<String> = this.names,
+            secondaryNames: Set<String> = this.secondaryNames,
+            help: String = this.help,
+            hidden: Boolean = this.hidden,
+            helpTags: Map<String, String> = this.helpTags,
+            envvar: String? = this.envvar
+    ): FlagOption<T> {
+        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll)
     }
 }
 
@@ -88,7 +102,7 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },
-            transformAll = { it.map { choices[it]!! }.lastOrNull() })
+            transformAll = { it.map { choices.getValue(it) }.lastOrNull() })
 }
 
 /** Turn an option into a set of flags that each map to a value. */
@@ -96,9 +110,10 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
 
 /** Set a default value for a option. */
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
-    return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar,
+    return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },
-            transformAll = { transformAll(it) ?: value })
+            transformAll = { transformAll(it) ?: value }
+    )
 }
 
 /**
@@ -108,7 +123,7 @@ fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
  * if the value is not valid. It is not called if the delegate value is null.
  */
 fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDelegate<T> {
-    return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar,
+    return copy(
             transformEnvvar = { transformEnvvar(it).also { validator(this, it) } },
             transformAll = { transformAll(it).also { validator(this, it) } }
     )
@@ -133,5 +148,5 @@ fun <T> FlagOption<T>.deprecated(
         error: Boolean = false
 ): OptionDelegate<T> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
-    return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, deprecationTransformer(message, error, transformAll))
+    return copy(transformEnvvar, deprecationTransformer(message, error, transformAll), helpTags = helpTags)
 }

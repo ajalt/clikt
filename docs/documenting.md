@@ -208,7 +208,8 @@ Options:
 
 You can group options into separate help sections by using
 [OptionGroup](api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html).
-The name of the group will be shown in the output. You can also add an extra help message to be shown with the group.
+The name of the group will be shown in the output. You can also add an extra help message to be
+shown with the group. Groups can't be nested.
 
 ```kotlin
 class UserOptions : OptionGroup(name = "User Options", help = "Options controlling the user") {

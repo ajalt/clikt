@@ -496,6 +496,64 @@ Error: Missing option "--name".
 Like [other option groups](documenting/#grouping-options-in-help), you can specify a `name` and
 `help` text for the group if you want to set the group apart in the help output.
 
+## Choice Options With Groups
+
+If you have different groups of options that only make sense when another option has a certain value, you can use 
+[`groupChoice`](api/clikt/com.github.ajalt.clikt.parameters.groups/group-choice.html).
+
+These options are similar to [`choice` options](#choice-options), but instead of mapping a value to
+a single new type, they map a value to a [co-occurring `OptionGroup`](#co-occurring-option-groups).
+Options for groups other than the selected one are ignored, and only the selected group's `required`
+contraints are enforced.
+
+```kotlin
+sealed class LoadConfig(name: String): OptionGroup(name)
+class FromDisk : LoadConfig("Options for loading from disk") {
+    val path by option().file().required()
+    val followSymlinks by option().flag()
+}
+
+class FromNetwork: LoadConfig("Option for loading from network") {
+    val url by option().required()
+    val username by option().prompt()
+    val password by option().prompt(hideInput = true)
+}
+
+class Tool : CliktCommand(help = "An example of a custom help formatter that uses ansi colors") {
+    val load by option().groupChoice(
+            "disk" to FromDisk(),
+            "network" to FromNetwork()
+    )
+
+    override fun run() {
+        when(val it = load) {
+            is FromDisk -> echo("Loading from disk: ${it.path}")
+            is FromNetwork -> echo("Loading from network: ${it.url}")
+            null -> echo("Not loading")
+        }
+    }
+}
+```
+
+```
+$ ./tool --load=disk --path=./config --follow-symlinks
+Loading from disk: .\config
+
+$ ./tool --load=network --url=www.example.com --username=admin
+Password: *******
+Loading from network: www.example.com
+
+$ ./tool --load=disk
+Usage: cli [OPTIONS]
+
+Error: Missing option "--path".
+
+$ ./tool --load=whoops
+Usage: cli [OPTIONS]
+
+Error: Invalid value for "--load": invalid choice: whoops. (choose from disk, network)
+```
+
 ## Prompting For Input
 
 In some cases, you might want to create an option that uses the value

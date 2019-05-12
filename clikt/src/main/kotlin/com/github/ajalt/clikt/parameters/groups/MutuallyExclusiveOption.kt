@@ -37,6 +37,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
         for (option in options) {
             require(option.names.isNotEmpty()) { "must specify names for all options in a group" }
             option.parameterGroup = this
+            option.groupName = groupName
             thisRef.registerOption(option)
         }
 

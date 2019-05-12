@@ -2,12 +2,14 @@
 
 package com.github.ajalt.clikt.parameters.groups
 
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.fail
@@ -236,5 +238,51 @@ class OptionGroupsTest {
 
         shouldThrow<IllegalArgumentException> { C() }
                 .message shouldBe "At least one option in a co-occurring group must use `required()`"
+    }
+
+    @Test
+    fun `choice group`() {
+        class Group1 : OptionGroup() {
+            val g11 by option().int().required()
+            val g12 by option().int()
+        }
+
+        class Group2 : OptionGroup() {
+            val g21 by option().int().required()
+            val g22 by option().int()
+        }
+
+        class C : TestCommand() {
+            val g by option().groupChoice("1" to Group1(), "2" to Group2())
+        }
+        forall(
+                row("", 0, null, null),
+                row("--g11=1 --g21=1", 0, null, null),
+                row("--g=1 --g11=2", 1, 2, null),
+                row("--g=1 --g11=2 --g12=3", 1, 2, 3),
+                row("--g=1 --g11=2 --g12=3", 1, 2, 3),
+                row("--g=2 --g21=2 --g22=3", 2, 2, 3),
+                row("--g=2 --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
+        ) { argv, eg, eg1, eg2 ->
+            with(C()) {
+                parse(argv)
+                when (eg) {
+                    0 -> {
+                        g shouldBe null
+                    }
+                    1 -> {
+                        (g as Group1).g11 shouldBe eg1
+                        (g as Group1).g12 shouldBe eg2
+                    }
+                    2 -> {
+                        (g as Group2).g21 shouldBe eg1
+                        (g as Group2).g22 shouldBe eg2
+                    }
+                }
+            }
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("--g=3") }
+                .message shouldBe "Invalid value for \"--g\": invalid choice: 3. (choose from 1, 2)"
     }
 }

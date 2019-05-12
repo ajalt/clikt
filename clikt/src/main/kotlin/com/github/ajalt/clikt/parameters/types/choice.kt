@@ -43,7 +43,7 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, 
  * ```
  */
 fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>): ProcessedArgument<T, T> {
-    return choice(mapOf(*choices))
+    return choice(choices.toMap())
 }
 
 /**
@@ -69,6 +69,8 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
  * ```kotlin
  * option().choice(mapOf("foo" to 1, "bar" to 2))
  * ```
+ *
+ * @see com.github.ajalt.clikt.parameters.groups.groupChoice
  */
 fun <T : Any> RawOption.choice(choices: Map<String, T>,
                                metavar: String = mvar(choices.keys)): NullableOption<T, T> {
@@ -86,10 +88,12 @@ fun <T : Any> RawOption.choice(choices: Map<String, T>,
  * ```kotlin
  * option().choice("foo" to 1, "bar" to 2)
  * ```
+ *
+ * @see com.github.ajalt.clikt.parameters.groups.groupChoice
  */
 fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
                                metavar: String = mvar(choices.map { it.first })): NullableOption<T, T> {
-    return choice(mapOf(*choices), metavar)
+    return choice(choices.toMap(), metavar)
 }
 
 /**

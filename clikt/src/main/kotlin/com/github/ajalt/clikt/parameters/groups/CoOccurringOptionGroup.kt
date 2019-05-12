@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.parameters.groups
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.Option
@@ -20,9 +19,10 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT>(
 
     override fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
-        for (o in group.options) {
-            o.parameterGroup = this
-            thisRef.registerOption(o)
+        for (option in group.options) {
+            option.parameterGroup = this
+            option.groupName = groupName
+            thisRef.registerOption(option)
         }
         return this
     }

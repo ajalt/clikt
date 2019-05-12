@@ -105,6 +105,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val transformAll: CallsTransformer<EachT, AllT>
 ) : OptionDelegate<AllT>, GroupableOption {
     override var parameterGroup: ParameterGroup? = null
+    override var groupName: String? = null
     override val metavar: String? get() = metavarWithDefault.value
     override var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
         private set

@@ -23,4 +23,7 @@ interface ParameterHolder {
 interface GroupableOption : Option {
     /** The group that this option belongs to, or null. Set by the group. */
     var parameterGroup: ParameterGroup?
+
+    /** The name of the group, or null if this option should not be grouped in the help output. */
+    var groupName: String?
 }

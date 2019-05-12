@@ -56,11 +56,9 @@ class InteractiveCliktConsole(private val console: Console) : CliktConsole {
 }
 
 class NonInteractiveCliktConsole : CliktConsole {
-    private val inReader by lazy { System.`in`.bufferedReader() }
-
     override fun promptForLine(prompt: String, hideInput: Boolean) = try {
         print(prompt, false)
-        inReader.readLine() ?: throw RuntimeException("EOF")
+        readLine() ?: throw RuntimeException("EOF")
     } catch (err: IOException) {
         throw err
     }

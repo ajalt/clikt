@@ -105,7 +105,7 @@ class MyArgs(parser: ArgParser) {
 ```
 
 Clikt has that functionality built in as
-[`option().pair()`](/api/clikt/com.github.ajalt.clikt.parameters.options/pair/), but you could
+[`option().pair()`](api/clikt/com.github.ajalt.clikt.parameters.options/pair/), but you could
 implement it yourself like this:
 
 ```kotlin
@@ -122,7 +122,7 @@ creation of Clikt:
 * Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial number of copies of the above code. With Clikt, these are all orthogonal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
 * Option name inference is not automatic, requiring you to wrap the delegate with yet another function.
-* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`](/api/clikt/com.github.ajalt.clikt.parameters.options/option/), and all arguments with [`argument()`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/).
+* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`](api/clikt/com.github.ajalt.clikt.parameters.options/option/), and all arguments with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/).
 
 Some of these problems can be solved by writing more code, and some
 can't. On the other hand, Clikt attempts to consistent, intuitive,

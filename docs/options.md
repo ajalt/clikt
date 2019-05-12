@@ -1,7 +1,7 @@
 # Options
 
 Options are added to commands by defining a property delegate with the
-[`option`](/api/clikt/com.github.ajalt.clikt.parameters.options/option/) function.
+[`option`](api/clikt/com.github.ajalt.clikt.parameters.options/option/) function.
 
 ## Basic Options
 
@@ -71,7 +71,7 @@ Hello, foo!
 ## Customizing Options
 
 The option behavior and delegate type can be customized by calling extension functions on the
-[`option`](/api/clikt/com.github.ajalt.clikt.parameters.options/option/) call. For example, here
+[`option`](api/clikt/com.github.ajalt.clikt.parameters.options/option/) call. For example, here
 are some different option declarations:
 
 ```kotlin
@@ -87,20 +87,20 @@ independently:
 
 1. **The type of each value in the option.**
    The value type is `String` by default, but can be customized with built-in functions like
-   [`int`](/api/clikt/com.github.ajalt.clikt.parameters.types/int/) or
-   [`choice`](/api/clikt/com.github.ajalt.clikt.parameters.types/choice/), or manually with
-   [`convert`](/api/clikt/com.github.ajalt.clikt.parameters.options/convert/). This is detailed
+   [`int`](api/clikt/com.github.ajalt.clikt.parameters.types/int/) or
+   [`choice`](api/clikt/com.github.ajalt.clikt.parameters.types/choice/), or manually with
+   [`convert`](api/clikt/com.github.ajalt.clikt.parameters.options/convert/). This is detailed
    in the [parameters](parameters.md#parameter-types) page.
 2. **The number of values that the option requires.**
    Options take one value by default, but this can be changed with
-   built-in functions like [`pair`](/api/clikt/com.github.ajalt.clikt.parameters.options/pair/)
-   and [`triple`](/api/clikt/com.github.ajalt.clikt.parameters.options/triple/), or manually with
-   [`transformValues`](/api/clikt/com.github.ajalt.clikt.parameters.options/transform-values/).
+   built-in functions like [`pair`](api/clikt/com.github.ajalt.clikt.parameters.options/pair/)
+   and [`triple`](api/clikt/com.github.ajalt.clikt.parameters.options/triple/), or manually with
+   [`transformValues`](api/clikt/com.github.ajalt.clikt.parameters.options/transform-values/).
 3. **How to handle all calls to the option (i.e. if the option is not given, or is given more than once).**
    By default, the option delegate value is the null if the option is
    not given on the command line, but you can change this behavior with
-   functions like [`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/) and
-   [`multiple`](/api/clikt/com.github.ajalt.clikt.parameters.options/multiple/).
+   functions like [`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default/) and
+   [`multiple`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple/).
 
 Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
@@ -111,7 +111,7 @@ code.
 
 By default, option delegates return `null` if the option wasn't provided
 on the command line. You can instead return a default value with 
-[`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/).
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default/).
 
 ```kotlin tab="Example"
 class Pow : CliktCommand() {
@@ -133,8 +133,8 @@ $ ./pow
 ```
 
 If the default value is expensive to compute, you can use
-[`defaultLazy`](/api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy/) instead of
-[`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/). It has the same
+[`defaultLazy`](api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy/) instead of
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default/). It has the same
 effect, but you give it a lambda returning the default value, and the lambda will only be called if
 the default value is used.
 
@@ -147,13 +147,13 @@ separated by whitespace, you need to use an argument instead.
 ### Options With Fixed Number of Values
 
 There are built in functions for options that take two values
-([`pair`](/api/clikt/com.github.ajalt.clikt.parameters.options/pair/), which uses a `Pair`), or
-three values ([`triple`](/api/clikt/com.github.ajalt.clikt.parameters.options/triple/), which
+([`pair`](api/clikt/com.github.ajalt.clikt.parameters.options/pair/), which uses a `Pair`), or
+three values ([`triple`](api/clikt/com.github.ajalt.clikt.parameters.options/triple/), which
 uses a `Triple`).  You can change the type of each value as normal with functions like
-[`int`](/api/clikt/com.github.ajalt.clikt.parameters.types/int/).
+[`int`](api/clikt/com.github.ajalt.clikt.parameters.types/int/).
 
 If you need more values, you can provide your own container with
-[`transformValues`](/api/clikt/com.github.ajalt.clikt.parameters.options/transform-values/). You
+[`transformValues`](api/clikt/com.github.ajalt.clikt.parameters.options/transform-values/). You
 give that function the number of values you want, and a lambda that will transform a list of values
 into the output container. The list will always have a size equal to the number you specify. If the
 user provides a different number of values, Clikt will inform the user and your lambda won't be
@@ -184,7 +184,7 @@ Tesseract has dimensions 6x7x8x9
 
 ### Options With a Variable Number of Values
 
-You can use [`split`](/api/clikt/com.github.ajalt.clikt.parameters.options/split/) to allow a
+You can use [`split`](api/clikt/com.github.ajalt.clikt.parameters.options/split/) to allow a
 variable number of values to a single option invocation by separating the values with non-whitespace
 delimiters.
 
@@ -212,7 +212,7 @@ Normally, when an option is provided on the command line more than once,
 only the values from the last occurrence are used. But sometimes you
 want to keep all values provided. For example, `git commit -m foo -m
 bar` would create a commit message with two lines: `foo` and `bar`. To
-get this behavior with Clikt, you can use [`multiple`](/api/clikt/com.github.ajalt.clikt.parameters.options/multiple/). This will cause the property
+get this behavior with Clikt, you can use [`multiple`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple/). This will cause the property
 delegate value to be a list, where each item in the list is the value of
 from one occurrence of the option. If the option is never given, the
 list will be empty (or you can specify a list to use).
@@ -232,7 +232,7 @@ foo
 bar
 ```
 
-You can combine [`multiple`](/api/clikt/com.github.ajalt.clikt.parameters.options/multiple/) with item type conversions and multiple values. For
+You can combine [`multiple`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple/) with item type conversions and multiple values. For
 example:
 
 ```kotlin
@@ -243,7 +243,7 @@ val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
 
 Flags are options that don't take a value. Boolean flags can be enabled
 or disabled, depending on the name used to invoke the option. You can
-turn an option into a boolean flag with [`flag`](/api/clikt/com.github.ajalt.clikt.parameters.options/flag/). That function takes an optional
+turn an option into a boolean flag with [`flag`](api/clikt/com.github.ajalt.clikt.parameters.options/flag/). That function takes an optional
 list of secondary names that will be added to any existing or inferred
 names for the option. If the option is invoked with one of the secondary
 names, the delegate will return false. It's a good idea to always set
@@ -293,7 +293,7 @@ true true Foo
 ## Counted Flag Options
 
 You might want a flag option that counts the number of times it occurs on the command line. You can
-use [`counted`](/api/clikt/com.github.ajalt.clikt.parameters.options/counted/) for this.
+use [`counted`](api/clikt/com.github.ajalt.clikt.parameters.options/counted/) for this.
 
 ```kotlin tab="Example"
 class Log : CliktCommand() {
@@ -312,7 +312,7 @@ Verbosity level: 3
 ## Feature Switch Flags
 
 Another way to use flags is to assign a value to each option name. You can do this with
-[`switch`](/api/clikt/com.github.ajalt.clikt.parameters.options/switch/), which takes a map of
+[`switch`](api/clikt/com.github.ajalt.clikt.parameters.options/switch/), which takes a map of
 option names to values. Note that the names in the map replace any previously specified or inferred
 names.
 
@@ -335,7 +335,7 @@ You picked size small
 ## Choice Options
 
 You can restrict the values that a regular option can take to a set of values using
-[`choice`](/api/clikt/com.github.ajalt.clikt.parameters.types/choice/). You can also map the
+[`choice`](api/clikt/com.github.ajalt.clikt.parameters.types/choice/). You can also map the
 input values to new types.
 
 ```kotlin tab="Example"
@@ -372,7 +372,7 @@ Options:
 
 If [`choice`](#choice-options) or [`switch`](#feature-switch-flags) options aren't flexible enough,
 you can use
-[`mutuallyExclusiveOptions`](/api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options/)
+[`mutuallyExclusiveOptions`](api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options/)
 to group any nullable options into a mutually exclusive group. If more than one of the options in
 the group is given on the command line, the last value is used.
 
@@ -413,7 +413,7 @@ Error: option --apples cannot be used with --oranges
 ```
 
 You can enforce that only one of the options is given with
-[`single`](/api/clikt/com.github.ajalt.clikt.parameters.groups/single/):
+[`single`](api/clikt/com.github.ajalt.clikt.parameters.groups/single/):
 
 ```kotlin tab="Example"
 val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
@@ -430,8 +430,8 @@ Error: option --apples cannot be used with --oranges
 ```
 
 Like regular options, you can make the entire group
-[`required`](/api/clikt/com.github.ajalt.clikt.parameters.groups/required/), or give it a
-[`default`](/api/clikt/com.github.ajalt.clikt.parameters.groups/required/) value.
+[`required`](api/clikt/com.github.ajalt.clikt.parameters.groups/required/), or give it a
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.groups/required/) value.
 
 Like [other option groups](/documenting/#grouping-options-in-help), you can specify a `name` and
 `help` text for the group if you want to set the group apart in the help output.
@@ -439,10 +439,10 @@ Like [other option groups](/documenting/#grouping-options-in-help), you can spec
 ## Co-Occurring Option Groups
 
 Sometimes you have a set of options that only make sense when specified together. To enforce this,
-you can make an option group [`cooccurring`](/api/clikt/com.github.ajalt.clikt.parameters.groups/cooccurring/).
+you can make an option group [`cooccurring`](api/clikt/com.github.ajalt.clikt.parameters.groups/cooccurring/).
 
 Co-occurring groups must have at least one
-[`required`](/api/clikt/com.github.ajalt.clikt.parameters.options/required/) option, and may also
+[`required`](api/clikt/com.github.ajalt.clikt.parameters.options/required/) option, and may also
 have non-required options. The `required` constraint is enforced if any of the options in the group
 are given on the command line. If none if the options are given, the value of the group is null.
 
@@ -486,7 +486,7 @@ Like [other option groups](/documenting/#grouping-options-in-help), you can spec
 ## Choice Options With Groups
 
 If you have different groups of options that only make sense when another option has a certain value, you can use 
-[`groupChoice`](/api/clikt/com.github.ajalt.clikt.parameters.groups/group-choice/).
+[`groupChoice`](api/clikt/com.github.ajalt.clikt.parameters.groups/group-choice/).
 
 These options are similar to [`choice` options](#choice-options), but instead of mapping a value to
 a single new type, they map a value to a [co-occurring `OptionGroup`](#co-occurring-option-groups).
@@ -552,7 +552,7 @@ Error: Invalid value for "--load": invalid choice: whoops. (choose from disk, ne
 In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input
 if one is not provided. Clikt can take care of this for you with the
-[`prompt`](/api/clikt/com.github.ajalt.clikt.parameters.options/prompt/) function.
+[`prompt`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt/) function.
 
 ```kotlin tab="Example"
 class Hello : CliktCommand() {
@@ -575,7 +575,7 @@ Hello foo
 ```
 
 The default prompt string is based on the option name, but
-[`prompt`](/api/clikt/com.github.ajalt.clikt.parameters.options/prompt/) takes a number of
+[`prompt`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt/) takes a number of
 parameters to customize the output.
 
 ## Password Prompts
@@ -610,7 +610,7 @@ associated with them, and they stop command line parsing as soon as
 they're encountered.
 
 The `--help` option is added automatically to commands, and `--version` can be added using
-[`versionOption`](/api/clikt/com.github.ajalt.clikt.parameters.options/version-option/). Since
+[`versionOption`](api/clikt/com.github.ajalt.clikt.parameters.options/version-option/). Since
 the option doesn't have a value, you can't define it using a property delegate. Instead, call the
 function on a command directly, either in an `init` block, or on a command instance.
 
@@ -640,13 +640,13 @@ cli version 1.0
 ```
 
 If you want to define your own option with a similar behavior, you can do so by creating an instance
-of [`EagerOption`](/api/clikt/com.github.ajalt.clikt.parameters.options/-eager-option/) and
+of [`EagerOption`](api/clikt/com.github.ajalt.clikt.parameters.options/-eager-option/) and
 passing it to
-[`CliktCommand.registerOption`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option/).
+[`CliktCommand.registerOption`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option/).
 `EagerOption`s have a `callback` that is called when the option is encountered on the command line.
 To print a message and halt execution normally from the callback, you can throw a
-[`PrintMessage`](/api/clikt/com.github.ajalt.clikt.core/-print-message/) exception, and
-[`CliktCommand.main`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/) will take care
+[`PrintMessage`](api/clikt/com.github.ajalt.clikt.core/-print-message/) exception, and
+[`CliktCommand.main`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/) will take care
 of printing the message.
 
 You can define your own version option like this:
@@ -665,7 +665,7 @@ class Cli : CliktCommand() {
 ## Deprecating Options
 
 You can communicate to users that an option is deprecated with
-[`option().deprecated()`](/api/clikt/com.github.ajalt.clikt.parameters.options/deprecated/). By
+[`option().deprecated()`](api/clikt/com.github.ajalt.clikt.parameters.options/deprecated/). By
 default, this function will add a tag to the option's help message, and print a warning to stderr if
 the option is used.
 
@@ -731,7 +731,7 @@ you can set the name manually for an option, or you can enable automatic
 envvar name inference.
 
 To set the envvar name manually, pass the name to
-[`option`](/api/clikt/com.github.ajalt.clikt.parameters.options/option/):
+[`option`](api/clikt/com.github.ajalt.clikt.parameters.options/option/):
 
 ```kotlin tab="Example"
 class Hello : CliktCommand() {
@@ -755,9 +755,9 @@ Hello Bar
 ```
 
 You can enable automatic envvar name inference by setting the `autoEnvvarPrefix` on a command's
-[`context`](/api/clikt/com.github.ajalt.clikt.core/context/). This will cause all options without
+[`context`](api/clikt/com.github.ajalt.clikt.core/context/). This will cause all options without
 an explicit envvar name to be given an uppercase underscore-separated envvar name. Since the prefix
-is set on the [`context`](/api/clikt/com.github.ajalt.clikt.core/context/), it is propagated to
+is set on the [`context`](api/clikt/com.github.ajalt.clikt.core/context/), it is propagated to
 subcommands. If you have a a subcommand called `foo` with an option `--bar`, and your prefix is
 `MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
 
@@ -783,9 +783,9 @@ Hello Foo
 
 You might need to allow users to specify multiple values for an option in a single environment
 variable. You can do this by creating an option with
-[`multiple`](/api/clikt/com.github.ajalt.clikt.parameters.options/multiple/). The environment
+[`multiple`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple/). The environment
 variable's value will be split according a regex, which defaults to split on whitespace for most
-types. [`file`](/api/clikt/com.github.ajalt.clikt.parameters.types/file/) will change the pattern
+types. [`file`](api/clikt/com.github.ajalt.clikt.parameters.types/file/) will change the pattern
 to split according to the operating system's path splitting rules. On Windows, it will split on
 semicolons (`;`). On other systems, it will split on colons (`:`). You can also specify a split
 pattern by passing it to the `envvarSplit` parameter of `option`.
@@ -853,14 +853,14 @@ option names manually.
 Clikt has a large number of extension functions that can modify options. When applying multiple
 functions to the same option, there's only one valid order for the functions to be applied. For
 example, `option().default(3).int()` will not compile, because
-[`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/) must be applied after
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default/) must be applied after
 the value type conversion. Similarly, you can only apply one transform of each type. So
 `option().int().float()` is invalid since
-[`int`](/api/clikt/com.github.ajalt.clikt.parameters.types/int/) and
-[`float`](/api/clikt/com.github.ajalt.clikt.parameters.types/float/) both change the value type,
+[`int`](api/clikt/com.github.ajalt.clikt.parameters.types/int/) and
+[`float`](api/clikt/com.github.ajalt.clikt.parameters.types/float/) both change the value type,
 as is `option().default("").multiple()` since
-[`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/) and
-[`multiple`](/api/clikt/com.github.ajalt.clikt.parameters.options/multiple/) both transform the
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default/) and
+[`multiple`](api/clikt/com.github.ajalt.clikt.parameters.options/multiple/) both transform the
 call list (if you need a custom default value for `multiple`, you can pass it one as an argument).
 
 Here's an integer option with one of each available transform in a valid

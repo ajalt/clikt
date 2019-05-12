@@ -7,8 +7,8 @@ commonly used in command line programs.
 ## Launching Editors
 
 If you need to ask users for multi-line input, or need to have the user edit a file, you can do so
-through [`TermUi.editText`](/api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/) and
-[`TermUi.editFile`](/api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/). These
+through [`TermUi.editText`](api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/) and
+[`TermUi.editFile`](api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/). These
 functions open the program defined in the `VISUAL` or `EDITOR` environment variables, or a sensible
 default if neither are defined. The functions return the edited text if the user saved their
 changes.
@@ -28,9 +28,9 @@ fun getCommitMessage(): String? {
 ## Input Prompts
 
 Options can [prompt for values automatically](options.md#prompting-for-input), but you can also do
-so manually with [`TermUi.prompt`](/api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt/). By
+so manually with [`TermUi.prompt`](api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt/). By
 default, it accepts any input string, but you can also pass in a conversion function. If the
-conversion raises a [`UsageError`](/api/clikt/com.github.ajalt.clikt.core/-usage-error/),
+conversion raises a [`UsageError`](api/clikt/com.github.ajalt.clikt.core/-usage-error/),
 the prompt will ask the user to enter a different value.
 
 ```kotlin
@@ -52,7 +52,7 @@ Twice your number is 22
 ## Confirmation Prompts
 
 You can also ask the user for a yes or no response with
-[`TermUi.confirm`](/api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm/):
+[`TermUi.confirm`](api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm/):
 
 ```kotlin
 if (TermUi.confirm("Continue?") == true) {

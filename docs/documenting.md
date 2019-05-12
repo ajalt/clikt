@@ -2,12 +2,12 @@
 
 Clikt takes care of creating formatted help messages for commands. There
 are a number of ways to customize the default behavior. You can also
-implement your own [`HelpFormatter`](/api/clikt/com.github.ajalt.clikt.output/-help-formatter/) and set it on the [command's
+implement your own [`HelpFormatter`](api/clikt/com.github.ajalt.clikt.output/-help-formatter/) and set it on the [command's
 context](commands.md#customizing-contexts).
 
 ## Help Texts
 
-[Commands](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/) and parameters accept a `help` argument. Commands also accept an
+[Commands](api/clikt/com.github.ajalt.clikt.core/-clikt-command/) and parameters accept a `help` argument. Commands also accept an
 `epilog` argument, which is printed after the parameters and commands on
 the help page. All text is automatically re-wrapped to the terminal
 width.
@@ -113,7 +113,7 @@ You can configure the help formatter to show default values in the help output b
 `showRequiredTag = true` to the `CliktHelpFormatter`. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the `defaultForHelp` parameter of
-[`default`](/api/clikt/com.github.ajalt.clikt.parameters.options/default/).
+[`default`](api/clikt/com.github.ajalt.clikt.parameters.options/default/).
 
 ```kotlin tab="Example"
 class Tool : NoRunCliktCommand() {
@@ -138,7 +138,7 @@ Options:
 
 ## Required Options in Help 
 
-By default, [`required`](/api/clikt/com.github.ajalt.clikt.parameters.options/required/) options
+By default, [`required`](api/clikt/com.github.ajalt.clikt.parameters.options/required/) options
 are displayed the same way as other options. The help formatter includes two different ways to show
 that an option is required.
 
@@ -195,7 +195,7 @@ Options:
 ## Grouping Options in Help
 
 You can group options into separate help sections by using
-[OptionGroup](/api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/).
+[OptionGroup](api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/).
 The name of the group will be shown in the output. You can also add an extra help message to be
 shown with the group. Groups can't be nested.
 
@@ -228,6 +228,6 @@ Options:
 ### Note for IntelliJ users:
 
 If you're using IntelliJ, there is a bug in the Kotlin plugin for versions 1.2.31 and under that prevents
-[provideDelegate](/api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/)
+[provideDelegate](api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/)
 from being imported automatically, so you might need to add this import manually: `import
 com.github.ajalt.clikt.parameters.groups.provideDelegate`

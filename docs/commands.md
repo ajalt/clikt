@@ -1,13 +1,13 @@
 # Commands
 
 Clikt supports arbitrarily nested commands. You can add one command as a child of another with the
-[`subcommands`](/api/clikt/com.github.ajalt.clikt.core/subcommands/) function, which can be
+[`subcommands`](api/clikt/com.github.ajalt.clikt.core/subcommands/) function, which can be
 called either in an `init` block, or on an existing instance.
 
 ## Executing Nested Commands
 
 For commands with no children,
-[`run`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is called whenever the
+[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is called whenever the
 command line is parsed (unless parsing is aborted from an error or an option like `--help`).
 
 If a command has children, this isn't the case. Instead, its `run` is
@@ -54,7 +54,7 @@ executing
 
 The default name for subcommands is inferred as a lowercase name from the command class name. You
 can also set a name manually in the
-[`CliktCommand`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/) constructor.
+[`CliktCommand`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/) constructor.
 
 ```kotlin tab="Example"
 class Tool : CliktCommand() {
@@ -144,7 +144,7 @@ out `Tool`'s help page as if you just typed `./tool --help`.
 Normally nested command are independent of each other: a child can't
 access its parent's parameters. This makes composing commands much
 easier, but what if you want to pass information to a child command? You
-can do so with the command's [`Context`](/api/clikt/com.github.ajalt.clikt.core/-context/).
+can do so with the command's [`Context`](api/clikt/com.github.ajalt.clikt.core/-context/).
 
 Every time the command line is parsed, each command creates a new
 context object for itself that is liked to its parent's context.
@@ -179,8 +179,8 @@ $ ./tool --verbose execute
 Verbose mode is on
 ```
 
-The [`findObject`](/api/clikt/com.github.ajalt.clikt.core/find-object/) and
-[`requireObject`](/api/clikt/com.github.ajalt.clikt.core/require-object/) functions will walk up
+The [`findObject`](api/clikt/com.github.ajalt.clikt.core/find-object/) and
+[`requireObject`](api/clikt/com.github.ajalt.clikt.core/require-object/) functions will walk up
 the context tree until they find an object with the given type. If no such object exists, they will
 either return `null`, throw an exception, or create an instance of the object and store it on the
 command's context, depending on which overload you call.
@@ -188,7 +188,7 @@ command's context, depending on which overload you call.
 ## Running Parent Command Without Children
 
 Normally, if a command has children,
-[`run`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is not called unless a child
+[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is not called unless a child
 command is invoked on the command line. Instead, `--help` is called on the parent. If you want to
 change this behavior to always call `run()` on the parent, you can do so by setting
 `invokeWithoutSubcommand` to `true`. The `Context` will then have information on the subcommand that
@@ -227,9 +227,9 @@ running subcommand
 
 ## Customizing Contexts
 
-[Contexts](/api/clikt/com.github.ajalt.clikt.core/-context/) have a number of properties
+[Contexts](api/clikt/com.github.ajalt.clikt.core/-context/) have a number of properties
 that can be customized, and which are inherited by child commands. You can change these properties
-with the [`context`](/api/clikt/com.github.ajalt.clikt.core/context/) builder function, which can
+with the [`context`](api/clikt/com.github.ajalt.clikt.core/context/) builder function, which can
 be called in an `init` block, or on a command instance.
 
 For example, you can change the default help message for the `--help`
@@ -266,7 +266,7 @@ Options:
 
 Normally, if a command is called with no values on the command line, a usage error is printed if
 there are required parameters, or
-[`run`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is called if there aren't
+[`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is called if there aren't
 any.
 
 You can change this behavior by passing `printHelpOnEmptyArgs = true` to your command's
@@ -296,12 +296,12 @@ stdout](/quickstart/#printing-to-stdout-and-stderr) directly.
 
 However, there's another mechanism that can be more useful when writing reusable parameter code:
 command messages. These messages are buffered during parsing and printed all at once immediately
-before a command's [`run`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is called.
+before a command's [`run`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/) is called.
 They are not printed if there are any errors in parsing. This type of message is used by Clikt for
 [`deprecating options`](/options/#deprecating-options).
 
 You can issue a command message by calling
-[`CliktCommand.message`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message/) or with the
+[`CliktCommand.message`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message/) or with the
 `message` function available in the context of parameter transformers.
 
 ```kotlin tab="Example"

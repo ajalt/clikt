@@ -72,20 +72,20 @@ val arg: Int by argument(help="an argument").int()
 There are a number of built in types that can be applied to options and
 arguments.
 
-* `Int`: [`option().int()` and `argument().int()`](/api/clikt/com.github.ajalt.clikt.parameters.types/int/)
-* `Long`: [`option().long()` and `argument().long()`](/api/clikt/com.github.ajalt.clikt.parameters.types/long/)
+* `Int`: [`option().int()` and `argument().int()`](api/clikt/com.github.ajalt.clikt.parameters.types/int/)
+* `Long`: [`option().long()` and `argument().long()`](api/clikt/com.github.ajalt.clikt.parameters.types/long/)
 
   By default, any value that fits in the integer type is accepted. You
-  can restrict the values to a range with [`restrictTo()`](/api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/), which
+  can restrict the values to a range with [`restrictTo()`](api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/), which
   allows you to either clamp the input to the range, or fail with an
   error if the input is outside the range.
 
-* `Float`: [`option().float()` and `argument().float()`](/api/clikt/com.github.ajalt.clikt.parameters.types/float/)
-* `Double`: [`option().double()` and `argument().double()`](/api/clikt/com.github.ajalt.clikt.parameters.types/double/)
+* `Float`: [`option().float()` and `argument().float()`](api/clikt/com.github.ajalt.clikt.parameters.types/float/)
+* `Double`: [`option().double()` and `argument().double()`](api/clikt/com.github.ajalt.clikt.parameters.types/double/)
 
-  As with integers, you can restrict the input to a range with [`restrictTo()`](/api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/).
+  As with integers, you can restrict the input to a range with [`restrictTo()`](api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/).
 
-* [`option().choice()` and `argument().choice()`](/api/clikt/com.github.ajalt.clikt.parameters.types/choice/)
+* [`option().choice()` and `argument().choice()`](api/clikt/com.github.ajalt.clikt.parameters.types/choice/)
 
   You can restrict the values to a set of values, and optionally map the
   input to a new value. For example, to create an option that only
@@ -103,8 +103,8 @@ arguments.
   val color: Color by argument().choice("RED" to Color.RED, "GREEN" to Color.GREEN)
  ```
 
-* `File`: [`option().file()` and `argument().file()`](/api/clikt/com.github.ajalt.clikt.parameters.types/file/)
-* `Path`: [`option().path()` and `argument().path()`](/api/clikt/com.github.ajalt.clikt.parameters.types/path/)
+* `File`: [`option().file()` and `argument().file()`](api/clikt/com.github.ajalt.clikt.parameters.types/file/)
+* `Path`: [`option().path()` and `argument().path()`](api/clikt/com.github.ajalt.clikt.parameters.types/path/)
 
   These conversion functions take extra parameters that allow you to
   require that values are file paths that have certain attributes, such
@@ -113,8 +113,8 @@ arguments.
 ## Custom Types
 
 You can convert parameter values to a custom type by using
-[`argument().convert()`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/convert/) and
-[`option().convert()`](/api/clikt/com.github.ajalt.clikt.parameters.options/convert/). These
+[`argument().convert()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/convert/) and
+[`option().convert()`](api/clikt/com.github.ajalt.clikt.parameters.options/convert/). These
 functions take a lambda that converts the input `String` to any type. If the parameter takes
 multiple values, or an option appears multiple times in `argv`, the conversion lambda is called once
 for each value.
@@ -146,7 +146,7 @@ Error: Invalid value for "--opt": For input string: "foo"
 ```
 
 You can also pass
-[`option().convert()`](/api/clikt/com.github.ajalt.clikt.parameters.options/convert/) a metavar
+[`option().convert()`](api/clikt/com.github.ajalt.clikt.parameters.options/convert/) a metavar
 that will be printed in the help page instead of the default of `VALUE`. We can modify the above
 example to use a metavar and an explicit error message:
 
@@ -178,8 +178,8 @@ Options:
 ## Parameter Validation
 
 After converting a value to a new type, you can perform additional validation on the converted value
-with [`option().validate()`](/api/clikt/com.github.ajalt.clikt.parameters.options/validate/) and
-[`argument().validate()`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/validate/).
+with [`option().validate()`](api/clikt/com.github.ajalt.clikt.parameters.options/validate/) and
+[`argument().validate()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/validate/).
 `validate` takes a lambda that returns nothing, but can call `fail("error message")` if the value is
 invalid. You can also call `require()`, which will fail if the provided expression is false. The
 lambda is only called if the value is non-null.

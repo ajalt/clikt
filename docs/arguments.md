@@ -2,12 +2,12 @@
 
 Arguments are declared and customized similarly to
 [options](options.md), but are provided on the command line
-positionally instead of by name. Arguments are declared with [`argument()`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/), and the order that they are declared defines the order that they
+positionally instead of by name. Arguments are declared with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/), and the order that they are declared defines the order that they
 must be provided on the command line.
 
 ## Basic Arguments
 
-By default, [`argument`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/) takes a single `String` value which is required to be
+By default, [`argument`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/) takes a single `String` value which is required to be
 provided on the command line.
 
 ```kotlin tab="Example"
@@ -51,8 +51,8 @@ Options:
 ## Variadic Arguments
 
 Like [options](options.md), arguments can take any fixed number of values, which you can change with
-functions like [`pair`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/pair/) and
-[`triple`](/api/clikt/com.github.ajalt.clikt.parameters.arguments/triple/). Unlike options,
+functions like [`pair`](api/clikt/com.github.ajalt.clikt.parameters.arguments/pair/) and
+[`triple`](api/clikt/com.github.ajalt.clikt.parameters.arguments/triple/). Unlike options,
 arguments can take a variable (or unlimited) number of values. This is especially common when taking
 file paths, since they are frequently expanded with a glob pattern on the command line.
 

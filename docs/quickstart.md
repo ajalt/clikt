@@ -6,8 +6,8 @@ Installation instructions can be found in the [README](https://github.com/ajalt/
 ## Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
-inside of a [CliktCommmand](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/). The normal way to use Clikt is to forward
-`argv` from your `main` function to [ClktCommand.main](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/).
+inside of a [CliktCommmand](api/clikt/com.github.ajalt.clikt.core/-clikt-command/). The normal way to use Clikt is to forward
+`argv` from your `main` function to [ClktCommand.main](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/).
 
 The simplest command with no parameters would look like this:
 
@@ -40,10 +40,10 @@ Options:
 
 ## Printing to Stdout and Stderr
 
-Why does this example use [echo](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo/) instead of
+Why does this example use [echo](api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo/) instead of
 [println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
 Although `println` works, it can cause problems with multi-platform
-support. [echo](/api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/) automatically translates line breaks into the line
+support. [echo](api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/) automatically translates line breaks into the line
 separator for the current platform. So you don't have to worry that some
 of your users will see mangled output because you didn't test on
 Windows. You can also pass `err=true` to `echo` to print to stderr
@@ -97,8 +97,8 @@ Commands:
 
 ## Adding Parameters
 
-To add parameters, use the [option](/api/clikt/com.github.ajalt.clikt.parameters.options/option/)
-and [argument](/api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/) property
+To add parameters, use the [option](api/clikt/com.github.ajalt.clikt.parameters.options/option/)
+and [argument](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/) property
 delegates:
 
 ```kotlin tab="Example"

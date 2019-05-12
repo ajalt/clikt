@@ -12,7 +12,7 @@ like the way you can configure git to accept `git ci` as an alias for
 `git commit`.
 
 To implement command aliases, override
-[`CliktCommand.aliases`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases/) in your
+[`CliktCommand.aliases`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases/) in your
 command. This function is called once at the start of parsing, and returns a map of aliases to the
 tokens that they alias to.
 
@@ -98,7 +98,7 @@ Running Bar
 
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
-works on more types of tokens. You can set a [`tokenTransformer`](/api/clikt/com.github.ajalt.clikt.core/-context/token-transformer/) on the
+works on more types of tokens. You can set a [`tokenTransformer`](api/clikt/com.github.ajalt.clikt.core/-context/token-transformer/) on the
 [command's context](commands.md#customizing-contexts) that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:
@@ -121,11 +121,11 @@ Hello Foo!
 
 ## Replacing stdin and stdout
 
-By default, functions like [`CliktCommand.main`](/api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/)
-and [`option().prompt()`](/api/clikt/com.github.ajalt.clikt.parameters.options/prompt/)
+By default, functions like [`CliktCommand.main`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/)
+and [`option().prompt()`](api/clikt/com.github.ajalt.clikt.parameters.options/prompt/)
 read from `System.in` and write to `System.out`. If you want to use
 clikt in an environment where the standard streams aren't available, you
-can set your own implementation of [`CliktConsole`](/api/clikt/com.github.ajalt.clikt.output/-clikt-console/)
+can set your own implementation of [`CliktConsole`](api/clikt/com.github.ajalt.clikt.output/-clikt-console/)
 when [customizing the command context](commands.md#customizing-contexts).
 
 ```kotlin
@@ -151,7 +151,7 @@ class CustomCLI : CliktCommand() {
 ```
 
 If you are using
-[`TermUI`](/api/clikt/com.github.ajalt.clikt.output/-term-ui/)
+[`TermUI`](api/clikt/com.github.ajalt.clikt.output/-term-ui/)
 directly, you can also pass your custom console as an argument.
 
 ## Command Line Argument Files

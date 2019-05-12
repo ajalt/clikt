@@ -71,11 +71,11 @@ Error: no such option: "--whoops".
 
 # API Reference
 
-* [Commands and Exceptions](/api/clikt/com.github.ajalt.clikt.core/)
-* [Options](/api/clikt/com.github.ajalt.clikt.parameters.options/)
-* [Arguments](/api/clikt/com.github.ajalt.clikt.parameters.arguments/)
-* [Parameter Type Conversions](/api/clikt/com.github.ajalt.clikt.parameters.types/)
-* [Output Formatting](/api/clikt/com.github.ajalt.clikt.output/)
+* [Commands and Exceptions](api/clikt/com.github.ajalt.clikt.core/)
+* [Options](api/clikt/com.github.ajalt.clikt.parameters.options/)
+* [Arguments](api/clikt/com.github.ajalt.clikt.parameters.arguments/)
+* [Parameter Type Conversions](api/clikt/com.github.ajalt.clikt.parameters.types/)
+* [Output Formatting](api/clikt/com.github.ajalt.clikt.output/)
 
 # License
 

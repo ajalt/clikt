@@ -10,8 +10,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.helpOption
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.Parser
-import java.util.Collections.emptyList
-import java.util.Collections.emptyMap
 import kotlin.system.exitProcess
 
 /**

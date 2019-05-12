@@ -3,8 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
@@ -15,65 +14,29 @@ import org.junit.Test
 class CliktCommandTest {
     @Test
     fun `invokeWithoutSubcommand=false`() {
-        class C : CliktCommand(name = "foo") {
-            var ran = false
-            override fun run() {
-                ran = true
-            }
+        shouldThrow<PrintHelpMessage> {
+            TestCommand(called = false).subcommands(TestCommand(called = false)).parse("")
         }
 
-        C().apply {
-            parse(emptyArray())
-            ran shouldBe true
-        }
-
-        var child = C()
-        C().subcommands(child).apply {
-            shouldThrow<PrintHelpMessage> {
-                parse(emptyArray())
-            }
-            ran shouldBe false
-            child.ran shouldBe false
-        }
-
-        child = C()
-        C().subcommands(child).apply {
-            parse(splitArgv("foo"))
-            ran shouldBe true
+        val child = TestCommand(called = true, name = "foo")
+        TestCommand(called = true).subcommands(child).apply {
+            parse("foo")
             context.invokedSubcommand shouldBe child
-            child.ran shouldBe true
             child.context.invokedSubcommand shouldBe null
         }
     }
 
     @Test
     fun `invokeWithoutSubcommand=true`() {
-        class C : CliktCommand(name = "foo", invokeWithoutSubcommand = true) {
-            var ran = false
-            override fun run() {
-                ran = true
-            }
-        }
-
-        C().apply {
-            parse(emptyArray())
-            ran shouldBe true
-        }
-
-        var child = C()
-        C().subcommands(listOf(child)).apply {
-            parse(emptyArray())
-            ran shouldBe true
+        TestCommand(called = true, invokeWithoutSubcommand = true).subcommands(TestCommand(called = false)).apply {
+            parse("")
             context.invokedSubcommand shouldBe null
-            child.ran shouldBe false
         }
 
-        child = C()
-        C().subcommands(child).apply {
-            parse(splitArgv("foo"))
-            ran shouldBe true
+        val child = TestCommand(called = true, name = "foo")
+        TestCommand(called = true, invokeWithoutSubcommand = true).subcommands(child).apply {
+            parse("foo")
             context.invokedSubcommand shouldBe child
-            child.ran shouldBe true
             child.context.invokedSubcommand shouldBe null
         }
     }
@@ -81,8 +44,8 @@ class CliktCommandTest {
 
     @Test
     fun `printHelpOnEmptyArgs = true`() {
-        class C : NeverCalledCliktCommand(printHelpOnEmptyArgs = true)
-        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("")) }
+        class C : TestCommand(called = false, printHelpOnEmptyArgs = true)
+        shouldThrow<PrintHelpMessage> { C().parse("") }
     }
 
     @Test
@@ -94,10 +57,10 @@ class CliktCommandTest {
             row("recurse", null, listOf("recurse")),
             row("recurse2", "foo", listOf("recurse", "recurse2"))
     ) { argv, ex, ey ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx")
             val y by argument().multiple()
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
             }
@@ -111,17 +74,17 @@ class CliktCommandTest {
             )
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `command usage`() {
-        class Parent : NeverCalledCliktCommand() {
+        class Parent : TestCommand(called = false) {
             val arg by argument()
         }
 
         shouldThrow<UsageError> {
-            Parent().parse(splitArgv(""))
+            Parent().parse("")
         }.helpMessage() shouldBe """
             |Usage: parent [OPTIONS] ARG
             |

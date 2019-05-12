@@ -1,7 +1,5 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
@@ -9,11 +7,9 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
 import org.junit.Test
@@ -68,53 +64,48 @@ class SubcommandTest {
             row("-x2 sub -x 3 -y4"),
             row("-x2 sub -x3 -y4")
     ) { argv ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "2"
             }
         }
 
-        class Sub : CliktCommand(name = "sub") {
+        class Sub : TestCommand(name = "sub") {
             val x by option("-x", "--xx")
             val y by option("-y", "--yy")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "3"
                 y shouldBe "4"
             }
         }
 
-        C().subcommands(Sub()).parse(splitArgv(argv))
+        C().subcommands(Sub()).parse(argv)
     }
 
     @Test
     fun `multiple subcommands`() = forall(
-            row("-x1 sub1 2 3", true)
-    ) { argv, firstCalled ->
-        class C : CliktCommand() {
-            var called = false
+            row("-x1 sub1 2 3", true),
+            row("-x1 sub2 -x2 -y3", false)
+    ) { argv, sub1Called ->
+        class C : TestCommand(called = true) {
             val x by option("-x", "--xx")
-            override fun run() {
-                called = true
+            override fun run_() {
                 x shouldBe "1"
             }
         }
 
-        class Sub1 : CliktCommand(name = "sub1") {
-            var called = false
+        class Sub1 : TestCommand(called = sub1Called, name = "sub1") {
             val z by argument().pair()
-            override fun run() {
-                called = true
+            override fun run_() {
                 z shouldBe ("2" to "3")
             }
         }
 
-        class Sub2 : CliktCommand(name = "sub2") {
-            var called = false
+        class Sub2 : TestCommand(called = !sub1Called, name = "sub2") {
             val x by option("-x", "--xx")
             val y by option("-y", "--yy")
-            override fun run() {
-                called = true
+            override fun run_() {
                 x shouldBe "2"
                 y shouldBe "3"
             }
@@ -124,99 +115,96 @@ class SubcommandTest {
         val s2 = Sub2()
         val c: C = C().subcommands(s1, s2)
 
-        c.parse(splitArgv(argv))
-
-        c.called shouldBe true
-        s1.called shouldBe firstCalled
-        s2.called shouldNotBe firstCalled
+        c.parse(argv)
     }
 
     @Test
     fun `argument before subcommand`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by argument().multiple()
-            override fun run() {
+            override fun run_() {
                 x shouldBe listOf("123", "456")
             }
         }
 
-        class Sub : CliktCommand(name = "sub") {
+        class Sub : TestCommand(name = "sub") {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
         }
 
-        C().subcommands(Sub()).parse(splitArgv("123 456 sub -xfoo"))
+        C().subcommands(Sub()).parse("123 456 sub -xfoo")
     }
 
     @Test
     fun `value -- before subcommand`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx")
             val y by argument()
-            override fun run() {
+            override fun run_() {
                 x shouldBe "--xx"
                 y shouldBe "--yy"
             }
         }
 
-        class Sub : CliktCommand(name = "sub") {
+        class Sub : TestCommand(name = "sub") {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
         }
 
         C().subcommands(Sub())
-                .parse(splitArgv("--xx --xx -- --yy sub --xx foo"))
+                .parse("--xx --xx -- --yy sub --xx foo")
     }
 
     @Test
     fun `normalized subcommand names`() = forall(
-            row("a b"),
-            row("a b SUB -xfoo"),
-            row("a b SUB -xfoo SUB2 -xfoo"),
-            row("a b SUB -xfoo sub2 -xfoo")) { argv ->
+            row("a b", false, false),
+            row("a b SUB -xfoo", true, false),
+            row("a b SUB -xfoo SUB2 -xfoo", true, true),
+            row("a b SUB -xfoo sub2 -xfoo", true, true)
+    ) { argv, call1, call2 ->
 
-        class C : CliktCommand(invokeWithoutSubcommand = true) {
+        class C : TestCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
-            override fun run() {
+            override fun run_() {
                 x shouldBe listOf("a", "b")
             }
         }
 
-        class Sub : CliktCommand(name = "sub", invokeWithoutSubcommand = true) {
+        class Sub : TestCommand(called = call1, name = "sub", invokeWithoutSubcommand = true) {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
         }
 
-        class Sub2 : CliktCommand(name = "sub2") {
+        class Sub2 : TestCommand(called = call2, name = "sub2") {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
         }
 
         C().subcommands(Sub().subcommands(Sub2()))
                 .context { tokenTransformer = { it.toLowerCase() } }
-                .parse(splitArgv(argv))
+                .parse(argv)
     }
 
     @Test
     fun `aliased subcommand names`() = forall(
-            row("a b"),
-            row("a 1 sub -xfoo"),
-            row("a 2"),
-            row("3"),
-            row("a b 4 -xfoo"),
-            row("a b 4 1")) { argv ->
+            row("a b", false),
+            row("a 1 sub -xfoo", true),
+            row("a 2", true),
+            row("3", true),
+            row("a b 4 -xfoo", true),
+            row("a b 4 1", true)) { argv, called ->
 
-        class C : CliktCommand(invokeWithoutSubcommand = true) {
+        class C : TestCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
-            override fun run() {
+            override fun run_() {
                 x shouldBe listOf("a", "b")
             }
 
@@ -228,9 +216,9 @@ class SubcommandTest {
             )
         }
 
-        class Sub : CliktCommand(name = "sub") {
+        class Sub : TestCommand(called = called, name = "sub") {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
 
@@ -239,21 +227,20 @@ class SubcommandTest {
             )
         }
 
-        C().subcommands(Sub())
-                .parse(splitArgv(argv))
+        C().subcommands(Sub()).parse(argv)
     }
 
     @Test
     fun `subcommand usage`() {
-        class Parent : NoRunCliktCommand()
-        class Child : NoRunCliktCommand()
-        class Grandchild : NeverCalledCliktCommand() {
+        class Parent : TestCommand()
+        class Child : TestCommand()
+        class Grandchild : TestCommand(called = false) {
             val arg by argument()
         }
 
         shouldThrow<UsageError> {
             Parent().subcommands(Child().subcommands(Grandchild()))
-                    .parse(splitArgv("child grandchild"))
+                    .parse("child grandchild")
         }.helpMessage() shouldBe """
             |Usage: parent child grandchild [OPTIONS] ARG
             |

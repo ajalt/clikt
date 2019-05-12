@@ -1,17 +1,11 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.options.counted
-import com.github.ajalt.clikt.parameters.options.flag
-import com.github.ajalt.clikt.parameters.options.multiple
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.validate
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.tables.row
@@ -35,10 +29,10 @@ class EnvvarOptionsTest {
     fun `explicit envvar`() {
         env["FO"] = "foo"
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option(envvar = "FO")
             val bar by option()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe null
             }
@@ -53,11 +47,11 @@ class EnvvarOptionsTest {
         env["FO"] = "foo"
         env["C_BAR"] = "11"
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option(envvar = "FO")
             val bar by option().int()
             val baz by option()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe 11
                 baz shouldBe null
@@ -75,53 +69,53 @@ class EnvvarOptionsTest {
         env["CMD2_QUX"] = "qux"
         env["CMD2_SUB3_QUZ"] = "quz"
 
-        class C : NoRunCliktCommand() {
+        class C : TestCommand() {
             init {
                 context { autoEnvvarPrefix = "C" }
             }
         }
 
-        class Sub : CliktCommand(name = "cmd1") {
+        class Sub : TestCommand(name = "cmd1") {
             val foo by option(envvar = "FOO")
             val bar by option()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe "bar"
             }
         }
 
-        class Sub2 : CliktCommand() {
+        class Sub2 : TestCommand() {
             init {
                 context { autoEnvvarPrefix = "CMD2" }
             }
 
             val baz by option(envvar = "BAZ")
             val qux by option()
-            override fun run() {
+            override fun run_() {
                 baz shouldBe "baz"
                 qux shouldBe "qux"
             }
         }
 
-        class Sub3 : CliktCommand() {
+        class Sub3 : TestCommand() {
             val quz by option()
-            override fun run() {
+            override fun run_() {
                 quz shouldBe "quz"
             }
         }
 
         C().subcommands(Sub().subcommands(Sub2().subcommands(Sub3())))
-                .parse(splitArgv("cmd1 sub2 sub3"))
+                .parse("cmd1 sub2 sub3")
     }
 
     @Test
     fun `file envvar`() {
         env["FOO"] = "/home"
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option(envvar = "FOO").file()
             val bar by option(envvar = "BAR").file().multiple()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe File("/home")
                 bar shouldBe listOf(File("/bar"), File("/baz"))
             }
@@ -149,10 +143,10 @@ class EnvvarOptionsTest {
         var called1 = false
         var called2 = false
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option(envvar = "FOO").flag("--no-foo").validate { called1 = true }
             val bar by option(envvar = "BAR").counted().validate { called2 = true }
-            override fun run() {
+            override fun run_() {
                 foo shouldBe ef
                 bar shouldBe eb
             }

@@ -2,15 +2,13 @@
 
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.fail
 import io.kotlintest.shouldBe
@@ -18,6 +16,7 @@ import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
 import org.junit.Test
 
+@Suppress("unused")
 class OptionGroupsTest {
     @Test
     fun `plain option group`() = forall(
@@ -32,18 +31,18 @@ class OptionGroupsTest {
             val y by option().default("d")
         }
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val g by G()
             val o by option().default("d")
 
-            override fun run() {
+            override fun run_() {
                 o shouldBe eo
                 g.x shouldBe ex
                 g.y shouldBe ey
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -52,17 +51,17 @@ class OptionGroupsTest {
             val x by option().required()
         }
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val g by G()
-            override fun run() {
+            override fun run_() {
                 g.x shouldBe "foo"
             }
         }
 
-        C().parse(splitArgv("--x=foo"))
+        C().parse("--x=foo")
 
         shouldThrow<MissingParameter> {
-            C().parse(splitArgv(""))
+            C().parse("")
         }.message shouldBe "Missing option \"--x\"."
     }
 
@@ -76,7 +75,7 @@ class OptionGroupsTest {
             val x by option()
         }
 
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val g by G()
             val h by H()
         }
@@ -93,34 +92,34 @@ class OptionGroupsTest {
             row("--y=3", "3", "d"),
             row("--x=4 --o=5", "4", "5")
     ) { argv, eg, eo ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val o by option().default("d")
             val g by mutuallyExclusiveOptions(option("--x"), option("--y"))
 
-            override fun run() {
+            override fun run_() {
                 o shouldBe eo
                 g shouldBe eg
             }
         }
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `mutually exclusive group single`() {
-        class C(val runAllowed: Boolean) : CliktCommand() {
+        class C(val runAllowed: Boolean) : TestCommand() {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y"), option("--z")).single()
-            override fun run() {
+            override fun run_() {
                 if (!runAllowed) fail("run should not be called")
             }
         }
 
-        C(true).apply { parse(splitArgv("--x=1")) }.g shouldBe "1"
-        C(true).apply { parse(splitArgv("--y=1 --y=2")) }.g shouldBe "2"
+        C(true).apply { parse("--x=1") }.g shouldBe "1"
+        C(true).apply { parse("--y=1 --y=2") }.g shouldBe "2"
 
-        shouldThrow<MutuallyExclusiveGroupException> { C(false).parse(splitArgv("--x=1 --y=2")) }
+        shouldThrow<MutuallyExclusiveGroupException> { C(false).parse("--x=1 --y=2") }
                 .message shouldBe "option --x cannot be used with --y or --z"
 
-        shouldThrow<MutuallyExclusiveGroupException> { C(false).parse(splitArgv("--y=1 --z=2")) }
+        shouldThrow<MutuallyExclusiveGroupException> { C(false).parse("--y=1 --z=2") }
                 .message shouldBe "option --x cannot be used with --y or --z"
     }
 
@@ -133,20 +132,20 @@ class OptionGroupsTest {
             row("--w=4", null, "4"),
             row("--x=5 --w=6", "5", "6")
     ) { argv, eg, eh ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y"))
             val h by mutuallyExclusiveOptions(option("--z"), option("--w"))
-            override fun run() {
+            override fun run_() {
                 g shouldBe eg
                 h shouldBe eh
             }
         }
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `mutually exclusive group duplicate option name`() {
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val g by mutuallyExclusiveOptions(
                     option("--x"),
                     option("--x")
@@ -163,27 +162,27 @@ class OptionGroupsTest {
             row("--x=1", "1"),
             row("--x=2", "2")
     ) { argv, eg ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y")).default("d")
 
-            override fun run() {
+            override fun run_() {
                 g shouldBe eg
             }
         }
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `mutually exclusive group required`() {
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y")).required()
         }
-        shouldThrow<UsageError> { C().parse(splitArgv("")) }
+        shouldThrow<UsageError> { C().parse("") }
                 .message shouldBe "Must provide one of --x, --y"
     }
 
     @Test
-    fun `co-occuring option group`() = forall(
+    fun `co-occurring option group`() = forall(
             row("", false, null, null),
             row("--x=1", true, "1", null),
             row("--x=1 --y=2", true, "1", "2")
@@ -193,10 +192,10 @@ class OptionGroupsTest {
             val y by option()
         }
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val g by G().cooccurring()
 
-            override fun run() {
+            override fun run_() {
                 if (eg) {
                     g?.x shouldBe ex
                     g?.y shouldBe ey
@@ -206,32 +205,32 @@ class OptionGroupsTest {
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
-    fun `co-occuring option group enforcement`() {
+    fun `co-occurring option group enforcement`() {
         class GGG : OptionGroup() {
             val x by option().required()
             val y by option()
         }
 
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val g by GGG().cooccurring()
         }
 
-        shouldThrow<UsageError> { C().parse(splitArgv("--y=2")) }
+        shouldThrow<UsageError> { C().parse("--y=2") }
                 .message shouldBe "Missing option \"--x\"."
     }
 
     @Test
-    fun `co-occuring option group with no required options`() {
+    fun `co-occurring option group with no required options`() {
         class GGG : OptionGroup() {
             val x by option()
             val y by option()
         }
 
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val g by GGG().cooccurring()
         }
 

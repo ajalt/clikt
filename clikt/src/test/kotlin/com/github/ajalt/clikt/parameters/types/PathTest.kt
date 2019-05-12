@@ -1,13 +1,11 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import io.kotlintest.shouldBe
@@ -22,52 +20,52 @@ class PathTest {
 
     @Test
     fun `paths are resolved using the provided filesystem, if any`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val path by option("-p")
                     .path(fileSystem = fs)
                     .required()
 
-            override fun run() {
+            override fun run_() {
                 path.fileSystem shouldBe fs
             }
         }
 
-        C().parse(splitArgv("-p/var/log/foo"))
+        C().parse("-p/var/log/foo")
     }
 
     @Test
     fun `options can be paths`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val path by option("-p")
                     .path()
                     .required()
 
-            override fun run() {
+            override fun run_() {
                 path.toString() shouldBe "foo"
             }
         }
 
-        C().parse(splitArgv("-pfoo"))
+        C().parse("-pfoo")
     }
 
     @Test
     fun `arguments can be paths`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val paths by argument()
                     .path()
                     .multiple()
 
-            override fun run() {
+            override fun run_() {
                 paths.map { it.toString() } shouldBe listOf("foo", "bar", "baz")
             }
         }
 
-        C().parse(splitArgv("foo bar baz"))
+        C().parse("foo bar baz")
     }
 
     @Test
     fun `fileOkay = false will reject files`() {
-        class C : NoRunCliktCommand() {
+        class C : TestCommand() {
             val folderOnly by option("-f").path(fileOkay = false, fileSystem = fs)
         }
 
@@ -75,31 +73,31 @@ class PathTest {
         Files.createFile(fs.getPath("/var/foo"))
 
         shouldThrow<BadParameterValue> {
-            C().parse(splitArgv("-f/var/foo"))
+            C().parse("-f/var/foo")
         }.message shouldBe """Invalid value for "-f": Directory "/var/foo" is a file."""
     }
 
     @Test
     fun `folderOkay = false will reject folders`() {
-        class C : NoRunCliktCommand() {
+        class C : TestCommand() {
             val fileOnly by option("-f").path(folderOkay = false, fileSystem = fs)
         }
 
         Files.createDirectories(fs.getPath("/var/foo"))
 
         shouldThrow<BadParameterValue> {
-            C().parse(splitArgv("-f/var/foo"))
+            C().parse("-f/var/foo")
         }.message shouldBe """Invalid value for "-f": File "/var/foo" is a directory."""
     }
 
     @Test
     fun `exists = true will reject paths that don't exist`() {
-        class C : NoRunCliktCommand() {
+        class C : TestCommand() {
             val homeDir by option("-h").path(exists = true, fileSystem = fs)
         }
 
         shouldThrow<BadParameterValue> {
-            C().parse(splitArgv("-h /home/cli"))
+            C().parse("-h /home/cli")
         }.message shouldBe """Invalid value for "-h": Path "/home/cli" does not exist."""
     }
 }

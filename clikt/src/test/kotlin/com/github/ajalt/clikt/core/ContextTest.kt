@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import org.junit.Test
@@ -8,13 +8,13 @@ import org.junit.Test
 class ContextTest {
     @Test
     fun `find functions single context`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val o1 by findObject<String>()
             val o2 by findObject { "foo" }
             val o3 by findObject<String>()
             val o4 by findObject<Int>()
 
-            override fun run() {
+            override fun run_() {
                 context.findRoot() shouldBe context
             }
         }
@@ -33,13 +33,13 @@ class ContextTest {
 
         val foo = Foo()
 
-        class C : CliktCommand(invokeWithoutSubcommand = true) {
+        class C : TestCommand(invokeWithoutSubcommand = true) {
             val o1 by findObject<Foo>()
             val o2 by findObject { foo }
             val o3 by findObject<Foo>()
             val o4 by findObject<Int>()
 
-            override fun run() {
+            override fun run_() {
                 context.findRoot() shouldBe context
             }
         }
@@ -58,15 +58,15 @@ class ContextTest {
 
     @Test
     fun `default help option names`() {
-        class C : NoRunCliktCommand()
+        class C : TestCommand()
 
-        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("--help")) }
-        shouldThrow<PrintHelpMessage> { C().parse(splitArgv("-h")) }
+        shouldThrow<PrintHelpMessage> { C().parse("--help") }
+        shouldThrow<PrintHelpMessage> { C().parse("-h") }
         shouldThrow<PrintHelpMessage> {
-            C().context { helpOptionNames = setOf("-x") }.parse(splitArgv("-x"))
+            C().context { helpOptionNames = setOf("-x") }.parse("-x")
         }
         shouldThrow<NoSuchOption> {
-            C().context { helpOptionNames = setOf("--x") }.parse(splitArgv("--help"))
+            C().context { helpOptionNames = setOf("--x") }.parse("--help")
         }
     }
 }

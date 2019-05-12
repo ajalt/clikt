@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.NoRunCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
@@ -10,7 +9,6 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
-import com.github.ajalt.clikt.parameters.groups.required
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import io.kotlintest.shouldBe
@@ -337,18 +335,14 @@ class CliktHelpFormatterTest {
             }
         }
 
-        class Sub : CliktCommand(help = """
+        class Sub : NoRunCliktCommand(help = """
             a subcommand
 
             with extra help
             """,
-                helpTags = mapOf("deprecated" to "")) {
-            override fun run() = Unit
-        }
+                helpTags = mapOf("deprecated" to ""))
 
-        class Sub2 : CliktCommand(help = "another command") {
-            override fun run() = Unit
-        }
+        class Sub2 : NoRunCliktCommand(help = "another command")
 
         val c = C()
                 .versionOption("1.0")

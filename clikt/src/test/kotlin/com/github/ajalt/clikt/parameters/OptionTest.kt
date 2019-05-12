@@ -1,18 +1,9 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.core.IncorrectOptionValueCount
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.NoRunCliktCommand
-import com.github.ajalt.clikt.core.NoSuchOption
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.NeverCalledCliktCommand
-import com.github.ajalt.clikt.testing.splitArgv
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
@@ -35,38 +26,27 @@ class OptionTest {
 
     @Test
     fun `zero options`() {
-        class C : CliktCommand() {
-            var called = false
-            override fun run() {
-                called = true
-            }
-        }
-
-        C().apply {
-            assertFalse(called)
-            parse(arrayOf())
-            assertTrue(called)
-        }
+        TestCommand(called = true).parse(arrayOf())
     }
 
     @Test
     fun `no such option`() {
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val foo by option()
             val bar by option()
             val baz by option()
         }
 
         shouldThrow<NoSuchOption> {
-            C().parse(splitArgv("--qux"))
+            C().parse("--qux")
         }.message shouldBe "no such option: \"--qux\"."
 
         shouldThrow<NoSuchOption> {
-            C().parse(splitArgv("--fo"))
+            C().parse("--fo")
         }.message shouldBe "no such option: \"--fo\". Did you mean \"--foo\"?"
 
         shouldThrow<NoSuchOption> {
-            C().parse(splitArgv("--ba"))
+            C().parse("--ba")
         }.message shouldBe "no such option: \"--ba\". (Possible options: --bar, --baz)"
     }
 
@@ -78,34 +58,29 @@ class OptionTest {
             row("--xx=asd", "asd"),
             row("-x 4", "4"),
             row("-x -x", "-x"),
-            row("-xfoo", "foo")) { argv, expected ->
-        class C : CliktCommand() {
+            row("-xfoo", "foo")
+    ) { argv, expected ->
+        class C : TestCommand() {
             val x by option("-x", "--xx")
-            var called = false
-            override fun run() {
-                called = true
+            override fun run_() {
                 x shouldBe expected
             }
         }
 
-        C().apply {
-            assertFalse(called)
-            parse(splitArgv(argv))
-            assertTrue(called)
-        }
+        C().parse(argv)
     }
 
     @Test
     fun `two options, one name each`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x")
             val y by option("--yy")
-            override fun run() {
+            override fun run_() {
                 x shouldBe "3"
                 y shouldBe "4"
             }
         }
-        C().parse(splitArgv("-x 3 --yy 4"))
+        C().parse("-x 3 --yy 4")
     }
 
     @Test
@@ -129,16 +104,16 @@ class OptionTest {
             row("-x 3", "3", null),
             row("-x3", "3", null)
     ) { argv, ex, ey ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx")
             val y by option("-y", "--yy")
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
 
@@ -158,16 +133,16 @@ class OptionTest {
             row("-x 1 3 -y5 7", "1" to "3", "5" to "7"),
             row("-x1 3 -y5 7", "1" to "3", "5" to "7")
     ) { argv, ex, ey ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx").pair()
             val y by option("-y", "--yy").pair()
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -189,31 +164,28 @@ class OptionTest {
                 row("-x 1 2 3 -y5 6 7", xvalue, yvalue),
                 row("-x1 2 3 -y5 6 7", xvalue, yvalue)
         ) { argv, ex, ey ->
-            class C : CliktCommand() {
+            class C : TestCommand() {
                 val x by option("-x", "--xx").triple()
                 val y by option("-y", "--yy").triple()
-                override fun run() {
+                override fun run_() {
                     x shouldBe ex
                     y shouldBe ey
                 }
             }
 
-            C().parse(splitArgv(argv))
+            C().parse(argv)
         }
     }
 
     @Test
     fun `two options nvalues=2 usage errors`() {
-        class C : CliktCommand() {
+        class C : TestCommand(called = false) {
             val x by option("-x", "--xx").pair()
             val y by option("-y", "--yy").pair()
-            override fun run() {
-                fail("should not be called $x, $y")
-            }
         }
-        shouldThrow<IncorrectOptionValueCount> { C().parse(splitArgv("-x")) }.message shouldBe
+        shouldThrow<IncorrectOptionValueCount> { C().parse("-x") }.message shouldBe
                 "-x option requires 2 arguments"
-        shouldThrow<UsageError> { C().parse(splitArgv("--yy foo bar baz")) }.message shouldBe
+        shouldThrow<UsageError> { C().parse("--yy foo bar baz") }.message shouldBe
                 "Got unexpected extra argument (baz)"
     }
 
@@ -223,16 +195,16 @@ class OptionTest {
             row("-x 5 -y a", listOf(5), listOf("a")),
             row("-x 5,6 -y a:b", listOf(5, 6), listOf("a", "b"))
     ) { argv, ex, ey ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x").int().split(",")
             val y by option("-y").split(Regex(":"))
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -258,34 +230,34 @@ class OptionTest {
             row("-xXyzXyz", false, true, "Xyz"),
             row("-xzfoo", true, false, "foo")
     ) { argv, ex, ey, ez ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx").flag("-X", "--no-xx")
             val y by option("-y", "--yy").flag()
             val z by option("-z", "--zz")
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
                 z shouldBe ez
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `switch options`() = forall(
             row("", null, -1),
             row("--xx -yy", 2, 4)) { argv, ex, ey ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option().switch("-x" to 1, "--xx" to 2)
             val y by option().switch("-y" to 3, "-yy" to 4).default(-1)
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -310,32 +282,32 @@ class OptionTest {
             row("-xyzxyz", 1, true, "xyz"),
             row("-xzfoo", 1, false, "foo")
     ) { argv, ex, ey, ez ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx").counted()
             val y by option("-y", "--yy").flag()
             val z by option("-z", "--zz")
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
                 z shouldBe ez
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `default option`() = forall(
             row("", "def"),
             row("-x4", "4")) { argv, expected ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx").default("def")
-            override fun run() {
+            override fun run_() {
                 x shouldBe expected
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -344,80 +316,80 @@ class OptionTest {
             row("-xbar", "bar", false)) { argv, expected, ec ->
         var called = false
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--x").defaultLazy { called = true; "default" }
-            override fun run() {
+            override fun run_() {
                 x shouldBe expected
                 called shouldBe ec
             }
         }
 
         called shouldBe false
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
     fun `required option`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option().required()
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
         }
 
-        C().parse(splitArgv("--x=foo"))
+        C().parse("--x=foo")
 
         shouldThrow<MissingParameter> {
-            C().parse(splitArgv(""))
+            C().parse("")
         }.message shouldBe "Missing option \"--x\"."
     }
 
     @Test
     fun `multiple option default`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option().multiple()
-            override fun run() {
+            override fun run_() {
                 x shouldBe listOf()
             }
         }
 
-        C().parse(splitArgv(""))
+        C().parse("")
     }
 
     @Test
     fun `multiple option custom default`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option().multiple(listOf("foo"))
-            override fun run() {
+            override fun run_() {
                 x shouldBe listOf("foo")
             }
         }
 
-        C().parse(splitArgv(""))
+        C().parse("")
     }
 
     @Test
     fun `multiple with unique option default`() {
-        val command = object : CliktCommand() {
+        val command = object : TestCommand() {
             val x by option().multiple().unique()
-            override fun run() {
+            override fun run_() {
                 x shouldBe emptySet()
             }
         }
 
-        command.parse(splitArgv(""))
+        command.parse("")
     }
 
     @Test
     fun `multiple with unique option custom default`() {
-        val command = object : CliktCommand() {
+        val command = object : TestCommand() {
             val x by option().multiple(listOf("foo", "bar", "bar")).unique()
-            override fun run() {
+            override fun run_() {
                 x shouldBe setOf("foo", "bar")
             }
         }
 
-        command.parse(splitArgv(""))
+        command.parse("")
     }
 
     @Test
@@ -426,24 +398,24 @@ class OptionTest {
             row("--arg foo --arg bar --arg baz", setOf("foo", "bar", "baz")),
             row("--arg foo --arg foo --arg foo", setOf("foo"))
     ) { argv, expected ->
-        val command = object : CliktCommand() {
+        val command = object : TestCommand() {
             val arg by option().multiple().unique()
-            override fun run() {
+            override fun run_() {
                 arg shouldBe expected
             }
         }
-        command.parse(splitArgv(argv))
+        command.parse(argv)
     }
 
     @Test
     fun `option metavars`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option()
             val y by option(metavar = "FOO").default("")
             val z by option(metavar = "FOO").convert("BAR") { it }
             val w by option().convert("BAR") { it }
             val u by option().flag()
-            override fun run() {
+            override fun run_() {
                 _options.forEach {
                     if (it is EagerOption || // skip help option
                             "--x" in it.names && it.metavar == "TEXT" ||
@@ -456,14 +428,14 @@ class OptionTest {
             }
         }
 
-        C().parse(splitArgv(""))
+        C().parse("")
     }
 
     @Test
     fun `option validator basic`() {
         var called = false
 
-        class C : NoRunCliktCommand() {
+        class C : TestCommand() {
             val x by option().validate {
                 called = true
                 require(it == "foo") { "invalid value $it" }
@@ -471,13 +443,13 @@ class OptionTest {
         }
 
         with(C()) {
-            parse(splitArgv("--x=foo"))
+            parse("--x=foo")
             x shouldBe "foo"
         }
         assertTrue(called)
 
         called = false
-        C().parse(splitArgv(""))
+        C().parse("")
         assertFalse(called)
     }
 
@@ -485,47 +457,47 @@ class OptionTest {
     fun `option validator required`() {
         var called = false
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option().required().validate {
                 called = true
                 require(it == "foo") { "invalid value $it" }
             }
 
-            override fun run() {
+            override fun run_() {
                 x shouldBe "foo"
             }
         }
 
-        C().parse(splitArgv("--x=foo"))
+        C().parse("--x=foo")
         assertTrue(called)
 
         called = false
-        shouldThrow<MissingParameter> { C().parse(splitArgv("")) }
+        shouldThrow<MissingParameter> { C().parse("") }
     }
 
     @Test
     fun `option validator flag`() {
         var called = false
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option().flag().validate {
                 called = true
                 require(it)
             }
 
-            override fun run() {
+            override fun run_() {
                 x shouldBe true
             }
         }
 
-        C().parse(splitArgv("--x"))
+        C().parse("--x")
         assertTrue(called)
     }
 
 
     @Test
     fun `convert catches exceptions`() {
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             init {
                 context { allowInterspersedArgs = false }
             }
@@ -539,8 +511,8 @@ class OptionTest {
             }
         }
 
-        shouldThrow<BadParameterValue> { C().parse(splitArgv("--x=uerr")) }.paramName shouldBe "--x"
-        shouldThrow<BadParameterValue> { C().parse(splitArgv("--x=err")) }.paramName shouldBe "--x"
+        shouldThrow<BadParameterValue> { C().parse("--x=uerr") }.paramName shouldBe "--x"
+        shouldThrow<BadParameterValue> { C().parse("--x=err") }.paramName shouldBe "--x"
     }
 
     @Test
@@ -551,14 +523,14 @@ class OptionTest {
             row("/x 4", "4"),
             row("/x /xx /xx foo", "foo"),
             row("/xfoo", "foo")) { argv, expected ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("/x", "/xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe expected
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -569,14 +541,14 @@ class OptionTest {
             row("-x 4", "4"),
             row("-x -xx -xx foo", "foo"),
             row("-xfoo", "foo")) { argv, expected ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "-xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe expected
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -591,16 +563,16 @@ class OptionTest {
             row("+y -y", false, false),
             row("-x -y", false, false),
             row("-x -y +xy", true, true)) { argv, ex, ey ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("+x").flag("-x")
             val y by option("+y").flag("-y")
-            override fun run() {
+            override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
             }
         }
 
-        C().parse(splitArgv(argv))
+        C().parse(argv)
     }
 
     @Test
@@ -609,39 +581,39 @@ class OptionTest {
             row("--XX=FOO", "FOO"),
             row("--xx=FOO", "FOO"),
             row("-XX", "X")) { argv, expected ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe expected
             }
         }
 
-        C().context { tokenTransformer = { it.toLowerCase() } }.parse(splitArgv(argv))
+        C().context { tokenTransformer = { it.toLowerCase() } }.parse(argv)
     }
 
     @Test
     fun `aliased tokens`() = forall(
             row("", null),
             row("--yy 3", "3")) { argv, expected ->
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val x by option("-x", "--xx")
-            override fun run() {
+            override fun run_() {
                 x shouldBe expected
             }
         }
 
-        C().context { tokenTransformer = { "--xx" } }.parse(splitArgv(argv))
+        C().context { tokenTransformer = { "--xx" } }.parse(argv)
     }
 
     @Test
     fun `deprecated warning options`() {
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val g by option()
             val f by option().flag().deprecated()
             val x by option().deprecated()
             val y by option().deprecated("warn")
             val z by option().deprecated()
-            override fun run() {
+            override fun run_() {
                 messages shouldBe listOf(
                         "WARNING: option --f is deprecated",
                         "WARNING: option --x is deprecated",
@@ -649,19 +621,19 @@ class OptionTest {
                 )
             }
         }
-        C().context { printExtraMessages = false }.parse(splitArgv("--g=0 --f --x=1 --y=2"))
+        C().context { printExtraMessages = false }.parse("--g=0 --f --x=1 --y=2")
     }
 
     @Test
     fun `deprecated error option`() {
-        class C : NeverCalledCliktCommand() {
+        class C : TestCommand(called = false) {
             val x by option().flag().deprecated(error = true)
             val y by option().deprecated("err", error = true)
         }
-        shouldThrow<CliktError> { C().parse(splitArgv("--x")) }
+        shouldThrow<CliktError> { C().parse("--x") }
                 .message shouldBe "ERROR: option --x is deprecated"
 
-        shouldThrow<CliktError> { C().parse(splitArgv("--y=1")) }
+        shouldThrow<CliktError> { C().parse("--y=1") }
                 .message shouldBe "err"
     }
 }

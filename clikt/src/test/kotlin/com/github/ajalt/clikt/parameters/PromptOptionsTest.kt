@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
@@ -8,6 +7,7 @@ import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.matchers.beEmpty
 import io.kotlintest.matchers.collections.containExactly
 import io.kotlintest.should
@@ -46,10 +46,10 @@ class PromptOptionsTest {
     fun `prompt option`() {
         stdin.provideLines("foo", "bar")
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option().prompt()
             val bar by option().prompt()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe "bar"
             }
@@ -76,7 +76,7 @@ class PromptOptionsTest {
             override val lineSeparator: String get() = "\n"
         }
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             init {
                 context {
                     this.console = console
@@ -84,7 +84,7 @@ class PromptOptionsTest {
             }
 
             val foo by option().prompt()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "bar"
             }
         }
@@ -112,19 +112,19 @@ class PromptOptionsTest {
             override val lineSeparator: String get() = "\n"
         }
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             init {
                 context {
                     this.console = console
                 }
             }
 
-            override fun run() {}
+            override fun run_() {}
         }
 
-        class S : CliktCommand() {
+        class S : TestCommand() {
             val foo by option().prompt()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "bar"
             }
         }
@@ -139,9 +139,9 @@ class PromptOptionsTest {
     fun `custom name`() {
         stdin.provideLines("foo")
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option().prompt("INPUT")
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
             }
         }
@@ -153,11 +153,11 @@ class PromptOptionsTest {
     fun `inferred names`() {
         stdin.provideLines("foo", "bar", "baz")
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option().prompt()
             val bar by option("/bar").prompt()
             val baz by option("--some-thing").prompt()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe "bar"
                 baz shouldBe "baz"
@@ -171,10 +171,10 @@ class PromptOptionsTest {
     fun `two options`() {
         stdin.provideLines("foo", "bar")
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option().prompt()
             val bar by option().prompt()
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe "bar"
             }
@@ -187,9 +187,9 @@ class PromptOptionsTest {
     fun default() {
         stdin.provideLines("bar")
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option().prompt(default = "baz")
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "bar"
             }
         }
@@ -202,9 +202,9 @@ class PromptOptionsTest {
     fun `default no stdin`() {
         stdin.provideLines("")
 
-        class C : CliktCommand() {
+        class C : TestCommand() {
             val foo by option().prompt(default = "baz")
-            override fun run() {
+            override fun run_() {
                 foo shouldBe "baz"
             }
         }

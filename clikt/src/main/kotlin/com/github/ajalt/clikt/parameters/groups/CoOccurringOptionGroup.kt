@@ -16,6 +16,7 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT>(
     override val groupName: String? get() = group.groupName
     override val groupHelp: String? get() = group.groupHelp
     private var value: OutT by NullableLateinit("Cannot read from option delegate before parsing command line")
+    private var occurred = false
 
     override fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
@@ -30,9 +31,13 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT>(
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
 
     override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
-        val occurred = invocationsByOption.isNotEmpty()
+        occurred = invocationsByOption.isNotEmpty()
         if (occurred) group.finalize(context, invocationsByOption)
         value = transform(occurred, group, context)
+    }
+
+    override fun postValidate(context: Context) {
+        if (occurred) group.postValidate(context)
     }
 }
 

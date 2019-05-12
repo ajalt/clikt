@@ -25,7 +25,9 @@ class FlagOption<T>(
         override val helpTags: Map<String, String>,
         val envvar: String?,
         val transformEnvvar: OptionTransformContext.(String) -> T,
-        val transformAll: CallsTransformer<String, T>) : OptionDelegate<T> {
+        val transformAll: CallsTransformer<String, T>,
+        val validator: OptionValidator<T>
+) : OptionDelegate<T> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
     override val metavar: String? = null
@@ -36,6 +38,12 @@ class FlagOption<T>(
     override var names: Set<String> = names
         private set
 
+    override operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, T> {
+        names = inferOptionNames(names, prop.name)
+        thisRef.registerOption(this)
+        return this
+    }
+
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
         val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
         value = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
@@ -45,15 +53,15 @@ class FlagOption<T>(
         }
     }
 
-    override operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, T> {
-        names = inferOptionNames(names, prop.name)
-        thisRef.registerOption(this)
-        return this
+    override fun postValidate(context: Context) {
+        validator(OptionTransformContext(this, context), value)
     }
 
+    /** Create a new option that is a copy of this one with different transforms. */
     fun <T> copy(
             transformEnvvar: OptionTransformContext.(String) -> T,
             transformAll: CallsTransformer<String, T>,
+            validator: OptionValidator<T>,
             names: Set<String> = this.names,
             secondaryNames: Set<String> = this.secondaryNames,
             help: String = this.help,
@@ -61,7 +69,20 @@ class FlagOption<T>(
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar
     ): FlagOption<T> {
-        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll)
+        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll, validator)
+    }
+
+    /** Create a new option that is a copy of this one with the same transforms. */
+    fun copy(
+            validator: OptionValidator<T> = this.validator,
+            names: Set<String> = this.names,
+            secondaryNames: Set<String> = this.secondaryNames,
+            help: String = this.help,
+            hidden: Boolean = this.hidden,
+            helpTags: Map<String, String> = this.helpTags,
+            envvar: String? = this.envvar
+    ): FlagOption<T> {
+        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll, validator)
     }
 }
 
@@ -83,7 +104,8 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
             },
             transformAll = {
                 if (it.isEmpty()) default else it.last() !in secondaryNames
-            })
+            },
+            validator = {})
 }
 
 /**
@@ -92,7 +114,8 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
 fun RawOption.counted(): FlagOption<Int> {
     return FlagOption(names, emptySet(), help, hidden, helpTags, envvar,
             transformEnvvar = { valueToInt(it) },
-            transformAll = { it.size })
+            transformAll = { it.size },
+            validator = {})
 }
 
 /** Turn an option into a set of flags that each map to a value. */
@@ -102,7 +125,8 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },
-            transformAll = { it.map { choices.getValue(it) }.lastOrNull() })
+            transformAll = { it.map { choices.getValue(it) }.lastOrNull() },
+            validator = {})
 }
 
 /** Turn an option into a set of flags that each map to a value. */
@@ -112,7 +136,8 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
     return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },
-            transformAll = { transformAll(it) ?: value }
+            transformAll = { transformAll(it) ?: value },
+            validator = validator
     )
 }
 
@@ -122,12 +147,7 @@ fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
  * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
  * if the value is not valid. It is not called if the delegate value is null.
  */
-fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDelegate<T> {
-    return copy(
-            transformEnvvar = { transformEnvvar(it).also { validator(this, it) } },
-            transformAll = { transformAll(it).also { validator(this, it) } }
-    )
-}
+fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDelegate<T> = copy(validator)
 
 /**
  * Mark this option as deprecated in the help output.
@@ -148,5 +168,5 @@ fun <T> FlagOption<T>.deprecated(
         error: Boolean = false
 ): OptionDelegate<T> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
-    return copy(transformEnvvar, deprecationTransformer(message, error, transformAll), helpTags = helpTags)
+    return copy(transformEnvvar, deprecationTransformer(message, error, transformAll), validator, helpTags = helpTags)
 }

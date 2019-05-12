@@ -85,6 +85,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  * @property transformValue Called in [finalize] to transform each value provided to each invocation.
  * @property transformEach Called in [finalize] to transform each invocation.
  * @property transformAll Called in [finalize] to transform all invocations into the final value.
+ * @property transformValidator Called after all parameters have been [finalize]d to validate the output of [transformAll]
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
@@ -99,10 +100,11 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val envvarSplit: ValueWithDefault<Regex>,
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
-        override val completionCandidates: CompletionCandidates,
+        override val completionCandidates: CompletionCandidates, // TODO value with default for this
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
-        val transformAll: CallsTransformer<EachT, AllT>
+        val transformAll: CallsTransformer<EachT, AllT>,
+        val transformValidator: OptionValidator<AllT>
 ) : OptionDelegate<AllT>, GroupableOption {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
@@ -139,11 +141,16 @@ class OptionWithValues<AllT, EachT, ValueT>(
         return this
     }
 
+    override fun postValidate(context: Context) {
+        transformValidator(OptionTransformContext(this, context), value)
+    }
+
     /** Create a new option that is a copy of this one with different transforms. */
     fun <AllT, EachT, ValueT> copy(
             transformValue: ValueTransformer<ValueT>,
             transformEach: ArgsTransformer<ValueT, EachT>,
             transformAll: CallsTransformer<EachT, AllT>,
+            validator: OptionValidator<AllT>,
             names: Set<String> = this.names,
             metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
@@ -158,7 +165,27 @@ class OptionWithValues<AllT, EachT, ValueT>(
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
                 helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
-                transformValue, transformEach, transformAll)
+                transformValue, transformEach, transformAll, validator)
+    }
+
+    /** Create a new option that is a copy of this one with the same transforms. */
+    fun copy(
+            validator: OptionValidator<AllT> = this.transformValidator,
+            names: Set<String> = this.names,
+            metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
+            nvalues: Int = this.nvalues,
+            help: String = this.help,
+            hidden: Boolean = this.hidden,
+            helpTags: Map<String, String> = this.helpTags,
+            envvar: String? = this.envvar,
+            envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
+            valueSplit: Regex? = this.valueSplit,
+            parser: OptionWithValuesParser = this.parser,
+            completionCandidates: CompletionCandidates = this.completionCandidates
+    ): OptionWithValues<AllT, EachT, ValueT> {
+        return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
+                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
+                transformValue, transformEach, transformAll, validator)
     }
 }
 
@@ -170,6 +197,9 @@ internal fun <T : Any> defaultEachProcessor(): ArgsTransformer<T, T> = { it.sing
 
 @PublishedApi
 internal fun <T : Any> defaultAllProcessor(): CallsTransformer<T, T?> = { it.lastOrNull() }
+
+@PublishedApi
+internal fun <T> defaultValidator(): OptionValidator<T> = { }
 
 /**
  * Create a property delegate option.
@@ -213,7 +243,8 @@ fun ParameterHolder.option(
         completionCandidates = CompletionCandidates.None,
         transformValue = { it },
         transformEach = defaultEachProcessor(),
-        transformAll = defaultAllProcessor()
+        transformAll = defaultAllProcessor(),
+        transformValidator = defaultValidator()
 )
 
 /**
@@ -244,7 +275,7 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
     if (defaultForHelp != null) tags[HelpFormatter.Tags.DEFAULT] = defaultForHelp
     else tags.remove(HelpFormatter.Tags.DEFAULT)
 
-    return copy(transformValue, transformEach, transform, helpTags = tags)
+    return copy(transformValue, transformEach, transform, defaultValidator(), helpTags = tags)
 }
 
 /**
@@ -333,7 +364,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
  * ```
  */
 fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique(): OptionWithValues<Set<EachT>, EachT, ValueT> {
-    return copy(transformValue, transformEach, { transformAll(it).toSet() })
+    return copy(transformValue, transformEach, { transformAll(it).toSet() }, defaultValidator())
 }
 
 /**
@@ -353,7 +384,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
     require(nvalues != 0) { "Cannot set nvalues = 0. Use flag() instead." }
     require(nvalues > 0) { "Options cannot have nvalues < 0" }
     require(nvalues > 1) { "Cannot set nvalues = 1. Use convert() instead." }
-    return copy(transformValue, transform, defaultAllProcessor(), nvalues = nvalues)
+    return copy(transformValue, transform, defaultAllProcessor(), defaultValidator(), nvalues = nvalues)
 }
 
 /**
@@ -408,11 +439,12 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
         : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
     return copy(
-            nvalues = 1,
-            valueSplit = regex,
             transformValue = transformValue,
             transformEach = { it },
-            transformAll = defaultAllProcessor()
+            transformAll = defaultAllProcessor(),
+            validator = defaultValidator(),
+            nvalues = 1,
+            valueSplit = regex
     )
 }
 
@@ -453,8 +485,9 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
  * ```
  */
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
-        validator: OptionValidator<AllT>): OptionDelegate<AllT> {
-    return copy(transformValue, transformEach, { transformAll(it).also { validator(this, it) } })
+        validator: OptionValidator<AllT>
+): OptionDelegate<AllT> {
+    return copy(transformValue, transformEach, transformAll, validator)
 }
 
 /**
@@ -474,8 +507,9 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
  */
 @JvmName("nullableValidate")
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
-        validator: OptionValidator<AllT>): OptionDelegate<AllT?> {
-    return copy(transformValue, transformEach, { transformAll(it).also { if (it != null) validator(this, it) } })
+        validator: OptionValidator<AllT>
+): OptionDelegate<AllT?> {
+    return copy(transformValue, transformEach, transformAll, { if (it != null) validator(it) })
 }
 
 /**
@@ -504,7 +538,7 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
         error: Boolean = false
 ): OptionDelegate<AllT> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
-    return copy(transformValue, transformEach, deprecationTransformer(message, error, transformAll), helpTags = helpTags)
+    return copy(transformValue, transformEach, deprecationTransformer(message, error, transformAll), transformValidator, helpTags = helpTags)
 }
 
 /**
@@ -535,7 +569,7 @@ inline fun <T : Any> RawOption.convert(
             fail(err.message ?: "")
         }
     }
-    return copy(proc, defaultEachProcessor(), defaultAllProcessor(),
+    return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
             metavarWithDefault = metavarWithDefault.copy(default = metavar),
             envvarSplit = this.envvarSplit.copy(default = envvarSplit),
             completionCandidates = completionCandidates)

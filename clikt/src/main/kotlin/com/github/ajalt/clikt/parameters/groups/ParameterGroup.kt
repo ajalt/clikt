@@ -12,14 +12,6 @@ import kotlin.reflect.KProperty
 
 interface ParameterGroup {
     /**
-     * Called after this command's argv is parsed and all options are validated to validate the group constraints.
-     *
-     * @param context The context for this parse
-     * @param invocationsByOption The invocations of options in this group.
-     */
-    fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>)
-
-    /**
      * The name of the group, or null if parameters in the group should not be separated from other
      * parameters in the help output.
      */
@@ -37,6 +29,19 @@ interface ParameterGroup {
             val h = groupHelp
             return if (n == null || h == null) null else HelpFormatter.ParameterHelp.Group(n, h)
         }
+
+    /**
+     * Called after this command's argv is parsed and all options are validated to validate the group constraints.
+     *
+     * @param context The context for this parse
+     * @param invocationsByOption The invocations of options in this group.
+     */
+    fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>)
+
+    /**
+     * Called after all of a command's parameters have been [finalize]d to perform validation of the final values.
+     */
+    fun postValidate(context: Context)
 }
 
 interface ParameterGroupDelegate<out T> : ParameterGroup, ReadOnlyProperty<CliktCommand, T> {
@@ -92,6 +97,8 @@ open class OptionGroup(
         // Finalize options not provided on the command line so that they can apply default values etc.
         options.forEach { o -> if (o !in invocationsByOption) o.finalize(context, emptyList()) }
     }
+
+    override fun postValidate(context: Context) = options.forEach { it.postValidate(context) }
 }
 
 operator fun <T : OptionGroup> T.provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {

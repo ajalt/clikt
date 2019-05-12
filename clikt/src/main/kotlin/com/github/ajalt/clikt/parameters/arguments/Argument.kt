@@ -50,10 +50,18 @@ interface Argument {
     /**
      * Called after this command's argv is parsed to transform and store the argument's value.
      *
+     * You cannot refer to other parameter values during this call, since they might not have been
+     * finalized yet.
+     *
      * @param context The context for this parse
      * @param values A possibly empty list of values provided to this argument.
      */
     fun finalize(context: Context, values: List<String>)
+
+    /**
+     * Called after all of a command's parameters have been [finalize]d to perform validation of the final value.
+     */
+    fun postValidate(context: Context)
 }
 
 /** An argument that functions as a property delegate */
@@ -94,6 +102,7 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  *
  * @property transformValue Called in [finalize] to transform each value provided to the argument.
  * @property transformAll Called in [finalize] to transform the list of values to the final type.
+ * @property transformValidator Called after all paramters have been [finalize]d to validate the result of [transformAll]
  */
 class ProcessedArgument<AllT, ValueT>(
         name: String,
@@ -103,7 +112,8 @@ class ProcessedArgument<AllT, ValueT>(
         override val helpTags: Map<String, String>,
         override val completionCandidates: CompletionCandidates,
         val transformValue: ArgValueTransformer<ValueT>,
-        val transformAll: ArgCallsTransformer<AllT, ValueT>
+        val transformAll: ArgCallsTransformer<AllT, ValueT>,
+        val transformValidator: ArgValidator<AllT>
 ) : ArgumentDelegate<AllT> {
     init {
         require(nvalues != 0) { "Arguments cannot have nvalues == 0" }
@@ -130,10 +140,15 @@ class ProcessedArgument<AllT, ValueT>(
         value = transformAll(ctx, values.map { transformValue(ctx, it) })
     }
 
+    override fun postValidate(context: Context) {
+        transformValidator(ArgumentTransformContext(this, context), value)
+    }
+
     /** Create a new argument that is a copy of this one with different transforms. */
     fun <AllT, ValueT> copy(
             transformValue: ArgValueTransformer<ValueT>,
             transformAll: ArgCallsTransformer<AllT, ValueT>,
+            validator: ArgValidator<AllT>,
             name: String = this.name,
             nvalues: Int = this.nvalues,
             required: Boolean = this.required,
@@ -141,7 +156,20 @@ class ProcessedArgument<AllT, ValueT>(
             helpTags: Map<String, String> = this.helpTags,
             completionCandidates: CompletionCandidates = this.completionCandidates
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidates, transformValue, transformAll)
+        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidates, transformValue, transformAll, validator)
+    }
+
+    /** Create a new argument that is a copy of this one with the same transforms. */
+    fun copy(
+            validator: ArgValidator<AllT> = this.transformValidator,
+            name: String = this.name,
+            nvalues: Int = this.nvalues,
+            required: Boolean = this.required,
+            help: String = this.help,
+            helpTags: Map<String, String> = this.helpTags,
+            completionCandidates: CompletionCandidates = this.completionCandidates
+    ): ProcessedArgument<AllT, ValueT> {
+        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidates, transformValue, transformAll, validator)
     }
 }
 
@@ -149,6 +177,9 @@ internal typealias RawArgument = ProcessedArgument<String, String>
 
 @PublishedApi
 internal fun <T : Any> defaultAllProcessor(): ArgCallsTransformer<T, T> = { it.single() }
+
+@PublishedApi
+internal fun <T> defaultValidator(): ArgValidator<T> = {}
 
 /**
  * Create a property delegate argument.
@@ -162,8 +193,22 @@ internal fun <T : Any> defaultAllProcessor(): ArgCallsTransformer<T, T> = { it.s
  * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("unused")
-fun CliktCommand.argument(name: String = "", help: String = "", helpTags: Map<String, String> = emptyMap()): RawArgument {
-    return ProcessedArgument(name, 1, true, help, helpTags, CompletionCandidates.None, { it }, defaultAllProcessor())
+fun CliktCommand.argument(
+        name: String = "",
+        help: String = "",
+        helpTags: Map<String, String> = emptyMap()
+): RawArgument {
+    return ProcessedArgument(
+            name = name,
+            nvalues = 1,
+            required = true,
+            help = help,
+            helpTags = helpTags,
+            completionCandidates = CompletionCandidates.None,
+            transformValue = { it },
+            transformAll = defaultAllProcessor(),
+            transformValidator = defaultValidator()
+    )
 }
 
 /**
@@ -182,7 +227,7 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
         nvalues: Int? = null,
         required: Boolean? = null,
         transform: ArgCallsTransformer<AllOutT, ValueT>): ProcessedArgument<AllOutT, ValueT> {
-    return copy(transformValue, transform,
+    return copy(transformValue, transform, defaultValidator(),
             nvalues = nvalues ?: this.nvalues,
             required = required ?: this.required)
 }
@@ -316,7 +361,7 @@ inline fun <T : Any> RawArgument.convert(
             fail(err.message ?: "")
         }
     }
-    return copy(conv, defaultAllProcessor(), completionCandidates = completionCandidates)
+    return copy(conv, defaultAllProcessor(), defaultValidator(), completionCandidates = completionCandidates)
 }
 
 /**
@@ -335,9 +380,7 @@ inline fun <T : Any> RawArgument.convert(
  */
 fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT> {
-    return copy(transformValue, {
-        transformAll(it).also { validator(ArgumentTransformContext(argument, context), it) }
-    })
+    return copy(validator)
 }
 
 /**
@@ -357,7 +400,5 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: Arg
 @JvmName("nullableValidate")
 fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.validate(validator: ArgValidator<AllT>)
         : ArgumentDelegate<AllT?> {
-    return copy(transformValue, {
-        transformAll(it).also { if (it != null) validator(ArgumentTransformContext(argument, context), it) }
-    })
+    return copy({ if (it != null) validator(it) })
 }

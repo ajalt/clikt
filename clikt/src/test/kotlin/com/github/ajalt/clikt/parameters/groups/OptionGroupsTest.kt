@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
+import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
@@ -284,5 +285,79 @@ class OptionGroupsTest {
 
         shouldThrow<BadParameterValue> { C().parse("--g=3") }
                 .message shouldBe "Invalid value for \"--g\": invalid choice: 3. (choose from 1, 2)"
+    }
+
+    @Test
+    fun `plain option group validation`() = forall(
+            row("", null, true),
+            row("--x=1", 1, true),
+            row("--x=2", null, false)
+    ) { argv, ex, ec ->
+        class G : OptionGroup() {
+            val x by option().int().validate {
+                require(it == 1) { "fail" }
+            }
+        }
+
+        class C : TestCommand(called = ec) {
+            val g by G()
+
+            override fun run_() {
+                g.x shouldBe ex
+            }
+        }
+
+        if (ec) C().parse(argv)
+        else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe "fail"
+    }
+
+    @Test
+    fun `cooccurring option group validation`() = forall(
+            row("", null, true, null),
+            row("--x=1 --y=1", 1, true, null),
+            row("--x=2", null, false, "Missing option \"--y\"."),
+            row("--x=2 --y=1", null, false, "fail")
+    ) { argv, ex, ec, em ->
+        class G : OptionGroup() {
+            val x by option().int().validate {
+                require(it == 1) { "fail" }
+            }
+            val y by option().required()
+        }
+
+        class C : TestCommand(called = ec) {
+            val g by G().cooccurring()
+
+            override fun run_() {
+                g?.x shouldBe ex
+            }
+        }
+
+        if (ec) C().parse(argv)
+        else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe em
+    }
+
+    @Test
+    fun `mutually exclusive group validation`() = forall(
+            row("", null, true),
+            row("--x=1", 1, true),
+            row("--y=1", 1, true),
+            row("--x=2", 2, true),
+            row("--y=2", 2, false)
+    ) { argv, eg, ec ->
+        class C : TestCommand(called = ec) {
+            val g by mutuallyExclusiveOptions(
+                    option("--x").int(),
+                    option("--y").int().validate {
+                        require(it == 1) { "fail" }
+                    }
+            )
+
+            override fun run_() {
+                g shouldBe eg
+            }
+        }
+        if (ec) C().parse(argv)
+        else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe "fail"
     }
 }

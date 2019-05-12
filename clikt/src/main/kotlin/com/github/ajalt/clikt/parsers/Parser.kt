@@ -116,6 +116,11 @@ internal object Parser {
 
             parseArguments(positionalArgs, arguments).forEach { (it, v) -> it.finalize(context, v) }
 
+            // Now that all parameters have been finalized, we can validate everything
+            command._options.forEach { o -> if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context) }
+            command._groups.forEach { it.postValidate(context) }
+            command._arguments.forEach { it.postValidate(context) }
+
             if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
                 throw PrintHelpMessage(command)
             }

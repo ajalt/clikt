@@ -19,18 +19,6 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
 
     private var value: OutT by NullableLateinit("Cannot read from group delegate before parsing command line")
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
-
-    override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
-        for ((option, invocations) in invocationsByOption) {
-            check(option in options) { "Internal Clikt Error: finalizing unregistered option [${option.names}]" }
-            option.finalize(context, invocations)
-        }
-
-        val values = options.mapNotNull { it.value }
-        value = transformAll(values)
-    }
-
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
 
@@ -42,6 +30,30 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
         }
 
         return this
+    }
+
+    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
+
+    override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
+        for ((option, invocations) in invocationsByOption) {
+            check(option in options) { "Internal Clikt Error: finalizing unregistered option [${option.names}]" }
+            option.finalize(context, invocations)
+        }
+
+        for (option in options) {
+            if (option !in invocationsByOption) {
+                option.finalize(context, emptyList())
+            }
+        }
+
+        val values = options.mapNotNull { it.value }
+        value = transformAll(values)
+    }
+
+    override fun postValidate(context: Context) {
+        for (option in options) {
+            option.postValidate(context)
+        }
     }
 
     fun <T> copy(transformAll: (List<OptT>) -> T) = MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)

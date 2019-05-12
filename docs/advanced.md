@@ -11,8 +11,9 @@ invoke a command by typing a prefix of its name, or user-defined aliases
 like the way you can configure git to accept `git ci` as an alias for
 `git commit`.
 
-To implement command aliases, override [`CliktCommand.aliases`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html) in your command. This function is
-called once at the start of parsing, and returns a map of aliases to the
+To implement command aliases, override
+[`CliktCommand.aliases`](api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html) in your
+command. This function is called once at the start of parsing, and returns a map of aliases to the
 tokens that they alias to.
 
 To implement git-style aliases:
@@ -154,3 +155,51 @@ class CustomCLI : CliktCommand() {
 If you are using
 [`TermUI`](api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html)
 directly, you can also pass your custom console as an argument.
+
+## Command Line Argument Files
+
+Similar to `javac`, Clikt supports loading command line parameters from a file using the "@-file"
+syntax. You can pass any file path to a command prefixed with `@`, and the file will be expanded
+into the command line parameters. This can be useful on operating systems like Windows that have
+command line length limits.
+
+If you create a file named `cliargs` with content like this:
+
+```
+--number 1
+--name='jane doe' --age=30
+./file.txt
+```
+
+You can call your command with the contents of the file like this:
+
+```
+$ ./tool @cliargs
+```
+
+Which is equivalent to calling it like this:
+
+```
+$ ./tool --number 1 --name='jane doe' --age=30 ./file.txt
+```
+
+You can use any file path after the `@`, and can specify multiple @-files:
+
+```
+$ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile
+```
+
+If you have any options with names that start with `@`, you can still use `@-files`, but values on
+the command line that match an option will be parsed as that option, rather than an `@-file`, so
+you'll have to give your files a different name.
+
+
+### File format
+
+In argument files, normal shell quoting and escaping rules apply. Line breaks are treated as word
+separators, and can be used where you would normally use a space to separate parameters. Line breaks
+cannot occur within quotes. @-files can contain other @-file arguments, which will be expanded
+recursively.
+
+An unescaped `#` character outside of quotes is treated as a line comment: it and the rest of the
+line are skipped. You can pass a literal `#` by escaping it with `\#` or quoting it with `'#'`.

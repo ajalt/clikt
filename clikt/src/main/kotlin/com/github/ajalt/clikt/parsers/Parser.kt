@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
+import java.io.File
 
 internal object Parser {
     fun parse(argv: List<String>, context: Context) {
@@ -47,6 +48,11 @@ internal object Parser {
             val normTok = context.tokenTransformer(context, tok)
             val prefix = splitOptionPrefix(tok).first
             when {
+                tok.startsWith("@") && normTok !in optionsByName -> {
+                    tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
+                    i = 0
+                    minAliasI -= i
+                }
                 canParseOptions && tok == "--" -> {
                     i += 1
                     canParseOptions = false
@@ -211,5 +217,70 @@ internal object Parser {
                             .joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
         }
         return out
+    }
+
+    private fun loadArgFile(filename: String, context: Context): List<String> {
+        val file = File(filename)
+        if (!file.isFile) {
+            throw BadParameterValue("'$file' is not a file", "@-file", context)
+        }
+
+        val text = file.bufferedReader().use { it.readText() }
+        val toks = mutableListOf<String>()
+        var inQuote: Char? = null
+        val sb = StringBuilder()
+        var i = 0
+        loop@ while (i < text.length) {
+            val c = text[i]
+            when {
+                c == '\r' -> {
+                    i += 1
+                }
+                c == '\n' && inQuote != null -> {
+                    throw UsageError("unclosed quote in @-file")
+                }
+                c == '\\' -> {
+                    if (i >= text.lastIndex) throw UsageError("@-file ends with \\")
+                    if (text[i + 1] in "\r\n") throw UsageError("unclosed quote in @-file")
+                    sb.append(text[i + 1])
+                    i += 2
+                }
+                c == inQuote -> {
+                    toks += sb.toString()
+                    sb.clear()
+                    inQuote = null
+                    i += 1
+                }
+                inQuote == null && c == '#' -> {
+                    i = text.indexOf('\n', i)
+                    if (i < 0) break@loop
+                }
+                inQuote == null && c in "\"'" -> {
+                    inQuote = c
+                    i += 1
+                }
+                inQuote == null && c.isWhitespace() -> {
+                    if (sb.isNotEmpty()) {
+                        toks += sb.toString()
+                        sb.clear()
+                    }
+                    i += 1
+                }
+                else -> {
+                    sb.append(c)
+                    i += 1
+                }
+            }
+        }
+
+        if (inQuote != null) {
+            throw UsageError("Missing closing quote in @-file")
+        }
+
+        if (sb.isNotEmpty()) {
+            toks += sb.toString()
+        }
+
+        return toks
     }
 }

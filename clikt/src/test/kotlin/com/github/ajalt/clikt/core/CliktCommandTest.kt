@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
 import org.junit.Test
@@ -90,5 +91,17 @@ class CliktCommandTest {
             |
             |Error: Missing argument "ARG".
             """.trimMargin()
+    }
+
+    // https://github.com/ajalt/clikt/issues/64
+    @Test
+    fun `context is initialized when helpOptionNames is null`() {
+        class D : TestCommand() {
+            override fun run_() {
+                context shouldNotBe null
+            }
+        }
+
+        TestCommand().context { helpOptionNames = emptySet() }.subcommands(D()).parse("d")
     }
 }

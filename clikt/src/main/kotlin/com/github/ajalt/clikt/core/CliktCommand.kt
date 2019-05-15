@@ -62,9 +62,10 @@ abstract class CliktCommand(
     private fun createContext(parent: Context? = null) {
         _context = Context.build(this, parent, _contextConfig)
 
-        if (context.helpOptionNames.isEmpty()) return
-        val names = context.helpOptionNames - registeredOptionNames()
-        if (names.isNotEmpty()) _options += helpOption(names, context.helpOptionMessage)
+        if (context.helpOptionNames.isNotEmpty()) {
+            val names = context.helpOptionNames - registeredOptionNames()
+            if (names.isNotEmpty()) _options += helpOption(names, context.helpOptionMessage)
+        }
 
         for (command in _subcommands) {
             command.createContext(context)

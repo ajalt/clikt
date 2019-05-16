@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- `CliktCommand.toString()` now includes the names and values of all parameters and subcommands,
+
 ### Fixed
 - Create subcommand context when `helpOptionNames` is empty. ([#64](https://github.com/ajalt/clikt/issues/64))
 

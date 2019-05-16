@@ -121,7 +121,8 @@ class ProcessedArgument<AllT, ValueT>(
 
     override var name: String = name
         private set
-    private var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
+    internal var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
+        private set
 
     override val parameterHelp
         get() = ParameterHelp.Argument(name, help, required && nvalues == 1 || nvalues > 1, nvalues < 0, helpTags)

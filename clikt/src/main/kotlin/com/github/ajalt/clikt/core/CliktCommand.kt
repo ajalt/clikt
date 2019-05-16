@@ -4,11 +4,10 @@ import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
+import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
-import com.github.ajalt.clikt.parameters.options.Option
-import com.github.ajalt.clikt.parameters.options.helpOption
-import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parsers.Parser
 import kotlin.system.exitProcess
 
@@ -260,6 +259,51 @@ abstract class CliktCommand(
      * parsed.
      */
     abstract fun run()
+
+    override fun toString() = buildString {
+        append("<CliktCommand name=$commandName ")
+
+        if (_options.isNotEmpty()) {
+            append("options=[")
+            for ((i, option) in _options.withIndex()) {
+                if (i > 0) append(" ")
+                append(option.longestName())
+                if (_context != null && option is OptionDelegate<*>) {
+                    try {
+                        val value = option.value
+                        append("=").append(value)
+                    } catch (_: IllegalStateException) {
+                    }
+                }
+            }
+            append("]")
+        }
+
+
+        if (_arguments.isNotEmpty()) {
+            append(" arguments=[")
+            for ((i, argument) in _arguments.withIndex()) {
+                if (i > 0) append(" ")
+                append(argument.name)
+                if (_context != null && argument is ProcessedArgument<*, *>) {
+                    try {
+                        val value = argument.value
+                        append("=").append(value)
+                    } catch (_: IllegalStateException) {
+                    }
+                }
+            }
+            append("]")
+        }
+
+        if (_subcommands.isNotEmpty()) {
+            append(" subcommands=[")
+            _subcommands.joinTo(this, " ")
+            append("]")
+        }
+
+        append(">")
+    }
 }
 
 /** Add the given commands as a subcommand of this command. */

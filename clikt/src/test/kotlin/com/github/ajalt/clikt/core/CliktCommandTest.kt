@@ -2,7 +2,13 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
+import com.github.ajalt.clikt.parameters.groups.cooccurring
+import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
+import com.github.ajalt.clikt.parameters.groups.provideDelegate
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.required
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
@@ -10,7 +16,6 @@ import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
 import org.junit.Test
-
 
 class CliktCommandTest {
     @Test
@@ -91,6 +96,49 @@ class CliktCommandTest {
             |
             |Error: Missing argument "ARG".
             """.trimMargin()
+    }
+
+    @Test
+    fun `command toString`() {
+        class Cmd : TestCommand() {
+            val opt by option("-o", "--option")
+            val int by option().int()
+            val arg by argument()
+        }
+
+        class Sub : TestCommand() {
+            val foo by option()
+        }
+
+        Cmd().toString() shouldBe "<CliktCommand name=cmd options=[--option --int] arguments=[ARG]>"
+        Cmd().apply { parse("--int=123 bar") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=null --int=123 --help] arguments=[ARG=bar]>"
+        Cmd().apply { parse("foo") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=null --int=null --help] arguments=[ARG=foo]>"
+
+        Cmd().subcommands(Sub()).apply { parse("-ooo bar sub --foo=baz") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=oo --int=null --help] arguments=[ARG=bar] subcommands=[<CliktCommand name=sub options=[--foo=baz --help]>]>"
+    }
+
+    @Test
+    fun `command with groups toString`() {
+        class G : OptionGroup() {
+            val opt by option("-o", "--option")
+        }
+
+        class G2 : OptionGroup() {
+            val foo by option().required()
+            val bar by option()
+        }
+
+        class Cmd : TestCommand() {
+            val g by G()
+            val g2 by G2().cooccurring()
+            val ge by mutuallyExclusiveOptions(
+                    option("--e1"),
+                    option("--e2")
+            )
+        }
+
+        Cmd().toString() shouldBe "<CliktCommand name=cmd options=[--option --foo --bar --e1 --e2]>"
+        Cmd().apply { parse("-oo --foo=f --e1=1") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=o --foo=f --bar=null --e1=1 --e2=null --help]>"
     }
 
     // https://github.com/ajalt/clikt/issues/64

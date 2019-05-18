@@ -7,7 +7,7 @@ title: 'Clikt: Simple, powerful command line parser for Kotlin'
 </div>
 
 Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
-command line interfaces simple and intuitive. It the "Command Line
+command line interfaces simple and intuitive. It is the "Command Line
 Interface for Kotlin".
 
 It is designed to make the process of writing command line tools effortless

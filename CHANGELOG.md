@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Ability to prevent [rewrapping individual paragraphs](https://ajalt.github.io/clikt/documenting/#preventing-rewrapping) in help output.
+
 ### Changed
 - `CliktCommand.toString()` now includes the names and values of all parameters and subcommands,
 

@@ -27,6 +27,17 @@ private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent:
         append(initialIndent).append(text.trim())
         return
     }
+
+    val withoutWrap = Regex("""^\s*#\{nowrap}[ \t]*\n""").replaceFirst(text, "")
+    if (withoutWrap != text) {
+        for ((i, line) in  withoutWrap.split("\n").withIndex()) {
+            if (i == 0) append(initialIndent)
+            else append("\n").append(subsequentIndent)
+            append(line.trim())
+        }
+        return
+    }
+
     val words = text.trim().split(Regex("\\s+"))
     append(initialIndent)
     var currentWidth = initialIndent.length

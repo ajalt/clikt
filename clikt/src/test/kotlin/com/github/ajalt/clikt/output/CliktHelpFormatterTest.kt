@@ -186,6 +186,37 @@ class CliktHelpFormatterTest {
     }
 
     @Test
+    fun `formatHelp prolog prevent wrap`() {
+        val f = CliktHelpFormatter(width = 54)
+        f.formatHelp(prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+                #{nowrap}
+                - Morbi id libero purus.
+                - Praesent sit amet neque tellus.
+                - Vestibulum in condimentum turpis, in consectetur ex. Morbi id libero purus.
+
+                Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
+                turpis bibendum egestas.
+                """, epilog = "",
+                parameters = l(),
+                programName = "prog") shouldBe
+                """
+                |Usage: prog
+                |
+                |  Lorem ipsum dolor sit amet, consectetur adipiscing
+                |  elit.
+                |
+                |  - Morbi id libero purus.
+                |  - Praesent sit amet neque tellus.
+                |  - Vestibulum in condimentum turpis, in consectetur ex. Morbi id libero purus.
+                |
+                |  Vivamus dictum varius massa, at euismod turpis
+                |  maximus eu. Suspendisse molestie mauris at turpis
+                |  bibendum egestas.
+                """.trimMargin("|")
+    }
+
+    @Test
     fun `formatHelp option wrapping`() {
         val f = CliktHelpFormatter(width = 54, maxColWidth = 12)
         f.formatHelp("", "", l(

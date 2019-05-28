@@ -43,6 +43,47 @@ in the usage string. It is possible to add a help string to arguments
 which will be added to the help page, but the Unix convention is to just
 describe arguments in the command help.
 
+## Preventing Rewrapping
+
+By default, Clikt will rewrap all paragraphs in your text to the terminal width. This can be
+undesirable if you have some preformatted text, such as a bulleted list.
+
+You can prevent rewrapping for a paragraph by adding the marker `#{nowrap}` on a line by itself
+before a paragraph. The line with the marker will be removed from the output, and the following
+paragraph will not be rewrapped.
+
+
+```kotlin tab="Example"
+class Tool : NoRunCliktCommand(help = """This is my command.
+
+      This paragraph will be wrapped, but the following list will not:
+
+      #{nowrap}
+      - This is a list
+      - It's newlines will remain intact
+
+      This is a new paragraph that will be wrapped if it's wider than the teminal width.
+      """)
+```
+
+```text tab="Help output"
+Usage: tool
+
+  This is my command. 
+  
+  This paragraph will be wrapped, but the following list
+  will not:
+
+  - This is a list
+  - It's newlines will remain intact
+
+  This is a new paragraph that will be wrapped if it's wider 
+  than the teminal width.
+
+Options:
+  -h, --help  Show this message and exit
+```
+
 ## Subcommand Short Help
 
 Subcommands are listed in the help page based on their [name][customizing-command-name].

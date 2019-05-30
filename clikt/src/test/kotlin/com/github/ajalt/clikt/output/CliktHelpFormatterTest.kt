@@ -186,14 +186,17 @@ class CliktHelpFormatterTest {
     }
 
     @Test
-    fun `formatHelp prolog prevent wrap`() {
+    fun `formatHelp prolog preformat`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp(prolog = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-                #{nowrap}
+                ```
                 - Morbi id libero purus.
                 - Praesent sit amet neque tellus.
+                ```
+                ```
                 - Vestibulum in condimentum turpis, in consectetur ex. Morbi id libero purus.
+                ```
 
                 Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
                 turpis bibendum egestas.
@@ -208,11 +211,65 @@ class CliktHelpFormatterTest {
                 |
                 |  - Morbi id libero purus.
                 |  - Praesent sit amet neque tellus.
+                |
                 |  - Vestibulum in condimentum turpis, in consectetur ex. Morbi id libero purus.
                 |
                 |  Vivamus dictum varius massa, at euismod turpis
                 |  maximus eu. Suspendisse molestie mauris at turpis
                 |  bibendum egestas.
+                """.trimMargin("|")
+    }
+
+    @Test
+    fun `formatHelp parameter preformat`() {
+        val f = CliktHelpFormatter(width = 54, maxColWidth = 12)
+        f.formatHelp(prolog = "", epilog = "",
+                parameters = l(
+                        opt(l("-x"), nvalues = 0, help = "```Quisque viverra leo nec massa gravida congue.```"),
+                        arg("FOO", help = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+                ```
+                - Morbi id libero purus.
+                - Praesent sit amet neque tellus.
+                - Vestibulum in condimentum turpis, in consectetur ex. Morbi id libero purus.
+                ```
+
+                Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
+                turpis bibendum egestas.
+                """),
+                        arg("BAR", help = "Phasellus ultrices felis elit, ac interdum nibh dictum ac."),
+                        sub("subcommand", """```
+                            Morbi gravida, massa eu volutpat viverra, quam nunc tristique diam.```
+
+                            Donec sed ligula blandit, luctus sem ac, sagittis risus.
+                            """)
+                ),
+                programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS] [FOO] [BAR] COMMAND [ARGS]...
+                |
+                |Options:
+                |  -x  Quisque viverra leo nec massa gravida congue.
+                |
+                |Arguments:
+                |  FOO  Lorem ipsum dolor sit amet, consectetur
+                |       adipiscing elit.
+                |
+                |       - Morbi id libero purus.
+                |       - Praesent sit amet neque tellus.
+                |       - Vestibulum in condimentum turpis, in consectetur ex. Morbi id libero purus.
+                |
+                |       Vivamus dictum varius massa, at euismod turpis
+                |       maximus eu. Suspendisse molestie mauris at
+                |       turpis bibendum egestas.
+                |  BAR  Phasellus ultrices felis elit, ac interdum nibh
+                |       dictum ac.
+                |
+                |Commands:
+                |  subcommand  Morbi gravida, massa eu volutpat viverra, quam nunc tristique diam.
+                |
+                |              Donec sed ligula blandit, luctus sem ac,
+                |              sagittis risus.
                 """.trimMargin("|")
     }
 

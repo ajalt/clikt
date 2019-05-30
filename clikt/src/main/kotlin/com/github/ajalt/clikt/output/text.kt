@@ -1,40 +1,35 @@
 package com.github.ajalt.clikt.output
 
-internal fun String.wrapText(width: Int = 78, initialIndent: String = "", subsequentIndent: String = "",
-                             preserveParagraph: Boolean = false): String = buildString {
-    wrapText(this, width, initialIndent, subsequentIndent, preserveParagraph)
-}
-
-internal fun String.wrapText(sb: StringBuilder, width: Int = 78, initialIndent: String = "",
-                             subsequentIndent: String = "", preserveParagraph: Boolean = false) {
+internal fun String.wrapText(
+        sb: StringBuilder,
+        width: Int = 78,
+        initialIndent: String = "",
+        subsequentIndent: String = ""
+) {
     require(initialIndent.length < width) { "initialIndent >= width: ${initialIndent.length} >= $width" }
     require(subsequentIndent.length < width) { "subsequentIndent >= width: ${subsequentIndent.length} >= $width" }
-    with(sb) {
-        if (preserveParagraph) {
-            for ((i, paragraph) in this@wrapText.split(Regex("\n[ \t\r]*\n")).withIndex()) {
-                if (i > 0) append("\n\n")
-                wrapParagraph(paragraph, width, if (i == 0) initialIndent else subsequentIndent, subsequentIndent)
-            }
-        } else {
-            wrapParagraph(this@wrapText, width, initialIndent, subsequentIndent)
-        }
+
+    val split = split(Regex("""\n[ \t\r]*\n|(?<=```)\s+(?=```)"""))
+    for ((i, paragraph) in split.withIndex()) {
+        if (i > 0) sb.append("\n\n")
+        sb.wrapParagraph(paragraph, width, if (i == 0) initialIndent else subsequentIndent, subsequentIndent)
     }
 }
 
-private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String,
-                                        subsequentIndent: String) {
-    if (initialIndent.length + text.length <= width) {
-        append(initialIndent).append(text.trim())
-        return
-    }
-
-    val withoutWrap = Regex("""^\s*#\{nowrap}[ \t]*\n""").replaceFirst(text, "")
-    if (withoutWrap != text) {
-        for ((i, line) in  withoutWrap.split("\n").withIndex()) {
+private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String, subsequentIndent: String) {
+    val pre = Regex("""\s*```((?:[^`]+|`{1,2}[^`])*)```\s*""")
+            .matchEntire(text)?.groups?.get(1)?.value?.trim()
+    if (pre != null) {
+        for ((i, line) in pre.split(Regex("\r?\n")).withIndex()) {
             if (i == 0) append(initialIndent)
             else append("\n").append(subsequentIndent)
             append(line.trim())
         }
+        return
+    }
+
+    if (initialIndent.length + text.length <= width) {
+        append(initialIndent).append(text.trim())
         return
     }
 

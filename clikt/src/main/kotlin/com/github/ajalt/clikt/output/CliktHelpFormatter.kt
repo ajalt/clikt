@@ -84,7 +84,7 @@ open class CliktHelpFormatter(
     protected open fun StringBuilder.addProlog(prolog: String) {
         if (prolog.isNotEmpty()) {
             append("\n\n")
-            prolog.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ", preserveParagraph = true)
+            prolog.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ")
         }
     }
 
@@ -113,7 +113,7 @@ open class CliktHelpFormatter(
             append("\n")
             section(title)
             if (help != null) append("\n")
-            help?.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ", preserveParagraph = true)
+            help?.wrapText(this, width, initialIndent = "  ", subsequentIndent = "  ")
             if (help != null) append("\n\n")
             appendDefinitionList(options)
         }
@@ -144,7 +144,7 @@ open class CliktHelpFormatter(
     protected open fun StringBuilder.addEpilog(epilog: String) {
         if (epilog.isNotEmpty()) {
             append("\n\n")
-            epilog.wrapText(this, width, preserveParagraph = true)
+            epilog.wrapText(this, width)
         }
     }
 
@@ -210,7 +210,7 @@ open class CliktHelpFormatter(
                 }
             }
 
-            col2.wrapText(this, width, initialIndent = initialIndent, subsequentIndent = subsequentIndent)
+            col2.wrapText(this, width, initialIndent, subsequentIndent)
         }
     }
 

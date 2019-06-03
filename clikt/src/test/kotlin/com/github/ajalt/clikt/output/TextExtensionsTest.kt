@@ -36,6 +36,21 @@ class TextExtensionsTest {
     }
 
     @Test
+    fun splitParagraphs() = forall(
+            row("a\nb", listOf("a\nb")),
+            row("a\n\nb", listOf("a", "b")),
+            row(" a \n \n b ", listOf("a", "b")),
+            row("a\n\n```b```", listOf("a", "```b```")),
+            row("```a```\n\n b ", listOf("```a```", "b")),
+            row("a\n\n```\nb\n```", listOf("a", "```\nb\n```")),
+            row("a\n```\nb\n```", listOf("a", "```\nb\n```")),
+            row(" a \n ``` \n b \n ``` ", listOf("a", "``` \n b \n ```")),
+            row("a \n \n \n ```\nb\n```\n```\nc\n```", listOf("a", "```\nb\n```", "```\nc\n```"))
+    ) { text, ps ->
+        splitParagraphs(text) shouldBe ps
+    }
+
+    @Test
     fun appendRepeat() = forall(
             row("a", 0, ""),
             row("a", 1, "a"),

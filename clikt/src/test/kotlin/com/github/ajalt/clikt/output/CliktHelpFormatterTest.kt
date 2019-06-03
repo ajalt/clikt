@@ -238,6 +238,11 @@ class CliktHelpFormatterTest {
                 turpis bibendum egestas.
                 """),
                         arg("BAR", help = "Phasellus ultrices felis elit, ac interdum nibh dictum ac."),
+                        arg("BAZ", help = """Mauris a sapien non est rhoncus accumsan.
+                           ```
+                           Nullam laoreet erat vel tempor viverra. Aliquam lacinia nisl ac varius dapibus.
+                           ```
+                        """),
                         sub("subcommand", """```
                             Morbi gravida, massa eu volutpat viverra, quam nunc tristique diam.```
 
@@ -246,7 +251,8 @@ class CliktHelpFormatterTest {
                 ),
                 programName = "prog") shouldBe
                 """
-                |Usage: prog [OPTIONS] [FOO] [BAR] COMMAND [ARGS]...
+                |Usage: prog [OPTIONS] [FOO] [BAR] [BAZ] COMMAND
+                |            [ARGS]...
                 |
                 |Options:
                 |  -x  Quisque viverra leo nec massa gravida congue.
@@ -264,6 +270,9 @@ class CliktHelpFormatterTest {
                 |       turpis bibendum egestas.
                 |  BAR  Phasellus ultrices felis elit, ac interdum nibh
                 |       dictum ac.
+                |  BAZ  Mauris a sapien non est rhoncus accumsan.
+                |
+                |       Nullam laoreet erat vel tempor viverra. Aliquam lacinia nisl ac varius dapibus.
                 |
                 |Commands:
                 |  subcommand  Morbi gravida, massa eu volutpat viverra, quam nunc tristique diam.

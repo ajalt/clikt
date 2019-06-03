@@ -55,6 +55,21 @@ class CliktCommandTest {
     }
 
     @Test
+    fun `shortHelp extraction`() = forall(
+            row("", ""),
+            row("foo bar", "foo bar"),
+            row("\n  \tfoo bar", "foo bar"),
+            row("```\n  foo bar", "foo bar"),
+            row("```\n  foo bar", "foo bar"),
+            row("```foo\nbar", "foo")
+    ) { help, expected ->
+        class C : NoRunCliktCommand(help = help) {
+            val sh = shortHelp()
+        }
+        C().sh shouldBe expected
+    }
+
+    @Test
     fun aliases() = forall(
             row("-xx", "x", emptyList()),
             row("a", "a", listOf("b")),

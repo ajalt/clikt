@@ -340,14 +340,14 @@ command run
 ```
 
 
-[subcommands]:                   ../api/clikt/com.github.ajalt.clikt.core/subcommands/
-[run]:                           ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/
-[CliktCommand]:                  ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/
-[Context]:                       ../api/clikt/com.github.ajalt.clikt.core/-context/
-[findObject]:                    ../api/clikt/com.github.ajalt.clikt.core/find-object/
-[requireObject]:                 ../api/clikt/com.github.ajalt.clikt.core/require-object/
-[context]:                       ../api/clikt/com.github.ajalt.clikt.core/context/
-[printing-to-stdout-and-stderr]: ../quickstart/#printing-to-stdout-and-stderr
-[deprecating-options]:           ../options/#deprecating-options
-[issueMessage]:                  ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message/
+[subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.md
+[run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.md
+[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
+[Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.md
+[findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.md
+[requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.md
+[context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
+[printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
+[deprecating-options]:           options.md#deprecating-options
+[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.md
 [customizing-context]:           #customizing-contexts

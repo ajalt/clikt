@@ -218,13 +218,13 @@ Error: --bigger-number must be bigger than --number
 ```
 
 
-[int]:        ../api/clikt/com.github.ajalt.clikt.parameters.types/int/
-[long]:       ../api/clikt/com.github.ajalt.clikt.parameters.types/long/
-[restrictTo]: ../api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/
-[float]:      ../api/clikt/com.github.ajalt.clikt.parameters.types/float/
-[double]:     ../api/clikt/com.github.ajalt.clikt.parameters.types/double/
-[choice]:     ../api/clikt/com.github.ajalt.clikt.parameters.types/choice/
-[file]:       ../api/clikt/com.github.ajalt.clikt.parameters.types/file/
-[path]:       ../api/clikt/com.github.ajalt.clikt.parameters.types/path/
-[convert]:    ../api/clikt/com.github.ajalt.clikt.parameters.options/convert/
-[validate]:   ../api/clikt/com.github.ajalt.clikt.parameters.options/validate/
+[int]:        api/clikt/com.github.ajalt.clikt.parameters.types/int.md
+[long]:       api/clikt/com.github.ajalt.clikt.parameters.types/long.md
+[restrictTo]: api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.md
+[float]:      api/clikt/com.github.ajalt.clikt.parameters.types/float.md
+[double]:     api/clikt/com.github.ajalt.clikt.parameters.types/double.md
+[choice]:     api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
+[file]:       api/clikt/com.github.ajalt.clikt.parameters.types/file.md
+[path]:       api/clikt/com.github.ajalt.clikt.parameters.types/path.md
+[convert]:    api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
+[validate]:   api/clikt/com.github.ajalt.clikt.parameters.options/validate.md

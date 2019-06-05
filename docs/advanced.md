@@ -200,10 +200,10 @@ An unescaped `#` character outside of quotes is treated as a line comment: it an
 line are skipped. You can pass a literal `#` by escaping it with `\#` or quoting it with `'#'`.
 
 
-[aliases]: ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases/
-[tokenTransformer]:     ../api/clikt/com.github.ajalt.clikt.core/-context/token-transformer/
-[customizing-context]:  ../commands/#customizing-contexts
-[main]:    ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/
-[prompt]:               ../api/clikt/com.github.ajalt.clikt.parameters.options/prompt/
-[CliktConsole]:         ../api/clikt/com.github.ajalt.clikt.output/-clikt-console/
-[TermUI]:               ../api/clikt/com.github.ajalt.clikt.output/-term-ui/
+[aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.md
+[tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.md
+[customizing-context]: commands.md#customizing-contexts
+[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
+[prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
+[CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.md
+[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.md

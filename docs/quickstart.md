@@ -1,13 +1,13 @@
 # Quick Start
 
 You can get the library using any maven-compatible build system.
-Installation instructions can be found in the [README](https://github.com/ajalt/clikt).
+Installation instructions can be found in the [README][README].
 
 ## Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
-inside of a [CliktCommmand](api/clikt/com.github.ajalt.clikt.core/-clikt-command/). The normal way to use Clikt is to forward
-`argv` from your `main` function to [ClktCommand.main](api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/).
+inside of a [CliktCommmand][CliktCommmand]. The normal way to use Clikt is to forward
+`argv` from your `main` function to [CliktCommand.main][main].
 
 The simplest command with no parameters would look like this:
 
@@ -40,10 +40,9 @@ Options:
 
 ## Printing to Stdout and Stderr
 
-Why does this example use [echo](api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo/) instead of
-[println](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html)?
+Why does this example use [echo][echo] instead of [println][println]?
 Although `println` works, it can cause problems with multi-platform
-support. [echo](api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/) automatically translates line breaks into the line
+support. [echo][echo] automatically translates line breaks into the line
 separator for the current platform. So you don't have to worry that some
 of your users will see mangled output because you didn't test on
 Windows. You can also pass `err=true` to `echo` to print to stderr
@@ -97,8 +96,7 @@ Commands:
 
 ## Adding Parameters
 
-To add parameters, use the [option](api/clikt/com.github.ajalt.clikt.parameters.options/option/)
-and [argument](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/) property
+To add parameters, use the [option][option] and [argument][argument] property
 delegates:
 
 ```kotlin tab="Example"
@@ -126,12 +124,10 @@ Options:
 ## Developing Command Line Applications With Gradle
 
 When you write a command line application, you probably want to be able to run it without invoking
-`java -jar ...` every time. If you're using Gradle, the [application
-plugin](https://docs.gradle.org/current/userguide/application_plugin.html) provides a gradle task
+`java -jar ...` every time. If you're using Gradle, the [application plugin][application_plugin] provides a gradle task
 that bundles your program jars and scripts to launch them. It makes it easy to build a zip or
 tarball that you can distribute to your users without them needing to perform any incatations like
-setting up a classpath. You can see this plugin in use the in [Clikt
-samples](https://github.com/ajalt/clikt/tree/master/samples).
+setting up a classpath. You can see this plugin in use the in [Clikt samples][clikt-samples].
 
 The application plugin also creates tasks that will build then run your
 main function directly from within gradle. Although it seems like these
@@ -146,5 +142,16 @@ make the run task mostly useless for command line applications.
 An easier way to do development is to used the `installDist` task
 provided by the plugin. This builds all the distribution scripts in your
 build folder, which you can then execute normally. See Clikt's
-[runsample](https://github.com/ajalt/clikt/blob/master/runsample) script
-for an example of this approach.
+[runsample][runsample] script for an example of this approach.
+
+
+[README]:             https://github.com/ajalt/clikt
+[CliktCommmand]:      ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/
+[main]:               ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/
+[println]:            https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html
+[echo]:               ../api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/
+[option]:             ../api/clikt/com.github.ajalt.clikt.parameters.options/option/
+[argument]:           ../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/
+[application_plugin]: https://docs.gradle.org/current/userguide/application_plugin.html
+[clikt-samples]:      https://github.com/ajalt/clikt/tree/master/samples
+[runsample]:          https://github.com/ajalt/clikt/blob/master/runsample

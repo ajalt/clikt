@@ -29,13 +29,11 @@ possible.
 ## Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
 
 Clikt didn't invent the idea of a property delegate-based cli parser.
-JetBrains made [kotlinx.cli](https://github.com/Kotlin/kotlinx.cli),
-which is functional, but is more of a proof-of-concept than a production
-ready library.
+JetBrains made [kotlinx.cli][kotlinx.cli], which is functional,
+but is more of a proof-of-concept than a production ready library.
 
-[kotlin-argparser](https://github.com/xenomachina/kotlin-argparser)
-builds off of [kotlinx.cli](https://github.com/Kotlin/kotlinx.cli), and
-works well for simple cases. It's missing a lot of features that Clikt
+[kotlin-argparser][kotlin-argparser] builds off of [kotlinx.cli][kotlinx.cli],
+and works well for simple cases. It's missing a lot of features that Clikt
 has, but features can be added. Its real drawback is that it
 fundamentally does not support composition of commands or parameter
 values. The lack of subcommand support was already a non-starter, but
@@ -81,7 +79,7 @@ fun main(args: Array<String>) = Cli().main(args)
 
 Both work fine, although you may find Clikt more consistent and a bit
 less verbose. The differences become more pronounced once you try to do
-anything that isn't built in to [kotlin-argparser](https://github.com/xenomachina/kotlin-argparser).
+anything that isn't built in to [kotlin-argparser][kotlin-argparser].
 
 Maybe you need an option to take two values. Here's another example from
 the `kotlin-argparser` README showing how to do that:
@@ -104,9 +102,8 @@ class MyArgs(parser: ArgParser) {
 }
 ```
 
-Clikt has that functionality built in as
-[`option().pair()`](api/clikt/com.github.ajalt.clikt.parameters.options/pair/), but you could
-implement it yourself like this:
+Clikt has that functionality built in as [`option().pair()`][pair],
+but you could implement it yourself like this:
 
 ```kotlin
 class Cli : CliktCommand() {
@@ -122,7 +119,7 @@ creation of Clikt:
 * Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial number of copies of the above code. With Clikt, these are all orthogonal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
 * Option name inference is not automatic, requiring you to wrap the delegate with yet another function.
-* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`](api/clikt/com.github.ajalt.clikt.parameters.options/option/), and all arguments with [`argument()`](api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/).
+* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`][option], and all arguments with [`argument()`][argument].
 
 Some of these problems can be solved by writing more code, and some
 can't. On the other hand, Clikt attempts to consistent, intuitive,
@@ -133,7 +130,7 @@ you to think about edge cases.
 
 There are a lot of command line libraries for Java. Most are verbose and
 not composable. One popular Java library that is usable from Kotlin is
-[JCommander](http://jcommander.org/).
+[JCommander][JCommander].
 
 JCommander uses annotations to define parameters, and reflection to set
 fields. This is functional for simple types, but defining your own types
@@ -157,3 +154,11 @@ number of values. You can't nest subcommands.
 
 JCommander is a great library if you're writing code in Java, but we can
 do much better with Kotlin.
+
+
+[kotlinx.cli]:      https://github.com/Kotlin/kotlinx.cli
+[kotlin-argparser]: https://github.com/xenomachina/kotlin-argparser
+[pair]:             ../api/clikt/com.github.ajalt.clikt.parameters.options/pair/
+[option]:           ../api/clikt/com.github.ajalt.clikt.parameters.options/option/
+[argument]:         ../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/
+[JCommander]:       http://jcommander.org/

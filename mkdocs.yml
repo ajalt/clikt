@@ -37,23 +37,23 @@ markdown_extensions:
 
 nav:
   - 'Quickstart':
-      - 'Basic Concepts': quickstart.md
+      - 'Basic Concepts': quickstart/
       - 'Printing to Stdout and Stderr': quickstart/#printing-to-stdout-and-stderr
       - 'Nesting Commands': quickstart/#nesting-commands
       - 'Adding Parameters': quickstart/#adding-parameters
       - 'Developing Command Line Applications With Gradle': quickstart/#developing-command-line-applications-with-gradle
   - 'Why Clikt?':
-      - 'Why not a Kotlin library like kotlin-argparse or kotlinx.cli?': whyclikt.md
+      - 'Why not a Kotlin library like kotlin-argparse or kotlinx.cli?': whyclikt/
       - 'Why not a Java library like JCommander?': whyclikt/#why-not-a-java-library-like-jcommander
   - 'Parameters':
-      - 'Differences': parameters.md
+      - 'Differences': parameters/
       - 'Parameter Names': parameters/#parameter-names
       - 'Parameter Types': parameters/#parameter-types
       - 'Built-In Types': parameters/#built-in-types
       - 'Custom Types': parameters/#custom-types
       - 'Parameter Validation': parameters/#parameter-validation
   - 'Options':
-      - 'Basic Options': options.md
+      - 'Basic Options': options/
       - 'Option Names': options/#option-names
       - 'Option Names': options/#option-names
       - 'Customizing Options': options/#customizing-options
@@ -75,11 +75,11 @@ nav:
       - 'Windows and Java-Style Option Prefixes': options/#windows-and-java-style-option-prefixes
       - 'Option Transformation Order': options/#option-transformation-order
   - 'Arguments':
-      - 'Basic Arguments': arguments.md
+      - 'Basic Arguments': arguments/
       - 'Variadic Arguments': arguments/#variadic-arguments
       - 'Option-Like Arguments': arguments/#option-like-arguments
   - 'Commands':
-      - 'Executing Nested Commands': commands.md
+      - 'Executing Nested Commands': commands/
       - 'Customizing Command Name': commands/#customizing-command-name
       - 'Passing Parameters': commands/#passing-parameters
       - 'Nested Handling And Contexts': commands/#nested-handling-and-contexts
@@ -88,28 +88,28 @@ nav:
       - 'Printing the Help Message When No Arguments Are Given': commands/#printing-the-help-message-when-no-arguments-are-given
       - 'Warnings and Other Messages': commands/#warnings-and-other-messages
   - 'Documenting Scripts':
-      - 'Help Texts': documenting.md
+      - 'Help Texts': documenting/
       - 'Subcommand Short Help': documenting/#subcommand-short-help
       - 'Help Option Customization': documenting/#help-option-customization
       - 'Default Values in Help': documenting/#default-values-in-help
       - 'Required Options in Help': documenting/#required-options-in-help
       - 'Grouping Options in Help': documenting/#grouping-options-in-help
   - 'Advanced Patterns':
-      - 'Command Aliases': advanced.md
+      - 'Command Aliases': advanced/
       - 'Token Normalization': advanced/#token-normalization
       - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
       - 'Command Line Argument Files': advanced/#command-line-argument-files
   - 'Utilities':
-      - 'Launching Editors': utilities.md
+      - 'Launching Editors': utilities/
       - 'Input Prompts': utilities/#input-prompts
       - 'Confirmation Prompts': utilities/#confirmation-prompts
   - 'Bash Autocomplete':
-      - 'Supported Functionality': autocomplete.md
+      - 'Supported Functionality': autocomplete/
       - 'Enabling Completion': autocomplete/#enabling-completion
       - 'Customizing Completions': autocomplete/#customizing-completions
       - 'Limitations': autocomplete/#limitations
   - 'Exception Handling':
-      - 'Where are Exceptions Handled?': exceptions.md
+      - 'Where are Exceptions Handled?': exceptions/
       - 'Handling Exceptions Manually': exceptions/#handling-exceptions-manually
       - 'Which Exceptions Exist?': exceptions/#which-exceptions-exist
   - 'API reference':

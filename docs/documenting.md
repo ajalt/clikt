@@ -230,11 +230,11 @@ from being imported automatically, so you might need to add this import manually
 com.github.ajalt.clikt.parameters.groups.provideDelegate`
 
 
-[HelpFormatter]:            ../api/clikt/com.github.ajalt.clikt.output/-help-formatter/
-[Commands]:                 ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/
-[customizing-command-name]: ../commands/#customizing-command-name
-[customizing-context]:      ../commands/#customizing-contexts
-[default]:                  ../api/clikt/com.github.ajalt.clikt.parameters.options/default/
-[required]:                 ../api/clikt/com.github.ajalt.clikt.parameters.options/required/
-[OptionGroup]:              ../api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/
-[provideDelegate]:          ../api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/
+[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
+[Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
+[customizing-command-name]: commands.md#customizing-command-name
+[customizing-context]:      commands.md#customizing-contexts
+[default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.md
+[required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.md
+[OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.md
+[provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md

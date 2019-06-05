@@ -118,5 +118,3 @@ nav:
       - 'Arguments': api/clikt/com.github.ajalt.clikt.parameters.arguments/
       - 'Parameter Type Conversions': api/clikt/com.github.ajalt.clikt.parameters.types/
       - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/
-
-

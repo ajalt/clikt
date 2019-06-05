@@ -158,7 +158,7 @@ do much better with Kotlin.
 
 [kotlinx.cli]:      https://github.com/Kotlin/kotlinx.cli
 [kotlin-argparser]: https://github.com/xenomachina/kotlin-argparser
-[pair]:             ../api/clikt/com.github.ajalt.clikt.parameters.options/pair/
-[option]:           ../api/clikt/com.github.ajalt.clikt.parameters.options/option/
-[argument]:         ../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/
+[pair]:             api/clikt/com.github.ajalt.clikt.parameters.options/pair.md
+[option]:           api/clikt/com.github.ajalt.clikt.parameters.options/option.md
+[argument]:         api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
 [JCommander]:       http://jcommander.org/

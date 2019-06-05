@@ -146,12 +146,12 @@ build folder, which you can then execute normally. See Clikt's
 
 
 [README]:             https://github.com/ajalt/clikt
-[CliktCommmand]:      ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/
-[main]:               ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/
+[CliktCommmand]:      api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
+[main]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
 [println]:            https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html
-[echo]:               ../api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/
-[option]:             ../api/clikt/com.github.ajalt.clikt.parameters.options/option/
-[argument]:           ../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/
+[echo]:               api/clikt/com.github.ajalt.clikt.output/-term-ui/echo.md
+[option]:             api/clikt/com.github.ajalt.clikt.parameters.options/option.md
+[argument]:           api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
 [application_plugin]: https://docs.gradle.org/current/userguide/application_plugin.html
 [clikt-samples]:      https://github.com/ajalt/clikt/tree/master/samples
 [runsample]:          https://github.com/ajalt/clikt/blob/master/runsample

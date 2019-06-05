@@ -87,12 +87,12 @@ you're trying to complete the `multiple` argument rather than the later ones.
 Bash must be at least version 3, or Zsh must be at least version 4.1.
 
 
-[command-aliases]:       ../advanced/#command-aliases
-[allowInterspersedArgs]: ../api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args/
-[CliktCommand]:          ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/
-[choice]:                ../api/clikt/com.github.ajalt.clikt.parameters.types/choice/
-[file]:                  ../api/clikt/com.github.ajalt.clikt.parameters.types/file/
-[path]:                  ../api/clikt/com.github.ajalt.clikt.parameters.types/path/
-[option]:                ../api/clikt/com.github.ajalt.clikt.parameters.options/option/
-[argument]:              ../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/
-[token-normalization]:   ../advanced/#token-normalization
+[command-aliases]:       advanced.md#command-aliases
+[allowInterspersedArgs]: api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.md
+[CliktCommand]:          api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
+[choice]:                api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
+[file]:                  api/clikt/com.github.ajalt.clikt.parameters.types/file.md
+[path]:                  api/clikt/com.github.ajalt.clikt.parameters.types/path.md
+[option]:                api/clikt/com.github.ajalt.clikt.parameters.options/option.md
+[argument]:              api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
+[token-normalization]:   advanced.md#token-normalization

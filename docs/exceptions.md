@@ -46,17 +46,17 @@ The following subclasses exist:
 * [`MutuallyExclusiveGroupException`][MutuallyExclusiveGroupException] : Multiple options in a mutually exclusive group were supplied when the group is restricted to a single value.
 
 
-[main]:                            ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/
-[CliktError]:                      ../api/clikt/com.github.ajalt.clikt.core/-clikt-error/
-[Abort]:                           ../api/clikt/com.github.ajalt.clikt.core/-abort/
-[PrintMessage]:                    ../api/clikt/com.github.ajalt.clikt.core/-print-message/
-[PrintHelpMessage]:                ../api/clikt/com.github.ajalt.clikt.core/-print-help-message/
-[convert]:                         ../api/clikt/com.github.ajalt.clikt.parameters.options/convert/
-[UsageError]:                      ../api/clikt/com.github.ajalt.clikt.core/-usage-error/
-[parse]:                           ../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/
-[BadParameterValue]:               ../api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/
-[MissingParameter]:                ../api/clikt/com.github.ajalt.clikt.core/-missing-parameter/
-[NoSuchOption]:                    ../api/clikt/com.github.ajalt.clikt.core/-no-such-option/
-[IncorrectOptionValueCount]:       ../api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/
-[IncorrectArgumentValueCount]:     ../api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/
-[MutuallyExclusiveGroupException]: ../api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/
+[main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
+[CliktError]:                      api/clikt/com.github.ajalt.clikt.core/-clikt-error/index.md
+[Abort]:                           api/clikt/com.github.ajalt.clikt.core/-abort/index.md
+[PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
+[PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.md
+[convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
+[UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md
+[parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
+[BadParameterValue]:               api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/index.md
+[MissingParameter]:                api/clikt/com.github.ajalt.clikt.core/-missing-parameter/index.md
+[NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.md
+[IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.md
+[IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.md
+[MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.md

@@ -40,7 +40,7 @@
     
     
       
-        <title>Help Texts - Clikt</title>
+        <title>Documenting Scripts - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Help Texts
+              Documenting Scripts
             </span>
           
         </div>
@@ -925,12 +925,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
     
     <label class="md-nav__link" for="nav-7">
       Documenting Scripts
@@ -946,117 +944,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Help Texts
-      </label>
-    
-    <a href="./" title="Help Texts" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Help Texts" class="md-nav__link">
       Help Texts
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#help-texts" title="Help Texts" class="md-nav__link">
-    Help Texts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
-    Subcommand Short Help
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#help-option-customization" title="Help Option Customization" class="md-nav__link">
-    Help Option Customization
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#default-values-in-help" title="Default Values in Help" class="md-nav__link">
-    Default Values in Help
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#required-options-in-help" title="Required Options in Help" class="md-nav__link">
-    Required Options in Help
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#required-option-marker" title="Required Option Marker" class="md-nav__link">
-    Required Option Marker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#required-option-tag" title="Required Option Tag" class="md-nav__link">
-    Required Option Tag
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
-    Grouping Options in Help
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#note-for-intellij-users" title="Note for IntelliJ users:" class="md-nav__link">
-    Note for IntelliJ users:
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1588,15 +1480,14 @@
                 
                 
                 <h1 id="documenting-scripts">Documenting Scripts<a class="headerlink" href="#documenting-scripts" title="Permanent link">&para;</a></h1>
-<p>Clikt takes care of creating formatted help messages for commands. There
-are a number of ways to customize the default behavior. You can also
-implement your own <a href="api/clikt/com.github.ajalt.clikt.output/-help-formatter/"><code>HelpFormatter</code></a> and set it on the <a href="../commands/#customizing-contexts">command&rsquo;s
-context</a>.</p>
+<p>Clikt takes care of creating formatted help messages for commands.
+There are a number of ways to customize the default behavior.
+You can also implement your own <a href="../api/clikt/com.github.ajalt.clikt.output/-help-formatter/"><code>HelpFormatter</code></a>
+and set it on the [command&rsquo;s context][customizing-contexts].</p>
 <h2 id="help-texts">Help Texts<a class="headerlink" href="#help-texts" title="Permanent link">&para;</a></h2>
-<p><a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/">Commands</a> and parameters accept a <code>help</code> argument. Commands also accept an
+<p><a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/">Commands</a> and parameters accept a <code>help</code> argument. Commands also accept an
 <code>epilog</code> argument, which is printed after the parameters and commands on
-the help page. All text is automatically re-wrapped to the terminal
-width.</p>
+the help page. All text is automatically re-wrapped to the terminal width.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
 <label for="__tab_1_0">Example</label>
@@ -1631,9 +1522,8 @@ in the usage string. It is possible to add a help string to arguments
 which will be added to the help page, but the Unix convention is to just
 describe arguments in the command help.</p>
 <h2 id="subcommand-short-help">Subcommand Short Help<a class="headerlink" href="#subcommand-short-help" title="Permanent link">&para;</a></h2>
-<p>Subcommands are listed in the help page based on their
-<a href="../commands/#customizing-command-name">name</a>. They have a short help
-string which is the first line of their help.</p>
+<p>Subcommands are listed in the help page based on their <a href="../commands/#customizing-command-name">name</a>.
+They have a short help string which is the first line of their help.</p>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
 <label for="__tab_2_0">Example</label>
@@ -1694,8 +1584,7 @@ Options:
 <p>You can configure the help formatter to show default values in the help output by passing
 <code>showRequiredTag = true</code> to the <code>CliktHelpFormatter</code>. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
-the <code>defaultForHelp</code> parameter of
-<a href="api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a>.</p>
+the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
 <label for="__tab_4_0">Example</label>
@@ -1719,11 +1608,11 @@ Options:
 </pre></div></div>
 </div>
 <h2 id="required-options-in-help">Required Options in Help<a class="headerlink" href="#required-options-in-help" title="Permanent link">&para;</a></h2>
-<p>By default, <a href="api/clikt/com.github.ajalt.clikt.parameters.options/required/"><code>required</code></a> options
+<p>By default, <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required/"><code>required</code></a> options
 are displayed the same way as other options. The help formatter includes two different ways to show
 that an option is required.</p>
 <h3 id="required-option-marker">Required Option Marker<a class="headerlink" href="#required-option-marker" title="Permanent link">&para;</a></h3>
-<p>You can pass a character to the <code>requiredOptionMarker</code> argument of the <code>CliktHelpFormatter</code>. </p>
+<p>You can pass a character to the <code>requiredOptionMarker</code> argument of the <code>CliktHelpFormatter</code>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_5" type="radio" id="__tab_5_0" checked="checked" />
 <label for="__tab_5_0">Example</label>
@@ -1774,7 +1663,7 @@ Options:
 </div>
 <h2 id="grouping-options-in-help">Grouping Options in Help<a class="headerlink" href="#grouping-options-in-help" title="Permanent link">&para;</a></h2>
 <p>You can group options into separate help sections by using
-<a href="api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a>.
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a>.
 The name of the group will be shown in the output. You can also add an extra help message to be
 shown with the group. Groups can&rsquo;t be nested.</p>
 <div class="superfences-tabs">
@@ -1807,7 +1696,7 @@ Options:
 </div>
 <h3 id="note-for-intellij-users">Note for IntelliJ users:<a class="headerlink" href="#note-for-intellij-users" title="Permanent link">&para;</a></h3>
 <p>If you&rsquo;re using IntelliJ, there is a bug in the Kotlin plugin for versions 1.2.31 and under that prevents
-<a href="api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/">provideDelegate</a>
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/">provideDelegate</a>
 from being imported automatically, so you might need to add this import manually: <code>import
 com.github.ajalt.clikt.parameters.groups.provideDelegate</code></p>
                 
@@ -1826,41 +1715,6 @@ com.github.ajalt.clikt.parameters.groups.provideDelegate</code></p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../commands/" title="Executing Nested Commands" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Executing Nested Commands
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../advanced/" title="Command Aliases" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Command Aliases
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

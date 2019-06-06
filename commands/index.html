@@ -40,7 +40,7 @@
     
     
       
-        <title>Executing Nested Commands - Clikt</title>
+        <title>Commands - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Executing Nested Commands
+              Commands
             </span>
           
         </div>
@@ -805,12 +805,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
       Commands
@@ -826,98 +824,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Executing Nested Commands
-      </label>
-    
-    <a href="./" title="Executing Nested Commands" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Executing Nested Commands" class="md-nav__link">
       Executing Nested Commands
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#executing-nested-commands" title="Executing Nested Commands" class="md-nav__link">
-    Executing Nested Commands
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#customizing-command-name" title="Customizing Command Name" class="md-nav__link">
-    Customizing Command Name
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#passing-parameters" title="Passing Parameters" class="md-nav__link">
-    Passing Parameters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nested-handling-and-contexts" title="Nested Handling And Contexts" class="md-nav__link">
-    Nested Handling And Contexts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-parent-command-without-children" title="Running Parent Command Without Children" class="md-nav__link">
-    Running Parent Command Without Children
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#customizing-contexts" title="Customizing Contexts" class="md-nav__link">
-    Customizing Contexts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#printing-the-help-message-when-no-arguments-are-given" title="Printing the Help Message When No Arguments Are Given" class="md-nav__link">
-    Printing the Help Message When No Arguments Are Given
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#warnings-and-other-messages" title="Warnings and Other Messages" class="md-nav__link">
-    Warnings and Other Messages
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1551,11 +1462,11 @@
                 
                 <h1 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h1>
 <p>Clikt supports arbitrarily nested commands. You can add one command as a child of another with the
-<a href="api/clikt/com.github.ajalt.clikt.core/subcommands/"><code>subcommands</code></a> function, which can be
+<a href="../api/clikt/com.github.ajalt.clikt.core/subcommands/"><code>subcommands</code></a> function, which can be
 called either in an <code>init</code> block, or on an existing instance.</p>
 <h2 id="executing-nested-commands">Executing Nested Commands<a class="headerlink" href="#executing-nested-commands" title="Permanent link">&para;</a></h2>
 <p>For commands with no children,
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is called whenever the
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is called whenever the
 command line is parsed (unless parsing is aborted from an error or an option like <code>--help</code>).</p>
 <p>If a command has children, this isn&rsquo;t the case. Instead, its <code>run</code> is
 called only if a child command is invoked, just before the subcommand&rsquo;s
@@ -1601,7 +1512,7 @@ executing
 <h2 id="customizing-command-name">Customizing Command Name<a class="headerlink" href="#customizing-command-name" title="Permanent link">&para;</a></h2>
 <p>The default name for subcommands is inferred as a lowercase name from the command class name. You
 can also set a name manually in the
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a> constructor.</p>
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a> constructor.</p>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
 <label for="__tab_2_0">Example</label>
@@ -1688,7 +1599,7 @@ out <code>Tool</code>&lsquo;s help page as if you just typed <code>./tool --help
 <p>Normally nested command are independent of each other: a child can&rsquo;t
 access its parent&rsquo;s parameters. This makes composing commands much
 easier, but what if you want to pass information to a child command? You
-can do so with the command&rsquo;s <a href="api/clikt/com.github.ajalt.clikt.core/-context/"><code>Context</code></a>.</p>
+can do so with the command&rsquo;s <a href="../api/clikt/com.github.ajalt.clikt.core/context/"><code>Context</code></a>.</p>
 <p>Every time the command line is parsed, each command creates a new
 context object for itself that is liked to its parent&rsquo;s context.
 <code>Context</code> objects have a number of properties that can be used to
@@ -1722,14 +1633,12 @@ defined data. You can use the <code>obj</code> to create interfaces like this:</
 Verbose mode is on
 </pre></div></div>
 </div>
-<p>The <a href="api/clikt/com.github.ajalt.clikt.core/find-object/"><code>findObject</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.core/require-object/"><code>requireObject</code></a> functions will walk up
+<p>The <a href="../api/clikt/com.github.ajalt.clikt.core/find-object/"><code>findObject</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.core/require-object/"><code>requireObject</code></a> functions will walk up
 the context tree until they find an object with the given type. If no such object exists, they will
 either return <code>null</code>, throw an exception, or create an instance of the object and store it on the
 command&rsquo;s context, depending on which overload you call.</p>
 <h2 id="running-parent-command-without-children">Running Parent Command Without Children<a class="headerlink" href="#running-parent-command-without-children" title="Permanent link">&para;</a></h2>
-<p>Normally, if a command has children,
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is not called unless a child
+<p>Normally, if a command has children, <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is not called unless a child
 command is invoked on the command line. Instead, <code>--help</code> is called on the parent. If you want to
 change this behavior to always call <code>run()</code> on the parent, you can do so by setting
 <code>invokeWithoutSubcommand</code> to <code>true</code>. The <code>Context</code> will then have information on the subcommand that
@@ -1768,10 +1677,10 @@ running subcommand
 </pre></div></div>
 </div>
 <h2 id="customizing-contexts">Customizing Contexts<a class="headerlink" href="#customizing-contexts" title="Permanent link">&para;</a></h2>
-<p><a href="api/clikt/com.github.ajalt.clikt.core/-context/">Contexts</a> have a number of properties
-that can be customized, and which are inherited by child commands. You can change these properties
-with the <a href="api/clikt/com.github.ajalt.clikt.core/context/"><code>context</code></a> builder function, which can
-be called in an <code>init</code> block, or on a command instance.</p>
+<p><a href="../api/clikt/com.github.ajalt.clikt.core/context/">Contexts</a> have a number of properties that can be customized,
+and which are inherited by child commands.
+You can change these properties with the <a href="../api/clikt/com.github.ajalt.clikt.core/context/"><code>context</code></a> builder function,
+which can be called in an <code>init</code> block, or on a command instance.</p>
 <p>For example, you can change the default help message for the <code>--help</code>
 option. These definitions are equivalent:</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span> <span class="p">{</span>
@@ -1798,9 +1707,7 @@ Options:
 
 <h2 id="printing-the-help-message-when-no-arguments-are-given">Printing the Help Message When No Arguments Are Given<a class="headerlink" href="#printing-the-help-message-when-no-arguments-are-given" title="Permanent link">&para;</a></h2>
 <p>Normally, if a command is called with no values on the command line, a usage error is printed if
-there are required parameters, or
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is called if there aren&rsquo;t
-any.</p>
+there are required parameters, or <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is called if there aren&rsquo;t any.</p>
 <p>You can change this behavior by passing <code>printHelpOnEmptyArgs = true</code> to your command&rsquo;s
 constructor. This will cause a help message to be printed when to values are provided on the command
 line, regardless of the parameters in your command.</p>
@@ -1818,15 +1725,15 @@ Options:
 </pre></div>
 
 <h2 id="warnings-and-other-messages">Warnings and Other Messages<a class="headerlink" href="#warnings-and-other-messages" title="Permanent link">&para;</a></h2>
-<p>When you want to show information to the user, you&rsquo;ll probably use the <a href="/quickstart/#printing-to-stdout-and-stderr">functions for printing to
-stdout</a> directly. </p>
+<p>When you want to show information to the user, you&rsquo;ll probably use the
+<a href="../quickstart/#printing-to-stdout-and-stderr">functions for printing to stdout</a> directly.</p>
 <p>However, there&rsquo;s another mechanism that can be more useful when writing reusable parameter code:
 command messages. These messages are buffered during parsing and printed all at once immediately
-before a command&rsquo;s <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is called.
+before a command&rsquo;s <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is called.
 They are not printed if there are any errors in parsing. This type of message is used by Clikt for
-<a href="/options/#deprecating-options"><code>deprecating options</code></a>.</p>
+<a href="../options/#deprecating-options"><code>deprecating options</code></a>.</p>
 <p>You can issue a command message by calling
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message/"><code>CliktCommand.message</code></a> or with the
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message/"><code>CliktCommand.issueMessage</code></a> or with the
 <code>message</code> function available in the context of parameter transformers.</p>
 <div class="superfences-tabs">
 <input name="__tabs_6" type="radio" id="__tab_6_0" checked="checked" />
@@ -1886,41 +1793,6 @@ command run
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../arguments/" title="Basic Arguments" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Basic Arguments
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../documenting/" title="Help Texts" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Help Texts
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

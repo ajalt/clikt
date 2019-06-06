@@ -40,7 +40,7 @@
     
     
       
-        <title>Command Aliases - Clikt</title>
+        <title>Advanced Patters - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Command Aliases
+              Advanced Patters
             </span>
           
         </div>
@@ -1021,12 +1021,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
     <label class="md-nav__link" for="nav-8">
       Advanced Patterns
@@ -1042,83 +1040,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Command Aliases
-      </label>
-    
-    <a href="./" title="Command Aliases" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Command Aliases" class="md-nav__link">
       Command Aliases
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#command-aliases" title="Command Aliases" class="md-nav__link">
-    Command Aliases
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#token-normalization" title="Token Normalization" class="md-nav__link">
-    Token Normalization
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#replacing-stdin-and-stdout" title="Replacing stdin and stdout" class="md-nav__link">
-    Replacing stdin and stdout
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#command-line-argument-files" title="Command Line Argument Files" class="md-nav__link">
-    Command Line Argument Files
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#file-format" title="File format" class="md-nav__link">
-    File format
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1528,10 +1454,9 @@ This allows you to implement common patterns like allowing the user to
 invoke a command by typing a prefix of its name, or user-defined aliases
 like the way you can configure git to accept <code>git ci</code> as an alias for
 <code>git commit</code>.</p>
-<p>To implement command aliases, override
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases/"><code>CliktCommand.aliases</code></a> in your
-command. This function is called once at the start of parsing, and returns a map of aliases to the
-tokens that they alias to.</p>
+<p>To implement command aliases, override <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases/"><code>CliktCommand.aliases</code></a> in your command.
+This function is called once at the start of parsing,
+and returns a map of aliases to the tokens that they alias to.</p>
 <p>To implement git-style aliases:</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
@@ -1609,7 +1534,7 @@ Running Bar
 <h2 id="token-normalization">Token Normalization<a class="headerlink" href="#token-normalization" title="Permanent link">&para;</a></h2>
 <p>To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there&rsquo;s another way to modify user input that
-works on more types of tokens. You can set a <a href="api/clikt/com.github.ajalt.clikt.core/-context/token-transformer/"><code>tokenTransformer</code></a> on the
+works on more types of tokens. You can set a <a href="../api/clikt/com.github.ajalt.clikt.core/-context/token-transformer/"><code>tokenTransformer</code></a> on the
 <a href="../commands/#customizing-contexts">command&rsquo;s context</a> that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:</p>
@@ -1632,11 +1557,10 @@ Hello Foo!
 </pre></div></div>
 </div>
 <h2 id="replacing-stdin-and-stdout">Replacing stdin and stdout<a class="headerlink" href="#replacing-stdin-and-stdout" title="Permanent link">&para;</a></h2>
-<p>By default, functions like <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a>
-and <a href="api/clikt/com.github.ajalt.clikt.parameters.options/prompt/"><code>option().prompt()</code></a>
+<p>By default, functions like <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt/"><code>option().prompt()</code></a>
 read from <code>System.in</code> and write to <code>System.out</code>. If you want to use
 clikt in an environment where the standard streams aren&rsquo;t available, you
-can set your own implementation of <a href="api/clikt/com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a>
+can set your own implementation of <a href="../api/clikt/com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a>
 when <a href="../commands/#customizing-contexts">customizing the command context</a>.</p>
 <div class="codehilite"><pre><span></span><span class="k">object</span> <span class="nc">MyConsole</span> <span class="p">:</span> <span class="n">CliktConsole</span> <span class="p">{</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">promptForLine</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">hideInput</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">):</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
@@ -1659,9 +1583,8 @@ when <a href="../commands/#customizing-contexts">customizing the command context
 <span class="p">}</span>
 </pre></div>
 
-<p>If you are using
-<a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/"><code>TermUI</code></a>
-directly, you can also pass your custom console as an argument.</p>
+<p>If you are using <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/"><code>TermUI</code></a> directly,
+you can also pass your custom console as an argument.</p>
 <h2 id="command-line-argument-files">Command Line Argument Files<a class="headerlink" href="#command-line-argument-files" title="Permanent link">&para;</a></h2>
 <p>Similar to <code>javac</code>, Clikt supports loading command line parameters from a file using the &ldquo;@-file&rdquo;
 syntax. You can pass any file path to a command prefixed with <code>@</code>, and the file will be expanded
@@ -1711,41 +1634,6 @@ line are skipped. You can pass a literal <code>#</code> by escaping it with <cod
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../documenting/" title="Help Texts" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Help Texts
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../utilities/" title="Launching Editors" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Launching Editors
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

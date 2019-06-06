@@ -40,7 +40,7 @@
     
     
       
-        <title>Differences - Clikt</title>
+        <title>Parameters - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Differences
+              Parameters
             </span>
           
         </div>
@@ -373,12 +373,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
       Parameters
@@ -394,84 +392,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Differences
-      </label>
-    
-    <a href="./" title="Differences" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Differences" class="md-nav__link">
       Differences
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#differences" title="Differences" class="md-nav__link">
-    Differences
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameter-names" title="Parameter Names" class="md-nav__link">
-    Parameter Names
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameter-types" title="Parameter Types" class="md-nav__link">
-    Parameter Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#built-in-types" title="Built-In Types" class="md-nav__link">
-    Built-In Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#custom-types" title="Custom Types" class="md-nav__link">
-    Custom Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameter-validation" title="Parameter Validation" class="md-nav__link">
-    Parameter Validation
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1583,20 +1508,20 @@ extension function:</p>
 <p>There are a number of built in types that can be applied to options and
 arguments.</p>
 <ul>
-<li><code>Int</code>: <a href="api/clikt/com.github.ajalt.clikt.parameters.types/int/"><code>option().int()</code> and <code>argument().int()</code></a></li>
-<li><code>Long</code>: <a href="api/clikt/com.github.ajalt.clikt.parameters.types/long/"><code>option().long()</code> and <code>argument().long()</code></a></li>
+<li><code>Int</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int/"><code>option().int()</code> and <code>argument().int()</code></a></li>
+<li><code>Long</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/long/"><code>option().long()</code> and <code>argument().long()</code></a></li>
 </ul>
-<p>By default, any value that fits in the integer type is accepted. You
-  can restrict the values to a range with <a href="api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/"><code>restrictTo()</code></a>, which
-  allows you to either clamp the input to the range, or fail with an
-  error if the input is outside the range.</p>
+<p>By default, any value that fits in the integer type is accepted.
+  You can restrict the values to a range with <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/"><code>restrictTo()</code></a>,
+  which allows you to either clamp the input to the range,
+  or fail with an error if the input is outside the range.</p>
 <ul>
-<li><code>Float</code>: <a href="api/clikt/com.github.ajalt.clikt.parameters.types/float/"><code>option().float()</code> and <code>argument().float()</code></a></li>
-<li><code>Double</code>: <a href="api/clikt/com.github.ajalt.clikt.parameters.types/double/"><code>option().double()</code> and <code>argument().double()</code></a></li>
+<li><code>Float</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/float/"><code>option().float()</code> and <code>argument().float()</code></a></li>
+<li><code>Double</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/double/"><code>option().double()</code> and <code>argument().double()</code></a></li>
 </ul>
-<p>As with integers, you can restrict the input to a range with <a href="api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/"><code>restrictTo()</code></a>.</p>
+<p>As with integers, you can restrict the input to a range with <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to/"><code>restrictTo()</code></a>.</p>
 <ul>
-<li><a href="api/clikt/com.github.ajalt.clikt.parameters.types/choice/"><code>option().choice()</code> and <code>argument().choice()</code></a></li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice/"><code>option().choice()</code> and <code>argument().choice()</code></a></li>
 </ul>
 <p>You can restrict the values to a set of values, and optionally map the
   input to a new value. For example, to create an option that only
@@ -1611,19 +1536,18 @@ arguments.</p>
 </pre></div>
 
 <ul>
-<li><code>File</code>: <a href="api/clikt/com.github.ajalt.clikt.parameters.types/file/"><code>option().file()</code> and <code>argument().file()</code></a></li>
-<li><code>Path</code>: <a href="api/clikt/com.github.ajalt.clikt.parameters.types/path/"><code>option().path()</code> and <code>argument().path()</code></a></li>
+<li><code>File</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/"><code>option().file()</code> and <code>argument().file()</code></a></li>
+<li><code>Path</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path/"><code>option().path()</code> and <code>argument().path()</code></a></li>
 </ul>
 <p>These conversion functions take extra parameters that allow you to
   require that values are file paths that have certain attributes, such
   as that they are directories, or they are writable files.</p>
 <h2 id="custom-types">Custom Types<a class="headerlink" href="#custom-types" title="Permanent link">&para;</a></h2>
 <p>You can convert parameter values to a custom type by using
-<a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/convert/"><code>argument().convert()</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>option().convert()</code></a>. These
-functions take a lambda that converts the input <code>String</code> to any type. If the parameter takes
-multiple values, or an option appears multiple times in <code>argv</code>, the conversion lambda is called once
-for each value.</p>
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>argument().convert()</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>option().convert()</code></a>.
+These functions take a lambda that converts the input <code>String</code> to any type.
+If the parameter takes multiple values, or an option appears multiple times in <code>argv</code>,
+the conversion lambda is called once for each value.</p>
 <p>Any errors that are thrown from the lambda are automatically caught and
 a usage message is printed to the user. If you need to trigger
 conversion failure, you can use <code>fail(&quot;error message&quot;)</code> instead of
@@ -1650,10 +1574,9 @@ Usage: cli [OPTIONS]
 Error: Invalid value for &quot;--opt&quot;: For input string: &quot;foo&quot;
 </pre></div></div>
 </div>
-<p>You can also pass
-<a href="api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>option().convert()</code></a> a metavar
-that will be printed in the help page instead of the default of <code>VALUE</code>. We can modify the above
-example to use a metavar and an explicit error message:</p>
+<p>You can also pass <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>option().convert()</code></a> a metavar
+that will be printed in the help page instead of the default of <code>VALUE</code>.
+We can modify the above example to use a metavar and an explicit error message:</p>
 <div class="superfences-tabs">
 <input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
 <label for="__tab_3_0">Example</label>
@@ -1683,8 +1606,7 @@ Options:
 </div>
 <h2 id="parameter-validation">Parameter Validation<a class="headerlink" href="#parameter-validation" title="Permanent link">&para;</a></h2>
 <p>After converting a value to a new type, you can perform additional validation on the converted value
-with <a href="api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>option().validate()</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/validate/"><code>argument().validate()</code></a>.
+with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>option().validate()</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>argument().validate()</code></a>.
 <code>validate</code> takes a lambda that returns nothing, but can call <code>fail(&quot;error message&quot;)</code> if the value is
 invalid. You can also call <code>require()</code>, which will fail if the provided expression is false. The
 lambda is only called if the value is non-null.</p>
@@ -1740,41 +1662,6 @@ Error: --bigger-number must be bigger than --number
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../options/" title="Basic Options" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Basic Options
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

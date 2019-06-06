@@ -40,7 +40,7 @@
     
     
       
-        <title>Launching Editors - Clikt</title>
+        <title>Utilities - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Launching Editors
+              Utilities
             </span>
           
         </div>
@@ -1093,12 +1093,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
     <label class="md-nav__link" for="nav-9">
       Utilities
@@ -1114,63 +1112,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Launching Editors
-      </label>
-    
-    <a href="./" title="Launching Editors" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Launching Editors" class="md-nav__link">
       Launching Editors
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#launching-editors" title="Launching Editors" class="md-nav__link">
-    Launching Editors
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input-prompts" title="Input Prompts" class="md-nav__link">
-    Input Prompts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#confirmation-prompts" title="Confirmation Prompts" class="md-nav__link">
-    Confirmation Prompts
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1485,8 +1431,8 @@ the command line. Clikt also provides functions to perform actions
 commonly used in command line programs.</p>
 <h2 id="launching-editors">Launching Editors<a class="headerlink" href="#launching-editors" title="Permanent link">&para;</a></h2>
 <p>If you need to ask users for multi-line input, or need to have the user edit a file, you can do so
-through <a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/"><code>TermUi.editText</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/"><code>TermUi.editFile</code></a>. These
+through <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/"><code>TermUi.editText</code></a> and
+<a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/"><code>TermUi.editFile</code></a>. These
 functions open the program defined in the <code>VISUAL</code> or <code>EDITOR</code> environment variables, or a sensible
 default if neither are defined. The functions return the edited text if the user saved their
 changes.</p>
@@ -1502,9 +1448,9 @@ changes.</p>
 
 <h2 id="input-prompts">Input Prompts<a class="headerlink" href="#input-prompts" title="Permanent link">&para;</a></h2>
 <p>Options can <a href="../options/#prompting-for-input">prompt for values automatically</a>, but you can also do
-so manually with <a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt/"><code>TermUi.prompt</code></a>. By
+so manually with <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt/"><code>TermUi.prompt</code></a>. By
 default, it accepts any input string, but you can also pass in a conversion function. If the
-conversion raises a <a href="api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>,
+conversion raises a <a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>,
 the prompt will ask the user to enter a different value.</p>
 <div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">input</span> <span class="p">=</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">prompt</span><span class="p">(</span><span class="s">&quot;Enter a number&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">it</span><span class="p">.</span><span class="n">toIntOrNull</span><span class="p">()</span> <span class="o">?:</span> <span class="k">throw</span> <span class="n">UsageError</span><span class="p">(</span><span class="s">&quot;$it is not a valid integer&quot;</span><span class="p">)</span>
@@ -1521,7 +1467,7 @@ Twice your number is 22
 
 <h2 id="confirmation-prompts">Confirmation Prompts<a class="headerlink" href="#confirmation-prompts" title="Permanent link">&para;</a></h2>
 <p>You can also ask the user for a yes or no response with
-<a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm/"><code>TermUi.confirm</code></a>:</p>
+<a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm/"><code>TermUi.confirm</code></a>:</p>
 <div class="codehilite"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">TermUi</span><span class="p">.</span><span class="n">confirm</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;OK!&quot;</span><span class="p">)</span>
 <span class="p">}</span>
@@ -1547,41 +1493,6 @@ response, you can pass <code>abort=true</code>:</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../advanced/" title="Command Aliases" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Command Aliases
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../autocomplete/" title="Supported Functionality" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Supported Functionality
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

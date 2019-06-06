@@ -40,7 +40,7 @@
     
     
       
-        <title>Where are Exceptions Handled? - Clikt</title>
+        <title>Exception Handling - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Where are Exceptions Handled?
+              Exception Handling
             </span>
           
         </div>
@@ -1225,12 +1225,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
     
     <label class="md-nav__link" for="nav-11">
       Exception Handling
@@ -1246,63 +1244,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Where are Exceptions Handled?
-      </label>
-    
-    <a href="./" title="Where are Exceptions Handled?" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Where are Exceptions Handled?" class="md-nav__link">
       Where are Exceptions Handled?
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#where-are-exceptions-handled-handling" title="Where are Exceptions Handled? {#handling}" class="md-nav__link">
-    Where are Exceptions Handled? {#handling}
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#handling-exceptions-manually" title="Handling Exceptions Manually" class="md-nav__link">
-    Handling Exceptions Manually
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#which-exceptions-exist" title="Which Exceptions Exist?" class="md-nav__link">
-    Which Exceptions Exist?
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1484,46 +1430,38 @@
 early for any reason. This includes incorrect command line usage, or
 printing a help page.</p>
 <h2 id="where-are-exceptions-handled-handling">Where are Exceptions Handled? {#handling}<a class="headerlink" href="#where-are-exceptions-handled-handling" title="Permanent link">&para;</a></h2>
-<p>When you call <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a>,
-it will parse the command line and catch any
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-error/"><code>CliktError</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort</code></a> exceptions. If it catches one, it
-will then print out the appropriate information and exit the process. If the caught exception is a
-<a href="api/clikt/com.github.ajalt.clikt.core/-print-message/"><code>PrintMessage</code></a> or
-<a href="api/clikt/com.github.ajalt.clikt.core/-print-help-message/"><code>PrintHelpMessage</code></a>, the
-process exit status will be 0 and the message will be printed to stdout. Otherwise it will exit with
-status 1 and print the message to stderr.</p>
-<p>Any other types of exceptions indicate a programming error, and are not caught by
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>main</code></a>. However,
-<a href="api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>convert</code></a> and the other
-parameter transformations will wrap exceptions thrown inside them in a
-<a href="api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>, so if you define a
-custom transformation, you don&rsquo;t have to worry about an exception escaping to the user.</p>
+<p>When you call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a>, it will parse the command line and catch any
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-error/"><code>CliktError</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort</code></a> exceptions.
+If it catches one, it will then print out the appropriate information and exit the process.
+If the caught exception is a <a href="../api/clikt/com.github.ajalt.clikt.core/-print-message/"><code>PrintMessage</code></a> or <a href="../api/clikt/com.github.ajalt.clikt.core/-print-help-message/"><code>PrintHelpMessage</code></a>,
+the process exit status will be 0 and the message will be printed to stdout.
+Otherwise it will exit with status 1 and print the message to stderr.</p>
+<p>Any other types of exceptions indicate a programming error, and are not caught by <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>main</code></a>.
+However, <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>convert</code></a> and the other parameter transformations will wrap exceptions thrown
+inside them in a <a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>, so if you define a custom transformation,
+you don&rsquo;t have to worry about an exception escaping to the user.</p>
 <h2 id="handling-exceptions-manually">Handling Exceptions Manually<a class="headerlink" href="#handling-exceptions-manually" title="Permanent link">&para;</a></h2>
-<p><a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> is just a
-<code>try</code>/<code>catch</code> block surrounding
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>CliktCommand.parse</code></a>, so if don&rsquo;t
-want exceptions to be caught, you can call
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>parse</code></a> wherever you would
-normally call <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>main</code></a>.</p>
+<p><a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> is just a <code>try</code>/<code>catch</code> block surrounding
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>CliktCommand.parse</code></a>, so if don&rsquo;t want exceptions to be caught,
+you can call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>parse</code></a> wherever you would normally call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>main</code></a>.</p>
 <div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">parse</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </pre></div>
 
 <h2 id="which-exceptions-exist">Which Exceptions Exist?<a class="headerlink" href="#which-exceptions-exist" title="Permanent link">&para;</a></h2>
-<p>Clikt will throw <a href="api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort</code></a> if
-it needs to halt execution immediately without a specific message. All
-other exceptions are subclasses of <a href="api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>.</p>
+<p>Clikt will throw <a href="../api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort</code></a>
+if it needs to halt execution immediately without a specific message.
+All other exceptions are subclasses of <a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>.</p>
 <p>The following subclasses exist:</p>
 <ul>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-print-message/"><code>PrintMessage</code></a> : The exception&rsquo;s message should be printed.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-print-help-message/"><code>PrintHelpMessage</code></a> : The help page for the exception&rsquo;s command should be printed.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a> : The command line was incorrect in some way. All other exceptions subclass from this. These exceptions are automatically augmented with extra information about the current parameter, if possible.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/"><code>BadParameterValue</code></a> : A parameter was given the correct number of values, but of invalid format or type.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-missing-parameter/"><code>MissingParameter</code></a> : A required parameter was not provided.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-no-such-option/"><code>NoSuchOption</code></a> : An option was provided that does not exist.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/"><code>IncorrectOptionValueCount</code></a> : An option was supplied but the number of values supplied to the option was incorrect.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/"><code>IncorrectArgumentValueCount</code></a> : An argument was supplied but the number of values supplied was incorrect.</li>
-<li><a href="api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/"><code>MutuallyExclusiveGroupException</code></a> : Multiple options in a mutually exclusive group were supplied when the group is restricted to a single value.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-print-message/"><code>PrintMessage</code></a> : The exception&rsquo;s message should be printed.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-print-help-message/"><code>PrintHelpMessage</code></a> : The help page for the exception&rsquo;s command should be printed.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a> : The command line was incorrect in some way. All other exceptions subclass from this. These exceptions are automatically augmented with extra information about the current parameter, if possible.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/"><code>BadParameterValue</code></a> : A parameter was given the correct number of values, but of invalid format or type.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-missing-parameter/"><code>MissingParameter</code></a> : A required parameter was not provided.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-no-such-option/"><code>NoSuchOption</code></a> : An option was provided that does not exist.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/"><code>IncorrectOptionValueCount</code></a> : An option was supplied but the number of values supplied to the option was incorrect.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/"><code>IncorrectArgumentValueCount</code></a> : An argument was supplied but the number of values supplied was incorrect.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/"><code>MutuallyExclusiveGroupException</code></a> : Multiple options in a mutually exclusive group were supplied when the group is restricted to a single value.</li>
 </ul>
                 
                   
@@ -1541,27 +1479,6 @@ other exceptions are subclasses of <a href="api/clikt/com.github.ajalt.clikt.cor
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../autocomplete/" title="Supported Functionality" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Supported Functionality
-              </span>
-            </div>
-          </a>
-        
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

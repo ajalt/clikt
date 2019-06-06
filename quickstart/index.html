@@ -40,7 +40,7 @@
     
     
       
-        <title>Basic Concepts - Clikt</title>
+        <title>Quick Start - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Basic Concepts
+              Quick Start
             </span>
           
         </div>
@@ -241,12 +241,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
     
     <label class="md-nav__link" for="nav-1">
       Quickstart
@@ -262,77 +260,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Basic Concepts
-      </label>
-    
-    <a href="./" title="Basic Concepts" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Basic Concepts" class="md-nav__link">
       Basic Concepts
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#basic-concepts" title="Basic Concepts" class="md-nav__link">
-    Basic Concepts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#printing-to-stdout-and-stderr" title="Printing to Stdout and Stderr" class="md-nav__link">
-    Printing to Stdout and Stderr
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nesting-commands" title="Nesting Commands" class="md-nav__link">
-    Nesting Commands
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-parameters" title="Adding Parameters" class="md-nav__link">
-    Adding Parameters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#developing-command-line-applications-with-gradle" title="Developing Command Line Applications With Gradle" class="md-nav__link">
-    Developing Command Line Applications With Gradle
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1512,8 +1444,8 @@
 Installation instructions can be found in the <a href="https://github.com/ajalt/clikt">README</a>.</p>
 <h2 id="basic-concepts">Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h2>
 <p>Clikt command line interfaces are created by using property delegates
-inside of a <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/">CliktCommmand</a>. The normal way to use Clikt is to forward
-<code>argv</code> from your <code>main</code> function to <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/">ClktCommand.main</a>.</p>
+inside of a <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/">CliktCommmand</a>. The normal way to use Clikt is to forward
+<code>argv</code> from your <code>main</code> function to <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/">CliktCommand.main</a>.</p>
 <p>The simplest command with no parameters would look like this:</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
@@ -1538,10 +1470,9 @@ Options:
 </pre></div>
 
 <h2 id="printing-to-stdout-and-stderr">Printing to Stdout and Stderr<a class="headerlink" href="#printing-to-stdout-and-stderr" title="Permanent link">&para;</a></h2>
-<p>Why does this example use <a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo/">echo</a> instead of
-<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html">println</a>?
+<p>Why does this example use <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/">echo</a> instead of <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html">println</a>?
 Although <code>println</code> works, it can cause problems with multi-platform
-support. <a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/">echo</a> automatically translates line breaks into the line
+support. <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/echo/">echo</a> automatically translates line breaks into the line
 separator for the current platform. So you don&rsquo;t have to worry that some
 of your users will see mangled output because you didn&rsquo;t test on
 Windows. You can also pass <code>err=true</code> to <code>echo</code> to print to stderr
@@ -1592,8 +1523,7 @@ Commands:
 </pre></div></div>
 </div>
 <h2 id="adding-parameters">Adding Parameters<a class="headerlink" href="#adding-parameters" title="Permanent link">&para;</a></h2>
-<p>To add parameters, use the <a href="api/clikt/com.github.ajalt.clikt.parameters.options/option/">option</a>
-and <a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/">argument</a> property
+<p>To add parameters, use the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option/">option</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/">argument</a> property
 delegates:</p>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
@@ -1621,12 +1551,10 @@ Options:
 </div>
 <h2 id="developing-command-line-applications-with-gradle">Developing Command Line Applications With Gradle<a class="headerlink" href="#developing-command-line-applications-with-gradle" title="Permanent link">&para;</a></h2>
 <p>When you write a command line application, you probably want to be able to run it without invoking
-<code>java -jar ...</code> every time. If you&rsquo;re using Gradle, the <a href="https://docs.gradle.org/current/userguide/application_plugin.html">application
-plugin</a> provides a gradle task
+<code>java -jar ...</code> every time. If you&rsquo;re using Gradle, the <a href="https://docs.gradle.org/current/userguide/application_plugin.html">application plugin</a> provides a gradle task
 that bundles your program jars and scripts to launch them. It makes it easy to build a zip or
 tarball that you can distribute to your users without them needing to perform any incatations like
-setting up a classpath. You can see this plugin in use the in <a href="https://github.com/ajalt/clikt/tree/master/samples">Clikt
-samples</a>.</p>
+setting up a classpath. You can see this plugin in use the in <a href="https://github.com/ajalt/clikt/tree/master/samples">Clikt samples</a>.</p>
 <p>The application plugin also creates tasks that will build then run your
 main function directly from within gradle. Although it seems like these
 tasks would make development easier, they are not recommended for use
@@ -1639,8 +1567,7 @@ make the run task mostly useless for command line applications.</p>
 <p>An easier way to do development is to used the <code>installDist</code> task
 provided by the plugin. This builds all the distribution scripts in your
 build folder, which you can then execute normally. See Clikt&rsquo;s
-<a href="https://github.com/ajalt/clikt/blob/master/runsample">runsample</a> script
-for an example of this approach.</p>
+<a href="https://github.com/ajalt/clikt/blob/master/runsample">runsample</a> script for an example of this approach.</p>
                 
                   
                 
@@ -1657,27 +1584,6 @@ for an example of this approach.</p>
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-        
-          <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

@@ -40,7 +40,7 @@
     
     
       
-        <title>Supported Functionality - Clikt</title>
+        <title>Bash Autocomplete - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Supported Functionality
+              Bash Autocomplete
             </span>
           
         </div>
@@ -1153,12 +1153,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
     <label class="md-nav__link" for="nav-10">
       Bash Autocomplete
@@ -1174,70 +1172,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Supported Functionality
-      </label>
-    
-    <a href="./" title="Supported Functionality" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Supported Functionality" class="md-nav__link">
       Supported Functionality
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#supported-functionality" title="Supported Functionality" class="md-nav__link">
-    Supported Functionality
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enabling-completion" title="Enabling Completion" class="md-nav__link">
-    Enabling Completion
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#customizing-completions" title="Customizing Completions" class="md-nav__link">
-    Customizing Completions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#limitations" title="Limitations" class="md-nav__link">
-    Limitations
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1496,10 +1435,10 @@
                 <h1 id="bash-autocomplete">Bash Autocomplete<a class="headerlink" href="#bash-autocomplete" title="Permanent link">&para;</a></h1>
 <p>Clikt includes built-in support for generating autocomplete scripts for bash and zsh.</p>
 <h2 id="supported-functionality">Supported Functionality<a class="headerlink" href="#supported-functionality" title="Permanent link">&para;</a></h2>
-<p>Currently subcommand, option, and <a href="../advanced/">command alias</a> names can be completed, as well as
+<p>Currently subcommand, option, and <a href="../advanced/#command-aliases">command alias</a> names can be completed, as well as
 values for options and arguments. <code>choice</code> parameters are completed with their possible values.
-Other parameter types are completed as file or directory names. <code>Context.allowInterspersedArgs</code> is
-supported.</p>
+Other parameter types are completed as file or directory names.
+<a href="../api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args/"><code>Context.allowInterspersedArgs</code></a> is supported.</p>
 <p>For example:</p>
 <div class="codehilite"><pre><span></span>$ ./repo &lt;TAB&gt;&lt;TAB&gt;
 commit clone pull
@@ -1516,10 +1455,10 @@ $./repo --repo-home ./g&lt;TAB&gt;
 the script once each time your CLI changes, and load it each time your start your shell.</p>
 <p>To generate the shell script, you need to invoke your program with a special environment variable.
 You can set the variable name manually with the <code>autoCompleteEnvvar</code> parameter in the
-<a href="api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code> constructor</a>. By
-default it&rsquo;s your command&rsquo;s name capitalized, with <code>-</code> replaced with <code>_</code>, and prefixed with another
-<code>_</code>. So if your command name is <code>my-command</code>, the variable would be <code>_MY_COMMAND_COMPLETE=bash</code> or
-<code>_MY_COMMAND_COMPLETE=zsh</code>, depending on your current shell.</p>
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code> constructor</a>. By default it&rsquo;s your command&rsquo;s name capitalized,
+with <code>-</code> replaced with <code>_</code>, and prefixed with another <code>_</code>.
+So if your command name is <code>my-command</code>, the variable would be <code>_MY_COMMAND_COMPLETE=bash</code>
+or <code>_MY_COMMAND_COMPLETE=zsh</code>, depending on your current shell.</p>
 <p>For example to activate bash autocomplete for this command:</p>
 <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">MyProgram</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
@@ -1540,14 +1479,10 @@ default it&rsquo;s your command&rsquo;s name capitalized, with <code>-</code> re
 
 <p>You&rsquo;ll need to regenerate the completion script any time your command structure changes.</p>
 <h2 id="customizing-completions">Customizing Completions<a class="headerlink" href="#customizing-completions" title="Permanent link">&para;</a></h2>
-<p>There is built-in completion for values for
-<a href="api/clikt/com.github.ajalt.clikt.parameters.types/choice/"><code>choice</code></a> parameters, and for
-parameters converted with <a href="api/clikt/com.github.ajalt.clikt.parameters.types/file/"><code>file</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.parameters.types/path/"><code>path</code></a>.</p>
+<p>There is built-in completion for values for <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice/"><code>choice</code></a> parameters,
+and for parameters converted with <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/"><code>file</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path/"><code>path</code></a>.</p>
 <p>You can add completion for other parameters with the <code>completionCandidates</code> parameter to
-<a href="api/clikt/com.github.ajalt.clikt.parameters.options/option/"><code>option()</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/"><code>argument()</code></a>. The value can
-be one of the following:</p>
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option/"><code>option()</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/"><code>argument()</code></a>. The value can be one of the following:</p>
 <ul>
 <li><code>None</code>: The default. The parameter&rsquo;s values will not be completed.</li>
 <li><code>Path</code>: Completions will be filesystem paths.</li>
@@ -1556,7 +1491,7 @@ be one of the following:</p>
 <li><code>Fixed</code>: Completions are given as a fixed set of strings.</li>
 </ul>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
-<p><a href="/advanced/#token-normalization">Token Normalization</a> is not supported.</p>
+<p><a href="../advanced/#token-normalization">Token Normalization</a> is not supported.</p>
 <p>If you have arguments that occur after a <code>multiple</code> argument, those arguments won&rsquo;t be
 autocompleted. Partial command lines are ambiguous in those situations, and Clikt assumes that
 you&rsquo;re trying to complete the <code>multiple</code> argument rather than the later ones.</p>
@@ -1577,41 +1512,6 @@ you&rsquo;re trying to complete the <code>multiple</code> argument rather than t
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../utilities/" title="Launching Editors" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Launching Editors
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../exceptions/" title="Where are Exceptions Handled?" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Where are Exceptions Handled?
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

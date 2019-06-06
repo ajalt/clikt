@@ -40,7 +40,7 @@
     
     
       
-        <title>Basic Arguments - Clikt</title>
+        <title>Arguments - Clikt</title>
       
     
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Basic Arguments
+              Arguments
             </span>
           
         </div>
@@ -745,12 +745,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Arguments
@@ -766,63 +764,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Basic Arguments
-      </label>
-    
-    <a href="./" title="Basic Arguments" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="./" title="Basic Arguments" class="md-nav__link">
       Basic Arguments
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#basic-arguments" title="Basic Arguments" class="md-nav__link">
-    Basic Arguments
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#variadic-arguments" title="Variadic Arguments" class="md-nav__link">
-    Variadic Arguments
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#option-like-arguments" title="Option-Like Arguments" class="md-nav__link">
-    Option-Like Arguments
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1480,12 +1426,13 @@
                 
                 
                 <h1 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h1>
-<p>Arguments are declared and customized similarly to
-<a href="../options/">options</a>, but are provided on the command line
-positionally instead of by name. Arguments are declared with <a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/"><code>argument()</code></a>, and the order that they are declared defines the order that they
+<p>Arguments are declared and customized similarly to <a href="../options/">options</a>,
+but are provided on the command line positionally instead of by name.
+Arguments are declared with <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/"><code>argument()</code></a>,
+and the order that they are declared defines the order that they
 must be provided on the command line.</p>
 <h2 id="basic-arguments">Basic Arguments<a class="headerlink" href="#basic-arguments" title="Permanent link">&para;</a></h2>
-<p>By default, <a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/"><code>argument</code></a> takes a single <code>String</code> value which is required to be
+<p>By default, <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument/"><code>argument</code></a> takes a single <code>String</code> value which is required to be
 provided on the command line.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
@@ -1529,8 +1476,7 @@ Options:
 </div>
 <h2 id="variadic-arguments">Variadic Arguments<a class="headerlink" href="#variadic-arguments" title="Permanent link">&para;</a></h2>
 <p>Like <a href="../options/">options</a>, arguments can take any fixed number of values, which you can change with
-functions like <a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/pair/"><code>pair</code></a> and
-<a href="api/clikt/com.github.ajalt.clikt.parameters.arguments/triple/"><code>triple</code></a>. Unlike options,
+functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/pair/"><code>pair</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/triple/"><code>triple</code></a>. Unlike options,
 arguments can take a variable (or unlimited) number of values. This is especially common when taking
 file paths, since they are frequently expanded with a glob pattern on the command line.</p>
 <p>You can declare any number of arguments with fixed numbers of values,
@@ -1602,41 +1548,6 @@ bar.txt
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../options/" title="Basic Options" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Basic Options
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../commands/" title="Executing Nested Commands" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Executing Nested Commands
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

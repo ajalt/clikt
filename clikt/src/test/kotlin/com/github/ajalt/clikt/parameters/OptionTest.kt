@@ -408,6 +408,19 @@ class OptionTest {
     }
 
     @Test
+    fun `multiple required option`() {
+        class C(called: Boolean) : TestCommand(called) {
+            val x by option().multiple(required = true)
+        }
+
+        C(true).apply { parse("--x 1"); x shouldBe listOf("1") }
+        C(true).apply { parse("--x 2 --x 3"); x shouldBe listOf("2", "3") }
+
+        shouldThrow<MissingParameter> { C(false).parse("") }
+                .message shouldBe "Missing option \"--x\"."
+    }
+
+    @Test
     fun `option metavars`() {
         class C : TestCommand() {
             val x by option()

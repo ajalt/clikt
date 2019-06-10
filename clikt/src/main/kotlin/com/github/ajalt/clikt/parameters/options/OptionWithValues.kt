@@ -347,11 +347,20 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithVa
  * ```
  *
  * @param default The value to use if the option is not supplied. Defaults to an empty list.
+ * @param required If true, [default] is ignored and [MissingParameter] will be thrown if no
+ *   instances of the option are present on the command line.
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
-        default: List<EachT> = emptyList()
+        default: List<EachT> = emptyList(),
+        required: Boolean = false
 ): OptionWithValues<List<EachT>, EachT, ValueT> {
-    return transformAll { if (it.isEmpty()) default else it }
+    return transformAll {
+        when {
+            it.isEmpty() && required -> throw MissingParameter(option)
+            it.isEmpty() && !required -> default
+            else -> it
+        }
+    }
 }
 
 /**

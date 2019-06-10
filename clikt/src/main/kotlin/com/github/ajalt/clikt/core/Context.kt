@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.output.CliktConsole
-import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.CliktHelpFormatter
+import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.defaultCliktConsole
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

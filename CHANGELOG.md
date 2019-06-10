@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Ability to prevent [rewrapping individual paragraphs](https://ajalt.github.io/clikt/documenting/#preventing-rewrapping) in help output.
+- Added parameter `required` to `Option.multiple()` to require at least one instance of the option on the command line.
 
 ### Changed
 - `CliktCommand.toString()` now includes the names and values of all parameters and subcommands,

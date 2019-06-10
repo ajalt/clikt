@@ -2,9 +2,7 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
-import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
-import kotlin.math.exp
 
 /**
  * An internal error that signals Clikt to abort.

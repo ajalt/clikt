@@ -203,10 +203,10 @@ Normally, when an option is provided on the command line more than once,
 only the values from the last occurrence are used. But sometimes you
 want to keep all values provided. For example, `git commit -m foo -m
 bar` would create a commit message with two lines: `foo` and `bar`. To
-get this behavior with Clikt, you can use [`multiple`][multiple]. This will cause the property
-delegate value to be a list, where each item in the list is the value of
-from one occurrence of the option. If the option is never given, the
-list will be empty (or you can specify a list to use).
+get this behavior with Clikt, you can use [`multiple`][multiple]. This
+will cause the property delegate value to be a list, where each item in
+the list is the value of from one occurrence of the option. If the option
+is never given, the list will be empty (or you can specify a list to use).
 
 ```kotlin tab="Example"
 class Commit : CliktCommand() {
@@ -228,6 +228,18 @@ For example:
 
 ```kotlin
 val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
+```
+
+You can also supply a default value [`multiple`][multiple] or require at least one value be present
+on the command line. These are specified as arguments rather than with separate extension functions
+since they don't change the type of the delegate.
+
+```kotlin tab="Required"
+val opt by option().multiple(required=true)
+```
+
+```kotlin tab="Default"
+val opt by option().multiple(default=listOf("defaut message"))
 ```
 
 ## Boolean Flag Options

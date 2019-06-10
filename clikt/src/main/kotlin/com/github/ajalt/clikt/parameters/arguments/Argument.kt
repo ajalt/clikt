@@ -244,9 +244,8 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
  * val arg: Int? by argument().int().optional()
  * ```
  */
-fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional()
-        : ProcessedArgument<AllT?, ValueT> = transformAll(required = false) {
-    if (it.isEmpty()) null else transformAll(it)
+fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional(): ProcessedArgument<AllT?, ValueT> {
+    return transformAll(required = false) { if (it.isEmpty()) null else transformAll(it) }
 }
 
 /**

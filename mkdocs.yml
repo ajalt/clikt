@@ -3,7 +3,7 @@ repo_name: Clikt
 repo_url: https://github.com/ajalt/clikt
 site_description: "Clikt: Simple, powerful command line parser for Kotlin"
 site_author: AJ Alt
-remote_branch: master
+remote_branch: gh-pages
 
 copyright: 'Copyright &copy; 2019 AJ Alt'
 

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.1.0] - 2019-05-23 
 ### Added
 - Ability to prevent [rewrapping individual paragraphs](https://ajalt.github.io/clikt/documenting/#preventing-rewrapping) in help output.
 - Added parameter `required` to `Option.multiple()` to require at least one instance of the option on the command line.

@@ -7,3 +7,4 @@ build/
 captures/
 .externalNativeBuild
 out/
+docs/api/

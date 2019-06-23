@@ -26,11 +26,11 @@ internal fun splitParagraphs(text: String): List<String> {
     while (i < text.length) {
         val end = if (text.startsWith("```", startIndex = i)) {
             PRE_P_END_REGEX.find(text, startIndex = i + 3)?.let {
-                (it.range.start + 3)..it.range.last
+                (it.range.first + 3)..it.range.last
             }
         } else {
             PLAIN_P_END_REGEX.find(text, startIndex = i)?.let {
-                if (it.value.endsWith("```")) it.range.start..(it.range.last - 3)
+                if (it.value.endsWith("```")) it.range.first..(it.range.last - 3)
                 else it.range
             }
         } ?: text.length..text.length

@@ -308,12 +308,12 @@ abstract class CliktCommand(
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {
-    _subcommands += commands
+    _subcommands = _subcommands + commands
 }
 
 /** Add the given commands as a subcommand of this command. */
 fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
-    _subcommands += commands
+    _subcommands = _subcommands + commands
 }
 
 /**

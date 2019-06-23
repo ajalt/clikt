@@ -958,6 +958,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#preformatting-paragraphs" title="Preformatting Paragraphs" class="md-nav__link">
+      Preformatting Paragraphs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1420,7 +1432,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">multiple</a></p>
 <h1 id="multiple">multiple<a class="headerlink" href="#multiple" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.multiple(default:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>&gt; = emptyList()):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>&gt;,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.multiple(default:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>&gt; = emptyList(), required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>&gt;,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
 <p>Make the option return a list of calls; each item in the list is the value of one call.</p>
 <p>If the option is never called, the list will be empty. This must be applied after all other transforms.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
@@ -1429,6 +1441,8 @@
 
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>default</code> - The value to use if the option is not supplied. Defaults to an empty list.</p>
+<p><code>required</code> - If true, <a href="./#com.github.ajalt.clikt.parameters.options$multiple(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.multiple.EachT, com.github.ajalt.clikt.parameters.options.multiple.EachT, com.github.ajalt.clikt.parameters.options.multiple.ValueT)">default</a>, kotlin.collections.List((com.github.ajalt.clikt.parameters.options.multiple.EachT)), kotlin.Boolean)/default) is ignored and <a href="../../com.github.ajalt.clikt.core/-missing-parameter/">MissingParameter</a> will be thrown if no
+instances of the option are present on the command line.</p>
                 
                   
                 

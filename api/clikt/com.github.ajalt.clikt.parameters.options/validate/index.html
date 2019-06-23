@@ -958,6 +958,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#preformatting-paragraphs" title="Preformatting Paragraphs" class="md-nav__link">
+      Preformatting Paragraphs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1415,11 +1427,11 @@
 <h1 id="validate">validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h1>
 <p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
 <p>Check the final option value and raise an error if it&rsquo;s not valid.</p>
-<p>The <code>validator</code> is called with the final option type (the output of <a href="../transform-all/">transformAll</a>), and should call <code>fail</code>
+<p>The <a href="./#com.github.ajalt.clikt.parameters.options$validate(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.validate.T)">validator</a>, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.validate.T, kotlin.Unit)))/validator) is called with the final option type (the output of <a href="../transform-all/">transformAll</a>), and should call <code>fail</code>
 if the value is not valid. It is not called if the delegate value is null.</p>
 <p><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;</code></p>
 <p>Check the final option value and raise an error if it&rsquo;s not valid.</p>
-<p>The <code>validator</code> is called with the final option type (the output of <a href="../transform-all/">transformAll</a>), and should call <code>fail</code>
+<p>The <a href="./#com.github.ajalt.clikt.parameters.options$validate(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.validate.AllT, com.github.ajalt.clikt.parameters.options.validate.EachT, com.github.ajalt.clikt.parameters.options.validate.ValueT)">validator</a>, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.validate.AllT, kotlin.Unit)))/validator) is called with the final option type (the output of <a href="../transform-all/">transformAll</a>), and should call <code>fail</code>
 if the value is not valid. It is not called if the delegate value is null.</p>
 <p>You can also call <code>require</code> to fail automatically if an expression is false.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>

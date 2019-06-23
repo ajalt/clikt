@@ -958,6 +958,18 @@
 
 
   <li class="md-nav__item">
+    <a href="#preformatting-paragraphs" title="Preformatting Paragraphs" class="md-nav__link">
+      Preformatting Paragraphs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1393,6 +1405,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#preformatting-paragraphs" title="Preformatting Paragraphs" class="md-nav__link">
+    Preformatting Paragraphs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
     Subcommand Short Help
   </a>
@@ -1521,12 +1540,52 @@ string is specified for them. On the other hand, arguments only appear
 in the usage string. It is possible to add a help string to arguments
 which will be added to the help page, but the Unix convention is to just
 describe arguments in the command help.</p>
+<h2 id="preformatting-paragraphs">Preformatting Paragraphs<a class="headerlink" href="#preformatting-paragraphs" title="Permanent link">&para;</a></h2>
+<p>By default, Clikt will rewrap all paragraphs in your text to the terminal width. This can be
+undesirable if you have some preformatted text, such as a bulleted list.</p>
+<p>You can preformat a paragraph by surrounding it with markdown-style triple backticks. The backticks
+will be removed from the output, and if the backticks are on a line by themselves, the line will be
+removed. All whitespace and newlines in the paragraph will be preserved, and will be be rewrapped.</p>
+<div class="superfences-tabs">
+<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
+<label for="__tab_2_0">Example</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;This is my command.</span>
+
+      <span class="n">This</span> <span class="n">paragraph</span> <span class="n">will</span> <span class="n">be</span> <span class="n">wrapped</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">following</span> <span class="n">list</span> <span class="n">will</span> <span class="n">not</span><span class="p">:</span>
+
+      <span class="err">```</span>
+      <span class="p">-</span> <span class="n">This</span> <span class="k">is</span> <span class="n">a</span> <span class="n">list</span>
+      <span class="p">-</span> <span class="n">Its</span> <span class="n">newlines</span> <span class="n">will</span> <span class="n">remain</span> <span class="n">intact</span>
+      <span class="err">```</span>
+
+      <span class="n">This</span> <span class="k">is</span> <span class="n">a</span> <span class="n">new</span> <span class="n">paragraph</span> <span class="n">that</span> <span class="n">will</span> <span class="n">be</span> <span class="n">wrapped</span> <span class="k">if</span> <span class="n">it</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">wider</span> <span class="n">than</span> <span class="n">the</span> <span class="n">teminal</span> <span class="n">width</span><span class="p">.</span>
+      <span class="s">&quot;&quot;&quot;)</span>
+</pre></div></div>
+<input name="__tabs_2" type="radio" id="__tab_2_1" />
+<label for="__tab_2_1">Help output</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span>Usage: tool
+
+  This is my command. 
+
+  This paragraph will be wrapped, but the following list
+  will not:
+
+  - This is a list
+  - It&#39;s newlines will remain intact
+
+  This is a new paragraph that will be wrapped if it&#39;s wider 
+  than the teminal width.
+
+Options:
+  -h, --help  Show this message and exit
+</pre></div></div>
+</div>
 <h2 id="subcommand-short-help">Subcommand Short Help<a class="headerlink" href="#subcommand-short-help" title="Permanent link">&para;</a></h2>
 <p>Subcommands are listed in the help page based on their <a href="../commands/#customizing-command-name">name</a>.
 They have a short help string which is the first line of their help.</p>
 <div class="superfences-tabs">
-<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
-<label for="__tab_2_0">Example</label>
+<input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
+<label for="__tab_3_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">Execute</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;</span>
@@ -1537,8 +1596,8 @@ They have a short help string which is the first line of their help.</p>
 
 <span class="k">class</span> <span class="nc">Abort</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;Kill any running commands.&quot;</span><span class="p">)</span>
 </pre></div></div>
-<input name="__tabs_2" type="radio" id="__tab_2_1" />
-<label for="__tab_2_1">Usage</label>
+<input name="__tabs_3" type="radio" id="__tab_3_1" />
+<label for="__tab_3_1">Usage</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
 Usage: tool [OPTIONS] COMMAND [ARGS]...
 
@@ -1558,8 +1617,8 @@ is not added.</p>
 <p>You can change the help option&rsquo;s name and help message on the
 <a href="../commands/#customizing-contexts">command&rsquo;s context</a>:</p>
 <div class="superfences-tabs">
-<input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
-<label for="__tab_3_0">Example</label>
+<input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
+<label for="__tab_4_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span>
@@ -1569,8 +1628,8 @@ is not added.</p>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div></div>
-<input name="__tabs_3" type="radio" id="__tab_3_1" />
-<label for="__tab_3_1">Usage</label>
+<input name="__tabs_4" type="radio" id="__tab_4_1" />
+<label for="__tab_4_1">Usage</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool /help
 Usage: tool [OPTIONS]
 
@@ -1586,8 +1645,8 @@ Options:
 default value will be shown. You can show a different value by passing the value you want to show to
 the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a>.</p>
 <div class="superfences-tabs">
-<input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
-<label for="__tab_4_0">Example</label>
+<input name="__tabs_5" type="radio" id="__tab_5_0" checked="checked" />
+<label for="__tab_5_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">helpFormatter</span> <span class="p">=</span> <span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">showDefaultValues</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span>
@@ -1597,8 +1656,8 @@ the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.aj
     <span class="k">val</span> <span class="py">b</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is also optional&quot;</span><span class="p">).</span><span class="n">default</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">,</span> <span class="n">defaultForHelp</span><span class="p">=</span><span class="s">&quot;chosen for you&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div></div>
-<input name="__tabs_4" type="radio" id="__tab_4_1" />
-<label for="__tab_4_1">Usage</label>
+<input name="__tabs_5" type="radio" id="__tab_5_1" />
+<label for="__tab_5_1">Usage</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -1614,8 +1673,8 @@ that an option is required.</p>
 <h3 id="required-option-marker">Required Option Marker<a class="headerlink" href="#required-option-marker" title="Permanent link">&para;</a></h3>
 <p>You can pass a character to the <code>requiredOptionMarker</code> argument of the <code>CliktHelpFormatter</code>.</p>
 <div class="superfences-tabs">
-<input name="__tabs_5" type="radio" id="__tab_5_0" checked="checked" />
-<label for="__tab_5_0">Example</label>
+<input name="__tabs_6" type="radio" id="__tab_6_0" checked="checked" />
+<label for="__tab_6_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoRunCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">helpFormatter</span> <span class="p">=</span> <span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">requiredOptionMarker</span> <span class="p">=</span> <span class="s">&quot;*&quot;</span><span class="p">)</span> <span class="p">}</span>
@@ -1625,8 +1684,8 @@ that an option is required.</p>
     <span class="k">val</span> <span class="py">required</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is required&quot;</span><span class="p">).</span><span class="n">required</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div></div>
-<input name="__tabs_5" type="radio" id="__tab_5_1" />
-<label for="__tab_5_1">Usage</label>
+<input name="__tabs_6" type="radio" id="__tab_6_1" />
+<label for="__tab_6_1">Usage</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -1639,8 +1698,8 @@ Options:
 <h3 id="required-option-tag">Required Option Tag<a class="headerlink" href="#required-option-tag" title="Permanent link">&para;</a></h3>
 <p>You can also show a tag for required options by passing <code>showRequiredTag = true</code> to the <code>CliktHelpFormatter</code>.</p>
 <div class="superfences-tabs">
-<input name="__tabs_6" type="radio" id="__tab_6_0" checked="checked" />
-<label for="__tab_6_0">Example</label>
+<input name="__tabs_7" type="radio" id="__tab_7_0" checked="checked" />
+<label for="__tab_7_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">helpFormatter</span> <span class="p">=</span> <span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">showRequiredTag</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span>
@@ -1650,8 +1709,8 @@ Options:
     <span class="k">val</span> <span class="py">required</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is required&quot;</span><span class="p">).</span><span class="n">required</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div></div>
-<input name="__tabs_6" type="radio" id="__tab_6_1" />
-<label for="__tab_6_1">Usage</label>
+<input name="__tabs_7" type="radio" id="__tab_7_1" />
+<label for="__tab_7_1">Usage</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -1667,8 +1726,8 @@ Options:
 The name of the group will be shown in the output. You can also add an extra help message to be
 shown with the group. Groups can&rsquo;t be nested.</p>
 <div class="superfences-tabs">
-<input name="__tabs_7" type="radio" id="__tab_7_0" checked="checked" />
-<label for="__tab_7_0">Example</label>
+<input name="__tabs_8" type="radio" id="__tab_8_0" checked="checked" />
+<label for="__tab_8_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">(</span><span class="n">name</span> <span class="p">=</span> <span class="s">&quot;User Options&quot;</span><span class="p">,</span> <span class="n">help</span> <span class="p">=</span> <span class="s">&quot;Options controlling the user&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;user name&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">age</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;user age&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
@@ -1678,8 +1737,8 @@ shown with the group. Groups can&rsquo;t be nested.</p>
     <span class="k">val</span> <span class="py">userOptions</span> <span class="k">by</span> <span class="n">UserOptions</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div></div>
-<input name="__tabs_7" type="radio" id="__tab_7_1" />
-<label for="__tab_7_1">Usage</label>
+<input name="__tabs_8" type="radio" id="__tab_8_1" />
+<label for="__tab_8_1">Usage</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
 Usage: cli [OPTIONS]
 

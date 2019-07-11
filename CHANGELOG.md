@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)
 
 ## [2.1.0] - 2019-05-23 
 ### Added
@@ -8,7 +10,7 @@
 - Added parameter `required` to `Option.multiple()` to require at least one instance of the option on the command line.
 
 ### Changed
-- `CliktCommand.toString()` now includes the names and values of all parameters and subcommands,
+- `CliktCommand.toString()` now includes the names and values of all parameters and subcommands.
 
 ### Fixed
 - Create subcommand context when `helpOptionNames` is empty. ([#64](https://github.com/ajalt/clikt/issues/64))
@@ -20,7 +22,7 @@
 - Marking options as deprecated with [`option().deprecated()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/deprecated/)
 - You can manually set the pattern to split envvars on by passing a pattern to the `envvarSplit` parameter of [`option()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/option/)
 - [Option groups](https://ajalt.github.io/clikt/documenting/#grouping-options-in-help), [mutually exclusive groups](https://ajalt.github.io/clikt/options/#prompting-for-input), [co-occurring groups](https://ajalt.github.io/clikt/options/#co-occurring-option-groups), and [choice options with groups](https://ajalt.github.io/clikt/options/#choice-options-with-groups)
-- Support for [Command line argument files](https://ajalt.github.io/clikt/advanced/#command-line-argument-files) a.k.a "@-files"
+- Support for [Command line argument files](https://ajalt.github.io/clikt/advanced/#command-line-argument-files-files) a.k.a "@-files"
 
 ### Changed
 - If multiple `--` tokens are present on the command line, all subsequent occurrences after the first are now parsed as positional arguments. Previously, subsequent `--` tokens were skipped.  

@@ -16,6 +16,7 @@ open class TestCommand(
     final override fun run() {
         wasCalled shouldBe false
         wasCalled = true
+        run_()
     }
 
     open fun run_() = Unit

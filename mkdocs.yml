@@ -77,7 +77,7 @@ nav:
   - 'Arguments':
       - 'Basic Arguments': arguments/
       - 'Variadic Arguments': arguments/#variadic-arguments
-      - 'Option-Like Arguments': arguments/#option-like-arguments
+      - 'Option-Like Arguments ("--")': arguments/#option-like-arguments-using-
   - 'Commands':
       - 'Executing Nested Commands': commands/
       - 'Customizing Command Name': commands/#customizing-command-name
@@ -99,7 +99,7 @@ nav:
       - 'Command Aliases': advanced/
       - 'Token Normalization': advanced/#token-normalization
       - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
-      - 'Command Line Argument Files': advanced/#command-line-argument-files
+      - 'Argument Files ("@-files")': advanced/#command-line-argument-files-files
   - 'Utilities':
       - 'Launching Editors': utilities/
       - 'Input Prompts': utilities/#input-prompts

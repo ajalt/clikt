@@ -151,7 +151,7 @@ class CustomCLI : CliktCommand() {
 If you are using [`TermUI`][TermUI] directly,
 you can also pass your custom console as an argument.
 
-## Command Line Argument Files
+## Command Line Argument Files ("@-files")
 
 Similar to `javac`, Clikt supports loading command line parameters from a file using the "@-file"
 syntax. You can pass any file path to a command prefixed with `@`, and the file will be expanded
@@ -188,6 +188,13 @@ If you have any options with names that start with `@`, you can still use `@-fil
 the command line that match an option will be parsed as that option, rather than an `@-file`, so
 you'll have to give your files a different name.
 
+### Preventing @-file expansion
+
+If you want to use a value starting with `@` as an argument without expanding it, you have three options:
+
+1. Pass it after a `--`, [which disables expansion for everything that occurs after it][dash-dash].
+2. Escape it with `@@`. The first `@` will be removed and the rest used as the argumetn value. For example, `@@file` will parse as the string `@file`
+3. Disable @-file expansion entirely by setting [`Context.expandArgumentFiles = false`][expandArgumentFiles]
 
 ### File format
 
@@ -207,3 +214,5 @@ line are skipped. You can pass a literal `#` by escaping it with `\#` or quoting
 [prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
 [CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.md
 [TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.md
+[dash-dash]:           arguments.md#option-like-arguments-using-
+[expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.md

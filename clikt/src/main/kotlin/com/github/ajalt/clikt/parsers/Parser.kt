@@ -41,6 +41,7 @@ internal object Parser {
         var i = startingArgI
         var subcommand: CliktCommand? = null
         var canParseOptions = true
+        var canExpandAtFiles = context.expandArgumentFiles
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         var minAliasI = 0
         loop@ while (i <= tokens.lastIndex) {
@@ -48,14 +49,20 @@ internal object Parser {
             val normTok = context.tokenTransformer(context, tok)
             val prefix = splitOptionPrefix(tok).first
             when {
-                tok.startsWith("@") && normTok !in optionsByName -> {
-                    tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
-                    i = 0
-                    minAliasI -= i
+                canExpandAtFiles && tok.startsWith("@") && normTok !in optionsByName -> {
+                    if (tok.startsWith("@@")) {
+                        positionalArgs += tok.drop(1)
+                        i += 1
+                    } else {
+                        tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
+                        i = 0
+                        minAliasI = 0
+                    }
                 }
                 canParseOptions && tok == "--" -> {
                     i += 1
                     canParseOptions = false
+                    canExpandAtFiles = false
                 }
                 canParseOptions && ('=' in tok || normTok in longNames || prefix.length > 1 && prefix in prefixes) -> {
                     val (opt, result) = parseLongOpt(context, tokens, tok, i, optionsByName)
@@ -77,13 +84,9 @@ internal object Parser {
                     break@loop
                 }
                 else -> {
-                    if (command.context.allowInterspersedArgs) {
-                        positionalArgs += tokens[i] // arguments aren't transformed
-                        i += 1
-                    } else {
-                        positionalArgs += tokens.slice(i..tokens.lastIndex)
-                        break@loop
-                    }
+                    if (!context.allowInterspersedArgs) canParseOptions = false
+                    positionalArgs += tokens[i] // arguments aren't transformed
+                    i += 1
                 }
             }
         }

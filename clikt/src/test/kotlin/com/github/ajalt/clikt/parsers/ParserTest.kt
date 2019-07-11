@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.shouldBe
@@ -16,7 +18,7 @@ class ParserTest {
     var testFolder = TemporaryFolder()
 
     @Test
-    fun parsingArgFile() {
+    fun `parsing @file`() {
         class C : TestCommand() {
             val foo by option()
             val bar by option()
@@ -44,7 +46,7 @@ class ParserTest {
     }
 
     @Test
-    fun parsingArgFileRecursive() {
+    fun `parsing @file recursive`() {
         class C : TestCommand() {
             val foo by option()
             val arg by argument()
@@ -63,7 +65,7 @@ class ParserTest {
     }
 
     @Test
-    fun parsingArgFileUnclosedQuotes() {
+    fun `parsing @file unclosed quotes`() {
         class C : TestCommand(called = false) {
             val arg by argument()
         }
@@ -76,5 +78,74 @@ class ParserTest {
 
         shouldThrow<UsageError> { C().parse("@${file.path}") }
                 .text shouldBe "unclosed quote in @-file"
+    }
+
+    @Test
+    fun `passing @file after --`() {
+        class C : TestCommand() {
+            val arg by argument()
+
+            override fun run_() {
+                arg shouldBe "@file"
+            }
+        }
+
+        C().parse("-- @file")
+    }
+
+    @Test
+    fun `escaping @file`() {
+        class C : TestCommand() {
+            val arg by argument()
+
+            override fun run_() {
+                arg shouldBe "@file"
+            }
+        }
+
+        C().parse("@@file")
+    }
+
+    @Test
+    fun `@file after arg`() {
+        class C(a: Boolean) : TestCommand() {
+            init {
+                context {
+                    allowInterspersedArgs = a
+                }
+            }
+
+            val arg by argument().multiple()
+
+            override fun run_() {
+                arg shouldBe listOf("foo", "bar")
+            }
+        }
+
+        val file = testFolder.newFile()
+        file.writeText("bar")
+
+        val argv = "foo @${file.path}"
+        C(true).parse(argv)
+        C(false).parse(argv)
+    }
+
+    @Test
+    fun `disabling @file`() {
+        class C : TestCommand() {
+            init {
+                context {
+                    expandArgumentFiles = false
+                }
+            }
+
+            val arg by argument()
+
+            override fun run_() {
+                arg shouldBe "@file"
+            }
+        }
+
+        C().parse("@file")
     }
 }

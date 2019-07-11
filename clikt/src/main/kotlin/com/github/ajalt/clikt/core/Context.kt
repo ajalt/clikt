@@ -29,6 +29,8 @@ import kotlin.reflect.KProperty
  *   tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive
  *   behavior.
  * @property console The console to use to print messages.
+ * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
+ *   files. If false, they will be treated as normal arguments.
  */
 class Context(
         val parent: Context?,
@@ -40,7 +42,8 @@ class Context(
         val helpOptionMessage: String,
         val helpFormatter: HelpFormatter,
         val tokenTransformer: Context.(String) -> String,
-        val console: CliktConsole
+        val console: CliktConsole,
+        var expandArgumentFiles: Boolean
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -73,8 +76,7 @@ class Context(
     /** Throw a [UsageError] with the given message */
     fun fail(message: String = ""): Nothing = throw UsageError(message)
 
-    class Builder(command: CliktCommand,
-                  parent: Context? = null) {
+    class Builder(command: CliktCommand, parent: Context? = null) {
         /**
          * If false, options and arguments cannot be mixed; the first time an argument is encountered, all
          * remaining tokens are parsed as arguments.
@@ -108,21 +110,28 @@ class Context(
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
             it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
         }
-
         /**
          * The console that will handle reading and writing text.
          *
          * The default uses [System. in] and [System.out].
          */
         var console: CliktConsole = parent?.console ?: defaultCliktConsole()
+        /**
+         * If true, arguments starting with `@` will be expanded as argument files. If false, they
+         * will be treated as normal arguments.
+         */
+        var expandArgumentFiles: Boolean = true
     }
 
     companion object {
         inline fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
             with(Builder(command, parent)) {
                 block()
-                return Context(parent, command, allowInterspersedArgs, autoEnvvarPrefix, printExtraMessages,
-                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console)
+                return Context(
+                        parent, command, allowInterspersedArgs, autoEnvvarPrefix, printExtraMessages,
+                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console,
+                        expandArgumentFiles
+                )
             }
         }
     }

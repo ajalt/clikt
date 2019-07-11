@@ -74,7 +74,7 @@ $ ./copy file.* out/
 Copying files [file.txt, file.md] to out/
 ```
 
-## Option-Like Arguments
+## Option-Like Arguments (Using `--`)
 
 Clikt normally parses any value that starts with punctuation as an
 option, which allows users to intermix options and arguments. However,

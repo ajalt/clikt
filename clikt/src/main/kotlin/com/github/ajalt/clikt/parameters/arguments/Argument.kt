@@ -192,12 +192,14 @@ internal fun <T> defaultValidator(): ArgValidator<T> = {}
  * @param name The metavar for this argument. If not given, the name is inferred form the property name.
  * @param help The description of this argument for help output.
  * @param helpTags Extra information about this option to pass to the help formatter
+ * @param completionCandidates Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.
  */
 @Suppress("unused")
 fun CliktCommand.argument(
         name: String = "",
         help: String = "",
-        helpTags: Map<String, String> = emptyMap()
+        helpTags: Map<String, String> = emptyMap(),
+        completionCandidates: CompletionCandidates = CompletionCandidates.None
 ): RawArgument {
     return ProcessedArgument(
             name = name,
@@ -205,7 +207,7 @@ fun CliktCommand.argument(
             required = true,
             help = help,
             helpTags = helpTags,
-            completionCandidates = CompletionCandidates.None,
+            completionCandidates = completionCandidates,
             transformValue = { it },
             transformAll = defaultAllProcessor(),
             transformValidator = defaultValidator()

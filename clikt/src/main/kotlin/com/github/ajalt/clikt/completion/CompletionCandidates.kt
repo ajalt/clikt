@@ -14,4 +14,6 @@ sealed class CompletionCandidates {
     object Username : CompletionCandidates()
     /** Complete the parameter with a fixed set of string */
     data class Fixed(val candidates: Set<String>) : CompletionCandidates()
+    /** Complete with arbitrary shell expression */
+    data class Command(val command: String) : CompletionCandidates()
 }

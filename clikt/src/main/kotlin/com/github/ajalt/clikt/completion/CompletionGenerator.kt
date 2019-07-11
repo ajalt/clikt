@@ -196,6 +196,9 @@ internal object CompletionGenerator {
                         completion.candidates.joinTo(this, " ")
                         append("' -- \"\${word}\"))\n")
                     }
+                    is CompletionCandidates.Command -> {
+                        append("      COMPREPLY=(\$(compgen -W \"`${completion.command}`\" -- \"\${word}\"))\n")
+                    }
                 }
 
                 append("      ;;\n")

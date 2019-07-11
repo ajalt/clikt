@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- New `CompletionCandidate.Command` allowing to generate candidates from an arbitrary command/shell expression.
+
+### Changed
+- Updated `CliktCommand.argument()` to support an optional `CompletionCandidate` argument.  
+
 
 ## [2.1.0] - 2019-05-23 
 ### Added

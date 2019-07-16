@@ -120,7 +120,7 @@ class Context(
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
-        var expandArgumentFiles: Boolean = true
+        var expandArgumentFiles: Boolean = parent?.expandArgumentFiles ?: true
     }
 
     companion object {

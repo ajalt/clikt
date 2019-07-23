@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.TestSource
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.tables.row
@@ -155,5 +156,29 @@ class EnvvarOptionsTest {
         C().parse(emptyArray())
         called1 shouldBe true
         called2 shouldBe true
+    }
+
+    @Test
+    fun `readEnvvarBeforeValuesSource when both exist`() = forall(
+            row(true, "bar"),
+            row(false, "baz")
+    ) { envvarFirst, expected ->
+        env["FOO"] = "bar"
+        class C : TestCommand() {
+            init {
+                context {
+                    valuesSource = TestSource("foo" to "baz")
+                    readEnvvarBeforeValuesSource = envvarFirst
+                }
+            }
+
+            val foo by option(envvar = "FOO")
+
+            override fun run_() {
+                foo shouldBe expected
+            }
+        }
+
+        C().parse("")
     }
 }

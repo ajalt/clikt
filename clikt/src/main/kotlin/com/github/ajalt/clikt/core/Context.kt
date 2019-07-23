@@ -1,5 +1,7 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.fileconfig.ChainedValuesSource
+import com.github.ajalt.clikt.fileconfig.CliktValuesSource
 import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.CliktHelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter
@@ -31,6 +33,13 @@ import kotlin.reflect.KProperty
  * @property console The console to use to print messages.
  * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
  *   files. If false, they will be treated as normal arguments.
+ * @property readEnvvarBeforeValuesSource If `true`, environment variables will be search for option
+ *   values before the [valuesSource]. By default, the [valuesSource] is searched before environment
+ *   variables.
+ * @property valuesSource The source that will attempt to read values for options that aren't
+ *   present on the command line.
+ * @property valuesSourceKeyTransformer A transformer for keys used for options when reading from
+ *   [valuesSource].
  */
 class Context(
         val parent: Context?,
@@ -43,7 +52,10 @@ class Context(
         val helpFormatter: HelpFormatter,
         val tokenTransformer: Context.(String) -> String,
         val console: CliktConsole,
-        var expandArgumentFiles: Boolean
+        val expandArgumentFiles: Boolean,
+        val readEnvvarBeforeValuesSource: Boolean,
+        val valuesSource: CliktValuesSource?,
+        val valuesSourceKeyTransformer: Context.(String) -> String
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -75,6 +87,31 @@ class Context(
 
     /** Throw a [UsageError] with the given message */
     fun fail(message: String = ""): Nothing = throw UsageError(message)
+
+    /** Return a list of command names, starting with the topmost command and ending with this Context's command. */
+    fun commandNameWithParents(): List<String> {
+        return generateSequence(this) { it.parent }
+                .map { it.command.commandName }
+                .toList().asReversed()
+    }
+
+    class ValuesSourceBuilder(private val sources: MutableList<CliktValuesSource>) {
+        /** Add one or more sources. They will be searched in the order they are added. */
+        fun add(vararg sources: CliktValuesSource) {
+            this.sources += sources
+        }
+
+        /** Add one or more sources. They will be searched in the order they are added. */
+        fun add(sources: Iterable<CliktValuesSource>) {
+            this.sources += sources
+        }
+
+        /** Add a source. Sources will be searched in the order they are added. */
+        operator fun CliktValuesSource.unaryPlus() = add(this)
+
+        /** Add one or more sources. They will be searched in the order they are added. */
+        operator fun Iterable<CliktValuesSource>.unaryPlus() = add(this)
+    }
 
     class Builder(command: CliktCommand, parent: Context? = null) {
         /**
@@ -113,7 +150,7 @@ class Context(
         /**
          * The console that will handle reading and writing text.
          *
-         * The default uses [System. in] and [System.out].
+         * The default uses [System.in] and [System.out].
          */
         var console: CliktConsole = parent?.console ?: defaultCliktConsole()
         /**
@@ -121,6 +158,46 @@ class Context(
          * will be treated as normal arguments.
          */
         var expandArgumentFiles: Boolean = parent?.expandArgumentFiles ?: true
+        /**
+         * If `false`,the [valuesSource] is searched before environment variables.
+         *
+         * By default, environment variables will be searched for option values before the [valuesSource].
+         */
+        var readEnvvarBeforeValuesSource: Boolean = parent?.readEnvvarBeforeValuesSource ?: true
+        /**
+         * The source that will attempt to read values for options that aren't present on the command line.
+         *
+         * You can set multiple sources with [valueSources]
+         */
+        var valuesSource: CliktValuesSource? = parent?.valuesSource
+
+        /**
+         * A transformer for keys used for options when reading from [valuesSource].
+         *
+         * By default, this joins subcommand names to to the key with a '.' character.
+         *
+         * The transformer takes in the key for each option and returns the transformed key that
+         * will be passed to the [valuesSource].
+         */
+        var valuesSourceKeyTransformer: Context.(key: String) -> String = { key ->
+            (commandNameWithParents().drop(1) + key).joinToString(".")
+        }
+
+        /**
+         * Set multiple sources that will attempt to read values for options not present on the command line.
+         *
+         * Values are read from the first source, then if it doesn't return a value, later sources
+         * are read successively until one returns a value or all sources have been read.
+         */
+        inline fun valueSources(block: ValuesSourceBuilder.() -> Unit) {
+            val sources = mutableListOf<CliktValuesSource>()
+            ValuesSourceBuilder(sources).block()
+            valuesSource = when (sources.size) {
+                0 -> null
+                1 -> sources[0]
+                else -> ChainedValuesSource(sources)
+            }
+        }
     }
 
     companion object {
@@ -130,7 +207,8 @@ class Context(
                 return Context(
                         parent, command, allowInterspersedArgs, autoEnvvarPrefix, printExtraMessages,
                         helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console,
-                        expandArgumentFiles
+                        expandArgumentFiles, readEnvvarBeforeValuesSource, valuesSource,
+                        valuesSourceKeyTransformer
                 )
             }
         }

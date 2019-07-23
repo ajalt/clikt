@@ -753,11 +753,10 @@ Hello Bar
 ```
 
 You can enable automatic envvar name inference by setting the `autoEnvvarPrefix` on a command's
-[`context`][context]. This will cause all options without
-an explicit envvar name to be given an uppercase underscore-separated envvar name. Since the prefix
-is set on the [`context`][context], it is propagated to
-subcommands. If you have a a subcommand called `foo` with an option `--bar`, and your prefix is
-`MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
+[`context`][context]. This will cause all options without an explicit envvar name to be given an
+uppercase underscore-separated envvar name. Since the prefix is set on the [`context`][context], it
+is propagated to subcommands. If you have a a subcommand called `foo` with an option `--bar`, and
+your prefix is `MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
 
 ```kotlin tab="Example"
 class Hello : CliktCommand() {
@@ -780,13 +779,12 @@ Hello Foo
 ## Multiple Values from Environment Variables
 
 You might need to allow users to specify multiple values for an option in a single environment
-variable. You can do this by creating an option with
-[`multiple`][multiple]. The environment
+variable. You can do this by creating an option with [`multiple`][multiple]. The environment
 variable's value will be split according a regex, which defaults to split on whitespace for most
-types. [`file`][file] will change the pattern
-to split according to the operating system's path splitting rules. On Windows, it will split on
-semicolons (`;`). On other systems, it will split on colons (`:`). You can also specify a split
-pattern by passing it to the `envvarSplit` parameter of `option`.
+types. [`file`][file] will change the pattern to split according to the operating system's path
+splitting rules. On Windows, it will split on semicolons (`;`). On other systems, it will split on
+colons (`:`). You can also specify a split pattern by passing it to the `envvarSplit` parameter of
+`option`.
 
 ```kotlin tab="Example"
 class Hello : CliktCommand() {
@@ -803,6 +801,82 @@ $ ./hello
 Hello Foo
 Hello Bar
 ```
+
+## Values from Configuration Files
+
+Clikt also supports reading option values from one or more configuration files when they aren't
+present on the command line. For example, when using `git commit`, you can set the author date with
+a command line parameter: `git commit --date=10/21/2015`. But you can also set it in your git
+configuration file: `user.email=clikt@example.com`.
+
+Clikt allows you to specify one or more sources of option values that will be read from if the
+option isn't given on the command line with the [`Context.valueSources`][Context.valueSources]
+builder.
+
+```kotlin tab="Example"
+class Hello : CliktCommand() {
+    init {
+        context {
+            valueSources {
+                javaProperties("myconfig.properties", "~/myconfig.properties")
+            }
+        }
+    }
+    val name by option()
+    override fun run() {
+        echo("Hello $name")
+    }
+}
+```
+
+```text tab="Usage"
+$ echo "name=Foo" > myconfig.properties
+$ ./hello
+Hello Foo
+```
+
+Clikt includes support for Java Properties files, and you can add any other file type by
+implementing [CliktValuesSource][CliktValuesSource]. See the [JSON sample][json sample] for an
+implementation that uses [kotlinx.serialization][serialization] to load values from JSON files.
+
+### Value Keys
+
+When looking for option values, Clikt needs a unique key for each option. By default, this is the
+option name with the prefix (like `--`) removed. So an option `--user-name` will use the key
+`user-name`. You can set the key for each option manually by passing it to [`option`][option]:
+
+```kotlin
+val userName by option(valueSourceKey="user.name")
+```
+
+You can also transform all keys by setting the [`valuesSourceKeyTransformer`][Context.vskt] on your
+command's `Context`. By default, this transformer will do nothing to keys for top-level commands,
+and will add subcommand names joined with `.` characters to the keys of options defined in child
+commands.
+
+```kotlin
+class Parent : CliktCommand() {
+     val name by option()
+}
+class Child : CliktCommand() { /* ... */ }
+class Grandchild : CliktCommand() {
+     val name by option()
+}
+
+fun main(args: Array<String>) {
+    Parent().subcommands(Child().subcommands(Grandchild())).main(args)
+}
+```
+
+In the above code, the option in `Parent` will be transformed to the key `"name"`, and the option in
+`Grandchild` to `"child.grandchild.name"`.
+
+### Configuration Files and Environment Variables
+
+Every option can read values from both environment variables and configuration files. By default,
+Clikt with use the value from an environment variable before the value from a configuration file,
+but you can change this by setting [`Context.readEnvvarBeforeValuesSource`][readEnvvarFirst] to
+`false`.
 
 ## Windows and Java-Style Option Prefixes
 
@@ -908,3 +982,9 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [context]:                     api/clikt/com.github.ajalt.clikt.core/context.md
 [file]:                        api/clikt/com.github.ajalt.clikt.parameters.types/file.md
 [float]:                       api/clikt/com.github.ajalt.clikt.parameters.types/float.md
+[Context.valueSources]:        api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-sources.md
+[Context.vskt]:                api/clikt/com.github.ajalt.clikt.core/-context/-builder/values-source-key-transformer.md
+[CliktValuesSource]:           api/clikt/com.github.ajalt.clikt.fileconfig/-clikt-values-source/index.md
+[json sample]:                 https://github.com/ajalt/clikt/tree/master/samples/json
+[serialization]:               https://github.com/Kotlin/kotlinx.serialization
+[readEnvvarFirst]:             api/clikt/com.github.ajalt.clikt.core/-context/-builder/read-envvar-before-values-source.md

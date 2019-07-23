@@ -71,6 +71,16 @@ abstract class CliktCommand(
         }
     }
 
+    private fun initializeValueSources() {
+        context.valuesSource?.initialize()
+        _subcommands.forEach { it.initializeValueSources() }
+    }
+
+    private fun closeValueSources() {
+        context.valuesSource?.close()
+        _subcommands.forEach { it.closeValueSources() }
+    }
+
     private fun allHelpParams(): List<ParameterHelp> {
         return _options.mapNotNull { it.parameterHelp } +
                 _arguments.mapNotNull { it.parameterHelp } +
@@ -80,9 +90,7 @@ abstract class CliktCommand(
 
     private fun getCommandNameWithParents(): String {
         if (_context == null) createContext()
-        return generateSequence(context) { it.parent }.toList()
-                .asReversed()
-                .joinToString(" ") { it.command.commandName }
+        return context.commandNameWithParents().joinToString(" ")
     }
 
     private fun generateCompletion() {
@@ -212,8 +220,10 @@ abstract class CliktCommand(
      */
     fun parse(argv: List<String>, parentContext: Context? = null) {
         createContext(parentContext)
+        initializeValueSources()
         generateCompletion()
         Parser.parse(argv, this.context)
+        closeValueSources()
     }
 
     fun parse(argv: Array<String>, parentContext: Context? = null) {

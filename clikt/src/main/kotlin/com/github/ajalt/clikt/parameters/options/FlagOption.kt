@@ -16,7 +16,6 @@ import kotlin.reflect.KProperty
  * @property transformEnvvar Called to transform string values from envvars into the option type.
  * @property transformAll Called to transform all invocations of this option into the final option type.
  */
-// `T` is deliberately not an out parameter.
 class FlagOption<T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
@@ -24,6 +23,7 @@ class FlagOption<T>(
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         val envvar: String?,
+        val valueSourceKey: String?,
         val transformEnvvar: OptionTransformContext.(String) -> T,
         val transformAll: CallsTransformer<String, T>,
         val validator: OptionValidator<T>
@@ -45,11 +45,16 @@ class FlagOption<T>(
     }
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
-        value = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
-            transformAll(OptionTransformContext(this, context), invocations.map { it.name })
-        } else {
-            transformEnvvar(OptionTransformContext(this, context), System.getenv(env))
+        val transformContext = OptionTransformContext(this, context)
+        value = when (val v = getFinalValue(context, invocations, valueSourceKey, envvar)) {
+            is FinalValue.Parsed -> transformAll(transformContext, invocations.map { it.name })
+            is FinalValue.Sourced -> {
+                if (v.values.size != 1 || v.values[0].values.size != 1) {
+                    throw UsageError("Invalid flag value in file for key ${v.key}", this)
+                }
+                transformEnvvar(transformContext, v.values[0].values[0])
+            }
+            is FinalValue.Envvar -> transformEnvvar(transformContext, v.value)
         }
     }
 
@@ -67,9 +72,13 @@ class FlagOption<T>(
             help: String = this.help,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
-            envvar: String? = this.envvar
+            envvar: String? = this.envvar,
+            valueSourceKey: String? = this.valueSourceKey
     ): FlagOption<T> {
-        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll, validator)
+        return FlagOption(
+                names, secondaryNames, help, hidden, helpTags, envvar, valueSourceKey,
+                transformEnvvar, transformAll, validator
+        )
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -80,9 +89,13 @@ class FlagOption<T>(
             help: String = this.help,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
-            envvar: String? = this.envvar
+            envvar: String? = this.envvar,
+            valueSourceKey: String? = this.valueSourceKey
     ): FlagOption<T> {
-        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll, validator)
+        return FlagOption(
+                names, secondaryNames, help, hidden, helpTags, envvar, valueSourceKey,
+                transformEnvvar, transformAll, validator
+        )
     }
 }
 
@@ -94,7 +107,7 @@ class FlagOption<T>(
  * @param default the value for this property if the option is not given on the command line.
  */
 fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
-    return FlagOption(names, secondaryNames.toSet(), help, hidden, helpTags, envvar,
+    return FlagOption(names, secondaryNames.toSet(), help, hidden, helpTags, envvar, valueSourceKey,
             transformEnvvar = {
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
@@ -105,34 +118,37 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
             transformAll = {
                 if (it.isEmpty()) default else it.last() !in secondaryNames
             },
-            validator = {})
+            validator = {}
+    )
 }
 
 /**
  * Turn an option into a flag that counts the number of times the option occurs on the command line.
  */
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, emptySet(), help, hidden, helpTags, envvar,
+    return FlagOption(names, emptySet(), help, hidden, helpTags, envvar, valueSourceKey,
             transformEnvvar = { valueToInt(it) },
             transformAll = { it.size },
-            validator = {})
+            validator = {}
+    )
 }
 
 /** Turn an option into a set of flags that each map to a value. */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(choices.keys, emptySet(), help, hidden, helpTags, null,
+    return FlagOption(choices.keys, emptySet(), help, hidden, helpTags, null, null,
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },
             transformAll = { it.map { choices.getValue(it) }.lastOrNull() },
-            validator = {})
+            validator = {}
+    )
 }
 
 /** Turn an option into a set of flags that each map to a value. */
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
 
-/** Set a default value for a option. */
+/** Set a default value for this option. */
 fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
     return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },

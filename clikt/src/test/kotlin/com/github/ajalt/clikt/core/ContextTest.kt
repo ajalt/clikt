@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.testing.TestCommand
+import io.kotlintest.assertSoftly
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import org.junit.Test
@@ -67,6 +68,25 @@ class ContextTest {
         }
         shouldThrow<NoSuchOption> {
             C().context { helpOptionNames = setOf("--x") }.parse("--help")
+        }
+    }
+
+    @Test
+    fun `default values source key transformer`() {
+        class A : TestCommand()
+        class B : TestCommand()
+        class C : TestCommand()
+
+        val c = C()
+        val b = B().subcommands(c)
+        val a = A().subcommands(b)
+
+        a.parse("b c")
+
+        assertSoftly {
+            a.context.valuesSourceKeyTransformer(a.context, "foo") shouldBe "foo"
+            b.context.valuesSourceKeyTransformer(b.context, "foo") shouldBe "b.foo"
+            c.context.valuesSourceKeyTransformer(c.context, "foo") shouldBe "b.c.foo"
         }
     }
 }

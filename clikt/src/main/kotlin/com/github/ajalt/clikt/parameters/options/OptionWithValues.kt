@@ -82,13 +82,12 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  *   each one will be treated like a separate invocation of the option.
  * @property valueSplit The pattern to split values from the command line on. By default, values are
  *   split on whitespace.
+ * @property valueSourceKey The key to use for this option when reading from a values source, if one is configured.
  * @property transformValue Called in [finalize] to transform each value provided to each invocation.
  * @property transformEach Called in [finalize] to transform each invocation.
  * @property transformAll Called in [finalize] to transform all invocations into the final value.
  * @property transformValidator Called after all parameters have been [finalize]d to validate the output of [transformAll]
  */
-// `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
-// default("").int()
 class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,
@@ -101,6 +100,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
         override val completionCandidates: CompletionCandidates,
+        val valueSourceKey: String?,
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
         val transformAll: CallsTransformer<EachT, AllT>,
@@ -116,16 +116,21 @@ class OptionWithValues<AllT, EachT, ValueT>(
         private set
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
-        val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
-        val inv = if (invocations.isNotEmpty() || env == null || System.getenv(env) == null) {
-            when (valueSplit) {
-                null -> invocations
-                else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
+        val inv = when (val v = getFinalValue(context, invocations, valueSourceKey, envvar)) {
+            is FinalValue.Parsed -> {
+                when (valueSplit) {
+                    null -> v.values
+                    else -> v.values.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
+                }
             }
-        } else {
-            System.getenv(env).split(envvarSplit.value).map { Invocation(env, listOf(it)) }
+            is FinalValue.Sourced -> {
+                if (v.values.any { it.values.size != nvalues }) throw IncorrectOptionValueCount(this, v.key)
+                v.values.map { Invocation(v.key, it.values) }
+            }
+            is FinalValue.Envvar -> {
+                v.value.split(envvarSplit.value).map { Invocation(v.key, listOf(it)) }
+            }
         }
-
         value = transformAll(OptionTransformContext(this, context), inv.map {
             val tc = OptionCallTransformContext(it.name, this, context)
             transformEach(tc, it.values.map { v -> transformValue(tc, v) })
@@ -161,11 +166,14 @@ class OptionWithValues<AllT, EachT, ValueT>(
             envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
-            completionCandidates: CompletionCandidates = this.completionCandidates
+            completionCandidates: CompletionCandidates = this.completionCandidates,
+            valueSourceKey: String? = this.valueSourceKey
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
-                transformValue, transformEach, transformAll, validator)
+        return OptionWithValues(
+                names, metavarWithDefault, nvalues, help, hidden, helpTags, envvar, envvarSplit,
+                valueSplit, parser, completionCandidates, valueSourceKey, transformValue,
+                transformEach, transformAll, validator
+        )
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -181,11 +189,14 @@ class OptionWithValues<AllT, EachT, ValueT>(
             envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
-            completionCandidates: CompletionCandidates = this.completionCandidates
+            completionCandidates: CompletionCandidates = this.completionCandidates,
+            valueSourceKey: String? = this.valueSourceKey
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
-                transformValue, transformEach, transformAll, validator)
+        return OptionWithValues(
+                names, metavarWithDefault, nvalues, help, hidden, helpTags, envvar,
+                envvarSplit, valueSplit, parser, completionCandidates, valueSourceKey,
+                transformValue, transformEach, transformAll, validator
+        )
     }
 }
 
@@ -219,6 +230,7 @@ internal fun <T> defaultValidator(): OptionValidator<T> = { }
  * @param envvarSplit The pattern to split the value of the [envvar] on. Defaults to whitespace,
  *   although some conversions like `file` change the default.
  * @param helpTags Extra information about this option to pass to the help formatter
+ * @param valueSourceKey The key to use for this option when reading from a values source, if one is configured.
  */
 @Suppress("unused")
 fun ParameterHolder.option(
@@ -228,7 +240,8 @@ fun ParameterHolder.option(
         hidden: Boolean = false,
         envvar: String? = null,
         envvarSplit: Regex? = null,
-        helpTags: Map<String, String> = emptyMap()
+        helpTags: Map<String, String> = emptyMap(),
+        valueSourceKey: String? = null
 ): RawOption = OptionWithValues(
         names = names.toSet(),
         metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
@@ -241,6 +254,7 @@ fun ParameterHolder.option(
         valueSplit = null,
         parser = OptionWithValuesParser,
         completionCandidates = CompletionCandidates.None,
+        valueSourceKey = valueSourceKey,
         transformValue = { it },
         transformEach = defaultEachProcessor(),
         transformAll = defaultAllProcessor(),

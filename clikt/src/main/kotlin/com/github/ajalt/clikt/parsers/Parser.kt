@@ -230,7 +230,7 @@ internal object Parser {
     private fun loadArgFile(filename: String, context: Context): List<String> {
         val file = File(filename)
         if (!file.isFile) {
-            throw BadParameterValue("'$file' is not a file", "@-file", context)
+            throw CliktFileNotFoundError(filename)
         }
 
         val text = file.bufferedReader().use { it.readText() }
@@ -245,11 +245,11 @@ internal object Parser {
                     i += 1
                 }
                 c == '\n' && inQuote != null -> {
-                    throw UsageError("unclosed quote in @-file")
+                    throw CliktFileFormatError(filename, "unclosed quote in file")
                 }
                 c == '\\' -> {
-                    if (i >= text.lastIndex) throw UsageError("@-file ends with \\")
-                    if (text[i + 1] in "\r\n") throw UsageError("unclosed quote in @-file")
+                    if (i >= text.lastIndex) throw CliktFileFormatError(filename, "file ends with \\")
+                    if (text[i + 1] in "\r\n") throw CliktFileFormatError(filename, "unclosed quote in file")
                     sb.append(text[i + 1])
                     i += 2
                 }
@@ -282,7 +282,7 @@ internal object Parser {
         }
 
         if (inQuote != null) {
-            throw UsageError("Missing closing quote in @-file")
+            throw CliktFileFormatError(filename, "Missing closing quote in file")
         }
 
         if (sb.isNotEmpty()) {

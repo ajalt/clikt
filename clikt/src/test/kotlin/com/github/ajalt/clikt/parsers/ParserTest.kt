@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
+import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import org.junit.Rule
@@ -77,7 +78,7 @@ class ParserTest {
         """.trimMargin())
 
         shouldThrow<UsageError> { C().parse("@${file.path}") }
-                .text shouldBe "unclosed quote in @-file"
+                .text shouldContain "unclosed quote in file"
     }
 
     @Test

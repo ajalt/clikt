@@ -1,0 +1,5 @@
+{
+  "option": ["option value 1", "value 2"],
+  "flag": true,
+  "values": { "number": 123 }
+}

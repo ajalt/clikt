@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Ability to read option values [from configuration files](https://ajalt.github.io/clikt/options/#values-from-configuration-files). New parameters were added to [`Context`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/-context/), [`option()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/option/), and the constructors of the option implementations. 
+
 ### Changed
 - There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)
 

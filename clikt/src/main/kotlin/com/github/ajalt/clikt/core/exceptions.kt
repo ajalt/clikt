@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.longestName
 
 /**
  * An internal error that signals Clikt to abort.
@@ -71,11 +72,17 @@ open class UsageError private constructor(
 
     protected fun inferParamName(): String = when {
         paramName != null -> paramName!!
-        option != null -> option?.names?.maxBy { it.length } ?: ""
+        option != null -> option?.longestName() ?: ""
         argument != null -> argument!!.name
         else -> ""
     }
 }
+
+/** A required configuration file was not found. */
+class CliktFileNotFoundError(filename: String) : UsageError("$filename not found")
+
+/** A configuration file failed to parse correctly */
+class CliktFileFormatError(filename: String, message: String) : UsageError("$filename has incorrect format: $message")
 
 /**
  * A parameter was given the correct number of values, but of invalid format or type.

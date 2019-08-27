@@ -1,4 +1,4 @@
-# Advanced Patters
+# Advanced Patterns
 
 Clikt has reasonable behavior by default, but is also very customizable
 for advanced use cases.

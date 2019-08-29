@@ -95,16 +95,15 @@ arguments.
   val opt: String? by option().choice("A", "B")
  ```
 
-  To create an argument that requires the user to choose from the values
-  of an enum:
+  You can convert the values on the fly by using a map:
 
  ```kotlin
-  enum class Color { RED, GREEN }
-  val color: Color by argument().choice("RED" to Color.RED, "GREEN" to Color.GREEN)
+  val color: Int by argument().choice("RED" to 1, "GREEN" to 2)
  ```
 
 * `File`: [`option().file()` and `argument().file()`][file]
 * `Path`: [`option().path()` and `argument().path()`][path]
+* `Enum`: [`option().enum<MyEnum>()` and `argument().enum<MyEnum>()`][enum]
 
   These conversion functions take extra parameters that allow you to
   require that values are file paths that have certain attributes, such
@@ -226,5 +225,6 @@ Error: --bigger-number must be bigger than --number
 [choice]:     api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
 [file]:       api/clikt/com.github.ajalt.clikt.parameters.types/file.md
 [path]:       api/clikt/com.github.ajalt.clikt.parameters.types/path.md
+[enum]:       api/clikt/com.github.ajalt.clikt.parameters.types/enum.md
 [convert]:    api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
 [validate]:   api/clikt/com.github.ajalt.clikt.parameters.options/validate.md

@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 script: ./gradlew :clikt:check --info --stacktrace --console=plain --max-workers=1 --no-daemon -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.colors.enabled=false
 

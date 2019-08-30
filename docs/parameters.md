@@ -75,35 +75,42 @@ arguments.
 * `Int`: [`option().int()` and `argument().int()`][int]
 * `Long`: [`option().long()` and `argument().long()`][long]
 
-  By default, any value that fits in the integer type is accepted.
-  You can restrict the values to a range with [`restrictTo()`][restrictTo],
-  which allows you to either clamp the input to the range,
-  or fail with an error if the input is outside the range.
+By default, any value that fits in the integer type is accepted.
+You can restrict the values to a range with [`restrictTo()`][restrictTo],
+which allows you to either clamp the input to the range,
+or fail with an error if the input is outside the range.
 
 * `Float`: [`option().float()` and `argument().float()`][float]
 * `Double`: [`option().double()` and `argument().double()`][double]
 
-  As with integers, you can restrict the input to a range with [`restrictTo()`][restrictTo].
+As with integers, you can restrict the input to a range with [`restrictTo()`][restrictTo].
 
 * [`option().choice()` and `argument().choice()`][choice]
 
-  You can restrict the values to a set of values, and optionally map the
-  input to a new value. For example, to create an option that only
-  accepts the value "A" or "B":
+You can restrict the values to a set of values, and optionally map the
+input to a new value. For example, to create an option that only
+accepts the value "A" or "B":
 
  ```kotlin
-  val opt: String? by option().choice("A", "B")
+  val opt: String? by option().choice("a", "b")
  ```
 
-  You can convert the values on the fly by using a map:
+You can also convert the restricted set of values to a new type:
 
  ```kotlin
-  val color: Int by argument().choice("RED" to 1, "GREEN" to 2)
+  val color: Int by argument().choice("red" to 1, "green" to 2)
  ```
+* `Enum`: [`option().enum()` and `argument().enum()`][enum]
+
+Like `choice`, but uses the values of an enum type.
+
+```kotlin
+enum class Color { RED, GREEN }
+val color: Color by option().enum<Color>()
+```
 
 * `File`: [`option().file()` and `argument().file()`][file]
 * `Path`: [`option().path()` and `argument().path()`][path]
-* `Enum`: [`option().enum<MyEnum>()` and `argument().enum<MyEnum>()`][enum]
 
   These conversion functions take extra parameters that allow you to
   require that values are file paths that have certain attributes, such

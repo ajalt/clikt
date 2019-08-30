@@ -59,6 +59,23 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
     return choice(choices.associateBy { it })
 }
 
+/**
+ * Convert the argument to the values of an enum.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * enum class Size { SMALL, LARGE }
+ * argument().enum<Size>()
+ * ```
+ *
+ * @param key A block that returns the command line value to use for an enum value. The default is
+ *   the enum name.
+ */
+inline fun <reified T : Enum<T>> RawArgument.enum(key: (T) -> String = { it.name }): ProcessedArgument<T, T> {
+    return choice(enumValues<T>().associateBy { key(it) })
+}
+
 // options
 
 /**
@@ -108,4 +125,21 @@ fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
 fun RawOption.choice(vararg choices: String,
                      metavar: String = mvar(choices.asIterable())): NullableOption<String, String> {
     return choice(choices.associateBy { it }, metavar)
+}
+
+/**
+ * Convert the option to the values of an enum.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * enum class Size { SMALL, LARGE }
+ * option().enum<Size>()
+ * ```
+ *
+ * @param key A block that returns the command line value to use for an enum value. The default is
+ *   the enum name.
+ */
+inline fun <reified T : Enum<T>> RawOption.enum(key: (T) -> String = { it.name }): NullableOption<T, T> {
+    return choice(enumValues<T>().associateBy { key(it) })
 }

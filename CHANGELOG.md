@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Added `enum()` conversion for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/64))
+
 ### Changed
 - There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)
 - added `enum<MyEnum>()` type for parameter values to simplify enum handling

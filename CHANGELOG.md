@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Changed
 - There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)
+- added `enum<MyEnum>()` type for parameter values to simplify enum handling
 
 ## [2.1.0] - 2019-05-23 
 ### Added

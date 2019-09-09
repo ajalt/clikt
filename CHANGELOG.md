@@ -7,6 +7,9 @@
 ### Changed
 - There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)
 
+### Fixed
+- Help output missing items when no help text is specified. ([#85](https://github.com/ajalt/clikt/issues/85))
+
 ## [2.1.0] - 2019-05-23 
 ### Added
 - Ability to prevent [rewrapping individual paragraphs](https://ajalt.github.io/clikt/documenting/#preventing-rewrapping) in help output.

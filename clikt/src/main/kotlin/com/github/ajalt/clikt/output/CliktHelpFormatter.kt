@@ -197,20 +197,24 @@ open class CliktHelpFormatter(
             }
             val subsequentIndent = " ".repeat(firstIndent.graphemeLength + firstWidth + colSpacing)
 
-            val initialIndent = if (col1.graphemeLength > maxColWidth) {
-                // If the first column is too wide, append it and start the second column on a new line
-                append(firstIndent).append(col1).append("\n")
-                subsequentIndent
+            if (col2.isBlank()) {
+                append(firstIndent).append(col1)
             } else {
-                // If the first column fits, use it as the initial indent for wrapping
-                buildString {
-                    append(firstIndent).append(col1)
-                    // Pad the difference between this column's width and the table's first column width
-                    appendRepeat(" ", firstWidth - col1.graphemeLength + colSpacing)
+                val initialIndent = if (col1.graphemeLength > maxColWidth) {
+                    // If the first column is too wide, append it and start the second column on a new line
+                    append(firstIndent).append(col1).append("\n")
+                    subsequentIndent
+                } else {
+                    // If the first column fits, use it as the initial indent for wrapping
+                    buildString {
+                        append(firstIndent).append(col1)
+                        // Pad the difference between this column's width and the table's first column width
+                        appendRepeat(" ", firstWidth - col1.graphemeLength + colSpacing)
+                    }
                 }
-            }
 
-            col2.wrapText(this, width, initialIndent, subsequentIndent)
+                col2.wrapText(this, width, initialIndent, subsequentIndent)
+            }
         }
     }
 

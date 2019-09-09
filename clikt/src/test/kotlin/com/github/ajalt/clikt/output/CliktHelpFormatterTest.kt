@@ -11,6 +11,7 @@ import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.shouldBe
 import org.junit.Test
 
@@ -378,6 +379,29 @@ class CliktHelpFormatterTest {
                 |Commands:
                 |  foo  some thing to live by
                 |  bar  another argument
+                """.trimMargin("|")
+    }
+
+    @Test
+    @Suppress("unused")
+    fun `integration test with subcommand without help`() {
+        class C : TestCommand() {
+            val opt by option().flag()
+        }
+
+        class Sub : TestCommand()
+
+        val c = C().subcommands(Sub())
+
+        c.getFormattedHelp() shouldBe """
+                |Usage: c [OPTIONS] COMMAND [ARGS]...
+                |
+                |Options:
+                |  --opt
+                |  -h, --help  Show this message and exit
+                |
+                |Commands:
+                |  sub
                 """.trimMargin("|")
     }
 

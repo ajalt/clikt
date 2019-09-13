@@ -500,7 +500,7 @@ class FromDisk : LoadConfig("Options for loading from disk") {
     val followSymlinks by option().flag()
 }
 
-class FromNetwork: LoadConfig("Option for loading from network") {
+class FromNetwork: LoadConfig("Options for loading from network") {
     val url by option().required()
     val username by option().prompt()
     val password by option().prompt(hideInput = true)

@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
+import com.github.ajalt.clikt.parameters.groups.groupChoice
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
@@ -402,6 +403,36 @@ class CliktHelpFormatterTest {
                 |
                 |Commands:
                 |  sub
+                """.trimMargin("|")
+    }
+
+    @Test
+    @Suppress("unused")
+    fun `integration test with choice group`() {
+        class G1 : OptionGroup("G1") {
+            val opt1 by option()
+        }
+        class G2 : OptionGroup("G2") {
+            val opt2 by option()
+        }
+        class C : TestCommand() {
+            val opt by option().groupChoice("g1" to G1(), "g2" to G2())
+        }
+
+        val c = C()
+
+        c.getFormattedHelp() shouldBe """
+                |Usage: c [OPTIONS]
+                |
+                |G1:
+                |  --opt1 TEXT
+                |
+                |G2:
+                |  --opt2 TEXT
+                |
+                |Options:
+                |  --opt TEXT
+                |  -h, --help  Show this message and exit
                 """.trimMargin("|")
     }
 

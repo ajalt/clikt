@@ -9,6 +9,7 @@
 
 ### Fixed
 - Help output missing items when no help text is specified. ([#85](https://github.com/ajalt/clikt/issues/85))
+- Help output not grouping option in groups passed to `groupChoice`. ([#88](https://github.com/ajalt/clikt/issues/88))
 
 ## [2.1.0] - 2019-05-23 
 ### Added

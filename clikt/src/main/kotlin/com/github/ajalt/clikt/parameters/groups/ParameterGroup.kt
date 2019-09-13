@@ -67,13 +67,6 @@ interface ParameterGroupDelegate<out T> : ParameterGroup, ReadOnlyProperty<Clikt
  *   val userOptions by UserOptions()
  * }
  * ```
- *
- * ### Note:
- *
- * If you're using IntelliJ, bug KT-31319 prevents [provideDelegate] from being imported
- * automatically, so until that's fixed, you'll need to add this import manually:
- *
- * `import com.github.ajalt.clikt.parameters.groups.provideDelegate`
  */
 open class OptionGroup(
         name: String? = null,

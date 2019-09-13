@@ -48,7 +48,7 @@ interface Option {
         get() = when {
             hidden -> null
             else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues, helpTags,
-                    groupName = if (this is GroupableOption) parameterGroup?.groupName else null)
+                    groupName = if (this is GroupableOption) groupName ?: parameterGroup?.groupName else null)
         }
 
     /**

@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Added
-- Added `enum()` conversion for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/64))
+- Added `enum()` conversion for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/84))
 
 ### Changed
 - There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)

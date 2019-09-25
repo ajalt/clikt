@@ -55,7 +55,6 @@ nav:
   - 'Options':
       - 'Basic Options': options/
       - 'Option Names': options/#option-names
-      - 'Option Names': options/#option-names
       - 'Customizing Options': options/#customizing-options
       - 'Multi Value Options': options/#multi-value-options
       - 'Multiple Options': options/#multiple-options

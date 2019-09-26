@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.2.0] - 2019-09-25
 ### Added
 - Added `enum()` conversion for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/84))
 
@@ -9,9 +11,9 @@
 
 ### Fixed
 - Help output missing items when no help text is specified. ([#85](https://github.com/ajalt/clikt/issues/85))
-- Help output not grouping option in groups passed to `groupChoice`. ([#88](https://github.com/ajalt/clikt/issues/88))
+- Help output not grouping options in groups passed to `groupChoice`. ([#88](https://github.com/ajalt/clikt/issues/88))
 
-## [2.1.0] - 2019-05-23 
+## [2.1.0] - 2019-05-23
 ### Added
 - Ability to prevent [rewrapping individual paragraphs](https://ajalt.github.io/clikt/documenting/#preventing-rewrapping) in help output.
 - Added parameter `required` to `Option.multiple()` to require at least one instance of the option on the command line.
@@ -22,7 +24,7 @@
 ### Fixed
 - Create subcommand context when `helpOptionNames` is empty. ([#64](https://github.com/ajalt/clikt/issues/64))
 
-## [2.0.0] - 2019-05-12 
+## [2.0.0] - 2019-05-12
 ### Added
 - [Bash autocomplete script generation](https://ajalt.github.io/clikt/autocomplete/). A property named `completionCandidates` has been added to `Argument` and `Option` interfaces, and corresponding parameters have been added to the various implementation constructors, as well as the `convert` functions. You can use this to control the values autocomplete that will be suggested.
 - [`option().split()`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/split/), and the corresponding [`OptionWithValues.valueSplit`](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/-option-with-values/value-split/).

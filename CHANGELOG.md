@@ -4,10 +4,10 @@
 
 ## [2.2.0] - 2019-09-25
 ### Added
-- Added `enum()` conversion for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/84))
+- Added [`enum()` conversion](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.types/enum/) for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/84))
 
 ### Changed
-- There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/arguments/#preventing-file-expansion)
+- There are now several ways of [preventing @-file expansion](https://ajalt.github.io/clikt/advanced/#preventing-file-expansion)
 
 ### Fixed
 - Help output missing items when no help text is specified. ([#85](https://github.com/ajalt/clikt/issues/85))

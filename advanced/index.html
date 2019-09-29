@@ -40,7 +40,7 @@
     
     
       
-        <title>Advanced Patters - Clikt</title>
+        <title>Advanced Patterns - Clikt</title>
       
     
     
@@ -108,7 +108,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#advanced-patters" tabindex="1" class="md-skip">
+      <a href="#advanced-patterns" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -133,7 +133,7 @@
               Clikt
             </span>
             <span class="md-header-nav__topic">
-              Advanced Patters
+              Advanced Patterns
             </span>
           
         </div>
@@ -514,18 +514,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#option-names" title="Option Names" class="md-nav__link">
-      Option Names
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../options/#customizing-options" title="Customizing Options" class="md-nav__link">
       Customizing Options
     </a>
@@ -790,8 +778,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../arguments/#option-like-arguments" title="Option-Like Arguments" class="md-nav__link">
-      Option-Like Arguments
+    <a href="../arguments/#option-like-arguments-using-" title="Option-Like Arguments ("--")" class="md-nav__link">
+      Option-Like Arguments ("--")
     </a>
   </li>
 
@@ -1090,8 +1078,8 @@
 
 
   <li class="md-nav__item">
-    <a href="#command-line-argument-files" title="Command Line Argument Files" class="md-nav__link">
-      Command Line Argument Files
+    <a href="#command-line-argument-files-files" title="Argument Files ("@-files")" class="md-nav__link">
+      Argument Files ("@-files")
     </a>
   </li>
 
@@ -1419,12 +1407,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#command-line-argument-files" title="Command Line Argument Files" class="md-nav__link">
-    Command Line Argument Files
+  <a href="#command-line-argument-files-files" title="Command Line Argument Files ("@-files")" class="md-nav__link">
+    Command Line Argument Files ("@-files")
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preventing-file-expansion" title="Preventing @-file expansion" class="md-nav__link">
+    Preventing @-file expansion
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#file-format" title="File format" class="md-nav__link">
@@ -1457,7 +1452,7 @@
                   <a href="https://github.com/ajalt/clikt/edit/master/docs/advanced.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="advanced-patters">Advanced Patters<a class="headerlink" href="#advanced-patters" title="Permanent link">&para;</a></h1>
+                <h1 id="advanced-patterns">Advanced Patterns<a class="headerlink" href="#advanced-patterns" title="Permanent link">&para;</a></h1>
 <p>Clikt has reasonable behavior by default, but is also very customizable
 for advanced use cases.</p>
 <h2 id="command-aliases">Command Aliases<a class="headerlink" href="#command-aliases" title="Permanent link">&para;</a></h2>
@@ -1597,7 +1592,7 @@ when <a href="../commands/#customizing-contexts">customizing the command context
 
 <p>If you are using <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/"><code>TermUI</code></a> directly,
 you can also pass your custom console as an argument.</p>
-<h2 id="command-line-argument-files">Command Line Argument Files<a class="headerlink" href="#command-line-argument-files" title="Permanent link">&para;</a></h2>
+<h2 id="command-line-argument-files-files">Command Line Argument Files (&ldquo;@-files&rdquo;)<a class="headerlink" href="#command-line-argument-files-files" title="Permanent link">&para;</a></h2>
 <p>Similar to <code>javac</code>, Clikt supports loading command line parameters from a file using the &ldquo;@-file&rdquo;
 syntax. You can pass any file path to a command prefixed with <code>@</code>, and the file will be expanded
 into the command line parameters. This can be useful on operating systems like Windows that have
@@ -1623,6 +1618,13 @@ command line length limits.</p>
 <p>If you have any options with names that start with <code>@</code>, you can still use <code>@-files</code>, but values on
 the command line that match an option will be parsed as that option, rather than an <code>@-file</code>, so
 you&rsquo;ll have to give your files a different name.</p>
+<h3 id="preventing-file-expansion">Preventing @-file expansion<a class="headerlink" href="#preventing-file-expansion" title="Permanent link">&para;</a></h3>
+<p>If you want to use a value starting with <code>@</code> as an argument without expanding it, you have three options:</p>
+<ol>
+<li>Pass it after a <code>--</code>, <a href="../arguments/#option-like-arguments-using-">which disables expansion for everything that occurs after it</a>.</li>
+<li>Escape it with <code>@@</code>. The first <code>@</code> will be removed and the rest used as the argumetn value. For example, <code>@@file</code> will parse as the string <code>@file</code></li>
+<li>Disable @-file expansion entirely by setting <a href="../api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files/"><code>Context.expandArgumentFiles = false</code></a></li>
+</ol>
 <h3 id="file-format">File format<a class="headerlink" href="#file-format" title="Permanent link">&para;</a></h3>
 <p>In argument files, normal shell quoting and escaping rules apply. Line breaks are treated as word
 separators, and can be used where you would normally use a space to separate parameters. Line breaks

@@ -14,9 +14,13 @@ buildscript {
 }
 
 kotlin {
+    def runOnMac = System.getProperty("os.name") == "Mac OS X"
     targetFromPreset(presets.jvmWithJava, 'jvm')
     linuxX64('linux')
     mingwX64('win')
+    if (runOnMac) {
+        macosX64()
+    }
 
     sourceSets {
         commonMain {
@@ -51,6 +55,11 @@ kotlin {
         }
         configure([linuxMain, winMain]) {
             dependsOn commonMain
+        }
+        if (runOnMac) {
+            configure(macosX64Main) {
+                dependsOn linuxMain
+            }
         }
     }
 }

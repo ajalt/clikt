@@ -1,6 +1,15 @@
 apply plugin: 'org.jetbrains.kotlin.multiplatform'
 
+
 kotlin {
+    def runOnMac = System.getProperty("os.name") == "Mac OS X"
+    if (runOnMac) macosX64 {
+        binaries {
+            executable {
+                entryPoint = 'com.github.ajalt.clikt.sample.main'
+            }
+        }
+    }
     mingwX64('winX64') {
         binaries {
             executable {
@@ -10,10 +19,16 @@ kotlin {
     }
 
     sourceSets {
-        winX64Main {
+        main {
             dependencies {
                 implementation project(':clikt')
             }
+        }
+        if (runOnMac) configure(macosX64Main) {
+            dependsOn main
+        }
+        configure(winX64Main) {
+            dependsOn main
         }
     }
 }

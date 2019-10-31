@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- Shell completion code is now printed by throwing a `PrintCompletionMessage` (a subclass of `PrintMessage`) rather than calling `echo` directly.
 
 ## [2.2.0] - 2019-09-25
 ### Added

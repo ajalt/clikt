@@ -30,7 +30,17 @@ class PrintHelpMessage(val command: CliktCommand) : CliktError()
  *
  * Execution should be immediately halted without an error.
  */
-class PrintMessage(message: String) : CliktError(message)
+open class PrintMessage(message: String) : CliktError(message)
+
+/**
+ * An exception that indicates that shell completion code should be printed.
+ *
+ * Execution should be immediately halted without an error.
+ *
+ * @param forceUnixLineEndings if true, all line endings in the message should be `\n`, regardless
+ *   of the current operating system.
+ */
+class PrintCompletionMessage(message: String, val forceUnixLineEndings: Boolean): PrintMessage(message)
 
 /**
  * An internal exception that signals a usage error.

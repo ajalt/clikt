@@ -93,8 +93,7 @@ abstract class CliktCommand(
         }
         val envval = System.getenv(envvar) ?: return
         val completion = CompletionGenerator.generateCompletion(command = this, zsh = "zsh" in envval)
-        echo(completion, lineSeparator = "\n")
-        exitProcess(1)
+        throw PrintCompletionMessage(completion, forceUnixLineEndings = true)
     }
 
     /**
@@ -231,6 +230,10 @@ abstract class CliktCommand(
             parse(argv)
         } catch (e: PrintHelpMessage) {
             echo(e.command.getFormattedHelp())
+            exitProcess(0)
+        } catch (e: PrintCompletionMessage) {
+            val s = if (e.forceUnixLineEndings) "\n" else context.console.lineSeparator
+            echo(e.message, lineSeparator = s)
             exitProcess(0)
         } catch (e: PrintMessage) {
             echo(e.message)

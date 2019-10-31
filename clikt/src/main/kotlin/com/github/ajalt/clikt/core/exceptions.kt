@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
+import kotlin.system.exitProcess
 
 /**
  * An internal error that signals Clikt to abort.
@@ -54,21 +55,24 @@ class PrintCompletionMessage(message: String, val forceUnixLineEndings: Boolean)
  *   actual name used. If not set, it will be inferred from [argument] or [option] if either is set.
  * @property option The option that caused this error. This may be set after the error is thrown.
  * @property argument The argument that caused this error. This may be set after the error is thrown.
+ * @property statusCode The value to use as the exit code for the process. If you use
+ *   [CliktCommand.main], it will pass this value to [exitProcess] after printing [message]. Defaults to 1.
  */
 open class UsageError private constructor(
         val text: String? = null,
         var paramName: String? = null,
         var option: Option? = null,
         var argument: Argument? = null,
-        var context: Context? = null) : CliktError() {
-    constructor(text: String, paramName: String? = null, context: Context? = null)
-            : this(text, paramName, null, null, context)
+        var context: Context? = null,
+        val statusCode: Int = 1) : CliktError() {
+    constructor(text: String, paramName: String? = null, context: Context? = null, statusCode: Int = 1)
+            : this(text, paramName, null, null, context, statusCode)
 
-    constructor(text: String, argument: Argument, context: Context? = null)
-            : this(text, null, null, argument, context)
+    constructor(text: String, argument: Argument, context: Context? = null, statusCode: Int = 1)
+            : this(text, null, null, argument, context, statusCode)
 
-    constructor(text: String, option: Option, context: Context? = null)
-            : this(text, null, option, null, context)
+    constructor(text: String, option: Option, context: Context? = null, statusCode: Int = 1)
+            : this(text, null, option, null, context, statusCode)
 
     fun helpMessage(): String = buildString {
         context?.let { append(it.command.getFormattedUsage()).append("\n\n") }

@@ -240,7 +240,7 @@ abstract class CliktCommand(
             exitProcess(0)
         } catch (e: UsageError) {
             echo(e.helpMessage(), err = true)
-            exitProcess(1)
+            exitProcess(e.statusCode)
         } catch (e: CliktError) {
             echo(e.message, err = true)
             exitProcess(1)

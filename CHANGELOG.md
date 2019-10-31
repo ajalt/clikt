@@ -4,6 +4,9 @@
 ### Changed
 - Shell completion code is now printed by throwing a `PrintCompletionMessage` (a subclass of `PrintMessage`) rather than calling `echo` directly.
 
+### Added
+- `UsageError` now has a `statusCode` parameter (which defaults to 1). If you're using `ClicktCommand.main`, the value of `statusCode` will be passed to `exitProcess`. 
+
 ## [2.2.0] - 2019-09-25
 ### Added
 - Added [`enum()` conversion](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.types/enum/) for options and arguments. ([#84](https://github.com/ajalt/clikt/issues/84))

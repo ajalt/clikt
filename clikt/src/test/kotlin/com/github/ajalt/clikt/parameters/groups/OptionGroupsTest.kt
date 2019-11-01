@@ -288,6 +288,49 @@ class OptionGroupsTest {
     }
 
     @Test
+    fun `switch group`() {
+        class Group1 : OptionGroup() {
+            val g11 by option().int().required()
+            val g12 by option().int()
+        }
+
+        class Group2 : OptionGroup() {
+            val g21 by option().int().required()
+            val g22 by option().int()
+        }
+
+        class C : TestCommand() {
+            val g by option().groupSwitch("--a" to Group1(), "--b" to Group2())
+        }
+        forall(
+                row("", 0, null, null),
+                row("--g11=1 --g21=1", 0, null, null),
+                row("--a --g11=2", 1, 2, null),
+                row("--a --g11=2 --g12=3", 1, 2, 3),
+                row("--a --g11=2 --g12=3", 1, 2, 3),
+                row("--b --g21=2 --g22=3", 2, 2, 3),
+                row("--b --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
+        ) { argv, eg, eg1, eg2 ->
+            with(C()) {
+                parse(argv)
+                when (eg) {
+                    0 -> {
+                        g shouldBe null
+                    }
+                    1 -> {
+                        (g as Group1).g11 shouldBe eg1
+                        (g as Group1).g12 shouldBe eg2
+                    }
+                    2 -> {
+                        (g as Group2).g21 shouldBe eg1
+                        (g as Group2).g22 shouldBe eg2
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun `plain option group validation`() = forall(
             row("", null, true),
             row("--x=1", 1, true),

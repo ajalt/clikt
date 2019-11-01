@@ -483,15 +483,16 @@ Error: Missing option "--name".
 Like [other option groups][grouping-options-in-help], you can specify a `name` and
 `help` text for the group if you want to set the group apart in the help output.
 
-## Choice Options With Groups
+## Choice and Switch Options With Groups
 
 If you have different groups of options that only make sense when another option has a certain value,
-you can use [`groupChoice`][groupChoice].
+you can use [`groupChoice`][groupChoice] and [`groupSwitch`][groupSwitch].
 
-These options are similar to [`choice` options][choice-options], but instead of mapping a value to
+`groupChoice` options are similar to [`choice` options][choice-options], but instead of mapping a value to
 a single new type, they map a value to a [co-occurring `OptionGroup`][co-occurring-option-groups].
 Options for groups other than the selected one are ignored, and only the selected group's `required`
-constraints are enforced.
+constraints are enforced. In the same way, `groupSwitch` options are similar to [`switch`
+options][choice-options].
 
 ```kotlin tab="Example"
 sealed class LoadConfig(name: String): OptionGroup(name)
@@ -896,7 +897,8 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [cooccurring]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/cooccurring.md
 [required]:                    api/clikt/com.github.ajalt.clikt.parameters.options/required.md
 [groupChoice]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/group-choice.md
-[choice-options]:              #choice-options
+[groupChoice]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/group-switch.md
+[switch-options]:              #feature-switch-flags
 [co-occurring-option-groups]:  #co-occurring-option-groups
 [prompt]:                      api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
 [versionOption]:               api/clikt/com.github.ajalt.clikt.parameters.options/version-option.md

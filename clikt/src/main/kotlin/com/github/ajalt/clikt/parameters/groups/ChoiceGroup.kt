@@ -7,13 +7,15 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.OptionDelegate
 import com.github.ajalt.clikt.parameters.options.RawOption
+import com.github.ajalt.clikt.parameters.options.switch
 import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class ChoiceGroup<GroupT : OptionGroup, OutT>(
-        internal val option: RawOption,
+        internal val option: OptionDelegate<String?>,
         internal val groups: Map<String, GroupT>,
         internal val transform: (GroupT?) -> OutT
 ) : ParameterGroupDelegate<OutT> {
@@ -103,3 +105,28 @@ fun <T : OptionGroup> ChoiceGroup<T, T?>.required(): ChoiceGroup<T, T> {
     return ChoiceGroup(option, groups) { it ?: throw MissingParameter(option) }
 }
 
+/**
+ * Convert the option into a set of flags that each map to an option group.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * option().switch(mapOf("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup()))
+ * ```
+ */
+fun <T : OptionGroup> RawOption.groupSwitch(choices: Map<String, T>): ChoiceGroup<T, T?> {
+    return ChoiceGroup(switch(choices.mapValues { it.key }), choices) { it }
+}
+
+/**
+ * Convert the option into a set of flags that each map to an option group.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * option().switch("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup())
+ * ```
+ */
+fun <T : OptionGroup> RawOption.groupSwitch(vararg choices: Pair<String, T>): ChoiceGroup<T, T?> {
+    return groupSwitch(choices.toMap())
+}

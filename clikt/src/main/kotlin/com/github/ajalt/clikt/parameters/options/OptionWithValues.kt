@@ -100,7 +100,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         val envvarSplit: ValueWithDefault<Regex>,
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
-        override val completionCandidates: CompletionCandidates,
+        val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
         val transformValue: ValueTransformer<ValueT>,
         val transformEach: ArgsTransformer<ValueT, EachT>,
         val transformAll: CallsTransformer<EachT, AllT>,
@@ -114,6 +114,8 @@ class OptionWithValues<AllT, EachT, ValueT>(
     override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
         private set
+    override val completionCandidates: CompletionCandidates
+        get() = completionCandidatesWithDefault.value
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
         val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
@@ -161,10 +163,10 @@ class OptionWithValues<AllT, EachT, ValueT>(
             envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
-            completionCandidates: CompletionCandidates = this.completionCandidates
+            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
+                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidatesWithDefault,
                 transformValue, transformEach, transformAll, validator)
     }
 
@@ -181,10 +183,10 @@ class OptionWithValues<AllT, EachT, ValueT>(
             envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
-            completionCandidates: CompletionCandidates = this.completionCandidates
+            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidates,
+                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidatesWithDefault,
                 transformValue, transformEach, transformAll, validator)
     }
 }
@@ -228,7 +230,8 @@ fun ParameterHolder.option(
         hidden: Boolean = false,
         envvar: String? = null,
         envvarSplit: Regex? = null,
-        helpTags: Map<String, String> = emptyMap()
+        helpTags: Map<String, String> = emptyMap(),
+        completionCandidates: CompletionCandidates? = null
 ): RawOption = OptionWithValues(
         names = names.toSet(),
         metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
@@ -240,7 +243,7 @@ fun ParameterHolder.option(
         envvarSplit = ValueWithDefault(envvarSplit, Regex("\\s+")),
         valueSplit = null,
         parser = OptionWithValuesParser,
-        completionCandidates = CompletionCandidates.None,
+        completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
         transformValue = { it },
         transformEach = defaultEachProcessor(),
         transformAll = defaultAllProcessor(),
@@ -560,12 +563,13 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
  * @param metavar The metavar for the type. Overridden by a metavar passed to [option].
  * @param envvarSplit If the value is read from an envvar, the pattern to split the value on. The default
  *   splits on whitespace. This value is can be overridden by passing a value to the [option] function.
- * @param completionCandidates candidates to use when completing this option in shell autocomplete
+ * @param completionCandidates candidates to use when completing this option in shell autocomplete,
+ *   if no candidates are specified in [option]
  */
 inline fun <T : Any> RawOption.convert(
         metavar: String = "VALUE",
         envvarSplit: Regex = this.envvarSplit.default,
-        completionCandidates: CompletionCandidates = this.completionCandidates,
+        completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
         crossinline conversion: ValueTransformer<T>
 ): NullableOption<T, T> {
     val proc: ValueTransformer<T> = {
@@ -581,7 +585,7 @@ inline fun <T : Any> RawOption.convert(
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
             metavarWithDefault = metavarWithDefault.copy(default = metavar),
             envvarSplit = this.envvarSplit.copy(default = envvarSplit),
-            completionCandidates = completionCandidates)
+            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates))
 }
 
 /**

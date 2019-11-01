@@ -64,7 +64,7 @@ nav:
       - 'Choice Options': options/#choice-options
       - 'Mutually Exclusive Option Groups': options/#mutually-exclusive-option-groups
       - 'Co-Occurring Option Groups': options/#co-occurring-option-groups
-      - 'Choice Options With Groups': options/#choice-options-with-groups
+      - 'Choice and Switch Options With Groups': options/#choice-and-switch-options-with-groups
       - 'Prompting For Input': options/#prompting-for-input
       - 'Password Prompts': options/#password-prompts
       - 'Eager Options': options/#eager-options

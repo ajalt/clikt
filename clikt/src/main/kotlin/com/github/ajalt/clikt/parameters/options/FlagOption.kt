@@ -118,7 +118,15 @@ fun RawOption.counted(): FlagOption<Int> {
             validator = {})
 }
 
-/** Turn an option into a set of flags that each map to a value. */
+/**
+ * Turn an option into a set of flags that each map to a value.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * option().switch(mapOf("--foo" to Foo(), "--bar" to Bar()))
+ * ```
+ */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return FlagOption(choices.keys, emptySet(), help, hidden, helpTags, null,
@@ -129,7 +137,15 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
             validator = {})
 }
 
-/** Turn an option into a set of flags that each map to a value. */
+/**
+ * Turn an option into a set of flags that each map to a value.
+ *
+ * ### Example:
+ *
+ * ```kotlin
+ * option().switch("--foo" to Foo(), "--bar" to Bar())
+ * ```
+ */
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
 
 /** Set a default value for a option. */

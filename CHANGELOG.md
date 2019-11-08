@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.3.0] - 2019-11-07
 ### Added
 - `option().groupSwitch()`, which works like `groupChoice()`, but uses a `switch()` option rather than a `choice()` option.
 - `UsageError` now has a `statusCode` parameter (which defaults to 1). If you're using `ClicktCommand.main`, the value of `statusCode` will be passed to `exitProcess`. 

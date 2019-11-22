@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- `groupChoice` help output now includes the choices in the help output metavar 
 
 ## [2.3.0] - 2019-11-07
 ### Added

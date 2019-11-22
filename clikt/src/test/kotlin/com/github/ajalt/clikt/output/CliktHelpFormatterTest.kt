@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.groupChoice
+import com.github.ajalt.clikt.parameters.groups.groupSwitch
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
@@ -416,7 +417,7 @@ class CliktHelpFormatterTest {
             val opt2 by option()
         }
         class C : TestCommand() {
-            val opt by option().groupChoice("g1" to G1(), "g2" to G2())
+            val opt by option(help="select group").groupChoice("g1" to G1(), "g2" to G2())
         }
 
         val c = C()
@@ -431,7 +432,37 @@ class CliktHelpFormatterTest {
                 |  --opt2 TEXT
                 |
                 |Options:
-                |  --opt TEXT
+                |  --opt [g1|g2]  select group
+                |  -h, --help     Show this message and exit
+                """.trimMargin("|")
+    }
+
+    @Test
+    @Suppress("unused")
+    fun `integration test with switch group`() {
+        class G1 : OptionGroup("G1") {
+            val opt1 by option()
+        }
+        class G2 : OptionGroup("G2") {
+            val opt2 by option()
+        }
+        class C : TestCommand() {
+            val opt by option(help="select group").groupSwitch("--g1" to G1(), "--g2" to G2())
+        }
+
+        val c = C()
+
+        c.getFormattedHelp() shouldBe """
+                |Usage: c [OPTIONS]
+                |
+                |G1:
+                |  --opt1 TEXT
+                |
+                |G2:
+                |  --opt2 TEXT
+                |
+                |Options:
+                |  --g1, --g2  select group
                 |  -h, --help  Show this message and exit
                 """.trimMargin("|")
     }

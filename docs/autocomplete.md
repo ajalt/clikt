@@ -51,13 +51,13 @@ $ _MY_PROGRAM_COMPLETE=bash ./my-program > ~/my-program-completion.sh
 Finally, source the file to activate completion:
 
 ```bash
-$ source ~/hello-completion.sh
+$ source ~/my-program-completion.sh
 ```
 
 You can add that source command to your .bashrc so that completion is always available:
 
 ```bash
-$ echo source ~/hello-completion.sh >> ~/.bashrc
+$ echo source ~/my-program-completion.sh >> ~/.bashrc
 ```
 
 You'll need to regenerate the completion script any time your command structure changes.

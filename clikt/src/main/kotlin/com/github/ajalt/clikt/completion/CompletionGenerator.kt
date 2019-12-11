@@ -5,12 +5,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 internal object CompletionGenerator {
     fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
         val commandName = command.commandName
-        val ancestors = generateSequence(command.context) { it.parent }
-                .map { it.command.commandName }
-                .toList().asReversed()
-        val isTopLevel = ancestors.size == 1
-        val funcName = ancestors.joinToString("_", prefix = "_").replace('-', '_')
-
+        val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options.map { Triple(it.names, it.completionCandidates, it.nvalues) }
         val arguments = command._arguments.map { it.name to it.completionCandidates }
         val subcommands = command._subcommands.map { it.commandName }
@@ -116,10 +111,10 @@ internal object CompletionGenerator {
             }
 
 
-            for (name in subcommands) {
+            for (sub in command._subcommands) {
                 append("""
-                |      $name)
-                |        ${funcName}_${name.replace('-', '_')} ${'$'}(( i + 1 ))
+                |      ${sub.commandName})
+                |        ${commandCompletionFuncName(sub).second} ${'$'}(( i + 1 ))
                 |        return
                 |        ;;
                 |
@@ -227,5 +222,14 @@ internal object CompletionGenerator {
                 append("\ncomplete -F $funcName $commandName")
             }
         }
+    }
+
+    private fun commandCompletionFuncName(command: CliktCommand): Pair<Boolean, String> {
+        val ancestors = generateSequence(command.context) { it.parent }
+                .map { it.command.commandName }
+                .toList().asReversed()
+        val isTopLevel = ancestors.size == 1
+        val funcName = ancestors.joinToString("_", prefix = "_").replace('-', '_')
+        return isTopLevel to funcName
     }
 }

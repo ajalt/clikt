@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktError
+import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -41,6 +42,12 @@ internal class Editor(private val editorPath: String?,
         try {
             val process = ProcessBuilder(editor, filename).apply {
                 environment() += env
+
+                if (System.getProperty("os.name") == "Mac OS X") {
+                    redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    redirectInput(ProcessBuilder.Redirect.INHERIT)
+                    directory(File(System.getProperty("user.home")))
+                }
             }.start()
             val exitCode = process.waitFor()
             if (exitCode != 0) throw CliktError("$editor: Editing failed!")

@@ -2,7 +2,8 @@
 
 ## [Unreleased]
 ### Fixed
-- `groupChoice` help output now includes the choices in the help output metavar 
+- `groupChoice` help output now includes the choices in the help output metavar
+- `TermUi.edit*` functions could freeze on certain editors ([#99](https://github.com/ajalt/clikt/issues/99), thanks @iampravikant and @sebokopter)
 
 ## [2.3.0] - 2019-11-07
 ### Added

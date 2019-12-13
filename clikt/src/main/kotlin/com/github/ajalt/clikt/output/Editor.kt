@@ -46,6 +46,7 @@ internal class Editor(private val editorPath: String?,
         try {
             val process = ProcessBuilder(*editorCmd, filename).apply {
                 environment() += env
+                inheritIO()
             }.start()
             val exitCode = process.waitFor()
             if (exitCode != 0) throw CliktError("${editorCmd[0]}: Editing failed!")
@@ -65,8 +66,6 @@ internal class Editor(private val editorPath: String?,
         val file = createTempFile(suffix = extension)
         try {
             file.writeText(textToEdit)
-
-
             val ts = file.lastModified()
             editFile(file.canonicalPath)
 

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Shell completion can now handle command names with dashes. ([#104](https://github.com/ajalt/clikt/issues/104))
 
 ## [2.3.0] - 2019-11-07
 ### Added

@@ -36,14 +36,20 @@ internal class Editor(private val editorPath: String?,
         return "vi"
     }
 
+
+    private fun getEditorCommand(): Array<String> {
+        return getEditorPath().trim().split(" ").toTypedArray()
+    }
+
     fun editFile(filename: String) {
-        val editor = getEditorPath()
+        val editorCmd = getEditorCommand()
         try {
-            val process = ProcessBuilder(editor, filename).apply {
+            val process = ProcessBuilder(*editorCmd, filename).apply {
                 environment() += env
+                inheritIO()
             }.start()
             val exitCode = process.waitFor()
-            if (exitCode != 0) throw CliktError("$editor: Editing failed!")
+            if (exitCode != 0) throw CliktError("${editorCmd[0]}: Editing failed!")
         } catch (err: Exception) {
             when (err) {
                 is CliktError -> throw err
@@ -60,8 +66,6 @@ internal class Editor(private val editorPath: String?,
         val file = createTempFile(suffix = extension)
         try {
             file.writeText(textToEdit)
-
-
             val ts = file.lastModified()
             editFile(file.canonicalPath)
 

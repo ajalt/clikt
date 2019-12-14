@@ -119,7 +119,7 @@ internal object CompletionGenerator {
             for (name in subcommands) {
                 append("""
                 |      $name)
-                |        ${funcName}_$name ${'$'}(( i + 1 ))
+                |        ${funcName}_${name.replace('-', '_')} ${'$'}(( i + 1 ))
                 |        return
                 |        ;;
                 |

@@ -5,6 +5,7 @@
 - `groupChoice` help output now includes the choices in the help output metavar
 - `TermUi.edit*` functions could freeze on certain editors ([#99](https://github.com/ajalt/clikt/issues/99), thanks @iampravikant and @sebokopter)
 - Shell completion can now handle command names with dashes. ([#104](https://github.com/ajalt/clikt/issues/104))
+- Arguments with `=` in them could be incorrectly interpreted as options ([#106](https://github.com/ajalt/clikt/issues/106))
 
 ## [2.3.0] - 2019-11-07
 ### Added

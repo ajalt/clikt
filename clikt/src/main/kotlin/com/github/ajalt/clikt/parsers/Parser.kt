@@ -64,7 +64,7 @@ internal object Parser {
                     canParseOptions = false
                     canExpandAtFiles = false
                 }
-                canParseOptions && ('=' in tok || normTok in longNames || prefix.length > 1 && prefix in prefixes) -> {
+                canParseOptions && (('=' in tok && prefix.isNotEmpty()) || normTok in longNames || prefix.length > 1 && prefix in prefixes) -> {
                     val (opt, result) = parseLongOpt(context, tokens, tok, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount

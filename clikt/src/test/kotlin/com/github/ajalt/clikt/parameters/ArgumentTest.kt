@@ -31,6 +31,7 @@ class ArgumentTest {
     @Test
     fun `one optional argument`() = forall(
             row("", null),
+            row("a=b", "a=b"),
             row("-- --", "--")
     ) { argv, expected ->
         class C : TestCommand() {

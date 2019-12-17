@@ -535,7 +535,8 @@ class OptionTest {
             row("/xx=asd", "asd"),
             row("/x 4", "4"),
             row("/x /xx /xx foo", "foo"),
-            row("/xfoo", "foo")) { argv, expected ->
+            row("/xfoo", "foo")
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("/x", "/xx")
             override fun run_() {

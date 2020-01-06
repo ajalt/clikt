@@ -1,16 +1,12 @@
 package com.github.ajalt.clikt.completion
 
+import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
 import com.github.ajalt.clikt.core.CliktCommand
 
 internal object CompletionGenerator {
     fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
         val commandName = command.commandName
-        val ancestors = generateSequence(command.context) { it.parent }
-                .map { it.command.commandName }
-                .toList().asReversed()
-        val isTopLevel = ancestors.size == 1
-        val funcName = ancestors.joinToString("_", prefix = "_").replace('-', '_')
-
+        val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options.map { Triple(it.names, it.completionCandidates, it.nvalues) }
         val arguments = command._arguments.map { it.name to it.completionCandidates }
         val subcommands = command._subcommands.map { it.commandName }
@@ -19,6 +15,7 @@ internal object CompletionGenerator {
                 .flatMap { arg -> (1..arg.nvalues).map { "'${arg.name}'" } }
                 .joinToString(" ")
         val varargName = command._arguments.find { it.nvalues < 0 }?.name.orEmpty()
+        val paramsWithCandidates = (options.map { o -> o.first.maxBy { it.length }!! to o.second } + arguments)
 
         if (options.isEmpty() && subcommands.isEmpty() && arguments.isEmpty()) return ""
 
@@ -53,6 +50,22 @@ internal object CompletionGenerator {
                 |
                 """.trimMargin())
             }
+
+            // Generate functions for any custom completions
+            for ((name, candidate) in paramsWithCandidates) {
+                val body = (candidate as? CompletionCandidates.Custom)?.generator?.invoke(ShellType.BASH)
+                        ?: continue
+                val indentedBody = body.trimIndent().prependIndent("  ")
+                append("""
+                |
+                |${customParamCompletionName(funcName, name)}() {
+                |$indentedBody
+                |}
+                |
+                """.trimMargin())
+            }
+
+            // Generate the main completion function for this command
             append("""
             |
             |$funcName() {
@@ -116,10 +129,10 @@ internal object CompletionGenerator {
             }
 
 
-            for (name in subcommands) {
+            for (sub in command._subcommands) {
                 append("""
-                |      $name)
-                |        ${funcName}_${name.replace('-', '_')} ${'$'}(( i + 1 ))
+                |      ${sub.commandName})
+                |        ${commandCompletionFuncName(sub).second} ${'$'}(( i + 1 ))
                 |        return
                 |        ;;
                 |
@@ -164,7 +177,7 @@ internal object CompletionGenerator {
 
             append("""
             |
-            |  # We're either at an option's value, or the first remaining fixed value
+            |  # We're either at an option's value, or the first remaining fixed size
             |  # arg, or the vararg if there are no fixed args left
             |  [[ -z "${"$"}{in_param}" ]] && in_param=${"$"}{fixed_arg_names[0]}
             |  [[ -z "${"$"}{in_param}" ]] && in_param=${"$"}{vararg_name}
@@ -173,7 +186,6 @@ internal object CompletionGenerator {
             |
             """.trimMargin())
 
-            val paramsWithCandidates = (options.map { o -> o.first.maxBy { it.length }!! to o.second } + arguments)
             for ((name, completion) in paramsWithCandidates) {
                 append("""
                 |    $name)
@@ -183,18 +195,25 @@ internal object CompletionGenerator {
                     CompletionCandidates.None -> {
                     }
                     CompletionCandidates.Path -> {
-                        append("       COMPREPLY=(\$(compgen -o default -- \"\${word}\")) \n")
+                        append("       COMPREPLY=(\$(compgen -o default -- \"\${word}\"))\n")
                     }
                     CompletionCandidates.Hostname -> {
-                        append("       COMPREPLY=(\$(compgen -A hostname -- \"\${word}\")) \n")
+                        append("       COMPREPLY=(\$(compgen -A hostname -- \"\${word}\"))\n")
                     }
                     CompletionCandidates.Username -> {
-                        append("       COMPREPLY=(\$(compgen -A user -- \"\${word}\")) \n")
+                        append("       COMPREPLY=(\$(compgen -A user -- \"\${word}\"))\n")
                     }
                     is CompletionCandidates.Fixed -> {
                         append("      COMPREPLY=(\$(compgen -W '")
                         completion.candidates.joinTo(this, " ")
                         append("' -- \"\${word}\"))\n")
+                    }
+                    is CompletionCandidates.Custom -> {
+                        if (completion.generator(ShellType.BASH) != null) {
+                            // redirect stderr to /dev/null, because bash prints a warning that
+                            // "compgen -F might not do what you expect"
+                            append("       COMPREPLY=(\$(compgen -F ${customParamCompletionName(funcName, name)} 2>/dev/null))\n")
+                        }
                     }
                 }
 
@@ -227,5 +246,18 @@ internal object CompletionGenerator {
                 append("\ncomplete -F $funcName $commandName")
             }
         }
+    }
+
+    private fun commandCompletionFuncName(command: CliktCommand): Pair<Boolean, String> {
+        val ancestors = generateSequence(command.context) { it.parent }
+                .map { it.command.commandName }
+                .toList().asReversed()
+        val isTopLevel = ancestors.size == 1
+        val funcName = ancestors.joinToString("_", prefix = "_").replace('-', '_')
+        return isTopLevel to funcName
+    }
+
+    private fun customParamCompletionName(commandFuncName: String, name: String): String {
+        return "_${commandFuncName}_complete_${Regex("[^a-zA-Z0-9]").replace(name, "_")}"
     }
 }

@@ -1,6 +1,13 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- `CompletionCandidates.Fixed` now has a secondary convenience constructor that take a `vararg` of `String`s
+- `CompletionCadidates.Custom`, which allows you to call other binaries or write a script to generate completions.
+
+### Changed
+- `option()` and `argument()` now take optional `completionCandidates` parameters to override how completion is generated. The constructor and `copy` functions of `OptionsWithValues` and `ProcessedArgument` have changed to support default values.
+
 ### Fixed
 - `groupChoice` help output now includes the choices in the help output metavar
 - `TermUi.edit*` functions could freeze on certain editors ([#99](https://github.com/ajalt/clikt/issues/99), thanks @iampravikant and @sebokopter)

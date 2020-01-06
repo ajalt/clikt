@@ -10,8 +10,10 @@ open class TestCommand(
         epilog: String = "",
         name: String? = null,
         invokeWithoutSubcommand: Boolean = false,
-        printHelpOnEmptyArgs: Boolean = false
-) : CliktCommand(help, epilog, name, invokeWithoutSubcommand, printHelpOnEmptyArgs) {
+        printHelpOnEmptyArgs: Boolean = false,
+        helpTags: Map<String, String> = emptyMap(),
+        autoCompleteEnvvar: String? = ""
+) : CliktCommand(help, epilog, name, invokeWithoutSubcommand, printHelpOnEmptyArgs, helpTags, autoCompleteEnvvar) {
     private var wasCalled = false
     final override fun run() {
         wasCalled shouldBe false

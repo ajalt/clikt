@@ -51,13 +51,13 @@ $ _MY_PROGRAM_COMPLETE=bash ./my-program > ~/my-program-completion.sh
 Finally, source the file to activate completion:
 
 ```bash
-$ source ~/hello-completion.sh
+$ source ~/my-program-completion.sh
 ```
 
 You can add that source command to your .bashrc so that completion is always available:
 
 ```bash
-$ echo source ~/hello-completion.sh >> ~/.bashrc
+$ echo source ~/my-program-completion.sh >> ~/.bashrc
 ```
 
 You'll need to regenerate the completion script any time your command structure changes.
@@ -75,6 +75,51 @@ You can add completion for other parameters with the `completionCandidates` para
 - `Hostname`: Completions will be read from the system's hosts file.
 - `Username`: Completions will be taken from the system's users.
 - `Fixed`: Completions are given as a fixed set of strings.
+- `Custom`: Completions are generated from a custom script.
+
+### `Custom` completion candidates
+
+The `Custom` type takes a block that returns code to add to the script which generates completions
+for the given parameter.
+
+If you just want to call another script or binary that prints all possible completion words to
+stdout, you can use [fromStdout].
+
+Both Bash and ZSH scripts use Bash's Programmable Completion system (ZSH via a comparability layer).
+The string returned from [generator] should be the body of a function that will be passed to
+`compgen -F`.
+
+Specifically, you should set the variable `COMPREPLY` to the completion(s) for the current word
+being typed. The word being typed can be retrieved from the `COMP_WORDS` array at index
+`COMP_CWORD`.
+
+```kotlin tab="Example with fromStdout"
+class Hello: CliktCommand() {
+    // This example uses `echo`, but you would use your own binary
+    // or script that prints the completions.
+    val name by option(completionCandidates =
+        CompletionCandidates.Custom.fromStdout("echo completion1 completion2")
+    )
+    override fun run() {
+        echo("Hello, $name!")
+    }
+}
+```
+
+```kotlin tab="Example with full script"
+class Hello: CliktCommand() {
+    // This is identical to the previous example
+    val name by option(completionCandidates = CompletionCandidates.Custom {
+        """
+        WORDS=${'$'}(echo completion1 completion2)
+        COMPREPLY=(${'$'}(compgen -W "${'$'}WORDS" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))
+        """.trimIndent()
+    })
+    override fun run() {
+        echo("Hello, $name!")
+    }
+}
+```
 
 ## Limitations
 
@@ -88,6 +133,7 @@ Bash must be at least version 3, or Zsh must be at least version 4.1.
 
 
 [command-aliases]:       advanced.md#command-aliases
+[token-normalization]:   advanced.md#token-normalization
 [allowInterspersedArgs]: api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.md
 [CliktCommand]:          api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
 [choice]:                api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
@@ -95,4 +141,4 @@ Bash must be at least version 3, or Zsh must be at least version 4.1.
 [path]:                  api/clikt/com.github.ajalt.clikt.parameters.types/path.md
 [option]:                api/clikt/com.github.ajalt.clikt.parameters.options/option.md
 [argument]:              api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
-[token-normalization]:   advanced.md#token-normalization
+[fromStdout]:            api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/from-stdout/

@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
+import com.github.ajalt.clikt.parameters.options.ValueWithDefault
 import com.github.ajalt.clikt.parameters.options.transformAll
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.properties.ReadOnlyProperty
@@ -102,7 +103,7 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  *
  * @property transformValue Called in [finalize] to transform each value provided to the argument.
  * @property transformAll Called in [finalize] to transform the list of values to the final type.
- * @property transformValidator Called after all paramters have been [finalize]d to validate the result of [transformAll]
+ * @property transformValidator Called after all parameters have been [finalize]d to validate the result of [transformAll]
  */
 class ProcessedArgument<AllT, ValueT>(
         name: String,
@@ -110,7 +111,7 @@ class ProcessedArgument<AllT, ValueT>(
         override val required: Boolean,
         override val help: String,
         override val helpTags: Map<String, String>,
-        override val completionCandidates: CompletionCandidates,
+        val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
         val transformValue: ArgValueTransformer<ValueT>,
         val transformAll: ArgCallsTransformer<AllT, ValueT>,
         val transformValidator: ArgValidator<AllT>
@@ -123,6 +124,8 @@ class ProcessedArgument<AllT, ValueT>(
         private set
     internal var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
         private set
+    override val completionCandidates: CompletionCandidates
+        get() = completionCandidatesWithDefault.value
 
     override val parameterHelp
         get() = ParameterHelp.Argument(name, help, required && nvalues == 1 || nvalues > 1, nvalues < 0, helpTags)
@@ -155,9 +158,9 @@ class ProcessedArgument<AllT, ValueT>(
             required: Boolean = this.required,
             help: String = this.help,
             helpTags: Map<String, String> = this.helpTags,
-            completionCandidates: CompletionCandidates = this.completionCandidates
+            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidates, transformValue, transformAll, validator)
+        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidatesWithDefault, transformValue, transformAll, validator)
     }
 
     /** Create a new argument that is a copy of this one with the same transforms. */
@@ -168,9 +171,9 @@ class ProcessedArgument<AllT, ValueT>(
             required: Boolean = this.required,
             help: String = this.help,
             helpTags: Map<String, String> = this.helpTags,
-            completionCandidates: CompletionCandidates = this.completionCandidates
+            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidates, transformValue, transformAll, validator)
+        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidatesWithDefault, transformValue, transformAll, validator)
     }
 }
 
@@ -197,7 +200,8 @@ internal fun <T> defaultValidator(): ArgValidator<T> = {}
 fun CliktCommand.argument(
         name: String = "",
         help: String = "",
-        helpTags: Map<String, String> = emptyMap()
+        helpTags: Map<String, String> = emptyMap(),
+        completionCandidates: CompletionCandidates? = null
 ): RawArgument {
     return ProcessedArgument(
             name = name,
@@ -205,7 +209,7 @@ fun CliktCommand.argument(
             required = true,
             help = help,
             helpTags = helpTags,
-            completionCandidates = CompletionCandidates.None,
+            completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
             transformValue = { it },
             transformAll = defaultAllProcessor(),
             transformValidator = defaultValidator()
@@ -345,10 +349,11 @@ inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -
  * [BadParameterValue] is thrown with the error message. You can call `fail` to throw a [BadParameterValue]
  * manually.
  *
- * @param completionCandidates candidates to use when completing this argument in shell autocomplete
+ * @param completionCandidates candidates to use when completing this argument in shell autocomplete,
+ *   if no candidates are specified in [argument]
  */
 inline fun <T : Any> RawArgument.convert(
-        completionCandidates: CompletionCandidates = this.completionCandidates,
+        completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
         crossinline conversion: ArgValueTransformer<T>
 ): ProcessedArgument<T, T> {
     val conv: ArgValueTransformer<T> = {
@@ -361,7 +366,8 @@ inline fun <T : Any> RawArgument.convert(
             fail(err.message ?: "")
         }
     }
-    return copy(conv, defaultAllProcessor(), defaultValidator(), completionCandidates = completionCandidates)
+    return copy(conv, defaultAllProcessor(), defaultValidator(),
+            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates))
 }
 
 /**

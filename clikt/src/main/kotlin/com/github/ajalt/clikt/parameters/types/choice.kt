@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.completion.CompletionCandidates
+import com.github.ajalt.clikt.completion.CompletionCandidates.Fixed
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
@@ -29,8 +29,9 @@ private fun errorMessage(choice: String, choices: Map<String, *>): String {
  */
 fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return convert { choices[it] ?: fail(errorMessage(it, choices)) }
-            .run { copy(completionCandidates = CompletionCandidates.Fixed(choices.keys)) }
+    return convert(completionCandidates = Fixed(choices.keys)) {
+        choices[it] ?: fail(errorMessage(it, choices))
+    }
 }
 
 /**
@@ -92,7 +93,7 @@ inline fun <reified T : Enum<T>> RawArgument.enum(key: (T) -> String = { it.name
 fun <T : Any> RawOption.choice(choices: Map<String, T>,
                                metavar: String = mvar(choices.keys)): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return convert(metavar, completionCandidates = CompletionCandidates.Fixed(choices.keys)) {
+    return convert(metavar, completionCandidates = Fixed(choices.keys)) {
         choices[it] ?: fail(errorMessage(it, choices))
     }
 }

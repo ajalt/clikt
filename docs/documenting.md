@@ -79,7 +79,7 @@ Usage: tool
   - It's newlines will remain intact
 
   This is a new paragraph that will be wrapped if it's wider 
-  than the teminal width.
+  than the terminal width.
 
 Options:
   -h, --help  Show this message and exit

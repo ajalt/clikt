@@ -126,7 +126,7 @@ Options:
 When you write a command line application, you probably want to be able to run it without invoking
 `java -jar ...` every time. If you're using Gradle, the [application plugin][application_plugin] provides a gradle task
 that bundles your program jars and scripts to launch them. It makes it easy to build a zip or
-tarball that you can distribute to your users without them needing to perform any incatations like
+tarball that you can distribute to your users without them needing to perform any incantations like
 setting up a classpath. You can see this plugin in use the in [Clikt samples][clikt-samples].
 
 The application plugin also creates tasks that will build then run your

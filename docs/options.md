@@ -239,7 +239,7 @@ val opt by option().multiple(required=true)
 ```
 
 ```kotlin tab="Default"
-val opt by option().multiple(default=listOf("defaut message"))
+val opt by option().multiple(default=listOf("default message"))
 ```
 
 ## Boolean Flag Options

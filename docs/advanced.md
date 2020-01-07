@@ -193,7 +193,7 @@ you'll have to give your files a different name.
 If you want to use a value starting with `@` as an argument without expanding it, you have three options:
 
 1. Pass it after a `--`, [which disables expansion for everything that occurs after it][dash-dash].
-2. Escape it with `@@`. The first `@` will be removed and the rest used as the argumetn value. For example, `@@file` will parse as the string `@file`
+2. Escape it with `@@`. The first `@` will be removed and the rest used as the argument value. For example, `@@file` will parse as the string `@file`
 3. Disable @-file expansion entirely by setting [`Context.expandArgumentFiles = false`][expandArgumentFiles]
 
 ### File format

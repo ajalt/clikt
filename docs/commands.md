@@ -346,6 +346,7 @@ command run
 [CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
 [Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.md
 [findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.md
+[findOrSetObject]:               api/clikt/com.github.ajalt.clikt.core/find-or-set-object.md
 [requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.md
 [context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
 [printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr

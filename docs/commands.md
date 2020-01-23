@@ -158,7 +158,7 @@ defined data. You can use the `obj` to create interfaces like this:
 ```kotlin tab="Example"
 class Tool : CliktCommand() {
     val verbose by option().flag("--no-verbose")
-    val config by findObject { mutableMapOf<String, String>() }
+    val config by findOrSetObject { mutableMapOf<String, String>() }
     override fun run() {
         config["VERBOSE"] = if (verbose) "on" else "off"
     }
@@ -179,10 +179,11 @@ $ ./tool --verbose execute
 Verbose mode is on
 ```
 
-The [`findObject`][findObject] and [`requireObject`][requireObject] functions will walk up
-the context tree until they find an object with the given type. If no such object exists, they will
-either return `null`, throw an exception, or create an instance of the object and store it on the
-command's context, depending on which overload you call.
+The [`findObject`][findObject], [`findOrSetObject`][findOrSetObject], and
+[`requireObject`][requireObject] functions will walk up the context tree until they find an object
+with the given type. If no such object exists, they will either return `null`, throw an exception,
+or create an instance of the object and store it on the command's context, depending on which
+function you call.
 
 ## Running Parent Command Without Children
 

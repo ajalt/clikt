@@ -7,6 +7,7 @@
 
 ### Changed
 - `option()` and `argument()` now take optional `completionCandidates` parameters to override how completion is generated. The constructor and `copy` functions of `OptionsWithValues` and `ProcessedArgument` have changed to support default values.
+- The overloads of `findObject` ([1](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/-context/find-object/) [2](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/find-object/)) that take a default value have been renamed `findOrSetObject`. The existing names are marked with `@Deprecated`, and IntelliJ can convert your callsites automatically.
 
 ### Fixed
 - `groupChoice` help output now includes the choices in the help output metavar

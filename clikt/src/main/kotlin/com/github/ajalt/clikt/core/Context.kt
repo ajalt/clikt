@@ -59,8 +59,14 @@ class Context(
         return null
     }
 
-    /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
+    @Suppress("unused")
+    @Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(defaultValue)"))
     inline fun <reified T> findObject(defaultValue: () -> T): T {
+        return findOrSetObject(defaultValue)
+    }
+
+    /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
+    inline fun <reified T> findOrSetObject(defaultValue: () -> T): T {
         return findObject<T>() ?: defaultValue().also { obj = it }
     }
 
@@ -138,7 +144,7 @@ class Context(
 }
 
 /** Find the closest object of type [T], or throw a [NullPointerException] */
-@Suppress("unused")
+@Suppress("unused") // these extensions don't use their receiver, but we want to limit where they can be called
 inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
@@ -157,12 +163,18 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
     }
 }
 
+@Suppress("unused")
+@Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(default)"))
+inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
+    return findOrSetObject(default)
+}
+
 /** Find the closest object of type [T], setting `context.obj` if one is not found. */
 @Suppress("unused")
-inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
+inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-            return thisRef.context.findObject(default)
+            return thisRef.context.findOrSetObject(default)
         }
     }
 }

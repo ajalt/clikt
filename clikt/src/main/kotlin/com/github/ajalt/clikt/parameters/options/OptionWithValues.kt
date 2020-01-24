@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
+import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
@@ -554,7 +555,7 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
 }
 
 /**
- * Convert the option value type.
+ * Convert the option's value type.
  *
  * The [conversion] is called once for each value in each invocation of the option. If any errors are thrown,
  * they are caught and a [BadParameterValue] is thrown with the error message. You can call `fail` to throw a
@@ -586,6 +587,55 @@ inline fun <T : Any> RawOption.convert(
             metavarWithDefault = metavarWithDefault.copy(default = metavar),
             envvarSplit = this.envvarSplit.copy(default = envvarSplit),
             completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates))
+}
+
+@Deprecated(
+        "Cannot wrap an option that isn't converted",
+        replaceWith = ReplaceWith("this.convert(wrapper)"),
+        level = DeprecationLevel.ERROR
+)
+@JvmName("rawWrapValue")
+fun RawOption.wrapValue(wrapper: (String) -> Any): RawOption = this
+
+/**
+ * Wrap the option's values after a conversion is applied.
+ *
+ * This can be useful if you want to use different option types wrapped in a sealed class for
+ * [mutuallyExclusiveOptions].
+ *
+ * This can only be called on an option after [convert] or a conversion function like [int].
+ *
+ * If you just want to perform checks on the value without converting it to another type, use
+ * [validate] instead.
+ *
+ * ## Example
+ *
+ * ```
+ * sealed class GroupTypes {
+ *   data class FileType(val file: File) : GroupTypes()
+ *   data class StringType(val string: String) : GroupTypes()
+ * }
+ *
+ * val group by mutuallyExclusiveOptions<GroupTypes>(
+ *   option("-f").file().wrapValue(::FileType),
+ *   option("-s").convert { StringType(it) }
+ * )
+ * ```
+ */
+inline fun <T1 : Any, T2 : Any> NullableOption<T1, T1>.wrapValue(
+        crossinline wrapper: (T1) -> T2
+): NullableOption<T2, T2> {
+    val proc: ValueTransformer<T2> = {
+        try {
+            wrapper(transformValue(it))
+        } catch (err: UsageError) {
+            err.paramName = name
+            throw err
+        } catch (err: Exception) {
+            fail(err.message ?: "")
+        }
+    }
+    return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator())
 }
 
 /**

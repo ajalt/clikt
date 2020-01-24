@@ -650,4 +650,18 @@ class OptionTest {
         shouldThrow<CliktError> { C().parse("--y=1") }
                 .message shouldBe "err"
     }
+
+    @Test
+    fun `wrapValue options`() = forall(
+            row("", null),
+            row("--x=1", listOf(1))
+    ) { argv, expected ->
+        class C : TestCommand() {
+            val x by option().int().wrapValue { listOf(it) }
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
+        C().parse(argv)
+    }
 }

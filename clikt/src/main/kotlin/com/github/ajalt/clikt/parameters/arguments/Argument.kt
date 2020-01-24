@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.ValueWithDefault
-import com.github.ajalt.clikt.parameters.options.transformAll
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -368,6 +367,38 @@ inline fun <T : Any> RawArgument.convert(
     }
     return copy(conv, defaultAllProcessor(), defaultValidator(),
             completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates))
+}
+
+@Deprecated(
+        "Cannot wrap an argument that isn't converted",
+        replaceWith = ReplaceWith("this.convert(wrapper)"),
+        level = DeprecationLevel.ERROR
+)
+@JvmName("rawWrapValue")
+fun RawArgument.wrapValue(wrapper: (String) -> Any): RawArgument = this
+
+/**
+ * Wrap the argument's values after a conversion is applied.
+ *
+ * This can only be called on an argument after [convert] or a conversion function like [int].
+ *
+ * If you just want to perform checks on the value without converting it to another type, use
+ * [validate] instead.
+ */
+inline fun <T1 : Any, T2 : Any> ProcessedArgument<T1, T1>.wrapValue(
+        crossinline wrapper: (T1) -> T2
+): ProcessedArgument<T2, T2> {
+    val conv: ArgValueTransformer<T2> = {
+        try {
+            wrapper(transformValue(it))
+        } catch (err: UsageError) {
+            err.argument = argument
+            throw err
+        } catch (err: Exception) {
+            fail(err.message ?: "")
+        }
+    }
+   return copy(conv, defaultAllProcessor(), defaultValidator())
 }
 
 /**

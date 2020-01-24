@@ -34,6 +34,9 @@ class ChoiceTypeTest {
 
         shouldThrow<BadParameterValue> { C().parse("--xx baz") }
                 .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+
+        shouldThrow<BadParameterValue> { C().parse("--xx FOO") }
+                .message shouldBe "Invalid value for \"--xx\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -58,6 +61,32 @@ class ChoiceTypeTest {
 
         shouldThrow<BadParameterValue> { C().parse("--xx=baz") }
                 .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+
+        shouldThrow<BadParameterValue> { C().parse("-x FOO") }
+                .message shouldBe "Invalid value for \"-x\": invalid choice: FOO. (choose from foo, bar)"
+    }
+
+    @Test
+    fun `choice option insensitive`() {
+        class C : TestCommand() {
+            val x by option("-x").choice("foo", "bar", ignoreCase = true)
+            val y by option("-y").choice("foo" to 1, "bar" to 2, ignoreCase = true)
+        }
+
+        C().apply {
+            parse("-xFOO -yFOO")
+            x shouldBe "foo"
+            y shouldBe 1
+        }
+
+        C().apply {
+            parse("-xbar -ybAR")
+            x shouldBe "bar"
+            y shouldBe 2
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("-xbaz") }
+                .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -81,6 +110,9 @@ class ChoiceTypeTest {
 
         shouldThrow<BadParameterValue> { C().parse("baz") }
                 .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+
+        shouldThrow<BadParameterValue> { C().parse("FOO") }
+                .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -104,15 +136,42 @@ class ChoiceTypeTest {
 
         shouldThrow<BadParameterValue> { C().parse("baz") }
                 .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+
+        shouldThrow<BadParameterValue> { C().parse("FOO") }
+                .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
     }
 
+    @Test
+    fun `choice argument insensitive`() {
+        class C : TestCommand() {
+            val x by argument().choice("foo", "bar", ignoreCase = true)
+            val y by argument().choice("foo" to 1, "bar" to 2, ignoreCase = true)
+        }
+
+        C().apply {
+            parse("FOO FOO")
+            x shouldBe "foo"
+            y shouldBe 1
+        }
+
+        C().apply {
+            parse("bar bAR")
+            x shouldBe "bar"
+            y shouldBe 2
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("baz qux") }
+                .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+    }
 
     @Test
     fun `enum option`() = forall(
             row("", null),
             row("--xx A", TestEnum.A),
+            row("--xx a", TestEnum.A),
             row("--xx=A", TestEnum.A),
-            row("-xB", TestEnum.B)
+            row("-xB", TestEnum.B),
+            row("-xb", TestEnum.B)
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").enum<TestEnum>()
@@ -127,11 +186,13 @@ class ChoiceTypeTest {
     @Test
     fun `enum option key`() = forall(
             row("", null),
-            row("-xa", TestEnum.A),
-            row("-xb", TestEnum.B)
+            row("-xAz", TestEnum.A),
+            row("-xaZ", TestEnum.A),
+            row("-xBz", TestEnum.B),
+            row("-xBZ", TestEnum.B)
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x").enum<TestEnum> { it.name.toLowerCase() }
+            val x by option("-x").enum<TestEnum> { it.name + "z" }
             override fun run_() {
                 x shouldBe expected
             }
@@ -144,11 +205,14 @@ class ChoiceTypeTest {
     fun `enum option error`() {
         @Suppress("unused")
         class C : TestCommand() {
-            val foo by option().enum<TestEnum>()
+            val foo by option().enum<TestEnum>(ignoreCase = false)
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
                 .message shouldBe "Invalid value for \"--foo\": invalid choice: bar. (choose from A, B)"
+
+        shouldThrow<BadParameterValue> { C().parse("--foo a") }
+                .message shouldBe "Invalid value for \"--foo\": invalid choice: a. (choose from A, B)"
     }
 
     @Test
@@ -171,7 +235,8 @@ class ChoiceTypeTest {
     fun `enum argument`() = forall(
             row("", null, emptyList()),
             row("A", TestEnum.A, emptyList()),
-            row("A A B", TestEnum.A, listOf(TestEnum.A, TestEnum.B))
+            row("b", TestEnum.B, emptyList()),
+            row("A a B", TestEnum.A, listOf(TestEnum.A, TestEnum.B))
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by argument().enum<TestEnum>().optional()
@@ -188,16 +253,31 @@ class ChoiceTypeTest {
     @Test
     fun `enum argument key`() = forall(
             row("", emptyList()),
-            row("a", listOf(TestEnum.A)),
-            row("a b", listOf(TestEnum.A, TestEnum.B))
+            row("az", listOf(TestEnum.A)),
+            row("AZ", listOf(TestEnum.A)),
+            row("aZ Bz", listOf(TestEnum.A, TestEnum.B))
     ) { argv, ex ->
         class C : TestCommand() {
-            val x by argument().enum<TestEnum> { it.name.toLowerCase() }.multiple()
+            val x by argument().enum<TestEnum> { it.name + "z"}.multiple()
             override fun run_() {
                 x shouldBe ex
             }
         }
 
         C().parse(argv)
+    }
+
+    @Test
+    fun `enum argument error`() {
+        @Suppress("unused")
+        class C : TestCommand() {
+            val foo by argument().enum<TestEnum>(ignoreCase = false)
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("bar") }
+                .message shouldBe "Invalid value for \"FOO\": invalid choice: bar. (choose from A, B)"
+
+        shouldThrow<BadParameterValue> { C().parse("a") }
+                .message shouldBe "Invalid value for \"FOO\": invalid choice: a. (choose from A, B)"
     }
 }

@@ -91,15 +91,20 @@ You can restrict the values to a set of values, and optionally map the
 input to a new value. For example, to create an option that only
 accepts the value "A" or "B":
 
- ```kotlin
-  val opt: String? by option().choice("a", "b")
- ```
+```kotlin
+val opt: String? by option().choice("a", "b")
+```
 
 You can also convert the restricted set of values to a new type:
 
- ```kotlin
-  val color: Int by argument().choice("red" to 1, "green" to 2)
- ```
+```kotlin
+val color: Int by argument().choice("red" to 1, "green" to 2)
+```
+
+Choice parameters accept values that are case-sensitive by default. This can be configured by
+passing `ignoreCase = true`.
+
+
 * `Enum`: [`option().enum()` and `argument().enum()`][enum]
 
 Like `choice`, but uses the values of an enum type.
@@ -108,6 +113,9 @@ Like `choice`, but uses the values of an enum type.
 enum class Color { RED, GREEN }
 val color: Color by option().enum<Color>()
 ```
+
+Enum parameters accept case-insensitive values by default. This can be configured by passing
+`ignoreCase = false`.
 
 * `File`: [`option().file()` and `argument().file()`][file]
 * `Path`: [`option().path()` and `argument().path()`][path]

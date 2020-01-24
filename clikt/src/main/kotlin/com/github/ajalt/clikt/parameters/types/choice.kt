@@ -21,21 +21,26 @@ private fun errorMessage(choice: String, choices: Map<String, *>): String {
 /**
  * Convert the argument based on a fixed set of values.
  *
+ * If [ignoreCase] is `true`, the argument will accept values is any mix of upper and lower case.
+ *
  * ### Example:
  *
  * ```kotlin
  * argument().choice(mapOf("foo" to 1, "bar" to 2))
  * ```
  */
-fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, T> {
+fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = false): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
+    val c = if (ignoreCase) choices.mapKeys { it.key.toLowerCase() } else choices
     return convert(completionCandidates = Fixed(choices.keys)) {
-        choices[it] ?: fail(errorMessage(it, choices))
+        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(it, choices))
     }
 }
 
 /**
  * Convert the argument based on a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the argument will accept values is any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -43,12 +48,15 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>): ProcessedArgument<T, 
  * argument().choice("foo" to 1, "bar" to 2)
  * ```
  */
-fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>): ProcessedArgument<T, T> {
-    return choice(choices.toMap())
+fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>, ignoreCase: Boolean = false): ProcessedArgument<T, T> {
+    return choice(choices.toMap(), ignoreCase)
 }
 
 /**
  * Restrict the argument to a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the argument will accept values is any mix of upper and lower case.
+ * The argument's final value will always match the case of the corresponding value in [choices].
  *
  * ### Example:
  *
@@ -56,12 +64,14 @@ fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>): ProcessedArgu
  * argument().choice("foo", "bar")
  * ```
  */
-fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String> {
-    return choice(choices.associateBy { it })
+fun RawArgument.choice(vararg choices: String, ignoreCase: Boolean = false): ProcessedArgument<String, String> {
+    return choice(choices.associateBy { it }, ignoreCase)
 }
 
 /**
  * Convert the argument to the values of an enum.
+ *
+ * If [ignoreCase] is `false`, the argument will only accept values that match the case of the enum values.
  *
  * ### Example:
  *
@@ -73,14 +83,19 @@ fun RawArgument.choice(vararg choices: String): ProcessedArgument<String, String
  * @param key A block that returns the command line value to use for an enum value. The default is
  *   the enum name.
  */
-inline fun <reified T : Enum<T>> RawArgument.enum(key: (T) -> String = { it.name }): ProcessedArgument<T, T> {
-    return choice(enumValues<T>().associateBy { key(it) })
+inline fun <reified T : Enum<T>> RawArgument.enum(
+        ignoreCase: Boolean = true,
+        key: (T) -> String = { it.name }
+): ProcessedArgument<T, T> {
+    return choice(enumValues<T>().associateBy { key(it) }, ignoreCase)
 }
 
 // options
 
 /**
  * Convert the option based on a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the option will accept values is any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -90,16 +105,22 @@ inline fun <reified T : Enum<T>> RawArgument.enum(key: (T) -> String = { it.name
  *
  * @see com.github.ajalt.clikt.parameters.groups.groupChoice
  */
-fun <T : Any> RawOption.choice(choices: Map<String, T>,
-                               metavar: String = mvar(choices.keys)): NullableOption<T, T> {
+fun <T : Any> RawOption.choice(
+        choices: Map<String, T>,
+        metavar: String = mvar(choices.keys),
+        ignoreCase: Boolean = false
+): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
+    val c = if (ignoreCase) choices.mapKeys { it.key.toLowerCase() } else choices
     return convert(metavar, completionCandidates = Fixed(choices.keys)) {
-        choices[it] ?: fail(errorMessage(it, choices))
+        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(it, choices))
     }
 }
 
 /**
  * Convert the option based on a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the option will accept values is any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -109,13 +130,19 @@ fun <T : Any> RawOption.choice(choices: Map<String, T>,
  *
  * @see com.github.ajalt.clikt.parameters.groups.groupChoice
  */
-fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
-                               metavar: String = mvar(choices.map { it.first })): NullableOption<T, T> {
-    return choice(choices.toMap(), metavar)
+fun <T : Any> RawOption.choice(
+        vararg choices: Pair<String, T>,
+        metavar: String = mvar(choices.map { it.first }),
+        ignoreCase: Boolean = false
+): NullableOption<T, T> {
+    return choice(choices.toMap(), metavar, ignoreCase)
 }
 
 /**
  * Restrict the option to a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the option will accept values is any mix of upper and lower case.
+ * The option's final value will always match the case of the corresponding value in [choices].
  *
  * ### Example:
  *
@@ -123,13 +150,18 @@ fun <T : Any> RawOption.choice(vararg choices: Pair<String, T>,
  * option().choice("foo", "bar")
  * ```
  */
-fun RawOption.choice(vararg choices: String,
-                     metavar: String = mvar(choices.asIterable())): NullableOption<String, String> {
-    return choice(choices.associateBy { it }, metavar)
+fun RawOption.choice(
+        vararg choices: String,
+        metavar: String = mvar(choices.asIterable()),
+        ignoreCase: Boolean = false
+): NullableOption<String, String> {
+    return choice(choices.associateBy { it }, metavar, ignoreCase)
 }
 
 /**
  * Convert the option to the values of an enum.
+ *
+ * If [ignoreCase] is `false`, the option will only accept values that match the case of the enum values.
  *
  * ### Example:
  *
@@ -141,6 +173,9 @@ fun RawOption.choice(vararg choices: String,
  * @param key A block that returns the command line value to use for an enum value. The default is
  *   the enum name.
  */
-inline fun <reified T : Enum<T>> RawOption.enum(key: (T) -> String = { it.name }): NullableOption<T, T> {
-    return choice(enumValues<T>().associateBy { key(it) })
+inline fun <reified T : Enum<T>> RawOption.enum(
+        ignoreCase: Boolean = true,
+        key: (T) -> String = { it.name }
+): NullableOption<T, T> {
+    return choice(enumValues<T>().associateBy { key(it) }, ignoreCase = ignoreCase)
 }

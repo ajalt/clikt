@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.counted
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotlintest.data.forall
 import io.kotlintest.matchers.string.contain
@@ -433,5 +434,19 @@ class ArgumentTest {
             val x by argument()
         }
         shouldThrow<NoSuchOption> { C().parse("/foo") }
+    }
+
+    @Test
+    fun `wrapValue argument`() = forall(
+            row("", null),
+            row("1", listOf(1))
+    ) { argv, expected ->
+        class C : TestCommand() {
+            val x by argument().int().wrapValue { listOf(it) }.optional()
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
+        C().parse(argv)
     }
 }

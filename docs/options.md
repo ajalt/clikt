@@ -378,7 +378,9 @@ you can use [`mutuallyExclusiveOptions`][mutuallyExclusiveOptions]
 to group any nullable options into a mutually exclusive group. If more than one of the options in
 the group is given on the command line, the last value is used.
 
-If you want different types for each option, you can wrap them in a sealed class.
+If you want different types for each option, you can wrap them in a sealed class. You can also use
+[`wrapValue`][wrapValue] if you have an existing conversion function like [int][int] or [file][file]
+you'd like to use.
 
 ```kotlin tab="Example"
 sealed class Fruit {
@@ -387,8 +389,8 @@ sealed class Fruit {
 }
 class Order : CliktCommand() {
     val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
-            option("--apples").convert { Apples(it.toInt()) },
-            option("--oranges").convert { Oranges(it) }
+        option("--oranges").convert { Oranges(it) },
+        option("--apples").int().wrapValue { Apples(it) }
     )
 
     override fun run() = echo(fruit)
@@ -876,6 +878,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [int]:                         api/clikt/com.github.ajalt.clikt.parameters.types/int.md
 [choice]:                      api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
 [convert]:                     api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
+[wrapValue]:                   api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value.md
 [parameter-types]:             parameters.md#parameter-types
 [pair]:                        api/clikt/com.github.ajalt.clikt.parameters.options/pair.md
 [triple]:                      api/clikt/com.github.ajalt.clikt.parameters.options/triple.md

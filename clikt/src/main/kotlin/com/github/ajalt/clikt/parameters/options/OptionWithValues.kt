@@ -595,6 +595,7 @@ inline fun <T : Any> RawOption.convert(
         level = DeprecationLevel.ERROR
 )
 @JvmName("rawWrapValue")
+@Suppress("UNUSED_PARAMETER")
 fun RawOption.wrapValue(wrapper: (String) -> Any): RawOption = this
 
 /**

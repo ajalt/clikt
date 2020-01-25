@@ -15,6 +15,18 @@ buildscript {
     }
 }
 
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
+    }
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.4.0] - 2020-01-25
 ### Added
 - `CompletionCandidates.Fixed` now has a secondary convenience constructor that take a `vararg` of `String`s
 - `CompletionCadidates.Custom`, which allows you to call other binaries or write a script to generate completions. This class is currently experimental. ([#79](https://github.com/ajalt/clikt/issues/79))

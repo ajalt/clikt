@@ -82,13 +82,13 @@ Clikt is distributed through
 
 ```groovy
 dependencies {
-   implementation("com.github.ajalt:clikt:2.3.0")
+   implementation("com.github.ajalt:clikt:2.4.0")
 }
 ```
 
 ## License
 
-    Copyright 2018-2019 AJ Alt
+    Copyright 2018-2020 AJ Alt
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

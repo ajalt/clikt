@@ -375,6 +375,7 @@ inline fun <T : Any> RawArgument.convert(
         level = DeprecationLevel.ERROR
 )
 @JvmName("rawWrapValue")
+@Suppress("UNUSED_PARAMETER")
 fun RawArgument.wrapValue(wrapper: (String) -> Any): RawArgument = this
 
 /**

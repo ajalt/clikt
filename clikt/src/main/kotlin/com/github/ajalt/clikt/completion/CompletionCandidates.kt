@@ -1,5 +1,10 @@
 package com.github.ajalt.clikt.completion
 
+@Experimental
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+annotation class ExperimentalCompletionCandidates
+
 /**
  * Configurations for generating shell autocomplete suggestions
  */
@@ -38,6 +43,7 @@ sealed class CompletionCandidates {
      * word being typed. The word being typed can be retrieved from the `COMP_WORDS` array at index
      * `COMP_CWORD`.
      */
+    @ExperimentalCompletionCandidates
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
         enum class ShellType { BASH }
         companion object {

@@ -3,14 +3,14 @@
 ## [Unreleased]
 ### Added
 - `CompletionCandidates.Fixed` now has a secondary convenience constructor that take a `vararg` of `String`s
-- `CompletionCadidates.Custom`, which allows you to call other binaries or write a script to generate completions.
+- `CompletionCadidates.Custom`, which allows you to call other binaries or write a script to generate completions. This class is currently experimental. ([#79](https://github.com/ajalt/clikt/issues/79))
 - `Option.wrapValue` and `Argument.wrapValue` to make it easier to reuse existing conversion functions.
 - `ignoreCase` parameter to `choice()` and `enum()` conversion functions.
 
 ### Changed
 - `option()` and `argument()` now take optional `completionCandidates` parameters to override how completion is generated. The constructor and `copy` functions of `OptionsWithValues` and `ProcessedArgument` have changed to support default values.
-- The overloads of `findObject` ([1](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/-context/find-object/) [2](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/find-object/)) that take a default value have been renamed `findOrSetObject`. The existing names are marked with `@Deprecated`, and IntelliJ can convert your callsites automatically.
-- `enum()` parameters now accept case-insensitive values by default. You change this behavior by passing `ignoreCase = false` to `enum()`
+- The overloads of `findObject` ([1](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/-context/find-object/) [2](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/find-object/)) that take a default value have been renamed `findOrSetObject`. The existing names are marked with `@Deprecated`, and IntelliJ can convert your callsites automatically. ([#110](https://github.com/ajalt/clikt/issues/110))
+- `enum()` parameters now accept case-insensitive values by default. You change this behavior by passing `ignoreCase = false` to `enum()` ([#115](https://github.com/ajalt/clikt/issues/115))
 
 ### Fixed
 - `groupChoice` help output now includes the choices in the help output metavar

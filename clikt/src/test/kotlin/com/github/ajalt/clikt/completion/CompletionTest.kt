@@ -12,6 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 
+@UseExperimental(ExperimentalCompletionCandidates::class)
 @Suppress("unused")
 class CompletionTest {
     @Rule

@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1441,43 +1441,43 @@
 <tbody>
 <tr>
 <td><a href="completion-candidates/">completionCandidates</a></td>
-<td><code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><br>Optional set of strings to use when the user invokes shell autocomplete on a value for this option.</td>
+<td>Optional set of strings to use when the user invokes shell autocomplete on a value for this option.<code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a></td>
 </tr>
 <tr>
 <td><a href="help/">help</a></td>
-<td><code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The description of this option, usually a single line.</td>
+<td>The description of this option, usually a single line.<code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="help-tags/">helpTags</a></td>
-<td><code>abstract val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Extra information about this option to pass to the help formatter.</td>
+<td>Extra information about this option to pass to the help formatter.<code>abstract val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="hidden/">hidden</a></td>
-<td><code>abstract val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If true, this option should not appear in help output.</td>
+<td>If true, this option should not appear in help output.<code>abstract val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 <tr>
 <td><a href="metavar/">metavar</a></td>
-<td><code>abstract val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>A name representing the values for this option that can be displayed to the user.</td>
+<td>A name representing the values for this option that can be displayed to the user.<code>abstract val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="names/">names</a></td>
-<td><code>abstract val names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>The names that can be used to invoke this option. They must start with a punctuation character.</td>
+<td>The names that can be used to invoke this option. They must start with a punctuation character.<code>abstract val names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="nvalues/">nvalues</a></td>
-<td><code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><br>The number of values that must be given to this option.</td>
+<td>The number of values that must be given to this option.<code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
 </tr>
 <tr>
 <td><a href="parameter-help/">parameterHelp</a></td>
-<td><code>open val parameterHelp:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-option/"><code>HelpFormatter.ParameterHelp.Option</code></a><code>?</code><br>Information about this option for the help output.</td>
+<td>Information about this option for the help output.<code>open val parameterHelp: Option?</code></td>
 </tr>
 <tr>
 <td><a href="parser/">parser</a></td>
-<td><code>abstract val parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/"><code>OptionParser</code></a><br>The parser for this option&rsquo;s values.</td>
+<td>The parser for this option&rsquo;s values.<code>abstract val parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/"><code>OptionParser</code></a></td>
 </tr>
 <tr>
 <td><a href="secondary-names/">secondaryNames</a></td>
-<td><code>abstract val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Names that can be used for a secondary purpose, like disabling flag options.</td>
+<td>Names that can be used for a secondary purpose, like disabling flag options.<code>abstract val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1492,11 +1492,11 @@
 <tbody>
 <tr>
 <td><a href="finalize/">finalize</a></td>
-<td><code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/"><code>OptionParser.Invocation</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.</td>
+<td>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.<code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;Invocation&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="post-validate/">postValidate</a></td>
-<td><code>abstract fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="finalize/">finalize</a>d to perform validation of the final value.</td>
+<td>Called after all of a command&rsquo;s parameters have been <a href="finalize/">finalize</a>d to perform validation of the final value.<code>abstract fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1511,19 +1511,19 @@
 <tbody>
 <tr>
 <td><a href="../-eager-option/">EagerOption</a></td>
-<td><code>class EagerOption :</code><a href="./"><code>Option</code></a><br>An <a href="./">Option</a> with no values that is <a href="../-eager-option/finalize/">finalize</a>d before other types of options.</td>
+<td>An <a href="./">Option</a> with no values that is <a href="../-eager-option/finalize/">finalize</a>d before other types of options.<code>class EagerOption :</code><a href="./"><code>Option</code></a></td>
 </tr>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.core/-groupable-option/">GroupableOption</a></td>
-<td><code>interface GroupableOption :</code><a href="./"><code>Option</code></a><br>An option that can be added to a <a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/">ParameterGroup</a></td>
+<td>An option that can be added to a <a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/">ParameterGroup</a><code>interface GroupableOption :</code><a href="./"><code>Option</code></a></td>
 </tr>
 <tr>
 <td><a href="../-option-call-transform-context/">OptionCallTransformContext</a></td>
-<td><code>class OptionCallTransformContext :</code><a href="./"><code>Option</code></a><br>A receiver for options transformers.</td>
+<td>A receiver for options transformers.<code>class OptionCallTransformContext :</code><a href="./"><code>Option</code></a></td>
 </tr>
 <tr>
 <td><a href="../-option-transform-context/">OptionTransformContext</a></td>
-<td><code>class OptionTransformContext :</code><a href="./"><code>Option</code></a><br>A receiver for options transformers.</td>
+<td>A receiver for options transformers.<code>class OptionTransformContext :</code><a href="./"><code>Option</code></a></td>
 </tr>
 </tbody>
 </table>

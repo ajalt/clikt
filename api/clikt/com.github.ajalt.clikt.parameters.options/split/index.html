@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1420,7 +1420,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">split</a></p>
 <h1 id="split">split<a class="headerlink" href="#split" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.split(regex:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.split(regex:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;, ValueT&gt;</code></p>
 <p>Change to option to take any number of values, separated by a <a href="./#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)">regex</a>, kotlin.text.Regex)/regex).</p>
 <p>This must be called after converting the value type, and before other transforms.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
@@ -1431,7 +1431,7 @@
 <div class="codehilite"><pre><span></span>./program --opt 1,2,3
 </pre></div>
 
-<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.split(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.split(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;, ValueT&gt;</code></p>
 <p>Change to option to take any number of values, separated by a string <a href="./#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)">delimiter</a>, kotlin.String)/delimiter).</p>
 <p>This must be called after converting the value type, and before other transforms.</p>
 <h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>

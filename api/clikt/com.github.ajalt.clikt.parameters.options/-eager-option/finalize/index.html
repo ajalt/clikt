@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,8 +1413,7 @@
                 
                 <p><a href="../../../">clikt</a> / <a href="../../">com.github.ajalt.clikt.parameters.options</a> / <a href="../">EagerOption</a> / <a href="./">finalize</a></p>
 <h1 id="finalize">finalize<a class="headerlink" href="#finalize" title="Permanent link">&para;</a></h1>
-<p><code>fun finalize(context:</code><a href="../../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/"><code>OptionParser.Invocation</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
-<p>Overrides <a href="../../-option/finalize/">Option.finalize</a></p>
+<p><code>fun finalize(context:</code><a href="../../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;Invocation&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></p>
 <p>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.</p>
 <p>You cannot refer to other parameter values during this call, since they might not have been
 finalized yet.</p>

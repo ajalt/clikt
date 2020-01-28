@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,8 +1413,8 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">convert</a></p>
 <h1 id="convert">convert<a class="headerlink" href="#convert" title="Permanent link">&para;</a></h1>
-<p><code>inline fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;VALUE&quot;, envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>= this.envvarSplit.default, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= this.completionCandidates, crossinline conversion:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
-<p>Convert the option value type.</p>
+<p><code>inline fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;VALUE&quot;, envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>= this.envvarSplit.default, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, crossinline conversion:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;T&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code></p>
+<p>Convert the option&rsquo;s value type.</p>
 <p>The <a href="./#com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )">conversion</a>, kotlin.String, kotlin.text.Regex, com.github.ajalt.clikt.completion.CompletionCandidates, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, kotlin.String, com.github.ajalt.clikt.parameters.options.convert.T)))/conversion) is called once for each value in each invocation of the option. If any errors are thrown,
 they are caught and a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> is thrown with the error message. You can call <code>fail</code> to throw a
 <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> manually.</p>
@@ -1422,7 +1422,8 @@ they are caught and a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-
 <p><code>metavar</code> - The metavar for the type. Overridden by a metavar passed to <a href="../option/">option</a>.</p>
 <p><code>envvarSplit</code> - If the value is read from an envvar, the pattern to split the value on. The default
 splits on whitespace. This value is can be overridden by passing a value to the <a href="../option/">option</a> function.</p>
-<p><code>completionCandidates</code> - candidates to use when completing this option in shell autocomplete</p>
+<p><code>completionCandidates</code> - candidates to use when completing this option in shell autocomplete,
+if no candidates are specified in <a href="../option/">option</a></p>
                 
                   
                 

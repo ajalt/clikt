@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1399,13 +1399,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#type-aliases" title="Type Aliases" class="md-nav__link">
-    Type Aliases
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#functions" title="Functions" class="md-nav__link">
     Functions
   </a>
@@ -1450,43 +1443,32 @@
 </thead>
 <tbody>
 <tr>
+<td><a href="-arg-calls-transformer/">ArgCallsTransformer</a></td>
+<td>A callback that transforms all the values into the final argument type<code>typealias ArgCallsTransformer&lt;AllT, EachT&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;EachT&gt;) -&gt; AllT</code></td>
+</tr>
+<tr>
 <td><a href="-argument/">Argument</a></td>
-<td><code>interface Argument</code><br>A positional parameter to a command.</td>
+<td>A positional parameter to a command.<code>interface Argument</code></td>
 </tr>
 <tr>
 <td><a href="-argument-delegate/">ArgumentDelegate</a></td>
-<td><code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="-argument/"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="-argument-delegate/#T"><code>T</code></a><code>&gt;</code><br>An argument that functions as a property delegate</td>
+<td>An argument that functions as a property delegate<code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="-argument/"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="-argument-transform-context/">ArgumentTransformContext</a></td>
-<td><code>class ArgumentTransformContext :</code><a href="-argument/"><code>Argument</code></a><br>A receiver for argument transformers.</td>
-</tr>
-<tr>
-<td><a href="-processed-argument/">ProcessedArgument</a></td>
-<td><code>class ProcessedArgument&lt;AllT, ValueT&gt; :</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="-processed-argument/#AllT"><code>AllT</code></a><code>&gt;</code><br>An <a href="-argument/">Argument</a> delegate implementation that transforms its values .</td>
-</tr>
-</tbody>
-</table>
-<h3 id="type-aliases">Type Aliases<a class="headerlink" href="#type-aliases" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="-arg-calls-transformer/">ArgCallsTransformer</a></td>
-<td><code>typealias ArgCallsTransformer&lt;AllT, EachT&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="-arg-calls-transformer/#EachT"><code>EachT</code></a><code>&gt;) -&gt;</code><a href="-arg-calls-transformer/#AllT"><code>AllT</code></a><br>A callback that transforms all the values into the final argument type</td>
+<td>A receiver for argument transformers.<code>class ArgumentTransformContext :</code><a href="-argument/"><code>Argument</code></a></td>
 </tr>
 <tr>
 <td><a href="-arg-validator/">ArgValidator</a></td>
-<td><code>typealias ArgValidator&lt;AllT&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="-arg-validator/#AllT"><code>AllT</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>A callback validates the final argument type</td>
+<td>A callback validates the final argument type<code>typealias ArgValidator&lt;AllT&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="-arg-value-transformer/">ArgValueTransformer</a></td>
-<td><code>typealias ArgValueTransformer&lt;T&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="-arg-value-transformer/#T"><code>T</code></a><br>A callback that transforms a single value from a string to the value type</td>
+<td>A callback that transforms a single value from a string to the value type<code>typealias ArgValueTransformer&lt;T&gt; =</code><a href="-argument-transform-context/"><code>ArgumentTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt; T</code></td>
+</tr>
+<tr>
+<td><a href="-processed-argument/">ProcessedArgument</a></td>
+<td>An <a href="-argument/">Argument</a> delegate implementation that transforms its values .<code>class ProcessedArgument&lt;AllT, ValueT&gt; :</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;AllT&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1501,47 +1483,51 @@
 <tbody>
 <tr>
 <td><a href="argument/">argument</a></td>
-<td><code>fun</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>.argument(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap()): RawArgument</code><br>Create a property delegate argument.</td>
+<td>Create a property delegate argument.<code>fun</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>.argument(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap(), completionCandidates:</code><a href="../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>? = null): RawArgument</code></td>
 </tr>
 <tr>
 <td><a href="convert/">convert</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; RawArgument.convert(completionCandidates:</code><a href="../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= this.completionCandidates, conversion:</code><a href="-arg-value-transformer/"><code>ArgValueTransformer</code></a><code>&lt;</code><a href="convert/#T"><code>T</code></a><code>&gt;):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="convert/#T"><code>T</code></a><code>,</code><a href="convert/#T"><code>T</code></a><code>&gt;</code><br>Convert the argument&rsquo;s values.</td>
+<td>Convert the argument&rsquo;s values.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt; RawArgument.convert(completionCandidates:</code><a href="../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="-arg-value-transformer/"><code>ArgValueTransformer</code></a><code>&lt;T&gt;):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="default/">default</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="default/#T"><code>T</code></a><code>,</code><a href="default/#T"><code>T</code></a><code>&gt;.default(value:</code><a href="default/#T"><code>T</code></a><code>):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="default/#T"><code>T</code></a><code>&gt;</code><br>If the argument is not given, use <a href="default/#com.github.ajalt.clikt.parameters.arguments$default(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.default.T, )">value</a>, com.github.ajalt.clikt.parameters.arguments.default.T)/value) instead of throwing an error.</td>
+<td>If the argument is not given, use <a href="default/#com.github.ajalt.clikt.parameters.arguments$default(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.default.T, )">value</a>, com.github.ajalt.clikt.parameters.arguments.default.T)/value) instead of throwing an error.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.default(value: T):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="default-lazy/">defaultLazy</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="default-lazy/#T"><code>T</code></a><code>,</code><a href="default-lazy/#T"><code>T</code></a><code>&gt;.defaultLazy(value: () -&gt;</code><a href="default-lazy/#T"><code>T</code></a><code>):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="default-lazy/#T"><code>T</code></a><code>&gt;</code><br>If the argument is not given, call <a href="default-lazy/#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )">value</a>, kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value) and use its return value instead of throwing an error.</td>
+<td>If the argument is not given, call <a href="default-lazy/#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )">value</a>, kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value) and use its return value instead of throwing an error.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.defaultLazy(value: () -&gt; T):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="multiple/">multiple</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="multiple/#T"><code>T</code></a><code>,</code><a href="multiple/#T"><code>T</code></a><code>&gt;.multiple(required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="multiple/#T"><code>T</code></a><code>&gt;,</code><a href="multiple/#T"><code>T</code></a><code>&gt;</code><br>Accept any number of values to this argument.</td>
+<td>Accept any number of values to this argument.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.multiple(required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;T&gt;, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="optional/">optional</a></td>
-<td><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="optional/#AllT"><code>AllT</code></a><code>,</code><a href="optional/#ValueT"><code>ValueT</code></a><code>&gt;.optional():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="optional/#AllT"><code>AllT</code></a><code>?,</code><a href="optional/#ValueT"><code>ValueT</code></a><code>&gt;</code><br>Return null instead of throwing an error if no value is given.</td>
+<td>Return null instead of throwing an error if no value is given.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllT, ValueT&gt;.optional():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllT?, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="pair/">pair</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="pair/#T"><code>T</code></a><code>,</code><a href="pair/#T"><code>T</code></a><code>&gt;.pair():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="pair/#T"><code>T</code></a><code>,</code><a href="pair/#T"><code>T</code></a><code>&gt;,</code><a href="pair/#T"><code>T</code></a><code>&gt;</code><br>Require exactly two values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.</td>
+<td>Require exactly two values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.pair():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;T, T&gt;, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="transform-all/">transformAll</a></td>
-<td><code>fun &lt;AllInT, ValueT, AllOutT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="transform-all/#AllInT"><code>AllInT</code></a><code>,</code><a href="transform-all/#ValueT"><code>ValueT</code></a><code>&gt;.transformAll(nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>? = null, required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>? = null, transform:</code><a href="-arg-calls-transformer/"><code>ArgCallsTransformer</code></a><code>&lt;</code><a href="transform-all/#AllOutT"><code>AllOutT</code></a><code>,</code><a href="transform-all/#ValueT"><code>ValueT</code></a><code>&gt;):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="transform-all/#AllOutT"><code>AllOutT</code></a><code>,</code><a href="transform-all/#ValueT"><code>ValueT</code></a><code>&gt;</code><br>Transform all values to the final argument type.</td>
+<td>Transform all values to the final argument type.<code>fun &lt;AllInT, ValueT, AllOutT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllInT, ValueT&gt;.transformAll(nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>? = null, required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>? = null, transform:</code><a href="-arg-calls-transformer/"><code>ArgCallsTransformer</code></a><code>&lt;AllOutT, ValueT&gt;):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllOutT, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="triple/">triple</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="triple/#T"><code>T</code></a><code>,</code><a href="triple/#T"><code>T</code></a><code>&gt;.triple():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><code>Triple</code></a><code>&lt;</code><a href="triple/#T"><code>T</code></a><code>,</code><a href="triple/#T"><code>T</code></a><code>,</code><a href="triple/#T"><code>T</code></a><code>&gt;,</code><a href="triple/#T"><code>T</code></a><code>&gt;</code><br>Require exactly three values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a></td>
+<td>Require exactly three values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.triple():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><code>Triple</code></a><code>&lt;T, T, T&gt;, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="unique/">unique</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="unique/#T"><code>T</code></a><code>&gt;,</code><a href="unique/#T"><code>T</code></a><code>&gt;.unique():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="unique/#T"><code>T</code></a><code>&gt;,</code><a href="unique/#T"><code>T</code></a><code>&gt;</code><br>Only store unique values for this argument</td>
+<td>Only store unique values for this argument<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;T&gt;, T&gt;.unique():</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;T&gt;, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="validate/">validate</a></td>
-<td><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="validate/#AllT"><code>AllT</code></a><code>,</code><a href="validate/#ValueT"><code>ValueT</code></a><code>&gt;.validate(validator:</code><a href="-arg-validator/"><code>ArgValidator</code></a><code>&lt;</code><a href="validate/#AllT"><code>AllT</code></a><code>&gt;):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="validate/#AllT"><code>AllT</code></a><code>&gt;</code><br>Check the final argument value and raise an error if it&rsquo;s not valid.</td>
+<td>Check the final argument value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllT, ValueT&gt;.validate(validator:</code><a href="-arg-validator/"><code>ArgValidator</code></a><code>&lt;AllT&gt;):</code><a href="-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;AllT&gt;</code></td>
+</tr>
+<tr>
+<td><a href="wrap-value/">wrapValue</a></td>
+<td><code>fun RawArgument.~~wrapValue~~(wrapper: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>): RawArgument</code><br>Wrap the argument&rsquo;s values after a conversion is applied.<code>fun &lt;T1 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, T2 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T1, T1&gt;.wrapValue(wrapper: (T1) -&gt; T2):</code><a href="-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T2, T2&gt;</code></td>
 </tr>
 </tbody>
 </table>

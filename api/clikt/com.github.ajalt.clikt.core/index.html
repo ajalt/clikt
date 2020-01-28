@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1458,19 +1458,19 @@
 <tbody>
 <tr>
 <td><a href="-clikt-command/">CliktCommand</a></td>
-<td><code>abstract class CliktCommand :</code><a href="-parameter-holder/"><code>ParameterHolder</code></a><br>The <a href="-clikt-command/">CliktCommand</a> is the core of command line interfaces in Clikt.</td>
+<td>The <a href="-clikt-command/">CliktCommand</a> is the core of command line interfaces in Clikt.<code>abstract class CliktCommand :</code><a href="-parameter-holder/"><code>ParameterHolder</code></a></td>
 </tr>
 <tr>
 <td><a href="-context/">Context</a></td>
-<td><code>class Context</code><br>A object used to control command line parsing and pass data between commands.</td>
+<td>A object used to control command line parsing and pass data between commands.<code>class Context</code></td>
 </tr>
 <tr>
 <td><a href="-groupable-option/">GroupableOption</a></td>
-<td><code>interface GroupableOption :</code><a href="../com.github.ajalt.clikt.parameters.options/-option/"><code>Option</code></a><br>An option that can be added to a <a href="../com.github.ajalt.clikt.parameters.groups/-parameter-group/">ParameterGroup</a></td>
+<td>An option that can be added to a <a href="../com.github.ajalt.clikt.parameters.groups/-parameter-group/">ParameterGroup</a><code>interface GroupableOption :</code><a href="../com.github.ajalt.clikt.parameters.options/-option/"><code>Option</code></a></td>
 </tr>
 <tr>
 <td><a href="-no-run-clikt-command/">NoRunCliktCommand</a></td>
-<td><code>open class NoRunCliktCommand :</code><a href="-clikt-command/"><code>CliktCommand</code></a><br>A <a href="-clikt-command/">CliktCommand</a> that has a default implementation of <a href="-clikt-command/run/">CliktCommand.run</a> that is a no-op.</td>
+<td>A <a href="-clikt-command/">CliktCommand</a> that has a default implementation of <a href="-clikt-command/run/">CliktCommand.run</a> that is a no-op.<code>open class NoRunCliktCommand :</code><a href="-clikt-command/"><code>CliktCommand</code></a></td>
 </tr>
 <tr>
 <td><a href="-parameter-holder/">ParameterHolder</a></td>
@@ -1504,27 +1504,27 @@
 <tbody>
 <tr>
 <td><a href="-abort/">Abort</a></td>
-<td><code>class Abort :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html"><code>RuntimeException</code></a><br>An internal error that signals Clikt to abort.</td>
+<td>An internal error that signals Clikt to abort.<code>class Abort :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html"><code>RuntimeException</code></a></td>
 </tr>
 <tr>
 <td><a href="-bad-parameter-value/">BadParameterValue</a></td>
-<td><code>open class BadParameterValue :</code><a href="-usage-error/"><code>UsageError</code></a><br>A parameter was given the correct number of values, but of invalid format or type.</td>
+<td>A parameter was given the correct number of values, but of invalid format or type.<code>open class BadParameterValue :</code><a href="-usage-error/"><code>UsageError</code></a></td>
 </tr>
 <tr>
 <td><a href="-clikt-error/">CliktError</a></td>
-<td><code>open class CliktError :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html"><code>RuntimeException</code></a><br>An exception during command line processing that should be shown to the user.</td>
+<td>An exception during command line processing that should be shown to the user.<code>open class CliktError :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html"><code>RuntimeException</code></a></td>
 </tr>
 <tr>
 <td><a href="-incorrect-argument-value-count/">IncorrectArgumentValueCount</a></td>
-<td><code>open class IncorrectArgumentValueCount :</code><a href="-usage-error/"><code>UsageError</code></a><br>An argument was supplied but the number of values supplied was incorrect.</td>
+<td>An argument was supplied but the number of values supplied was incorrect.<code>open class IncorrectArgumentValueCount :</code><a href="-usage-error/"><code>UsageError</code></a></td>
 </tr>
 <tr>
 <td><a href="-incorrect-option-value-count/">IncorrectOptionValueCount</a></td>
-<td><code>open class IncorrectOptionValueCount :</code><a href="-usage-error/"><code>UsageError</code></a><br>An option was supplied but the number of values supplied to the option was incorrect.</td>
+<td>An option was supplied but the number of values supplied to the option was incorrect.<code>open class IncorrectOptionValueCount :</code><a href="-usage-error/"><code>UsageError</code></a></td>
 </tr>
 <tr>
 <td><a href="-missing-parameter/">MissingParameter</a></td>
-<td><code>open class MissingParameter :</code><a href="-usage-error/"><code>UsageError</code></a><br>A required parameter was not provided</td>
+<td>A required parameter was not provided<code>open class MissingParameter :</code><a href="-usage-error/"><code>UsageError</code></a></td>
 </tr>
 <tr>
 <td><a href="-mutually-exclusive-group-exception/">MutuallyExclusiveGroupException</a></td>
@@ -1532,19 +1532,23 @@
 </tr>
 <tr>
 <td><a href="-no-such-option/">NoSuchOption</a></td>
-<td><code>open class NoSuchOption :</code><a href="-usage-error/"><code>UsageError</code></a><br>An option was provided that does not exist.</td>
+<td>An option was provided that does not exist.<code>open class NoSuchOption :</code><a href="-usage-error/"><code>UsageError</code></a></td>
+</tr>
+<tr>
+<td><a href="-print-completion-message/">PrintCompletionMessage</a></td>
+<td>An exception that indicates that shell completion code should be printed.<code>class PrintCompletionMessage :</code><a href="-print-message/"><code>PrintMessage</code></a></td>
 </tr>
 <tr>
 <td><a href="-print-help-message/">PrintHelpMessage</a></td>
-<td><code>class PrintHelpMessage :</code><a href="-clikt-error/"><code>CliktError</code></a><br>An exception that indicates that the command&rsquo;s help should be printed.</td>
+<td>An exception that indicates that the command&rsquo;s help should be printed.<code>class PrintHelpMessage :</code><a href="-clikt-error/"><code>CliktError</code></a></td>
 </tr>
 <tr>
 <td><a href="-print-message/">PrintMessage</a></td>
-<td><code>class PrintMessage :</code><a href="-clikt-error/"><code>CliktError</code></a><br>An exception that indicates that a message should be printed.</td>
+<td>An exception that indicates that a message should be printed.<code>open class PrintMessage :</code><a href="-clikt-error/"><code>CliktError</code></a></td>
 </tr>
 <tr>
 <td><a href="-usage-error/">UsageError</a></td>
-<td><code>open class UsageError :</code><a href="-clikt-error/"><code>CliktError</code></a><br>An internal exception that signals a usage error.</td>
+<td>An internal exception that signals a usage error.<code>open class UsageError :</code><a href="-clikt-error/"><code>CliktError</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1559,19 +1563,23 @@
 <tbody>
 <tr>
 <td><a href="context/">context</a></td>
-<td><code>fun &lt;T :</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt;</code><a href="context/#T"><code>T</code></a><code>.context(block:</code><a href="-context/-builder/"><code>Context.Builder</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="context/#T"><code>T</code></a><br>Configure this command&rsquo;s <a href="-context/">Context</a>.</td>
+<td>Configure this command&rsquo;s <a href="-context/">Context</a>.<code>fun &lt;T :</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt; T.context(block: Builder.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>): T</code></td>
 </tr>
 <tr>
 <td><a href="find-object/">findObject</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.findObject():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="find-object/#T"><code>T</code></a><code>?&gt;</code><br>Find the closest object of type <a href="find-object/#T">T</a>, or null<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.findObject(default: () -&gt;</code><a href="find-object/#T"><code>T</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="find-object/#T"><code>T</code></a><code>&gt;</code><br>Find the closest object of type <a href="find-object/#T">T</a>, setting <code>context.obj</code> if one is not found.</td>
+<td>Find the closest object of type <a href="find-object/#T">T</a>, or null<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.findObject():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>, T?&gt;``fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.~~findObject~~(default: () -&gt; T):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
+</tr>
+<tr>
+<td><a href="find-or-set-object/">findOrSetObject</a></td>
+<td>Find the closest object of type <a href="find-or-set-object/#T">T</a>, setting <code>context.obj</code> if one is not found.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.findOrSetObject(default: () -&gt; T):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="require-object/">requireObject</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.requireObject():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="require-object/#T"><code>T</code></a><code>&gt;</code><br>Find the closest object of type <a href="require-object/#T">T</a>, or throw a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-null-pointer-exception/index.html">NullPointerException</a></td>
+<td>Find the closest object of type <a href="require-object/#T">T</a>, or throw a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-null-pointer-exception/index.html">NullPointerException</a><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>.requireObject():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="subcommands/">subcommands</a></td>
-<td><code>fun &lt;T :</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt;</code><a href="subcommands/#T"><code>T</code></a><code>.subcommands(commands:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html"><code>Iterable</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt;):</code><a href="subcommands/#T"><code>T</code></a><br><code>fun &lt;T :</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt;</code><a href="subcommands/#T"><code>T</code></a><code>.subcommands(vararg commands:</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>):</code><a href="subcommands/#T"><code>T</code></a><br>Add the given commands as a subcommand of this command.</td>
+<td>Add the given commands as a subcommand of this command.<code>fun &lt;T :</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt; T.subcommands(commands:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html"><code>Iterable</code></a><code>&lt;</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt;): T</code><br><code>fun &lt;T :</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>&gt; T.subcommands(vararg commands:</code><a href="-clikt-command/"><code>CliktCommand</code></a><code>): T</code></td>
 </tr>
 </tbody>
 </table>

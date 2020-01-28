@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1407,13 +1407,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inherited-functions" title="Inherited Functions" class="md-nav__link">
-    Inherited Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#extension-functions" title="Extension Functions" class="md-nav__link">
     Extension Functions
   </a>
@@ -1441,7 +1434,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">FlagOption</a></p>
 <h1 id="flagoption">FlagOption<a class="headerlink" href="#flagoption" title="Permanent link">&para;</a></h1>
-<p><code>class FlagOption&lt;T&gt; :</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>class FlagOption&lt;T&gt; :</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></p>
 <p>An <a href="../-option/">Option</a> that has no values.</p>
 <h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
 <table>
@@ -1454,7 +1447,7 @@
 <tbody>
 <tr>
 <td><a href="-init-/">&lt;init&gt;</a></td>
-<td><code>FlagOption(names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, transformEnvvar:</code><a href="../-option-transform-context/"><code>OptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="./#T"><code>T</code></a><code>, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;)</code><br>An <a href="../-option/">Option</a> that has no values.</td>
+<td>An <a href="../-option/">Option</a> that has no values.<code>FlagOption(names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, transformEnvvar:</code><a href="../-option-transform-context/"><code>OptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt; T, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;T&gt;)</code></td>
 </tr>
 </tbody>
 </table>
@@ -1469,63 +1462,63 @@
 <tbody>
 <tr>
 <td><a href="envvar/">envvar</a></td>
-<td><code>val envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the environment variable for this option. Overrides automatic names.</td>
+<td>The name of the environment variable for this option. Overrides automatic names.<code>val envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="group-name/">groupName</a></td>
-<td><code>var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the group, or null if this option should not be grouped in the help output.</td>
+<td>The name of the group, or null if this option should not be grouped in the help output.<code>var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="help/">help</a></td>
-<td><code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The description of this option, usually a single line.</td>
+<td>The description of this option, usually a single line.<code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="help-tags/">helpTags</a></td>
-<td><code>val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Extra information about this option to pass to the help formatter.</td>
+<td>Extra information about this option to pass to the help formatter.<code>val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="hidden/">hidden</a></td>
-<td><code>val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If true, this option should not appear in help output.</td>
+<td>If true, this option should not appear in help output.<code>val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 <tr>
 <td><a href="metavar/">metavar</a></td>
-<td><code>val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>A name representing the values for this option that can be displayed to the user.</td>
+<td>A name representing the values for this option that can be displayed to the user.<code>val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="names/">names</a></td>
-<td><code>var names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>The names that can be used to invoke this option. They must start with a punctuation character.</td>
+<td>The names that can be used to invoke this option. They must start with a punctuation character.<code>var names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="nvalues/">nvalues</a></td>
-<td><code>val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><br>The number of values that must be given to this option.</td>
+<td>The number of values that must be given to this option.<code>val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
 </tr>
 <tr>
 <td><a href="parameter-group/">parameterGroup</a></td>
-<td><code>var parameterGroup:</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>?</code><br>The group that this option belongs to, or null. Set by the group.</td>
+<td>The group that this option belongs to, or null. Set by the group.<code>var parameterGroup:</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="parser/">parser</a></td>
-<td><code>val parser:</code><a href="../../com.github.ajalt.clikt.parsers/-flag-option-parser/"><code>FlagOptionParser</code></a><br>The parser for this option&rsquo;s values.</td>
+<td>The parser for this option&rsquo;s values.<code>val parser:</code><a href="../../com.github.ajalt.clikt.parsers/-flag-option-parser/"><code>FlagOptionParser</code></a></td>
 </tr>
 <tr>
 <td><a href="secondary-names/">secondaryNames</a></td>
-<td><code>val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Names that can be used for a secondary purpose, like disabling flag options.</td>
+<td>Names that can be used for a secondary purpose, like disabling flag options.<code>val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="transform-all/">transformAll</a></td>
-<td><code>val transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Called to transform all invocations of this option into the final option type.</td>
+<td>Called to transform all invocations of this option into the final option type.<code>val transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="transform-envvar/">transformEnvvar</a></td>
-<td><code>val transformEnvvar:</code><a href="../-option-transform-context/"><code>OptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="./#T"><code>T</code></a><br>Called to transform string values from envvars into the option type.</td>
+<td>Called to transform string values from envvars into the option type.<code>val transformEnvvar:</code><a href="../-option-transform-context/"><code>OptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt; T</code></td>
 </tr>
 <tr>
 <td><a href="validator/">validator</a></td>
-<td><code>val validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></td>
+<td><code>val validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="value/">value</a></td>
-<td><code>var value:</code><a href="./#T"><code>T</code></a><br>The value for this option.</td>
+<td>The value for this option.<code>var value: T</code></td>
 </tr>
 </tbody>
 </table>
@@ -1540,34 +1533,19 @@
 <tbody>
 <tr>
 <td><a href="copy/">copy</a></td>
-<td><code>fun &lt;T&gt; copy(transformEnvvar:</code><a href="../-option-transform-context/"><code>OptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="copy/#T"><code>T</code></a><code>, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="copy/#T"><code>T</code></a><code>&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="copy/#T"><code>T</code></a><code>&gt;, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.secondaryNames, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.help, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar):</code><a href="./"><code>FlagOption</code></a><code>&lt;</code><a href="copy/#T"><code>T</code></a><code>&gt;</code><br>Create a new option that is a copy of this one with different transforms.<code>fun copy(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt; = this.validator, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.secondaryNames, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.help, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar):</code><a href="./"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Create a new option that is a copy of this one with the same transforms.</td>
+<td>Create a new option that is a copy of this one with different transforms.<code>fun &lt;T&gt; copy(transformEnvvar:</code><a href="../-option-transform-context/"><code>OptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt; T, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;T&gt;, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.secondaryNames, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.help, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar):</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code><br>Create a new option that is a copy of this one with the same transforms.<code>fun copy(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;T&gt; = this.validator, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.secondaryNames, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.help, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar):</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="finalize/">finalize</a></td>
-<td><code>fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/"><code>OptionParser.Invocation</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.</td>
+<td>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.<code>fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;Invocation&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="post-validate/">postValidate</a></td>
-<td><code>fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="../-option/finalize/">finalize</a>d to perform validation of the final value.</td>
+<td>Called after all of a command&rsquo;s parameters have been <a href="../-option/finalize/">finalize</a>d to perform validation of the final value.<code>fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="provide-delegate/">provideDelegate</a></td>
-<td><code>operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Implementations must call <a href="../../com.github.ajalt.clikt.core/-parameter-holder/register-option/">ParameterHolder.registerOption</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="inherited-functions">Inherited Functions<a class="headerlink" href="#inherited-functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../-option-delegate/get-value/">getValue</a></td>
-<td><code>open fun getValue(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, property:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="../-option-delegate/#T"><code>T</code></a></td>
+<td>Implementations must call <a href="../../com.github.ajalt.clikt.core/-parameter-holder/register-option/">ParameterHolder.registerOption</a><code>operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, T&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1582,15 +1560,15 @@
 <tbody>
 <tr>
 <td><a href="../default/">default</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;</code><a href="../default/#T"><code>T</code></a><code>?&gt;.default(value:</code><a href="../default/#T"><code>T</code></a><code>):</code><a href="./"><code>FlagOption</code></a><code>&lt;</code><a href="../default/#T"><code>T</code></a><code>&gt;</code><br>Set a default value for a option.</td>
+<td>Set a default value for a option.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T?&gt;.default(value: T):</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../deprecated/">deprecated</a></td>
-<td><code>fun &lt;T&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;</code><a href="../deprecated/#T"><code>T</code></a><code>&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;&quot;, tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;deprecated&quot;, tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="../deprecated/#T"><code>T</code></a><code>&gt;</code><br>Mark this option as deprecated in the help output.</td>
+<td>Mark this option as deprecated in the help output.<code>fun &lt;T&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;&quot;, tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;deprecated&quot;, tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../validate/">validate</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;</code><a href="../validate/#T"><code>T</code></a><code>&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="../validate/#T"><code>T</code></a><code>&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="../validate/#T"><code>T</code></a><code>&gt;</code><br>Check the final option value and raise an error if it&rsquo;s not valid.</td>
+<td>Check the final option value and raise an error if it&rsquo;s not valid.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;T&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 </tbody>
 </table>

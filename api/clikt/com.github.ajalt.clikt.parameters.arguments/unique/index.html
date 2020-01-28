@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,7 +1413,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.arguments</a> / <a href="./">unique</a></p>
 <h1 id="unique">unique<a class="headerlink" href="#unique" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;,</code><a href="./#T"><code>T</code></a><code>&gt;.unique():</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;T&gt;, T&gt;.unique():</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;T&gt;, T&gt;</code></p>
 <p>Only store unique values for this argument</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>val arg: Set&lt;Int&gt; by argument().int().multiple().unique()

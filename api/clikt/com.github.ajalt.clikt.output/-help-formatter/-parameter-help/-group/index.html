@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1420,7 +1420,7 @@
                 
                 <p><a href="../../../../">clikt</a> / <a href="../../../">com.github.ajalt.clikt.output</a> / <a href="../../">HelpFormatter</a> / <a href="../">ParameterHelp</a> / <a href="./">Group</a></p>
 <h1 id="group">Group<a class="headerlink" href="#group" title="Permanent link">&para;</a></h1>
-<p><code>data class Group :</code><a href="../"><code>HelpFormatter.ParameterHelp</code></a></p>
+<p><code>data class Group : ParameterHelp</code></p>
 <p>Help for an option group. If the group doesn&rsquo;t have a name or help, you don&rsquo;t need to
 create an instance of this class for it.</p>
 <h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
@@ -1434,7 +1434,7 @@ create an instance of this class for it.</p>
 <tbody>
 <tr>
 <td><a href="-init-/">&lt;init&gt;</a></td>
-<td><code>Group(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>)</code><br>Help for an option group. If the group doesn&rsquo;t have a name or help, you don&rsquo;t need to create an instance of this class for it.</td>
+<td>Help for an option group. If the group doesn&rsquo;t have a name or help, you don&rsquo;t need to create an instance of this class for it.<code>Group(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>)</code></td>
 </tr>
 </tbody>
 </table>
@@ -1449,11 +1449,11 @@ create an instance of this class for it.</p>
 <tbody>
 <tr>
 <td><a href="help/">help</a></td>
-<td><code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The help text for this group</td>
+<td>The help text for this group<code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="name/">name</a></td>
-<td><code>val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The group name</td>
+<td>The group name<code>val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 </tbody>
 </table>

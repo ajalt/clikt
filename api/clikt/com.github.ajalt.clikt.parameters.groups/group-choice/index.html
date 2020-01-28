@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1420,7 +1420,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.groups</a> / <a href="./">groupChoice</a></p>
 <h1 id="groupchoice">groupChoice<a class="headerlink" href="#groupchoice" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.groupChoice(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-choice-group/"><code>ChoiceGroup</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>?&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.groupChoice(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></p>
 <p>Convert the option to an option group based on a fixed set of values.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;foo&quot;</span> <span class="n">to</span> <span class="n">FooOptionGroup</span><span class="p">(),</span> <span class="s">&quot;bar&quot;</span> <span class="n">to</span> <span class="n">BarOptionGroup</span><span class="p">()))</span>
@@ -1428,7 +1428,7 @@
 
 <p><strong>See Also</strong></p>
 <p><a href="../../com.github.ajalt.clikt.parameters.types/choice/">com.github.ajalt.clikt.parameters.types.choice</a></p>
-<p><code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.groupChoice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-choice-group/"><code>ChoiceGroup</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>?&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.groupChoice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></p>
 <p>Convert the option to an option group based on a fixed set of values.</p>
 <h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;foo&quot;</span> <span class="n">to</span> <span class="n">FooOptionGroup</span><span class="p">(),</span> <span class="s">&quot;bar&quot;</span> <span class="n">to</span> <span class="n">BarOptionGroup</span><span class="p">())</span>

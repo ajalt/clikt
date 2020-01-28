@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1386,22 +1386,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#inherited-properties" title="Inherited Properties" class="md-nav__link">
-    Inherited Properties
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#functions" title="Functions" class="md-nav__link">
     Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inherited-functions" title="Inherited Functions" class="md-nav__link">
-    Inherited Functions
   </a>
   
 </li>
@@ -1434,47 +1420,8 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.arguments</a> / <a href="./">ArgumentDelegate</a></p>
 <h1 id="argumentdelegate">ArgumentDelegate<a class="headerlink" href="#argumentdelegate" title="Permanent link">&para;</a></h1>
-<p><code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="../-argument/"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="../-argument/"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></p>
 <p>An argument that functions as a property delegate</p>
-<h3 id="inherited-properties">Inherited Properties<a class="headerlink" href="#inherited-properties" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../-argument/completion-candidates/">completionCandidates</a></td>
-<td><code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><br>Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.</td>
-</tr>
-<tr>
-<td><a href="../-argument/help/">help</a></td>
-<td><code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The description of this argument.</td>
-</tr>
-<tr>
-<td><a href="../-argument/help-tags/">helpTags</a></td>
-<td><code>abstract val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Extra information about this argument to pass to the help formatter.</td>
-</tr>
-<tr>
-<td><a href="../-argument/name/">name</a></td>
-<td><code>abstract val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The metavar for this argument.</td>
-</tr>
-<tr>
-<td><a href="../-argument/nvalues/">nvalues</a></td>
-<td><code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><br>The number of values that this argument takes.</td>
-</tr>
-<tr>
-<td><a href="../-argument/parameter-help/">parameterHelp</a></td>
-<td><code>abstract val parameterHelp:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-argument/"><code>HelpFormatter.ParameterHelp.Argument</code></a><code>?</code><br>Information about this argument for the help output.</td>
-</tr>
-<tr>
-<td><a href="../-argument/required/">required</a></td>
-<td><code>abstract val required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If true, an error will be thrown if this argument is not given on the command line.</td>
-</tr>
-</tbody>
-</table>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1486,26 +1433,7 @@
 <tbody>
 <tr>
 <td><a href="provide-delegate/">provideDelegate</a></td>
-<td><code>abstract operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-argument/">CliktCommand.registerArgument</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="inherited-functions">Inherited Functions<a class="headerlink" href="#inherited-functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../-argument/finalize/">finalize</a></td>
-<td><code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, values:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed to transform and store the argument&rsquo;s value.</td>
-</tr>
-<tr>
-<td><a href="../-argument/post-validate/">postValidate</a></td>
-<td><code>abstract fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="../-argument/finalize/">finalize</a>d to perform validation of the final value.</td>
+<td>Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-argument/">CliktCommand.registerArgument</a><code>abstract operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1520,7 +1448,7 @@
 <tbody>
 <tr>
 <td><a href="../-processed-argument/">ProcessedArgument</a></td>
-<td><code>class ProcessedArgument&lt;AllT, ValueT&gt; :</code><a href="./"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="../-processed-argument/#AllT"><code>AllT</code></a><code>&gt;</code><br>An <a href="../-argument/">Argument</a> delegate implementation that transforms its values .</td>
+<td>An <a href="../-argument/">Argument</a> delegate implementation that transforms its values .<code>class ProcessedArgument&lt;AllT, ValueT&gt; :</code><a href="./"><code>ArgumentDelegate</code></a><code>&lt;AllT&gt;</code></td>
 </tr>
 </tbody>
 </table>

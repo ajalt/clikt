@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1427,7 +1427,7 @@
                 
                 <p><a href="../../../../">clikt</a> / <a href="../../../">com.github.ajalt.clikt.output</a> / <a href="../../">HelpFormatter</a> / <a href="../">ParameterHelp</a> / <a href="./">Option</a></p>
 <h1 id="option">Option<a class="headerlink" href="#option" title="Permanent link">&para;</a></h1>
-<p><code>data class Option :</code><a href="../"><code>HelpFormatter.ParameterHelp</code></a></p>
+<p><code>data class Option : ParameterHelp</code></p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>names</code> - The names that can be used to invoke this option</p>
 <p><code>secondaryNames</code> - Secondary names that can be used to e.g. disable the option</p>
@@ -1462,31 +1462,31 @@
 <tbody>
 <tr>
 <td><a href="group-name/">groupName</a></td>
-<td><code>val groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the group this option belongs to, if there is one and its name should be shown in the help message</td>
+<td>The name of the group this option belongs to, if there is one and its name should be shown in the help message<code>val groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="help/">help</a></td>
-<td><code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The option&rsquo;s description</td>
+<td>The option&rsquo;s description<code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="metavar/">metavar</a></td>
-<td><code>val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The metavar to display for the option if it takes values</td>
+<td>The metavar to display for the option if it takes values<code>val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="names/">names</a></td>
-<td><code>val names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>The names that can be used to invoke this option</td>
+<td>The names that can be used to invoke this option<code>val names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="nvalues/">nvalues</a></td>
-<td><code>val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><br>The number of values that this option takes</td>
+<td>The number of values that this option takes<code>val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
 </tr>
 <tr>
 <td><a href="secondary-names/">secondaryNames</a></td>
-<td><code>val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Secondary names that can be used to e.g. disable the option</td>
+<td>Secondary names that can be used to e.g. disable the option<code>val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="tags/">tags</a></td>
-<td><code>val tags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Any extra tags to display with the help message for this option</td>
+<td>Any extra tags to display with the help message for this option<code>val tags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 </tbody>
 </table>

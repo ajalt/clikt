@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,7 +1413,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.arguments</a> / <a href="./">transformAll</a></p>
 <h1 id="transformall">transformAll<a class="headerlink" href="#transformall" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;AllInT, ValueT, AllOutT&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="./#AllInT"><code>AllInT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.transformAll(nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>? = null, required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>? = null, transform:</code><a href="../-arg-calls-transformer/"><code>ArgCallsTransformer</code></a><code>&lt;</code><a href="./#AllOutT"><code>AllOutT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;):</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="./#AllOutT"><code>AllOutT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;AllInT, ValueT, AllOutT&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllInT, ValueT&gt;.transformAll(nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>? = null, required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>? = null, transform:</code><a href="../-arg-calls-transformer/"><code>ArgCallsTransformer</code></a><code>&lt;AllOutT, ValueT&gt;):</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllOutT, ValueT&gt;</code></p>
 <p>Transform all values to the final argument type.</p>
 <p>The input is a list of values, one for each value on the command line. The values in the
 list are the output of calls to <a href="../convert/">convert</a>. The input list will have a size of <a href="./#com.github.ajalt.clikt.parameters.arguments$transformAll(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.transformAll.AllInT, com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)">nvalues</a>, kotlin.Int, kotlin.Boolean, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), com.github.ajalt.clikt.parameters.arguments.transformAll.AllOutT)))/nvalues) if <a href="./#com.github.ajalt.clikt.parameters.arguments$transformAll(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.transformAll.AllInT, com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)">nvalues</a>, kotlin.Int, kotlin.Boolean, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, kotlin.collections.List((com.github.ajalt.clikt.parameters.arguments.transformAll.ValueT)), com.github.ajalt.clikt.parameters.arguments.transformAll.AllOutT)))/nvalues) is &gt; 0.</p>

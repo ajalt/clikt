@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,7 +1413,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.arguments</a> / <a href="./">defaultLazy</a></p>
 <h1 id="defaultlazy">defaultLazy<a class="headerlink" href="#defaultlazy" title="Permanent link">&para;</a></h1>
-<p><code>inline fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;.defaultLazy(crossinline value: () -&gt;</code><a href="./#T"><code>T</code></a><code>):</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>inline fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.defaultLazy(crossinline value: () -&gt; T):</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;T&gt;</code></p>
 <p>If the argument is not given, call <a href="./#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )">value</a>, kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value) and use its return value instead of throwing an error.</p>
 <p>This must be applied after all other transforms. If the argument is given on the command line, <a href="./#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )">value</a>, kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value) will
 not be called.</p>

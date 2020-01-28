@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1397,10 +1397,10 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.core</a> / <a href="./">findObject</a></p>
 <h1 id="findobject">findObject<a class="headerlink" href="#findobject" title="Permanent link">&para;</a></h1>
-<p><code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>.findObject():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#T"><code>T</code></a><code>?&gt;</code></p>
+<p><code>fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>.findObject():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>, T?&gt;</code></p>
 <p>Find the closest object of type <a href="./#T">T</a>, or null</p>
-<p><code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>.findObject(crossinline default: () -&gt;</code><a href="./#T"><code>T</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
-<p>Find the closest object of type <a href="./#T">T</a>, setting <code>context.obj</code> if one is not found.</p>
+<p><code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>.~~findObject~~(crossinline default: () -&gt; T):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code>
+<strong>Deprecated:</strong> This overload has been renamed findOrSetObject</p>
                 
                   
                 

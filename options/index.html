@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1490,8 +1490,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-    Choice Options With Groups
+  <a href="#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+    Choice and Switch Options With Groups
   </a>
   
 </li>
@@ -1798,7 +1798,7 @@ since they don&rsquo;t change the type of the delegate.</p>
 </pre></div></div>
 <input name="__tabs_8" type="radio" id="__tab_8_1" />
 <label for="__tab_8_1">Default</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">multiple</span><span class="p">(</span><span class="n">default</span><span class="p">=</span><span class="n">listOf</span><span class="p">(</span><span class="s">&quot;defaut message&quot;</span><span class="p">))</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">multiple</span><span class="p">(</span><span class="n">default</span><span class="p">=</span><span class="n">listOf</span><span class="p">(</span><span class="s">&quot;default message&quot;</span><span class="p">))</span>
 </pre></div></div>
 </div>
 <h2 id="boolean-flag-options">Boolean Flag Options<a class="headerlink" href="#boolean-flag-options" title="Permanent link">&para;</a></h2>
@@ -1935,7 +1935,9 @@ Options:
 you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options/"><code>mutuallyExclusiveOptions</code></a>
 to group any nullable options into a mutually exclusive group. If more than one of the options in
 the group is given on the command line, the last value is used.</p>
-<p>If you want different types for each option, you can wrap them in a sealed class.</p>
+<p>If you want different types for each option, you can wrap them in a sealed class. You can also use
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value/"><code>wrapValue</code></a> if you have an existing conversion function like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int/">int</a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/">file</a>
+you&rsquo;d like to use.</p>
 <div class="superfences-tabs">
 <input name="__tabs_15" type="radio" id="__tab_15_0" checked="checked" />
 <label for="__tab_15_0">Example</label>
@@ -1945,8 +1947,8 @@ the group is given on the command line, the last value is used.</p>
 <span class="p">}</span>
 <span class="k">class</span> <span class="nc">Order</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">fruit</span><span class="p">:</span> <span class="n">Fruit</span><span class="p">?</span> <span class="k">by</span> <span class="n">mutuallyExclusiveOptions</span><span class="p">&lt;</span><span class="n">Fruit</span><span class="p">&gt;(</span>
-            <span class="n">option</span><span class="p">(</span><span class="s">&quot;--apples&quot;</span><span class="p">).</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Apples</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">toInt</span><span class="p">())</span> <span class="p">},</span>
-            <span class="n">option</span><span class="p">(</span><span class="s">&quot;--oranges&quot;</span><span class="p">).</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Oranges</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">option</span><span class="p">(</span><span class="s">&quot;--oranges&quot;</span><span class="p">).</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Oranges</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">},</span>
+        <span class="n">option</span><span class="p">(</span><span class="s">&quot;--apples&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">().</span><span class="n">wrapValue</span> <span class="p">{</span> <span class="n">Apples</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">)</span>
 
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>
@@ -2038,13 +2040,14 @@ Error: Missing option &quot;--name&quot;.
 </div>
 <p>Like <a href="../documenting/#grouping-options-in-help">other option groups</a>, you can specify a <code>name</code> and
 <code>help</code> text for the group if you want to set the group apart in the help output.</p>
-<h2 id="choice-options-with-groups">Choice Options With Groups<a class="headerlink" href="#choice-options-with-groups" title="Permanent link">&para;</a></h2>
+<h2 id="choice-and-switch-options-with-groups">Choice and Switch Options With Groups<a class="headerlink" href="#choice-and-switch-options-with-groups" title="Permanent link">&para;</a></h2>
 <p>If you have different groups of options that only make sense when another option has a certain value,
-you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/group-choice/"><code>groupChoice</code></a>.</p>
-<p>These options are similar to <a href="#choice-options"><code>choice</code> options</a>, but instead of mapping a value to
+you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/group-switch/"><code>groupChoice</code></a> and [<code>groupSwitch</code>][groupSwitch].</p>
+<p><code>groupChoice</code> options are similar to <a href="#choice-options"><code>choice</code> options</a>, but instead of mapping a value to
 a single new type, they map a value to a <a href="#co-occurring-option-groups">co-occurring <code>OptionGroup</code></a>.
 Options for groups other than the selected one are ignored, and only the selected group&rsquo;s <code>required</code>
-constraints are enforced.</p>
+constraints are enforced. In the same way, <code>groupSwitch</code> options are similar to <a href="#choice-options"><code>switch</code>
+options</a>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_18" type="radio" id="__tab_18_0" checked="checked" />
 <label for="__tab_18_0">Example</label>

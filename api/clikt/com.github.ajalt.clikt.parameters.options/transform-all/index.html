@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,7 +1413,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">transformAll</a></p>
 <h1 id="transformall">transformAll<a class="headerlink" href="#transformall" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;AllT, EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.transformAll(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.helpTags[HelpFormatter.Tags.DEFAULT], showAsRequired:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= HelpFormatter.Tags.REQUIRED in this.helpTags, transform:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#AllT"><code>AllT</code></a><code>&gt;):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;AllT, EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.transformAll(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.helpTags[HelpFormatter.Tags.DEFAULT], showAsRequired:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= HelpFormatter.Tags.REQUIRED in this.helpTags, transform:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></p>
 <p>Transform all calls to the option to the final option type.</p>
 <p>The input is a list of calls, one for each time the option appears on the command line. The values in the
 list are the output of calls to <a href="../transform-values/">transformValues</a>. If the option does not appear from any source (command

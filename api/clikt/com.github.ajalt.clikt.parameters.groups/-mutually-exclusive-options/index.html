@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1434,7 +1434,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.groups</a> / <a href="./">MutuallyExclusiveOptions</a></p>
 <h1 id="mutuallyexclusiveoptions">MutuallyExclusiveOptions<a class="headerlink" href="#mutuallyexclusiveoptions" title="Permanent link">&para;</a></h1>
-<p><code>class MutuallyExclusiveOptions&lt;OptT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, OutT&gt; :</code><a href="../-parameter-group-delegate/"><code>ParameterGroupDelegate</code></a><code>&lt;</code><a href="./#OutT"><code>OutT</code></a><code>&gt;</code></p>
+<p><code>class MutuallyExclusiveOptions&lt;OptT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, OutT&gt; :</code><a href="../-parameter-group-delegate/"><code>ParameterGroupDelegate</code></a><code>&lt;OutT&gt;</code></p>
 <h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1446,7 +1446,7 @@
 <tbody>
 <tr>
 <td><a href="-init-/">&lt;init&gt;</a></td>
-<td><code>MutuallyExclusiveOptions(options:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#OptT"><code>OptT</code></a><code>?&gt;&gt;, groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, groupHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, transformAll: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#OptT"><code>OptT</code></a><code>&gt;) -&gt;</code><a href="./#OutT"><code>OutT</code></a><code>)</code></td>
+<td><code>MutuallyExclusiveOptions(options:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;OptT?&gt;&gt;, groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, groupHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, transformAll: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;OptT&gt;) -&gt; OutT)</code></td>
 </tr>
 </tbody>
 </table>
@@ -1461,11 +1461,11 @@
 <tbody>
 <tr>
 <td><a href="group-help/">groupHelp</a></td>
-<td><code>val groupHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>A help message to display for this group.</td>
+<td>A help message to display for this group.<code>val groupHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="group-name/">groupName</a></td>
-<td><code>val groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the group, or null if parameters in the group should not be separated from other parameters in the help output.</td>
+<td>The name of the group, or null if parameters in the group should not be separated from other parameters in the help output.<code>val groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 </tbody>
 </table>
@@ -1480,23 +1480,23 @@
 <tbody>
 <tr>
 <td><a href="copy/">copy</a></td>
-<td><code>fun &lt;T&gt; copy(transformAll: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./#OptT"><code>OptT</code></a><code>&gt;) -&gt;</code><a href="copy/#T"><code>T</code></a><code>):</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="./#OptT"><code>OptT</code></a><code>,</code><a href="copy/#T"><code>T</code></a><code>&gt;</code></td>
+<td><code>fun &lt;T&gt; copy(transformAll: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;OptT&gt;) -&gt; T):</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;OptT, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="finalize/">finalize</a></td>
-<td><code>fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocationsByOption:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option/"><code>Option</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/"><code>OptionParser.Invocation</code></a><code>&gt;&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed and all options are validated to validate the group constraints.</td>
+<td>Called after this command&rsquo;s argv is parsed and all options are validated to validate the group constraints.<code>fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocationsByOption:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option/"><code>Option</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;Invocation&gt;&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="get-value/">getValue</a></td>
-<td><code>fun getValue(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, property:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="./#OutT"><code>OutT</code></a></td>
+<td><code>fun getValue(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, property:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;): OutT</code></td>
 </tr>
 <tr>
 <td><a href="post-validate/">postValidate</a></td>
-<td><code>fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="../-parameter-group/finalize/">finalize</a>d to perform validation of the final values.</td>
+<td>Called after all of a command&rsquo;s parameters have been <a href="../-parameter-group/finalize/">finalize</a>d to perform validation of the final values.<code>fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="provide-delegate/">provideDelegate</a></td>
-<td><code>operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#OutT"><code>OutT</code></a><code>&gt;</code><br>Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-option-group/">CliktCommand.registerOptionGroup</a></td>
+<td>Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-option-group/">CliktCommand.registerOptionGroup</a><code>operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, OutT&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1511,15 +1511,15 @@
 <tbody>
 <tr>
 <td><a href="../default/">default</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="../default/#T"><code>T</code></a><code>,</code><a href="../default/#T"><code>T</code></a><code>?&gt;.default(value:</code><a href="../default/#T"><code>T</code></a><code>):</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="../default/#T"><code>T</code></a><code>,</code><a href="../default/#T"><code>T</code></a><code>&gt;</code><br>If none of the options in a <a href="../mutually-exclusive-options/">mutuallyExclusiveOptions</a> group are given on the command line, us <a href="../default/#com.github.ajalt.clikt.parameters.groups$default(com.github.ajalt.clikt.parameters.groups.MutuallyExclusiveOptions((com.github.ajalt.clikt.parameters.groups.default.T, com.github.ajalt.clikt.parameters.groups.default.T)">value</a>, com.github.ajalt.clikt.parameters.groups.default.T)/value) for the group.</td>
+<td>If none of the options in a <a href="../mutually-exclusive-options/">mutuallyExclusiveOptions</a> group are given on the command line, us <a href="../default/#com.github.ajalt.clikt.parameters.groups$default(com.github.ajalt.clikt.parameters.groups.MutuallyExclusiveOptions((com.github.ajalt.clikt.parameters.groups.default.T, com.github.ajalt.clikt.parameters.groups.default.T)">value</a>, com.github.ajalt.clikt.parameters.groups.default.T)/value) for the group.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;.default(value: T):</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../required/">required</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="../required/#T"><code>T</code></a><code>,</code><a href="../required/#T"><code>T</code></a><code>?&gt;.required():</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="../required/#T"><code>T</code></a><code>,</code><a href="../required/#T"><code>T</code></a><code>&gt;</code><br>Make a <a href="../mutually-exclusive-options/">mutuallyExclusiveOptions</a> group required. If none of the options in the group are given, a <a href="../../com.github.ajalt.clikt.core/-usage-error/">UsageError</a> is thrown.</td>
+<td>Make a <a href="../mutually-exclusive-options/">mutuallyExclusiveOptions</a> group required. If none of the options in the group are given, a <a href="../../com.github.ajalt.clikt.core/-usage-error/">UsageError</a> is thrown.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;.required():</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../single/">single</a></td>
-<td><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="../single/#T"><code>T</code></a><code>,</code><a href="../single/#T"><code>T</code></a><code>?&gt;.single():</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;</code><a href="../single/#T"><code>T</code></a><code>,</code><a href="../single/#T"><code>T</code></a><code>?&gt;</code><br>If more than one of the group&rsquo;s options are given on the command line, throw a <a href="../../com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/">MutuallyExclusiveGroupException</a></td>
+<td>If more than one of the group&rsquo;s options are given on the command line, throw a <a href="../../com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/">MutuallyExclusiveGroupException</a><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;.single():</code><a href="./"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;</code></td>
 </tr>
 </tbody>
 </table>

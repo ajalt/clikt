@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1612,7 +1612,7 @@ defined data. You can use the <code>obj</code> to create interfaces like this:</
 <label for="__tab_4_0">Example</label>
 <div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">verbose</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;--no-verbose&quot;</span><span class="p">)</span>
-    <span class="k">val</span> <span class="py">config</span> <span class="k">by</span> <span class="n">findObject</span> <span class="p">{</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;()</span> <span class="p">}</span>
+    <span class="k">val</span> <span class="py">config</span> <span class="k">by</span> <span class="n">findOrSetObject</span> <span class="p">{</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;()</span> <span class="p">}</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">config</span><span class="p">[</span><span class="s">&quot;VERBOSE&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="k">if</span> <span class="p">(</span><span class="n">verbose</span><span class="p">)</span> <span class="s">&quot;on&quot;</span> <span class="k">else</span> <span class="s">&quot;off&quot;</span>
     <span class="p">}</span>
@@ -1633,10 +1633,11 @@ defined data. You can use the <code>obj</code> to create interfaces like this:</
 Verbose mode is on
 </pre></div></div>
 </div>
-<p>The <a href="../api/clikt/com.github.ajalt.clikt.core/find-object/"><code>findObject</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.core/require-object/"><code>requireObject</code></a> functions will walk up
-the context tree until they find an object with the given type. If no such object exists, they will
-either return <code>null</code>, throw an exception, or create an instance of the object and store it on the
-command&rsquo;s context, depending on which overload you call.</p>
+<p>The <a href="../api/clikt/com.github.ajalt.clikt.core/find-object/"><code>findObject</code></a>, <a href="../api/clikt/com.github.ajalt.clikt.core/find-or-set-object/"><code>findOrSetObject</code></a>, and
+<a href="../api/clikt/com.github.ajalt.clikt.core/require-object/"><code>requireObject</code></a> functions will walk up the context tree until they find an object
+with the given type. If no such object exists, they will either return <code>null</code>, throw an exception,
+or create an instance of the object and store it on the command&rsquo;s context, depending on which
+function you call.</p>
 <h2 id="running-parent-command-without-children">Running Parent Command Without Children<a class="headerlink" href="#running-parent-command-without-children" title="Permanent link">&para;</a></h2>
 <p>Normally, if a command has children, <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is not called unless a child
 command is invoked on the command line. Instead, <code>--help</code> is called on the parent. If you want to

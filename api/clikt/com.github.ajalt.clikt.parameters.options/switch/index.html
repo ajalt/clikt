@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1382,6 +1382,29 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example" title="Example:" class="md-nav__link">
+    Example:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example_1" title="Example:" class="md-nav__link">
+    Example:
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1397,9 +1420,17 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">switch</a></p>
 <h1 id="switch">switch<a class="headerlink" href="#switch" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>?&gt;</code>
-<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>?&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;</code></p>
 <p>Turn an option into a set of flags that each map to a value.</p>
+<h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">option</span><span class="p">().</span><span class="n">switch</span><span class="p">(</span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;--foo&quot;</span> <span class="n">to</span> <span class="n">Foo</span><span class="p">(),</span> <span class="s">&quot;--bar&quot;</span> <span class="n">to</span> <span class="n">Bar</span><span class="p">()))</span>
+</pre></div>
+
+<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;</code></p>
+<p>Turn an option into a set of flags that each map to a value.</p>
+<h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><span class="n">option</span><span class="p">().</span><span class="n">switch</span><span class="p">(</span><span class="s">&quot;--foo&quot;</span> <span class="n">to</span> <span class="n">Foo</span><span class="p">(),</span> <span class="s">&quot;--bar&quot;</span> <span class="n">to</span> <span class="n">Bar</span><span class="p">())</span>
+</pre></div>
                 
                   
                 

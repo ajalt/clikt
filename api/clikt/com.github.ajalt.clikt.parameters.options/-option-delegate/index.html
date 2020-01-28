@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1393,13 +1393,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inherited-properties" title="Inherited Properties" class="md-nav__link">
-    Inherited Properties
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#functions" title="Functions" class="md-nav__link">
     Functions
   </a>
@@ -1434,7 +1427,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">OptionDelegate</a></p>
 <h1 id="optiondelegate">OptionDelegate<a class="headerlink" href="#optiondelegate" title="Permanent link">&para;</a></h1>
-<p><code>interface OptionDelegate&lt;T&gt; :</code><a href="../../com.github.ajalt.clikt.core/-groupable-option/"><code>GroupableOption</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>interface OptionDelegate&lt;T&gt; :</code><a href="../../com.github.ajalt.clikt.core/-groupable-option/"><code>GroupableOption</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, T&gt;</code></p>
 <p>An option that functions as a property delegate</p>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
 <table>
@@ -1447,26 +1440,7 @@
 <tbody>
 <tr>
 <td><a href="value/">value</a></td>
-<td><code>abstract val value:</code><a href="./#T"><code>T</code></a><br>The value for this option.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="inherited-properties">Inherited Properties<a class="headerlink" href="#inherited-properties" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.core/-groupable-option/group-name/">groupName</a></td>
-<td><code>abstract var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the group, or null if this option should not be grouped in the help output.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.core/-groupable-option/parameter-group/">parameterGroup</a></td>
-<td><code>abstract var parameterGroup:</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>?</code><br>The group that this option belongs to, or null. Set by the group.</td>
+<td>The value for this option.<code>abstract val value: T</code></td>
 </tr>
 </tbody>
 </table>
@@ -1481,11 +1455,11 @@
 <tbody>
 <tr>
 <td><a href="get-value/">getValue</a></td>
-<td><code>open fun getValue(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, property:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="./#T"><code>T</code></a></td>
+<td><code>open fun getValue(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, property:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;): T</code></td>
 </tr>
 <tr>
 <td><a href="provide-delegate/">provideDelegate</a></td>
-<td><code>abstract operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Implementations must call <a href="../../com.github.ajalt.clikt.core/-parameter-holder/register-option/">ParameterHolder.registerOption</a></td>
+<td>Implementations must call <a href="../../com.github.ajalt.clikt.core/-parameter-holder/register-option/">ParameterHolder.registerOption</a><code>abstract operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, T&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1500,11 +1474,11 @@
 <tbody>
 <tr>
 <td><a href="../-flag-option/">FlagOption</a></td>
-<td><code>class FlagOption&lt;T&gt; :</code><a href="./"><code>OptionDelegate</code></a><code>&lt;</code><a href="../-flag-option/#T"><code>T</code></a><code>&gt;</code><br>An <a href="../-option/">Option</a> that has no values.</td>
+<td>An <a href="../-option/">Option</a> that has no values.<code>class FlagOption&lt;T&gt; :</code><a href="./"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../-option-with-values/">OptionWithValues</a></td>
-<td><code>class OptionWithValues&lt;AllT, EachT, ValueT&gt; :</code><a href="./"><code>OptionDelegate</code></a><code>&lt;</code><a href="../-option-with-values/#AllT"><code>AllT</code></a><code>&gt;,</code><a href="../../com.github.ajalt.clikt.core/-groupable-option/"><code>GroupableOption</code></a><br>An <a href="../-option/">Option</a> that takes one or more values.</td>
+<td>An <a href="../-option/">Option</a> that takes one or more values.<code>class OptionWithValues&lt;AllT, EachT, ValueT&gt; :</code><a href="./"><code>OptionDelegate</code></a><code>&lt;AllT&gt;,</code><a href="../../com.github.ajalt.clikt.core/-groupable-option/"><code>GroupableOption</code></a></td>
 </tr>
 </tbody>
 </table>

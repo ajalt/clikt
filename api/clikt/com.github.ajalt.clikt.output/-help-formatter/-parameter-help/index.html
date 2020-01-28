@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1392,13 +1392,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#inheritors" title="Inheritors" class="md-nav__link">
-    Inheritors
-  </a>
-  
-</li>
-      
       
       
       
@@ -1432,46 +1425,19 @@
 <tbody>
 <tr>
 <td><a href="-argument/">Argument</a></td>
-<td><code>data class Argument :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a></td>
+<td><code>data class Argument : ParameterHelp</code></td>
 </tr>
 <tr>
 <td><a href="-group/">Group</a></td>
-<td><code>data class Group :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a><br>Help for an option group. If the group doesn&rsquo;t have a name or help, you don&rsquo;t need to create an instance of this class for it.</td>
+<td>Help for an option group. If the group doesn&rsquo;t have a name or help, you don&rsquo;t need to create an instance of this class for it.<code>data class Group : ParameterHelp</code></td>
 </tr>
 <tr>
 <td><a href="-option/">Option</a></td>
-<td><code>data class Option :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a></td>
+<td><code>data class Option : ParameterHelp</code></td>
 </tr>
 <tr>
 <td><a href="-subcommand/">Subcommand</a></td>
-<td><code>data class Subcommand :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="inheritors">Inheritors<a class="headerlink" href="#inheritors" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="-argument/">Argument</a></td>
-<td><code>data class Argument :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a></td>
-</tr>
-<tr>
-<td><a href="-group/">Group</a></td>
-<td><code>data class Group :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a><br>Help for an option group. If the group doesn&rsquo;t have a name or help, you don&rsquo;t need to create an instance of this class for it.</td>
-</tr>
-<tr>
-<td><a href="-option/">Option</a></td>
-<td><code>data class Option :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a></td>
-</tr>
-<tr>
-<td><a href="-subcommand/">Subcommand</a></td>
-<td><code>data class Subcommand :</code><a href="./"><code>HelpFormatter.ParameterHelp</code></a></td>
+<td><code>data class Subcommand : ParameterHelp</code></td>
 </tr>
 </tbody>
 </table>

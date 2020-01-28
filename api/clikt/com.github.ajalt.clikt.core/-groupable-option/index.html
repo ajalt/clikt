@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1393,20 +1393,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inherited-properties" title="Inherited Properties" class="md-nav__link">
-    Inherited Properties
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inherited-functions" title="Inherited Functions" class="md-nav__link">
-    Inherited Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#inheritors" title="Inheritors" class="md-nav__link">
     Inheritors
   </a>
@@ -1447,81 +1433,11 @@
 <tbody>
 <tr>
 <td><a href="group-name/">groupName</a></td>
-<td><code>abstract var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the group, or null if this option should not be grouped in the help output.</td>
+<td>The name of the group, or null if this option should not be grouped in the help output.<code>abstract var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="parameter-group/">parameterGroup</a></td>
-<td><code>abstract var parameterGroup:</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>?</code><br>The group that this option belongs to, or null. Set by the group.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="inherited-properties">Inherited Properties<a class="headerlink" href="#inherited-properties" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/completion-candidates/">completionCandidates</a></td>
-<td><code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><br>Optional set of strings to use when the user invokes shell autocomplete on a value for this option.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/help/">help</a></td>
-<td><code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The description of this option, usually a single line.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/help-tags/">helpTags</a></td>
-<td><code>abstract val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Extra information about this option to pass to the help formatter.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/hidden/">hidden</a></td>
-<td><code>abstract val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If true, this option should not appear in help output.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/metavar/">metavar</a></td>
-<td><code>abstract val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>A name representing the values for this option that can be displayed to the user.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/names/">names</a></td>
-<td><code>abstract val names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>The names that can be used to invoke this option. They must start with a punctuation character.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/nvalues/">nvalues</a></td>
-<td><code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><br>The number of values that must be given to this option.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/parameter-help/">parameterHelp</a></td>
-<td><code>open val parameterHelp:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-option/"><code>HelpFormatter.ParameterHelp.Option</code></a><code>?</code><br>Information about this option for the help output.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/parser/">parser</a></td>
-<td><code>abstract val parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/"><code>OptionParser</code></a><br>The parser for this option&rsquo;s values.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/secondary-names/">secondaryNames</a></td>
-<td><code>abstract val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Names that can be used for a secondary purpose, like disabling flag options.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="inherited-functions">Inherited Functions<a class="headerlink" href="#inherited-functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/finalize/">finalize</a></td>
-<td><code>abstract fun finalize(context:</code><a href="../-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/"><code>OptionParser.Invocation</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.</td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.options/-option/post-validate/">postValidate</a></td>
-<td><code>abstract fun postValidate(context:</code><a href="../-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="../../com.github.ajalt.clikt.parameters.options/-option/finalize/">finalize</a>d to perform validation of the final value.</td>
+<td>The group that this option belongs to, or null. Set by the group.<code>abstract var parameterGroup:</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>?</code></td>
 </tr>
 </tbody>
 </table>
@@ -1536,11 +1452,11 @@
 <tbody>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/">OptionDelegate</a></td>
-<td><code>interface OptionDelegate&lt;T&gt; :</code><a href="./"><code>GroupableOption</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../-parameter-holder/"><code>ParameterHolder</code></a><code>,</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/#T"><code>T</code></a><code>&gt;</code><br>An option that functions as a property delegate</td>
+<td>An option that functions as a property delegate<code>interface OptionDelegate&lt;T&gt; :</code><a href="./"><code>GroupableOption</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../-parameter-holder/"><code>ParameterHolder</code></a><code>, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.options/-option-with-values/">OptionWithValues</a></td>
-<td><code>class OptionWithValues&lt;AllT, EachT, ValueT&gt; :</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-with-values/#AllT"><code>AllT</code></a><code>&gt;,</code><a href="./"><code>GroupableOption</code></a><br>An <a href="../../com.github.ajalt.clikt.parameters.options/-option/">Option</a> that takes one or more values.</td>
+<td>An <a href="../../com.github.ajalt.clikt.parameters.options/-option/">Option</a> that takes one or more values.<code>class OptionWithValues&lt;AllT, EachT, ValueT&gt; :</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;,</code><a href="./"><code>GroupableOption</code></a></td>
 </tr>
 </tbody>
 </table>

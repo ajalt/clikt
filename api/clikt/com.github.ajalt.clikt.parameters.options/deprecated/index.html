@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1427,7 +1427,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">deprecated</a></p>
 <h1 id="deprecated">deprecated<a class="headerlink" href="#deprecated" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;&quot;, tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;deprecated&quot;, tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>fun &lt;T&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;&quot;, tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;deprecated&quot;, tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></p>
 <p>Mark this option as deprecated in the help output.</p>
 <p>By default, a tag is added to the help message and a warning is printed if the option is used.</p>
 <p>This should be called after any validation.</p>
@@ -1435,7 +1435,7 @@
 <p><code>message</code> - The message to show in the warning or error. If null, no warning is issued.</p>
 <p><code>tagName</code> - The tag to add to the help message</p>
 <p><code>tagValue</code> - An extra message to add to the tag</p>
-<p><code>error</code> - If true, when the option is invoked, a <a href="../../com.github.ajalt.clikt.core/-clikt-error/">CliktError</a> is raised immediately instead of issuing a warning.<code>fun &lt;AllT, EachT, ValueT&gt;</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;&quot;, tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;deprecated&quot;, tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;</code></p>
+<p><code>error</code> - If true, when the option is invoked, a <a href="../../com.github.ajalt.clikt.core/-clikt-error/">CliktError</a> is raised immediately instead of issuing a warning.<code>fun &lt;AllT, EachT, ValueT&gt;</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;&quot;, tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = &quot;deprecated&quot;, tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></p>
 <p>Mark this option as deprecated in the help output.</p>
 <p>By default, a tag is added to the help message and a warning is printed if the option is used.</p>
 <p>This should be called after any conversion and validation.</p>

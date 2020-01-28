@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,9 +1413,9 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.arguments</a> / <a href="./">validate</a></p>
 <h1 id="validate">validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.validate(validator:</code><a href="../-arg-validator/"><code>ArgValidator</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;):</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;AllT, ValueT&gt;.validate(validator:</code><a href="../-arg-validator/"><code>ArgValidator</code></a><code>&lt;AllT&gt;):</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;AllT&gt;</code></p>
 <p>Check the final argument value and raise an error if it&rsquo;s not valid.</p>
-<p>The <a href="./#com.github.ajalt.clikt.parameters.arguments$validate(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.validate.AllT, com.github.ajalt.clikt.parameters.arguments.validate.ValueT)">validator</a>, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, com.github.ajalt.clikt.parameters.arguments.validate.AllT, kotlin.Unit)))/validator) is called with the final argument type (the output of <a href="../../com.github.ajalt.clikt.parameters.options/transform-all/">transformAll</a>), and should call
+<p>The <a href="./#com.github.ajalt.clikt.parameters.arguments$validate(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.validate.AllT, com.github.ajalt.clikt.parameters.arguments.validate.ValueT)">validator</a>, kotlin.Function2((com.github.ajalt.clikt.parameters.arguments.ArgumentTransformContext, com.github.ajalt.clikt.parameters.arguments.validate.AllT, kotlin.Unit)))/validator) is called with the final argument type (the output of <a href="../transform-all/">transformAll</a>), and should call
 <code>fail</code> if the value is not valid.</p>
 <p>You can also call <code>require</code> to fail automatically if an expression is false.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>

@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,9 +1413,9 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">default</a></p>
 <h1 id="default">default<a class="headerlink" href="#default" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>?&gt;.default(value:</code><a href="./#T"><code>T</code></a><code>):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;.default(value: T):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T&gt;</code></p>
 <p>Set a default value for a option.</p>
-<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.default(value:</code><a href="./#EachT"><code>EachT</code></a><code>, defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= value.toString()):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.default(value: EachT, defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= value.toString()):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></p>
 <p>If the option is not called on the command line (and is not set in an envvar), use <a href="./#com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.ValueT)">value</a>, com.github.ajalt.clikt.parameters.options.default.EachT, kotlin.String)/value) for the option.</p>
 <p>This must be applied after all other transforms.</p>
 <p>You can customize how the default is shown to the user with <a href="./#com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.ValueT)">defaultForHelp</a>, com.github.ajalt.clikt.parameters.options.default.EachT, kotlin.String)/defaultForHelp).</p>

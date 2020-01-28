@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1399,6 +1399,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extension-functions" title="Extension Functions" class="md-nav__link">
+    Extension Functions
+  </a>
+  
+</li>
+      
       
       
       
@@ -1433,7 +1440,7 @@
 <tbody>
 <tr>
 <td><a href="-init-/">&lt;init&gt;</a></td>
-<td><code>ValueWithDefault(explicit:</code><a href="./#T"><code>T</code></a><code>?, default:</code><a href="./#T"><code>T</code></a><code>)</code><br>A container for a value that can have a default value and can be manually set</td>
+<td>A container for a value that can have a default value and can be manually set<code>ValueWithDefault(explicit: T?, default: T)</code></td>
 </tr>
 </tbody>
 </table>
@@ -1448,15 +1455,34 @@
 <tbody>
 <tr>
 <td><a href="default/">default</a></td>
-<td><code>val default:</code><a href="./#T"><code>T</code></a></td>
+<td><code>val default: T</code></td>
 </tr>
 <tr>
 <td><a href="explicit/">explicit</a></td>
-<td><code>val explicit:</code><a href="./#T"><code>T</code></a><code>?</code></td>
+<td><code>val explicit: T?</code></td>
 </tr>
 <tr>
 <td><a href="value/">value</a></td>
-<td><code>val value:</code><a href="./#T"><code>T</code></a></td>
+<td><code>val value: T</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="extension-functions">Extension Functions<a class="headerlink" href="#extension-functions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../with-default/">withDefault</a></td>
+<td>Create a copy with a new <a href="../with-default/#com.github.ajalt.clikt.parameters.options$withDefault(com.github.ajalt.clikt.parameters.options.ValueWithDefault((com.github.ajalt.clikt.parameters.options.withDefault.T)">default</a>, com.github.ajalt.clikt.parameters.options.withDefault.T)/default) value<code>fun &lt;T&gt;</code><a href="./"><code>ValueWithDefault</code></a><code>&lt;T&gt;.withDefault(default: T):</code><a href="./"><code>ValueWithDefault</code></a><code>&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../with-explicit/">withExplicit</a></td>
+<td>Create a copy with a new <a href="../with-explicit/#com.github.ajalt.clikt.parameters.options$withExplicit(com.github.ajalt.clikt.parameters.options.ValueWithDefault((com.github.ajalt.clikt.parameters.options.withExplicit.T)">explicit</a>, com.github.ajalt.clikt.parameters.options.withExplicit.T)/explicit) value<code>fun &lt;T&gt;</code><a href="./"><code>ValueWithDefault</code></a><code>&lt;T&gt;.withExplicit(explicit: T):</code><a href="./"><code>ValueWithDefault</code></a><code>&lt;T&gt;</code></td>
 </tr>
 </tbody>
 </table>

@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1427,7 +1427,7 @@
                 
                 <p><a href="../../../../">clikt</a> / <a href="../../../">com.github.ajalt.clikt.output</a> / <a href="../../">HelpFormatter</a> / <a href="../">ParameterHelp</a> / <a href="./">Subcommand</a></p>
 <h1 id="subcommand">Subcommand<a class="headerlink" href="#subcommand" title="Permanent link">&para;</a></h1>
-<p><code>data class Subcommand :</code><a href="../"><code>HelpFormatter.ParameterHelp</code></a></p>
+<p><code>data class Subcommand : ParameterHelp</code></p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>name</code> - The name for this command</p>
 <p><code>help</code> - The command&rsquo;s description</p>
@@ -1457,11 +1457,11 @@
 <tbody>
 <tr>
 <td><a href="help/">help</a></td>
-<td><code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The command&rsquo;s description</td>
+<td>The command&rsquo;s description<code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="name/">name</a></td>
-<td><code>val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The name for this command</td>
+<td>The name for this command<code>val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="tags/">tags</a></td>

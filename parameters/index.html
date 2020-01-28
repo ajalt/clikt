@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1526,18 +1526,25 @@ or fail with an error if the input is outside the range.</p>
 <p>You can restrict the values to a set of values, and optionally map the
 input to a new value. For example, to create an option that only
 accepts the value &ldquo;A&rdquo; or &ldquo;B&rdquo;:</p>
-<div class="codehilite"><pre><span></span> <span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
 </pre></div>
 
 <p>You can also convert the restricted set of values to a new type:</p>
-<p><div class="codehilite"><pre><span></span> <span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
 </pre></div>
-* <code>Enum</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/enum/"><code>option().enum()</code> and <code>argument().enum()</code></a></p>
+
+<p>Choice parameters accept values that are case-sensitive by default. This can be configured by
+passing <code>ignoreCase = true</code>.</p>
+<ul>
+<li><code>Enum</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/enum/"><code>option().enum()</code> and <code>argument().enum()</code></a></li>
+</ul>
 <p>Like <code>choice</code>, but uses the values of an enum type.</p>
 <div class="codehilite"><pre><span></span><span class="k">enum</span> <span class="k">class</span> <span class="nc">Color</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span> <span class="p">}</span>
 <span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Color</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Color</span><span class="p">&gt;()</span>
 </pre></div>
 
+<p>Enum parameters accept case-insensitive values by default. This can be configured by passing
+<code>ignoreCase = false</code>.</p>
 <ul>
 <li><code>File</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/"><code>option().file()</code> and <code>argument().file()</code></a></li>
 <li><code>Path</code>: <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path/"><code>option().path()</code> and <code>argument().path()</code></a></li>

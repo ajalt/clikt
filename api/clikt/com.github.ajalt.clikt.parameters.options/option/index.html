@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,7 +1413,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">option</a></p>
 <h1 id="option">option<a class="headerlink" href="#option" title="Permanent link">&para;</a></h1>
-<p><code>fun</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>.option(vararg names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = null, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap()):</code><a href="../-raw-option/"><code>RawOption</code></a></p>
+<p><code>fun</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>.option(vararg names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = null, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap(), completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>? = null):</code><a href="../-raw-option/"><code>RawOption</code></a></p>
 <p>Create a property delegate option.</p>
 <p>By default, the property will return null if the option does not appear on the command line. If the option
 is invoked multiple times, the value from the last invocation will be used The option can be modified with
@@ -1427,7 +1427,7 @@ Automatically inferred from the type.</p>
 <p><code>hidden</code> - Hide this option from help outputs.</p>
 <p><code>envvar</code> - The environment variable that will be used for the value if one is not given on the command
 line.</p>
-<p><code>envvarSplit</code> - The pattern to split the value of the <a href="./#com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.ParameterHolder, kotlin.Array((kotlin.String)">envvar</a>, kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String, kotlin.text.Regex, kotlin.collections.Map((kotlin.String, )))/envvar) on. Defaults to whitespace,
+<p><code>envvarSplit</code> - The pattern to split the value of the <a href="./#com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.ParameterHolder, kotlin.Array((kotlin.String)">envvar</a>, kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String, kotlin.text.Regex, kotlin.collections.Map((kotlin.String, )), com.github.ajalt.clikt.completion.CompletionCandidates)/envvar) on. Defaults to whitespace,
 although some conversions like <code>file</code> change the default.</p>
 <p><code>helpTags</code> - Extra information about this option to pass to the help formatter</p>
                 

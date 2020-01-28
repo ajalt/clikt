@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1434,8 +1434,9 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.types</a> / <a href="./">enum</a></p>
 <h1 id="enum">enum<a class="headerlink" href="#enum" title="Permanent link">&para;</a></h1>
-<p><code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html"><code>Enum</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt; RawArgument.enum(key: (</code><a href="./#T"><code>T</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.name }):</code><a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html"><code>Enum</code></a><code>&lt;T&gt;&gt; RawArgument.enum(ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, key: (T) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.name }):</code><a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;</code></p>
 <p>Convert the argument to the values of an enum.</p>
+<p>If <a href="./#com.github.ajalt.clikt.parameters.types$enum(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((kotlin.String, )">ignoreCase</a>, kotlin.Boolean, kotlin.Function1((com.github.ajalt.clikt.parameters.types.enum.T, kotlin.String)))/ignoreCase) is <code>false</code>, the argument will only accept values that match the case of the enum values.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="k">enum</span> <span class="k">class</span> <span class="nc">Size</span> <span class="p">{</span> <span class="n">SMALL</span><span class="p">,</span> <span class="n">LARGE</span> <span class="p">}</span>
 <span class="n">argument</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Size</span><span class="p">&gt;()</span>
@@ -1443,8 +1444,9 @@
 
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>key</code> - A block that returns the command line value to use for an enum value. The default is
-the enum name.<code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html"><code>Enum</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;&gt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.enum(key: (</code><a href="./#T"><code>T</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.name }):</code><a href="../../com.github.ajalt.clikt.parameters.options/-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+the enum name.<code>inline fun &lt;reified T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html"><code>Enum</code></a><code>&lt;T&gt;&gt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.enum(ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, key: (T) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.name }):</code><a href="../../com.github.ajalt.clikt.parameters.options/-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code></p>
 <p>Convert the option to the values of an enum.</p>
+<p>If <a href="./#com.github.ajalt.clikt.parameters.types$enum(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )">ignoreCase</a>, kotlin.Boolean, kotlin.Function1((com.github.ajalt.clikt.parameters.types.enum.T, kotlin.String)))/ignoreCase) is <code>false</code>, the option will only accept values that match the case of the enum values.</p>
 <h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><span class="k">enum</span> <span class="k">class</span> <span class="nc">Size</span> <span class="p">{</span> <span class="n">SMALL</span><span class="p">,</span> <span class="n">LARGE</span> <span class="p">}</span>
 <span class="n">option</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Size</span><span class="p">&gt;()</span>

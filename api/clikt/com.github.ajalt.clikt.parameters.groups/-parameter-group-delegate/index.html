@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1386,22 +1386,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#inherited-properties" title="Inherited Properties" class="md-nav__link">
-    Inherited Properties
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#functions" title="Functions" class="md-nav__link">
     Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inherited-functions" title="Inherited Functions" class="md-nav__link">
-    Inherited Functions
   </a>
   
 </li>
@@ -1434,30 +1420,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.groups</a> / <a href="./">ParameterGroupDelegate</a></p>
 <h1 id="parametergroupdelegate">ParameterGroupDelegate<a class="headerlink" href="#parametergroupdelegate" title="Permanent link">&para;</a></h1>
-<p><code>interface ParameterGroupDelegate&lt;out T&gt; :</code><a href="../-parameter-group/"><code>ParameterGroup</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
-<h3 id="inherited-properties">Inherited Properties<a class="headerlink" href="#inherited-properties" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../-parameter-group/group-help/">groupHelp</a></td>
-<td><code>abstract val groupHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>A help message to display for this group.</td>
-</tr>
-<tr>
-<td><a href="../-parameter-group/group-name/">groupName</a></td>
-<td><code>abstract val groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The name of the group, or null if parameters in the group should not be separated from other parameters in the help output.</td>
-</tr>
-<tr>
-<td><a href="../-parameter-group/parameter-help/">parameterHelp</a></td>
-<td><code>open val parameterHelp:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-group/"><code>HelpFormatter.ParameterHelp.Group</code></a><code>?</code></td>
-</tr>
-</tbody>
-</table>
+<p><code>interface ParameterGroupDelegate&lt;out T&gt; :</code><a href="../-parameter-group/"><code>ParameterGroup</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></p>
 <h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1469,26 +1432,7 @@
 <tbody>
 <tr>
 <td><a href="provide-delegate/">provideDelegate</a></td>
-<td><code>abstract operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="./#T"><code>T</code></a><code>&gt;</code><br>Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-option-group/">CliktCommand.registerOptionGroup</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="inherited-functions">Inherited Functions<a class="headerlink" href="#inherited-functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../-parameter-group/finalize/">finalize</a></td>
-<td><code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocationsByOption:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option/"><code>Option</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/"><code>OptionParser.Invocation</code></a><code>&gt;&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed and all options are validated to validate the group constraints.</td>
-</tr>
-<tr>
-<td><a href="../-parameter-group/post-validate/">postValidate</a></td>
-<td><code>abstract fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="../-parameter-group/finalize/">finalize</a>d to perform validation of the final values.</td>
+<td>Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-option-group/">CliktCommand.registerOptionGroup</a><code>abstract operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1503,15 +1447,15 @@
 <tbody>
 <tr>
 <td><a href="../-choice-group/">ChoiceGroup</a></td>
-<td><code>class ChoiceGroup&lt;GroupT :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>, OutT&gt; :</code><a href="./"><code>ParameterGroupDelegate</code></a><code>&lt;</code><a href="../-choice-group/#OutT"><code>OutT</code></a><code>&gt;</code></td>
+<td><code>class ChoiceGroup&lt;GroupT :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>, OutT&gt; :</code><a href="./"><code>ParameterGroupDelegate</code></a><code>&lt;OutT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../-co-occurring-option-group/">CoOccurringOptionGroup</a></td>
-<td><code>class CoOccurringOptionGroup&lt;GroupT :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>, OutT&gt; :</code><a href="./"><code>ParameterGroupDelegate</code></a><code>&lt;</code><a href="../-co-occurring-option-group/#OutT"><code>OutT</code></a><code>&gt;</code></td>
+<td><code>class CoOccurringOptionGroup&lt;GroupT :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>, OutT&gt; :</code><a href="./"><code>ParameterGroupDelegate</code></a><code>&lt;OutT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../-mutually-exclusive-options/">MutuallyExclusiveOptions</a></td>
-<td><code>class MutuallyExclusiveOptions&lt;OptT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, OutT&gt; :</code><a href="./"><code>ParameterGroupDelegate</code></a><code>&lt;</code><a href="../-mutually-exclusive-options/#OutT"><code>OutT</code></a><code>&gt;</code></td>
+<td><code>class MutuallyExclusiveOptions&lt;OptT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, OutT&gt; :</code><a href="./"><code>ParameterGroupDelegate</code></a><code>&lt;OutT&gt;</code></td>
 </tr>
 </tbody>
 </table>

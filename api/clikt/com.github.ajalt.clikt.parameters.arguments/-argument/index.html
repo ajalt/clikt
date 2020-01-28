@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1441,31 +1441,31 @@
 <tbody>
 <tr>
 <td><a href="completion-candidates/">completionCandidates</a></td>
-<td><code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><br>Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.</td>
+<td>Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.<code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a></td>
 </tr>
 <tr>
 <td><a href="help/">help</a></td>
-<td><code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The description of this argument.</td>
+<td>The description of this argument.<code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="help-tags/">helpTags</a></td>
-<td><code>abstract val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>Extra information about this argument to pass to the help formatter.</td>
+<td>Extra information about this argument to pass to the help formatter.<code>abstract val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="name/">name</a></td>
-<td><code>abstract val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The metavar for this argument.</td>
+<td>The metavar for this argument.<code>abstract val name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="nvalues/">nvalues</a></td>
-<td><code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><br>The number of values that this argument takes.</td>
+<td>The number of values that this argument takes.<code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
 </tr>
 <tr>
 <td><a href="parameter-help/">parameterHelp</a></td>
-<td><code>abstract val parameterHelp:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-argument/"><code>HelpFormatter.ParameterHelp.Argument</code></a><code>?</code><br>Information about this argument for the help output.</td>
+<td>Information about this argument for the help output.<code>abstract val parameterHelp: Argument?</code></td>
 </tr>
 <tr>
 <td><a href="required/">required</a></td>
-<td><code>abstract val required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If true, an error will be thrown if this argument is not given on the command line.</td>
+<td>If true, an error will be thrown if this argument is not given on the command line.<code>abstract val required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1480,11 +1480,11 @@
 <tbody>
 <tr>
 <td><a href="finalize/">finalize</a></td>
-<td><code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, values:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after this command&rsquo;s argv is parsed to transform and store the argument&rsquo;s value.</td>
+<td>Called after this command&rsquo;s argv is parsed to transform and store the argument&rsquo;s value.<code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, values:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
 <td><a href="post-validate/">postValidate</a></td>
-<td><code>abstract fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><br>Called after all of a command&rsquo;s parameters have been <a href="finalize/">finalize</a>d to perform validation of the final value.</td>
+<td>Called after all of a command&rsquo;s parameters have been <a href="finalize/">finalize</a>d to perform validation of the final value.<code>abstract fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1499,11 +1499,11 @@
 <tbody>
 <tr>
 <td><a href="../-argument-delegate/">ArgumentDelegate</a></td>
-<td><code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="./"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>,</code><a href="../-argument-delegate/#T"><code>T</code></a><code>&gt;</code><br>An argument that functions as a property delegate</td>
+<td>An argument that functions as a property delegate<code>interface ArgumentDelegate&lt;out T&gt; :</code><a href="./"><code>Argument</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../-argument-transform-context/">ArgumentTransformContext</a></td>
-<td><code>class ArgumentTransformContext :</code><a href="./"><code>Argument</code></a><br>A receiver for argument transformers.</td>
+<td>A receiver for argument transformers.<code>class ArgumentTransformContext :</code><a href="./"><code>Argument</code></a></td>
 </tr>
 </tbody>
 </table>

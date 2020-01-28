@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1404,6 +1404,19 @@
     Customizing Completions
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-completion-candidates" title="Custom completion candidates" class="md-nav__link">
+    Custom completion candidates
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1470,11 +1483,11 @@ or <code>_MY_COMMAND_COMPLETE=zsh</code>, depending on your current shell.</p>
 </pre></div>
 
 <p>Finally, source the file to activate completion:</p>
-<div class="codehilite"><pre><span></span>$ <span class="nb">source</span> ~/hello-completion.sh
+<div class="codehilite"><pre><span></span>$ <span class="nb">source</span> ~/my-program-completion.sh
 </pre></div>
 
 <p>You can add that source command to your .bashrc so that completion is always available:</p>
-<div class="codehilite"><pre><span></span>$ <span class="nb">echo</span> <span class="nb">source</span> ~/hello-completion.sh &gt;&gt; ~/.bashrc
+<div class="codehilite"><pre><span></span>$ <span class="nb">echo</span> <span class="nb">source</span> ~/my-program-completion.sh &gt;&gt; ~/.bashrc
 </pre></div>
 
 <p>You&rsquo;ll need to regenerate the completion script any time your command structure changes.</p>
@@ -1489,7 +1502,49 @@ and for parameters converted with <a href="../api/clikt/com.github.ajalt.clikt.p
 <li><code>Hostname</code>: Completions will be read from the system&rsquo;s hosts file.</li>
 <li><code>Username</code>: Completions will be taken from the system&rsquo;s users.</li>
 <li><code>Fixed</code>: Completions are given as a fixed set of strings.</li>
+<li><code>Custom</code>: Completions are generated from a custom script.</li>
 </ul>
+<h3 id="custom-completion-candidates"><code>Custom</code> completion candidates<a class="headerlink" href="#custom-completion-candidates" title="Permanent link">&para;</a></h3>
+<p>The <code>Custom</code> type takes a block that returns code to add to the script which generates completions
+for the given parameter.</p>
+<p>If you just want to call another script or binary that prints all possible completion words to
+stdout, you can use <a href="api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/from-stdout/">fromStdout</a>.</p>
+<p>Both Bash and ZSH scripts use Bash&rsquo;s Programmable Completion system (ZSH via a comparability layer).
+The string returned from [generator] should be the body of a function that will be passed to
+<code>compgen -F</code>.</p>
+<p>Specifically, you should set the variable <code>COMPREPLY</code> to the completion(s) for the current word
+being typed. The word being typed can be retrieved from the <code>COMP_WORDS</code> array at index
+<code>COMP_CWORD</code>.</p>
+<div class="superfences-tabs">
+<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
+<label for="__tab_1_0">Example with fromStdout</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// This example uses `echo`, but you would use your own binary</span>
+    <span class="c1">// or script that prints the completions.</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">completionCandidates</span> <span class="p">=</span>
+        <span class="n">CompletionCandidates</span><span class="p">.</span><span class="n">Custom</span><span class="p">.</span><span class="n">fromStdout</span><span class="p">(</span><span class="s">&quot;echo completion1 completion2&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div>
+<input name="__tabs_1" type="radio" id="__tab_1_1" />
+<label for="__tab_1_1">Example with full script</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// This is identical to the previous example</span>
+    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">completionCandidates</span> <span class="p">=</span> <span class="n">CompletionCandidates</span><span class="p">.</span><span class="n">Custom</span> <span class="p">{</span>
+        <span class="s">&quot;&quot;&quot;</span>
+        <span class="n">WORDS</span><span class="p">=</span><span class="err">$</span><span class="p">{</span><span class="sc">&#39;$&#39;</span><span class="p">}(</span><span class="n">echo</span> <span class="n">completion1</span> <span class="n">completion2</span><span class="p">)</span>
+        <span class="n">COMPREPLY</span><span class="p">=(</span><span class="err">$</span><span class="p">{</span><span class="sc">&#39;$&#39;</span><span class="p">}(</span><span class="n">compgen</span> <span class="p">-</span><span class="n">W</span> <span class="s">&quot;${&#39;$&#39;}WORDS&quot;</span> <span class="p">--</span> <span class="s">&quot;${&#39;$&#39;}{COMP_WORDS[${&#39;$&#39;}COMP_CWORD]}&quot;</span><span class="p">))</span>
+        <span class="s">&quot;&quot;&quot;.trimIndent()</span>
+    <span class="p">})</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></div>
+</div>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
 <p><a href="../advanced/#token-normalization">Token Normalization</a> is not supported.</p>
 <p>If you have arguments that occur after a <code>multiple</code> argument, those arguments won&rsquo;t be

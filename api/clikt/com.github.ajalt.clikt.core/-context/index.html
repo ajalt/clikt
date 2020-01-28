@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1470,7 +1470,7 @@
 <tbody>
 <tr>
 <td><a href="-init-/">&lt;init&gt;</a></td>
-<td><code>Context(parent:</code><a href="./"><code>Context</code></a><code>?, command:</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>, allowInterspersedArgs:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, autoEnvvarPrefix:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, printExtraMessages:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, helpOptionNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, helpOptionMessage:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, helpFormatter:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/"><code>HelpFormatter</code></a><code>, tokenTransformer:</code><a href="./"><code>Context</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, console:</code><a href="../../com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a><code>, expandArgumentFiles:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>)</code><br>A object used to control command line parsing and pass data between commands.</td>
+<td>A object used to control command line parsing and pass data between commands.<code>Context(parent:</code><a href="./"><code>Context</code></a><code>?, command:</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>, allowInterspersedArgs:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, autoEnvvarPrefix:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, printExtraMessages:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, helpOptionNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, helpOptionMessage:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, helpFormatter:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/"><code>HelpFormatter</code></a><code>, tokenTransformer:</code><a href="./"><code>Context</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, console:</code><a href="../../com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a><code>, expandArgumentFiles:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>)</code></td>
 </tr>
 </tbody>
 </table>
@@ -1485,35 +1485,35 @@
 <tbody>
 <tr>
 <td><a href="allow-interspersed-args/">allowInterspersedArgs</a></td>
-<td><code>val allowInterspersedArgs:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If false, options and arguments cannot be mixed; the first time an argument is encountered, all remaining tokens are parsed as arguments.</td>
+<td>If false, options and arguments cannot be mixed; the first time an argument is encountered, all remaining tokens are parsed as arguments.<code>val allowInterspersedArgs:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 <tr>
 <td><a href="auto-envvar-prefix/">autoEnvvarPrefix</a></td>
-<td><code>val autoEnvvarPrefix:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code><br>The prefix to add to inferred envvar names. If null, the prefix is based on the parent&rsquo;s prefix, if there is one. If no command specifies, a prefix, envvar lookup is disabled.</td>
+<td>The prefix to add to inferred envvar names. If null, the prefix is based on the parent&rsquo;s prefix, if there is one. If no command specifies, a prefix, envvar lookup is disabled.<code>val autoEnvvarPrefix:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="command/">command</a></td>
-<td><code>val command:</code><a href="../-clikt-command/"><code>CliktCommand</code></a><br>The command that this context associated with.</td>
+<td>The command that this context associated with.<code>val command:</code><a href="../-clikt-command/"><code>CliktCommand</code></a></td>
 </tr>
 <tr>
 <td><a href="console/">console</a></td>
-<td><code>val console:</code><a href="../../com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a><br>The console to use to print messages.</td>
+<td>The console to use to print messages.<code>val console:</code><a href="../../com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a></td>
 </tr>
 <tr>
 <td><a href="expand-argument-files/">expandArgumentFiles</a></td>
-<td><code>var expandArgumentFiles:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>If true, arguments starting with <code>@</code> will be expanded as argument files. If false, they will be treated as normal arguments.</td>
+<td>If true, arguments starting with <code>@</code> will be expanded as argument files. If false, they will be treated as normal arguments.<code>var expandArgumentFiles:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 <tr>
 <td><a href="help-formatter/">helpFormatter</a></td>
-<td><code>val helpFormatter:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/"><code>HelpFormatter</code></a><br>The help formatter for this command.</td>
+<td>The help formatter for this command.<code>val helpFormatter:</code><a href="../../com.github.ajalt.clikt.output/-help-formatter/"><code>HelpFormatter</code></a></td>
 </tr>
 <tr>
 <td><a href="help-option-message/">helpOptionMessage</a></td>
-<td><code>val helpOptionMessage:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>The description of the help option.</td>
+<td>The description of the help option.<code>val helpOptionMessage:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="help-option-names/">helpOptionNames</a></td>
-<td><code>val helpOptionNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code><br>The names to use for the help option. If any names in the set conflict with other options, the conflicting name will not be used for the help option. If the set is empty, or contains no unique names, no help option will be added.</td>
+<td>The names to use for the help option. If any names in the set conflict with other options, the conflicting name will not be used for the help option. If the set is empty, or contains no unique names, no help option will be added.<code>val helpOptionNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="invoked-subcommand/">invokedSubcommand</a></td>
@@ -1525,15 +1525,15 @@
 </tr>
 <tr>
 <td><a href="parent/">parent</a></td>
-<td><code>val parent:</code><a href="./"><code>Context</code></a><code>?</code><br>If this context is the child of another command, <a href="parent/">parent</a> is the parent command&rsquo;s context.</td>
+<td>If this context is the child of another command, <a href="parent/">parent</a> is the parent command&rsquo;s context.<code>val parent:</code><a href="./"><code>Context</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="print-extra-messages/">printExtraMessages</a></td>
-<td><code>val printExtraMessages:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><br>Set this to false to prevent extra messages from being printed automatically. You can still access them at <a href="../-clikt-command/messages/">CliktCommand.messages</a> inside of <a href="../-clikt-command/run/">CliktCommand.run</a>.</td>
+<td>Set this to false to prevent extra messages from being printed automatically. You can still access them at <a href="../-clikt-command/messages/">CliktCommand.messages</a> inside of <a href="../-clikt-command/run/">CliktCommand.run</a>.<code>val printExtraMessages:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 <tr>
 <td><a href="token-transformer/">tokenTransformer</a></td>
-<td><code>val tokenTransformer:</code><a href="./"><code>Context</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><br>An optional transformation function that is called to transform command line tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive behavior.</td>
+<td>An optional transformation function that is called to transform command line tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive behavior.<code>val tokenTransformer:</code><a href="./"><code>Context</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1548,15 +1548,19 @@
 <tbody>
 <tr>
 <td><a href="fail/">fail</a></td>
-<td><code>fun fail(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing/index.html"><code>Nothing</code></a><br>Throw a <a href="../-usage-error/">UsageError</a> with the given message</td>
+<td>Throw a <a href="../-usage-error/">UsageError</a> with the given message<code>fun fail(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= &quot;&quot;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing/index.html"><code>Nothing</code></a></td>
 </tr>
 <tr>
 <td><a href="find-object/">findObject</a></td>
-<td><code>fun &lt;T&gt; findObject():</code><a href="find-object/#T"><code>T</code></a><code>?</code><br>Find the closest object of type <a href="find-object/#T">T</a><code>fun &lt;T&gt; findObject(defaultValue: () -&gt;</code><a href="find-object/#T"><code>T</code></a><code>):</code><a href="find-object/#T"><code>T</code></a><br>Find the closest object of type <a href="find-object/#T">T</a>, setting <code>this.</code><a href="obj/">obj</a> if one is not found.</td>
+<td>Find the closest object of type <a href="find-object/#T">T</a><code>fun &lt;T&gt; findObject(): T?``fun &lt;T&gt; ~~findObject~~(defaultValue: () -&gt; T): T</code></td>
+</tr>
+<tr>
+<td><a href="find-or-set-object/">findOrSetObject</a></td>
+<td>Find the closest object of type <a href="find-or-set-object/#T">T</a>, setting <code>this.</code><a href="obj/">obj</a> if one is not found.<code>fun &lt;T&gt; findOrSetObject(defaultValue: () -&gt; T): T</code></td>
 </tr>
 <tr>
 <td><a href="find-root/">findRoot</a></td>
-<td><code>fun findRoot():</code><a href="./"><code>Context</code></a><br>Find the outermost context</td>
+<td>Find the outermost context<code>fun findRoot():</code><a href="./"><code>Context</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1571,7 +1575,7 @@
 <tbody>
 <tr>
 <td><a href="build/">build</a></td>
-<td><code>fun build(command:</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>, parent:</code><a href="./"><code>Context</code></a><code>? = null, block:</code><a href="-builder/"><code>Context.Builder</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="./"><code>Context</code></a></td>
+<td><code>fun build(command:</code><a href="../-clikt-command/"><code>CliktCommand</code></a><code>, parent:</code><a href="./"><code>Context</code></a><code>? = null, block: Builder.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>):</code><a href="./"><code>Context</code></a></td>
 </tr>
 </tbody>
 </table>

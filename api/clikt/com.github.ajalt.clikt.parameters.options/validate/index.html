@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1413,11 +1413,11 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">validate</a></p>
 <h1 id="validate">validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;T&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></p>
 <p>Check the final option value and raise an error if it&rsquo;s not valid.</p>
 <p>The <a href="./#com.github.ajalt.clikt.parameters.options$validate(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.validate.T)">validator</a>, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.validate.T, kotlin.Unit)))/validator) is called with the final option type (the output of <a href="../transform-all/">transformAll</a>), and should call <code>fail</code>
 if the value is not valid. It is not called if the delegate value is null.</p>
-<p><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>,</code><a href="./#EachT"><code>EachT</code></a><code>,</code><a href="./#ValueT"><code>ValueT</code></a><code>&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="./#AllT"><code>AllT</code></a><code>&gt;</code></p>
+<p><code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></p>
 <p>Check the final option value and raise an error if it&rsquo;s not valid.</p>
 <p>The <a href="./#com.github.ajalt.clikt.parameters.options$validate(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.validate.AllT, com.github.ajalt.clikt.parameters.options.validate.EachT, com.github.ajalt.clikt.parameters.options.validate.ValueT)">validator</a>, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.validate.AllT, kotlin.Unit)))/validator) is called with the final option type (the output of <a href="../transform-all/">transformAll</a>), and should call <code>fail</code>
 if the value is not valid. It is not called if the delegate value is null.</p>

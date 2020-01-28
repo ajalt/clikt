@@ -622,8 +622,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#choice-options-with-groups" title="Choice Options With Groups" class="md-nav__link">
-      Choice Options With Groups
+    <a href="../../../../options/#choice-and-switch-options-with-groups" title="Choice and Switch Options With Groups" class="md-nav__link">
+      Choice and Switch Options With Groups
     </a>
   </li>
 
@@ -1397,7 +1397,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.groups</a> / <a href="./">cooccurring</a></p>
 <h1 id="cooccurring">cooccurring<a class="headerlink" href="#cooccurring" title="Permanent link">&para;</a></h1>
-<p><code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="./#T"><code>T</code></a><code>.cooccurring():</code><a href="../-co-occurring-option-group/"><code>CoOccurringOptionGroup</code></a><code>&lt;</code><a href="./#T"><code>T</code></a><code>,</code><a href="./#T"><code>T</code></a><code>?&gt;</code></p>
+<p><code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt; T.cooccurring():</code><a href="../-co-occurring-option-group/"><code>CoOccurringOptionGroup</code></a><code>&lt;T, T?&gt;</code></p>
 <p>Make this group a co-occurring group.</p>
 <p>The group becomes nullable. At least one option in the group must be <a href="../required/">required</a>. Of none of the
 options in the group are given on the command line, the group is null and none of the <code>required</code>

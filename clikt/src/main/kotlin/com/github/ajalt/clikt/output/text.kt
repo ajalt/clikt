@@ -18,7 +18,7 @@ internal fun String.wrapText(
 private val TEXT_START_REGEX = Regex("\\S")
 private val PRE_P_END_REGEX = Regex("""```[ \t]*(?:\n\s*|[ \t]*$)""")
 private val PLAIN_P_END_REGEX = Regex("""[ \t]*\n(?:\s*```|[ \t]*\n\s*)|\s*$""")
-private val PRE_P_CONTENTS_REGEX = Regex("""(?s)```\s*(.*?)\s*```""")
+private val PRE_P_CONTENTS_REGEX = Regex("""(?s)```(.*?)```""")
 
 internal fun splitParagraphs(text: String): List<String> {
     val paragraphs = mutableListOf<String>()
@@ -41,12 +41,15 @@ internal fun splitParagraphs(text: String): List<String> {
 }
 
 private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String, subsequentIndent: String) {
-    val pre = PRE_P_CONTENTS_REGEX.matchEntire(text)?.groups?.get(1)?.value
+    val value = PRE_P_CONTENTS_REGEX.matchEntire(text)?.groups?.get(1)?.value
+    val pre = value?.replaceIndent(subsequentIndent)
+
     if (pre != null) {
-        for ((i, line) in pre.split(Regex("\r?\n")).withIndex()) {
+        val p = if (pre.startsWith(subsequentIndent)) pre.drop(subsequentIndent.length) else pre
+        for ((i, line) in p.split(Regex("\r?\n")).withIndex()) {
             if (i == 0) append(initialIndent)
-            else append("\n").append(subsequentIndent)
-            append(line.trim())
+            else append("\n")
+            append(line.trimEnd())
         }
         return
     }

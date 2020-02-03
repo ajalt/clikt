@@ -51,6 +51,27 @@ class TextExtensionsTest {
     }
 
     @Test
+    fun `wrapText pre-format leading indent`() {
+        """
+        a
+        ```
+        b    b
+         c  c
+          d
+        ```
+        e
+        """.wrapText() shouldBe """
+        |a
+        |
+        |b    b
+        | c  c
+        |  d
+        |
+        |e
+        """.trimMargin()
+    }
+
+    @Test
     fun appendRepeat() = forall(
             row("a", 0, ""),
             row("a", 1, "a"),

@@ -2,5 +2,5 @@
 
 set -ex
 
-./gradlew dokka
+./gradlew dokkaPostProcess
 mkdocs gh-deploy

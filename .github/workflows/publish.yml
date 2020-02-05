@@ -1,0 +1,81 @@
+name: build
+
+on:
+   push:
+      paths-ignore:
+         - 'doc/**'
+         - '*.md'
+      branches:
+         - master
+
+jobs:
+   build:
+      strategy:
+         matrix:
+            os: [macOS-latest, windows-latest, ubuntu-latest]
+
+      runs-on: ${{matrix.os}}
+
+      steps:
+         -  name: Checkout the repo
+            uses: actions/checkout@v2
+
+         -  name: Run ubuntu tests
+            if: matrix.os == 'ubuntu-latest'
+            run: ./gradlew check
+
+         -  name: Run windows tests
+            if: matrix.os == 'windows-latest'
+            run: ./gradlew mingwX64Test
+
+         -  name: Run macOS tests
+            if: matrix.os == 'macOS-latest'
+            run: ./gradlew macosX64Test
+
+         -  name: Bundle the build report
+            if: failure()
+            run: find . -type d -name 'reports' | zip -@ -r build-reports.zip
+
+         -  name: Upload the build report
+            if: failure()
+            uses: actions/upload-artifact@master
+            with:
+               name: error-report
+               path: build-reports.zip
+
+   deploy-mac-and-linux:
+      needs: build
+      runs-on: macOS-latest
+      steps:
+         -  name: Checkout the repo
+            uses: actions/checkout@v2
+         -  name: Set build tag
+            run: echo ::set-env name=BUILD_TAG::$(git tag --points-at HEAD)
+         -  name: Set build number
+            run: echo ::set-env name=BUILD_NUMBER::$(git rev-list --count HEAD)
+         -  name: deploy to sonatype snapshots
+            run: ./gradlew publish
+            env:
+               ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
+               ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
+               ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
+
+   deploy-windows:
+      needs: build
+      runs-on: windows-latest
+      steps:
+         -  name: Checkout the repo
+            uses: actions/checkout@v2
+         -  name: Set build tag
+            run: echo ::set-env name=BUILD_TAG::$(git tag --points-at HEAD)
+         -  name: Set build number
+            run: echo ::set-env name=BUILD_NUMBER::$(git rev-list --count HEAD)
+         -  name: deploy to sonatype snapshots
+            run: ./gradlew publishMingwX64PublicationToMavenRepository
+            env:
+               ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
+               ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
+               ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
+
+env:
+   GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"

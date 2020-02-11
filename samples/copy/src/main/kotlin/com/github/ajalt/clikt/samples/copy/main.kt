@@ -11,8 +11,8 @@ import com.github.ajalt.clikt.parameters.types.file
 class Copy : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
     val interactive by option("-i", "--interactive", help = "prompt before overwrite").flag()
     val recursive by option("-r", "--recursive", help = "copy directories recursively").flag()
-    val source by argument().file(exists = true).multiple()
-    val dest by argument().file(fileOkay = false)
+    val source by argument().file(mustExist = true).multiple()
+    val dest by argument().file(canBeFile = false)
 
     override fun run() {
         for (file in source) {

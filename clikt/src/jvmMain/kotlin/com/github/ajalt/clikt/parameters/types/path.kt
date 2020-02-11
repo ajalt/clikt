@@ -19,14 +19,21 @@ private fun pathType(fileOkay: Boolean, folderOkay: Boolean): String = when {
     else -> "Path"
 }
 
-private fun convertToPath(path: String,
-                          exists: Boolean,
-                          fileOkay: Boolean,
-                          folderOkay: Boolean,
-                          writable: Boolean,
-                          readable: Boolean,
-                          fileSystem: FileSystem,
-                          fail: (String) -> Unit): Path {
+private fun Path.isSymlink(): Boolean {
+    return Files.isSymbolicLink(this) || toRealPath() != toAbsolutePath()
+}
+
+private fun convertToPath(
+        path: String,
+        exists: Boolean,
+        fileOkay: Boolean,
+        folderOkay: Boolean,
+        writable: Boolean,
+        readable: Boolean,
+        canBeSymlink: Boolean,
+        fileSystem: FileSystem,
+        fail: (String) -> Unit
+): Path {
     val name = pathType(fileOkay, folderOkay)
     return fileSystem.getPath(path).also {
         if (exists && !Files.exists(it)) fail("$name \"$it\" does not exist.")
@@ -34,19 +41,31 @@ private fun convertToPath(path: String,
         if (!folderOkay && Files.isDirectory(it)) fail("$name \"$it\" is a directory.")
         if (writable && !Files.isWritable(it)) fail("$name \"$it\" is not writable.")
         if (readable && !Files.isReadable(it)) fail("$name \"$it\" is not readable.")
+        if (!canBeSymlink && it.isSymlink()) fail("$name \"$it\" is a symlink.")
     }
 }
 
+// This overload exists so that calls to `file()` aren't marked as deprecated.
+// Remove once the deprecated function is removed.
 /**
  * Convert the argument to a [Path].
  *
- * @param exists If true, fail if the given path does not exist
- * @param fileOkay If false, fail if the given path is a file
- * @param folderOkay If false, fail if the given path is a directory
- * @param writable If true, fail if the given path is not writable
- * @param readable If true, fail if the given path is not readable
- * @param fileSystem If specified, the [FileSystem] with which to resolve paths.
+ * @param mustExist If true, fail if the given path does not exist
+ * @param canBeFile If false, fail if the given path is a file
+ * @param canBeDir If false, fail if the given path is a directory
+ * @param mustBeWritable If true, fail if the given path is not writable
+ * @param mustBeReadable If true, fail if the given path is not readable
+ * @param fileSystem The [FileSystem] with which to resolve paths
+ * @param canBeSymlink If false, fail if the given path is a symlink
  */
+@Suppress("KDocUnresolvedReference")
+fun RawArgument.path(fileSystem: FileSystem = FileSystems.getDefault()): ProcessedArgument<Path, Path> {
+    return path(mustExist = false, fileSystem = fileSystem)
+}
+
+@Deprecated("Parameters have been renamed. All arguments must be called by name to remove this warning.", ReplaceWith(
+        "this.path(mustExist=exists, canBeFile=fileOkay, canBeDir=folderOkay, mustBeWritable=writable, mustBeReadable=readable, fileSystem=fileSystem)"
+))
 fun RawArgument.path(
         exists: Boolean = false,
         fileOkay: Boolean = true,
@@ -55,21 +74,55 @@ fun RawArgument.path(
         readable: Boolean = false,
         fileSystem: FileSystem = FileSystems.getDefault()
 ): ProcessedArgument<Path, Path> {
-    return convert(completionCandidates = CompletionCandidates.Path) {
-        convertToPath(it, exists, fileOkay, folderOkay, writable, readable, fileSystem) { fail(it) }
-    }
+    return path(exists, fileOkay, folderOkay, writable, readable, true, fileSystem)
 }
 
 /**
+ * Convert the argument to a [Path].
+ *
+ * @param mustExist If true, fail if the given path does not exist
+ * @param canBeFile If false, fail if the given path is a file
+ * @param canBeDir If false, fail if the given path is a directory
+ * @param mustBeWritable If true, fail if the given path is not writable
+ * @param mustBeReadable If true, fail if the given path is not readable
+ * @param fileSystem The [FileSystem] with which to resolve paths
+ * @param canBeSymlink If false, fail if the given path is a symlink
+ */
+fun RawArgument.path(
+        mustExist: Boolean = false,
+        canBeFile: Boolean = true,
+        canBeDir: Boolean = true,
+        mustBeWritable: Boolean = false,
+        mustBeReadable: Boolean = false,
+        canBeSymlink: Boolean = true,
+        fileSystem: FileSystem = FileSystems.getDefault()
+): ProcessedArgument<Path, Path> {
+    return convert(completionCandidates = CompletionCandidates.Path) {
+        convertToPath(it, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
+    }
+}
+
+// This overload exists so that calls to `file()` aren't marked as deprecated.
+// Remove once the deprecated function is removed.
+/**
  * Convert the option to a [Path].
  *
- * @param exists If true, fail if the given path does not exist
- * @param fileOkay If false, fail if the given path is a file
- * @param folderOkay If false, fail if the given path is a directory
- * @param writable If true, fail if the given path is not writable
- * @param readable If true, fail if the given path is not readable
- * @param fileSystem If specified, the [FileSystem] with which to resolve paths.
+ * @param mustExist If true, fail if the given path does not exist
+ * @param canBeFile If false, fail if the given path is a file
+ * @param canBeDir If false, fail if the given path is a directory
+ * @param mustBeWritable If true, fail if the given path is not writable
+ * @param mustBeReadable If true, fail if the given path is not readable
+ * @param fileSystem The [FileSystem] with which to resolve paths.
+ * @param canBeSymlink If false, fail if the given path is a symlink
  */
+@Suppress("KDocUnresolvedReference")
+fun RawOption.path(fileSystem: FileSystem = FileSystems.getDefault()): NullableOption<Path, Path> {
+    return path(mustExist = false, fileSystem = fileSystem)
+}
+
+@Deprecated("Parameters have been renamed. All arguments must be called by name to remove this warning.", ReplaceWith(
+        "this.path(mustExist=exists, canBeFile=fileOkay, canBeDir=folderOkay, mustBeWritable=writable, mustBeReadable=readable, fileSystem=fileSystem)"
+))
 fun RawOption.path(
         exists: Boolean = false,
         fileOkay: Boolean = true,
@@ -78,9 +131,32 @@ fun RawOption.path(
         readable: Boolean = false,
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<Path, Path> {
-    val name = pathType(fileOkay, folderOkay)
+    return path(exists, fileOkay, folderOkay, writable, readable, true, fileSystem)
+}
+
+/**
+ * Convert the option to a [Path].
+ *
+ * @param mustExist If true, fail if the given path does not exist
+ * @param canBeFile If false, fail if the given path is a file
+ * @param canBeDir If false, fail if the given path is a directory
+ * @param mustBeWritable If true, fail if the given path is not writable
+ * @param mustBeReadable If true, fail if the given path is not readable
+ * @param fileSystem The [FileSystem] with which to resolve paths.
+ * @param canBeSymlink If false, fail if the given path is a symlink
+ */
+fun RawOption.path(
+        mustExist: Boolean = false,
+        canBeFile: Boolean = true,
+        canBeDir: Boolean = true,
+        mustBeWritable: Boolean = false,
+        mustBeReadable: Boolean = false,
+        canBeSymlink: Boolean = true,
+        fileSystem: FileSystem = FileSystems.getDefault()
+): NullableOption<Path, Path> {
+    val name = pathType(canBeFile, canBeDir)
     val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
     return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) {
-        convertToPath(it, exists, fileOkay, folderOkay, writable, readable, fileSystem) { fail(it) }
+        convertToPath(it, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
     }
 }

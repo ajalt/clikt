@@ -32,7 +32,7 @@ help.
 
 ```kotlin tab="Example"
 class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
-    private val source by argument().file(exists = true).multiple()
+    private val source by argument().file(mustExist = true).multiple()
     private val dest by argument().file()
     override fun run() {
         // ...
@@ -61,8 +61,8 @@ but only one variadic argument.
 
 ```kotlin tab="Example"
 class Copy : CliktCommand() {
-    val source by argument().file(exists = true).multiple()
-    val dest by argument().file(fileOkay = false)
+    val source by argument().file(mustExist = true).multiple()
+    val dest by argument().file(canBeFile = false)
     override fun run() {
         echo("Copying files $source to $dest")
     }

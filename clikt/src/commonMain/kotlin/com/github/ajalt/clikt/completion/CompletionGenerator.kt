@@ -122,7 +122,7 @@ internal object CompletionGenerator {
                 append(""" "${'$'}{COMP_WORDS[@]:${'$'}{i}}" )""").append("\n")
                 append("        (( COMP_CWORD = COMP_CWORD + ${toks.size} ))\n")
 
-                if (!command.context.allowInterspersedArgs) {
+                if (!command.currentContext.allowInterspersedArgs) {
                     append("        can_parse_options=0\n")
                 }
 
@@ -148,7 +148,7 @@ internal object CompletionGenerator {
             |
             """.trimMargin())
 
-            if (!command.context.allowInterspersedArgs) {
+            if (!command.currentContext.allowInterspersedArgs) {
                 append("        can_parse_options=0\n")
             }
 
@@ -250,7 +250,7 @@ internal object CompletionGenerator {
     }
 
     private fun commandCompletionFuncName(command: CliktCommand): Pair<Boolean, String> {
-        val ancestors = generateSequence(command.context) { it.parent }
+        val ancestors = generateSequence(command.currentContext) { it.parent }
                 .map { it.command.commandName }
                 .toList().asReversed()
         val isTopLevel = ancestors.size == 1

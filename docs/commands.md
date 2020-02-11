@@ -196,10 +196,11 @@ is about to be invoked, if there is one.
 ```kotlin tab="Example"
 class Tool : CliktCommand(invokeWithoutSubcommand = true) {
     override fun run() {
-        if (context.invokedSubcommand == null) {
+        val subcommand = currentContext.invokedSubcommand
+        if (subcommand == null) {
             echo("invoked without a subcommand")
         } else {
-            echo("about to run ${context.invokedSubcommand!!.commandName}")
+            echo("about to run ${subcommand.commandName}")
         }
     }
 }

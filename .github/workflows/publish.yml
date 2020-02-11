@@ -1,4 +1,4 @@
-name: build
+name: Publish
 
 on:
    push:
@@ -53,7 +53,7 @@ jobs:
             run: echo ::set-env name=BUILD_TAG::$(git tag --points-at HEAD)
          -  name: Set build number
             run: echo ::set-env name=BUILD_NUMBER::$(git rev-list --count HEAD)
-         -  name: deploy to sonatype snapshots
+         -  name: Deploy to sonatype snapshots
             run: ./gradlew publish
             env:
                ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
@@ -70,7 +70,7 @@ jobs:
             run: echo ::set-env name=BUILD_TAG::$(git tag --points-at HEAD)
          -  name: Set build number
             run: echo ::set-env name=BUILD_NUMBER::$(git rev-list --count HEAD)
-         -  name: deploy to sonatype snapshots
+         -  name: Deploy to sonatype snapshots
             run: ./gradlew publishMingwX64PublicationToMavenRepository
             env:
                ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}

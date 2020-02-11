@@ -37,7 +37,7 @@ class PathTest {
     fun `options can be paths`() {
         class C : TestCommand() {
             val path by option("-p")
-                    .path()
+                    .path(fileSystem = fs)
                     .required()
 
             override fun run_() {
@@ -52,7 +52,7 @@ class PathTest {
     fun `arguments can be paths`() {
         class C : TestCommand() {
             val paths by argument()
-                    .path()
+                    .path(fileSystem = fs)
                     .multiple()
 
             override fun run_() {
@@ -64,9 +64,9 @@ class PathTest {
     }
 
     @Test
-    fun `fileOkay = false will reject files`() {
+    fun `canBeFile = false will reject files`() {
         class C : TestCommand() {
-            val folderOnly by option("-f").path(fileOkay = false, fileSystem = fs)
+            val folderOnly by option("-f").path(canBeFile = false, fileSystem = fs)
         }
 
         Files.createDirectory(fs.getPath("/var"))
@@ -78,9 +78,9 @@ class PathTest {
     }
 
     @Test
-    fun `folderOkay = false will reject folders`() {
+    fun `canBeDir = false will reject folders`() {
         class C : TestCommand() {
-            val fileOnly by option("-f").path(folderOkay = false, fileSystem = fs)
+            val fileOnly by option("-f").path(canBeDir = false, fileSystem = fs)
         }
 
         Files.createDirectories(fs.getPath("/var/foo"))
@@ -91,9 +91,9 @@ class PathTest {
     }
 
     @Test
-    fun `exists = true will reject paths that don't exist`() {
+    fun `mustExist = true will reject paths that don't exist`() {
         class C : TestCommand() {
-            val homeDir by option("-h").path(exists = true, fileSystem = fs)
+            val homeDir by option("-h").path(mustExist = true, fileSystem = fs)
         }
 
         shouldThrow<BadParameterValue> {

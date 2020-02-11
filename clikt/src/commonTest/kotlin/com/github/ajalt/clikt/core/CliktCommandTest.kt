@@ -30,8 +30,8 @@ class CliktCommandTest {
         val child = TestCommand(called = true, name = "foo")
         TestCommand(called = true).subcommands(child).apply {
             parse("foo")
-            context.invokedSubcommand shouldBe child
-            child.context.invokedSubcommand shouldBe null
+            currentContext.invokedSubcommand shouldBe child
+            child.currentContext.invokedSubcommand shouldBe null
         }
     }
 
@@ -40,14 +40,14 @@ class CliktCommandTest {
     fun `invokeWithoutSubcommand=true`() {
         TestCommand(called = true, invokeWithoutSubcommand = true).subcommands(TestCommand(called = false)).apply {
             parse("")
-            context.invokedSubcommand shouldBe null
+            currentContext.invokedSubcommand shouldBe null
         }
 
         val child = TestCommand(called = true, name = "foo")
         TestCommand(called = true, invokeWithoutSubcommand = true).subcommands(child).apply {
             parse("foo")
-            context.invokedSubcommand shouldBe child
-            child.context.invokedSubcommand shouldBe null
+            currentContext.invokedSubcommand shouldBe child
+            child.currentContext.invokedSubcommand shouldBe null
         }
     }
 
@@ -171,7 +171,7 @@ class CliktCommandTest {
     fun `context is initialized when helpOptionNames is null`() {
         class D : TestCommand() {
             override fun run_() {
-                context shouldNotBe null
+                currentContext shouldNotBe null
             }
         }
 

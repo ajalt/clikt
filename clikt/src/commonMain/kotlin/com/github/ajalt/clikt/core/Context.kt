@@ -148,7 +148,7 @@ class Context(
 inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-            return thisRef.context.findObject<T>()!!
+            return thisRef.currentContext.findObject<T>()!!
         }
     }
 }
@@ -158,7 +158,7 @@ inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<Clik
 inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCommand, T?> {
     return object : ReadOnlyProperty<CliktCommand, T?> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T? {
-            return thisRef.context.findObject<T>()
+            return thisRef.currentContext.findObject<T>()
         }
     }
 }
@@ -174,7 +174,7 @@ inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> 
 inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {
         override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-            return thisRef.context.findOrSetObject(default)
+            return thisRef.currentContext.findOrSetObject(default)
         }
     }
 }

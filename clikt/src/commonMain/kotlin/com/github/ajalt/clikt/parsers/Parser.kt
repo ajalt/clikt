@@ -128,9 +128,9 @@ internal object Parser {
                 throw PrintHelpMessage(command)
             }
 
-            command.context.invokedSubcommand = subcommand
-            if (command.context.printExtraMessages) {
-                val console = command.context.console
+            command.currentContext.invokedSubcommand = subcommand
+            if (command.currentContext.printExtraMessages) {
+                val console = command.currentContext.console
                 for (warning in command.messages) {
                     console.print(warning, error = true)
                     console.print(console.lineSeparator, error = true)
@@ -144,7 +144,7 @@ internal object Parser {
         }
 
         if (subcommand != null) {
-            parse(tokens, subcommand.context, i + 1)
+            parse(tokens, subcommand.currentContext, i + 1)
         }
     }
 

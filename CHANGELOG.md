@@ -1,6 +1,11 @@
 # Changelog
 
 ## [Unreleased]
+## Added
+- Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
+
+## Changed
+- The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.
 
 ## [2.4.0] - 2020-01-25
 ### Added

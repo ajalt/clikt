@@ -63,13 +63,13 @@ abstract class CliktCommand(
     private fun createContext(parent: Context? = null) {
         _context = Context.build(this, parent, _contextConfig)
 
-        if (context.helpOptionNames.isNotEmpty()) {
-            val names = context.helpOptionNames - registeredOptionNames()
-            if (names.isNotEmpty()) _options += helpOption(names, context.helpOptionMessage)
+        if (currentContext.helpOptionNames.isNotEmpty()) {
+            val names = currentContext.helpOptionNames - registeredOptionNames()
+            if (names.isNotEmpty()) _options += helpOption(names, currentContext.helpOptionMessage)
         }
 
         for (command in _subcommands) {
-            command.createContext(context)
+            command.createContext(currentContext)
         }
     }
 
@@ -82,7 +82,7 @@ abstract class CliktCommand(
 
     private fun getCommandNameWithParents(): String {
         if (_context == null) createContext()
-        return generateSequence(context) { it.parent }.toList()
+        return generateSequence(currentContext) { it.parent }.toList()
                 .asReversed()
                 .joinToString(" ") { it.command.commandName }
     }
@@ -98,12 +98,16 @@ abstract class CliktCommand(
         throw PrintCompletionMessage(completion, forceUnixLineEndings = true)
     }
 
+    @Deprecated("Renamed to currentContext", ReplaceWith("currentContext"))
+    val context: Context
+        get() = currentContext
+
     /**
      * This command's context.
      *
      * @throws NullPointerException if accessed before [parse] or [main] are called.
      */
-    val context: Context
+    val currentContext: Context
         get() {
             checkNotNull(_context) { "Context accessed before parse has been called." }
             return _context!!
@@ -167,13 +171,13 @@ abstract class CliktCommand(
     /** Return the usage string for this command. */
     open fun getFormattedUsage(): String {
         val programName = getCommandNameWithParents()
-        return context.helpFormatter.formatUsage(allHelpParams(), programName = programName)
+        return currentContext.helpFormatter.formatUsage(allHelpParams(), programName = programName)
     }
 
     /** Return the full help string for this command. */
     open fun getFormattedHelp(): String {
         val programName = getCommandNameWithParents()
-        return context.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
+        return currentContext.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
                 allHelpParams(), programName = programName)
     }
 
@@ -201,9 +205,9 @@ abstract class CliktCommand(
             message: Any?,
             trailingNewline: Boolean = true,
             err: Boolean = false,
-            lineSeparator: String = context.console.lineSeparator
+            lineSeparator: String = currentContext.console.lineSeparator
     ) {
-        TermUi.echo(message, trailingNewline, err, context.console, lineSeparator)
+        TermUi.echo(message, trailingNewline, err, currentContext.console, lineSeparator)
     }
 
     /**
@@ -214,7 +218,7 @@ abstract class CliktCommand(
     fun parse(argv: List<String>, parentContext: Context? = null) {
         createContext(parentContext)
         generateCompletion()
-        Parser.parse(argv, this.context)
+        Parser.parse(argv, this.currentContext)
     }
 
     fun parse(argv: Array<String>, parentContext: Context? = null) {
@@ -234,7 +238,7 @@ abstract class CliktCommand(
             echo(e.command.getFormattedHelp())
             exitProcessMpp(0)
         } catch (e: PrintCompletionMessage) {
-            val s = if (e.forceUnixLineEndings) "\n" else context.console.lineSeparator
+            val s = if (e.forceUnixLineEndings) "\n" else currentContext.console.lineSeparator
             echo(e.message, lineSeparator = s)
             exitProcessMpp(0)
         } catch (e: PrintMessage) {

@@ -22,7 +22,7 @@ class ContextTest {
             val o4 by findObject<Int>()
 
             override fun run_() {
-                context.findRoot() shouldBe context
+                currentContext.findRoot() shouldBe currentContext
             }
         }
 
@@ -46,7 +46,7 @@ class ContextTest {
             val o4 by findObject<Int>()
 
             override fun run_() {
-                context.findRoot() shouldBe context
+                currentContext.findRoot() shouldBe currentContext
             }
         }
 

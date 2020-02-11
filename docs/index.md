@@ -19,6 +19,7 @@ Clikt has:
  * arbitrary nesting of commands
  * composable, type safe parameter values
  * support for a wide variety of command line interface styles
+ * multiplatform packages for JVM, NodeJS, and native Linux, Windows and MacOS 
 
  What does it look like? Here's a complete example of a simple Clikt
  program:

@@ -3,9 +3,8 @@
     <p><img src="docs/img/animation.png"></p>
 </h1>
 
-Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
-command line interfaces simple and intuitive. It's the "Command Line
-Interface for Kotlin".
+Clikt *(pronounced "clicked")* is a multiplatform Kotlin library that makes writing command line
+interfaces simple and intuitive. It's the "Command Line Interface for Kotlin".
 
 It is designed to make the process of writing command line tools effortless
 while supporting a wide variety of use cases and allowing advanced
@@ -16,9 +15,9 @@ Clikt has:
  * arbitrary nesting of commands
  * composable, type safe parameter values
  * support for a wide variety of command line interface styles
+ * multiplatform packages for JVM, NodeJS, and native Linux, Windows and MacOS 
 
- What does it look like? Here's a complete example of a simple Clikt
- program:
+ What does it look like? Here's a complete example of a simple Clikt program:
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -35,7 +34,7 @@ class Hello : CliktCommand() {
 fun main(args: Array<String>) = Hello().main(args)
 ```
 
- And here's what it looks like when run:
+And here's what it looks like when run:
 
 ```
  $ ./hello --count=3
@@ -75,16 +74,30 @@ them with the included [`runsample` script](runsample).
 
 ## Installation
 
-Clikt is distributed through 
-[Maven Central](https://mvnrepository.com/artifact/com.github.ajalt/clikt),
-[Jcenter](https://bintray.com/ajalt/maven/clikt) and
-[Jitpack](https://jitpack.io/#ajalt/clikt).
+Clikt is distributed through [Maven Central](https://search.maven.org/artifact/com.github.ajalt/clikt).
 
 ```groovy
 dependencies {
    implementation("com.github.ajalt:clikt:2.4.0")
 }
 ```
+
+For Kotlin/Native and Kotlin/JS, use `"com.github.ajalt:clikt-multiplatform:2.4.0"` instead.
+
+<details>
+   <summary>Snapshot builds are also available</summary>
+   
+You'll need to add the Sonatype snapshots repository: 
+      
+```kotlin
+repositories {
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+    }
+}
+```   
+  
+</details>
 
 ## License
 

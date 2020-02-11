@@ -1,11 +1,11 @@
 # Changelog
 
 ## [Unreleased]
-## Added
+### Added
 - Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
 - `canBeSymlink` parameter to `file()` and `path()` conversions that can be used to disallow symlinks
 
-## Changed
+### Changed
 - The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.
 - The parameter names of `file()` and `path()` conversions have changed. The existing names are deprecated, and can be converted to the new usages with an IntelliJ inspection. Note that if you are calling these functions with unnamed arguments (e.g. `file(true, false)`), you'll need to add argument names in order to remove the deprecation warning.
 

@@ -99,6 +99,7 @@ nav:
       - 'Token Normalization': advanced/#token-normalization
       - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
       - 'Argument Files ("@-files")': advanced/#command-line-argument-files-files
+      - 'Testing your Clikt CLI': advanced/#testing-your-clikt-cli
   - 'Utilities':
       - 'Launching Editors': utilities/
       - 'Input Prompts': utilities/#input-prompts

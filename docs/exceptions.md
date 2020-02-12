@@ -5,12 +5,13 @@ early for any reason. This includes incorrect command line usage, or
 printing a help page.
 
 ## Where are Exceptions Handled? {#handling}
+
 When you call [`CliktCommand.main`][main], it will parse the command line and catch any
-[`CliktError`][CliktError] and [`Abort`][Abort] exceptions.
-If it catches one, it will then print out the appropriate information and exit the process.
-If the caught exception is a [`PrintMessage`][PrintMessage] or [`PrintHelpMessage`][PrintHelpMessage],
-the process exit status will be 0 and the message will be printed to stdout.
-Otherwise it will exit with status 1 and print the message to stderr.
+[`CliktError`][CliktError] and [`Abort`][Abort] exceptions. If it catches one, it will then print
+out the appropriate information and exit the process. If the caught exception is a
+[`PrintMessage`][PrintMessage] or [`PrintHelpMessage`][PrintHelpMessage], the process exit status
+will be 0 and the message will be printed to stdout. Otherwise it will exit with status 1 and print
+the message to stderr.
 
 Any other types of exceptions indicate a programming error, and are not caught by [`main`][main].
 However, [`convert`][convert] and the other parameter transformations will wrap exceptions thrown
@@ -29,9 +30,8 @@ fun main(args: Array<String>) = Cli().parse(args)
 
 ## Which Exceptions Exist?
 
-Clikt will throw [`Abort`][Abort]
-if it needs to halt execution immediately without a specific message.
-All other exceptions are subclasses of [`UsageError`][UsageError].
+Clikt will throw [`Abort`][Abort] if it needs to halt execution immediately without a specific
+message. All other exceptions are subclasses of [`UsageError`][UsageError].
 
 The following subclasses exist:
 

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.5.0-beta1] - 2020-02-13
 ### Added
 - Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
 - `canBeSymlink` parameter to `file()` and `path()` conversions that can be used to disallow symlinks

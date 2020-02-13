@@ -82,10 +82,10 @@ dependencies {
 }
 ```
 
-For Kotlin/Native and Kotlin/JS, use `"com.github.ajalt:clikt-multiplatform:2.4.0"` instead.
-
 <details>
    <summary>Snapshot builds are also available</summary>
+   
+[<img src="https://img.shields.io/nexus/s/com.github.ajalt/clikt?color=blue&label=latest%20shapshot&server=https%3A%2F%2Foss.sonatype.org"/>](https://oss.sonatype.org/content/repositories/snapshots/com/github/ajalt/clikt/)
    
 You'll need to add the Sonatype snapshots repository: 
       
@@ -95,7 +95,9 @@ repositories {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 }
-```   
+```
+
+For Kotlin/Native and Kotlin/JS, use `"com.github.ajalt:clikt-multiplatform:$cliktVersion"` instead.
   
 </details>
 

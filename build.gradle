@@ -12,9 +12,11 @@ buildscript {
     }
 }
 
+final v = getPublishVersion()
+
 allprojects {
     group = "com.github.ajalt"
-    version = getPublishVersion()
+    version = v
     repositories {
         mavenCentral()
         jcenter()
@@ -22,12 +24,15 @@ allprojects {
 }
 
 @SuppressWarnings("GrMethodMayBeStatic") // false-positive; we access VERSION_NAME
-private def getPublishVersion() {
-    final tag = System.getenv("BUILD_TAG")
-    if (tag != null) return tag
+private String getPublishVersion() {
+    // Call gradle with -Pclikt.publish to set the dynamic version name. Otherwise we skip it to save time.
+    if(!hasProperty("clikt.publish")) return VERSION_NAME
 
-    final buildNumber = System.getenv("BUILD_NUMBER")
-    if (buildNumber != null) {
+    final tag = "git tag --points-at master".execute().text.trim()
+    if (!tag.isEmpty()) return tag
+
+    final buildNumber = "git rev-list --count master".execute().text.trim()
+    if (!buildNumber.isEmpty()) {
         return VERSION_NAME + "." + buildNumber + "-SNAPSHOT"
     }
     return VERSION_NAME

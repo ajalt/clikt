@@ -49,12 +49,8 @@ jobs:
       steps:
          -  name: Checkout the repo
             uses: actions/checkout@v2
-         -  name: Set build tag
-            run: echo ::set-env name=BUILD_TAG::$(git tag --points-at HEAD)
-         -  name: Set build number
-            run: echo ::set-env name=BUILD_NUMBER::$(git rev-list --count HEAD)
          -  name: Deploy to sonatype snapshots
-            run: ./gradlew publish
+            run: ./gradlew publish -Pclikt.publish
             env:
                ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
                ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
@@ -66,12 +62,8 @@ jobs:
       steps:
          -  name: Checkout the repo
             uses: actions/checkout@v2
-         -  name: Set build tag
-            run: echo ::set-env name=BUILD_TAG::$(git tag --points-at HEAD)
-         -  name: Set build number
-            run: echo ::set-env name=BUILD_NUMBER::$(git rev-list --count HEAD)
          -  name: Deploy to sonatype snapshots
-            run: ./gradlew publishMingwX64PublicationToMavenRepository
+            run: ./gradlew publishMingwX64PublicationToMavenRepository -Pclikt.publish
             env:
                ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
                ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}

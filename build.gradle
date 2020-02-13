@@ -25,8 +25,8 @@ allprojects {
 
 @SuppressWarnings("GrMethodMayBeStatic") // false-positive; we access VERSION_NAME
 private String getPublishVersion() {
-    // Call gradle with -Pclikt.publish to set the dynamic version name. Otherwise we skip it to save time.
-    if(!hasProperty("clikt.publish")) return VERSION_NAME
+    // Call gradle with -PinferVersion to set the dynamic version name. Otherwise we skip it to save time.
+    if(!hasProperty("inferVersion")) return VERSION_NAME
 
     final tag = "git tag --points-at master".execute().text.trim()
     if (!tag.isEmpty()) return tag

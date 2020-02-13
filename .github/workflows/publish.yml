@@ -49,6 +49,9 @@ jobs:
       steps:
          -  name: Checkout the repo
             uses: actions/checkout@v2
+            # checkout the full repo so we can count commits for a build number
+            with:
+               fetch-depth: 0
          -  name: Deploy to sonatype snapshots
             run: ./gradlew publish -PinferVersion=true
             env:
@@ -62,6 +65,8 @@ jobs:
       steps:
          -  name: Checkout the repo
             uses: actions/checkout@v2
+            with:
+               fetch-depth: 0
          -  name: Deploy to sonatype snapshots
             run: ./gradlew publishMingwX64PublicationToMavenRepository -PinferVersion=true
             env:

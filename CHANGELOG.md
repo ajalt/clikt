@@ -11,6 +11,7 @@
 ### Added
 - Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
 - `canBeSymlink` parameter to `file()` and `path()` conversions that can be used to disallow symlinks
+- `CliktCommand.eagerOption` to simplify creating custom eager options
 
 ### Changed
 - The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.

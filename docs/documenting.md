@@ -264,14 +264,6 @@ Options:
   -h, --help  Show this message and exit
 ```
 
-### Note for IntelliJ users:
-
-If you're using IntelliJ, there is a bug in the Kotlin plugin for versions 1.2.31 and under that prevents
-[provideDelegate][provideDelegate]
-from being imported automatically, so you might need to add this import manually: `import
-com.github.ajalt.clikt.parameters.groups.provideDelegate`
-
-
 [HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
 [Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
 [customizing-command-name]: commands.md#customizing-command-name

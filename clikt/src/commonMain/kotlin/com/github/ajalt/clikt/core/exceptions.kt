@@ -40,7 +40,7 @@ open class PrintMessage(message: String) : CliktError(message)
  * @param forceUnixLineEndings if true, all line endings in the message should be `\n`, regardless
  *   of the current operating system.
  */
-class PrintCompletionMessage(message: String, val forceUnixLineEndings: Boolean): PrintMessage(message)
+class PrintCompletionMessage(message: String, val forceUnixLineEndings: Boolean) : PrintMessage(message)
 
 /**
  * An internal exception that signals a usage error.

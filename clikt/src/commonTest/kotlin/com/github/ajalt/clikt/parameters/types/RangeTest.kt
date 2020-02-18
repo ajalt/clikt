@@ -8,11 +8,11 @@ import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.pair
 import com.github.ajalt.clikt.testing.TestCommand
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forall
+import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.collections.beEmpty
 import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test

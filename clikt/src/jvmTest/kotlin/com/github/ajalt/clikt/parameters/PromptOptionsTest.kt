@@ -13,9 +13,9 @@ import io.kotest.matchers.collections.containExactly
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
-import kotlin.test.Test
 import org.junit.contrib.java.lang.system.SystemOutRule
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream
+import kotlin.test.Test
 
 class PromptOptionsTest {
     @Rule

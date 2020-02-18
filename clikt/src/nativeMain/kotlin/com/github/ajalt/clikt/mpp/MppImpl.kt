@@ -1,4 +1,5 @@
 package com.github.ajalt.clikt.mpp
+
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
@@ -13,7 +14,7 @@ private val LETTER_OR_DIGIT_RE = Regex("""[a-zA-Z0-9]""")
 
 internal actual val String.graphemeLengthMpp: Int get() = replace(ANSI_CODE_RE, "").length
 
-internal actual fun isLetterOrDigit(c: Char) : Boolean = LETTER_OR_DIGIT_RE.matches(c.toString())
+internal actual fun isLetterOrDigit(c: Char): Boolean = LETTER_OR_DIGIT_RE.matches(c.toString())
 
 internal actual fun readEnvvar(key: String): String? = getenv(key)?.toKString()
 
@@ -29,7 +30,7 @@ internal actual fun readFileIfExists(filename: String): String? {
             val bufferLength = 64 * 1024
             val buffer = allocArray<ByteVar>(bufferLength)
 
-            while(true){
+            while (true) {
                 val chunk = fgets(buffer, bufferLength, file)?.toKString()
                 if (chunk == null || chunk.isEmpty()) break
                 chunks.append(chunk)

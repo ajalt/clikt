@@ -208,7 +208,7 @@ open class CliktHelpFormatter(
                     buildString {
                         append(firstIndent).append(col1)
                         // Pad the difference between this column's width and the table's first column width
-                        repeat(firstWidth - col1.graphemeLength + colSpacing) {append(" ")}
+                        repeat(firstWidth - col1.graphemeLength + colSpacing) { append(" ") }
                     }
                 }
 

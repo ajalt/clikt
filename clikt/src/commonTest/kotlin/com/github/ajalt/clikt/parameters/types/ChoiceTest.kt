@@ -271,7 +271,7 @@ class ChoiceTypeTest {
             row("aZ Bz", listOf(TestEnum.A, TestEnum.B))
     ) { argv, ex ->
         class C : TestCommand() {
-            val x by argument().enum<TestEnum> { it.name + "z"}.multiple()
+            val x by argument().enum<TestEnum> { it.name + "z" }.multiple()
             override fun run_() {
                 x shouldBe ex
             }

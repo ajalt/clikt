@@ -7,9 +7,9 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forall
 import io.kotest.matchers.shouldBe
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test

@@ -31,14 +31,19 @@ private fun convertToFile(
         fail: (String) -> Unit
 ): File {
     val name = pathType(canBeFile, canBeDir)
-    return File(path).also {
-        if (mustExist && !it.exists()) fail("$name \"$it\" does not exist.")
-        if (!canBeFile && it.isFile) fail("$name \"$it\" is a file.")
-        if (!canBeDir && it.isDirectory) fail("$name \"$it\" is a directory.")
-        if (mustBeWritable && !it.canWrite()) fail("$name \"$it\" is not writable.")
-        if (mustBeReadable && !it.canRead()) fail("$name \"$it\" is not readable.")
-        if (!canBeSymlink && it.isSymlink()) fail("$name \"$it\" is a symlink.")
+    val it = when {
+        path.startsWith("~") && !System.getProperty("user.home").isNullOrBlank() -> {
+            File(System.getProperty("user.home") + path.drop(1))
+        }
+        else -> File(path)
     }
+    if (mustExist && !it.exists()) fail("$name \"$it\" does not exist.")
+    if (!canBeFile && it.isFile) fail("$name \"$it\" is a file.")
+    if (!canBeDir && it.isDirectory) fail("$name \"$it\" is a directory.")
+    if (mustBeWritable && !it.canWrite()) fail("$name \"$it\" is not writable.")
+    if (mustBeReadable && !it.canRead()) fail("$name \"$it\" is not readable.")
+    if (!canBeSymlink && it.isSymlink()) fail("$name \"$it\" is a symlink.")
+    return File(path)
 }
 
 // This overload exists so that calls to `file()` aren't marked as deprecated.

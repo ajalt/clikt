@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.samples.ansicolors
 
-import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.NoOpCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.CliktHelpFormatter
@@ -23,7 +23,7 @@ class ColorHelpFormatter : CliktHelpFormatter() {
     override fun optionMetavar(option: HelpFormatter.ParameterHelp.Option) = tc.green(super.optionMetavar(option))
 }
 
-class Cli : NoRunCliktCommand(help = "An example of a custom help formatter that uses ansi colors") {
+class Cli : NoOpCliktCommand(help = "An example of a custom help formatter that uses ansi colors") {
     init {
         context { helpFormatter = ColorHelpFormatter() }
     }
@@ -33,6 +33,6 @@ class Cli : NoRunCliktCommand(help = "An example of a custom help formatter that
     val files by argument(help = "files to input").multiple()
 }
 
-class Sub : NoRunCliktCommand(help = "this is a subcommand")
+class Sub : NoOpCliktCommand(help = "this is a subcommand")
 
 fun main(args: Array<String>) = Cli().subcommands(Sub()).main(args)

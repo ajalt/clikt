@@ -54,7 +54,7 @@ removed. All whitespace and newlines in the paragraph will be preserved, and wil
 
 
 ```kotlin tab="Example"
-class Tool : NoRunCliktCommand(help = """This is my command.
+class Tool : NoOpCliktCommand(help = """This is my command.
 
       This paragraph will be wrapped, but the following list will not:
 
@@ -91,15 +91,15 @@ Subcommands are listed in the help page based on their [name][customizing-comman
 They have a short help string which is the first line of their help.
 
 ```kotlin tab="Example"
-class Tool : NoRunCliktCommand()
+class Tool : NoOpCliktCommand()
 
-class Execute : NoRunCliktCommand(help = """
+class Execute : NoOpCliktCommand(help = """
     Execute the command.
 
     The command will be executed.
     """)
 
-class Abort : NoRunCliktCommand(help="Kill any running commands.")
+class Abort : NoOpCliktCommand(help="Kill any running commands.")
 ```
 
 ```text tab="Usage"
@@ -126,7 +126,7 @@ You can change the help option's name and help message on the
 [command's context][customizing-context]:
 
 ```kotlin tab="Example"
-class Tool : NoRunCliktCommand() {
+class Tool : NoOpCliktCommand() {
     init {
         context {
             helpOptionNames = setOf("/help")
@@ -155,7 +155,7 @@ default value will be shown. You can show a different value by passing the value
 the `defaultForHelp` parameter of [`default`][default].
 
 ```kotlin tab="Example"
-class Tool : NoRunCliktCommand() {
+class Tool : NoOpCliktCommand() {
     init {
         context { helpFormatter = CliktHelpFormatter(showDefaultValues = true) }
     }
@@ -186,7 +186,7 @@ that an option is required.
 You can pass a character to the `requiredOptionMarker` argument of the `CliktHelpFormatter`.
 
 ```kotlin tab="Example"
-class Tool : NoRunCliktCommand() {
+class Tool : NoOpCliktCommand() {
     init {
         context { helpFormatter = CliktHelpFormatter(requiredOptionMarker = "*") }
     }
@@ -244,7 +244,7 @@ class UserOptions : OptionGroup(name = "User Options", help = "Options controlli
     val age by option(help = "user age").int()
 }
 
-class Tool : NoRunCliktCommand() {
+class Tool : NoOpCliktCommand() {
     val userOptions by UserOptions()
 }
 ```

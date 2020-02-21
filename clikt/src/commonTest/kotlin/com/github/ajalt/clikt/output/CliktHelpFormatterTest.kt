@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.NoRunCliktCommand
+import com.github.ajalt.clikt.core.NoOpCliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
@@ -497,7 +497,7 @@ class CliktHelpFormatterTest {
             val groupBaz by option(help = "this group doesn't have help").required()
         }
 
-        class C : NoRunCliktCommand(name = "program",
+        class C : NoOpCliktCommand(name = "program",
                 help = """
                 This is a program.
 
@@ -536,14 +536,14 @@ class CliktHelpFormatterTest {
             }
         }
 
-        class Sub : NoRunCliktCommand(help = """
+        class Sub : NoOpCliktCommand(help = """
             a subcommand
 
             with extra help
             """,
                 helpTags = mapOf("deprecated" to ""))
 
-        class Sub2 : NoRunCliktCommand(help = "another command")
+        class Sub2 : NoOpCliktCommand(help = "another command")
 
         val c = C()
                 .versionOption("1.0")

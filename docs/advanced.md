@@ -18,7 +18,7 @@ and returns a map of aliases to the tokens that they alias to.
 To implement git-style aliases:
 
 ```kotlin tab="Example"
-class Repo : NoRunCliktCommand() {
+class Repo : NoOpCliktCommand() {
     // You could load the aliases from a config file etc.
     override fun aliases(): Map<String, List<String>> = mapOf(
             "ci" to listOf("commit"),

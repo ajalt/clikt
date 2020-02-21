@@ -618,7 +618,7 @@ function on a command directly, either in an `init` block, or on a command insta
 These definitions are equivalent:
 
 ```kotlin
-class Cli : NoRunCliktCommand() {
+class Cli : NoOpCliktCommand() {
     init {
         versionOption("1.0")
     }
@@ -629,7 +629,7 @@ fun main(args: Array<String>) = Cli().main(args)
 and
 
 ```kotlin
-class Cli : NoRunCliktCommand()
+class Cli : NoOpCliktCommand()
 fun main(args: Array<String>) = Cli().versionOption("1.0").main(args)
 ```
 
@@ -653,13 +653,12 @@ of printing the message.
 You can define your own version option like this:
 
 ```kotlin
-class Cli : CliktCommand() {
+class Cli : NoOpCliktCommand() {
     init {
         registerOption(EagerOption("--version") {
             throw PrintMessage("$commandName version 1.0")
         })
     }
-    // ...
 }
 ```
 

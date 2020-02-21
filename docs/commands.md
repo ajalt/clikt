@@ -236,7 +236,7 @@ For example, you can change the default help message for the `--help`
 option. These definitions are equivalent:
 
 ```kotlin
-class Cli : NoRunCliktCommand() {
+class Cli : NoOpCliktCommand() {
     init {
         context { helpOptionMessage = "print the help" }
     }
@@ -246,7 +246,7 @@ class Cli : NoRunCliktCommand() {
 and
 
 ```kotlin
-class Cli : NoRunCliktCommand()
+class Cli : NoOpCliktCommand()
 fun main(args: Array<String>) = Cli()
     .context { helpOptionMessage = "print the help" }
     .main(args)

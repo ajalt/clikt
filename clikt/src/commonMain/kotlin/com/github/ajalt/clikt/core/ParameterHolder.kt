@@ -17,13 +17,18 @@ interface ParameterHolder {
     fun registerOption(option: GroupableOption)
 }
 
+interface StaticallyGroupedOption : Option {
+    /** The name of the group, or null if this option should not be grouped in the help output. */
+    val groupName: String?
+}
+
 /**
  * An option that can be added to a [ParameterGroup]
  */
-interface GroupableOption : Option {
+interface GroupableOption : StaticallyGroupedOption {
     /** The group that this option belongs to, or null. Set by the group. */
     var parameterGroup: ParameterGroup?
 
     /** The name of the group, or null if this option should not be grouped in the help output. */
-    var groupName: String?
+    override var groupName: String?
 }

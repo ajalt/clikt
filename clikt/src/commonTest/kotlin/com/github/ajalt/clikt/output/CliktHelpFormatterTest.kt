@@ -533,6 +533,9 @@ class CliktHelpFormatterTest {
                             requiredOptionMarker = "*"
                     )
                 }
+
+                eagerOption("--eager", "-e", help = "this is an eager option with a group", groupName = "My Group") {}
+                eagerOption("--eager2", "-E", help = "this is an eager option") {}
             }
         }
 
@@ -562,6 +565,7 @@ class CliktHelpFormatterTest {
                 |
                 |* --group-foo TEXT      foo for group (required)
                 |  -g, --group-bar TEXT  bar for group
+                |  -e, --eager           this is an eager option with a group
                 |
                 |Another group:
                 |* --group-baz TEXT  this group doesn't have help (required)
@@ -582,6 +586,7 @@ class CliktHelpFormatterTest {
                 |* --foo INT         foo option help (required)
                 |  -b, --bar META    bar option help (default: optdef)
                 |  --baz / --no-baz  baz option help
+                |  -E, --eager2      this is an eager option
                 |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit
                 |

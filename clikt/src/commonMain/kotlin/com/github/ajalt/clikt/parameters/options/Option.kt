@@ -1,10 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.GroupableOption
-import com.github.ajalt.clikt.core.ParameterHolder
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.mpp.isLetterOrDigit
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
@@ -49,7 +46,9 @@ interface Option {
         get() = when {
             hidden -> null
             else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues, helpTags,
-                    groupName = if (this is GroupableOption) groupName ?: parameterGroup?.groupName else null)
+                    groupName = (this as? StaticallyGroupedOption)?.groupName
+                            ?: (this as? GroupableOption)?.parameterGroup?.groupName
+            )
         }
 
     /**

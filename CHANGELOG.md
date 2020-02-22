@@ -1,6 +1,10 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- `eagerOption {}` function to more easily register eager options.
+- Eager options can now be added to option groups in help out by passing a value for `groupName` when creating them. 
+
 ### Fixed
 - `file()` and `path()` conversions will now properly expand leading `~` in paths to the home directory for `mustExist`, `canBeFile`, and `canBeDir` checks. The property value is unchanged, and can still begin with a `~`. ([#131](https://github.com/ajalt/clikt/issues/79))
 
@@ -11,6 +15,7 @@
 ### Added
 - Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
 - `canBeSymlink` parameter to `file()` and `path()` conversions that can be used to disallow symlinks
+- `CliktCommand.eagerOption` to simplify creating custom eager options
 
 ### Changed
 - The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.

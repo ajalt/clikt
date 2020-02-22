@@ -4,8 +4,8 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.matchers.types.shouldBeInstanceOf
-import kotlin.test.Test
 import java.io.File
+import kotlin.test.Test
 
 class FileTypeTest {
     @Test

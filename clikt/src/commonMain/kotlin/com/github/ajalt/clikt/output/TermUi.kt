@@ -116,7 +116,7 @@ object TermUi {
                 val result = try {
                     convert.invoke(value)
                 } catch (err: UsageError) {
-                    echo(err.helpMessage(), console=console)
+                    echo(err.helpMessage(), console = console)
                     continue
                 }
 
@@ -180,7 +180,7 @@ object TermUi {
                 "n", "no" -> false
                 "" -> default
                 else -> {
-                    echo("Error: invalid input", console=console)
+                    echo("Error: invalid input", console = console)
                     continue@l
                 }
             }

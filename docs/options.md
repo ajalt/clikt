@@ -640,24 +640,21 @@ $ ./cli --version
 cli version 1.0
 ```
 
-If you want to define your own option with a similar behavior, you can do so by creating an instance
-of [`EagerOption`][EagerOption] and
-passing it to
-[`CliktCommand.registerOption`][CliktCommand.registerOption].
-`EagerOption`s have a `callback` that is called when the option is encountered on the command line.
-To print a message and halt execution normally from the callback, you can throw a
-[`PrintMessage`][PrintMessage] exception, and
-[`CliktCommand.main`][CliktCommand.main] will take care
-of printing the message.
+If you want to define your own option with a similar behavior, you can do so by calling
+[`eagerOption`][eagerOption]. The takes an `action` that is called when the option is encountered on
+the command line. To print a message and halt execution normally from the callback, you can throw a
+[`PrintMessage`][PrintMessage] exception, and [`CliktCommand.main`][CliktCommand.main] will take
+care of printing the message. If you want to exit normally without printing a message, you can throw
+[`Abort(error=false)`][Abort] instead.
 
 You can define your own version option like this:
 
 ```kotlin
 class Cli : NoOpCliktCommand() {
     init {
-        registerOption(EagerOption("--version") {
+        eagerOption("--version") {
             throw PrintMessage("$commandName version 1.0")
-        })
+        }
     }
 }
 ```
@@ -904,9 +901,10 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [co-occurring-option-groups]:  #co-occurring-option-groups
 [prompt]:                      api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
 [versionOption]:               api/clikt/com.github.ajalt.clikt.parameters.options/version-option.md
-[EagerOption]:                 api/clikt/com.github.ajalt.clikt.parameters.options/-eager-option/index.md
+[eagerOption]:                 api/clikt/com.github.ajalt.clikt.parameters.options/eager-option.md
 [CliktCommand.registerOption]: api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option.md
 [PrintMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
+[Abort]:                       api/clikt/com.github.ajalt.clikt.core/-abort/index.md
 [CliktCommand.main]:           api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
 [deprecated]:                  api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.md
 [context]:                     api/clikt/com.github.ajalt.clikt.core/context.md

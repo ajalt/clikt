@@ -1,15 +1,56 @@
 package com.github.ajalt.clikt.parameters
 
+import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage
+import com.github.ajalt.clikt.parameters.options.eagerOption
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.testing.TestCommand
-import io.kotest.matchers.shouldBe
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.data.forall
+import io.kotest.matchers.shouldBe
+import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
+@Suppress("BooleanLiteralArgument")
 class EagerOptionsTest {
+    @Test
+    @JsName("custom_eager_option")
+    fun `custom eager option`() = forall(
+            row("", false, false),
+            row("--option", true, false),
+            row("-p", false, true),
+            row("-op", true, true)
+    ) { argv, eO, eP ->
+        var calledO = false
+        var calledP = false
+
+        class C : TestCommand() {
+            init {
+                eagerOption("-o", "--option") { calledO = true }
+                eagerOption(listOf("-p")) { calledP = true }
+            }
+        }
+
+        with(C()) {
+            parse(argv)
+            calledO shouldBe eO
+            calledP shouldBe eP
+        }
+    }
+
+    @Test
+    @JsName("custom_eager_option_throwing_abort")
+    fun `custom eager option throwing abort`() {
+        class C : TestCommand(called = false)
+
+        shouldThrow<Abort> {
+            C().eagerOption("--foo") { throw Abort(error = false) }
+                    .parse("--foo")
+        }.error shouldBe false
+    }
+
     @Test
     @JsName("version_default")
     fun `version default`() {

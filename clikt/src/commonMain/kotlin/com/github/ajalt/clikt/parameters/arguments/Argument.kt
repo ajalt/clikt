@@ -402,7 +402,7 @@ inline fun <T1 : Any, T2 : Any> ProcessedArgument<T1, T1>.wrapValue(
             fail(err.message ?: "")
         }
     }
-   return copy(conv, defaultAllProcessor(), defaultValidator())
+    return copy(conv, defaultAllProcessor(), defaultValidator())
 }
 
 /**

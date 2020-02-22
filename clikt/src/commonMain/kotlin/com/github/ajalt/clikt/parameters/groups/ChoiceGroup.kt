@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.completion.CompletionCandidates.Fixed
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context

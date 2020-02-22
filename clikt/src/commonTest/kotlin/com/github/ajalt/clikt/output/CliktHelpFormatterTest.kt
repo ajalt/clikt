@@ -6,11 +6,7 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.groups.OptionGroup
-import com.github.ajalt.clikt.parameters.groups.cooccurring
-import com.github.ajalt.clikt.parameters.groups.groupChoice
-import com.github.ajalt.clikt.parameters.groups.groupSwitch
-import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
+import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -429,11 +425,13 @@ class CliktHelpFormatterTest {
         class G1 : OptionGroup("G1") {
             val opt1 by option()
         }
+
         class G2 : OptionGroup("G2") {
             val opt2 by option()
         }
+
         class C : TestCommand() {
-            val opt by option(help="select group").groupChoice("g1" to G1(), "g2" to G2())
+            val opt by option(help = "select group").groupChoice("g1" to G1(), "g2" to G2())
         }
 
         val c = C()
@@ -460,11 +458,13 @@ class CliktHelpFormatterTest {
         class G1 : OptionGroup("G1") {
             val opt1 by option()
         }
+
         class G2 : OptionGroup("G2") {
             val opt2 by option()
         }
+
         class C : TestCommand() {
-            val opt by option(help="select group").groupSwitch("--g1" to G1(), "--g2" to G2())
+            val opt by option(help = "select group").groupSwitch("--g1" to G1(), "--g2" to G2())
         }
 
         val c = C()
@@ -533,6 +533,9 @@ class CliktHelpFormatterTest {
                             requiredOptionMarker = "*"
                     )
                 }
+
+                eagerOption("--eager", "-e", help = "this is an eager option with a group", groupName = "My Group") {}
+                eagerOption("--eager2", "-E", help = "this is an eager option") {}
             }
         }
 
@@ -562,6 +565,7 @@ class CliktHelpFormatterTest {
                 |
                 |* --group-foo TEXT      foo for group (required)
                 |  -g, --group-bar TEXT  bar for group
+                |  -e, --eager           this is an eager option with a group
                 |
                 |Another group:
                 |* --group-baz TEXT  this group doesn't have help (required)
@@ -582,6 +586,7 @@ class CliktHelpFormatterTest {
                 |* --foo INT         foo option help (required)
                 |  -b, --bar META    bar option help (default: optdef)
                 |  --baz / --no-baz  baz option help
+                |  -E, --eager2      this is an eager option
                 |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit
                 |

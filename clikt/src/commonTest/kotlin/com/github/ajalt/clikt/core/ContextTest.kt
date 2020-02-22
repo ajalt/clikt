@@ -1,10 +1,10 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.testing.TestCommand
-import io.kotest.matchers.should
-import io.kotest.matchers.shouldBe
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.beInstanceOf
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import kotlin.js.JsName
 import kotlin.test.Test

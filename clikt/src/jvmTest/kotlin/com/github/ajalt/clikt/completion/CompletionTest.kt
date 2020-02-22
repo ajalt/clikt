@@ -9,8 +9,8 @@ import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
-import kotlin.test.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
+import kotlin.test.Test
 
 @UseExperimental(ExperimentalCompletionCandidates::class)
 @Suppress("unused")

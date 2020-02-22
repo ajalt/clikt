@@ -10,10 +10,10 @@ import io.kotest.data.forall
 import io.kotest.matchers.shouldBe
 import io.kotest.tables.row
 import org.junit.Rule
-import kotlin.test.Test
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.RestoreSystemProperties
 import java.io.File
+import kotlin.test.Test
 
 
 class EnvvarOptionsTest {

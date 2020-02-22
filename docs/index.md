@@ -1,14 +1,13 @@
 ---
-title: 'Clikt: Simple, powerful command line parser for Kotlin'
+title: 'Clikt: Multiplatform command line parser for Kotlin'
 ---
 
 <div align="center" style="margin-bottom:42px;max-width:700px">
     <img alt="wordmark" src="img/wordmark.svg" />
 </div>
 
-Clikt *(pronounced "clicked")* is a Kotlin library that makes writing
-command line interfaces simple and intuitive. It is the "Command Line
-Interface for Kotlin".
+Clikt *(pronounced "clicked")* is a multiplatform Kotlin library that makes writing command line
+interfaces simple and intuitive. It's the "Command Line Interface for Kotlin".
 
 It is designed to make the process of writing command line tools effortless
 while supporting a wide variety of use cases and allowing advanced
@@ -21,8 +20,7 @@ Clikt has:
  * support for a wide variety of command line interface styles
  * multiplatform packages for JVM, NodeJS, and native Linux, Windows and MacOS 
 
- What does it look like? Here's a complete example of a simple Clikt
- program:
+ What does it look like? Here's a complete example of a simple Clikt program:
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -30,7 +28,7 @@ class Hello : CliktCommand() {
     val name: String by option(help="The person to greet").prompt("Your name")
 
     override fun run() {
-        for (i in 1..count) {
+        repeat(count) {
             echo("Hello $name!")
         }
     }
@@ -77,19 +75,3 @@ Error: no such option: "--whoops".
 * [Arguments](api/clikt/com.github.ajalt.clikt.parameters.arguments/index.md)
 * [Parameter Type Conversions](api/clikt/com.github.ajalt.clikt.parameters.types/index.md)
 * [Output Formatting](api/clikt/com.github.ajalt.clikt.output/index.md)
-
-# License
-
-    Copyright 2018-2019 AJ Alt
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.

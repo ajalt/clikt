@@ -21,11 +21,11 @@ Clikt has:
 
 ```kotlin
 class Hello : CliktCommand() {
-    val count: Int by option(help = "Number of greetings").int().default(1)
-    val name: String by option(help = "The person to greet").prompt("Your name")
+    val count: Int by option(help="Number of greetings").int().default(1)
+    val name: String by option(help="The person to greet").prompt("Your name")
 
     override fun run() {
-        for (i in 1..count) {
+        repeat(count) {
             echo("Hello $name!")
         }
     }
@@ -78,9 +78,17 @@ Clikt is distributed through [Maven Central](https://search.maven.org/artifact/c
 
 ```groovy
 dependencies {
-   implementation("com.github.ajalt:clikt:2.4.0")
+   implementation("com.github.ajalt:clikt:2.5.0")
 }
 ```
+
+#### Multiplatform
+
+For multiplatform projects, use `"com.github.ajalt:clikt-multiplatform:$cliktVersion"` instead.
+
+Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for NodeJS).
+
+#### Snapshots
 
 <details>
    <summary>Snapshot builds are also available</summary>
@@ -96,9 +104,6 @@ repositories {
     }
 }
 ```
-
-For Kotlin/Native and Kotlin/JS, use `"com.github.ajalt:clikt-multiplatform:$cliktVersion"` instead.
-  
 </details>
 
 ## License

@@ -1,25 +1,22 @@
 # Changelog
 
 ## [Unreleased]
-### Added
-- `eagerOption {}` function to more easily register eager options.
-- Eager options can now be added to option groups in help out by passing a value for `groupName` when creating them. 
+## [2.5.0] - 2020-02-22
 
-### Fixed
-- `file()` and `path()` conversions will now properly expand leading `~` in paths to the home directory for `mustExist`, `canBeFile`, and `canBeDir` checks. The property value is unchanged, and can still begin with a `~`. ([#131](https://github.com/ajalt/clikt/issues/79))
-
-### Changed
-- `NoRunCliktCommand` was renamed to `NoOpCliktCommand`. The existing class is deprecated. ([#130](https://github.com/ajalt/clikt/issues/130))
-
-## [2.5.0-beta1] - 2020-02-13
 ### Added
 - Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
+- `eagerOption {}` function to more easily register eager options.
+- Eager options can now be added to option groups in help out by passing a value for `groupName` when creating them. 
 - `canBeSymlink` parameter to `file()` and `path()` conversions that can be used to disallow symlinks
 - `CliktCommand.eagerOption` to simplify creating custom eager options
 
 ### Changed
+- `NoRunCliktCommand` was renamed to `NoOpCliktCommand`. The existing class is deprecated. ([#130](https://github.com/ajalt/clikt/issues/130))
 - The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.
 - The parameter names of `file()` and `path()` conversions have changed. The existing names are deprecated, and can be converted to the new usages with an IntelliJ inspection. Note that if you are calling these functions with unnamed arguments (e.g. `file(true, false)`), you'll need to add argument names in order to remove the deprecation warning.
+
+### Fixed
+- `file()` and `path()` conversions will now properly expand leading `~` in paths to the home directory for `mustExist`, `canBeFile`, and `canBeDir` checks. The property value is unchanged, and can still begin with a `~`. ([#131](https://github.com/ajalt/clikt/issues/79))
 
 ## [2.4.0] - 2020-01-25
 ### Added

@@ -84,7 +84,7 @@ dependencies {
 
 #### Multiplatform
 
-For multiplatform projects, use `"com.github.ajalt:clikt-multiplatform:$cliktVersion"` instead.
+For multiplatform projects, use `"com.github.ajalt:clikt-multiplatform:$cliktVersion"` instead. You'll need to use Gradle 6 or newer.
 
 Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for NodeJS).
 

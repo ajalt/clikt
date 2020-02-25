@@ -147,6 +147,8 @@ Options:
 If you don't want a help option to be added, you can set
 `helpOptionNames = emptySet()`
 
+If you want a help subcommand, like it is used in `git` or `systemctl`, you can add `HelpCommand()` as a subcommand.
+
 ## Default Values in Help
 
 You can configure the help formatter to show default values in the help output by passing

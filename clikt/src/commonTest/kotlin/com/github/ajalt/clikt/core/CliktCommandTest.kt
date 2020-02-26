@@ -6,12 +6,16 @@ import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.groups.provideDelegate
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forall
+import io.kotest.matchers.collections.beEmpty
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.tables.row
@@ -176,5 +180,36 @@ class CliktCommandTest {
         }
 
         TestCommand().context { helpOptionNames = emptySet() }.subcommands(D()).parse("d")
+    }
+
+    @Test
+    @JsName("command_registered_functions")
+    fun `command registered functions`() {
+        val child1 = TestCommand(name = "foo", called = false)
+        val child2 = TestCommand(name = "bar", called = false)
+
+        class G : OptionGroup() {
+            val og by option()
+        }
+
+        val g = G()
+
+        class C : TestCommand(called = false) {
+            val o1 by option()
+            val o2 by option().flag()
+            val a by argument()
+            val g by g
+        }
+
+        val c = C()
+        c.registeredSubcommands() should beEmpty()
+        c.subcommands(child1, child2)
+
+        c.registeredSubcommands().shouldContainExactlyInAnyOrder(child1, child2)
+        c.registeredOptions().map { it.names.single() }.shouldContainExactlyInAnyOrder(
+                "--o1", "--o2", "--og"
+        )
+        c.registeredArguments().map { it.name } shouldBe listOf("A")
+        c.registeredParameterGroups() shouldBe listOf(g)
     }
 }

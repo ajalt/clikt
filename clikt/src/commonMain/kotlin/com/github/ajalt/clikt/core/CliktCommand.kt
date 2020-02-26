@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parsers.Parser
@@ -126,6 +127,26 @@ abstract class CliktCommand(
 
     /** The names of all direct children of this command */
     fun registeredSubcommandNames(): List<String> = _subcommands.map { it.commandName }
+
+    /**
+     * Get a read-only list of commands registered as [subcommands] of this command.
+     */
+    fun registeredSubcommands(): List<CliktCommand> = _subcommands.toList()
+
+    /**
+     * Get a read-only list of options registered in this command (e.g. via [registerOption] or an [option] delegate)
+     */
+    fun registeredOptions(): List<Option> = _options.toList()
+
+    /**
+     * Get a read-only list of arguments registered in this command (e.g. via [registerArgument] or an [argument] delegate)
+     */
+    fun registeredArguments(): List<Argument> = _arguments.toList()
+
+    /**
+     * Get a read-only list of groups registered in this command (e.g. via [registerOptionGroup] or an [OptionGroup] delegate)
+     */
+    fun registeredParameterGroups(): List<ParameterGroup> = _groups.toList()
 
     /**
      * Register an option with this command.

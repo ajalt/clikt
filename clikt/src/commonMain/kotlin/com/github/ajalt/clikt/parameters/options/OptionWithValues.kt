@@ -58,7 +58,10 @@ class OptionTransformContext(val option: Option, val context: Context) : Option 
 }
 
 /** A callback that transforms a single value from a string to the value type */
-typealias ValueTransformer<ValueT> = OptionCallTransformContext.(String) -> ValueT
+typealias ValueTransformer<ValueT> = ValueConverter<String, ValueT>
+
+/** A block that converts a single value from one type to another */
+typealias ValueConverter<InT, ValueT> = OptionCallTransformContext.(InT) -> ValueT
 
 /**
  * A callback that transforms all the values for a call to the call type.
@@ -263,6 +266,12 @@ fun ParameterHolder.option(
  *
  * Used to implement functions like [default] and [multiple].
  *
+ * ## Example
+ *
+ * ```
+ * val entries by option().transformAll { it.joinToString() }
+ * ```
+ *
  * @param defaultForHelp The help text for this option's default value if the help formatter is
  *   configured to show them, or null if this option has no default or the default value should not be
  *   shown.This does not affect behavior outside of help formatting.
@@ -391,7 +400,15 @@ fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique():
  * [option] has [nvalues] = 1 by default. If you want to change the type of an option with one value, use
  * [convert] instead.
  *
- * Used to implement functions like [pair] and [triple]. This must be applied before any other transforms.
+ * Used to implement functions like [pair] and [triple]. This must be applied after value
+ * [conversions][convert] and before [transformAll].
+ *
+ * ## Example
+ *
+ * ```
+ * data class Square(val top: Int, val right: Int, val bottom: Int, val left: Int)
+ * val square by option().int().transformValues(4) { Square(it[0], it[1], it[2], it[3]) }
+ * ```
  */
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
         nvalues: Int,
@@ -565,21 +582,31 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
  * they are caught and a [BadParameterValue] is thrown with the error message. You can call `fail` to throw a
  * [BadParameterValue] manually.
  *
+ * You can call `convert` more than once to wrap the result of the previous `convert`, but it cannot
+ * be called after [transformAll] (e.g. [multiple]) or [transformValues] (e.g. [pair]).
+ *
+ * ## Example
+ *
+ * ```
+ * val bd: BigDecimal? by option().convert { it.toBigDecimal() }
+ * val fileText: ByteArray? by option().file().convert { it.readBytes() }
+ * ```
+ *
  * @param metavar The metavar for the type. Overridden by a metavar passed to [option].
  * @param envvarSplit If the value is read from an envvar, the pattern to split the value on. The default
  *   splits on whitespace. This value is can be overridden by passing a value to the [option] function.
  * @param completionCandidates candidates to use when completing this option in shell autocomplete,
  *   if no candidates are specified in [option]
  */
-inline fun <T : Any> RawOption.convert(
+inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
         metavar: String = "VALUE",
         envvarSplit: Regex = this.envvarSplit.default,
         completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
-        crossinline conversion: ValueTransformer<T>
-): NullableOption<T, T> {
-    val proc: ValueTransformer<T> = {
+        crossinline conversion: ValueConverter<InT, ValueT>
+): NullableOption<ValueT, ValueT> {
+    val proc: ValueTransformer<ValueT> = {
         try {
-            conversion(it)
+            conversion(transformValue(it))
         } catch (err: UsageError) {
             err.paramName = name
             throw err
@@ -590,7 +617,8 @@ inline fun <T : Any> RawOption.convert(
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
             metavarWithDefault = metavarWithDefault.copy(default = metavar),
             envvarSplit = this.envvarSplit.copy(default = envvarSplit),
-            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates))
+            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
+    )
 }
 
 @Deprecated(
@@ -628,21 +656,10 @@ fun RawOption.wrapValue(wrapper: (String) -> Any): RawOption = this
  * )
  * ```
  */
+@Deprecated("Use `convert` instead", ReplaceWith("this.convert(wrapper)"))
 inline fun <T1 : Any, T2 : Any> NullableOption<T1, T1>.wrapValue(
         crossinline wrapper: (T1) -> T2
-): NullableOption<T2, T2> {
-    val proc: ValueTransformer<T2> = {
-        try {
-            wrapper(transformValue(it))
-        } catch (err: UsageError) {
-            err.paramName = name
-            throw err
-        } catch (err: Exception) {
-            fail(err.message ?: "")
-        }
-    }
-    return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator())
-}
+): NullableOption<T2, T2> = convert { wrapper(it) }
 
 /**
  * If the option isn't given on the command line, prompt the user for manual input.

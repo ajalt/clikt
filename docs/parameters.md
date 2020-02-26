@@ -187,6 +187,26 @@ Options:
   -h, --help   Show this message and exit
 ```
 
+You can call `convert` more than once on the same parameter. This allows you to reuse existing
+conversion functions. For example, you could automatically read the text of a file parameter.
+
+```kotlin tab="Example"
+class FileReader: CliktCommand() {
+    val file: String by argument()
+        .file(mustExist=true, canBeDir=false)
+        .convert { it.readText() }
+    override fun run() {
+        echo("Your file contents: $file")
+    }
+}
+```
+
+```text tab="Usage"
+$ echo 'some text' > myfile.txt
+$ ./filereader ./myfile.txt
+Your file contents: some text
+```
+
 ## Parameter Validation
 
 After converting a value to a new type, you can perform additional validation on the converted value

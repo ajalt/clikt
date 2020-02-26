@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'application'
 
     dependencies {
-        implementation implementation("com.github.ajalt:clikt:2.5.0")
+        implementation project(':clikt')
     }
 
     compileKotlin {

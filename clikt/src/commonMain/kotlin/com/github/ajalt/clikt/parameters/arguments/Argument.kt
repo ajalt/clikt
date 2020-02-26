@@ -6,8 +6,10 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
+import com.github.ajalt.clikt.parameters.arguments.defaultAllProcessor
+import com.github.ajalt.clikt.parameters.arguments.defaultValidator
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
-import com.github.ajalt.clikt.parameters.options.ValueWithDefault
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
@@ -91,7 +93,10 @@ class ArgumentTransformContext(val argument: Argument, val context: Context) : A
 }
 
 /** A callback that transforms a single value from a string to the value type */
-typealias ArgValueTransformer<T> = ArgumentTransformContext.(String) -> T
+typealias ArgValueTransformer<T> = ArgValueConverter<String, T>
+
+/** A callback that transforms a single value from one type to another */
+typealias ArgValueConverter<InT, ValueT> = ArgumentTransformContext.(InT) -> ValueT
 
 /** A callback that transforms all the values into the final argument type */
 typealias ArgCallsTransformer<AllT, EachT> = ArgumentTransformContext.(List<EachT>) -> AllT
@@ -221,12 +226,19 @@ fun CliktCommand.argument(
  * Transform all values to the final argument type.
  *
  * The input is a list of values, one for each value on the command line. The values in the
- * list are the output of calls to [convert]. The input list will have a size of [nvalues] if [nvalues] is > 0.
+ * list are the output of calls to [convert]. The input list will have a size of [nvalues] if
+ * [nvalues] is > 0.
  *
  * Used to implement functions like [pair] and [multiple].
  *
- * @param nvalues The number of values required by this argument. A negative [nvalues] indicates a variable number
- *   of values.
+ * ## Example
+ *
+ * ```
+ * val entries by argument().transformAll { it.joinToString() }
+ * ```
+ *
+ * @param nvalues The number of values required by this argument. A negative [nvalues] indicates a
+ *   variable number of values.
  * @param required If true, an error with be thrown if no values are provided to this argument.
  */
 fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
@@ -350,16 +362,26 @@ inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -
  * [BadParameterValue] is thrown with the error message. You can call `fail` to throw a [BadParameterValue]
  * manually.
  *
+ * You can call `convert` more than once to wrap the result of the previous `convert`, but it cannot
+ * be called after [transformAll] (e.g. [multiple]) or [transformValues] (e.g. [pair]).
+ *
+ * ## Example
+ *
+ * ```
+ * val bd: BigDecimal by argument().convert { it.toBigDecimal() }
+ * val fileText: ByteArray by argument().file().convert { it.readBytes() }
+ * ```
+ *
  * @param completionCandidates candidates to use when completing this argument in shell autocomplete,
  *   if no candidates are specified in [argument]
  */
-inline fun <T : Any> RawArgument.convert(
+inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
         completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
-        crossinline conversion: ArgValueTransformer<T>
-): ProcessedArgument<T, T> {
-    val conv: ArgValueTransformer<T> = {
+        crossinline conversion: ArgValueConverter<InT, ValueT>
+): ProcessedArgument<ValueT, ValueT> {
+    val conv: ArgValueTransformer<ValueT> = {
         try {
-            conversion(it)
+            conversion(transformValue(it))
         } catch (err: UsageError) {
             err.argument = argument
             throw err
@@ -368,7 +390,8 @@ inline fun <T : Any> RawArgument.convert(
         }
     }
     return copy(conv, defaultAllProcessor(), defaultValidator(),
-            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates))
+            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
+    )
 }
 
 @Deprecated(
@@ -389,6 +412,7 @@ fun RawArgument.wrapValue(wrapper: (String) -> Any): RawArgument = this
  * If you just want to perform checks on the value without converting it to another type, use
  * [validate] instead.
  */
+@Deprecated("Use `convert` instead", ReplaceWith("this.convert(wrapper)"))
 inline fun <T1 : Any, T2 : Any> ProcessedArgument<T1, T1>.wrapValue(
         crossinline wrapper: (T1) -> T2
 ): ProcessedArgument<T2, T2> {

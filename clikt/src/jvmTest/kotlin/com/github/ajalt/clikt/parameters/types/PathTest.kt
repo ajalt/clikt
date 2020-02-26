@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters.types
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.TestCommand
@@ -67,6 +68,22 @@ class PathTest {
         }
 
         C().parse("foo bar baz")
+    }
+
+    @Test
+    fun `values can be converted before path is called`() {
+        class C : TestCommand() {
+            val path by option("-p")
+                    .convert { "/tmp/$it" }
+                    .path(fileSystem = fs)
+                    .required()
+
+            override fun run_() {
+                path.toString() shouldBe "/tmp/foo"
+            }
+        }
+
+        C().parse("-pfoo")
     }
 
     @Test

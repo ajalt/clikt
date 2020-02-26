@@ -692,12 +692,12 @@ class OptionTest {
 
     @Test
     @JsName("wrapValue_options")
-    fun `wrapValue options`() = forall(
+    fun `multiple converted options`() = forall(
             row("", null),
             row("--x=1", listOf(1))
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option().int().wrapValue { listOf(it) }
+            val x by option().int().convert { listOf(it) }
             override fun run_() {
                 x shouldBe expected
             }

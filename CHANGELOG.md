@@ -4,6 +4,10 @@
 ### Added
 - `registeredSubcommands`, `registeredOptions`, `registeredArguments`, and `registeredParameterGroups` methods on `CliktCommand`.
 
+### Changed
+- `convert` can be called more than once on the same option or argument, including after calls to conversion functions like `int` and `file`.
+- `wrapValue` is now deprecated, since `convert` can be used in its place instead.
+
 ## [2.5.0] - 2020-02-22
 
 ### Added

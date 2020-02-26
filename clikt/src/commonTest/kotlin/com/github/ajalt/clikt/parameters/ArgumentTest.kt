@@ -466,12 +466,12 @@ class ArgumentTest {
 
     @Test
     @JsName("wrapValue_argument")
-    fun `wrapValue argument`() = forall(
+    fun `chained convert argument`() = forall(
             row("", null),
             row("1", listOf(1))
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by argument().int().wrapValue { listOf(it) }.optional()
+            val x by argument().int().convert { listOf(it) }.optional()
             override fun run_() {
                 x shouldBe expected
             }

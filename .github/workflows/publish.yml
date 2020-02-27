@@ -20,6 +20,14 @@ jobs:
          -  name: Checkout the repo
             uses: actions/checkout@v2
 
+         - name: Cache gradle
+           uses: actions/cache@v1
+           with:
+              path: ~/.gradle/caches
+              key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+              restore-keys: |
+                 ${{ runner.os }}-gradle-
+
          -  name: Run ubuntu tests
             if: matrix.os == 'ubuntu-latest'
             run: ./gradlew check
@@ -52,7 +60,18 @@ jobs:
             # checkout the full repo so we can count commits for a build number
             with:
                fetch-depth: 0
-         -  run: git fetch origin +refs/tags/*:refs/tags/*
+
+         -  name: Fetch git tags
+            run: git fetch origin +refs/tags/*:refs/tags/*
+
+         - name: Cache gradle
+           uses: actions/cache@v1
+           with:
+              path: ~/.gradle/caches
+              key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+              restore-keys: |
+                 ${{ runner.os }}-gradle-
+
          -  name: Deploy to sonatype snapshots
             run: ./gradlew publish -PinferVersion=true
             env:

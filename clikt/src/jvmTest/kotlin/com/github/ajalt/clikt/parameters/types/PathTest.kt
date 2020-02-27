@@ -123,28 +123,4 @@ class PathTest {
             C().parse("-h /home/cli")
         }.message shouldBe """Invalid value for "-h": Path "/home/cli" does not exist."""
     }
-
-    @Test
-    fun `mustExist = true expands tildes internally when home is set`() {
-        val home = "/test/home/clikt"
-
-        Files.createDirectories(fs.getPath(home))
-        Files.createFile(fs.getPath(home, "foo"))
-
-        class C(called: Boolean) : TestCommand(called = called) {
-            val homeDir by option("-h").path(mustExist = true, fileSystem = fs)
-
-            override fun run_() {
-                homeDir.toString() shouldBe "~/foo"
-            }
-        }
-
-        System.setProperty("user.home", home)
-        C(true).parse("-h ~/foo")
-
-        System.clearProperty("user.home")
-        shouldThrow<BadParameterValue> {
-            C(false).parse("-h ~/foo")
-        }.message shouldBe """Invalid value for "-h": Path "~/foo" does not exist."""
-    }
 }

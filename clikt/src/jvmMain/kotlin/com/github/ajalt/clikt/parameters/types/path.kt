@@ -25,22 +25,22 @@ private fun Path.isSymlink(): Boolean {
 
 private fun convertToPath(
         path: String,
-        exists: Boolean,
-        fileOkay: Boolean,
-        folderOkay: Boolean,
-        writable: Boolean,
-        readable: Boolean,
+        mustExist: Boolean,
+        canBeFile: Boolean,
+        canBeFolder: Boolean,
+        mustBeWritable: Boolean,
+        mustBeReadable: Boolean,
         canBeSymlink: Boolean,
         fileSystem: FileSystem,
         fail: (String) -> Unit
 ): Path {
-    val name = pathType(fileOkay, folderOkay)
+    val name = pathType(canBeFile, canBeFolder)
     return fileSystem.getPath(path).also {
-        if (exists && !Files.exists(it)) fail("$name \"$it\" does not exist.")
-        if (!fileOkay && Files.isRegularFile(it)) fail("$name \"$it\" is a file.")
-        if (!folderOkay && Files.isDirectory(it)) fail("$name \"$it\" is a directory.")
-        if (writable && !Files.isWritable(it)) fail("$name \"$it\" is not writable.")
-        if (readable && !Files.isReadable(it)) fail("$name \"$it\" is not readable.")
+        if (mustExist && !Files.exists(it)) fail("$name \"$it\" does not exist.")
+        if (!canBeFile && Files.isRegularFile(it)) fail("$name \"$it\" is a file.")
+        if (!canBeFolder && Files.isDirectory(it)) fail("$name \"$it\" is a directory.")
+        if (mustBeWritable && !Files.isWritable(it)) fail("$name \"$it\" is not writable.")
+        if (mustBeReadable && !Files.isReadable(it)) fail("$name \"$it\" is not readable.")
         if (!canBeSymlink && it.isSymlink()) fail("$name \"$it\" is a symlink.")
     }
 }

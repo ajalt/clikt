@@ -72,20 +72,26 @@ val arg: Int by argument(help="an argument").int()
 There are a number of built in types that can be applied to options and
 arguments.
 
-* `Int`: [`option().int()` and `argument().int()`][int]
-* `Long`: [`option().long()` and `argument().long()`][long]
+### Int and Long
+
+- [`option().int()` and `argument().int()`][int]
+- [`option().long()` and `argument().long()`][long]
 
 By default, any value that fits in the integer type is accepted.
 You can restrict the values to a range with [`restrictTo()`][restrictTo],
 which allows you to either clamp the input to the range,
 or fail with an error if the input is outside the range.
 
-* `Float`: [`option().float()` and `argument().float()`][float]
-* `Double`: [`option().double()` and `argument().double()`][double]
+### Float and Double
+
+- [`option().float()` and `argument().float()`][float]
+- [`option().double()` and `argument().double()`][double]
 
 As with integers, you can restrict the input to a range with [`restrictTo()`][restrictTo].
 
-* [`option().choice()` and `argument().choice()`][choice]
+### Choice
+
+- [`option().choice()` and `argument().choice()`][choice]
 
 You can restrict the values to a set of values, and optionally map the
 input to a new value. For example, to create an option that only
@@ -104,8 +110,9 @@ val color: Int by argument().choice("red" to 1, "green" to 2)
 Choice parameters accept values that are case-sensitive by default. This can be configured by
 passing `ignoreCase = true`.
 
+### Enum
 
-* `Enum`: [`option().enum()` and `argument().enum()`][enum]
+- [`option().enum()` and `argument().enum()`][enum]
 
 Like `choice`, but uses the values of an enum type.
 
@@ -117,12 +124,14 @@ val color: Color by option().enum<Color>()
 Enum parameters accept case-insensitive values by default. This can be configured by passing
 `ignoreCase = false`.
 
-* `File`: [`option().file()` and `argument().file()`][file]
-* `Path`: [`option().path()` and `argument().path()`][path]
+### File paths
 
-  These conversion functions take extra parameters that allow you to
-  require that values are file paths that have certain attributes, such
-  as that they are directories, or they are writable files.
+- [`option().file()` and `argument().file()`][file]
+- [`option().path()` and `argument().path()`][path]
+
+These conversion functions take extra parameters that allow you to
+require that values are file paths that have certain attributes, such
+as that they are directories, or they are writable files.
 
 ## Custom Types
 
@@ -158,6 +167,8 @@ Usage: cli [OPTIONS]
 Error: Invalid value for "--opt": For input string: "foo"
 ```
 
+### Metavars
+
 You can also pass [`option().convert()`][convert] a metavar
 that will be printed in the help page instead of the default of `VALUE`.
 We can modify the above example to use a metavar and an explicit error message:
@@ -186,6 +197,8 @@ Options:
   --opt FLOAT  a real number
   -h, --help   Show this message and exit
 ```
+
+### Chaining
 
 You can call `convert` more than once on the same parameter. This allows you to reuse existing
 conversion functions. For example, you could automatically read the text of a file parameter.

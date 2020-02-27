@@ -235,26 +235,23 @@ which can be called in an `init` block, or on a command instance.
 For example, you can change the default help message for the `--help`
 option. These definitions are equivalent:
 
-```kotlin
+```kotlin tab="Version 1"
 class Cli : NoOpCliktCommand() {
     init {
         context { helpOptionMessage = "print the help" }
     }
 }
+fun main(args: Array<String>) = Cli()
 ```
 
-and
-
-```kotlin
+```kotlin tab="Version 2"
 class Cli : NoOpCliktCommand()
 fun main(args: Array<String>) = Cli()
     .context { helpOptionMessage = "print the help" }
     .main(args)
 ```
 
-Any they work like:
-
-```
+```text tab="Usage"
 $ ./cli --help
 Usage: cli [OPTIONS]
 
@@ -268,18 +265,17 @@ Normally, if a command is called with no values on the command line, a usage err
 there are required parameters, or [`run`][run] is called if there aren't any.
 
 You can change this behavior by passing `printHelpOnEmptyArgs = true` to your command's
-constructor. This will cause a help message to be printed when to values are provided on the command
+constructor. This will cause a help message to be printed when no values are provided on the command
 line, regardless of the parameters in your command.
 
-```kotlin
-class Cli : CliktCommand() {
+```kotlin tab="Example"
+class Cli : CliktCommand(printHelpOnEmptyArgs = true) {
+    val arg by argument()
     override fun run() { echo("Command ran") }
 }
 ```
 
-Which will print the help message, even without `--help`:
-
-```
+```text tab="Usage"
 $ ./cli
 Usage: cli [OPTIONS]
 
@@ -289,10 +285,10 @@ Options:
 
 ## Warnings and Other Messages
 
-When you want to show information to the user, you'll probably use the
+When you want to show information to the user, you'll usually want to use the
 [functions for printing to stdout][printing-to-stdout-and-stderr] directly.
 
-However, there's another mechanism that can be more useful when writing reusable parameter code:
+However, there's another mechanism that can be useful when writing reusable parameter code:
 command messages. These messages are buffered during parsing and printed all at once immediately
 before a command's [`run`][run] is called.
 They are not printed if there are any errors in parsing. This type of message is used by Clikt for
@@ -308,13 +304,16 @@ class Cli : CliktCommand() {
     val opt by option().validate {
         if (it.isEmpty()) message("Empty strings are not recommended")
     }
-    override fun run() {}
+    override fun run() {
+        echo("command run")
+    }
 }
 ```
 
 ```text tab="Usage 1"
 $ ./cli --opt=''
 Empty strings are not recommended
+command run
 ```
 
 ```text tab="Usage 2"

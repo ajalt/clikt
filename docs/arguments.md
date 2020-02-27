@@ -52,17 +52,17 @@ Options:
 ## Variadic Arguments
 
 Like [options][options], arguments can take any fixed number of values, which you can change with
-functions like [`pair`][pair] and [`triple`][triple]. Unlike options,
-arguments can take a variable (or unlimited) number of values. This is especially common when taking
-file paths, since they are frequently expanded with a glob pattern on the command line.
+functions like [`pair`][pair] and [`triple`][triple]. Unlike options, arguments can also take a
+variable (or unlimited) number of values. This is common with file path arguments, since
+they are frequently expanded with a glob pattern on the command line.
 
 You can declare any number of arguments with fixed numbers of values,
 but only one variadic argument.
 
 ```kotlin tab="Example"
 class Copy : CliktCommand() {
-    val source by argument().file(mustExist = true).multiple()
-    val dest by argument().file(canBeFile = false)
+    val source by argument().path(mustExist = true).multiple()
+    val dest by argument().path(canBeFile = false)
     override fun run() {
         echo("Copying files $source to $dest")
     }

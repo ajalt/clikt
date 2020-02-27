@@ -126,33 +126,33 @@ can't. On the other hand, Clikt attempts to consistent, intuitive,
 composable interface that tries to do the right thing without forcing
 you to think about edge cases.
 
-## Why not a Java library like JCommander?
+## Why not a Java library like JCommander or Picocli?
 
 There are a lot of command line libraries for Java. Most are verbose and
-not composable. One popular Java library that is usable from Kotlin is
-[JCommander][JCommander].
+not composable. Two popular Java libraries that are usable from Kotlin are
+[JCommander][JCommander] and [picocli][picocli].
 
-JCommander uses annotations to define parameters, and reflection to set
+These libraries use annotations to define parameters, and reflection to set
 fields. This is functional for simple types, but defining your own types
-requires you to register a type adapter with the `JCommander` builder.
+requires you to register a type adapter with the library.
 This means that type errors are not caught until runtime, and many types
 of customization are not possible.
 
-For example, options that take multiple values cannot be converted
-to other types. The JCommander docs explain:
+For example, in JCommander, options that take multiple values cannot be converted 
+to other types. The [JCommander docs explain][jc_arity]:
 
 > ... only List<String> is allowed for parameters that define an arity.
 > You will have to convert these values yourself if the parameters you
 > need are of type Integer or other (this limitation is due to Java’s
 > erasure).
 
-You also can't customize many aspect of parsing in JCommander. It can't
+You also can't customize many aspects of parsing in JCommander. It can't
 infer parameter names. With JCommander, you can't have an option with
 multiple values and multiple occurrences at the same time. You can't have
 more than one argument, and it can only take one value or an unlimited
 number of values. You can't nest subcommands.
 
-JCommander is a great library if you're writing code in Java, but we can
+JCommander and piocli are great libraries if you're writing code in Java, but we can
 do much better with Kotlin.
 
 
@@ -162,3 +162,5 @@ do much better with Kotlin.
 [option]:           api/clikt/com.github.ajalt.clikt.parameters.options/option.md
 [argument]:         api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
 [JCommander]:       http://jcommander.org/
+[jc_arity]:         http://jcommander.org/#_arities_multiple_values_for_parameters
+[picocli]:          https://picocli.info/

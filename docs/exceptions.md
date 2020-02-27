@@ -4,7 +4,7 @@ Clikt uses exceptions internally to signal that processing has ended
 early for any reason. This includes incorrect command line usage, or
 printing a help page.
 
-## Where are Exceptions Handled? {#handling}
+## Where are Exceptions Handled?
 
 When you call [`CliktCommand.main`][main], it will parse the command line and catch any
 [`CliktError`][CliktError] and [`Abort`][Abort] exceptions. If it catches one, it will then print

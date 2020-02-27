@@ -9,9 +9,7 @@ values for options and arguments. `choice` parameters are completed with their p
 Other parameter types are completed as file or directory names.
 [`Context.allowInterspersedArgs`][allowInterspersedArgs] is supported.
 
-For example:
-
-```
+```text tab="Example"
 $ ./repo <TAB><TAB>
 commit clone pull
 

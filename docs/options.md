@@ -92,10 +92,10 @@ independently:
    Options take one value by default, but this can be changed with
    built-in functions like [`pair`][pair] and [`triple`][triple], or manually with
    [`transformValues`][transformValues].
-3. **How to handle all calls to the option (i.e. if the option is not given, or is given more than once).**
-   By default, the option delegate value is the null if the option is
-   not given on the command line, but you can change this behavior with
-   functions like [`default`][default] and [`multiple`][multiple].
+3. **How to handle all calls to the option (i.e. if the option is not present, or is present more than once).**
+   By default, the option delegate value is the null if the option is not given on the command line,
+   and will use the value of the last occurrence if the option is given more than once. You can
+   change this behavior with functions like [`default`][default] and [`multiple`][multiple].
 
 Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
@@ -206,7 +206,7 @@ bar` would create a commit message with two lines: `foo` and `bar`. To
 get this behavior with Clikt, you can use [`multiple`][multiple]. This
 will cause the property delegate value to be a list, where each item in
 the list is the value of from one occurrence of the option. If the option
-is never given, the list will be empty (or you can specify a list to use).
+is never given, the list will be empty (or you can specify a default to use).
 
 ```kotlin tab="Example"
 class Commit : CliktCommand() {
@@ -230,7 +230,7 @@ For example:
 val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
 ```
 
-You can also supply a default value [`multiple`][multiple] or require at least one value be present
+You can also supply a default value to [`multiple`][multiple] or require at least one value be present
 on the command line. These are specified as arguments rather than with separate extension functions
 since they don't change the type of the delegate.
 
@@ -321,14 +321,15 @@ names.
 
 ```kotlin tab="Example"
 class Size : CliktCommand() {
-    val size by option().switch("--large" to "large", "--small" to "small").default("unknown")
+    val size by option().switch(
+        "--large" to "large", 
+        "--small" to "small"
+    ).default("unknown")
     override fun run() {
         echo("You picked size $size")
     }
 }
 ```
-
-And on the command line:
 
 ```text tab="Usage"
 $ ./size --small
@@ -410,10 +411,6 @@ Oranges(size=small)
 ```text tab="Usage 3"
 $ ./order --apples=10 --oranges=large
 Oranges(size=large)
-
-Usage: order [OPTIONS]
-
-Error: option --apples cannot be used with --oranges
 ```
 
 You can enforce that only one of the options is given with [`single`][single]:
@@ -617,7 +614,7 @@ function on a command directly, either in an `init` block, or on a command insta
 
 These definitions are equivalent:
 
-```kotlin
+```kotlin tab="Version 1"
 class Cli : NoOpCliktCommand() {
     init {
         versionOption("1.0")
@@ -626,26 +623,22 @@ class Cli : NoOpCliktCommand() {
 fun main(args: Array<String>) = Cli().main(args)
 ```
 
-and
-
-```kotlin
+```kotlin tab="Version 2"
 class Cli : NoOpCliktCommand()
 fun main(args: Array<String>) = Cli().versionOption("1.0").main(args)
 ```
 
-And they work like:
-
-```
+```text tab="Usage"
 $ ./cli --version
 cli version 1.0
 ```
 
 If you want to define your own option with a similar behavior, you can do so by calling
-[`eagerOption`][eagerOption]. The takes an `action` that is called when the option is encountered on
-the command line. To print a message and halt execution normally from the callback, you can throw a
-[`PrintMessage`][PrintMessage] exception, and [`CliktCommand.main`][CliktCommand.main] will take
-care of printing the message. If you want to exit normally without printing a message, you can throw
-[`Abort(error=false)`][Abort] instead.
+[`eagerOption`][eagerOption]. This function takes an `action` that is called when the option is
+encountered on the command line. To print a message and halt execution normally from the callback,
+you can throw a [`PrintMessage`][PrintMessage] exception, and
+[`CliktCommand.main`][CliktCommand.main] will take care of printing the message. If you want to exit
+normally without printing a message, you can throw [`Abort(error=false)`][Abort] instead.
 
 You can define your own version option like this:
 
@@ -662,9 +655,8 @@ class Cli : NoOpCliktCommand() {
 ## Deprecating Options
 
 You can communicate to users that an option is deprecated with
-[`option().deprecated()`][deprecated]. By
-default, this function will add a tag to the option's help message, and print a warning to stderr if
-the option is used.
+[`option().deprecated()`][deprecated]. By default, this function will add a tag to the option's help
+message, and print a warning to stderr if the option is used.
 
 You can customize or omit the warning message and help tags, or change the warning into an error.
 
@@ -896,7 +888,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [cooccurring]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/cooccurring.md
 [required]:                    api/clikt/com.github.ajalt.clikt.parameters.options/required.md
 [groupChoice]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/group-choice.md
-[groupChoice]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/group-switch.md
+[groupSwitch]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/group-switch.md
 [switch-options]:              #feature-switch-flags
 [co-occurring-option-groups]:  #co-occurring-option-groups
 [prompt]:                      api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md

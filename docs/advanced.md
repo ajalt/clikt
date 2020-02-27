@@ -52,8 +52,8 @@ alias.
 
 You also use this functionality to implement command prefixes:
 
-```kotlin
-class Tool : CliktCommand() {
+```kotlin tab="Example"
+class Tool : NoOpCliktCommand() {
     override fun aliases(): Map<String, List<String>> {
         val prefixCounts = mutableMapOf<String, Int>().withDefault { 0 }
         val prefixes = mutableMapOf<String, List<String>>()
@@ -67,8 +67,6 @@ class Tool : CliktCommand() {
         }
         return prefixes.filterKeys { prefixCounts.getValue(it) == 1 }
     }
-
-    override fun run() = Unit
 }
 
 class Foo: CliktCommand() {
@@ -86,9 +84,7 @@ class Bar: CliktCommand() {
 fun main(args: Array<String>) = Tool().subcommands(Foo(), Bar()).main(args)
 ```
 
-Which allows you to call the subcommands like this:
-
-```
+```text tab="Usage"
 $ ./tool ba
 Running Bar
 ```
@@ -142,9 +138,8 @@ object MyConsole : CliktConsole {
     override val lineSeparator: String get() = "\n"
 }
 
-class CustomCLI : CliktCommand() {
-    init { context { this.console = MyConsole } }
-    override fun run() {}
+class CustomCLI : NoOpCliktCommand() {
+    init { context { console = MyConsole } }
 }
 ```
 
@@ -211,7 +206,7 @@ line are skipped. You can pass a literal `#` by escaping it with `\#` or quoting
 [`CliktCommand.main`][main] calls `exitProcess` when invalid values are provided on the command
 line. In unit tests, you should instead call [`CliktCommand.parse`][parse], which throws exceptions
 with error details rather than printing the details and exiting the process. See the documentation
-on [exceptions][exceptions.md] for more information.
+on [exceptions](exceptions.md) for more information.
 
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.md
 [tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.md

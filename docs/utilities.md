@@ -7,20 +7,17 @@ commonly used in command line programs.
 ## Launching Editors
 
 If you need to ask users for multi-line input, or need to have the user edit a file, you can do so
-through [`TermUi.editText`][editText] and
-[`TermUi.editFile`][editFile]. These
-functions open the program defined in the `VISUAL` or `EDITOR` environment variables, or a sensible
-default if neither are defined. The functions return the edited text if the user saved their
-changes.
+through [`TermUi.editText`][editText] and [`TermUi.editFile`][editFile]. These functions open the
+program defined in the `VISUAL` or `EDITOR` environment variables, or a sensible default if neither
+are defined. The functions return the edited text if the user saved their changes.
 
-For example:
-
-```kotlin
+```kotlin tab="Example"
 fun getCommitMessage(): String? {
-    return TermUi.editText("\n" +
-            "\n# Enter your message. " +
-            "\n# Lines starting with # are ignored",
-            requireSave = true)
+    val message = """
+    # Enter your message.
+    # Lines starting with # are ignored
+    """.trimIndent()
+    return TermUi.editText(message, requireSave = true)
             ?.replace(Regex("#[^\n]*\n"), "")
 }
 ```
@@ -33,16 +30,14 @@ default, it accepts any input string, but you can also pass in a conversion func
 conversion raises a [`UsageError`][UsageError],
 the prompt will ask the user to enter a different value.
 
-```kotlin
+```kotlin tab="Example"
 val input = TermUi.prompt("Enter a number") {
     it.toIntOrNull() ?: throw UsageError("$it is not a valid integer")
 }
 TermUi.echo("Twice your number is ${input * 2}")
 ```
 
-Which will produce interactive sessions like this:
-
-```
+```text tab="Interactive Session"
 Enter a number: foo
 Error: foo is not a valid integer
 Enter a number: 11

@@ -9,15 +9,12 @@ import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 import java.io.File
+import java.nio.file.Files
 
 private fun pathType(fileOkay: Boolean, folderOkay: Boolean): String = when {
     fileOkay && !folderOkay -> "File"
     !fileOkay && folderOkay -> "Directory"
     else -> "Path"
-}
-
-private fun File.isSymlink(): Boolean {
-    return toPath().toRealPath().toFile() != absoluteFile
 }
 
 private fun convertToFile(
@@ -37,7 +34,7 @@ private fun convertToFile(
         if (!canBeDir && it.isDirectory) fail("$name \"$it\" is a directory.")
         if (mustBeWritable && !it.canWrite()) fail("$name \"$it\" is not writable.")
         if (mustBeReadable && !it.canRead()) fail("$name \"$it\" is not readable.")
-        if (!canBeSymlink && it.isSymlink()) fail("$name \"$it\" is a symlink.")
+        if (!canBeSymlink && Files.isSymbolicLink(it.toPath())) fail("$name \"$it\" is a symlink.")
     }
 }
 

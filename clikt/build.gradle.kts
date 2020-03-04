@@ -12,11 +12,6 @@ plugins {
 }
 
 
-repositories {
-    // For kotest snapshots
-    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
-}
-
 // True if intellij is running. When true, we create a single native target named "native" using the
 // current OS. Otherwise (when run with gradle), we create all native targets and have them depend
 // on the native module. If we don't do this, IntelliJ won't know what target the nativeMain source
@@ -55,7 +50,6 @@ kotlin {
         get("commonTest").dependencies {
             api(kotlin("test-common"))
             api(kotlin("test-annotations-common"))
-            api("io.kotest:kotest-assertions:4.0.0.31-SNAPSHOT")
         }
 
         get("jvmMain").dependencies {

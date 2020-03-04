@@ -13,13 +13,13 @@ import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.skipDueToKT33294
-import io.kotest.assertions.fail
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forall
 import io.kotest.matchers.shouldBe
 import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
+import kotlin.test.fail
 
 @Suppress("unused")
 class OptionGroupsTest {

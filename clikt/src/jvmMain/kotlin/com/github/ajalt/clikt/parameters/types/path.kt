@@ -19,10 +19,6 @@ private fun pathType(fileOkay: Boolean, folderOkay: Boolean): String = when {
     else -> "Path"
 }
 
-private fun Path.isSymlink(): Boolean {
-    return Files.isSymbolicLink(this) || toRealPath() != toAbsolutePath()
-}
-
 private fun convertToPath(
         path: String,
         mustExist: Boolean,
@@ -41,7 +37,7 @@ private fun convertToPath(
         if (!canBeFolder && Files.isDirectory(it)) fail("$name \"$it\" is a directory.")
         if (mustBeWritable && !Files.isWritable(it)) fail("$name \"$it\" is not writable.")
         if (mustBeReadable && !Files.isReadable(it)) fail("$name \"$it\" is not readable.")
-        if (!canBeSymlink && it.isSymlink()) fail("$name \"$it\" is a symlink.")
+        if (!canBeSymlink && Files.isSymbolicLink(it)) fail("$name \"$it\" is a symlink.")
     }
 }
 

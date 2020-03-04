@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.completion
 
-@Experimental
+@RequiresOptIn
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class ExperimentalCompletionCandidates

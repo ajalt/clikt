@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.longestName
 
 /**
  * An internal error that signals Clikt to abort.
@@ -55,7 +56,7 @@ class PrintCompletionMessage(message: String, val forceUnixLineEndings: Boolean)
  * @property option The option that caused this error. This may be set after the error is thrown.
  * @property argument The argument that caused this error. This may be set after the error is thrown.
  * @property statusCode The value to use as the exit code for the process. If you use
- *   [CliktCommand.main], it will pass this value to [exitProcess] after printing [message]. Defaults to 1.
+ *   [CliktCommand.main], it will pass this value to `exitProcess` after printing [message]. Defaults to 1.
  */
 open class UsageError private constructor(
         val text: String? = null,
@@ -84,7 +85,7 @@ open class UsageError private constructor(
 
     protected fun inferParamName(): String = when {
         paramName != null -> paramName!!
-        option != null -> option?.names?.maxBy { it.length } ?: ""
+        option != null -> option?.longestName() ?: ""
         argument != null -> argument!!.name
         else -> ""
     }
@@ -175,3 +176,11 @@ open class MutuallyExclusiveGroupException(
         return "option ${names.first()} cannot be used with ${names.drop(1).joinToString(" or ")}"
     }
 }
+
+/** A required configuration file was not found. */
+class FileNotFoundError(filename: String) : UsageError("$filename not found")
+
+/** A configuration file failed to parse correctly */
+class FileFormatError(filename: String, message: String, lineno: Int? = null) : UsageError(
+        "incorrect format in file $filename${lineno?.let { " line $it" } ?: ""}}: $message"
+)

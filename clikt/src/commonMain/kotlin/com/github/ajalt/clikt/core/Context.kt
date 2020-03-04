@@ -4,6 +4,9 @@ import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.CliktHelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.defaultCliktConsole
+import com.github.ajalt.clikt.sources.ChainedValueSource
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
+import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -32,6 +35,7 @@ import kotlin.reflect.KProperty
  * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
  *   files. If false, they will be treated as normal arguments.
  */
+@OptIn(ExperimentalValueSourceApi::class)
 class Context(
         val parent: Context?,
         val command: CliktCommand,
@@ -43,7 +47,9 @@ class Context(
         val helpFormatter: HelpFormatter,
         val tokenTransformer: Context.(String) -> String,
         val console: CliktConsole,
-        var expandArgumentFiles: Boolean
+        val expandArgumentFiles: Boolean,
+        val readEnvvarBeforeValueSource: Boolean,
+        val valueSource: ValueSource?
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -77,6 +83,18 @@ class Context(
             ctx = ctx.parent!!
         }
         return ctx
+    }
+
+    /** Return a list of command names, starting with the topmost command and ending with this Context's parent. */
+    fun parentNames(): List<String> {
+        return generateSequence(this.parent) { it.parent }
+                .map { it.command.commandName }
+                .toList().asReversed()
+    }
+
+    /** Return a list of command names, starting with the topmost command and ending with this Context's command. */
+    fun commandNameWithParents(): List<String> {
+        return parentNames() + command.commandName
     }
 
     /** Throw a [UsageError] with the given message */
@@ -127,6 +145,30 @@ class Context(
          * will be treated as normal arguments.
          */
         var expandArgumentFiles: Boolean = parent?.expandArgumentFiles ?: true
+        /**
+         * If `false`,the [valueSource] is searched before environment variables.
+         *
+         * By default, environment variables will be searched for option values before the [valueSource].
+         */
+        var readEnvvarBeforeValueSource: Boolean = parent?.readEnvvarBeforeValueSource ?: true
+        /**
+         * The source that will attempt to read values for options that aren't present on the command line.
+         *
+         * You can set multiple sources with [valueSources]
+         */
+        @ExperimentalValueSourceApi
+        var valueSource: ValueSource? = parent?.valueSource
+
+        /**
+         * Set multiple sources that will attempt to read values for options not present on the command line.
+         *
+         * Values are read from the first source, then if it doesn't return a value, later sources
+         * are read successively until one returns a value or all sources have been read.
+         */
+        @ExperimentalValueSourceApi
+        fun valueSources(vararg sources: ValueSource) {
+            valueSource = ChainedValueSource(sources.toList())
+        }
     }
 
     companion object {
@@ -136,7 +178,7 @@ class Context(
                 return Context(
                         parent, command, allowInterspersedArgs, autoEnvvarPrefix, printExtraMessages,
                         helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console,
-                        expandArgumentFiles
+                        expandArgumentFiles, readEnvvarBeforeValueSource, valueSource
                 )
             }
         }

@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
@@ -11,6 +10,7 @@ import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
@@ -92,10 +92,11 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  * @property transformValue Called in [finalize] to transform each value provided to each invocation.
  * @property transformEach Called in [finalize] to transform each invocation.
  * @property transformAll Called in [finalize] to transform all invocations into the final value.
- * @property transformValidator Called after all parameters have been [finalize]d to validate the output of [transformAll]
+ * @property transformValidator Called after all parameters have been [finalized][finalize] to validate the output of [transformAll]
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
+@OptIn(ExperimentalValueSourceApi::class)
 class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,
@@ -125,14 +126,20 @@ class OptionWithValues<AllT, EachT, ValueT>(
         get() = completionCandidatesWithDefault.value
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
-        val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
-        val inv = if (invocations.isNotEmpty() || env == null || readEnvvar(env) == null) {
-            when (valueSplit) {
-                null -> invocations
-                else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
+        val inv = when (val v = getFinalValue(context, invocations, envvar)) {
+            is FinalValue.Parsed -> {
+                when (valueSplit) {
+                    null -> invocations
+                    else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
+                }
             }
-        } else {
-            readEnvvar(env)?.split(envvarSplit.value)?.map { Invocation(env, listOf(it)) } ?: emptyList()
+            is FinalValue.Sourced -> {
+                if (v.values.any { it.values.size != nvalues }) throw IncorrectOptionValueCount(this, longestName()!!)
+                v.values.map { Invocation("", it.values) }
+            }
+            is FinalValue.Envvar -> {
+                v.value.split(envvarSplit.value).map { Invocation(v.key, listOf(it)) }
+            }
         }
 
         value = transformAll(OptionTransformContext(this, context), inv.map {

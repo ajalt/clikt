@@ -768,7 +768,7 @@ $ ./hello
 Hello Foo
 ```
 
-## Multiple Values from Environment Variables
+### Multiple Values from Environment Variables
 
 You might need to allow users to specify multiple values for an option in a single environment
 variable. You can do this by creating an option with
@@ -794,6 +794,51 @@ $ ./hello
 Hello Foo
 Hello Bar
 ```
+
+## Values from Configuration Files
+
+Clikt also supports reading option values from one or more configuration files (or other sources)
+when they aren't present on the command line. For example, when using `git commit`, you can set the
+author email with a command line parameter: `git commit --author='Clikt <clikt@example.com>`. But
+you can also set it in your git configuration file: `user.email=clikt@example.com`.
+
+Clikt allows you to specify one or more sources of option values that will be read from with the
+[`Context.valueSource`][Context.valueSource] builder.
+
+```kotlin tab="Example"
+class Hello : CliktCommand() {
+    init {
+        context { 
+            valueSource = PropertiesValueSource.from("myconfig.properties")
+        }
+    }
+    val name by option()
+    override fun run() {
+        echo("Hello $name")
+    }
+}
+```
+
+```text tab="Usage"
+$ echo "name=Foo" > myconfig.properties
+$ ./hello
+Hello Foo
+```
+
+You can also pass multiple sources to [`Context.valueSources`][Context.valueSources], and each
+source will be searched for the value in order.
+
+Clikt includes support for reading values [from a map][MapValueSource], and (on JVM) [from Java
+Properties files][PropertiesValueSource]. You can add any other file type by implementing
+[ValueSource][ValueSource]. See the [JSON sample][json sample] for an implementation that uses
+[kotlinx.serialization][serialization] to load values from JSON files.
+
+### Configuration Files and Environment Variables
+
+Every option can read values from both environment variables and configuration files. By default,
+Clikt will use the value from an environment variable before the value from a configuration file,
+but you can change this by setting [`Context.readEnvvarBeforeValueSource`][readEnvvarFirst] to
+`false`.
 
 ## Windows and Java-Style Option Prefixes
 
@@ -902,3 +947,11 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [context]:                     api/clikt/com.github.ajalt.clikt.core/context.md
 [file]:                        api/clikt/com.github.ajalt.clikt.parameters.types/file.md
 [float]:                       api/clikt/com.github.ajalt.clikt.parameters.types/float.md
+[Context.valueSource]:         api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-source.md
+[Context.valueSources]:        api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-sources.md
+[ValueSource]:                 api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md
+[json sample]:                 https://github.com/ajalt/clikt/tree/master/samples/json
+[serialization]:               https://github.com/Kotlin/kotlinx.serialization
+[readEnvvarFirst]:             api/clikt/com.github.ajalt.clikt.core/-context/-builder/read-envvar-before-value-source.md
+[PropertiesValueSource]:       api/clikt/com.github.ajalt.clikt.sources/-properties-value-source/index.md
+[MapValueSource]:              api/clikt/com.github.ajalt.clikt.sources/-map-value-source/index.md

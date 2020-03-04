@@ -83,9 +83,7 @@ abstract class CliktCommand(
 
     private fun getCommandNameWithParents(): String {
         if (_context == null) createContext()
-        return generateSequence(currentContext) { it.parent }.toList()
-                .asReversed()
-                .joinToString(" ") { it.command.commandName }
+        return currentContext.commandNameWithParents().joinToString(" ")
     }
 
     private fun generateCompletion() {
@@ -249,7 +247,7 @@ abstract class CliktCommand(
     /**
      * Parse the command line and print helpful output if any errors occur.
      *
-     * This function calls [parse] and catches and [CliktError]s that are thrown. Other error are allowed to
+     * This function calls [parse] and catches and [CliktError]s that are thrown. Other errors are allowed to
      * pass through.
      */
     fun main(argv: List<String>) {

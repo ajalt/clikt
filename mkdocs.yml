@@ -70,7 +70,7 @@ nav:
       - 'Eager Options': options/#eager-options
       - 'Deprecating Options': options/#deprecating-options
       - 'Values From Environment Variables': options/#values-from-environment-variables
-      - 'Multiple Values from Environment Variables': options/#multiple-values-from-environment-variables
+      - 'Values from Configuration Files': options/#values-from-configuration-files
       - 'Windows and Java-Style Option Prefixes': options/#windows-and-java-style-option-prefixes
       - 'Option Transformation Order': options/#option-transformation-order
   - 'Arguments':

@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -18,6 +19,7 @@ import kotlin.reflect.KProperty
  * @property transformAll Called to transform all invocations of this option into the final option type.
  */
 // `T` is deliberately not an out parameter.
+@OptIn(ExperimentalValueSourceApi::class)
 class FlagOption<T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,

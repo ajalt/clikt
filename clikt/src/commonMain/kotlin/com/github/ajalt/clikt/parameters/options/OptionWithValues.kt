@@ -10,6 +10,7 @@ import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
@@ -95,6 +96,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
+@OptIn(ExperimentalValueSourceApi::class)
 class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,

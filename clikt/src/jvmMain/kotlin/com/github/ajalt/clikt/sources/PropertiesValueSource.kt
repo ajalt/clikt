@@ -10,6 +10,7 @@ import java.util.*
 /**
  * A [ValueSource] that reads values from a [Properties] object.
  */
+@ExperimentalValueSourceApi
 object PropertiesValueSource {
     /**
      * Parse a properties [file] into a value source.

@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.float
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 
 class Subcommand : CliktCommand() {
     private val number by option(help = "an integer").float()
@@ -16,6 +17,7 @@ class Subcommand : CliktCommand() {
     }
 }
 
+@OptIn(ExperimentalValueSourceApi::class)
 class Cli : CliktCommand(help = "An example using json files for configuration values") {
     init {
         context {

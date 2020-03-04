@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.samples.json
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.FileFormatError
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import com.github.ajalt.clikt.sources.MapValueSource
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlinx.serialization.SerializationException
@@ -16,6 +17,7 @@ import java.io.File
 /**
  * A [ValueSource] that uses Kotlin serialization to parse JSON files
  */
+@OptIn(ExperimentalValueSourceApi::class)
 class JsonValueSource(
         private val root: JsonObject
 ) : ValueSource {

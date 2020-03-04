@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.output.CliktHelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.defaultCliktConsole
 import com.github.ajalt.clikt.sources.ChainedValueSource
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -34,6 +35,7 @@ import kotlin.reflect.KProperty
  * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
  *   files. If false, they will be treated as normal arguments.
  */
+@OptIn(ExperimentalValueSourceApi::class)
 class Context(
         val parent: Context?,
         val command: CliktCommand,
@@ -154,6 +156,7 @@ class Context(
          *
          * You can set multiple sources with [valueSources]
          */
+        @ExperimentalValueSourceApi
         var valueSource: ValueSource? = parent?.valueSource
 
         /**
@@ -162,6 +165,7 @@ class Context(
          * Values are read from the first source, then if it doesn't return a value, later sources
          * are read successively until one returns a value or all sources have been read.
          */
+        @ExperimentalValueSourceApi
         fun valueSources(vararg sources: ValueSource) {
             valueSource = ChainedValueSource(sources.toList())
         }

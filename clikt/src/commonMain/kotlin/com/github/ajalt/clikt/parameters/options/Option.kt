@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.mpp.isLetterOrDigit
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -134,6 +135,7 @@ internal fun <EachT, AllT> deprecationTransformer(
 
 internal fun Option.longestName(): String? = names.maxBy { it.length }
 
+@OptIn(ExperimentalValueSourceApi::class)
 internal sealed class FinalValue {
     data class Parsed(val values: List<OptionParser.Invocation>) : FinalValue()
     data class Sourced(val values: List<ValueSource.Invocation>) : FinalValue()
@@ -156,6 +158,7 @@ internal fun Option.getFinalValue(
     } ?: FinalValue.Parsed(emptyList())
 }
 
+@OptIn(ExperimentalValueSourceApi::class)
 private fun Option.readValueSource(context: Context): FinalValue? {
     return context.valueSource?.getValues(context, this)?.ifEmpty { null }
             ?.let { FinalValue.Sourced(it) }

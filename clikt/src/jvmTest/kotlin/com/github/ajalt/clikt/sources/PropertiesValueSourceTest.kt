@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
 
+@OptIn(ExperimentalValueSourceApi::class)
 class PropertiesValueSourceTest {
     @get:Rule
     var testFolder = TemporaryFolder()

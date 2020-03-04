@@ -40,7 +40,7 @@ kotlin {
 
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.Experimental")
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
         }
 
         get("commonMain").dependencies {

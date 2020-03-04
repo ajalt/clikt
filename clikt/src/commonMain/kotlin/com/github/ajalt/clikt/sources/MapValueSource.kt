@@ -12,6 +12,7 @@ import com.github.ajalt.clikt.parameters.options.*
  * @param values The map of key to value for each option
  * @param getKey A function that return the key in [values] for a given option. By default, it joins the
  */
+@ExperimentalValueSourceApi
 class MapValueSource(
         private val values: Map<String, String>,
         private val getKey: (Context, Option) -> String = defaultKey

@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.testing
 
 import com.github.ajalt.clikt.core.CliktCommand
-import io.kotest.assertions.fail
 import io.kotest.matchers.shouldBe
+import kotlin.test.fail
 
 open class TestCommand(
         private val called: Boolean = true,

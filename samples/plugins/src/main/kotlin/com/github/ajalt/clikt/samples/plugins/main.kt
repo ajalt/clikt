@@ -33,7 +33,7 @@ class Cli : CliktCommand(
         for ((k, v) in config) {
             repo.config[k] = v
         }
-        context.obj = repo
+        currentContext.obj = repo
     }
 }
 

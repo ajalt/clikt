@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - `registeredSubcommands`, `registeredOptions`, `registeredArguments`, and `registeredParameterGroups` methods on `CliktCommand`.
+- Ability to [read default option values](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md) from configuration files and other sources. Support for Java property files is built in on JVM, and other formats can be added easily.
 
 ### Changed
 - `convert` can be called more than once on the same option or argument, including after calls to conversion functions like `int` and `file`.

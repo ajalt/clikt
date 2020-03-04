@@ -3,8 +3,10 @@ package com.github.ajalt.clikt.parameters.options
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.mpp.isLetterOrDigit
+import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -107,7 +109,7 @@ internal fun splitOptionPrefix(name: String): Pair<String, String> =
         when {
             name.length < 2 || isLetterOrDigit(name[0]) -> "" to name
             name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
-            else -> name.slice(0..0) to name.substring(1)
+            else -> name.substring(0, 1) to name.substring(1)
         }
 
 internal fun <EachT, AllT> deprecationTransformer(
@@ -118,7 +120,7 @@ internal fun <EachT, AllT> deprecationTransformer(
     if (it.isNotEmpty()) {
         val msg = when (message) {
             null -> ""
-            "" -> "${if (error) "ERROR" else "WARNING"}: option ${option.names.maxBy { o -> o.length }} is deprecated"
+            "" -> "${if (error) "ERROR" else "WARNING"}: option ${option.longestName()} is deprecated"
             else -> message
         }
         if (error) {
@@ -131,3 +133,35 @@ internal fun <EachT, AllT> deprecationTransformer(
 }
 
 internal fun Option.longestName(): String? = names.maxBy { it.length }
+
+internal sealed class FinalValue {
+    data class Parsed(val values: List<OptionParser.Invocation>) : FinalValue()
+    data class Sourced(val values: List<ValueSource.Invocation>) : FinalValue()
+    data class Envvar(val key: String, val value: String) : FinalValue()
+}
+
+internal fun Option.getFinalValue(
+        context: Context,
+        invocations: List<OptionParser.Invocation>,
+        envvar: String?
+): FinalValue {
+    return when {
+        invocations.isNotEmpty() -> FinalValue.Parsed(invocations)
+        context.readEnvvarBeforeValueSource -> {
+            readEnvVar(context, envvar) ?: readValueSource(context)
+        }
+        else -> {
+            readValueSource(context) ?: readEnvVar(context, envvar)
+        }
+    } ?: FinalValue.Parsed(emptyList())
+}
+
+private fun Option.readValueSource(context: Context): FinalValue? {
+    return context.valueSource?.getValues(context, this)?.ifEmpty { null }
+            ?.let { FinalValue.Sourced(it) }
+}
+
+private fun Option.readEnvVar(context: Context, envvar: String?): FinalValue? {
+    val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix) ?: return null
+    return readEnvvar(env)?.let { FinalValue.Envvar(env, it) }
+}

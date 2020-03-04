@@ -14,7 +14,7 @@ import kotlin.reflect.KProperty
  * An [Option] that has no values.
  *
  * @property envvar The name of the environment variable for this option. Overrides automatic names.
- * @property transformEnvvar Called to transform string values from envvars into the option type.
+ * @property transformEnvvar Called to transform string values from envvars and value sources into the option type.
  * @property transformAll Called to transform all invocations of this option into the final option type.
  */
 // `T` is deliberately not an out parameter.
@@ -46,11 +46,16 @@ class FlagOption<T>(
     }
 
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
-        val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix)
-        value = if (invocations.isNotEmpty() || env == null || readEnvvar(env) == null) {
-            transformAll(OptionTransformContext(this, context), invocations.map { it.name })
-        } else {
-            transformEnvvar(OptionTransformContext(this, context), readEnvvar(env) ?: "")
+        val transformContext = OptionTransformContext(this, context)
+        value = when (val v = getFinalValue(context, invocations, envvar)) {
+            is FinalValue.Parsed -> transformAll(transformContext, invocations.map { it.name })
+            is FinalValue.Sourced -> {
+                if (v.values.size != 1 || v.values[0].values.size != 1) {
+                    throw UsageError("Invalid flag value in file for option ${longestName()}", this)
+                }
+                transformEnvvar(transformContext, v.values[0].values[0])
+            }
+            is FinalValue.Envvar -> transformEnvvar(transformContext, v.value)
         }
     }
 
@@ -134,8 +139,9 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },
-            transformAll = { it.map { choices.getValue(it) }.lastOrNull() },
-            validator = {})
+            transformAll = { names -> names.map { choices.getValue(it) }.lastOrNull() },
+            validator = {}
+    )
 }
 
 /**

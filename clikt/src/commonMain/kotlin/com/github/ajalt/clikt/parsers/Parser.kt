@@ -54,7 +54,7 @@ internal object Parser {
                         positionalArgs += tok.drop(1)
                         i += 1
                     } else {
-                        tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
+                        tokens = loadArgFile(normTok.drop(1)) + tokens.slice(i + 1..tokens.lastIndex)
                         i = 0
                         minAliasI = 0
                     }
@@ -227,12 +227,15 @@ internal object Parser {
         return out
     }
 
-    private fun loadArgFile(filename: String, context: Context): List<String> {
-        val text = readFileIfExists(filename) ?: throw BadParameterValue("'$filename' is not a file", "@-file", context)
+    private fun loadArgFile(filename: String): List<String> {
+        val text = readFileIfExists(filename) ?: throw FileNotFoundError(filename)
         val toks = mutableListOf<String>()
         var inQuote: Char? = null
         val sb = StringBuilder()
         var i = 0
+        fun err(msg: String): Nothing {
+            throw FileFormatError(filename, msg, text.take(i).count { it == '\n' })
+        }
         loop@ while (i < text.length) {
             val c = text[i]
             when {
@@ -240,11 +243,11 @@ internal object Parser {
                     i += 1
                 }
                 c == '\n' && inQuote != null -> {
-                    throw UsageError("unclosed quote in @-file")
+                    err("unclosed quote")
                 }
                 c == '\\' -> {
-                    if (i >= text.lastIndex) throw UsageError("@-file ends with \\")
-                    if (text[i + 1] in "\r\n") throw UsageError("unclosed quote in @-file")
+                    if (i >= text.lastIndex) err("file ends with \\")
+                    if (text[i + 1] in "\r\n") err("unclosed quote")
                     sb.append(text[i + 1])
                     i += 2
                 }

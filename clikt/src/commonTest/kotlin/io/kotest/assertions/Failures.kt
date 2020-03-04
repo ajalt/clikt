@@ -16,6 +16,7 @@ limitations under the License.
 
 package io.kotest.assertions
 
+@Suppress("UNUSED_PARAMETER")
 object Failures {
     fun failure(message: String): AssertionError = failure(message, null)
     fun failure(message: String, cause: Throwable?): AssertionError = AssertionError(message)

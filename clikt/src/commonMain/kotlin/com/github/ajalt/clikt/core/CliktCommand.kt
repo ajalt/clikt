@@ -61,7 +61,7 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
-    private fun createContext(parent: Context? = null) {
+    private fun createContext(parent: Context? = null, ancestors: List<CliktCommand> = emptyList()) {
         _context = Context.build(this, parent, _contextConfig)
 
         if (currentContext.helpOptionNames.isNotEmpty()) {
@@ -70,7 +70,9 @@ abstract class CliktCommand(
         }
 
         for (command in _subcommands) {
-            command.createContext(currentContext)
+            val a = (ancestors + parent?.command).filterNotNull()
+            check(command !in a) { "Command ${command.commandName} already registered" }
+            command.createContext(currentContext, a)
         }
     }
 

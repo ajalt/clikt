@@ -212,4 +212,16 @@ class CliktCommandTest {
         c.registeredArguments().map { it.name } shouldBe listOf("A")
         c.registeredParameterGroups() shouldBe listOf(g)
     }
+
+    @Test
+    @JsName("subcommand_cycle")
+    fun `subcommand cycle`() {
+        val root = TestCommand(called = false)
+        val a = TestCommand(called = false, name = "a")
+        val b = TestCommand(called = false)
+
+        shouldThrow<IllegalStateException> {
+            root.subcommands(a.subcommands(b.subcommands(a))).parse("a b a")
+        }.message shouldBe "Command a already registered"
+    }
 }

@@ -12,8 +12,18 @@ open class TestCommand(
         invokeWithoutSubcommand: Boolean = false,
         printHelpOnEmptyArgs: Boolean = false,
         helpTags: Map<String, String> = emptyMap(),
-        autoCompleteEnvvar: String? = ""
-) : CliktCommand(help, epilog, name, invokeWithoutSubcommand, printHelpOnEmptyArgs, helpTags, autoCompleteEnvvar) {
+        autoCompleteEnvvar: String? = "",
+        allowMultipleSubcommands: Boolean = false
+) : CliktCommand(
+        help,
+        epilog,
+        name,
+        invokeWithoutSubcommand,
+        printHelpOnEmptyArgs,
+        helpTags,
+        autoCompleteEnvvar,
+        allowMultipleSubcommands
+) {
     private var wasCalled = false
     final override fun run() {
         wasCalled shouldBe false
@@ -34,10 +44,8 @@ open class TestCommand(
                 if (cmd.called && !cmd.wasCalled) fail("${cmd.commandName} should have been called")
                 if (!cmd.called && cmd.wasCalled) fail("${cmd.commandName} should not be called")
             }
-            for (sub in cmd._subcommands) {
-                if (sub is TestCommand) {
-                    assertCalled(sub)
-                }
+            for (sub in cmd.registeredSubcommands()) {
+                assertCalled(sub)
             }
         }
     }

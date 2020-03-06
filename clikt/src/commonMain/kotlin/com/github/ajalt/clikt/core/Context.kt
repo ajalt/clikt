@@ -57,12 +57,7 @@ class Context(
 
     /** Find the closest object of type [T] */
     inline fun <reified T> findObject(): T? {
-        var ctx: Context? = this
-        while (ctx != null) {
-            if (ctx.obj is T) return ctx.obj as T
-            ctx = ctx.parent
-        }
-        return null
+        return ancestors().map { it.obj as? T }.firstOrNull()
     }
 
     @Suppress("unused")
@@ -87,7 +82,7 @@ class Context(
 
     /** Return a list of command names, starting with the topmost command and ending with this Context's parent. */
     fun parentNames(): List<String> {
-        return generateSequence(this.parent) { it.parent }
+        return ancestors().drop(1)
                 .map { it.command.commandName }
                 .toList().asReversed()
     }
@@ -99,6 +94,9 @@ class Context(
 
     /** Throw a [UsageError] with the given message */
     fun fail(message: String = ""): Nothing = throw UsageError(message)
+
+    @PublishedApi
+    internal fun ancestors() = generateSequence(this) { it.parent }
 
     class Builder(command: CliktCommand, parent: Context? = null) {
         /**
@@ -172,11 +170,13 @@ class Context(
     }
 
     companion object {
-        inline fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
+        fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
             with(Builder(command, parent)) {
                 block()
+                val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
+                        parent?.let { p -> p.ancestors().any { it.command.allowMultipleSubcommands } } != true
                 return Context(
-                        parent, command, allowInterspersedArgs, autoEnvvarPrefix, printExtraMessages,
+                        parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
                         helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console,
                         expandArgumentFiles, readEnvvarBeforeValueSource, valueSource
                 )

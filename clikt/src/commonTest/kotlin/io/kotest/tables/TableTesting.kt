@@ -100,12 +100,12 @@ private fun error(e: Throwable, headers: List<String>, values: List<*>): Asserti
         else -> e.toString()
     }
 
-    return Failures.failure("Test failed for $params with error $message")
+    return Failures.failure("Test failed for $values with error $message")
 }
 
 private fun forNoneError(headers: List<String>, values: List<*>): AssertionError {
     val params = headers.zip(values).joinToString(", ")
-    return Failures.failure("Test passed for $params but expected failure")
+    return Failures.failure("Test passed for $values but expected failure")
 }
 
 private class ErrorCollector {

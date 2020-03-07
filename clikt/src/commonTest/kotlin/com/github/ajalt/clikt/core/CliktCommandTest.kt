@@ -18,6 +18,7 @@ import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -236,12 +237,10 @@ class CliktCommandTest {
             row("foo a bar --opt=o b foo c bar d", 2, 2, "c", null, "d"),
             row("foo a bar b foo c bar --opt=o d", 2, 2, "c", "o", "d")
     ) { argv, fc, bc, fa, bo, ba ->
-        val foo = MultiSub1()
-        val bar = MultiSub2()
+        val foo = MultiSub1(count = fc)
+        val bar = MultiSub2(count = bc)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo, bar, TestCommand(called = false))
         c.parse(argv)
-        foo.count shouldBe fc
-        bar.count shouldBe bc
         if (fc > 0) foo.arg shouldBe fa
         bar.opt shouldBe bo
         if (bc > 0) bar.arg shouldBe ba
@@ -250,12 +249,10 @@ class CliktCommandTest {
     @Test
     @JsName("multiple_subcommands_with_nesting")
     fun `multiple subcommands with nesting`() {
-        val foo = MultiSub1()
-        val bar = MultiSub2()
+        val foo = MultiSub1(count = 2)
+        val bar = MultiSub2(count = 2)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo.subcommands(bar))
         c.parse("foo f1 bar --opt=1 b1 foo f2 bar b2")
-        foo.count shouldBe 2
-        bar.count shouldBe 2
         foo.arg shouldBe "f2"
         bar.opt shouldBe null
         bar.arg shouldBe "b2"
@@ -264,12 +261,10 @@ class CliktCommandTest {
     @Test
     @JsName("multiple_subcommands_nesting_the_same_name")
     fun `multiple subcommands nesting the same name`() {
-        val bar1 = MultiSub2()
-        val bar2 = MultiSub2()
+        val bar1 = MultiSub2(count = 2)
+        val bar2 = MultiSub2(count = 2)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(bar1.subcommands(bar2))
         c.parse("bar a11 bar a12 bar a12 bar --opt=o a22")
-        bar1.count shouldBe 2
-        bar2.count shouldBe 2
         bar1.arg shouldBe "a12"
         bar2.opt shouldBe "o"
         bar2.arg shouldBe "a22"
@@ -284,39 +279,35 @@ class CliktCommandTest {
             row("baz foo baz foo", 0, 1, "", listOf("foo", "baz", "foo")),
             row("foo f1 baz foo f2", 1, 1, "f1", listOf("foo", "f2"))
     ) { argv, fc, bc, fa, ba ->
-        val foo = MultiSub1()
-        val baz = MultiSubVararg()
+        class Baz : TestCommand(name = "baz", count = bc) {
+            val arg by argument().multiple()
+        }
+
+        val foo = MultiSub1(count = fc)
+        val baz = Baz()
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo, baz)
         c.parse(argv)
 
-        foo.count shouldBe fc
-        baz.count shouldBe bc
         if (fc > 0) foo.arg shouldBe fa
         baz.arg shouldBe ba
     }
-}
 
-private class MultiSub1 : CliktCommand(name = "foo") {
-    var count = 0
-    val arg by argument()
-    override fun run() {
-        count++
+    @Test
+    @JsName("multiple_subcommands_nesting_multiple_subcommands")
+    fun `multiple subcommands nesting multiple subcommands`() {
+        val c = TestCommand(allowMultipleSubcommands = true)
+                .subcommands(TestCommand(allowMultipleSubcommands = true))
+        shouldThrow<IllegalArgumentException> {
+            c.parse("")
+        }.message shouldContain "allowMultipleSubcommands"
     }
 }
 
-private class MultiSub2 : CliktCommand(name = "bar") {
-    var count = 0
+private class MultiSub1(count: Int) : TestCommand(name = "foo", count = count) {
+    val arg by argument()
+}
+
+private class MultiSub2(count: Int) : TestCommand(name = "bar", count = count) {
     val opt by option()
     val arg by argument()
-    override fun run() {
-        count++
-    }
-}
-
-private class MultiSubVararg : CliktCommand(name = "baz") {
-    var count = 0
-    val arg by argument().multiple()
-    override fun run() {
-        count++
-    }
 }

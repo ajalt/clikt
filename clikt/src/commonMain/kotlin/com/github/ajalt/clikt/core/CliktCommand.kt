@@ -69,6 +69,13 @@ abstract class CliktCommand(
     private fun createContext(parent: Context? = null, ancestors: List<CliktCommand> = emptyList()) {
         _context = Context.build(this, parent, _contextConfig)
 
+        if (allowMultipleSubcommands) {
+            require(currentContext.ancestors().drop(1).none { it.command.allowMultipleSubcommands }) {
+                "Commands with allowMultipleSubcommands=true cannot be nested in " +
+                        "commands that also have allowMultipleSubcommands=true"
+            }
+        }
+
         if (currentContext.helpOptionNames.isNotEmpty()) {
             val names = currentContext.helpOptionNames - registeredOptionNames()
             if (names.isNotEmpty()) _options += helpOption(names, currentContext.helpOptionMessage)

@@ -86,6 +86,7 @@ nav:
       - 'Customizing Contexts': commands/#customizing-contexts
       - 'Printing the Help Message When No Arguments Are Given': commands/#printing-the-help-message-when-no-arguments-are-given
       - 'Warnings and Other Messages': commands/#warnings-and-other-messages
+      - 'Chaining and Repeating Subcommands': commands/#chaining-and-repeating-subcommands
   - 'Documenting Scripts':
       - 'Help Texts': documenting/
       - 'Preformatting Paragraphs': documenting/#preformatting-paragraphs

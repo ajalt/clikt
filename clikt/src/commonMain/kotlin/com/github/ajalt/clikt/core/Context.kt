@@ -56,18 +56,18 @@ class Context(
     var obj: Any? = null
 
     /** Find the closest object of type [T] */
-    inline fun <reified T> findObject(): T? {
-        return ancestors().map { it.obj as? T }.firstOrNull()
+    inline fun <reified T: Any> findObject(): T? {
+        return ancestors().mapNotNull { it.obj as? T }.firstOrNull()
     }
 
     @Suppress("unused")
     @Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(defaultValue)"))
-    inline fun <reified T> findObject(defaultValue: () -> T): T {
+    inline fun <reified T: Any> findObject(defaultValue: () -> T): T {
         return findOrSetObject(defaultValue)
     }
 
     /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
-    inline fun <reified T> findOrSetObject(defaultValue: () -> T): T {
+    inline fun <reified T: Any> findOrSetObject(defaultValue: () -> T): T {
         return findObject<T>() ?: defaultValue().also { obj = it }
     }
 
@@ -104,12 +104,14 @@ class Context(
          * remaining tokens are parsed as arguments.
          */
         var allowInterspersedArgs: Boolean = parent?.allowInterspersedArgs ?: true
+
         /**
          * Set this to false to prevent extra messages from being printed automatically.
          *
          * You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
          */
         var printExtraMessages: Boolean = parent?.printExtraMessages ?: true
+
         /**
          * The names to use for the help option.
          *
@@ -117,12 +119,16 @@ class Context(
          * help option. If the set is empty, or contains no unique names, no help option will be added.
          */
         var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
+
         /** The description of the help option.*/
         var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
+
         /** The help formatter for this command*/
         var helpFormatter: HelpFormatter = parent?.helpFormatter ?: CliktHelpFormatter()
+
         /** An optional transformation function that is called to transform command line */
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
+
         /**
          * The prefix to add to inferred envvar names.
          *
@@ -132,23 +138,27 @@ class Context(
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
             it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
         }
+
         /**
          * The console that will handle reading and writing text.
          *
          * The default uses stdin and stdout.
          */
         var console: CliktConsole = parent?.console ?: defaultCliktConsole()
+
         /**
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
         var expandArgumentFiles: Boolean = parent?.expandArgumentFiles ?: true
+
         /**
          * If `false`,the [valueSource] is searched before environment variables.
          *
          * By default, environment variables will be searched for option values before the [valueSource].
          */
         var readEnvvarBeforeValueSource: Boolean = parent?.readEnvvarBeforeValueSource ?: true
+
         /**
          * The source that will attempt to read values for options that aren't present on the command line.
          *

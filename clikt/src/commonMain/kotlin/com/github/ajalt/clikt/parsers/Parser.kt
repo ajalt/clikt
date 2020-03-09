@@ -11,10 +11,10 @@ import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
 internal object Parser {
     fun parse(argv: List<String>, context: Context) {
-        parse(argv, context, 0)
+        parse(argv, context, 0, true)
     }
 
-    private tailrec fun parse(argv: List<String>, context: Context, startingArgI: Int) {
+    private fun parse(argv: List<String>, context: Context, startingArgI: Int, canRun: Boolean): Pair<List<String>, Int> {
         var tokens = argv
         val command = context.command
         val aliases = command.aliases()
@@ -23,6 +23,7 @@ internal object Parser {
         val arguments = command._arguments
         val prefixes = mutableSetOf<String>()
         val longNames = mutableSetOf<String>()
+        val hasMultipleSubAncestor = generateSequence(context.parent) { it.parent }.any { it.command.allowMultipleSubcommands }
 
         for (option in command._options) {
             for (name in option.names + option.secondaryNames) {
@@ -117,7 +118,17 @@ internal object Parser {
             // Finalize groups with no invocations
             command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
 
-            parseArguments(positionalArgs, arguments).forEach { (it, v) -> it.finalize(context, v) }
+            val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
+            parsedArgs.forEach { (it, v) -> it.finalize(context, v) }
+
+            if (excess > 0) {
+                if (hasMultipleSubAncestor) {
+                    i = tokens.size - excess
+                } else {
+                    val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
+                    throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} $actual")
+                }
+            }
 
             // Now that all parameters have been finalized, we can validate everything
             command._options.forEach { o -> if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context) }
@@ -136,7 +147,8 @@ internal object Parser {
                     console.print(console.lineSeparator, error = true)
                 }
             }
-            command.run()
+
+            if (canRun) command.run()
         } catch (e: UsageError) {
             // Augment usage errors with the current context if they don't have one
             if (e.context == null) e.context = context
@@ -144,8 +156,14 @@ internal object Parser {
         }
 
         if (subcommand != null) {
-            parse(tokens, subcommand.currentContext, i + 1)
+            val (nextTokens, nextArgI) = parse(tokens, subcommand.currentContext, i + 1, true)
+            if (command.allowMultipleSubcommands && nextTokens.size - nextArgI > 0) {
+                parse(nextTokens, context, nextArgI, false)
+            }
+            return nextTokens to nextArgI
         }
+
+        return tokens to i
     }
 
     private fun parseLongOpt(
@@ -193,7 +211,7 @@ internal object Parser {
     private fun parseArguments(
             positionalArgs: List<String>,
             arguments: List<Argument>
-    ): Map<Argument, List<String>> {
+    ): Pair<Int, MutableMap<Argument, List<String>>> {
         val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
@@ -219,12 +237,7 @@ internal object Parser {
         }
 
         val excess = positionalArgs.size - i
-        if (excess > 0) {
-            throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} " +
-                    positionalArgs.slice(i..positionalArgs.lastIndex)
-                            .joinToString(" ", limit = 3, prefix = "(", postfix = ")"))
-        }
-        return out
+        return excess to out
     }
 
     private fun loadArgFile(filename: String): List<String> {

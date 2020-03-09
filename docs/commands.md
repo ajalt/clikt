@@ -340,6 +340,63 @@ $ ./cli --opt=''
 command run
 ```
 
+## Chaining and Repeating Subcommands
+
+Some command line interfaces allow you to call more than one subcommand at a time. For example, you
+might do something like `gradle clean build publish` to run the `clean` task, then the `build` task,
+then the `publish` task, which are all subcommands of `gradle`.
+
+To do this with Clikt, pass `allowMultipleSubcommands = true` to your [CliktCommand][CliktCommand]
+constructor.
+
+```kotlin tab="Example"
+class Compiler: CliktCommand(allowMultipleSubcommands = true) {
+    override fun run() {
+        echo("Running compiler")
+    }
+}
+
+class Clean: CliktCommand() {
+    val force by option().flag()
+    override fun run() {
+        echo("Cleaning (force=$force)")
+    }
+}
+
+class Build: CliktCommand() {
+    val file by argument().file()
+    override fun run() {
+        echo("Building $file")
+    }
+}
+
+fun main(args: Array<String>) = Compiler().subcommands(Clean(), Build()).main(args)
+```
+
+```text tab="Usage"
+$ ./compiler clean --force build main.kt
+Running compiler
+Cleaning (force=true)
+Building main.kt
+```
+
+The parent command will [`run`][run] once, and each subcommand will `run` once each time they're called.
+
+### Parsing multiple subcommands
+
+Note that enabling `allowMultipleSubcommands` will disable [`allowInterspersedArgs`][interspersed]
+on the command and all its subcommands. If both were allowed to be enabled at the same time, then
+not all command lines could be parsed unambiguously.
+
+When parsing in this mode, tokens are consumed greedily by a subcommand until it encounters an
+argument token it doesn't support, at which point the parent command resumes parsing where the
+subcommand left off. This means that if you have a subcommand with an
+[`argument().multiple()`][argument.multiple] parameter, you won't be able to call any other
+subcommands after that one, since it will consume the rest of the command line.
+
+Subcommands of a command with `allowMultipleSubcommands=true` can themselves have subcommands, but
+cannot have `allowMultipleSubcommands=true`.
+
 
 [subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.md
 [run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.md
@@ -353,3 +410,5 @@ command run
 [deprecating-options]:           options.md#deprecating-options
 [issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.md
 [customizing-context]:           #customizing-contexts
+[interspersed]:                  api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.md
+[argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md

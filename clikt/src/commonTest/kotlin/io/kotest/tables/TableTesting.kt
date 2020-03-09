@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
+@file:Suppress("UNUSED_PARAMETER")
+
 package io.kotest.tables
 
 import io.kotest.assertions.Failures
@@ -92,7 +94,6 @@ fun <A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U> table(header
 fun <A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V> table(headers: Headers22, vararg rows: Row22<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V>) = Table22(headers, rows.asList())
 
 private fun error(e: Throwable, headers: List<String>, values: List<*>): AssertionError {
-    val params = headers.zip(values).joinToString(", ")
     // Include class name for non-assertion errors, since the class is often meaningful and there might not
     // be a message (e.g. NullPointerException)
     val message = when (e) {
@@ -100,12 +101,11 @@ private fun error(e: Throwable, headers: List<String>, values: List<*>): Asserti
         else -> e.toString()
     }
 
-    return Failures.failure("Test failed for $params with error $message")
+    return Failures.failure("Test failed for $values with error $message")
 }
 
 private fun forNoneError(headers: List<String>, values: List<*>): AssertionError {
-    val params = headers.zip(values).joinToString(", ")
-    return Failures.failure("Test passed for $params but expected failure")
+    return Failures.failure("Test passed for $values but expected failure")
 }
 
 private class ErrorCollector {

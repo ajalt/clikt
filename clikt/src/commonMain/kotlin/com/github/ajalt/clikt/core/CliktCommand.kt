@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.completion.CompletionGenerator
+import com.github.ajalt.clikt.completion.ExperimentalCompletionCandidates
 import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.mpp.mppClassSimpleName
 import com.github.ajalt.clikt.mpp.readEnvvar
@@ -36,6 +37,9 @@ import com.github.ajalt.clikt.parsers.Parser
  * @param helpTags Extra information about this option to pass to the help formatter.
  * @param autoCompleteEnvvar The envvar to use to enable shell autocomplete script generation. Set
  *   to null to disable generation.
+ * @param allowMultipleSubcommands If true, allow multiple of this command's subcommands to be
+ *   called sequentially. This will disable `allowInterspersedArgs` on the context of this command an
+ *   its descendants. This functionality is experimental, and may change in a future release.
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
@@ -46,7 +50,8 @@ abstract class CliktCommand(
         val invokeWithoutSubcommand: Boolean = false,
         val printHelpOnEmptyArgs: Boolean = false,
         val helpTags: Map<String, String> = emptyMap(),
-        private val autoCompleteEnvvar: String? = ""
+        private val autoCompleteEnvvar: String? = "",
+        internal val allowMultipleSubcommands: Boolean = false
 ) : ParameterHolder {
     val commandName = name ?: mppClassSimpleName()
     val commandHelp = help
@@ -63,6 +68,13 @@ abstract class CliktCommand(
 
     private fun createContext(parent: Context? = null, ancestors: List<CliktCommand> = emptyList()) {
         _context = Context.build(this, parent, _contextConfig)
+
+        if (allowMultipleSubcommands) {
+            require(currentContext.ancestors().drop(1).none { it.command.allowMultipleSubcommands }) {
+                "Commands with allowMultipleSubcommands=true cannot be nested in " +
+                        "commands that also have allowMultipleSubcommands=true"
+            }
+        }
 
         if (currentContext.helpOptionNames.isNotEmpty()) {
             val names = currentContext.helpOptionNames - registeredOptionNames()

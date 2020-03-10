@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.mpp
 
-
 private external val process: dynamic
 private external fun require(mod: String): dynamic
 
@@ -25,5 +24,3 @@ internal actual fun readFileIfExists(filename: String): String? {
         null
     }
 }
-
-internal actual fun Any.mppClassSimpleName(): String = this::class.simpleName.orEmpty().split("$").last().toLowerCase()

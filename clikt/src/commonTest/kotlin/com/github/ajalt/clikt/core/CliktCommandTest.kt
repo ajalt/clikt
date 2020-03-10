@@ -138,11 +138,14 @@ class CliktCommandTest {
             val foo by option()
         }
 
-        Cmd().toString() shouldBe "<CliktCommand name=cmd options=[--option --int] arguments=[ARG]>"
-        Cmd().apply { parse("--int=123 bar") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=null --int=123 --help] arguments=[ARG=bar]>"
-        Cmd().apply { parse("foo") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=null --int=null --help] arguments=[ARG=foo]>"
+        Cmd().toString() shouldBe "<Cmd name=cmd options=[--option --int] arguments=[ARG]>"
+        Cmd().apply { parse("--int=123 bar") }.toString() shouldBe "<Cmd name=cmd options=[--option=null --int=123 --help] arguments=[ARG=bar]>"
+        Cmd().apply { parse("foo") }.toString() shouldBe "<Cmd name=cmd options=[--option=null --int=null --help] arguments=[ARG=foo]>"
 
-        Cmd().subcommands(Sub()).apply { parse("-ooo bar sub --foo=baz") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=oo --int=null --help] arguments=[ARG=bar] subcommands=[<CliktCommand name=sub options=[--foo=baz --help]>]>"
+        Cmd().subcommands(Sub()).apply { parse("-ooo bar sub --foo=baz") }.toString().shouldBe(
+                "<Cmd name=cmd options=[--option=oo --int=null --help] arguments=[ARG=bar] " +
+                        "subcommands=[<Sub name=sub options=[--foo=baz --help]>]>"
+        )
     }
 
     @Test
@@ -166,8 +169,8 @@ class CliktCommandTest {
             )
         }
 
-        Cmd().toString() shouldBe "<CliktCommand name=cmd options=[--option --foo --bar --e1 --e2]>"
-        Cmd().apply { parse("-oo --foo=f --e1=1") }.toString() shouldBe "<CliktCommand name=cmd options=[--option=o --foo=f --bar=null --e1=1 --e2=null --help]>"
+        Cmd().toString() shouldBe "<Cmd name=cmd options=[--option --foo --bar --e1 --e2]>"
+        Cmd().apply { parse("-oo --foo=f --e1=1") }.toString() shouldBe "<Cmd name=cmd options=[--option=o --foo=f --bar=null --e1=1 --e2=null --help]>"
     }
 
     // https://github.com/ajalt/clikt/issues/64

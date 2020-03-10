@@ -4,12 +4,13 @@
 ### Added
 - `registeredSubcommands`, `registeredOptions`, `registeredArguments`, and `registeredParameterGroups` methods on `CliktCommand`.
 - Ability to [read default option values](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md) from configuration files and other sources. Support for Java property files is built in on JVM, and other formats can be added easily.
-- Update Kotlin to 1.3.70
 - `allowMultipleSubcommands` parameter to `CliktCommand` that allows you to pass multiple subcommands in the same call. ([docs](docs/commands.md#chaining-and-repeating-subcommands))
 
 ### Changed
+- Update Kotlin to 1.3.70
 - `convert` can be called more than once on the same option or argument, including after calls to conversion functions like `int` and `file`.
 - `wrapValue` is now deprecated, since `convert` can be used in its place instead.
+- `CliktCommand.toString` now includes the class name
 
 ## [2.5.0] - 2020-02-22
 

@@ -41,5 +41,3 @@ internal actual fun readFileIfExists(filename: String): String? {
     }
     return chunks.toString()
 }
-
-internal actual fun Any.mppClassSimpleName(): String = this::class.simpleName.orEmpty().split("$").last().toLowerCase()

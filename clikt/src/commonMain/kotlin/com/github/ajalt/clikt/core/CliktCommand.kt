@@ -1,9 +1,7 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.completion.CompletionGenerator
-import com.github.ajalt.clikt.completion.ExperimentalCompletionCandidates
 import com.github.ajalt.clikt.mpp.exitProcessMpp
-import com.github.ajalt.clikt.mpp.mppClassSimpleName
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
@@ -53,7 +51,7 @@ abstract class CliktCommand(
         private val autoCompleteEnvvar: String? = "",
         internal val allowMultipleSubcommands: Boolean = false
 ) : ParameterHolder {
-    val commandName = name ?: mppClassSimpleName()
+    val commandName = name ?: classSimpleName().toLowerCase()
     val commandHelp = help
     val commandHelpEpilog = epilog
     internal var _subcommands: List<CliktCommand> = emptyList()
@@ -303,7 +301,11 @@ abstract class CliktCommand(
     abstract fun run()
 
     override fun toString() = buildString {
-        append("<CliktCommand name=$commandName ")
+        append("<${this@CliktCommand.classSimpleName()} name=$commandName")
+
+        if (_options.isNotEmpty() || _arguments.isNotEmpty() || _subcommands.isNotEmpty()) {
+            append(" ")
+        }
 
         if (_options.isNotEmpty()) {
             append("options=[")
@@ -339,9 +341,7 @@ abstract class CliktCommand(
         }
 
         if (_subcommands.isNotEmpty()) {
-            append(" subcommands=[")
-            _subcommands.joinTo(this, " ")
-            append("]")
+            _subcommands.joinTo(this, " ", prefix=" subcommands=[", postfix="]")
         }
 
         append(">")
@@ -367,3 +367,5 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
     _contextConfig = block
 }
+
+private fun Any.classSimpleName(): String = this::class.simpleName.orEmpty().split("$").last()

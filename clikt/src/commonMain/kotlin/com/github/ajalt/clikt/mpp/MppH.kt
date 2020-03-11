@@ -13,5 +13,3 @@ internal expect fun exitProcessMpp(status: Int): Nothing
 internal expect fun isLetterOrDigit(c: Char): Boolean
 
 internal expect fun readFileIfExists(filename: String): String?
-
-internal expect fun Any.mppClassSimpleName(): String

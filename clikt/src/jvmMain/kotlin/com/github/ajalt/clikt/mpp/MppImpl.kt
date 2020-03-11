@@ -28,5 +28,3 @@ internal actual fun readFileIfExists(filename: String): String? {
 }
 
 internal actual fun readEnvvar(key: String): String? = System.getenv(key)
-
-internal actual fun Any.mppClassSimpleName(): String = javaClass.simpleName.orEmpty().split("$").last().toLowerCase()

@@ -124,6 +124,9 @@ internal object Parser {
             if (excess > 0) {
                 if (hasMultipleSubAncestor) {
                     i = tokens.size - excess
+                } else if (excess == 1 && subcommands.isNotEmpty()) {
+                    val actual = positionalArgs.last()
+                    throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
                 } else {
                     val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
                     throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} $actual")
@@ -180,8 +183,10 @@ internal object Parser {
             tok to null
         }
         name = context.tokenTransformer(context, name)
-        val option = optionsByName[name] ?: throw NoSuchOption(name,
-                possibilities = optionsByName.keys.filter { it.startsWith(name) })
+        val option = optionsByName[name] ?: throw NoSuchOption(
+                givenName = name,
+                possibilities = context.correctionSuggestor(name, optionsByName.keys.toList())
+        )
         val result = option.parser.parseLongOpt(option, name, tokens, index, value)
         return option to result
     }
@@ -241,13 +246,13 @@ internal object Parser {
     }
 
     private fun loadArgFile(filename: String): List<String> {
-        val text = readFileIfExists(filename) ?: throw FileNotFoundError(filename)
+        val text = readFileIfExists(filename) ?: throw FileNotFound(filename)
         val toks = mutableListOf<String>()
         var inQuote: Char? = null
         val sb = StringBuilder()
         var i = 0
         fun err(msg: String): Nothing {
-            throw FileFormatError(filename, msg, text.take(i).count { it == '\n' })
+            throw InvalidFileFormat(filename, msg, text.take(i).count { it == '\n' })
         }
         loop@ while (i < text.length) {
             val c = text[i]

@@ -1,10 +1,9 @@
 package com.github.ajalt.clikt.samples.json
 
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.FileFormatError
+import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
-import com.github.ajalt.clikt.sources.MapValueSource
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.UnstableDefault
@@ -42,9 +41,9 @@ class JsonValueSource(
 
             val json = try {
                 Json.plain.parseJson(file.readText()) as? JsonObject
-                        ?: throw FileFormatError(file.path, "object expected", 1)
+                        ?: throw InvalidFileFormat(file.path, "object expected", 1)
             } catch (e: SerializationException) {
-                if (requireValid) throw FileFormatError(file.name, e.message ?: "could not read file")
+                if (requireValid) throw InvalidFileFormat(file.name, e.message ?: "could not read file")
                 JsonObject(emptyMap())
             }
             return JsonValueSource(json)

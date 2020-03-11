@@ -34,7 +34,13 @@ class OptionTest {
 
     @Test
     @JsName("no_such_option")
-    fun `no such option`() {
+    fun `no such option`() = forall(
+            row("--qux", "no such option: \"--qux\"."),
+            row("--fo", "no such option: \"--fo\". Did you mean \"--foo\"?"),
+            row("--fop", "no such option: \"--fop\". Did you mean \"--foo\"?"),
+            row("--car", "no such option: \"--car\". Did you mean \"--bar\"?"),
+            row("--ba", "no such option: \"--ba\". (Possible options: --bar, --baz)")
+    ) { argv, message ->
         class C : TestCommand(called = false) {
             val foo by option()
             val bar by option()
@@ -42,16 +48,8 @@ class OptionTest {
         }
 
         shouldThrow<NoSuchOption> {
-            C().parse("--qux")
-        }.message shouldBe "no such option: \"--qux\"."
-
-        shouldThrow<NoSuchOption> {
-            C().parse("--fo")
-        }.message shouldBe "no such option: \"--fo\". Did you mean \"--foo\"?"
-
-        shouldThrow<NoSuchOption> {
-            C().parse("--ba")
-        }.message shouldBe "no such option: \"--ba\". (Possible options: --bar, --baz)"
+            C().parse(argv)
+        }.message shouldBe message
     }
 
     @Test

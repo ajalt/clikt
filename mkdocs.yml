@@ -95,6 +95,7 @@ nav:
       - 'Default Values in Help': documenting/#default-values-in-help
       - 'Required Options in Help': documenting/#required-options-in-help
       - 'Grouping Options in Help': documenting/#grouping-options-in-help
+      - 'Suggesting Corrections for Mistyped Parameters': documenting/#suggesting-corrections-for-mistyped-parameters
   - 'Advanced Patterns':
       - 'Command Aliases': advanced/
       - 'Token Normalization': advanced/#token-normalization

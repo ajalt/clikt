@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
+import com.github.ajalt.clikt.core.NoSuchSubcommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
@@ -253,5 +254,20 @@ class SubcommandTest {
             |
             |Error: Missing argument "ARG".
             """.trimMargin()
+    }
+
+    @Test
+    fun noSuchSubcommand() = forall(
+            row("qux", "no such subcommand: \"qux\"."),
+            row("fo", "no such subcommand: \"fo\". Did you mean \"foo\"?"),
+            row("fop", "no such subcommand: \"fop\". Did you mean \"foo\"?"),
+            row("bart", "no such subcommand: \"bart\". Did you mean \"bar\"?"),
+            row("ba", "no such subcommand: \"ba\". (Possible subcommands: bar, baz)")
+    ) { argv, message ->
+        shouldThrow<NoSuchSubcommand> {
+            TestCommand()
+                    .subcommands(TestCommand(name = "foo"), TestCommand(name = "bar"), TestCommand(name = "baz"))
+                    .parse(argv)
+        }.message shouldBe message
     }
 }

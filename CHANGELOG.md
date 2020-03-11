@@ -5,6 +5,7 @@
 - `registeredSubcommands`, `registeredOptions`, `registeredArguments`, and `registeredParameterGroups` methods on `CliktCommand`.
 - Ability to [read default option values](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md) from configuration files and other sources. Support for Java property files is built in on JVM, and other formats can be added easily.
 - `allowMultipleSubcommands` parameter to `CliktCommand` that allows you to pass multiple subcommands in the same call. ([docs](docs/commands.md#chaining-and-repeating-subcommands))
+- Errors from typos in subcommand names will now include suggested corrections. Corrections for options and subcommands are now based on a Jaro-Winkler similarity metric. 
 
 ### Changed
 - Update Kotlin to 1.3.70
@@ -13,7 +14,6 @@
 - `CliktCommand.toString` now includes the class name
 
 ## [2.5.0] - 2020-02-22
-
 ### Added
 - Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.
 - `eagerOption {}` function to more easily register eager options.

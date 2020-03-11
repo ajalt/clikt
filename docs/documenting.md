@@ -177,9 +177,8 @@ Options:
 
 ## Required Options in Help
 
-By default, [`required`][required] options
-are displayed the same way as other options. The help formatter includes two different ways to show
-that an option is required.
+By default, [`required`][required] options are displayed the same way as other options. The help
+formatter includes two different ways to show that an option is required.
 
 ### Required Option Marker
 
@@ -233,10 +232,9 @@ Options:
 
 ## Grouping Options in Help
 
-You can group options into separate help sections by using
-[OptionGroup][OptionGroup].
-The name of the group will be shown in the output. You can also add an extra help message to be
-shown with the group. Groups can't be nested.
+You can group options into separate help sections by using [OptionGroup][OptionGroup]. The name of
+the group will be shown in the output. You can also add an extra help message to be shown with the
+group. Groups can't be nested.
 
 ```kotlin tab="Example"
 class UserOptions : OptionGroup(
@@ -265,6 +263,39 @@ User Options:
 
 Options:
   -h, --help  Show this message and exit
+```
+
+## Suggesting Corrections for Mistyped Parameters
+
+When an option or subcommand is mistyped, Clikt will suggest corrections that are similar to the typed value.
+
+```text tab="Mistyped Option"
+$ ./cli --sise=5
+Error: no such option: "--sise". Did you mean "--size"?
+```
+
+```text tab="Mistyped Subcommand"
+$ ./cli building
+Usage: cli [OPTIONS] COMMAND [ARGS]...
+
+Error: no such subcommand: "building". Did you mean "build"?
+```
+
+By default, Clikt will suggest corrections of any similar option or subcommand name based on a
+similarity metric. You can customize the suggestions by setting a `correctionSuggestor` on your
+command's context.
+
+```kotlin
+class Cli : NoOpCliktCommand() {
+    init {
+        context { 
+            // Only suggest corrections that start with the entered value
+            correctionSuggestor = { enteredValue, possibleValues ->     
+                possibleValues.filter { it.startsWith(enteredValue) }
+            }
+        }
+    }
+}
 ```
 
 [HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md

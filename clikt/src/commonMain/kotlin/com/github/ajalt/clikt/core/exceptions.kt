@@ -123,21 +123,37 @@ open class MissingParameter : UsageError {
     }
 }
 
-/** An option was provided that does not exist. */
-open class NoSuchOption(
+/** A parameter was provided that does not exist. */
+open class NoSuchParameter(
+        protected val parameterType: String,
         protected val givenName: String,
         protected val possibilities: List<String> = emptyList(),
         context: Context? = null
 ) : UsageError("", context = context) {
     override fun formatMessage(): String {
-        return "no such option: \"$givenName\"." + when {
+        return "no such ${parameterType}: \"$givenName\"." + when {
             possibilities.size == 1 -> " Did you mean \"${possibilities[0]}\"?"
             possibilities.size > 1 -> possibilities.joinToString(
-                    prefix = " (Possible options: ", postfix = ")")
+                    prefix = " (Possible ${parameterType}s: ", postfix = ")")
             else -> ""
         }
     }
 }
+
+/** A subcommand was provided that does not exist. */
+open class NoSuchSubcommand(
+        givenName: String,
+        possibilities: List<String> = emptyList(),
+        context: Context? = null
+) : NoSuchParameter("subcommand", givenName, possibilities, context)
+
+
+/** An option was provided that does not exist. */
+open class NoSuchOption(
+        givenName: String,
+        possibilities: List<String> = emptyList(),
+        context: Context? = null
+) : NoSuchParameter("option", givenName, possibilities, context)
 
 /** An option was supplied but the number of values supplied to the option was incorrect. */
 open class IncorrectOptionValueCount(
@@ -178,9 +194,9 @@ open class MutuallyExclusiveGroupException(
 }
 
 /** A required configuration file was not found. */
-class FileNotFoundError(filename: String) : UsageError("$filename not found")
+class FileNotFound(filename: String) : UsageError("$filename not found")
 
 /** A configuration file failed to parse correctly */
-class FileFormatError(filename: String, message: String, lineno: Int? = null) : UsageError(
+class InvalidFileFormat(filename: String, message: String, lineno: Int? = null) : UsageError(
         "incorrect format in file $filename${lineno?.let { " line $it" } ?: ""}}: $message"
 )

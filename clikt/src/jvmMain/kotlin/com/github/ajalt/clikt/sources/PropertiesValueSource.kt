@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.sources
 
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.FileFormatError
+import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.sources.MapValueSource.Companion.defaultKey
 import java.io.File
@@ -18,7 +18,7 @@ object PropertiesValueSource {
      * If the [file] does not exist, an empty value source will be returned.
      *
      * @param file The file to read from.
-     * @param requireValid If true, a [FileFormatError] will be thrown if the file doesn't parse correctly.
+     * @param requireValid If true, a [InvalidFileFormat] will be thrown if the file doesn't parse correctly.
      * @param getKey A function that will return the property key for a given option.
      */
     fun from(
@@ -31,7 +31,7 @@ object PropertiesValueSource {
             try {
                 file.bufferedReader().use { properties.load(it) }
             } catch (e: Throwable) {
-                if (requireValid) throw FileFormatError(file.name, e.message ?: "could not read file")
+                if (requireValid) throw InvalidFileFormat(file.name, e.message ?: "could not read file")
             }
         }
 

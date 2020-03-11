@@ -37,13 +37,17 @@ The following subclasses exist:
 
 * [`PrintMessage`][PrintMessage] : The exception's message should be printed.
 * [`PrintHelpMessage`][PrintHelpMessage] : The help page for the exception's command should be printed.
+* [`PrintCompletionMessage`][PrintCompletionMessage] : Shell completion code for the command should be printed.
 * [`UsageError`][UsageError] : The command line was incorrect in some way. All other exceptions subclass from this. These exceptions are automatically augmented with extra information about the current parameter, if possible.
 * [`BadParameterValue`][BadParameterValue] : A parameter was given the correct number of values, but of invalid format or type.
 * [`MissingParameter`][MissingParameter] : A required parameter was not provided.
 * [`NoSuchOption`][NoSuchOption] : An option was provided that does not exist.
+* [`NoSuchSubcommand`][NoSuchSubcommand] : A subcommand was called that does not exist.
 * [`IncorrectOptionValueCount`][IncorrectOptionValueCount] : An option was supplied but the number of values supplied to the option was incorrect.
 * [`IncorrectArgumentValueCount`][IncorrectArgumentValueCount] : An argument was supplied but the number of values supplied was incorrect.
 * [`MutuallyExclusiveGroupException`][MutuallyExclusiveGroupException] : Multiple options in a mutually exclusive group were supplied when the group is restricted to a single value.
+* [`FileNotFound`][FileNotFound] : A required configuration file or @-file was not found.
+* [`InvalidFileFormat`][InvalidFileFormat] : A configuration file or @-file failed to parse correctly.
 
 
 [main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
@@ -51,12 +55,17 @@ The following subclasses exist:
 [Abort]:                           api/clikt/com.github.ajalt.clikt.core/-abort/index.md
 [PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
 [PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.md
+[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/index.md
 [convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
 [UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md
 [parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
 [BadParameterValue]:               api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/index.md
 [MissingParameter]:                api/clikt/com.github.ajalt.clikt.core/-missing-parameter/index.md
 [NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.md
+[NoSuchSubcommand]:                api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/index.md
 [IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.md
 [IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.md
 [MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.md
+[FileNotFound]:                    api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
+[FileFormatError]:                 api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
+[InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.md

@@ -10,6 +10,8 @@ import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+typealias TypoSuggestor =  (enteredValue: String, possibleValues: List<String>) -> List<String>
+
 /**
  * A object used to control command line parsing and pass data between commands.
  *
@@ -34,6 +36,9 @@ import kotlin.reflect.KProperty
  * @property console The console to use to print messages.
  * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
  *   files. If false, they will be treated as normal arguments.
+ * @property correctionSuggestor A callback called when the command line contains an invalid option or
+ *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
+ *   names and filters the list down to values to suggest to the user.
  */
 @OptIn(ExperimentalValueSourceApi::class)
 class Context(
@@ -49,7 +54,8 @@ class Context(
         val console: CliktConsole,
         val expandArgumentFiles: Boolean,
         val readEnvvarBeforeValueSource: Boolean,
-        val valueSource: ValueSource?
+        val valueSource: ValueSource?,
+        val correctionSuggestor: TypoSuggestor
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -177,6 +183,13 @@ class Context(
         fun valueSources(vararg sources: ValueSource) {
             valueSource = ChainedValueSource(sources.toList())
         }
+
+        /**
+         * A callback called when the command line contains an invalid option or
+         * subcommand name. It takes the entered name and a list of all registered names option/subcommand
+         * names and filters the list down to values to suggest to the user.
+         */
+        var correctionSuggestor: TypoSuggestor = DEFAULT_CORRECTION_SUGGESTOR
     }
 
     companion object {
@@ -188,7 +201,7 @@ class Context(
                 return Context(
                         parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
                         helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console,
-                        expandArgumentFiles, readEnvvarBeforeValueSource, valueSource
+                        expandArgumentFiles, readEnvvarBeforeValueSource, valueSource, correctionSuggestor
                 )
             }
         }
@@ -229,4 +242,11 @@ inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: (
             return thisRef.currentContext.findOrSetObject(default)
         }
     }
+}
+
+private val DEFAULT_CORRECTION_SUGGESTOR : TypoSuggestor = { enteredValue, possibleValues ->
+    possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }
+            .filter { it.second > 0.8 }
+            .sortedByDescending { it.second }
+            .map { it.first }
 }

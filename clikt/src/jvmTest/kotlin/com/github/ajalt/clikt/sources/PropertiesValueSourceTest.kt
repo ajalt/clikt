@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.sources
 
-import com.github.ajalt.clikt.core.FileFormatError
+import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.counted
@@ -127,7 +127,7 @@ class PropertiesValueSourceTest {
 
         C(called = true, requireValid = false).parse("")
 
-        shouldThrow<FileFormatError> {
+        shouldThrow<InvalidFileFormat> {
             C(called = false, requireValid = true).parse("")
         }
     }

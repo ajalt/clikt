@@ -56,13 +56,13 @@ functions like [`pair`][pair] and [`triple`][triple]. Unlike options, arguments 
 variable (or unlimited) number of values. This is common with file path arguments, since
 they are frequently expanded with a glob pattern on the command line.
 
-You can declare any number of arguments with fixed numbers of values,
-but only one variadic argument.
+Variadic arguments are declared with [`multiple`][multiple]. You can declare any number of arguments
+with fixed numbers of values, but only one variadic argument in a command.
 
 ```kotlin tab="Example"
 class Copy : CliktCommand() {
-    val source by argument().path(mustExist = true).multiple()
-    val dest by argument().path(canBeFile = false)
+    val source: List<Path> by argument().path(mustExist = true).multiple()
+    val dest: Path by argument().path(canBeFile = false)
     override fun run() {
         echo("Copying files $source to $dest")
     }
@@ -72,6 +72,12 @@ class Copy : CliktCommand() {
 ```text tab="Usage"
 $ ./copy file.* out/
 Copying files [file.txt, file.md] to out/
+```
+
+You can also use [`unique`][unique] to discard duplicates:
+
+```kotlin
+val source: Set<Path> by argument().path(mustExist = true).multiple().unique()
 ```
 
 ## Option-Like Arguments (Using `--`)
@@ -114,3 +120,5 @@ bar.txt
 [argument]: api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
 [pair]:     api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.md
 [triple]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.md
+[unique]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/unique.md
+[multiple]: api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md

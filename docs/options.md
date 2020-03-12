@@ -210,7 +210,7 @@ is never given, the list will be empty (or you can specify a default to use).
 
 ```kotlin tab="Example"
 class Commit : CliktCommand() {
-    val message by option("-m").multiple()
+    val message: List<String> by option("-m").multiple()
     override fun run() {
         echo(message.joinToString("\n"))
     }
@@ -224,22 +224,41 @@ bar
 ```
 
 You can combine [`multiple`][multiple] with item type conversions and multiple values.
-For example:
 
 ```kotlin
 val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
 ```
+
+### Default values for option().multiple()
 
 You can also supply a default value to [`multiple`][multiple] or require at least one value be present
 on the command line. These are specified as arguments rather than with separate extension functions
 since they don't change the type of the delegate.
 
 ```kotlin tab="Required"
-val opt by option().multiple(required=true)
+val opt: List<String> by option().multiple(required=true)
 ```
 
 ```kotlin tab="Default"
-val opt by option().multiple(default=listOf("default message"))
+val opt: List<String> by option().multiple(default=listOf("default message"))
+```
+
+### Deduplicating option().multiple() into a unique set
+
+You can discard duplicate values from a `multiple` option with [`unique`][unique].
+
+```kotlin tab="Example"
+class Build : CliktCommand() {
+    val platforms: Set<String> by option("-p").multiple().unique()
+    override fun run() {
+        echo("Building for platforms: $platforms")
+    }
+}
+```
+
+```text tab="Usage"
+$ ./build -p android -p ios -p android
+Building for platforms: [android, ios]
 ```
 
 ## Boolean Flag Options
@@ -918,6 +937,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [transformValues]:             api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.md
 [default]:                     api/clikt/com.github.ajalt.clikt.parameters.options/default.md
 [multiple]:                    api/clikt/com.github.ajalt.clikt.parameters.options/multiple.md
+[unique]:                      api/clikt/com.github.ajalt.clikt.parameters.options/unique.md
 [defaultLazy]:                 api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy.md
 [split]:                       api/clikt/com.github.ajalt.clikt.parameters.options/split.md
 [flag]:                        api/clikt/com.github.ajalt.clikt.parameters.options/flag.md

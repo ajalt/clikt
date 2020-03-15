@@ -1,11 +1,13 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.6.0] - 2020-03-15
 ### Added
 - `registeredSubcommands`, `registeredOptions`, `registeredArguments`, and `registeredParameterGroups` methods on `CliktCommand`.
-- Ability to [read default option values](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md) from configuration files and other sources. Support for Java property files is built in on JVM, and other formats can be added easily.
+- Ability to [read default option values](https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md) from configuration files and other sources. Support for Java property files is built in on JVM, see the `json` sample for an example of reading from other formats.
 - `allowMultipleSubcommands` parameter to `CliktCommand` that allows you to pass multiple subcommands in the same call. ([docs](docs/commands.md#chaining-and-repeating-subcommands))
-- Errors from typos in subcommand names will now include suggested corrections. Corrections for options and subcommands are now based on a Jaro-Winkler similarity metric. 
+- Errors from typos in subcommand names will now include suggested corrections. Corrections for options and subcommands are now based on a Jaro-Winkler similarity metric, and can be customized with `Context.correctionSuggestor`
 
 ### Changed
 - Update Kotlin to 1.3.70

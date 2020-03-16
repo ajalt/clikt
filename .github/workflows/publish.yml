@@ -12,13 +12,14 @@ jobs:
    build:
       strategy:
          matrix:
-            os: [macOS-latest, windows-latest, ubuntu-latest]
-
+            os:
+               - macOS-latest
+               - windows-latest
+               - ubuntu-latest
       runs-on: ${{matrix.os}}
-
       steps:
-         -  name: Checkout the repo
-            uses: actions/checkout@v2
+         - name: Checkout the repo
+           uses: actions/checkout@v2
 
          - name: Cache gradle
            uses: actions/cache@v1
@@ -28,41 +29,41 @@ jobs:
               restore-keys: |
                  ${{ runner.os }}-gradle-
 
-         -  name: Run ubuntu tests
-            if: matrix.os == 'ubuntu-latest'
-            run: ./gradlew check
+         - name: Run ubuntu tests
+           if: matrix.os == 'ubuntu-latest'
+           run: ./gradlew check
 
-         -  name: Run windows tests
-            if: matrix.os == 'windows-latest'
-            run: ./gradlew mingwX64Test
+         - name: Run windows tests
+           if: matrix.os == 'windows-latest'
+           run: ./gradlew mingwX64Test
 
-         -  name: Run macOS tests
-            if: matrix.os == 'macOS-latest'
-            run: ./gradlew macosX64Test
+         - name: Run macOS tests
+           if: matrix.os == 'macOS-latest'
+           run: ./gradlew macosX64Test
 
-         -  name: Bundle the build report
-            if: failure()
-            run: find . -type d -name 'reports' | zip -@ -r build-reports.zip
+         - name: Bundle the build report
+           if: failure()
+           run: find . -type d -name 'reports' | zip -@ -r build-reports.zip
 
-         -  name: Upload the build report
-            if: failure()
-            uses: actions/upload-artifact@master
-            with:
-               name: error-report
-               path: build-reports.zip
+         - name: Upload the build report
+           if: failure()
+           uses: actions/upload-artifact@master
+           with:
+              name: error-report
+              path: build-reports.zip
 
    deploy-mac-and-linux:
       needs: build
       runs-on: macOS-latest
       steps:
-         -  name: Checkout the repo
-            uses: actions/checkout@v2
+         - name: Checkout the repo
+           uses: actions/checkout@v2
             # checkout the full repo so we can count commits for a build number
-            with:
-               fetch-depth: 0
+           with:
+              fetch-depth: 0
 
-         -  name: Fetch git tags
-            run: git fetch origin +refs/tags/*:refs/tags/*
+         - name: Fetch git tags
+           run: git fetch origin +refs/tags/*:refs/tags/*
 
          - name: Cache gradle
            uses: actions/cache@v1
@@ -72,28 +73,31 @@ jobs:
               restore-keys: |
                  ${{ runner.os }}-gradle-
 
-         -  name: Deploy to sonatype snapshots
-            run: ./gradlew publish -PinferVersion=true
-            env:
-               ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
-               ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
-               ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
+         - name: Deploy to sonatype snapshots
+           run: ./gradlew :clikt:publish -PinferVersion=true
+           env:
+              ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
+              ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
+              ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
 
    deploy-windows:
       needs: build
       runs-on: windows-latest
       steps:
-         -  name: Checkout the repo
-            uses: actions/checkout@v2
-            with:
-               fetch-depth: 0
-         - run: git fetch origin +refs/tags/*:refs/tags/*
-         -  name: Deploy to sonatype snapshots
-            run: ./gradlew publishMingwX64PublicationToMavenRepository -PinferVersion=true
-            env:
-               ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
-               ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
-               ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
+         - name: Checkout the repo
+           uses: actions/checkout@v2
+           with:
+              fetch-depth: 0
+
+         - name: Fetch git tags
+           run: git fetch origin +refs/tags/*:refs/tags/*
+
+         - name: Deploy to sonatype snapshots
+           run: ./gradlew publishMingwX64PublicationToMavenRepository -PinferVersion=true
+           env:
+              ORG_GRADLE_PROJECT_SONATYPE_USERNAME: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_USERNAME }}
+              ORG_GRADLE_PROJECT_SONATYPE_PASSWORD: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPE_PASSWORD }}
+              ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_signingKey }}
 
 env:
    GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"

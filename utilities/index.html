@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -44,7 +44,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#utilities" tabindex="1" class="md-skip">
+      <a href="#utilities" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
+        <a href=".." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
           
-            <img src="../img/wordmark_small.svg" width="24" height="24">
+            <img alt="logo" src="../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Clikt" class="md-nav__button md-logo">
       
-        <img src="../img/wordmark_small.svg" width="48" height="48">
+        <img alt="logo" src="../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -679,8 +679,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
-      Multiple Values from Environment Variables
+    <a href="../options/#values-from-configuration-files" title="Values from Configuration Files" class="md-nav__link">
+      Values from Configuration Files
     </a>
   </li>
 
@@ -889,6 +889,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#chaining-and-repeating-subcommands" title="Chaining and Repeating Subcommands" class="md-nav__link">
+      Chaining and Repeating Subcommands
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -993,6 +1005,18 @@
   <li class="md-nav__item">
     <a href="../documenting/#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
       Grouping Options in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
+      Suggesting Corrections for Mistyped Parameters
     </a>
   </li>
 
@@ -1428,52 +1452,56 @@ the command line. Clikt also provides functions to perform actions
 commonly used in command line programs.</p>
 <h2 id="launching-editors">Launching Editors<a class="headerlink" href="#launching-editors" title="Permanent link">&para;</a></h2>
 <p>If you need to ask users for multi-line input, or need to have the user edit a file, you can do so
-through <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/"><code>TermUi.editText</code></a> and
-<a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/"><code>TermUi.editFile</code></a>. These
-functions open the program defined in the <code>VISUAL</code> or <code>EDITOR</code> environment variables, or a sensible
-default if neither are defined. The functions return the edited text if the user saved their
-changes.</p>
-<p>For example:</p>
-<div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nf">getCommitMessage</span><span class="p">():</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">editText</span><span class="p">(</span><span class="s">&quot;\n&quot;</span> <span class="p">+</span>
-            <span class="s">&quot;\n# Enter your message. &quot;</span> <span class="p">+</span>
-            <span class="s">&quot;\n# Lines starting with # are ignored&quot;</span><span class="p">,</span>
-            <span class="n">requireSave</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
+through <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/"><code>TermUi.editText</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/"><code>TermUi.editFile</code></a>. These functions open the
+program defined in the <code>VISUAL</code> or <code>EDITOR</code> environment variables, or a sensible default if neither
+are defined. The functions return the edited text if the user saved their changes.</p>
+<div class="superfences-tabs">
+<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
+<label for="__tab_1_0">Example</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">fun</span> <span class="nf">getCommitMessage</span><span class="p">():</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">message</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    # Enter your message.</span>
+<span class="s">    # Lines starting with # are ignored</span>
+<span class="s">    &quot;&quot;&quot;</span><span class="p">.</span><span class="n">trimIndent</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">editText</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">requireSave</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
             <span class="o">?.</span><span class="n">replace</span><span class="p">(</span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;#[^\n]*\n&quot;</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div></div>
+</div>
 <h2 id="input-prompts">Input Prompts<a class="headerlink" href="#input-prompts" title="Permanent link">&para;</a></h2>
 <p>Options can <a href="../options/#prompting-for-input">prompt for values automatically</a>, but you can also do
 so manually with <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt/"><code>TermUi.prompt</code></a>. By
 default, it accepts any input string, but you can also pass in a conversion function. If the
 conversion raises a <a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>,
 the prompt will ask the user to enter a different value.</p>
-<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">input</span> <span class="p">=</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">prompt</span><span class="p">(</span><span class="s">&quot;Enter a number&quot;</span><span class="p">)</span> <span class="p">{</span>
+<div class="superfences-tabs">
+<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
+<label for="__tab_2_0">Example</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">input</span> <span class="p">=</span> <span class="n">TermUi</span><span class="p">.</span><span class="n">prompt</span><span class="p">(</span><span class="s">&quot;Enter a number&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">it</span><span class="p">.</span><span class="n">toIntOrNull</span><span class="p">()</span> <span class="o">?:</span> <span class="k">throw</span> <span class="n">UsageError</span><span class="p">(</span><span class="s">&quot;$it is not a valid integer&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Twice your number is ${input * 2}&quot;</span><span class="p">)</span>
-</pre></div>
-
-<p>Which will produce interactive sessions like this:</p>
-<div class="codehilite"><pre><span></span>Enter a number: foo
+</code></pre></div></div>
+<input name="__tabs_2" type="radio" id="__tab_2_1" />
+<label for="__tab_2_1">Interactive Session</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code>Enter a number: foo
 Error: foo is not a valid integer
 Enter a number: 11
 Twice your number is 22
-</pre></div>
-
+</code></pre></div></div>
+</div>
 <h2 id="confirmation-prompts">Confirmation Prompts<a class="headerlink" href="#confirmation-prompts" title="Permanent link">&para;</a></h2>
 <p>You can also ask the user for a yes or no response with
 <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm/"><code>TermUi.confirm</code></a>:</p>
-<div class="codehilite"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">TermUi</span><span class="p">.</span><span class="n">confirm</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">TermUi</span><span class="p">.</span><span class="n">confirm</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">)</span> <span class="p">==</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">TermUi</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;OK!&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 <p>If you simply want to abort the program in the user gives a negative
 response, you can pass <code>abort=true</code>:</p>
-<div class="codehilite"><pre><span></span><span class="n">TermUi</span><span class="p">.</span><span class="n">confirm</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">,</span> <span class="n">abort</span><span class="p">=</span><span class="k">true</span><span class="p">)</span>
-</pre></div>
+<div class="codehilite"><pre><span></span><code><span class="n">TermUi</span><span class="p">.</span><span class="n">confirm</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">,</span> <span class="n">abort</span><span class="p">=</span><span class="k">true</span><span class="p">)</span>
+</code></pre></div>
                 
                   
                 
@@ -1497,13 +1525,13 @@ response, you can pass <code>abort=true</code>:</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 AJ Alt
+            Copyright &copy; 2020 AJ Alt
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1513,9 +1541,9 @@ response, you can pass <code>abort=true</code>:</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
       
     
   </body>

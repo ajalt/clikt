@@ -36,15 +36,15 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
-        <title>Clikt</title>
+        <title>Index - Clikt</title>
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../../../../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../../../../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#cliktcommand" tabindex="1" class="md-skip">
+      <a href="#cliktcommand" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../../.." title="Clikt" class="md-header-nav__button md-logo">
+        <a href="../../../.." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
           
-            <img src="../../../../img/wordmark_small.svg" width="24" height="24">
+            <img alt="logo" src="../../../../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Home
+                Index
               
             </span>
           
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="../../../.." title="Clikt" class="md-nav__button md-logo">
       
-        <img src="../../../../img/wordmark_small.svg" width="48" height="48">
+        <img alt="logo" src="../../../../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -679,8 +679,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../options/#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
-      Multiple Values from Environment Variables
+    <a href="../../../../options/#values-from-configuration-files" title="Values from Configuration Files" class="md-nav__link">
+      Values from Configuration Files
     </a>
   </li>
 
@@ -889,6 +889,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../commands/#chaining-and-repeating-subcommands" title="Chaining and Repeating Subcommands" class="md-nav__link">
+      Chaining and Repeating Subcommands
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -993,6 +1005,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
       Grouping Options in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
+      Suggesting Corrections for Mistyped Parameters
     </a>
   </li>
 
@@ -1465,6 +1489,9 @@ help message (by throwing <a href="../-print-help-message/">PrintHelpMessage</a>
 <p><code>helpTags</code> - Extra information about this option to pass to the help formatter.</p>
 <p><code>autoCompleteEnvvar</code> - The envvar to use to enable shell autocomplete script generation. Set
 to null to disable generation.</p>
+<p><code>allowMultipleSubcommands</code> - If true, allow multiple of this command&rsquo;s subcommands to be
+called sequentially. This will disable <code>allowInterspersedArgs</code> on the context of this command an
+its descendants. This functionality is experimental, and may change in a future release.</p>
 <h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1476,7 +1503,7 @@ to null to disable generation.</p>
 <tbody>
 <tr>
 <td><a href="-init-/">&lt;init&gt;</a></td>
-<td>The <a href="./">CliktCommand</a> is the core of command line interfaces in Clikt.<code>CliktCommand(help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", epilog:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, invokeWithoutSubcommand:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, printHelpOnEmptyArgs:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap(), autoCompleteEnvvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = "")</code></td>
+<td>The <a href="./">CliktCommand</a> is the core of command line interfaces in Clikt.<code>CliktCommand(help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", epilog:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, invokeWithoutSubcommand:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, printHelpOnEmptyArgs:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap(), autoCompleteEnvvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = "", allowMultipleSubcommands:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false)</code></td>
 </tr>
 </tbody>
 </table>
@@ -1499,7 +1526,7 @@ to null to disable generation.</p>
 </tr>
 <tr>
 <td><a href="command-name/">commandName</a></td>
-<td><code>val commandName: &lt;ERROR CLASS&gt;</code></td>
+<td><code>val commandName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="context/">context</a></td>
@@ -1569,8 +1596,24 @@ to null to disable generation.</p>
 <td>Register an argument with this command.<code>fun registerArgument(argument:</code><a href="../../com.github.ajalt.clikt.parameters.arguments/-argument/"><code>Argument</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 <tr>
+<td><a href="registered-arguments/">registeredArguments</a></td>
+<td>Get a read-only list of arguments registered in this command (e.g. via <a href="register-argument/">registerArgument</a> or an <a href="../../com.github.ajalt.clikt.parameters.arguments/argument/">argument</a> delegate)<code>fun registeredArguments():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.arguments/-argument/"><code>Argument</code></a><code>&gt;</code></td>
+</tr>
+<tr>
+<td><a href="registered-options/">registeredOptions</a></td>
+<td>Get a read-only list of options registered in this command (e.g. via <a href="register-option/">registerOption</a> or an <a href="../../com.github.ajalt.clikt.parameters.options/option/">option</a> delegate)<code>fun registeredOptions():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.options/-option/"><code>Option</code></a><code>&gt;</code></td>
+</tr>
+<tr>
+<td><a href="registered-parameter-groups/">registeredParameterGroups</a></td>
+<td>Get a read-only list of groups registered in this command (e.g. via <a href="register-option-group/">registerOptionGroup</a> or an <a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a> delegate)<code>fun registeredParameterGroups():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>&gt;</code></td>
+</tr>
+<tr>
 <td><a href="registered-subcommand-names/">registeredSubcommandNames</a></td>
 <td>The names of all direct children of this command<code>fun registeredSubcommandNames():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
+</tr>
+<tr>
+<td><a href="registered-subcommands/">registeredSubcommands</a></td>
+<td>Get a read-only list of commands registered as <a href="../subcommands/">subcommands</a> of this command.<code>fun registeredSubcommands():</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="./"><code>CliktCommand</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="register-option/">registerOption</a></td>
@@ -1687,13 +1730,13 @@ to null to disable generation.</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 AJ Alt
+            Copyright &copy; 2020 AJ Alt
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1703,9 +1746,9 @@ to null to disable generation.</p>
       
     </div>
     
-      <script src="../../../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../../../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:"../../../.."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:"../../../.."}})</script>
       
     
   </body>

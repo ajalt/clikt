@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -44,7 +44,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#advanced-patterns" tabindex="1" class="md-skip">
+      <a href="#advanced-patterns" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
+        <a href=".." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
           
-            <img src="../img/wordmark_small.svg" width="24" height="24">
+            <img alt="logo" src="../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Clikt" class="md-nav__button md-logo">
       
-        <img src="../img/wordmark_small.svg" width="48" height="48">
+        <img alt="logo" src="../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -679,8 +679,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
-      Multiple Values from Environment Variables
+    <a href="../options/#values-from-configuration-files" title="Values from Configuration Files" class="md-nav__link">
+      Values from Configuration Files
     </a>
   </li>
 
@@ -889,6 +889,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#chaining-and-repeating-subcommands" title="Chaining and Repeating Subcommands" class="md-nav__link">
+      Chaining and Repeating Subcommands
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -993,6 +1005,18 @@
   <li class="md-nav__item">
     <a href="../documenting/#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
       Grouping Options in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
+      Suggesting Corrections for Mistyped Parameters
     </a>
   </li>
 
@@ -1472,7 +1496,7 @@ and returns a map of aliases to the tokens that they alias to.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
 <label for="__tab_1_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Repo</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Repo</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// You could load the aliases from a config file etc.</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">aliases</span><span class="p">():</span> <span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;&gt;</span> <span class="p">=</span> <span class="n">mapOf</span><span class="p">(</span>
             <span class="s">&quot;ci&quot;</span> <span class="n">to</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;commit&quot;</span><span class="p">),</span>
@@ -1488,23 +1512,26 @@ and returns a map of aliases to the tokens that they alias to.</p>
 <span class="p">}</span>
 
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Repo</span><span class="p">().</span><span class="n">subcommands</span><span class="p">(</span><span class="n">Commit</span><span class="p">()).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</pre></div></div>
+</code></pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_1" />
 <label for="__tab_1_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./repo ci -m &#39;my message&#39;
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./repo ci -m &#39;my message&#39;
 Committing with message: my message
-</pre></div></div>
+</code></pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_2" />
 <label for="__tab_1_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./repo cm &#39;my message&#39;
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./repo cm &#39;my message&#39;
 Committing with message: my message
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <p>Note that aliases are not expanded recursively: none of the tokens that
 an alias expands to will be expanded again, even if they match another
 alias.</p>
 <p>You also use this functionality to implement command prefixes:</p>
-<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-tabs">
+<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
+<label for="__tab_2_0">Example</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">aliases</span><span class="p">():</span> <span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;&gt;</span> <span class="p">{</span>
         <span class="k">val</span> <span class="py">prefixCounts</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;().</span><span class="n">withDefault</span> <span class="p">{</span> <span class="m">0</span> <span class="p">}</span>
         <span class="k">val</span> <span class="py">prefixes</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;&gt;()</span>
@@ -1518,8 +1545,6 @@ alias.</p>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">prefixes</span><span class="p">.</span><span class="n">filterKeys</span> <span class="p">{</span> <span class="n">prefixCounts</span><span class="p">.</span><span class="n">getValue</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">==</span> <span class="m">1</span> <span class="p">}</span>
     <span class="p">}</span>
-
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">Unit</span>
 <span class="p">}</span>
 
 <span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
@@ -1535,13 +1560,13 @@ alias.</p>
 <span class="p">}</span>
 
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Tool</span><span class="p">().</span><span class="n">subcommands</span><span class="p">(</span><span class="n">Foo</span><span class="p">(),</span> <span class="n">Bar</span><span class="p">()).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</pre></div>
-
-<p>Which allows you to call the subcommands like this:</p>
-<div class="codehilite"><pre><span></span>$ ./tool ba
+</code></pre></div></div>
+<input name="__tabs_2" type="radio" id="__tab_2_1" />
+<label for="__tab_2_1">Usage</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool ba
 Running Bar
-</pre></div>
-
+</code></pre></div></div>
+</div>
 <h2 id="token-normalization">Token Normalization<a class="headerlink" href="#token-normalization" title="Permanent link">&para;</a></h2>
 <p>To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there&rsquo;s another way to modify user input that
@@ -1550,9 +1575,9 @@ works on more types of tokens. You can set a <a href="../api/clikt/com.github.aj
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:</p>
 <div class="superfences-tabs">
-<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
-<label for="__tab_2_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
+<label for="__tab_3_0">Example</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">tokenTransformer</span> <span class="p">=</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">toLowerCase</span><span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
     <span class="p">}</span>
@@ -1560,12 +1585,12 @@ to implement case-insensitive parsing, for example:</p>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name!&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_2" type="radio" id="__tab_2_1" />
-<label for="__tab_2_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello --NAME=Foo
+</code></pre></div></div>
+<input name="__tabs_3" type="radio" id="__tab_3_1" />
+<label for="__tab_3_1">Usage</label>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello --NAME=Foo
 Hello Foo!
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h2 id="replacing-stdin-and-stdout">Replacing stdin and stdout<a class="headerlink" href="#replacing-stdin-and-stdout" title="Permanent link">&para;</a></h2>
 <p>By default, functions like <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt/"><code>option().prompt()</code></a>
@@ -1573,7 +1598,7 @@ read from <code>System.in</code> and write to <code>System.out</code>. If you wa
 clikt in an environment where the standard streams aren&rsquo;t available, you
 can set your own implementation of <a href="../api/clikt/com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a>
 when <a href="../commands/#customizing-contexts">customizing the command context</a>.</p>
-<div class="codehilite"><pre><span></span><span class="k">object</span> <span class="nc">MyConsole</span> <span class="p">:</span> <span class="n">CliktConsole</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="k">object</span> <span class="nc">MyConsole</span> <span class="p">:</span> <span class="n">CliktConsole</span> <span class="p">{</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">promptForLine</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">hideInput</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">):</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
         <span class="n">MyOutputStream</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
         <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">hideInput</span><span class="p">)</span> <span class="n">MyInputStream</span><span class="p">.</span><span class="n">readPassword</span><span class="p">()</span>
@@ -1588,11 +1613,10 @@ when <a href="../commands/#customizing-contexts">customizing the command context
     <span class="k">override</span> <span class="k">val</span> <span class="py">lineSeparator</span><span class="p">:</span> <span class="n">String</span> <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="s">&quot;\n&quot;</span>
 <span class="p">}</span>
 
-<span class="k">class</span> <span class="nc">CustomCLI</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">init</span> <span class="p">{</span> <span class="n">context</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="n">console</span> <span class="p">=</span> <span class="n">MyConsole</span> <span class="p">}</span> <span class="p">}</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{}</span>
+<span class="k">class</span> <span class="nc">CustomCLI</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">init</span> <span class="p">{</span> <span class="n">context</span> <span class="p">{</span> <span class="n">console</span> <span class="p">=</span> <span class="n">MyConsole</span> <span class="p">}</span> <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 <p>If you are using <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/"><code>TermUI</code></a> directly,
 you can also pass your custom console as an argument.</p>
@@ -1602,22 +1626,22 @@ syntax. You can pass any file path to a command prefixed with <code>@</code>, an
 into the command line parameters. This can be useful on operating systems like Windows that have
 command line length limits.</p>
 <p>If you create a file named <code>cliargs</code> with content like this:</p>
-<div class="codehilite"><pre><span></span>--number 1
+<div class="codehilite"><pre><span></span><code>--number 1
 --name=&#39;jane doe&#39; --age=30
 ./file.txt
-</pre></div>
+</code></pre></div>
 
 <p>You can call your command with the contents of the file like this:</p>
-<div class="codehilite"><pre><span></span>$ ./tool @cliargs
-</pre></div>
+<div class="codehilite"><pre><span></span><code>$ ./tool @cliargs
+</code></pre></div>
 
 <p>Which is equivalent to calling it like this:</p>
-<div class="codehilite"><pre><span></span>$ ./tool --number 1 --name=&#39;jane doe&#39; --age=30 ./file.txt
-</pre></div>
+<div class="codehilite"><pre><span></span><code>$ ./tool --number 1 --name=&#39;jane doe&#39; --age=30 ./file.txt
+</code></pre></div>
 
 <p>You can use any file path after the <code>@</code>, and can specify multiple @-files:</p>
-<div class="codehilite"><pre><span></span>$ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile
-</pre></div>
+<div class="codehilite"><pre><span></span><code>$ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile
+</code></pre></div>
 
 <p>If you have any options with names that start with <code>@</code>, you can still use <code>@-files</code>, but values on
 the command line that match an option will be parsed as that option, rather than an <code>@-file</code>, so
@@ -1640,7 +1664,7 @@ line are skipped. You can pass a literal <code>#</code> by escaping it with <cod
 <p><a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> calls <code>exitProcess</code> when invalid values are provided on the command
 line. In unit tests, you should instead call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>CliktCommand.parse</code></a>, which throws exceptions
 with error details rather than printing the details and exiting the process. See the documentation
-on [exceptions][exceptions.md] for more information.</p>
+on <a href="../exceptions/">exceptions</a> for more information.</p>
                 
                   
                 
@@ -1664,13 +1688,13 @@ on [exceptions][exceptions.md] for more information.</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 AJ Alt
+            Copyright &copy; 2020 AJ Alt
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1680,9 +1704,9 @@ on [exceptions][exceptions.md] for more information.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
       
     
   </body>

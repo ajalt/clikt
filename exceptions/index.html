@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -44,7 +44,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#exception-handling" tabindex="1" class="md-skip">
+      <a href="#exception-handling" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
+        <a href=".." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
           
-            <img src="../img/wordmark_small.svg" width="24" height="24">
+            <img alt="logo" src="../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Clikt" class="md-nav__button md-logo">
       
-        <img src="../img/wordmark_small.svg" width="48" height="48">
+        <img alt="logo" src="../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -679,8 +679,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../options/#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
-      Multiple Values from Environment Variables
+    <a href="../options/#values-from-configuration-files" title="Values from Configuration Files" class="md-nav__link">
+      Values from Configuration Files
     </a>
   </li>
 
@@ -889,6 +889,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../commands/#chaining-and-repeating-subcommands" title="Chaining and Repeating Subcommands" class="md-nav__link">
+      Chaining and Repeating Subcommands
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -993,6 +1005,18 @@
   <li class="md-nav__item">
     <a href="../documenting/#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
       Grouping Options in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
+      Suggesting Corrections for Mistyped Parameters
     </a>
   </li>
 
@@ -1383,8 +1407,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#where-are-exceptions-handled-handling" class="md-nav__link">
-    Where are Exceptions Handled? {#handling}
+  <a href="#where-are-exceptions-handled" class="md-nav__link">
+    Where are Exceptions Handled?
   </a>
   
 </li>
@@ -1426,7 +1450,7 @@
 <p>Clikt uses exceptions internally to signal that processing has ended
 early for any reason. This includes incorrect command line usage, or
 printing a help page.</p>
-<h2 id="where-are-exceptions-handled-handling">Where are Exceptions Handled? {#handling}<a class="headerlink" href="#where-are-exceptions-handled-handling" title="Permanent link">&para;</a></h2>
+<h2 id="where-are-exceptions-handled">Where are Exceptions Handled?<a class="headerlink" href="#where-are-exceptions-handled" title="Permanent link">&para;</a></h2>
 <p>When you call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a>, it will parse the command line and catch any
 <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-error/"><code>CliktError</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort</code></a> exceptions. If it catches one, it will then print
 out the appropriate information and exit the process. If the caught exception is a
@@ -1441,8 +1465,8 @@ you don&rsquo;t have to worry about an exception escaping to the user.</p>
 <p><a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> is just a <code>try</code>/<code>catch</code> block surrounding
 <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>CliktCommand.parse</code></a>, so if don&rsquo;t want exceptions to be caught,
 you can call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>parse</code></a> wherever you would normally call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>main</code></a>.</p>
-<div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">parse</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</pre></div>
+<div class="codehilite"><pre><span></span><code><span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">parse</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
 
 <h2 id="which-exceptions-exist">Which Exceptions Exist?<a class="headerlink" href="#which-exceptions-exist" title="Permanent link">&para;</a></h2>
 <p>Clikt will throw <a href="../api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort</code></a> if it needs to halt execution immediately without a specific
@@ -1451,13 +1475,17 @@ message. All other exceptions are subclasses of <a href="../api/clikt/com.github
 <ul>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-print-message/"><code>PrintMessage</code></a> : The exception&rsquo;s message should be printed.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-print-help-message/"><code>PrintHelpMessage</code></a> : The help page for the exception&rsquo;s command should be printed.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-print-completion-message/"><code>PrintCompletionMessage</code></a> : Shell completion code for the command should be printed.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a> : The command line was incorrect in some way. All other exceptions subclass from this. These exceptions are automatically augmented with extra information about the current parameter, if possible.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/"><code>BadParameterValue</code></a> : A parameter was given the correct number of values, but of invalid format or type.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-missing-parameter/"><code>MissingParameter</code></a> : A required parameter was not provided.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-no-such-option/"><code>NoSuchOption</code></a> : An option was provided that does not exist.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/"><code>NoSuchSubcommand</code></a> : A subcommand was called that does not exist.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/"><code>IncorrectOptionValueCount</code></a> : An option was supplied but the number of values supplied to the option was incorrect.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/"><code>IncorrectArgumentValueCount</code></a> : An argument was supplied but the number of values supplied was incorrect.</li>
 <li><a href="../api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/"><code>MutuallyExclusiveGroupException</code></a> : Multiple options in a mutually exclusive group were supplied when the group is restricted to a single value.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-file-not-found/"><code>FileNotFound</code></a> : A required configuration file or @-file was not found.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/"><code>InvalidFileFormat</code></a> : A configuration file or @-file failed to parse correctly.</li>
 </ul>
                 
                   
@@ -1482,13 +1510,13 @@ message. All other exceptions are subclasses of <a href="../api/clikt/com.github
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 AJ Alt
+            Copyright &copy; 2020 AJ Alt
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1498,9 +1526,9 @@ message. All other exceptions are subclasses of <a href="../api/clikt/com.github
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
       
     
   </body>

@@ -36,15 +36,15 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
-        <title>Clikt</title>
+        <title>Index - Clikt</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../../../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../../../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#package-comgithubajaltcliktparametersoptions" tabindex="1" class="md-skip">
+      <a href="#package-comgithubajaltcliktparametersoptions" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../.." title="Clikt" class="md-header-nav__button md-logo">
+        <a href="../../.." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
           
-            <img src="../../../img/wordmark_small.svg" width="24" height="24">
+            <img alt="logo" src="../../../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Home
+                Index
               
             </span>
           
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="../../.." title="Clikt" class="md-nav__button md-logo">
       
-        <img src="../../../img/wordmark_small.svg" width="48" height="48">
+        <img alt="logo" src="../../../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -679,8 +679,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../options/#multiple-values-from-environment-variables" title="Multiple Values from Environment Variables" class="md-nav__link">
-      Multiple Values from Environment Variables
+    <a href="../../../options/#values-from-configuration-files" title="Values from Configuration Files" class="md-nav__link">
+      Values from Configuration Files
     </a>
   </li>
 
@@ -889,6 +889,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../commands/#chaining-and-repeating-subcommands" title="Chaining and Repeating Subcommands" class="md-nav__link">
+      Chaining and Repeating Subcommands
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -993,6 +1005,18 @@
   <li class="md-nav__item">
     <a href="../../../documenting/#grouping-options-in-help" title="Grouping Options in Help" class="md-nav__link">
       Grouping Options in Help
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
+      Suggesting Corrections for Mistyped Parameters
     </a>
   </li>
 
@@ -1426,7 +1450,7 @@
                   <a href="https://github.com/ajalt/clikt/edit/master/docs/api/clikt/com.github.ajalt.clikt.parameters.options/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>Home</h1>
+                  <h1>Index</h1>
                 
                 <p><a href="../">clikt</a> / <a href="./">com.github.ajalt.clikt.parameters.options</a></p>
 <h2 id="package-comgithubajaltcliktparametersoptions">Package com.github.ajalt.clikt.parameters.options<a class="headerlink" href="#package-comgithubajaltcliktparametersoptions" title="Permanent link">&para;</a></h2>
@@ -1488,8 +1512,12 @@
 <td><code>typealias RawOption =</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
+<td><a href="-value-converter/">ValueConverter</a></td>
+<td>A block that converts a single value from one type to another<code>typealias ValueConverter&lt;InT, ValueT&gt; =</code><a href="-option-call-transform-context/"><code>OptionCallTransformContext</code></a><code>.(InT) -&gt; ValueT</code></td>
+</tr>
+<tr>
 <td><a href="-value-transformer/">ValueTransformer</a></td>
-<td>A callback that transforms a single value from a string to the value type<code>typealias ValueTransformer&lt;ValueT&gt; =</code><a href="-option-call-transform-context/"><code>OptionCallTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt; ValueT</code></td>
+<td>A callback that transforms a single value from a string to the value type<code>typealias ValueTransformer&lt;ValueT&gt; =</code><a href="-value-converter/"><code>ValueConverter</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="-value-with-default/">ValueWithDefault</a></td>
@@ -1508,7 +1536,7 @@
 <tbody>
 <tr>
 <td><a href="convert/">convert</a></td>
-<td>Convert the option&rsquo;s value type.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-raw-option/"><code>RawOption</code></a><code>.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "VALUE", envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>= this.envvarSplit.default, completionCandidates:</code><a href="../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="-value-transformer/"><code>ValueTransformer</code></a><code>&lt;T&gt;):</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code></td>
+<td>Convert the option&rsquo;s value type.<code>fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "VALUE", envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>= this.envvarSplit.default, completionCandidates:</code><a href="../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="counted/">counted</a></td>
@@ -1596,7 +1624,7 @@
 </tr>
 <tr>
 <td><a href="wrap-value/">wrapValue</a></td>
-<td><code>fun</code><a href="-raw-option/"><code>RawOption</code></a><code>.~~wrapValue~~(wrapper: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>):</code><a href="-raw-option/"><code>RawOption</code></a><br>Wrap the option&rsquo;s values after a conversion is applied.<code>fun &lt;T1 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, T2 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;T1, T1&gt;.wrapValue(wrapper: (T1) -&gt; T2):</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;T2, T2&gt;</code></td>
+<td><code>fun</code><a href="-raw-option/"><code>RawOption</code></a><code>.~~wrapValue~~(wrapper: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>):</code><a href="-raw-option/"><code>RawOption</code></a><br>Wrap the option&rsquo;s values after a conversion is applied.<code>fun &lt;T1 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, T2 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;T1, T1&gt;.~~wrapValue~~(wrapper: (T1) -&gt; T2):</code><a href="-nullable-option/"><code>NullableOption</code></a><code>&lt;T2, T2&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1623,13 +1651,13 @@
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2019 AJ Alt
+            Copyright &copy; 2020 AJ Alt
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1639,9 +1667,9 @@
       
     </div>
     
-      <script src="../../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:"../../.."}})</script>
       
     
   </body>

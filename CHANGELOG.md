@@ -14,6 +14,7 @@
 - `convert` can be called more than once on the same option or argument, including after calls to conversion functions like `int` and `file`.
 - `wrapValue` is now deprecated, since `convert` can be used in its place instead.
 - `CliktCommand.toString` now includes the class name
+- Reverted automatic `~` expansion in `file()` and `path()` introduced in 2.5.0. If you need this behavior, you can implement it with code like `convert { /* expand tidle */ }.file()` 
 
 ## [2.5.0] - 2020-02-22
 ### Added

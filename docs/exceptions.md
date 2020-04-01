@@ -39,6 +39,7 @@ The following subclasses exist:
 * [`PrintHelpMessage`][PrintHelpMessage] : The help page for the exception's command should be printed.
 * [`PrintCompletionMessage`][PrintCompletionMessage] : Shell completion code for the command should be printed.
 * [`UsageError`][UsageError] : The command line was incorrect in some way. All other exceptions subclass from this. These exceptions are automatically augmented with extra information about the current parameter, if possible.
+* [`ProgramResult`][ProgramResult] : The program should exit with the `statusCode` from this exception.
 * [`BadParameterValue`][BadParameterValue] : A parameter was given the correct number of values, but of invalid format or type.
 * [`MissingParameter`][MissingParameter] : A required parameter was not provided.
 * [`NoSuchOption`][NoSuchOption] : An option was provided that does not exist.
@@ -56,6 +57,7 @@ The following subclasses exist:
 [PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
 [PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.md
 [PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/index.md
+[ProgramResult]:                   api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
 [convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
 [UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md
 [parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md

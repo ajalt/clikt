@@ -265,6 +265,8 @@ abstract class CliktCommand(
     fun main(argv: List<String>) {
         try {
             parse(argv)
+        } catch (e: ProgramResult) {
+            exitProcessMpp(e.statusCode)
         } catch (e: PrintHelpMessage) {
             echo(e.command.getFormattedHelp())
             exitProcessMpp(0)

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Ability to use custom program exit status codes via `ProgramResult`.
 
 ## [2.6.0] - 2020-03-15
 ### Added

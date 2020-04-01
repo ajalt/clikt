@@ -208,6 +208,19 @@ line. In unit tests, you should instead call [`CliktCommand.parse`][parse], whic
 with error details rather than printing the details and exiting the process. See the documentation
 on [exceptions](exceptions.md) for more information.
 
+## Custom exit status codes
+
+Clikt will normally exit your program with a status code of 0 for a normal execution, or 1 if
+there's an error. If you want to use a different value, you can `throw ProgramResult(statusCode)`.
+If you use [`CliktCommand.main`][main], that exception will be caught and `exitProcess` will be
+called with the value of `statusCode`.
+
+You could also call `exitProcess` yourself, but the [ProgramResult][ProgramResult] has a couple of
+advantages:
+
+- `ProgramResult` is easier to test. Exiting the process makes unit tests difficult to run.
+- `ProgramResult` works on all platforms. `exitProcess` is only available on the JVM.
+
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.md
 [tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.md
 [customizing-context]: commands.md#customizing-contexts
@@ -218,3 +231,5 @@ on [exceptions](exceptions.md) for more information.
 [TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.md
 [dash-dash]:           arguments.md#option-like-arguments-using-
 [expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.md
+[ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
+

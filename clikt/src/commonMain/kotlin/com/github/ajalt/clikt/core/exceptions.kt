@@ -34,6 +34,11 @@ class PrintHelpMessage(val command: CliktCommand) : CliktError()
 open class PrintMessage(message: String) : CliktError(message)
 
 /**
+ * Indicate that that the program finished in a controlled manner, and should complete with the given [statusCode]
+ */
+class ProgramResult(val statusCode: Int): CliktError()
+
+/**
  * An exception that indicates that shell completion code should be printed.
  *
  * Execution should be immediately halted without an error.

@@ -9,4 +9,5 @@ include 'samples:helpformat'
 include 'samples:ansicolors'
 include 'samples:plugins'
 include 'samples:json'
+include 'samples:stream'
 

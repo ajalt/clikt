@@ -104,7 +104,7 @@ val opt: String? by option().choice("a", "b")
 You can also convert the restricted set of values to a new type:
 
 ```kotlin
-val color: Int by argument().choice("red" to 1, "green" to 2)
+val color: Int? by argument().choice("red" to 1, "green" to 2)
 ```
 
 Choice parameters accept values that are case-sensitive by default. This can be configured by
@@ -118,7 +118,7 @@ Like `choice`, but uses the values of an enum type.
 
 ```kotlin
 enum class Color { RED, GREEN }
-val color: Color by option().enum<Color>()
+val color: Color? by option().enum<Color>()
 ```
 
 Enum parameters accept case-insensitive values by default. This can be configured by passing
@@ -132,6 +132,16 @@ Enum parameters accept case-insensitive values by default. This can be configure
 These conversion functions take extra parameters that allow you to
 require that values are file paths that have certain attributes, such
 as that they are directories, or they are writable files.
+
+### File path `InputStream` and `OutputStream`s
+
+- [`option().inputStream()` and `argument().inputStream()`][inputStream]
+- [`option().outputStream()` and `argument().outputStream()`][outputStream]
+
+Like [file] and [path], these conversions take file path values, but expose them as open streams for
+reading or writing. They support the unix convention of passing `-` to specify stdin or stdout
+rather than a file on the filesystem. You'll need to close the streams yourself. You can also use
+[stdin][defaultStdin] or [stdout][defaultStdout] as their default values.
 
 ## Custom Types
 
@@ -265,14 +275,18 @@ Error: --bigger-number must be bigger than --number
 ```
 
 
-[int]:        api/clikt/com.github.ajalt.clikt.parameters.types/int.md
-[long]:       api/clikt/com.github.ajalt.clikt.parameters.types/long.md
-[restrictTo]: api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.md
-[float]:      api/clikt/com.github.ajalt.clikt.parameters.types/float.md
-[double]:     api/clikt/com.github.ajalt.clikt.parameters.types/double.md
-[choice]:     api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
-[file]:       api/clikt/com.github.ajalt.clikt.parameters.types/file.md
-[path]:       api/clikt/com.github.ajalt.clikt.parameters.types/path.md
-[enum]:       api/clikt/com.github.ajalt.clikt.parameters.types/enum.md
-[convert]:    api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
-[validate]:   api/clikt/com.github.ajalt.clikt.parameters.options/validate.md
+[choice]:         api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
+[convert]:        api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
+[defaultStdin]:   api/clikt/com.github.ajalt.clikt.parameters.types/default-stdin.md
+[defaultStdout]:  api/clikt/com.github.ajalt.clikt.parameters.types/default-stdout.md
+[double]:         api/clikt/com.github.ajalt.clikt.parameters.types/double.md
+[enum]:           api/clikt/com.github.ajalt.clikt.parameters.types/enum.md
+[file]:           api/clikt/com.github.ajalt.clikt.parameters.types/file.md
+[float]:          api/clikt/com.github.ajalt.clikt.parameters.types/float.md
+[inputStream]:    api/clikt/com.github.ajalt.clikt.parameters.types/input-stream.md
+[int]:            api/clikt/com.github.ajalt.clikt.parameters.types/int.md
+[long]:           api/clikt/com.github.ajalt.clikt.parameters.types/long.md
+[outputStream]:   api/clikt/com.github.ajalt.clikt.parameters.types/output-stream.md
+[path]:           api/clikt/com.github.ajalt.clikt.parameters.types/path.md
+[restrictTo]:     api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.md
+[validate]:       api/clikt/com.github.ajalt.clikt.parameters.options/validate.md

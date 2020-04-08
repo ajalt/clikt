@@ -3,6 +3,10 @@
 ## [Unreleased]
 ### Added
 - Ability to use custom program exit status codes via `ProgramResult`.
+- `inputStream` and `outputStream` conversions for options and arguments. ([#157](https://github.com/ajalt/clikt/issues/157) and [#158](https://github.com/ajalt/clikt/issues/158))
+
+### Changed
+- Update Kotlin to 1.3.71
 
 ## [2.6.0] - 2020-03-15
 ### Added

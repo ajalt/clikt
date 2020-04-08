@@ -19,7 +19,7 @@ private fun pathType(fileOkay: Boolean, folderOkay: Boolean): String = when {
     else -> "Path"
 }
 
-private fun convertToPath(
+internal fun convertToPath(
         path: String,
         mustExist: Boolean,
         canBeFile: Boolean,
@@ -40,6 +40,8 @@ private fun convertToPath(
         if (!canBeSymlink && Files.isSymbolicLink(it)) fail("$name \"$it\" is a symlink.")
     }
 }
+
+//<editor-fold desc="arguments">
 
 // This overload exists so that calls to `file()` aren't marked as deprecated.
 // Remove once the deprecated function is removed.
@@ -97,6 +99,9 @@ fun RawArgument.path(
         convertToPath(it, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
     }
 }
+
+//</editor-fold>
+//<editor-fold desc="options">
 
 // This overload exists so that calls to `file()` aren't marked as deprecated.
 // Remove once the deprecated function is removed.
@@ -156,3 +161,4 @@ fun RawOption.path(
         convertToPath(it, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
     }
 }
+//</editor-fold>

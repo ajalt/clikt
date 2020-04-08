@@ -314,8 +314,10 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
  * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(value: EachT, defaultForHelp: String = value.toString())
-        : OptionWithValues<EachT, EachT, ValueT> {
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
+        value: EachT,
+        defaultForHelp: String = value.toString()
+): OptionWithValues<EachT, EachT, ValueT> {
     return transformAll(defaultForHelp) { it.lastOrNull() ?: value }
 }
 

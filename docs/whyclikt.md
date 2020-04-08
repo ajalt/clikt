@@ -26,18 +26,21 @@ formatted differently. "Best practices" might not be the best for you,
 so Clikt tries to make implementing uncommon use-cases as easy as
 possible.
 
-## Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+## Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
 
-Clikt didn't invent the idea of a property delegate-based cli parser.
-JetBrains made [kotlinx.cli][kotlinx.cli], which is functional,
-but is more of a proof-of-concept than a production ready library.
+Clikt isn't the only Kotlin CLI library. [kotlin-argparser][kotlin-argparser] and
+[kotlinx.cli][kotlinx.cli] both predate Clikt's creation.
 
-[kotlin-argparser][kotlin-argparser] builds off of [kotlinx.cli][kotlinx.cli],
-and works well for simple cases. It's missing a lot of features that Clikt
-has, but features can be added. Its real drawback is that it
-fundamentally does not support composition of commands or parameter
-values. The lack of subcommand support was already a non-starter, but
-there are other design decisions that make it unsuitable.
+Both, like Clikt, use property delegates to define parameters, but they're missing most of Clikt
+features and its extensible design.
+
+[kotlinx.cli][kotlinx.cli] was written by JetBrains and mostly copied
+[kotlin-argparser][kotlin-argparser]'s design (and, later, some of Clikt's).
+
+[kotlin-argparser][kotlin-argparser] works well for simple cases. It's missing a lot of features
+that Clikt has, but features could be added. Its real drawback is that it fundamentally does not
+support composition of commands or parameter values. The lack of subcommand support was already a
+non-starter, but there are other design decisions that make it unsuitable.
 
 In the simple cases, the two libraries are similar. Here's an example
 from its README:
@@ -122,8 +125,8 @@ creation of Clikt:
 * Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`][option], and all arguments with [`argument()`][argument].
 
 Some of these problems can be solved by writing more code, and some
-can't. On the other hand, Clikt attempts to consistent, intuitive,
-composable interface that tries to do the right thing without forcing
+can't. On the other hand, Clikt attempts to have a consistent, intuitive,
+composable design that does the right thing without forcing
 you to think about edge cases.
 
 ## Why not a Java library like JCommander or Picocli?

@@ -1,0 +1,11 @@
+enableFeaturePreview("GRADLE_METADATA")
+
+include("clikt")
+include("samples:copy")
+include("samples:repo")
+include("samples:validation")
+include("samples:aliases")
+include("samples:helpformat")
+include("samples:ansicolors")
+include("samples:plugins")
+include("samples:json")

@@ -90,6 +90,11 @@ kotlin {
             get(it).dependsOn(posixTest)
         }
         get("mingwX64Test").dependsOn(nativeTest)
+
+        // Disable because some expected function isn't and should not be
+        // implemented in 'posixMain' source set.
+        listOf("compileKotlinPosix", "compileTestKotlinPosix")
+                .forEach { tasks.getByName(it).enabled = false }
     }
 }
 

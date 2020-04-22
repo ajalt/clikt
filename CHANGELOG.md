@@ -4,6 +4,7 @@
 ### Added
 - Ability to use custom program exit status codes via `ProgramResult`.
 - `inputStream` and `outputStream` conversions for options and arguments. ([#157](https://github.com/ajalt/clikt/issues/157) and [#158](https://github.com/ajalt/clikt/issues/158))
+- New CliktConsolePosix class will hide your input while you typing secret, available on POSIX-compliant systems.
 
 ### Changed
 - Update Kotlin to 1.3.71

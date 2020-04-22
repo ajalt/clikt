@@ -36,6 +36,10 @@ kotlin {
         // these two targets, so IntelliJ won't report errors.
         if (os.isWindows) mingwX86("mingwX64")
     }
+    when {
+        os.isLinux -> linuxX64("posix")
+        os.isMacOsX -> macosX64("posix")
+    }
 
 
     sourceSets {
@@ -73,9 +77,12 @@ kotlin {
 
         val nativeMain = if (ideaActive) get("nativeMain") else create("nativeMain")
 
-        listOf("macosX64Main", "linuxX64Main", "mingwX64Main").forEach {
-            get(it).dependsOn(nativeMain)
+        val posixMain = maybeCreate("posixMain")
+                .also { it.dependsOn(nativeMain) }
+        listOf("macosX64Main", "linuxX64Main").forEach {
+            get(it).dependsOn(posixMain)
         }
+        get("mingwX64Main").dependsOn(nativeMain)
 
         val nativeTest = if (ideaActive) get("nativeTest") else create("nativeTest")
 

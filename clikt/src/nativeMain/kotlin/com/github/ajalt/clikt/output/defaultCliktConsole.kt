@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.mpp.isWindowsMpp
+import com.github.ajalt.clikt.mpp.readEnvvar
 import platform.posix.*
 
 actual fun defaultCliktConsole() = object : CliktConsole {
@@ -21,5 +22,9 @@ actual fun defaultCliktConsole() = object : CliktConsole {
         }
     }
 
-    override val lineSeparator get() = if (isWindowsMpp()) "\r\n" else "\n"
+    override val lineSeparator
+        get() = if (isWindowsMpp() && !isRunningInMingw()) "\r\n" else "\n"
+
+    private fun isRunningInMingw(): Boolean =
+            readEnvvar("OS") == "Windows_NT"
 }

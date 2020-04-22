@@ -76,7 +76,6 @@ kotlin {
         }
 
         val nativeMain = if (ideaActive) get("nativeMain") else create("nativeMain")
-
         val posixMain = maybeCreate("posixMain")
                 .also { it.dependsOn(nativeMain) }
         listOf("macosX64Main", "linuxX64Main").forEach {
@@ -85,10 +84,12 @@ kotlin {
         get("mingwX64Main").dependsOn(nativeMain)
 
         val nativeTest = if (ideaActive) get("nativeTest") else create("nativeTest")
-
-        listOf("macosX64Test", "linuxX64Test", "mingwX64Test").forEach {
-            get(it).dependsOn(nativeTest)
+        val posixTest = maybeCreate("posixTest")
+                .also { it.dependsOn(nativeTest) }
+        listOf("macosX64Test", "linuxX64Test").forEach {
+            get(it).dependsOn(posixTest)
         }
+        get("mingwX64Test").dependsOn(nativeTest)
     }
 }
 

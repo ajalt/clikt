@@ -8,6 +8,7 @@
 
 ### Changed
 - Update Kotlin to 1.3.71
+- Use '\n' as line separator if it is running in MinGW shell. ([#163](https://github.com/ajalt/clikt/pull/163))
 
 ## [2.6.0] - 2020-03-15
 ### Added

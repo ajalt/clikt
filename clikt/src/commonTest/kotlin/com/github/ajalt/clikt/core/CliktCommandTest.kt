@@ -26,6 +26,14 @@ import kotlin.test.Test
 @Suppress("unused")
 class CliktCommandTest {
     @Test
+    @JsName("commandNameInferred")
+    fun `command name inferred`() {
+        inferCommandName("ListAllValuesCommand") shouldBe "list-all-values"
+        inferCommandName("LGTMMeansLookingGoodToMe") shouldBe "lgtmmeans-looking-good-to-me"
+        inferCommandName("nothing-to-change") shouldBe "nothing-to-change"
+    }
+
+    @Test
     @JsName("invokeWithoutSubcommand_false")
     fun `invokeWithoutSubcommand=false`() {
         shouldThrow<PrintHelpMessage> {

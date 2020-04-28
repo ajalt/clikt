@@ -51,7 +51,7 @@ abstract class CliktCommand(
         private val autoCompleteEnvvar: String? = "",
         internal val allowMultipleSubcommands: Boolean = false
 ) : ParameterHolder {
-    val commandName = name ?: classSimpleName().toLowerCase()
+    val commandName = name ?: inferCommandName(classSimpleName())
     val commandHelp = help
     val commandHelpEpilog = epilog
     internal var _subcommands: List<CliktCommand> = emptyList()
@@ -371,3 +371,8 @@ fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
 }
 
 private fun Any.classSimpleName(): String = this::class.simpleName.orEmpty().split("$").last()
+
+internal fun inferCommandName(name: String) =
+    name.removeSuffix("Command").replace(Regex("([a-z])([A-Z])")) {
+        "${it.groupValues[1]}-${it.groupValues[2]}"
+    }.toLowerCase()

@@ -23,20 +23,15 @@ kotlin {
     jvm()
     js { nodejs() }
 
-    if (!ideaActive) {
-        linuxX64()
-        mingwX64()
-        macosX64()
-    } else {
-        macosX64(if (os.isMacOsX) "native" else "macosX64")
-        mingwX64(if (os.isWindows) "native" else "mingwX64")
-        linuxX64(if (os.isLinux) "native" else "linuxX64")
-        // This is a further hack to allow us to define both mingwX64 and native source sets with
-        // the same target for IntelliJ. All of the posix functions we use are the same between
-        // these two targets, so IntelliJ won't report errors.
-        if (os.isWindows) mingwX86("mingwX64")
-    }
+    linuxX64()
+    mingwX64()
+    macosX64()
 
+    if (ideaActive) {
+        if (os.isMacOsX) macosX64("native")
+        if (os.isWindows) mingwX64("native")
+        if (os.isLinux) linuxX64("native")
+    }
 
     sourceSets {
         all {

@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id("org.jetbrains.kotlin.plugin.serialization").version("1.3.71")
+    id("org.jetbrains.kotlin.plugin.serialization").version("1.3.72")
 }
 
 application {

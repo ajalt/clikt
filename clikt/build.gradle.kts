@@ -32,6 +32,10 @@ kotlin {
         if (os.isWindows) mingwX64("native")
         if (os.isLinux) linuxX64("native")
     }
+    when {
+        os.isLinux -> linuxX64("posix")
+        os.isMacOsX -> macosX64("posix")
+    }
 
     sourceSets {
         all {
@@ -67,16 +71,25 @@ kotlin {
         }
 
         val nativeMain = if (ideaActive) get("nativeMain") else create("nativeMain")
-
-        listOf("macosX64Main", "linuxX64Main", "mingwX64Main").forEach {
-            get(it).dependsOn(nativeMain)
+        val posixMain = maybeCreate("posixMain")
+                .also { it.dependsOn(nativeMain) }
+        listOf("macosX64Main", "linuxX64Main").forEach {
+            get(it).dependsOn(posixMain)
         }
+        get("mingwX64Main").dependsOn(nativeMain)
 
         val nativeTest = if (ideaActive) get("nativeTest") else create("nativeTest")
-
-        listOf("macosX64Test", "linuxX64Test", "mingwX64Test").forEach {
-            get(it).dependsOn(nativeTest)
+        val posixTest = maybeCreate("posixTest")
+                .also { it.dependsOn(nativeTest) }
+        listOf("macosX64Test", "linuxX64Test").forEach {
+            get(it).dependsOn(posixTest)
         }
+        get("mingwX64Test").dependsOn(nativeTest)
+
+        // Disable because some expected function isn't and should not be
+        // implemented in 'posixMain' source set.
+        listOf("compileKotlinPosix", "compileTestKotlinPosix")
+                .forEach { tasks.getByName(it).enabled = false }
     }
 }
 

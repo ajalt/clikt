@@ -3,7 +3,7 @@ package com.github.ajalt.clikt.output
 import com.github.ajalt.clikt.mpp.isWindowsMpp
 import platform.posix.*
 
-actual fun defaultCliktConsole() = object : CliktConsole {
+fun defaultNativeCliktConsole() = object : CliktConsole {
     override fun promptForLine(prompt: String, hideInput: Boolean): String? {
         // hideInput is not currently implemented
         if (isatty(STDIN_FILENO) != 0) {

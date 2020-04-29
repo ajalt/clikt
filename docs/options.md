@@ -140,15 +140,14 @@ If you want a variable number of values separated by whitespace, you need to use
 ### Options With Fixed Number of Values
 
 There are built in functions for options that take two values ([`pair`][pair], which uses a `Pair`),
-or three values ([`triple`][triple], which uses a `Triple`).
-You can change the type of each value as normal with functions like [`int`][int].
+or three values ([`triple`][triple], which uses a `Triple`). You can change the type of each value
+as normal with functions like [`int`][int].
 
 If you need more values, you can provide your own container with
-[`transformValues`][transformValues]. You
-give that function the number of values you want, and a lambda that will transform a list of values
-into the output container. The list will always have a size equal to the number you specify. If the
-user provides a different number of values, Clikt will inform the user and your lambda won't be
-called.
+[`transformValues`][transformValues]. You give that function the number of values you want, and a
+lambda that will transform a list of values into the output container. The list will always have a
+size equal to the number you specify. If the user provides a different number of values, Clikt will
+inform the user and your lambda won't be called.
 
 ```kotlin tab="Example"
 data class Quad<out T>(val a: T, val b: T, val c: T, val d: T)
@@ -259,6 +258,27 @@ class Build : CliktCommand() {
 ```text tab="Usage"
 $ ./build -p android -p ios -p android
 Building for platforms: [android, ios]
+```
+
+## Key-Value and Map Options
+
+You can split an option's value into a key-value pair with [`splitPair`][splitPair]. By default, the
+delimiter `=` will be used to split. You can also use [`associate`][associate] to allow the option
+to be specified multiple times, and have its values collected in a map.
+
+```kotlin tab="Example"
+class Build : CliktCommand() {
+    val systemProp: Map<String, String> by option("-D", "--system-prop").associate()
+
+    override fun run() {
+        echo(systemProp)
+    }
+}
+```
+
+```text tab="Usage"
+$ ./build -Dplace=here --system-prop size=small
+{place=here, size=small}
 ```
 
 ## Boolean Flag Options
@@ -932,6 +952,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [convert]:                     api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
 [wrapValue]:                   api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value.md
 [parameter-types]:             parameters.md#parameter-types
+[associate]:                   api/clikt/com.github.ajalt.clikt.parameters.options/associate.md
 [pair]:                        api/clikt/com.github.ajalt.clikt.parameters.options/pair.md
 [triple]:                      api/clikt/com.github.ajalt.clikt.parameters.options/triple.md
 [transformValues]:             api/clikt/com.github.ajalt.clikt.parameters.options/transform-values.md
@@ -943,6 +964,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [flag]:                        api/clikt/com.github.ajalt.clikt.parameters.options/flag.md
 [counted]:                     api/clikt/com.github.ajalt.clikt.parameters.options/counted.md
 [switch]:                      api/clikt/com.github.ajalt.clikt.parameters.options/switch.md
+[splitPair]:                   api/clikt/com.github.ajalt.clikt.parameters.options/split-pair.md
 [choice-options]:              #choice-options
 [feature-switch-flags]:        #feature-switch-flags
 [mutuallyExclusiveOptions]:    api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options.md

@@ -4,9 +4,13 @@
 ### Added
 - Ability to use custom program exit status codes via `ProgramResult`.
 - `inputStream` and `outputStream` conversions for options and arguments. ([#157](https://github.com/ajalt/clikt/issues/157) and [#158](https://github.com/ajalt/clikt/issues/158))
+- `splitPair`, `toMap`, and `associate` extensions on `option`. ([#166](https://github.com/ajalt/clikt/issues/166))
 
 ### Changed
 - Update Kotlin to 1.3.71
+
+### Fixed
+- Correctly parse short options with attached values that contain `=`
 
 ## [2.6.0] - 2020-03-15
 ### Added

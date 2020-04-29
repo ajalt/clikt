@@ -45,6 +45,16 @@ internal object Parser {
         var canExpandAtFiles = context.expandArgumentFiles
         val invocations = mutableListOf<Pair<Option, Invocation>>()
         var minAliasI = 0
+
+        fun isLongOptionWithEquals(prefix: String, token: String) : Boolean {
+            if ("=" !in token) return false
+            if (prefix.isEmpty()) return false
+            if (prefix.length > 1) return true
+            if (context.tokenTransformer(context, token.substringBefore("=")) in longNames) return true
+            if (context.tokenTransformer(context, token.take(2)) in optionsByName) return false
+            return true
+        }
+
         loop@ while (i <= tokens.lastIndex) {
             val tok = tokens[i]
             val normTok = context.tokenTransformer(context, tok)
@@ -65,7 +75,7 @@ internal object Parser {
                     canParseOptions = false
                     canExpandAtFiles = false
                 }
-                canParseOptions && (('=' in tok && prefix.isNotEmpty()) || normTok in longNames || prefix.length > 1 && prefix in prefixes) -> {
+                canParseOptions && (prefix.length > 1 && prefix in prefixes || normTok in longNames || isLongOptionWithEquals(prefix, tok)) -> {
                     val (opt, result) = parseLongOpt(context, tokens, tok, i, optionsByName)
                     invocations += opt to result.invocation
                     i += result.consumedCount

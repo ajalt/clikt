@@ -61,7 +61,11 @@ class OptionTest {
             row("--xx=asd", "asd"),
             row("-x 4", "4"),
             row("-x -x", "-x"),
-            row("-xfoo", "foo")
+            row("-xfoo", "foo"),
+            row("-x a=b", "a=b"),
+            row("-xa=b", "a=b"),
+            row("--xx a=b", "a=b"),
+            row("--xx=a=b", "a=b")
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx")

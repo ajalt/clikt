@@ -512,6 +512,52 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
     return split(Regex.fromLiteral(delimiter))
 }
 
+
+/**
+ * Split this option's value into two with a [delimiter].
+ *
+ * If the delimiter is not present in the value, the [second][Pair.second] part of the pair will be
+ * an empty string. You can use [validate] to reject these values.
+ *
+ * You cannot call [convert] before this function, but you can call it after.
+ *
+ * ### Example:
+ *
+ * ```
+ * val opt: option("-o").splitPair()
+ * ```
+ *
+ * Which can be called like this:
+ *
+ * `./program -o key=value`
+ */
+fun RawOption.splitPair(delimiter: String = "="): NullableOption<Pair<String, String>, Pair<String, String>> {
+    return convert { it.substringBefore(delimiter) to it.substringAfter(delimiter, missingDelimiterValue = "") }
+}
+
+/**
+ * Convert this option's values from a list of pairs into a map with key-value pairs from the list.
+ *
+ * If the same key appears more than once, the last one will be added to the map.
+ */
+fun <A, B> OptionWithValues<List<Pair<A, B>>, Pair<A, B>, Pair<A, B>>.toMap(): OptionWithValues<Map<A, B>, Pair<A, B>, Pair<A, B>> {
+    return copy(
+            transformValue = transformValue,
+            transformEach = transformEach,
+            transformAll = { transformAll(it).toMap() },
+            validator = defaultValidator()
+    )
+}
+
+/**
+ * Change this option to take multiple values, each split on a [delimiter], and converted to a map.
+ *
+ * This is shorthand for [splitPair], [multiple], and [toMap].
+ */
+fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, String>, Pair<String, String>, Pair<String, String>> {
+    return splitPair(delimiter).multiple().toMap()
+}
+
 /**
  * Check the final option value and raise an error if it's not valid.
  *

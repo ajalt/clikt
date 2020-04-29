@@ -61,7 +61,11 @@ class OptionTest {
             row("--xx=asd", "asd"),
             row("-x 4", "4"),
             row("-x -x", "-x"),
-            row("-xfoo", "foo")
+            row("-xfoo", "foo"),
+            row("-x a=b", "a=b"),
+            row("-xa=b", "a=b"),
+            row("--xx a=b", "a=b"),
+            row("--xx=a=b", "a=b")
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx")
@@ -689,13 +693,50 @@ class OptionTest {
     }
 
     @Test
-    @JsName("wrapValue_options")
-    fun `multiple converted options`() = forall(
+    @JsName("options_with_chained_convert")
+    fun `options with chained convert`() = forall(
             row("", null),
             row("--x=1", listOf(1))
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option().int().convert { listOf(it) }
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("associate_options")
+    fun `associate options`() = forall(
+            row("", emptyMap()),
+            row("-Xfoo=bar", mapOf("foo" to "bar")),
+            row("-Xfoo=bar -X baz=qux", mapOf("foo" to "bar", "baz" to "qux")),
+            row("-Xfoo=bar -Xfoo=baz", mapOf("foo" to "baz")),
+            row("-Xfoo -Xbaz=qux", mapOf("foo" to "", "baz" to "qux"))
+    ) { argv, expected ->
+        class C : TestCommand() {
+            val x by option("-X").associate()
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("customized_splitPair")
+    fun `customized splitPair`() = forall(
+            row("", null),
+            row("-Xfoo:1", "foo|1"),
+            row("-Xfoo:1 -Xbar:2", "bar|2"),
+            row("-Xfoo:1 -Xfoo", "foo|"),
+            row("-Xfoo:=", "foo|="),
+            row("-Xfoo:1=1", "foo|1=1")
+    ) { argv, expected ->
+        class C : TestCommand() {
+            val x by option("-X").splitPair(":").convert { "${it.first}|${it.second}" }
             override fun run_() {
                 x shouldBe expected
             }

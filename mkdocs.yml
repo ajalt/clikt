@@ -58,6 +58,7 @@ nav:
       - 'Customizing Options': options/#customizing-options
       - 'Multi Value Options': options/#multi-value-options
       - 'Multiple Options': options/#multiple-options
+      - 'Key-Value and Map Options': options/#key-value-and-map-options
       - 'Boolean Flag Options': options/#boolean-flag-options
       - 'Counted Flag Options': options/#counted-flag-options
       - 'Feature Switch Flags': options/#feature-switch-flags

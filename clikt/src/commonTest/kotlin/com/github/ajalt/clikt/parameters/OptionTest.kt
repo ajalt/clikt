@@ -11,9 +11,9 @@ import io.kotest.matchers.shouldBe
 import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
-import kotlin.test.fail
+import kotlin.test.assertTrue
 
-@Suppress("unused")
+@Suppress("unused", "BooleanLiteralArgument")
 class OptionTest {
     @Test
     fun inferEnvvar() = forall(
@@ -456,13 +456,14 @@ class OptionTest {
             val u by option().flag()
             override fun run_() {
                 _options.forEach {
-                    if (it is EagerOption || // skip help option
+                    assertTrue(it is EagerOption || // skip help option
                             "--x" in it.names && it.metavar == "TEXT" ||
                             "--y" in it.names && it.metavar == "FOO" ||
                             "--z" in it.names && it.metavar == "FOO" ||
                             "--w" in it.names && it.metavar == "BAR" ||
-                            "--u" in it.names && it.metavar == null)
-                    else fail("bad option $it")
+                            "--u" in it.names && it.metavar == null,
+                            message = "bad option $it"
+                    )
                 }
             }
         }

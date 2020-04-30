@@ -26,11 +26,15 @@ import kotlin.test.Test
 @Suppress("unused")
 class CliktCommandTest {
     @Test
-    @JsName("commandNameInferred")
-    fun `command name inferred`() {
-        inferCommandName("ListAllValuesCommand") shouldBe "list-all-values"
-        inferCommandName("LGTMMeansLookingGoodToMe") shouldBe "lgtmmeans-looking-good-to-me"
-        inferCommandName("nothing-to-change") shouldBe "nothing-to-change"
+    @Suppress("ClassName")
+    @JsName("inferring_command_name")
+    fun `inferring command name`() {
+        class ListAllValuesCommand: TestCommand()
+        class LGTMMeansLookingGoodToMe: TestCommand()
+        class `nothing-to-change`: TestCommand()
+        ListAllValuesCommand().commandName shouldBe "list-all-values"
+        LGTMMeansLookingGoodToMe().commandName shouldBe "lgtmmeans-looking-good-to-me"
+        `nothing-to-change`().commandName shouldBe "nothing-to-change"
     }
 
     @Test

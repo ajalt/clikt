@@ -8,6 +8,7 @@
 
 ### Changed
 - Update Kotlin to 1.3.71
+- Improved command name inference. Now, a class like `MyAppCommand` will infer its `commandName` as `my-app` rather than `myappcommand`. You can still specify the name manually as before. ([#168][https://github.com/ajalt/clikt/pull/168])
 
 ### Fixed
 - Correctly parse short options with attached values that contain `=`

@@ -67,7 +67,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT>(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().choice(mapOf("foo" to FooOptionGroup(), "bar" to BarOptionGroup()))
  * ```
  *
@@ -82,7 +82,7 @@ fun <T : OptionGroup> RawOption.groupChoice(choices: Map<String, T>): ChoiceGrou
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().choice("foo" to FooOptionGroup(), "bar" to BarOptionGroup())
  * ```
  *
@@ -97,7 +97,7 @@ fun <T : OptionGroup> RawOption.groupChoice(vararg choices: Pair<String, T>): Ch
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().choice("foo" to FooOptionGroup(), "bar" to BarOptionGroup()).required()
  * ```
  */
@@ -110,7 +110,7 @@ fun <T : OptionGroup> ChoiceGroup<T, T?>.required(): ChoiceGroup<T, T> {
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().switch(mapOf("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup()))
  * ```
  */
@@ -123,7 +123,7 @@ fun <T : OptionGroup> RawOption.groupSwitch(choices: Map<String, T>): ChoiceGrou
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().switch("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup())
  * ```
  */

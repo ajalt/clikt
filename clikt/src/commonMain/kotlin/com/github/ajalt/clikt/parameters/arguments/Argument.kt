@@ -257,7 +257,7 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val arg: Int? by argument().int().optional()
  * ```
  */
@@ -273,7 +273,7 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional(): ProcessedAr
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val arg: List<Int> by argument().int().multiple()
  * ```
  */
@@ -301,7 +301,7 @@ fun <T : Any> ProcessedArgument<List<T>, T>.unique(): ProcessedArgument<Set<T>, 
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val arg: Pair<Int, Int> by argument().int().pair()
  * ```
  */
@@ -316,7 +316,7 @@ fun <T : Any> ProcessedArgument<T, T>.pair(): ProcessedArgument<Pair<T, T>, T> {
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val arg: Triple<Int, Int, Int> by argument().int().triple()
  * ```
  */
@@ -331,7 +331,7 @@ fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val arg: Pair<Int, Int> by argument().int().pair().default(1 to 2)
  * ```
  */
@@ -347,7 +347,7 @@ fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val arg: Pair<Int, Int> by argument().int().pair().defaultLazy { expensiveOperation() }
  * ```
  */
@@ -439,7 +439,7 @@ inline fun <T1 : Any, T2 : Any> ProcessedArgument<T1, T1>.wrapValue(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
  * ```
  */
@@ -458,7 +458,7 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(validator: Arg
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
  * ```
  */

@@ -310,7 +310,7 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
  * ```
  */
@@ -334,7 +334,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: Pair<Int, Int> by option().int().pair().defaultLazy { expensiveOperation() }
  * ```
  */
@@ -352,7 +352,7 @@ inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: Pair<Int, Int> by option().int().pair().required()
  * ```
  */
@@ -367,7 +367,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithVa
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: List<Pair<Int, Int>> by option().int().pair().multiple()
  * ```
  *
@@ -393,7 +393,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: Set<Int> by option().int().multiple().unique()
  * ```
  */
@@ -436,7 +436,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: Pair<Int, Int>? by option().int().pair()
  * ```
  */
@@ -452,7 +452,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: Triple<Int, Int, Int>? by option().int().triple()
  * ```
  */
@@ -468,15 +468,13 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: List<Int>? by option().int().split(Regex(","))
  * ```
  *
  * Which can be called like this:
  *
- * ```
- * ./program --opt 1,2,3
- * ```
+ * `./program --opt 1,2,3`
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
         : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
@@ -497,15 +495,13 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt: List<Int>? by option().int().split(Regex(","))
  * ```
  *
  * Which can be called like this:
  *
- * ```
- * ./program --opt 1,2,3
- * ```
+ * `./program --opt 1,2,3`
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
         : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
@@ -568,7 +564,7 @@ fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, S
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
  * ```
  */
@@ -589,7 +585,7 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
  * ```
  */
@@ -610,7 +606,7 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val opt by option().int().validate { require(it % 2 == 0) { "value must be even" } }
  *    .deprecated("WARNING: --opt is deprecated, use --new-opt instead")
  * ```

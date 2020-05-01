@@ -25,7 +25,7 @@ private fun errorMessage(choice: String, choices: Map<String, *>): String {
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * argument().choice(mapOf("foo" to 1, "bar" to 2))
  * ```
  */
@@ -44,7 +44,7 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = 
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * argument().choice("foo" to 1, "bar" to 2)
  * ```
  */
@@ -60,7 +60,7 @@ fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>, ignoreCase: Bo
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * argument().choice("foo", "bar")
  * ```
  */
@@ -75,7 +75,7 @@ fun RawArgument.choice(vararg choices: String, ignoreCase: Boolean = false): Pro
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * enum class Size { SMALL, LARGE }
  * argument().enum<Size>()
  * ```
@@ -99,7 +99,7 @@ inline fun <reified T : Enum<T>> RawArgument.enum(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().choice(mapOf("foo" to 1, "bar" to 2))
  * ```
  *
@@ -124,7 +124,7 @@ fun <T : Any> RawOption.choice(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().choice("foo" to 1, "bar" to 2)
  * ```
  *
@@ -146,7 +146,7 @@ fun <T : Any> RawOption.choice(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().choice("foo", "bar")
  * ```
  */
@@ -165,7 +165,7 @@ fun RawOption.choice(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * enum class Size { SMALL, LARGE }
  * option().enum<Size>()
  * ```

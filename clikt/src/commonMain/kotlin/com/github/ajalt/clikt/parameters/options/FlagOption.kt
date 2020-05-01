@@ -131,7 +131,7 @@ fun RawOption.counted(): FlagOption<Int> {
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().switch(mapOf("--foo" to Foo(), "--bar" to Bar()))
  * ```
  */
@@ -151,7 +151,7 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().switch("--foo" to Foo(), "--bar" to Bar())
  * ```
  */

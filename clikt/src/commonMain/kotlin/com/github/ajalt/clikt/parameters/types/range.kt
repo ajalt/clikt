@@ -30,7 +30,7 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * argument().int().restrictTo(max=10, clamp=true)
  * ```
  */
@@ -47,7 +47,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * argument().int().restrictTo(1..10, clamp=true)
  * ```
  */
@@ -64,7 +64,7 @@ fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().int().restrictTo(max=10, clamp=true)
  * ```
  */
@@ -82,7 +82,7 @@ fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, cl
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * option().int().restrictTo(1..10, clamp=true)
  * ```
  */

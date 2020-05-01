@@ -71,7 +71,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * val fruits: Int? by mutuallyExclusiveOptions(
  *   option("--apples").int(),
  *   option("--oranges").int()

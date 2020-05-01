@@ -57,7 +57,7 @@ interface ParameterGroupDelegate<out T> : ParameterGroup, ReadOnlyProperty<Clikt
  *
  * ### Example:
  *
- * ```kotlin
+ * ```
  * class UserOptions : OptionGroup(name = "User Options", help = "Options controlling the user") {
  *   val name by option()
  *   val age by option().int()

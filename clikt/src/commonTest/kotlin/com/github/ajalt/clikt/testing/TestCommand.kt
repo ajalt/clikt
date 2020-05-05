@@ -15,7 +15,8 @@ open class TestCommand(
         printHelpOnEmptyArgs: Boolean = false,
         helpTags: Map<String, String> = emptyMap(),
         autoCompleteEnvvar: String? = "",
-        allowMultipleSubcommands: Boolean = false
+        allowMultipleSubcommands: Boolean = false,
+        treatUnknownOptionsAsArgs: Boolean = false
 ) : CliktCommand(
         help,
         epilog,
@@ -24,7 +25,8 @@ open class TestCommand(
         printHelpOnEmptyArgs,
         helpTags,
         autoCompleteEnvvar,
-        allowMultipleSubcommands
+        allowMultipleSubcommands,
+        treatUnknownOptionsAsArgs
 ) {
     private var actualCount = 0
     final override fun run() {

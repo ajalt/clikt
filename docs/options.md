@@ -744,6 +744,46 @@ Options:
   --opt4 TEXT  option 4 (deprecated)
 ```
 
+## Unknown Options
+
+You may want to collect unknown options for manual processing. You can do this by passing
+`treatUnknownOptionsAsArgs = true` to your [`CliktCommand` constructor][CliktCommand.init]. This
+will cause Clikt to treat unknown options as positional arguments rather than reporting an error
+when one is encountered. You'll need to define an [`argument().multiple()`][argument.multiple]
+property to collect the options, otherwise an error will still be reported.
+
+```kotlin tab="Example"
+class Wrapper : CliktCommand(treatUnknownOptionsAsArgs = true) {
+    init { context { allowInterspersedArgs = false } }
+
+    val command by option(help = "?").required()
+    val arguments by argument().multiple()
+
+    override fun run() {
+        val cmd = (listOf(command) + arguments).joinToString(" ")
+        val proc = Runtime.getRuntime().exec(cmd)
+        println(proc.inputStream.bufferedReader().readText())
+        proc.waitFor()
+    }
+}
+```
+
+```text tab="Usage"
+$ ./wrapper --command=git tag --help | head -n4
+GIT-TAG(1)                        Git Manual                        GIT-TAG(1)
+
+NAME
+       git-tag - Create, list, delete or verify a tag object signed with GPG
+```
+
+Note that flag options in a single token (e.g. using `-abc` to specify `-a`, `-b`, and `-c` in a
+single token) will still report an error if they are unknown. Each option should be specified
+separately in this mode.
+
+You'll often want to set [`allowInterspersedArgs = false`][allowInterspersedArgs] on your Context when
+using `treatUnknownOptionsAsArgs`. You may also find that subcommands are a better fit than
+`treatUnknownOptionsAsArgs` for your use case.
+
 ## Values From Environment Variables
 
 Clikt supports reading option values from environment variables if they
@@ -997,3 +1037,6 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [readEnvvarFirst]:             api/clikt/com.github.ajalt.clikt.core/-context/-builder/read-envvar-before-value-source.md
 [PropertiesValueSource]:       api/clikt/com.github.ajalt.clikt.sources/-properties-value-source/index.md
 [MapValueSource]:              api/clikt/com.github.ajalt.clikt.sources/-map-value-source/index.md
+[CliktCommand.init]:           api/clikt/com.github.ajalt.clikt.core/-clikt-command/-init-/
+[argument.multiple]:           api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple/
+[allowInterspersedArgs]: api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.md

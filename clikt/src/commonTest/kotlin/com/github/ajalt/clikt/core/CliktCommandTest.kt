@@ -316,6 +316,39 @@ class CliktCommandTest {
             c.parse("")
         }.message shouldContain "allowMultipleSubcommands"
     }
+
+    @Test
+    @JsName("treat_unknown_options_as_arguments")
+    fun `treat unknown options as arguments`() {
+        class C : TestCommand(treatUnknownOptionsAsArgs = true) {
+            val foo by option().flag()
+            val args by argument().multiple()
+
+            override fun run_() {
+                foo shouldBe true
+                args shouldBe listOf("--bar", "baz", "--qux=qoz")
+            }
+        }
+
+        C().parse("--bar --foo baz --qux=qoz")
+    }
+
+    @Test
+    @JsName("treat_unknown_options_as_arguments_with_grouped_flag")
+    fun `treat unknown options as arguments with grouped flag`() {
+        class C(called:Boolean) : TestCommand(called=called, treatUnknownOptionsAsArgs = true) {
+            val foo by option("-f").flag()
+            val args by argument().multiple()
+        }
+
+        val c = C(true)
+        c.parse("-f -g -i")
+        c.foo shouldBe true
+        c.args shouldBe listOf("-g", "-i")
+        shouldThrow<NoSuchOption> {
+            C(false).parse("-fgi")
+        }.message shouldBe "no such option: \"-g\"."
+    }
 }
 
 private class MultiSub1(count: Int) : TestCommand(name = "foo", count = count) {

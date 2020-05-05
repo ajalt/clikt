@@ -38,6 +38,11 @@ import com.github.ajalt.clikt.parsers.Parser
  * @param allowMultipleSubcommands If true, allow multiple of this command's subcommands to be
  *   called sequentially. This will disable `allowInterspersedArgs` on the context of this command an
  *   its descendants. This functionality is experimental, and may change in a future release.
+ * @param treatUnknownOptionsAsArgs If true, any options on the command line whose names aren't
+ * valid will be parsed as an argument rather than reporting an error. You'll need to define an
+ * `argument().multiple()` to collect these options, or an error will still be reported. Unknown
+ * short option flags grouped with other flags on the command line will always be reported as
+ * errors.
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
@@ -49,7 +54,8 @@ abstract class CliktCommand(
         val printHelpOnEmptyArgs: Boolean = false,
         val helpTags: Map<String, String> = emptyMap(),
         private val autoCompleteEnvvar: String? = "",
-        internal val allowMultipleSubcommands: Boolean = false
+        internal val allowMultipleSubcommands: Boolean = false,
+        internal val treatUnknownOptionsAsArgs: Boolean = false
 ) : ParameterHolder {
     val commandName = name ?: inferCommandName()
     val commandHelp = help

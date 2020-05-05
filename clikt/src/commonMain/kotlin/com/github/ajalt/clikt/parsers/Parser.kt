@@ -7,7 +7,9 @@ import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
-import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
+
+private data class OptInvocation(val opt: Option, val inv: Invocation)
+private data class OptParseResult(val consumed: Int, val unknown: List<String>, val known: List<OptInvocation>)
 
 internal object Parser {
     fun parse(argv: List<String>, context: Context) {
@@ -43,16 +45,22 @@ internal object Parser {
         var subcommand: CliktCommand? = null
         var canParseOptions = true
         var canExpandAtFiles = context.expandArgumentFiles
-        val invocations = mutableListOf<Pair<Option, Invocation>>()
+        val invocations = mutableListOf<OptInvocation>()
         var minAliasI = 0
 
-        fun isLongOptionWithEquals(prefix: String, token: String) : Boolean {
+        fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
             if ("=" !in token) return false
             if (prefix.isEmpty()) return false
             if (prefix.length > 1) return true
             if (context.tokenTransformer(context, token.substringBefore("=")) in longNames) return true
             if (context.tokenTransformer(context, token.take(2)) in optionsByName) return false
             return true
+        }
+
+        fun consumeParse(result: OptParseResult) {
+            positionalArgs += result.unknown
+            invocations += result.known
+            i += result.consumed
         }
 
         loop@ while (i <= tokens.lastIndex) {
@@ -76,14 +84,10 @@ internal object Parser {
                     canExpandAtFiles = false
                 }
                 canParseOptions && (prefix.length > 1 && prefix in prefixes || normTok in longNames || isLongOptionWithEquals(prefix, tok)) -> {
-                    val (opt, result) = parseLongOpt(context, tokens, tok, i, optionsByName)
-                    invocations += opt to result.invocation
-                    i += result.consumedCount
+                    consumeParse(parseLongOpt(command.treatUnknownOptionsAsArgs, context, tokens, tok, i, optionsByName))
                 }
                 canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
-                    val (count, invokes) = parseShortOpt(context, tokens, tok, i, optionsByName)
-                    invocations += invokes
-                    i += count
+                    consumeParse(parseShortOpt(command.treatUnknownOptionsAsArgs, context, tokens, tok, i, optionsByName))
                 }
                 i >= minAliasI && tok in aliases -> {
                     tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
@@ -102,9 +106,9 @@ internal object Parser {
             }
         }
 
-        val invocationsByOption = invocations.groupBy({ it.first }, { it.second })
-        val invocationsByGroup = invocations.groupBy { (it.first as? GroupableOption)?.parameterGroup }
-        val invocationsByOptionByGroup = invocationsByGroup.mapValues { (_, invs) -> invs.groupBy({ it.first }, { it.second }).filterKeys { it !is EagerOption } }
+        val invocationsByOption = invocations.groupBy({ it.opt }, { it.inv })
+        val invocationsByGroup = invocations.groupBy { (it.opt as? GroupableOption)?.parameterGroup }
+        val invocationsByOptionByGroup = invocationsByGroup.mapValues { (_, invs) -> invs.groupBy({ it.opt }, { it.inv }).filterKeys { it !is EagerOption } }
 
         try {
             // Finalize eager options
@@ -120,7 +124,7 @@ internal object Parser {
                 }
             }
 
-            // Finalize option groups after other options so that the groups can their values
+            // Finalize option groups after other options so that the groups can use their values
             invocationsByOptionByGroup.forEach { (group, invocations) ->
                 group?.finalize(context, invocations)
             }
@@ -180,12 +184,13 @@ internal object Parser {
     }
 
     private fun parseLongOpt(
+            ignoreUnknown: Boolean,
             context: Context,
             tokens: List<String>,
             tok: String,
             index: Int,
             optionsByName: Map<String, Option>
-    ): Pair<Option, ParseResult> {
+    ): OptParseResult {
         val equalsIndex = tok.indexOf('=')
         var (name, value) = if (equalsIndex >= 0) {
             tok.substring(0, equalsIndex) to tok.substring(equalsIndex + 1)
@@ -193,31 +198,41 @@ internal object Parser {
             tok to null
         }
         name = context.tokenTransformer(context, name)
-        val option = optionsByName[name] ?: throw NoSuchOption(
-                givenName = name,
-                possibilities = context.correctionSuggestor(name, optionsByName.keys.toList())
-        )
+        val option = optionsByName[name] ?: if (ignoreUnknown) {
+            return OptParseResult(1, listOf(tok), emptyList())
+        } else {
+            throw NoSuchOption(
+                    givenName = name,
+                    possibilities = context.correctionSuggestor(name, optionsByName.keys.toList())
+            )
+        }
+
         val result = option.parser.parseLongOpt(option, name, tokens, index, value)
-        return option to result
+        return OptParseResult(result.consumedCount, emptyList(), listOf(OptInvocation(option, result.invocation)))
     }
 
     private fun parseShortOpt(
+            ignoreUnknown: Boolean,
             context: Context,
             tokens: List<String>,
             tok: String,
             index: Int,
             optionsByName: Map<String, Option>
-    ): Pair<Int, List<Pair<Option, Invocation>>> {
+    ): OptParseResult {
         val prefix = tok[0].toString()
-        val invocations = mutableListOf<Pair<Option, Invocation>>()
+        val invocations = mutableListOf<OptInvocation>()
         for ((i, opt) in tok.withIndex()) {
             if (i == 0) continue // skip the dash
 
             val name = context.tokenTransformer(context, prefix + opt)
-            val option = optionsByName[name] ?: throw NoSuchOption(name)
+            val option = optionsByName[name] ?: if (ignoreUnknown && tok.length == 2) {
+                return OptParseResult(1, listOf(tok), emptyList())
+            } else {
+                throw NoSuchOption(name)
+            }
             val result = option.parser.parseShortOpt(option, name, tokens, index, i)
-            invocations += option to result.invocation
-            if (result.consumedCount > 0) return result.consumedCount to invocations
+            invocations += OptInvocation(option, result.invocation)
+            if (result.consumedCount > 0) return OptParseResult(result.consumedCount, emptyList(), invocations)
         }
         throw IllegalStateException(
                 "Error parsing short option ${tokens[index]}: no parser consumed value.")

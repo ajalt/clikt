@@ -43,7 +43,7 @@ nav:
       - 'Adding Parameters': quickstart/#adding-parameters
       - 'Developing Command Line Applications With Gradle': quickstart/#developing-command-line-applications-with-gradle
   - 'Why Clikt?':
-      - 'Why not a Kotlin library like kotlin-argparse or kotlinx.cli?': whyclikt/
+      - 'Why not a Kotlin library like kotlin-argparser or kotlinx.cli?': whyclikt/
       - 'Why not a Java library like JCommander?': whyclikt/#why-not-a-java-library-like-jcommander
   - 'Parameters':
       - 'Differences': parameters/
@@ -70,6 +70,7 @@ nav:
       - 'Password Prompts': options/#password-prompts
       - 'Eager Options': options/#eager-options
       - 'Deprecating Options': options/#deprecating-options
+      - 'Unknown Options': options/#unknown-options
       - 'Values From Environment Variables': options/#values-from-environment-variables
       - 'Values from Configuration Files': options/#values-from-configuration-files
       - 'Windows and Java-Style Option Prefixes': options/#windows-and-java-style-option-prefixes

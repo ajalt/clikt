@@ -196,7 +196,7 @@ class OptionGroupsTest {
     }
 
     @Test
-    @JsName("co_minus_occurring_option_group")
+    @JsName("co_occurring_option_group")
     fun `co-occurring option group`() = forall(
             row("", false, null, null),
             row("--x=1", true, "1", null),
@@ -224,7 +224,7 @@ class OptionGroupsTest {
     }
 
     @Test
-    @JsName("co_minus_occurring_option_group_enforcement")
+    @JsName("co_occurring_option_group_enforcement")
     fun `co-occurring option group enforcement`() {
         class GGG : OptionGroup() {
             val x by option().required()
@@ -240,7 +240,7 @@ class OptionGroupsTest {
     }
 
     @Test
-    @JsName("co_minus_occurring_option_group_with_no_required_options")
+    @JsName("co_occurring_option_group_with_no_required_options")
     fun `co-occurring option group with no required options`() {
         class GGG : OptionGroup() {
             val x by option()
@@ -258,16 +258,6 @@ class OptionGroupsTest {
     @Test
     @JsName("choice_group")
     fun `choice group`() {
-        class Group1 : OptionGroup() {
-            val g11 by option().int().required()
-            val g12 by option().int()
-        }
-
-        class Group2 : OptionGroup() {
-            val g21 by option().int().required()
-            val g22 by option().int()
-        }
-
         class C : TestCommand() {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
         }
@@ -305,16 +295,6 @@ class OptionGroupsTest {
     @Test
     @JsName("switch_group")
     fun `switch group`() {
-        class Group1 : OptionGroup() {
-            val g11 by option().int().required()
-            val g12 by option().int()
-        }
-
-        class Group2 : OptionGroup() {
-            val g21 by option().int().required()
-            val g22 by option().int()
-        }
-
         class C : TestCommand() {
             val g by option().groupSwitch("--a" to Group1(), "--b" to Group2())
         }
@@ -428,4 +408,78 @@ class OptionGroupsTest {
         if (ec) C().parse(argv)
         else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe "fail"
     }
+
+    @Test
+    @JsName("group_choice_with_defaultByName")
+    fun `groupChoice and switch with defaultByName`() = forall(
+            row("--g=3", "Group3"),
+            row("", "Group4")
+    ) { argv, ex ->
+        class C : TestCommand() {
+            val g by option().groupChoice("3" to Group3(), "4" to Group4())
+                    .defaultByName("4")
+
+            override fun run_() {
+                g::class.simpleName shouldBe ex
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("group_switch_with_defaultByName")
+    fun `groupSwitch with defaultByName`() = forall(
+            row("--x", "Group3"),
+            row("", "Group4")
+    ) { argv, ex ->
+        class C : TestCommand() {
+            val g by option().groupSwitch("--x" to Group3(), "--y" to Group4())
+                    .defaultByName("--y")
+
+            override fun run_() {
+                g::class.simpleName shouldBe ex
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("groupSwitch_with_defaultByName_with_invalid_name")
+    fun `groupSwitch with defaultByName with invalid name`()  {
+        class C : TestCommand(called = false) {
+            val g by option().groupSwitch("--x" to Group1(), "--y" to Group2())
+                    .defaultByName("--z")
+        }
+       shouldThrow<IllegalArgumentException> { C() }
+    }
+
+    @Test
+    @JsName("groupChoice_with_defaultByName_with_invalid_name")
+    fun `groupChoice with defaultByName with invalid name`()  {
+        class C : TestCommand(called = false) {
+            val g by option().groupChoice("1" to Group1(), "2" to Group2())
+                    .defaultByName("3")
+        }
+        shouldThrow<IllegalArgumentException> { C() }
+    }
+}
+
+private class Group1 : OptionGroup() {
+    val g11 by option().int().required()
+    val g12 by option().int()
+}
+
+private class Group2 : OptionGroup() {
+    val g21 by option().int().required()
+    val g22 by option().int()
+}
+
+private class Group3 : OptionGroup() {
+    val g11 by option().int()
+    val g12 by option().int()
+}
+
+private class Group4 : OptionGroup() {
+    val g21 by option().int()
+    val g22 by option().int()
 }

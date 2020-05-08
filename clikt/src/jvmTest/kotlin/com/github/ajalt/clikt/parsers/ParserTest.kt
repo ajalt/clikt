@@ -150,26 +150,4 @@ class ParserTest {
 
         C().parse("@file")
     }
-
-    @Test
-    fun `@file symlink`() {
-        class C : TestCommand() {
-            val foo by option()
-            val bar by argument()
-
-            override fun run_() {
-                foo shouldBe "123"
-                bar shouldBe "abc"
-            }
-        }
-
-        val file = testFolder.newFile()
-        file.writeText("""
-        |--foo 123
-        |abc
-        """.trimMargin())
-        val link = testFolder.root.toPath().resolve("lynk")
-        Files.createSymbolicLink(link, file.toPath())
-        C().parse("@$link")
-    }
 }

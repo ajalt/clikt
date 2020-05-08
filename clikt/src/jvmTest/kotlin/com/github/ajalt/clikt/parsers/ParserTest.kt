@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
+import java.nio.file.Files
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -148,5 +149,27 @@ class ParserTest {
         }
 
         C().parse("@file")
+    }
+
+    @Test
+    fun `@file symlink`() {
+        class C : TestCommand() {
+            val foo by option()
+            val bar by argument()
+
+            override fun run_() {
+                foo shouldBe "123"
+                bar shouldBe "abc"
+            }
+        }
+
+        val file = testFolder.newFile()
+        file.writeText("""
+        |--foo 123
+        |abc
+        """.trimMargin())
+        val link = testFolder.root.toPath().resolve("lynk")
+        Files.createSymbolicLink(link, file.toPath())
+        C().parse("@$link")
     }
 }

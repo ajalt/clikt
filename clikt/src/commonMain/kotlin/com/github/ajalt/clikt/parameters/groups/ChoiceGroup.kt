@@ -68,7 +68,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT>(
  * ### Example:
  *
  * ```
- * option().choice(mapOf("foo" to FooOptionGroup(), "bar" to BarOptionGroup()))
+ * option().groupChoice(mapOf("foo" to FooOptionGroup(), "bar" to BarOptionGroup()))
  * ```
  *
  * @see com.github.ajalt.clikt.parameters.types.choice
@@ -83,7 +83,7 @@ fun <T : OptionGroup> RawOption.groupChoice(choices: Map<String, T>): ChoiceGrou
  * ### Example:
  *
  * ```
- * option().choice("foo" to FooOptionGroup(), "bar" to BarOptionGroup())
+ * option().groupChoice("foo" to FooOptionGroup(), "bar" to BarOptionGroup())
  * ```
  *
  * @see com.github.ajalt.clikt.parameters.types.choice
@@ -93,12 +93,13 @@ fun <T : OptionGroup> RawOption.groupChoice(vararg choices: Pair<String, T>): Ch
 }
 
 /**
- * If a [groupChoice] option is not called on the command line, throw a [MissingParameter] exception.
+ * If a [groupChoice] or [groupSwitch] option is not called on the command line, throw a
+ * [MissingParameter] exception.
  *
  * ### Example:
  *
  * ```
- * option().choice("foo" to FooOptionGroup(), "bar" to BarOptionGroup()).required()
+ * option().groupChoice("foo" to FooOptionGroup(), "bar" to BarOptionGroup()).required()
  * ```
  */
 fun <T : OptionGroup> ChoiceGroup<T, T?>.required(): ChoiceGroup<T, T> {
@@ -111,7 +112,7 @@ fun <T : OptionGroup> ChoiceGroup<T, T?>.required(): ChoiceGroup<T, T> {
  * ### Example:
  *
  * ```
- * option().switch(mapOf("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup()))
+ * option().groupSwitch(mapOf("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup()))
  * ```
  */
 fun <T : OptionGroup> RawOption.groupSwitch(choices: Map<String, T>): ChoiceGroup<T, T?> {
@@ -124,9 +125,27 @@ fun <T : OptionGroup> RawOption.groupSwitch(choices: Map<String, T>): ChoiceGrou
  * ### Example:
  *
  * ```
- * option().switch("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup())
+ * option().groupSwitch("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup())
  * ```
  */
 fun <T : OptionGroup> RawOption.groupSwitch(vararg choices: Pair<String, T>): ChoiceGroup<T, T?> {
     return groupSwitch(choices.toMap())
+}
+
+/**
+ * If a [groupChoice] or [groupSwitch] option is not called on the command line, use the value of
+ * the group with a switch or choice [name].
+ *
+ * ### Example:
+ *
+ * ```
+ * option().groupChoice("foo" to FooOptionGroup(), "bar" to BarOptionGroup()).defaultByName("foo")
+ * option().groupSwitch("--foo" to FooOptionGroup(), "--bar" to BarOptionGroup()).defaultByName("--bar")
+ * ```
+ *
+ * @throws IllegalArgumentException if [name] is not one of the option's choice/switch names.
+ */
+fun <T : OptionGroup> ChoiceGroup<T, T?>.defaultByName(name: String): ChoiceGroup<T, T> {
+    require(name in groups) { "invalid default name $name (must be one of ${groups.keys})" }
+    return ChoiceGroup(option, groups) { it ?: groups.getValue(name) }
 }

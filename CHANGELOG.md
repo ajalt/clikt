@@ -3,9 +3,10 @@
 ## [Unreleased]
 ### Added
 - Ability to use custom program exit status codes via `ProgramResult`.
-- `inputStream` and `outputStream` conversions for options and arguments. ([#157](https://github.com/ajalt/clikt/issues/157) and [#158](https://github.com/ajalt/clikt/issues/158))
+- `inputStream` and `outputStream` conversions for options and arguments. ([#157](https://github.com/ajalt/clikt/issues/157) and [#159](https://github.com/ajalt/clikt/issues/159))
 - `splitPair`, `toMap`, and `associate` extensions on `option`. ([#166](https://github.com/ajalt/clikt/issues/166))
-- `treatUnknownOptionsAsArgs` parameter to `CliktCommand`. ([#152](https://github.com/ajalt/clikt/issues/166))
+- `treatUnknownOptionsAsArgs` parameter to `CliktCommand`. ([#152](https://github.com/ajalt/clikt/issues/152))
+- `defaultByName` function for `groupChoice` and `groupSwitch` options. ([#171](https://github.com/ajalt/clikt/issues/171))
 
 ### Changed
 - Update Kotlin to 1.3.71

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.7.0] - 2020-05-13
 ### Added
 - Ability to use custom program exit status codes via `ProgramResult`.
 - `inputStream` and `outputStream` conversions for options and arguments. ([#157](https://github.com/ajalt/clikt/issues/157) and [#159](https://github.com/ajalt/clikt/issues/159))
@@ -25,9 +27,11 @@
 ### Changed
 - Update Kotlin to 1.3.70
 - `convert` can be called more than once on the same option or argument, including after calls to conversion functions like `int` and `file`.
-- `wrapValue` is now deprecated, since `convert` can be used in its place instead.
 - `CliktCommand.toString` now includes the class name
 - Reverted automatic `~` expansion in `file()` and `path()` introduced in 2.5.0. If you need this behavior, you can implement it with code like `convert { /* expand tidle */ }.file()` 
+
+### Deprecated
+- `wrapValue` is now deprecated, since `convert` can be used in its place instead.
 
 ## [2.5.0] - 2020-02-22
 ### Added
@@ -38,9 +42,11 @@
 - `CliktCommand.eagerOption` to simplify creating custom eager options
 
 ### Changed
-- `NoRunCliktCommand` was renamed to `NoOpCliktCommand`. The existing class is deprecated. ([#130](https://github.com/ajalt/clikt/issues/130))
-- The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.
 - The parameter names of `file()` and `path()` conversions have changed. The existing names are deprecated, and can be converted to the new usages with an IntelliJ inspection. Note that if you are calling these functions with unnamed arguments (e.g. `file(true, false)`), you'll need to add argument names in order to remove the deprecation warning.
+
+### Deprecated
+- The `CliktCommand.context` property has been deprecated in favor of the new name, `currentContext`, to avoid confusion with the `CliktCommand.context{}` method.
+- `NoRunCliktCommand` was renamed to `NoOpCliktCommand`. The existing class is deprecated. ([#130](https://github.com/ajalt/clikt/issues/130))
 
 ### Fixed
 - `file()` and `path()` conversions will now properly expand leading `~` in paths to the home directory for `mustExist`, `canBeFile`, and `canBeDir` checks. The property value is unchanged, and can still begin with a `~`. ([#131](https://github.com/ajalt/clikt/issues/79))

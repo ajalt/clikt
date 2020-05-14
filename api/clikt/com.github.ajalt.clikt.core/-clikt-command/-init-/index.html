@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../../../../../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1434,7 +1458,7 @@
                 
                 <p><a href="../../../">clikt</a> / <a href="../../">com.github.ajalt.clikt.core</a> / <a href="../">CliktCommand</a> / <a href="./">&lt;init&gt;</a></p>
 <h1 id="init">&lt;init&gt;<a class="headerlink" href="#init" title="Permanent link">&para;</a></h1>
-<p><code>CliktCommand(help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, epilog: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, invokeWithoutSubcommand: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, printHelpOnEmptyArgs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, helpTags: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = emptyMap(), autoCompleteEnvvar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = &ldquo;&rdquo;, allowMultipleSubcommands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false)</code></p>
+<p><code>CliktCommand(help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, epilog: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, invokeWithoutSubcommand: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, printHelpOnEmptyArgs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, helpTags: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = emptyMap(), autoCompleteEnvvar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = &ldquo;&rdquo;, allowMultipleSubcommands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, treatUnknownOptionsAsArgs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false)</code></p>
 <p>The <a href="../">CliktCommand</a> is the core of command line interfaces in Clikt.</p>
 <p>Command line interfaces created by creating a subclass of <a href="../">CliktCommand</a> with properties defined with
 <a href="../../../com.github.ajalt.clikt.parameters.options/option/">option</a> and <a href="../../../com.github.ajalt.clikt.parameters.arguments/argument/">argument</a>. You can then parse <code>argv</code> by calling <a href="../main/">main</a>, which will take care of printing
@@ -1457,6 +1481,11 @@ to null to disable generation.</p>
 <p><code>allowMultipleSubcommands</code> - If true, allow multiple of this command&rsquo;s subcommands to be
 called sequentially. This will disable <code>allowInterspersedArgs</code> on the context of this command an
 its descendants. This functionality is experimental, and may change in a future release.</p>
+<p><code>treatUnknownOptionsAsArgs</code> - If true, any options on the command line whose names aren&rsquo;t
+valid will be parsed as an argument rather than reporting an error. You&rsquo;ll need to define an
+<code>argument().multiple()</code> to collect these options, or an error will still be reported. Unknown
+short option flags grouped with other flags on the command line will always be reported as
+errors.</p>
                 
                   
                 

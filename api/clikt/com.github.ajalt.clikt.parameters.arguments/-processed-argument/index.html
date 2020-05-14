@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../../../../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1584,6 +1608,14 @@
 <td>If the argument is not given, call <a href="../default-lazy/#com.github.ajalt.clikt.parameters.arguments$defaultLazy(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T, )), kotlin.Function0((com.github.ajalt.clikt.parameters.arguments.defaultLazy.T)))/value">value</a> and use its return value instead of throwing an error.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;T, T&gt;.defaultLazy(value: () -&gt; T):</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/default-stdin/">defaultStdin</a></td>
+<td>Use <code>-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a> argument.<code>fun</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;.defaultStdin():</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/default-stdout/">defaultStdout</a></td>
+<td>Use <code>-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/output-stream/">outputStream</a> argument.<code>fun</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;.defaultStdout():</code><a href="../-argument-delegate/"><code>ArgumentDelegate</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/double/">double</a></td>
 <td>Convert the argument values to a <code>Double``fun RawArgument.double():</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><code>Double</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><code>Double</code></a><code>&gt;</code></td>
 </tr>
@@ -1600,6 +1632,10 @@
 <td>Convert the argument values to a <code>Float``fun RawArgument.float():</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html"><code>Float</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html"><code>Float</code></a><code>&gt;</code></td>
 </tr>
 <tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a></td>
+<td>Convert the argument to an <a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html">InputStream</a>.<code>fun RawArgument.inputStream(fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/int/">int</a></td>
 <td>Convert the argument values to an <code>Int``fun RawArgument.int():</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>&gt;</code></td>
 </tr>
@@ -1614,6 +1650,10 @@
 <tr>
 <td><a href="../optional/">optional</a></td>
 <td>Return null instead of throwing an error if no value is given.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;AllT, ValueT&gt;.optional():</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;AllT?, ValueT&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/output-stream/">outputStream</a></td>
+<td>Convert the argument to an <a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html">OutputStream</a>.<code>fun RawArgument.outputStream(createIfNotExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, truncateExisting:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="./"><code>ProcessedArgument</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../pair/">pair</a></td>

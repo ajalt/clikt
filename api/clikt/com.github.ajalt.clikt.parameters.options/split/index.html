@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../../../../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1445,24 +1469,20 @@
 <p>Change to option to take any number of values, separated by a <a href="./#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)), kotlin.text.Regex)/regex">regex</a>.</p>
 <p>This must be called after converting the value type, and before other transforms.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
-<p>``` kotlin
+<p><code></code>
 val opt: List<Int>? by option().int().split(Regex(&ldquo;,&rdquo;))
 <code></code></p>
 <p>Which can be called like this:</p>
-<p><code></code>
-./program &ndash;opt 1,2,3
-<code></code></p>
+<p><code>./program &ndash;opt 1,2,3</code></p>
 <p><code>fun <EachT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, ValueT> <a href="../-nullable-option/">NullableOption</a><EachT, ValueT>.split(delimiter: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="../-option-with-values/">OptionWithValues</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><ValueT>?, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><ValueT>, ValueT&gt;</code></p>
 <p>Change to option to take any number of values, separated by a string <a href="./#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)), kotlin.String)/delimiter">delimiter</a>.</p>
 <p>This must be called after converting the value type, and before other transforms.</p>
 <h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
-<p>``` kotlin
+<p><code></code>
 val opt: List<Int>? by option().int().split(Regex(&ldquo;,&rdquo;))
 <code></code></p>
 <p>Which can be called like this:</p>
-<p><code></code>
-./program &ndash;opt 1,2,3
-<code></code></p>
+<p><code>./program &ndash;opt 1,2,3</code></p>
                 
                   
                 

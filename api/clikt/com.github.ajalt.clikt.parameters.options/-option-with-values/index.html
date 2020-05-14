@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../../../../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1604,6 +1628,10 @@
 </thead>
 <tbody>
 <tr>
+<td><a href="../associate/">associate</a></td>
+<td>Change this option to take multiple values, each split on a <a href="../associate/#com.github.ajalt.clikt.parameters.options$associate(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String)/delimiter">delimiter</a>, and converted to a map.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.associate(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "="):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/choice/">choice</a></td>
 <td>Convert the option based on a fixed set of values.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.keys), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code><br><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.map { it.first }), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code><br>Restrict the option to a fixed set of values.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.asIterable()), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
@@ -1622,6 +1650,14 @@
 <tr>
 <td><a href="../default-lazy/">defaultLazy</a></td>
 <td>If the option is not called on the command line (and is not set in an envvar), call the <a href="../default-lazy/#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.String, kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</a> and use its return value for the option.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.defaultLazy(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", value: () -&gt; EachT):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/default-stdin/">defaultStdin</a></td>
+<td>Use <code>-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a> option.<code>fun</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;.defaultStdin():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/default-stdout/">defaultStdout</a></td>
+<td>Use <code>-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/output-stream/">outputStream</a> option.<code>fun</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;.defaultStdout():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../deprecated/">deprecated</a></td>
@@ -1656,6 +1692,10 @@
 <td>Convert the option into a set of flags that each map to an option group.<code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupSwitch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code><br><code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupSwitch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></td>
 </tr>
 <tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a></td>
+<td>Convert the option to an <a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html">InputStream</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.inputStream(fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/int/">int</a></td>
 <td>Convert the option values to an <code>Int``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.int():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>&gt;</code></td>
 </tr>
@@ -1666,6 +1706,10 @@
 <tr>
 <td><a href="../multiple/">multiple</a></td>
 <td>Make the option return a list of calls; each item in the list is the value of one call.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.multiple(default:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;EachT&gt; = emptyList(), required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;EachT&gt;, EachT, ValueT&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../../com.github.ajalt.clikt.parameters.types/output-stream/">outputStream</a></td>
+<td>Convert the option to an <a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html">OutputStream</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.outputStream(createIfNotExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, truncateExisting:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../pair/">pair</a></td>
@@ -1692,8 +1736,16 @@
 <td>Change to option to take any number of values, separated by a <a href="../split/#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)), kotlin.text.Regex)/regex">regex</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.split(regex:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;, ValueT&gt;</code><br>Change to option to take any number of values, separated by a string <a href="../split/#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)), kotlin.String)/delimiter">delimiter</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.split(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;, ValueT&gt;</code></td>
 </tr>
 <tr>
+<td><a href="../split-pair/">splitPair</a></td>
+<td>Split this option&rsquo;s value into two with a <a href="../split-pair/#com.github.ajalt.clikt.parameters.options$splitPair(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String)/delimiter">delimiter</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.splitPair(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "="):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../switch/">switch</a></td>
 <td>Turn an option into a set of flags that each map to a value.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;</code><br><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../to-map/">toMap</a></td>
+<td>Convert this option&rsquo;s values from a list of pairs into a map with key-value pairs from the list.<code>fun &lt;A, B&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;&gt;.toMap():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;A, B&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../transform-all/">transformAll</a></td>

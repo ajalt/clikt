@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1470,6 +1494,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#file-path-inputstream-and-outputstreams" class="md-nav__link">
+    File path InputStream and OutputStreams
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1615,7 +1646,7 @@ accepts the value &ldquo;A&rdquo; or &ldquo;B&rdquo;:</p>
 </code></pre></div>
 
 <p>You can also convert the restricted set of values to a new type:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Choice parameters accept values that are case-sensitive by default. This can be configured by
@@ -1626,7 +1657,7 @@ passing <code>ignoreCase = true</code>.</p>
 </ul>
 <p>Like <code>choice</code>, but uses the values of an enum type.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">enum</span> <span class="k">class</span> <span class="nc">Color</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span> <span class="p">}</span>
-<span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Color</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Color</span><span class="p">&gt;()</span>
+<span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Color</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Color</span><span class="p">&gt;()</span>
 </code></pre></div>
 
 <p>Enum parameters accept case-insensitive values by default. This can be configured by passing
@@ -1639,6 +1670,15 @@ passing <code>ignoreCase = true</code>.</p>
 <p>These conversion functions take extra parameters that allow you to
 require that values are file paths that have certain attributes, such
 as that they are directories, or they are writable files.</p>
+<h3 id="file-path-inputstream-and-outputstreams">File path <code>InputStream</code> and <code>OutputStream</code>s<a class="headerlink" href="#file-path-inputstream-and-outputstreams" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/input-stream/"><code>option().inputStream()</code> and <code>argument().inputStream()</code></a></li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/output-stream/"><code>option().outputStream()</code> and <code>argument().outputStream()</code></a></li>
+</ul>
+<p>Like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path/">path</a>, these conversions take file path values, but expose them as open streams for
+reading or writing. They support the unix convention of passing <code>-</code> to specify stdin or stdout
+rather than a file on the filesystem. You&rsquo;ll need to close the streams yourself. You can also use
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.types/default-stdin/">stdin</a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/default-stdout/">stdout</a> as their default values.</p>
 <h2 id="custom-types">Custom Types<a class="headerlink" href="#custom-types" title="Permanent link">&para;</a></h2>
 <p>You can convert parameter values to a custom type by using
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>argument().convert()</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>option().convert()</code></a>.

@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1461,6 +1485,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#custom-exit-status-codes" class="md-nav__link">
+    Custom exit status codes
+  </a>
+  
+</li>
+      
       
       
       
@@ -1665,6 +1696,17 @@ line are skipped. You can pass a literal <code>#</code> by escaping it with <cod
 line. In unit tests, you should instead call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>CliktCommand.parse</code></a>, which throws exceptions
 with error details rather than printing the details and exiting the process. See the documentation
 on <a href="../exceptions/">exceptions</a> for more information.</p>
+<h2 id="custom-exit-status-codes">Custom exit status codes<a class="headerlink" href="#custom-exit-status-codes" title="Permanent link">&para;</a></h2>
+<p>Clikt will normally exit your program with a status code of 0 for a normal execution, or 1 if
+there&rsquo;s an error. If you want to use a different value, you can <code>throw ProgramResult(statusCode)</code>.
+If you use <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a>, that exception will be caught and <code>exitProcess</code> will be
+called with the value of <code>statusCode</code>.</p>
+<p>You could also call <code>exitProcess</code> yourself, but the <a href="../api/clikt/com.github.ajalt.clikt.core/-program-result/">ProgramResult</a> has a couple of
+advantages:</p>
+<ul>
+<li><code>ProgramResult</code> is easier to test. Exiting the process makes unit tests difficult to run.</li>
+<li><code>ProgramResult</code> works on all platforms. <code>exitProcess</code> is only available on the JVM.</li>
+</ul>
                 
                   
                 

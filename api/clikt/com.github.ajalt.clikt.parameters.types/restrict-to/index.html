@@ -331,8 +331,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparse or kotlinx.cli?" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparse or kotlinx.cli?
+    <a href="../../../../whyclikt/" title="Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" class="md-nav__link">
+      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
     </a>
   </li>
 
@@ -535,6 +535,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../options/#key-value-and-map-options" title="Key-Value and Map Options" class="md-nav__link">
+      Key-Value and Map Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../options/#boolean-flag-options" title="Boolean Flag Options" class="md-nav__link">
       Boolean Flag Options
     </a>
@@ -657,6 +669,18 @@
   <li class="md-nav__item">
     <a href="../../../../options/#deprecating-options" title="Deprecating Options" class="md-nav__link">
       Deprecating Options
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../options/#unknown-options" title="Unknown Options" class="md-nav__link">
+      Unknown Options
     </a>
   </li>
 
@@ -1460,7 +1484,7 @@
 <p>By default, conversion fails if the value is outside the range, but if <a href="./#com.github.ajalt.clikt.parameters.types$restrictTo(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.types.restrictTo.T, )), com.github.ajalt.clikt.parameters.types.restrictTo.T, com.github.ajalt.clikt.parameters.types.restrictTo.T, kotlin.Boolean)/clamp">clamp</a> is true, the value will be
 silently clamped to fit in the range.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
-<p>``` kotlin
+<p><code></code>
 argument().int().restrictTo(max=10, clamp=true)
 <code></code></p>
 <p><code>fun <T> <a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/">ProcessedArgument</a><T, T>.restrictTo(range: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-closed-range/index.html">ClosedRange</a><T>, clamp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/">ProcessedArgument</a><T, T> where T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-number/index.html">Number</a>, T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><T></code></p>
@@ -1468,7 +1492,7 @@ argument().int().restrictTo(max=10, clamp=true)
 <p>By default, conversion fails if the value is outside the range, but if <a href="./#com.github.ajalt.clikt.parameters.types$restrictTo(com.github.ajalt.clikt.parameters.arguments.ProcessedArgument((com.github.ajalt.clikt.parameters.types.restrictTo.T, )), kotlin.ranges.ClosedRange((com.github.ajalt.clikt.parameters.types.restrictTo.T)), kotlin.Boolean)/clamp">clamp</a> is true, the value will be
 silently clamped to fit in the range.</p>
 <h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
-<p>``` kotlin
+<p><code></code>
 argument().int().restrictTo(1..10, clamp=true)
 <code></code></p>
 <p><code>fun <T> <a href="../../com.github.ajalt.clikt.parameters.options/-option-with-values/">OptionWithValues</a><T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="../../com.github.ajalt.clikt.parameters.options/-option-with-values/">OptionWithValues</a><T?, T, T> where T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-number/index.html">Number</a>, T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><T></code></p>
@@ -1476,7 +1500,7 @@ argument().int().restrictTo(1..10, clamp=true)
 <p>By default, conversion fails if the value is outside the range, but if <a href="./#com.github.ajalt.clikt.parameters.types$restrictTo(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.types.restrictTo.T, com.github.ajalt.clikt.parameters.types.restrictTo.T, )), com.github.ajalt.clikt.parameters.types.restrictTo.T, com.github.ajalt.clikt.parameters.types.restrictTo.T, kotlin.Boolean)/clamp">clamp</a> is true, the value will be
 silently clamped to fit in the range.</p>
 <h3 id="example_2">Example:<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h3>
-<p>``` kotlin
+<p><code></code>
 option().int().restrictTo(max=10, clamp=true)
 <code></code></p>
 <p><code>fun <T> <a href="../../com.github.ajalt.clikt.parameters.options/-option-with-values/">OptionWithValues</a><T?, T, T>.restrictTo(range: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-closed-range/index.html">ClosedRange</a><T>, clamp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="../../com.github.ajalt.clikt.parameters.options/-option-with-values/">OptionWithValues</a><T?, T, T> where T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-number/index.html">Number</a>, T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><T></code></p>
@@ -1484,7 +1508,7 @@ option().int().restrictTo(max=10, clamp=true)
 <p>By default, conversion fails if the value is outside the range, but if <a href="./#com.github.ajalt.clikt.parameters.types$restrictTo(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.types.restrictTo.T, com.github.ajalt.clikt.parameters.types.restrictTo.T, )), kotlin.ranges.ClosedRange((com.github.ajalt.clikt.parameters.types.restrictTo.T)), kotlin.Boolean)/clamp">clamp</a> is true, the value will be
 silently clamped to fit in the range.</p>
 <h3 id="example_3">Example:<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h3>
-<p>``` kotlin
+<p><code></code>
 option().int().restrictTo(1..10, clamp=true)
 <code></code></p>
                 

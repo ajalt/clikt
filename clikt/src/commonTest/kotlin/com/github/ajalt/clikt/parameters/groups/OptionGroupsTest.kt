@@ -517,7 +517,7 @@ class OptionGroupsTest {
     @JsName("groupChoice_with_defaultByName_and_validate")
     fun `groupChoice with defaultByName and validate`() {
         if (skipDueToKT33294) return
-        
+
         class GroupA : OptionGroup() {
             val opt by option().int().default(1).validate { require(it < 2) }
         }

@@ -411,7 +411,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("group_choice_with_defaultByName")
-    fun `groupChoice and switch with defaultByName`() = forall(
+    fun `groupChoice with defaultByName`() = forall(
             row("--g=3", "Group3"),
             row("", "Group4")
     ) { argv, ex ->
@@ -455,12 +455,94 @@ class OptionGroupsTest {
 
     @Test
     @JsName("groupChoice_with_defaultByName_with_invalid_name")
-    fun `groupChoice with defaultByName with invalid name`()  {
+    fun `groupChoice with defaultByName with invalid name`() {
         class C : TestCommand(called = false) {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
                     .defaultByName("3")
         }
         shouldThrow<IllegalArgumentException> { C() }
+    }
+
+    @Test
+    @JsName("groupChoice_with_defaultByName_and_default_options")
+    fun `groupChoice with defaultByName and default options`() = forall(
+            row("", "Group5", 1, ""),
+            row("--g=a", "Group5", 1, ""),
+            row("--opt1=2 --opt2=foo", "Group5", 2, ""),
+            row("--g=a --opt1=2", "Group5", 2, ""),
+            row("--g=b --opt2=foo", "Group6", 0, "foo")
+    ) { argv, eg, e1, e2 ->
+        class C : TestCommand() {
+            val g by option().groupChoice("a" to Group5(), "b" to Group6())
+                    .defaultByName("a")
+
+            override fun run_() {
+                g::class.simpleName shouldBe eg
+                when (val it = g) {
+                    is Group5 -> it.opt1 shouldBe e1
+                    is Group6 -> it.opt2 shouldBe e2
+                    else -> fail("unknown type $g")
+                }
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("groupSwitch_with_defaultByName_and_default_options")
+    fun `groupSwitch with defaultByName and default options`() = forall(
+            row("", "Group5", 1, ""),
+            row("--x", "Group5", 1, ""),
+            row("--opt1=2 --opt2=foo", "Group5", 2, ""),
+            row("--x --opt1=2", "Group5", 2, ""),
+            row("--y --opt2=foo", "Group6", 0, "foo")
+    ) { argv, eg, e1, e2 ->
+        class C : TestCommand() {
+            val g by option().groupSwitch("--x" to Group5(), "--y" to Group6())
+                    .defaultByName("--x")
+
+            override fun run_() {
+                g::class.simpleName shouldBe eg
+                when (val it = g) {
+                    is Group5 -> it.opt1 shouldBe e1
+                    is Group6 -> it.opt2 shouldBe e2
+                    else -> fail("unknown type $g")
+                }
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("groupChoice_with_defaultByName_and_validate")
+    fun `groupChoice with defaultByName and validate`() {
+        if (skipDueToKT33294) return
+        
+        class GroupA : OptionGroup() {
+            val opt by option().int().default(1).validate { require(it < 2) }
+        }
+
+        class GroupB : OptionGroup()
+
+        class C(private val ea: Int) : TestCommand() {
+            val g by option().groupChoice("a" to GroupA(), "b" to GroupB())
+                    .defaultByName("a")
+
+            override fun run_() {
+                when (val it = g) {
+                    is GroupA -> it.opt shouldBe ea
+                    is GroupB -> {
+                    }
+                    else -> fail("unknown type $g")
+                }
+            }
+        }
+        C(1).parse("")
+        C(0).parse("--opt=0")
+        C(0).parse("--g=a --opt=0")
+
+        shouldThrow<UsageError> { C(3).parse("--g=a --opt=3") }
+        shouldThrow<UsageError> { C(3).parse("--opt=3") }
     }
 }
 
@@ -482,4 +564,12 @@ private class Group3 : OptionGroup() {
 private class Group4 : OptionGroup() {
     val g21 by option().int()
     val g22 by option().int()
+}
+
+private class Group5 : OptionGroup() {
+    val opt1 by option().int().default(1)
+}
+
+private class Group6 : OptionGroup() {
+    val opt2 by option()
 }

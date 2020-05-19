@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Fixed NPE thrown when in some cases when using `defaultByName` ([#179](https://github.com/ajalt/clikt/issues/179))
 
 ## [2.7.0] - 2020-05-13
 ### Added

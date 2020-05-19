@@ -43,6 +43,11 @@ class ChoiceGroup<GroupT : OptionGroup, OutT>(
         val key = option.value
         if (key == null) {
             value = transform(null)
+            // Finalize the group so that default groups have their options finalized
+            (value as? OptionGroup)?.let { g ->
+                g.finalize(context, invocationsByOption.filterKeys { it in g.options })
+                chosenGroup = g
+            }
             return
         }
 

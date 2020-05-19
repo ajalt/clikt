@@ -93,7 +93,7 @@ fun <A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T> table(headers: 
 fun <A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U> table(headers: Headers21, vararg rows: Row21<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U>) = Table21(headers, rows.asList())
 fun <A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V> table(headers: Headers22, vararg rows: Row22<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V>) = Table22(headers, rows.asList())
 
-private fun error(e: Throwable, headers: List<String>, values: List<*>): AssertionError {
+private fun error(e: Throwable, headers: List<String>, values: List<*>): Throwable {
     // Include class name for non-assertion errors, since the class is often meaningful and there might not
     // be a message (e.g. NullPointerException)
     val message = when (e) {
@@ -101,7 +101,7 @@ private fun error(e: Throwable, headers: List<String>, values: List<*>): Asserti
         else -> e.toString()
     }
 
-    return Failures.failure("Test failed for $values with error $message")
+    return RuntimeException("Test failed for $values with error $message", e)
 }
 
 private fun forNoneError(headers: List<String>, values: List<*>): AssertionError {

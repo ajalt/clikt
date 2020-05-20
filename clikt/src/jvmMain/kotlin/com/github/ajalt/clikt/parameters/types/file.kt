@@ -84,8 +84,8 @@ fun RawArgument.file(
         mustBeReadable: Boolean = false,
         canBeSymlink: Boolean = true
 ): ProcessedArgument<File, File> {
-    return convert(completionCandidates = CompletionCandidates.Path) {
-        convertToFile(it, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink) { fail(it) }
+    return convert(completionCandidates = CompletionCandidates.Path) { str ->
+        convertToFile(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink) { fail(it) }
     }
 }
 
@@ -136,7 +136,7 @@ fun RawOption.file(
 ): NullableOption<File, File> {
     val name = pathType(canBeFile, canBeDir)
     val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
-    return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) {
-        convertToFile(it, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink) { fail(it) }
+    return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) { str ->
+        convertToFile(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink) { fail(it) }
     }
 }

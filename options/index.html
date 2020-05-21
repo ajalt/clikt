@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -44,7 +44,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#options" tabindex="0" class="md-skip">
+      <a href="#options" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
+        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
           
-            <img alt="logo" src="../img/wordmark_small.svg" width="24" height="24">
+            <img src="../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Clikt" class="md-nav__button md-logo">
       
-        <img alt="logo" src="../img/wordmark_small.svg" width="48" height="48">
+        <img src="../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -1687,18 +1687,18 @@ will return the value of the last occurrence of the option.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
 <label for="__tab_1_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_1" />
 <label for="__tab_1_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello --name=Foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello --name=Foo
 Hello, Foo!
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="option-names">Option Names<a class="headerlink" href="#option-names" title="Permanent link">&para;</a></h2>
 <p>If you don&rsquo;t specify names for an option, a lowercase hyphen-separated
@@ -1706,51 +1706,51 @@ name is automatically inferred from the property. For example, <code>val
 myOpt by option()</code> will create an option that can be called with
 <code>--my-opt</code>.</p>
 <p>You can also specify any number of names for an option manually:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-n&quot;</span><span class="p">,</span> <span class="s">&quot;--name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
 <p>Option names that are two characters long (like <code>-n</code>) are treated as
 POSIX-style short options. You call them with a value like this:</p>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
 <label for="__tab_2_0">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello -nfoo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello -nfoo
 Hello, foo!
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_2" type="radio" id="__tab_2_1" />
 <label for="__tab_2_1">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello -n foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello -n foo
 Hello, foo!
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>All other option names are considered long options, and can be called
 like this:</p>
 <div class="superfences-tabs">
 <input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
 <label for="__tab_3_0">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello --name=foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello --name=foo
 Hello, foo!
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_3" type="radio" id="__tab_3_1" />
 <label for="__tab_3_1">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello --name foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello --name foo
 Hello, foo!
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="customizing-options">Customizing Options<a class="headerlink" href="#customizing-options" title="Permanent link">&para;</a></h2>
 <p>The option behavior and delegate type can be customized by calling extension functions on the
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option/"><code>option</code></a> call. For example, here are some different option declarations:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">c</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">d</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0</span> <span class="n">to</span> <span class="m">0</span><span class="p">)</span>
 <span class="k">val</span> <span class="py">e</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Float</span><span class="p">,</span> <span class="n">Float</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">float</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0f</span> <span class="n">to</span> <span class="m">0f</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 <p>There are three main types of behavior that can be customized
 independently:</p>
@@ -1778,23 +1778,23 @@ on the command line. You can instead return a default value with <a href="../api
 <div class="superfences-tabs">
 <input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
 <label for="__tab_4_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Pow</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Pow</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">exp</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--exp&quot;</span><span class="p">).</span><span class="n">double</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">1.0</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;2 ^ $exp = ${(2.0).pow(exp)}&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_4" type="radio" id="__tab_4_1" />
 <label for="__tab_4_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./pow -e 8
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./pow -e 8
 2 ^ 8.0 = 256.0
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_4" type="radio" id="__tab_4_2" />
 <label for="__tab_4_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./pow
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./pow
 2 ^ 1.0 = 2.0
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>If the default value is expensive to compute, you can use
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy/"><code>defaultLazy</code></a> instead of <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a>.
@@ -1816,7 +1816,7 @@ inform the user and your lambda won&rsquo;t be called.</p>
 <div class="superfences-tabs">
 <input name="__tabs_5" type="radio" id="__tab_5_0" checked="checked" />
 <label for="__tab_5_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">data</span> <span class="k">class</span> <span class="nc">Quad</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;(</span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">b</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">c</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">d</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">data</span> <span class="k">class</span> <span class="nc">Quad</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;(</span><span class="k">val</span> <span class="py">a</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">b</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">c</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="k">val</span> <span class="py">d</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span>
 <span class="k">fun</span> <span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="nf">Quad</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;.</span><span class="n">toList</span><span class="p">():</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">Geometry</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
@@ -1829,14 +1829,14 @@ inform the user and your lambda won&rsquo;t be called.</p>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Tesseract has dimensions ${tesseract?.toList()?.joinToString(&quot;</span><span class="n">x</span><span class="s">&quot;)}&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_5" type="radio" id="__tab_5_1" />
 <label for="__tab_5_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./geometry --square 1 2 --cube 3 4 5 --tesseract 6 7 8 9
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./geometry --square 1 2 --cube 3 4 5 --tesseract 6 7 8 9
 Square has dimensions 1x2
 Cube has dimensions 3x4x5
 Tesseract has dimensions 6x7x8x9
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h3 id="options-with-a-variable-number-of-values">Options With a Variable Number of Values<a class="headerlink" href="#options-with-a-variable-number-of-values" title="Permanent link">&para;</a></h3>
 <p>You can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/split/"><code>split</code></a> to allow a
@@ -1845,7 +1845,7 @@ delimiters.</p>
 <div class="superfences-tabs">
 <input name="__tabs_6" type="radio" id="__tab_6_0" checked="checked" />
 <label for="__tab_6_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">C</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">C</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">profiles</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-P&quot;</span><span class="p">).</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">profile</span> <span class="k">in</span> <span class="n">profiles</span><span class="p">)</span> <span class="p">{</span>
@@ -1853,13 +1853,13 @@ delimiters.</p>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_6" type="radio" id="__tab_6_1" />
 <label for="__tab_6_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./split -P profile-1,profile-2
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./split -P profile-1,profile-2
 profile-1
 profile-2
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="multiple-options">Multiple Options<a class="headerlink" href="#multiple-options" title="Permanent link">&para;</a></h2>
 <p>Normally, when an option is provided on the command line more than once,
@@ -1873,23 +1873,23 @@ is never given, the list will be empty (or you can specify a default to use).</p
 <div class="superfences-tabs">
 <input name="__tabs_7" type="radio" id="__tab_7_0" checked="checked" />
 <label for="__tab_7_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Commit</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Commit</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">message</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-m&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">))</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_7" type="radio" id="__tab_7_1" />
 <label for="__tab_7_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./commit -m foo -m bar
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./commit -m foo -m bar
 foo
 bar
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>You can combine <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a> with item type conversions and multiple values.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">multiple</span><span class="p">()</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">pair</span><span class="p">().</span><span class="n">multiple</span><span class="p">()</span>
+</pre></div>
 
 <h3 id="default-values-for-optionmultiple">Default values for option().multiple()<a class="headerlink" href="#default-values-for-optionmultiple" title="Permanent link">&para;</a></h3>
 <p>You can also supply a default value to <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a> or require at least one value be present
@@ -1898,30 +1898,30 @@ since they don&rsquo;t change the type of the delegate.</p>
 <div class="superfences-tabs">
 <input name="__tabs_8" type="radio" id="__tab_8_0" checked="checked" />
 <label for="__tab_8_0">Required</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">multiple</span><span class="p">(</span><span class="n">required</span><span class="p">=</span><span class="k">true</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">multiple</span><span class="p">(</span><span class="n">required</span><span class="p">=</span><span class="k">true</span><span class="p">)</span>
+</pre></div></div>
 <input name="__tabs_8" type="radio" id="__tab_8_1" />
 <label for="__tab_8_1">Default</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">multiple</span><span class="p">(</span><span class="n">default</span><span class="p">=</span><span class="n">listOf</span><span class="p">(</span><span class="s">&quot;default message&quot;</span><span class="p">))</span>
-</code></pre></div></div>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">multiple</span><span class="p">(</span><span class="n">default</span><span class="p">=</span><span class="n">listOf</span><span class="p">(</span><span class="s">&quot;default message&quot;</span><span class="p">))</span>
+</pre></div></div>
 </div>
 <h3 id="deduplicating-optionmultiple-into-a-unique-set">Deduplicating option().multiple() into a unique set<a class="headerlink" href="#deduplicating-optionmultiple-into-a-unique-set" title="Permanent link">&para;</a></h3>
 <p>You can discard duplicate values from a <code>multiple</code> option with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/unique/"><code>unique</code></a>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_9" type="radio" id="__tab_9_0" checked="checked" />
 <label for="__tab_9_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Build</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Build</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">platforms</span><span class="p">:</span> <span class="n">Set</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-p&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">().</span><span class="n">unique</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Building for platforms: $platforms&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_9" type="radio" id="__tab_9_1" />
 <label for="__tab_9_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./build -p android -p ios -p android
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./build -p android -p ios -p android
 Building for platforms: [android, ios]
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="key-value-and-map-options">Key-Value and Map Options<a class="headerlink" href="#key-value-and-map-options" title="Permanent link">&para;</a></h2>
 <p>You can split an option&rsquo;s value into a key-value pair with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/split-pair/"><code>splitPair</code></a>. By default, the
@@ -1930,19 +1930,19 @@ to be specified multiple times, and have its values collected in a map.</p>
 <div class="superfences-tabs">
 <input name="__tabs_10" type="radio" id="__tab_10_0" checked="checked" />
 <label for="__tab_10_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Build</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Build</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">systemProp</span><span class="p">:</span> <span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-D&quot;</span><span class="p">,</span> <span class="s">&quot;--system-prop&quot;</span><span class="p">).</span><span class="n">associate</span><span class="p">()</span>
 
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="n">systemProp</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_10" type="radio" id="__tab_10_1" />
 <label for="__tab_10_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./build -Dplace=here --system-prop size=small
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./build -Dplace=here --system-prop size=small
 {place=here, size=small}
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="boolean-flag-options">Boolean Flag Options<a class="headerlink" href="#boolean-flag-options" title="Permanent link">&para;</a></h2>
 <p>Flags are options that don&rsquo;t take a value. Boolean flags can be enabled
@@ -1956,30 +1956,30 @@ previously.</p>
 <div class="superfences-tabs">
 <input name="__tabs_11" type="radio" id="__tab_11_0" checked="checked" />
 <label for="__tab_11_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">flag</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;--on&quot;</span><span class="p">,</span> <span class="s">&quot;-o&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;--off&quot;</span><span class="p">,</span> <span class="s">&quot;-O&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_11" type="radio" id="__tab_11_1" />
 <label for="__tab_11_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli -o
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli -o
 true
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_11" type="radio" id="__tab_11_2" />
 <label for="__tab_11_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --on --off
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --on --off
 false
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>Multiple short flag options can be combined when called on the command
 line:</p>
 <div class="superfences-tabs">
 <input name="__tabs_12" type="radio" id="__tab_12_0" checked="checked" />
 <label for="__tab_12_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">flagA</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-a&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">flagB</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-b&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">foo</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-f&quot;</span><span class="p">)</span>
@@ -1987,12 +1987,12 @@ line:</p>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;$flagA $flagB $foo&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_12" type="radio" id="__tab_12_1" />
 <label for="__tab_12_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli -abfFoo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli -abfFoo
 true true Foo
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="counted-flag-options">Counted Flag Options<a class="headerlink" href="#counted-flag-options" title="Permanent link">&para;</a></h2>
 <p>You might want a flag option that counts the number of times it occurs on the command line. You can
@@ -2000,18 +2000,18 @@ use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/counted/"><c
 <div class="superfences-tabs">
 <input name="__tabs_13" type="radio" id="__tab_13_0" checked="checked" />
 <label for="__tab_13_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Log</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Log</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">verbosity</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">).</span><span class="n">counted</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Verbosity level: $verbosity&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_13" type="radio" id="__tab_13_1" />
 <label for="__tab_13_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./log -vvv
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./log -vvv
 Verbosity level: 3
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="feature-switch-flags">Feature Switch Flags<a class="headerlink" href="#feature-switch-flags" title="Permanent link">&para;</a></h2>
 <p>Another way to use flags is to assign a value to each option name. You can do this with
@@ -2021,7 +2021,7 @@ names.</p>
 <div class="superfences-tabs">
 <input name="__tabs_14" type="radio" id="__tab_14_0" checked="checked" />
 <label for="__tab_14_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Size</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Size</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">size</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">switch</span><span class="p">(</span>
         <span class="s">&quot;--large&quot;</span> <span class="n">to</span> <span class="s">&quot;large&quot;</span><span class="p">,</span> 
         <span class="s">&quot;--small&quot;</span> <span class="n">to</span> <span class="s">&quot;small&quot;</span>
@@ -2030,12 +2030,12 @@ names.</p>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;You picked size $size&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_14" type="radio" id="__tab_14_1" />
 <label for="__tab_14_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./size --small
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./size --small
 You picked size small
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="choice-options">Choice Options<a class="headerlink" href="#choice-options" title="Permanent link">&para;</a></h2>
 <p>You can restrict the values that a regular option can take to a set of values using
@@ -2044,34 +2044,34 @@ input values to new types.</p>
 <div class="superfences-tabs">
 <input name="__tabs_15" type="radio" id="__tab_15_0" checked="checked" />
 <label for="__tab_15_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Digest</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Digest</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">hash</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;md5&quot;</span><span class="p">,</span> <span class="s">&quot;sha1&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="n">hash</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_15" type="radio" id="__tab_15_1" />
 <label for="__tab_15_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./digest --hash=md5
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./digest --hash=md5
 md5
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_15" type="radio" id="__tab_15_2" />
 <label for="__tab_15_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./digest --hash=sha256
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./digest --hash=sha256
 Usage: digest [OPTIONS]
 
 Error: Invalid value for &quot;--hash&quot;: invalid choice: sha256. (choose from md5, sha1)
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_15" type="radio" id="__tab_15_3" />
 <label for="__tab_15_3">Usage 3</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./digest --help
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./digest --help
 Usage: digest [OPTIONS]
 
 Options:
   --hash [md5|sha1]
   -h, --help         Show this message and exit
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="mutually-exclusive-option-groups">Mutually Exclusive Option Groups<a class="headerlink" href="#mutually-exclusive-option-groups" title="Permanent link">&para;</a></h2>
 <p>If <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice/"><code>choice</code></a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/switch/"><code>switch</code></a> options aren&rsquo;t flexible enough,
@@ -2084,7 +2084,7 @@ you&rsquo;d like to use.</p>
 <div class="superfences-tabs">
 <input name="__tabs_16" type="radio" id="__tab_16_0" checked="checked" />
 <label for="__tab_16_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Fruit</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Fruit</span> <span class="p">{</span>
     <span class="k">data</span> <span class="k">class</span> <span class="nc">Oranges</span><span class="p">(</span><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Fruit</span><span class="p">()</span>
     <span class="k">data</span> <span class="k">class</span> <span class="nc">Apples</span><span class="p">(</span><span class="k">val</span> <span class="py">count</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Fruit</span><span class="p">()</span>
 <span class="p">}</span>
@@ -2096,39 +2096,39 @@ you&rsquo;d like to use.</p>
 
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_16" type="radio" id="__tab_16_1" />
 <label for="__tab_16_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./order --apples=10
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./order --apples=10
 Apples(count=10)
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_16" type="radio" id="__tab_16_2" />
 <label for="__tab_16_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./order --oranges=small
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./order --oranges=small
 Oranges(size=small)
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_16" type="radio" id="__tab_16_3" />
 <label for="__tab_16_3">Usage 3</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./order --apples=10 --oranges=large
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./order --apples=10 --oranges=large
 Oranges(size=large)
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>You can enforce that only one of the options is given with <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/single/"><code>single</code></a>:</p>
 <div class="superfences-tabs">
 <input name="__tabs_17" type="radio" id="__tab_17_0" checked="checked" />
 <label for="__tab_17_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">fruit</span><span class="p">:</span> <span class="n">Fruit</span><span class="p">?</span> <span class="k">by</span> <span class="n">mutuallyExclusiveOptions</span><span class="p">&lt;</span><span class="n">Fruit</span><span class="p">&gt;(</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">fruit</span><span class="p">:</span> <span class="n">Fruit</span><span class="p">?</span> <span class="k">by</span> <span class="n">mutuallyExclusiveOptions</span><span class="p">&lt;</span><span class="n">Fruit</span><span class="p">&gt;(</span>
         <span class="n">option</span><span class="p">(</span><span class="s">&quot;--apples&quot;</span><span class="p">).</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Apples</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">toInt</span><span class="p">())</span> <span class="p">},</span>
         <span class="n">option</span><span class="p">(</span><span class="s">&quot;--oranges&quot;</span><span class="p">).</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Oranges</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
 <span class="p">).</span><span class="n">single</span><span class="p">()</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_17" type="radio" id="__tab_17_1" />
 <label for="__tab_17_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./order --apples=10 --oranges=small
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./order --apples=10 --oranges=small
 Usage: order [OPTIONS]
 
 Error: option --apples cannot be used with --oranges
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>Like regular options, you can make the entire group
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required/"><code>required</code></a>, or give it a <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a> value.</p>
@@ -2144,7 +2144,7 @@ are given on the command line. If none if the options are given, the value of th
 <div class="superfences-tabs">
 <input name="__tabs_18" type="radio" id="__tab_18_0" checked="checked" />
 <label for="__tab_18_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">required</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">age</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">()</span>
 <span class="p">}</span>
@@ -2157,25 +2157,25 @@ are given on the command line. If none if the options are given, the value of th
         <span class="p">}</span> <span class="o">?:</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;No user options&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_18" type="radio" id="__tab_18_1" />
 <label for="__tab_18_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool
 No user options
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_18" type="radio" id="__tab_18_2" />
 <label for="__tab_18_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --name=jane --age=30
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --name=jane --age=30
 jane
 30
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_18" type="radio" id="__tab_18_3" />
 <label for="__tab_18_3">Usage 3</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --age=30
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --age=30
 Usage: tool [OPTIONS]
 
 Error: Missing option &quot;--name&quot;.
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>Like <a href="../documenting/#grouping-options-in-help">other option groups</a>, you can specify a <code>name</code> and
 <code>help</code> text for the group if you want to set the group apart in the help output.</p>
@@ -2190,7 +2190,7 @@ options</a>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_19" type="radio" id="__tab_19_0" checked="checked" />
 <label for="__tab_19_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">sealed</span> <span class="k">class</span> <span class="nc">LoadConfig</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">OptionGroup</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">sealed</span> <span class="k">class</span> <span class="nc">LoadConfig</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">OptionGroup</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">FromDisk</span> <span class="p">:</span> <span class="n">LoadConfig</span><span class="p">(</span><span class="s">&quot;Options for loading from disk&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">path</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">file</span><span class="p">().</span><span class="n">required</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">followSymlinks</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">flag</span><span class="p">()</span>
@@ -2216,32 +2216,32 @@ options</a>.</p>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_19" type="radio" id="__tab_19_1" />
 <label for="__tab_19_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --load=disk --path=./config --follow-symlinks
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --load=disk --path=./config --follow-symlinks
 Loading from disk: .\config
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_19" type="radio" id="__tab_19_2" />
 <label for="__tab_19_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --load=network --url=www.example.com --username=admin
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --load=network --url=www.example.com --username=admin
 Password: *******
 Loading from network: www.example.com
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_19" type="radio" id="__tab_19_3" />
 <label for="__tab_19_3">Usage 3</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --load=disk
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --load=disk
 Usage: cli [OPTIONS]
 
 Error: Missing option &quot;--path&quot;.
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_19" type="radio" id="__tab_19_4" />
 <label for="__tab_19_4">Usage 4</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --load=whoops
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --load=whoops
 Usage: cli [OPTIONS]
 
 Error: Invalid value for &quot;--load&quot;: invalid choice: whoops. (choose from disk, network)
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="prompting-for-input">Prompting For Input<a class="headerlink" href="#prompting-for-input" title="Permanent link">&para;</a></h2>
 <p>In some cases, you might want to create an option that uses the value
@@ -2250,24 +2250,24 @@ if one is not provided. Clikt can take care of this for you with the <a href="..
 <div class="superfences-tabs">
 <input name="__tabs_20" type="radio" id="__tab_20_0" checked="checked" />
 <label for="__tab_20_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">prompt</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_20" type="radio" id="__tab_20_1" />
 <label for="__tab_20_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>./hello --name=foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>./hello --name=foo
 Hello foo
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_20" type="radio" id="__tab_20_2" />
 <label for="__tab_20_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>./hello
+<div class="superfences-content"><div class="codehilite"><pre><span></span>./hello
 Name: foo
 Hello foo
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>The default prompt string is based on the option name, but
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt/"><code>prompt</code></a> takes a number of parameters to customize the output.</p>
@@ -2278,20 +2278,20 @@ passwords.</p>
 <div class="superfences-tabs">
 <input name="__tabs_21" type="radio" id="__tab_21_0" checked="checked" />
 <label for="__tab_21_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Login</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Login</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">password</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">prompt</span><span class="p">(</span><span class="n">requireConfirmation</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">hideInput</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your hidden password: $password&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_21" type="radio" id="__tab_21_1" />
 <label for="__tab_21_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./login
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./login
 Password:
 Repeat for confirmation:
 Your hidden password: hunter2
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="eager-options">Eager Options<a class="headerlink" href="#eager-options" title="Permanent link">&para;</a></h2>
 <p>Sometimes you want an option to halt execution immediately and print a
@@ -2307,23 +2307,23 @@ function on a command directly, either in an <code>init</code> block, or on a co
 <div class="superfences-tabs">
 <input name="__tabs_22" type="radio" id="__tab_22_0" checked="checked" />
 <label for="__tab_22_0">Version 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">versionOption</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_22" type="radio" id="__tab_22_1" />
 <label for="__tab_22_1">Version 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span>
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">versionOption</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_22" type="radio" id="__tab_22_2" />
 <label for="__tab_22_2">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --version
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --version
 cli version 1.0
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>If you want to define your own option with a similar behavior, you can do so by calling
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/eager-option/"><code>eagerOption</code></a>. This function takes an <code>action</code> that is called when the option is
@@ -2332,14 +2332,14 @@ you can throw a <a href="../api/clikt/com.github.ajalt.clikt.core/-print-message
 <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> will take care of printing the message. If you want to exit
 normally without printing a message, you can throw <a href="../api/clikt/com.github.ajalt.clikt.core/-abort/"><code>Abort(error=false)</code></a> instead.</p>
 <p>You can define your own version option like this:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">eagerOption</span><span class="p">(</span><span class="s">&quot;--version&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">throw</span> <span class="n">PrintMessage</span><span class="p">(</span><span class="s">&quot;$commandName version 1.0&quot;</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
 <h2 id="deprecating-options">Deprecating Options<a class="headerlink" href="#deprecating-options" title="Permanent link">&para;</a></h2>
 <p>You can communicate to users that an option is deprecated with
@@ -2349,7 +2349,7 @@ message, and print a warning to stderr if the option is used.</p>
 <div class="superfences-tabs">
 <input name="__tabs_23" type="radio" id="__tab_23_0" checked="checked" />
 <label for="__tab_23_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
    <span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;option 1&quot;</span><span class="p">).</span><span class="n">deprecated</span><span class="p">()</span>
    <span class="k">val</span> <span class="py">opt2</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;option 2&quot;</span><span class="p">).</span><span class="n">deprecated</span><span class="p">(</span><span class="s">&quot;WARNING: --opt2 is deprecated, use --new-opt instead&quot;</span><span class="p">,</span> <span class="n">tagName</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
    <span class="k">val</span> <span class="py">opt3</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;option 3&quot;</span><span class="p">).</span><span class="n">deprecated</span><span class="p">(</span><span class="n">tagName</span> <span class="p">=</span> <span class="s">&quot;pending deprecation&quot;</span><span class="p">,</span> <span class="n">tagValue</span> <span class="p">=</span> <span class="s">&quot;use --new-opt instead&quot;</span><span class="p">)</span>
@@ -2357,33 +2357,33 @@ message, and print a warning to stderr if the option is used.</p>
 
    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;command run&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_23" type="radio" id="__tab_23_1" />
 <label for="__tab_23_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt=x
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt=x
 WARNING: option --opt is deprecated
 command run
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_23" type="radio" id="__tab_23_2" />
 <label for="__tab_23_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt2=x
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt2=x
 WARNING: --op2 is deprecated, use --new-opt instead
 command run
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_23" type="radio" id="__tab_23_3" />
 <label for="__tab_23_3">Usage 3</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt3=x
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt3=x
 WARNING: option --opt3 is deprecated
 command run
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_23" type="radio" id="__tab_23_4" />
 <label for="__tab_23_4">Usage 4</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt4=x
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt4=x
 ERROR: option --opt4 is deprecated
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_23" type="radio" id="__tab_23_5" />
 <label for="__tab_23_5">Help Output</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --help
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --help
 Usage: cli [OPTIONS]
 
 Options:
@@ -2391,7 +2391,7 @@ Options:
   --opt2 TEXT  option 2
   --opt3 TEXT  option 3 (pending deprecation: use --new-opt instead)
   --opt4 TEXT  option 4 (deprecated)
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="unknown-options">Unknown Options<a class="headerlink" href="#unknown-options" title="Permanent link">&para;</a></h2>
 <p>You may want to collect unknown options for manual processing. You can do this by passing
@@ -2402,7 +2402,7 @@ property to collect the options, otherwise an error will still be reported.</p>
 <div class="superfences-tabs">
 <input name="__tabs_24" type="radio" id="__tab_24_0" checked="checked" />
 <label for="__tab_24_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Wrapper</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">(</span><span class="n">treatUnknownOptionsAsArgs</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Wrapper</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">(</span><span class="n">treatUnknownOptionsAsArgs</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span> <span class="n">context</span> <span class="p">{</span> <span class="n">allowInterspersedArgs</span> <span class="p">=</span> <span class="k">false</span> <span class="p">}</span> <span class="p">}</span>
 
     <span class="k">val</span> <span class="py">command</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;?&quot;</span><span class="p">).</span><span class="n">required</span><span class="p">()</span>
@@ -2415,15 +2415,15 @@ property to collect the options, otherwise an error will still be reported.</p>
         <span class="n">proc</span><span class="p">.</span><span class="n">waitFor</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_24" type="radio" id="__tab_24_1" />
 <label for="__tab_24_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./wrapper --command=git tag --help | head -n4
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./wrapper --command=git tag --help | head -n4
 GIT-TAG(1)                        Git Manual                        GIT-TAG(1)
 
 NAME
        git-tag - Create, list, delete or verify a tag object signed with GPG
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>Note that flag options in a single token (e.g. using <code>-abc</code> to specify <code>-a</code>, <code>-b</code>, and <code>-c</code> in a
 single token) will still report an error if they are unknown. Each option should be specified
@@ -2447,25 +2447,25 @@ envvar name inference.</p>
 <div class="superfences-tabs">
 <input name="__tabs_25" type="radio" id="__tab_25_0" checked="checked" />
 <label for="__tab_25_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">envvar</span> <span class="p">=</span> <span class="s">&quot;MY_NAME&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_25" type="radio" id="__tab_25_1" />
 <label for="__tab_25_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ export MY_NAME=Foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ export MY_NAME=Foo
 $ ./hello
 Hello Foo
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_25" type="radio" id="__tab_25_2" />
 <label for="__tab_25_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ export MY_NAME=Foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ export MY_NAME=Foo
 $ ./hello --name=Bar
 Hello Bar
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>You can enable automatic envvar name inference by setting the <code>autoEnvvarPrefix</code> on a command&rsquo;s
 <a href="../api/clikt/com.github.ajalt.clikt.core/context/"><code>context</code></a>. This will cause all options without
@@ -2476,7 +2476,7 @@ subcommands. If you have a a subcommand called <code>foo</code> with an option <
 <div class="superfences-tabs">
 <input name="__tabs_26" type="radio" id="__tab_26_0" checked="checked" />
 <label for="__tab_26_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">autoEnvvarPrefix</span> <span class="p">=</span> <span class="s">&quot;HELLO&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
@@ -2485,13 +2485,13 @@ subcommands. If you have a a subcommand called <code>foo</code> with an option <
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_26" type="radio" id="__tab_26_1" />
 <label for="__tab_26_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ export HELLO_NAME=Foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ export HELLO_NAME=Foo
 $ ./hello
 Hello Foo
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h3 id="multiple-values-from-environment-variables">Multiple Values from Environment Variables<a class="headerlink" href="#multiple-values-from-environment-variables" title="Permanent link">&para;</a></h3>
 <p>You might need to allow users to specify multiple values for an option in a single environment
@@ -2505,20 +2505,20 @@ pattern by passing it to the <code>envvarSplit</code> parameter of <code>option<
 <div class="superfences-tabs">
 <input name="__tabs_27" type="radio" id="__tab_27_0" checked="checked" />
 <label for="__tab_27_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">names</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">envvar</span> <span class="p">=</span> <span class="s">&quot;NAMES&quot;</span><span class="p">).</span><span class="n">multiple</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">name</span> <span class="k">in</span> <span class="n">names</span><span class="p">)</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_27" type="radio" id="__tab_27_1" />
 <label for="__tab_27_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ export NAMES=Foo Bar
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ export NAMES=Foo Bar
 $ ./hello
 Hello Foo
 Hello Bar
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="values-from-configuration-files">Values from Configuration Files<a class="headerlink" href="#values-from-configuration-files" title="Permanent link">&para;</a></h2>
 <p>Clikt also supports reading option values from one or more configuration files (or other sources)
@@ -2530,7 +2530,7 @@ you can also set it in your git configuration file: <code>user.email=clikt@examp
 <div class="superfences-tabs">
 <input name="__tabs_28" type="radio" id="__tab_28_0" checked="checked" />
 <label for="__tab_28_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> 
             <span class="n">valueSource</span> <span class="p">=</span> <span class="n">PropertiesValueSource</span><span class="p">.</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;myconfig.properties&quot;</span><span class="p">)</span>
@@ -2541,13 +2541,13 @@ you can also set it in your git configuration file: <code>user.email=clikt@examp
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_28" type="radio" id="__tab_28_1" />
 <label for="__tab_28_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ echo &quot;name=Foo&quot; &gt; myconfig.properties
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ echo &quot;name=Foo&quot; &gt; myconfig.properties
 $ ./hello
 Hello Foo
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>You can also pass multiple sources to <a href="../api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-sources/"><code>Context.valueSources</code></a>, and each
 source will be searched for the value in order.</p>
@@ -2567,36 +2567,36 @@ as it&rsquo;s entirely punctuation).</p>
 <div class="superfences-tabs">
 <input name="__tabs_29" type="radio" id="__tab_29_0" checked="checked" />
 <label for="__tab_29_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;/name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_29" type="radio" id="__tab_29_1" />
 <label for="__tab_29_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello /name Foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello /name Foo
 Hello, Foo!
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>Or you can make a Java-style interface that uses single-dashes for long
 options:</p>
 <div class="superfences-tabs">
 <input name="__tabs_30" type="radio" id="__tab_30_0" checked="checked" />
 <label for="__tab_30_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-name&quot;</span><span class="p">,</span> <span class="n">help</span><span class="p">=</span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, $name!&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_30" type="radio" id="__tab_30_1" />
 <label for="__tab_30_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./hello -name Foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello -name Foo
 Hello, Foo!
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <p>Note that inferred names will always have a POSIX-style prefix like
 <code>--name</code>. If you want to use a different prefix, you should specify all
@@ -2613,13 +2613,13 @@ both change the value type, as is <code>option().default("").multiple()</code>
 since <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a> both transform the
 call list (if you need a custom default value for <code>multiple</code>, you can pass it one as an argument).</p>
 <p>Here&rsquo;s an integer option with one of each available transform in a valid order:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;--opt&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;--opt&quot;</span><span class="p">)</span>
         <span class="p">.</span><span class="n">int</span><span class="p">()</span>
         <span class="p">.</span><span class="n">restrictTo</span><span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">100</span><span class="p">)</span>
         <span class="p">.</span><span class="n">pair</span><span class="p">()</span>
         <span class="p">.</span><span class="n">default</span><span class="p">(</span><span class="m">1</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
         <span class="p">.</span><span class="n">validate</span> <span class="p">{</span> <span class="n">require</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">second</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">}</span>
-</code></pre></div>
+</pre></div>
                 
                   
                 
@@ -2647,9 +2647,9 @@ call list (if you need a custom default value for <code>multiple</code>, you can
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        <a href="https://www.mkdocs.org">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+        <a href="https://squidfunk.github.io/mkdocs-material/">
           Material for MkDocs</a>
       </div>
       
@@ -2659,9 +2659,9 @@ call list (if you need a custom default value for <code>multiple</code>, you can
       
     </div>
     
-      <script src="../assets/javascripts/application.c33a9706.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
-      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
     
   </body>

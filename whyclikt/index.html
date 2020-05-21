@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -44,7 +44,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#why-clikt" tabindex="0" class="md-skip">
+      <a href="#why-clikt" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
+        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
           
-            <img alt="logo" src="../img/wordmark_small.svg" width="24" height="24">
+            <img src="../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Clikt" class="md-nav__button md-logo">
       
-        <img alt="logo" src="../img/wordmark_small.svg" width="48" height="48">
+        <img src="../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -1501,7 +1501,7 @@ support composition of commands or parameter values. The lack of subcommand supp
 non-starter, but there are other design decisions that make it unsuitable.</p>
 <p>In the simple cases, the two libraries are similar. Here&rsquo;s an example
 from its README:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">MyArgs</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">ArgParser</span><span class="p">)</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">MyArgs</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">ArgParser</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">v</span><span class="p">:</span> <span class="n">Boolean</span> <span class="k">by</span> <span class="n">parser</span><span class="p">.</span><span class="n">flagging</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;enable verbose mode&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">username</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">parser</span><span class="p">.</span><span class="n">storing</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;name of the user&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">count</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">parser</span><span class="p">.</span><span class="n">storing</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;number of the widgets&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">toInt</span><span class="p">()</span> <span class="p">}</span>
@@ -1515,10 +1515,10 @@ from its README:</p>
         <span class="n">println</span><span class="p">(</span><span class="s">&quot;Moving $count widgets from $source to $destination.&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
 <p>Here&rsquo;s the same thing with Clikt:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">v</span><span class="p">:</span> <span class="n">Boolean</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;enable verbose mode&quot;</span><span class="p">).</span><span class="n">flag</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">username</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;name of the user&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">count</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;number of the widgets&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
@@ -1531,14 +1531,14 @@ from its README:</p>
 <span class="p">}</span>
 
 <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Cli</span><span class="p">().</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 <p>Both work fine, although you may find Clikt more consistent and a bit
 less verbose. The differences become more pronounced once you try to do
 anything that isn&rsquo;t built in to <a href="https://github.com/xenomachina/kotlin-argparser">kotlin-argparser</a>.</p>
 <p>Maybe you need an option to take two values. Here&rsquo;s another example from
 the <code>kotlin-argparser</code> README showing how to do that:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">fun</span> <span class="nc">ArgParser</span><span class="p">.</span><span class="nf">putting</span><span class="p">(</span><span class="k">vararg</span> <span class="n">names</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">help</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">=</span>
+<div class="codehilite"><pre><span></span><span class="k">fun</span> <span class="nc">ArgParser</span><span class="p">.</span><span class="nf">putting</span><span class="p">(</span><span class="k">vararg</span> <span class="n">names</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">help</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">=</span>
           <span class="n">option</span><span class="p">&lt;</span><span class="n">MutableMap</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">&gt;&gt;(*</span><span class="n">names</span><span class="p">,</span>
                   <span class="n">argNames</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;KEY&quot;</span><span class="p">,</span> <span class="s">&quot;VALUE&quot;</span><span class="p">),</span>
                   <span class="n">help</span> <span class="p">=</span> <span class="n">help</span><span class="p">)</span> <span class="p">{</span>
@@ -1553,14 +1553,14 @@ the <code>kotlin-argparser</code> README showing how to do that:</p>
 <span class="k">class</span> <span class="nc">MyArgs</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">ArgParser</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">v</span> <span class="k">by</span> <span class="n">parser</span><span class="p">.</span><span class="n">putting</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;this takes two values&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
 <p>Clikt has that functionality built in as <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/pair/"><code>option().pair()</code></a>,
 but you could implement it yourself like this:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">v</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;this takes two values&quot;</span><span class="p">).</span><span class="n">transformValues</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="n">to</span> <span class="n">it</span><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
 <p>The Clikt version is of course much simpler, but there are more
 fundamental issues with the <code>kotlin-argparser</code> version that drove the
@@ -1627,9 +1627,9 @@ do much better with Kotlin.</p>
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        <a href="https://www.mkdocs.org">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+        <a href="https://squidfunk.github.io/mkdocs-material/">
           Material for MkDocs</a>
       </div>
       
@@ -1639,9 +1639,9 @@ do much better with Kotlin.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.c33a9706.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
-      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
     
   </body>

@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -44,7 +44,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -55,7 +55,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#parameters" tabindex="0" class="md-skip">
+      <a href="#parameters" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" aria-label="Clikt" class="md-header-nav__button md-logo">
+        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
           
-            <img alt="logo" src="../img/wordmark_small.svg" width="24" height="24">
+            <img src="../img/wordmark_small.svg" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -194,7 +194,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Clikt" class="md-nav__button md-logo">
       
-        <img alt="logo" src="../img/wordmark_small.svg" width="48" height="48">
+        <img src="../img/wordmark_small.svg" width="48" height="48">
       
     </a>
     Clikt
@@ -1584,38 +1584,38 @@ arguments only have a single metavar.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
 <label for="__tab_1_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">inferredOpt</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">inferred</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
     <span class="k">val</span> <span class="py">explicitOpt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--explicit&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">explicitArg</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="s">&quot;&lt;explicit&gt;&quot;</span><span class="p">)</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">Unit</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_1" />
 <label for="__tab_1_1">Help Output</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>Usage: cli [OPTIONS] INFERRED &lt;explicit&gt;
+<div class="superfences-content"><div class="codehilite"><pre><span></span>Usage: cli [OPTIONS] INFERRED &lt;explicit&gt;
 
 Options:
   --inferred-opt TEXT
   -e, --explicit TEXT
   -h, --help           Show this message and exit
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="parameter-types">Parameter Types<a class="headerlink" href="#parameter-types" title="Permanent link">&para;</a></h2>
 <p>Both options and arguments can convert the String that the user inputs
 to other types.</p>
 <p>Types work by transforming the return value of the property delegate. By
 default parameters have a string type:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an option&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an option&quot;</span><span class="p">)</span>
 <span class="k">val</span> <span class="py">arg</span><span class="p">:</span> <span class="n">String</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an argument&quot;</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 <p>To convert the input to an integer, for example, use the <code>int()</code>
 extension function:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an option&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an option&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">arg</span><span class="p">:</span> <span class="n">Int</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an argument&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 <h2 id="built-in-types">Built-In Types<a class="headerlink" href="#built-in-types" title="Permanent link">&para;</a></h2>
 <p>There are a number of built in types that can be applied to options and
@@ -1642,12 +1642,12 @@ or fail with an error if the input is outside the range.</p>
 <p>You can restrict the values to a set of values, and optionally map the
 input to a new value. For example, to create an option that only
 accepts the value &ldquo;A&rdquo; or &ldquo;B&rdquo;:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
+</pre></div>
 
 <p>You can also convert the restricted set of values to a new type:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
+</pre></div>
 
 <p>Choice parameters accept values that are case-sensitive by default. This can be configured by
 passing <code>ignoreCase = true</code>.</p>
@@ -1656,9 +1656,9 @@ passing <code>ignoreCase = true</code>.</p>
 <li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/enum/"><code>option().enum()</code> and <code>argument().enum()</code></a></li>
 </ul>
 <p>Like <code>choice</code>, but uses the values of an enum type.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">enum</span> <span class="k">class</span> <span class="nc">Color</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span> <span class="p">}</span>
+<div class="codehilite"><pre><span></span><span class="k">enum</span> <span class="k">class</span> <span class="nc">Color</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span> <span class="p">}</span>
 <span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Color</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Color</span><span class="p">&gt;()</span>
-</code></pre></div>
+</pre></div>
 
 <p>Enum parameters accept case-insensitive values by default. This can be configured by passing
 <code>ignoreCase = false</code>.</p>
@@ -1693,23 +1693,23 @@ raising an exception.</p>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
 <label for="__tab_2_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">convert</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">toBigDecimal</span><span class="p">()</span> <span class="p">}</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=$opt&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_2" type="radio" id="__tab_2_1" />
 <label for="__tab_2_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt=1.5
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt=1.5
 opt=1.5
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_2" type="radio" id="__tab_2_2" />
 <label for="__tab_2_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt=foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt=foo
 Usage: cli [OPTIONS]
 
 Error: Invalid value for &quot;--opt&quot;: For input string: &quot;foo&quot;
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h3 id="metavars">Metavars<a class="headerlink" href="#metavars" title="Permanent link">&para;</a></h3>
 <p>You can also pass <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert/"><code>option().convert()</code></a> a metavar
@@ -1718,29 +1718,29 @@ We can modify the above example to use a metavar and an explicit error message:<
 <div class="superfences-tabs">
 <input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
 <label for="__tab_3_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;a real number&quot;</span><span class="p">).</span><span class="n">convert</span><span class="p">(</span><span class="s">&quot;FLOAT&quot;</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">it</span><span class="p">.</span><span class="n">toBigDecimalOrNull</span><span class="p">()</span> <span class="o">?:</span> <span class="n">fail</span><span class="p">(</span><span class="s">&quot;A real number is required&quot;</span><span class="p">)</span>
     <span class="p">}</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=$opt&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_3" type="radio" id="__tab_3_1" />
 <label for="__tab_3_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --opt=foo
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --opt=foo
 Usage: cli [OPTIONS]
 
 Error: Invalid value for &quot;--opt&quot;: A real number is required
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_3" type="radio" id="__tab_3_2" />
 <label for="__tab_3_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./cli --help
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --help
 Usage: cli [OPTIONS]
 
 Options:
   --opt FLOAT  a real number
   -h, --help   Show this message and exit
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h3 id="chaining">Chaining<a class="headerlink" href="#chaining" title="Permanent link">&para;</a></h3>
 <p>You can call <code>convert</code> more than once on the same parameter. This allows you to reuse existing
@@ -1748,7 +1748,7 @@ conversion functions. For example, you could automatically read the text of a fi
 <div class="superfences-tabs">
 <input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
 <label for="__tab_4_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">FileReader</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">FileReader</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">file</span><span class="p">:</span> <span class="n">String</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
         <span class="p">.</span><span class="n">file</span><span class="p">(</span><span class="n">mustExist</span><span class="p">=</span><span class="k">true</span><span class="p">,</span> <span class="n">canBeDir</span><span class="p">=</span><span class="k">false</span><span class="p">)</span>
         <span class="p">.</span><span class="n">convert</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">readText</span><span class="p">()</span> <span class="p">}</span>
@@ -1756,13 +1756,13 @@ conversion functions. For example, you could automatically read the text of a fi
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your file contents: $file&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_4" type="radio" id="__tab_4_1" />
 <label for="__tab_4_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ echo &#39;some text&#39; &gt; myfile.txt
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ echo &#39;some text&#39; &gt; myfile.txt
 $ ./filereader ./myfile.txt
 Your file contents: some text
-</code></pre></div></div>
+</pre></div></div>
 </div>
 <h2 id="parameter-validation">Parameter Validation<a class="headerlink" href="#parameter-validation" title="Permanent link">&para;</a></h2>
 <p>After converting a value to a new type, you can perform additional validation on the converted value
@@ -1770,17 +1770,17 @@ with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/">
 <code>validate</code> takes a lambda that returns nothing, but can call <code>fail("error message")</code> if the value is
 invalid. You can also call <code>require()</code>, which will fail if the provided expression is false. The
 lambda is only called if the value is non-null.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">validate</span> <span class="p">{</span>
+<div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">validate</span> <span class="p">{</span>
     <span class="n">require</span><span class="p">(</span><span class="n">it</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span> <span class="s">&quot;value must be even&quot;</span> <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
 <p>The lambdas you pass to <code>validate</code> are called after the values for all options and arguments have
 been set, so (unlike in transforms) you can reference other parameters:</p>
 <div class="superfences-tabs">
 <input name="__tabs_5" type="radio" id="__tab_5_0" checked="checked" />
 <label for="__tab_5_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">biggerNumber</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">validate</span> <span class="p">{</span>
         <span class="n">require</span><span class="p">(</span><span class="n">it</span> <span class="p">&gt;</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
@@ -1792,19 +1792,19 @@ been set, so (unlike in transforms) you can reference other parameters:</p>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;number=$number, biggerNumber=$biggerNumber&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_5" type="radio" id="__tab_5_1" />
 <label for="__tab_5_1">Usage 1</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --number=1
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --number=1
 number=1, biggerNumber=null
-</code></pre></div></div>
+</pre></div></div>
 <input name="__tabs_5" type="radio" id="__tab_5_2" />
 <label for="__tab_5_2">Usage 2</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code>$ ./tool --number=1 --bigger-number=0
+<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --number=1 --bigger-number=0
 Usage: tool [OPTIONS]
 
 Error: --bigger-number must be bigger than --number
-</code></pre></div></div>
+</pre></div></div>
 </div>
                 
                   
@@ -1833,9 +1833,9 @@ Error: --bigger-number must be bigger than --number
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        <a href="https://www.mkdocs.org">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+        <a href="https://squidfunk.github.io/mkdocs-material/">
           Material for MkDocs</a>
       </div>
       
@@ -1845,9 +1845,9 @@ Error: --bigger-number must be bigger than --number
       
     </div>
     
-      <script src="../assets/javascripts/application.c33a9706.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
-      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
     
   </body>

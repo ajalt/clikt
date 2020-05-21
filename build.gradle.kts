@@ -12,6 +12,7 @@ allprojects {
     version = getPublishVersion()
 
     repositories {
+        mavenCentral()
         jcenter()
     }
 }
@@ -28,13 +29,6 @@ fun getPublishVersion(): String {
     val tag = String(stdout.toByteArray()).trim()
     if (tag.isNotEmpty()) return tag
 
-    stdout.reset()
-    project.exec {
-        commandLine = listOf("git", "rev-list", "--count", "master")
-        standardOutput = stdout
-    }
-    val buildNumber = String(stdout.toByteArray()).trim()
-    if (buildNumber.isNotEmpty()) return "$VERSION_NAME.$buildNumber-SNAPSHOT"
-
-    return VERSION_NAME
+    val buildNumber = System.getenv("GITHUB_RUN_NUMBER") ?: "0"
+    return "$VERSION_NAME.$buildNumber-SNAPSHOT"
 }

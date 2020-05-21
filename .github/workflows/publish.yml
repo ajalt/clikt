@@ -58,9 +58,6 @@ jobs:
       steps:
          - name: Checkout the repo
            uses: actions/checkout@v2
-            # checkout the full repo so we can count commits for a build number
-           with:
-              fetch-depth: 0
 
          - name: Fetch git tags
            run: git fetch origin +refs/tags/*:refs/tags/*
@@ -86,8 +83,6 @@ jobs:
       steps:
          - name: Checkout the repo
            uses: actions/checkout@v2
-           with:
-              fetch-depth: 0
 
          - name: Fetch git tags
            run: git fetch origin +refs/tags/*:refs/tags/*

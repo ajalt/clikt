@@ -1766,7 +1766,7 @@ independently:</p>
 <li><strong>How to handle all calls to the option (i.e. if the option is not present, or is present more than once).</strong>
    By default, the option delegate value is the null if the option is not given on the command line,
    and will use the value of the last occurrence if the option is given more than once. You can
-   change this behavior with functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a>.</li>
+   change this behavior with functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a>.</li>
 </ol>
 <p>Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
@@ -1774,7 +1774,7 @@ can be used with all of the existing functions without any repeated
 code.</p>
 <h2 id="default-values">Default Values<a class="headerlink" href="#default-values" title="Permanent link">&para;</a></h2>
 <p>By default, option delegates return <code>null</code> if the option wasn&rsquo;t provided
-on the command line. You can instead return a default value with <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a>.</p>
+on the command line. You can instead return a default value with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
 <label for="__tab_4_0">Example</label>
@@ -1797,7 +1797,7 @@ on the command line. You can instead return a default value with <a href="../api
 </pre></div></div>
 </div>
 <p>If the default value is expensive to compute, you can use
-<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy/"><code>defaultLazy</code></a> instead of <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a>.
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy/"><code>defaultLazy</code></a> instead of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a>.
 It has the same effect, but you give it a lambda returning the default value,
 and the lambda will only be called if the default value is used.</p>
 <h2 id="multi-value-options">Multi Value Options<a class="headerlink" href="#multi-value-options" title="Permanent link">&para;</a></h2>
@@ -2131,7 +2131,7 @@ Error: option --apples cannot be used with --oranges
 </pre></div></div>
 </div>
 <p>Like regular options, you can make the entire group
-<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required/"><code>required</code></a>, or give it a <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a> value.</p>
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required/"><code>required</code></a>, or give it a <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a> value.</p>
 <p>Like <a href="../documenting/#grouping-options-in-help">other option groups</a>, you can specify a <code>name</code> and
 <code>help</code> text for the group if you want to set the group apart in the help output.</p>
 <h2 id="co-occurring-option-groups">Co-Occurring Option Groups<a class="headerlink" href="#co-occurring-option-groups" title="Permanent link">&para;</a></h2>
@@ -2606,11 +2606,11 @@ option names manually.</p>
 When applying multiple functions to the same option,
 there&rsquo;s only one valid order for the functions to be applied.
 For example, <code>option().default(3).int()</code> will not compile,
-because <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a> must be applied after the value type conversion.
+because <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a> must be applied after the value type conversion.
 Similarly, you can only apply one transform of each type.
 So <code>option().int().float()</code> is invalid since <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int/"><code>int</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/float/"><code>float</code></a>
 both change the value type, as is <code>option().default("").multiple()</code>
-since <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/required/"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a> both transform the
+since <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple/"><code>multiple</code></a> both transform the
 call list (if you need a custom default value for <code>multiple</code>, you can pass it one as an argument).</p>
 <p>Here&rsquo;s an integer option with one of each available transform in a valid order:</p>
 <div class="codehilite"><pre><span></span><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Pair</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-o&quot;</span><span class="p">,</span> <span class="s">&quot;--opt&quot;</span><span class="p">)</span>

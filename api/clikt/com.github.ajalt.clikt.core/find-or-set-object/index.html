@@ -1444,6 +1444,10 @@
 <h1 id="findorsetobject">findOrSetObject<a class="headerlink" href="#findorsetobject" title="Permanent link">&para;</a></h1>
 <p><code>inline fun <reified T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>> <a href="../-clikt-command/">CliktCommand</a>.findOrSetObject(crossinline default: () -&gt; T): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html">ReadOnlyProperty</a>&lt;<a href="../-clikt-command/">CliktCommand</a>, T&gt;</code></p>
 <p>Find the closest object of type <a href="./#T">T</a>, setting <code>context.obj</code> if one is not found.</p>
+<p>Note that this function returns a delegate, and so the object will not be set on the context
+until the delegated property&rsquo;s value is accessed. If you want to set a value for subcommands
+without accessing the property, call <a href="../-context/find-or-set-object/">Context.findOrSetObject</a> in your <a href="../-clikt-command/run/">run</a>
+function instead.</p>
                 
                   
                 

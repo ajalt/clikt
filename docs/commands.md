@@ -183,7 +183,9 @@ The [`findObject`][findObject], [`findOrSetObject`][findOrSetObject], and
 [`requireObject`][requireObject] functions will walk up the context tree until they find an object
 with the given type. If no such object exists, they will either return `null`, throw an exception,
 or create an instance of the object and store it on the command's context, depending on which
-function you call.
+function you call. Note that `findOrSetObject` won't set the Context's object until it's property
+value is accessed. If you need to set an object for subcommands without accessing the property, you
+should use the [`Context.findOrSetObject`] instead. 
 
 ## Running Parent Command Without Children
 
@@ -404,6 +406,7 @@ cannot have `allowMultipleSubcommands=true`.
 [Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.md
 [findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.md
 [findOrSetObject]:               api/clikt/com.github.ajalt.clikt.core/find-or-set-object.md
+[Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/-context/find-or-set-object/
 [requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.md
 [context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
 [printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr

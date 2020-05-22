@@ -234,7 +234,14 @@ inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> 
     return findOrSetObject(default)
 }
 
-/** Find the closest object of type [T], setting `context.obj` if one is not found. */
+/**
+ * Find the closest object of type [T], setting `context.obj` if one is not found.
+ *
+ * Note that this function returns a delegate, and so the object will not be set on the context
+ * until the delegated property's value is accessed. If you want to set a value for subcommands
+ * without accessing the property, call [Context.findOrSetObject] in your [run][CliktCommand.run]
+ * function instead.
+ */
 @Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
     return object : ReadOnlyProperty<CliktCommand, T> {

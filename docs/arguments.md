@@ -116,9 +116,9 @@ bar.txt
 ```
 
 
-[options]:  options.md
 [argument]: api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
+[multiple]: api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md
+[options]:  options.md
 [pair]:     api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.md
 [triple]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.md
 [unique]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/unique.md
-[multiple]: api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md

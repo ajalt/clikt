@@ -298,11 +298,11 @@ class Cli : NoOpCliktCommand() {
 }
 ```
 
-[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
 [Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
 [customizing-command-name]: commands.md#customizing-command-name
 [customizing-contexts]:     commands.md#customizing-contexts
 [default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.md
-[required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.md
+[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
 [OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.md
 [provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md
+[required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.md

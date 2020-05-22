@@ -51,23 +51,23 @@ The following subclasses exist:
 * [`InvalidFileFormat`][InvalidFileFormat] : A configuration file or @-file failed to parse correctly.
 
 
-[main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
-[CliktError]:                      api/clikt/com.github.ajalt.clikt.core/-clikt-error/index.md
 [Abort]:                           api/clikt/com.github.ajalt.clikt.core/-abort/index.md
-[PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
-[PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.md
-[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/index.md
-[ProgramResult]:                   api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
-[convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
-[UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md
-[parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
 [BadParameterValue]:               api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/index.md
+[CliktError]:                      api/clikt/com.github.ajalt.clikt.core/-clikt-error/index.md
+[convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
+[FileFormatError]:                 api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
+[FileNotFound]:                    api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
+[IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.md
+[IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.md
+[InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.md
+[main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
 [MissingParameter]:                api/clikt/com.github.ajalt.clikt.core/-missing-parameter/index.md
+[MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.md
 [NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.md
 [NoSuchSubcommand]:                api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/index.md
-[IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.md
-[IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.md
-[MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.md
-[FileNotFound]:                    api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
-[FileFormatError]:                 api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
-[InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.md
+[parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
+[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/index.md
+[PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.md
+[PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
+[ProgramResult]:                   api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
+[UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md

@@ -400,18 +400,18 @@ Subcommands of a command with `allowMultipleSubcommands=true` can themselves hav
 cannot have `allowMultipleSubcommands=true`.
 
 
-[subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.md
-[run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.md
+[argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md
 [CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
+[Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/-context/find-or-set-object/
 [Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.md
+[context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
+[customizing-context]:           #customizing-contexts
+[deprecating-options]:           options.md#deprecating-options
 [findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.md
 [findOrSetObject]:               api/clikt/com.github.ajalt.clikt.core/find-or-set-object.md
-[Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/-context/find-or-set-object/
-[requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.md
-[context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
-[printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
-[deprecating-options]:           options.md#deprecating-options
-[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.md
-[customizing-context]:           #customizing-contexts
 [interspersed]:                  api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.md
-[argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md
+[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.md
+[printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
+[requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.md
+[run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.md
+[subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.md

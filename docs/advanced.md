@@ -222,14 +222,14 @@ advantages:
 - `ProgramResult` works on all platforms. `exitProcess` is only available on the JVM.
 
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.md
-[tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.md
-[customizing-context]: commands.md#customizing-contexts
-[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
-[parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
-[prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
 [CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.md
-[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.md
+[customizing-context]: commands.md#customizing-contexts
 [dash-dash]:           arguments.md#option-like-arguments-using-
 [expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.md
+[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
+[parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
 [ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
+[prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
+[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.md
+[tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.md
 

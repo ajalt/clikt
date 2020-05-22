@@ -63,9 +63,9 @@ TermUi.confirm("Continue?", abort=true)
 ```
 
 
-[editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.md
-[editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.md
-[prompting-for-input]: options.md#prompting-for-input
-[prompt]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt.md
-[UsageError]:          api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md
 [confirm]:             api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm.md
+[editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.md
+[editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.md
+[prompt]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt.md
+[prompting-for-input]: options.md#prompting-for-input
+[UsageError]:          api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md

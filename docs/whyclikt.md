@@ -159,11 +159,11 @@ JCommander and piocli are great libraries if you're writing code in Java, but we
 do much better with Kotlin.
 
 
-[kotlinx.cli]:      https://github.com/Kotlin/kotlinx.cli
-[kotlin-argparser]: https://github.com/xenomachina/kotlin-argparser
-[pair]:             api/clikt/com.github.ajalt.clikt.parameters.options/pair.md
-[option]:           api/clikt/com.github.ajalt.clikt.parameters.options/option.md
 [argument]:         api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
-[JCommander]:       http://jcommander.org/
 [jc_arity]:         http://jcommander.org/#_arities_multiple_values_for_parameters
+[JCommander]:       http://jcommander.org/
+[kotlin-argparser]: https://github.com/xenomachina/kotlin-argparser
+[kotlinx.cli]:      https://github.com/Kotlin/kotlinx.cli
+[option]:           api/clikt/com.github.ajalt.clikt.parameters.options/option.md
+[pair]:             api/clikt/com.github.ajalt.clikt.parameters.options/pair.md
 [picocli]:          https://picocli.info/

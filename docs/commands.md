@@ -90,7 +90,7 @@ Commands:
 
 When calling subcommands, the position of options and arguments on the
 command line affect which command will parse them. A parameter is parsed
-by a command if is occurs after the command name, but before any other
+by a command if it occurs after the command name, but before any other
 command names.
 
 ```kotlin tab="Example"
@@ -147,7 +147,7 @@ easier, but what if you want to pass information to a child command? You
 can do so with the command's [`Context`][Context].
 
 Every time the command line is parsed, each command creates a new
-context object for itself that is liked to its parent's context.
+context object for itself that is linked to its parent's context.
 `Context` objects have a number of properties that can be used to
 customize command line parsing. Although each command creates its own
 context, the configuration is inherited from the parent context.

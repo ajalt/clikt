@@ -1613,7 +1613,7 @@ Commands:
 <h2 id="passing-parameters">Passing Parameters<a class="headerlink" href="#passing-parameters" title="Permanent link">&para;</a></h2>
 <p>When calling subcommands, the position of options and arguments on the
 command line affect which command will parse them. A parameter is parsed
-by a command if is occurs after the command name, but before any other
+by a command if it occurs after the command name, but before any other
 command names.</p>
 <div class="superfences-tabs">
 <input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
@@ -1666,7 +1666,7 @@ access its parent&rsquo;s parameters. This makes composing commands much
 easier, but what if you want to pass information to a child command? You
 can do so with the command&rsquo;s <a href="../api/clikt/com.github.ajalt.clikt.core/context/"><code>Context</code></a>.</p>
 <p>Every time the command line is parsed, each command creates a new
-context object for itself that is liked to its parent&rsquo;s context.
+context object for itself that is linked to its parent&rsquo;s context.
 <code>Context</code> objects have a number of properties that can be used to
 customize command line parsing. Although each command creates its own
 context, the configuration is inherited from the parent context.</p>

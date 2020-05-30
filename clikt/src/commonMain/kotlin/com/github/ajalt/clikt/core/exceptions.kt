@@ -22,7 +22,7 @@ open class CliktError(message: String? = null, cause: Exception? = null) : Runti
 /**
  * An exception that indicates that the command's help should be printed.
  *
- * Execution should be immediately halted with an error.
+ * Execution should be immediately halted without an error.
  */
 class PrintHelpMessage(val command: CliktCommand) : CliktError()
 

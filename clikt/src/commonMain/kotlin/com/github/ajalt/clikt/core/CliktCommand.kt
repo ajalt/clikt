@@ -275,14 +275,14 @@ abstract class CliktCommand(
             exitProcessMpp(e.statusCode)
         } catch (e: PrintHelpMessage) {
             echo(e.command.getFormattedHelp())
-            exitProcessMpp(0)
+            exitProcessMpp(if (e.error) 1 else 0)
         } catch (e: PrintCompletionMessage) {
             val s = if (e.forceUnixLineEndings) "\n" else currentContext.console.lineSeparator
             echo(e.message, lineSeparator = s)
             exitProcessMpp(0)
         } catch (e: PrintMessage) {
             echo(e.message)
-            exitProcessMpp(0)
+            exitProcessMpp(if (e.error) 1 else 0)
         } catch (e: UsageError) {
             echo(e.helpMessage(), err = true)
             exitProcessMpp(e.statusCode)

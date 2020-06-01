@@ -22,16 +22,20 @@ open class CliktError(message: String? = null, cause: Exception? = null) : Runti
 /**
  * An exception that indicates that the command's help should be printed.
  *
- * Execution should be immediately halted without an error.
+ * Execution should be immediately halted.
+ *
+ * @property error If true, execution should halt with an error. Otherwise, execution halt with no error code.
  */
-class PrintHelpMessage(val command: CliktCommand) : CliktError()
+class PrintHelpMessage(val command: CliktCommand, val error: Boolean = false) : CliktError()
 
 /**
  * An exception that indicates that a message should be printed.
  *
- * Execution should be immediately halted without an error.
+ * Execution should be immediately halted.
+ *
+ * @property error If true, execution should halt with an error. Otherwise, execution halt with no error code.
  */
-open class PrintMessage(message: String) : CliktError(message)
+open class PrintMessage(message: String, val error: Boolean = false) : CliktError(message)
 
 /**
  * Indicate that that the program finished in a controlled manner, and should complete with the given [statusCode]

@@ -42,7 +42,7 @@ class CliktCommandTest {
     fun `invokeWithoutSubcommand=false`() {
         shouldThrow<PrintHelpMessage> {
             TestCommand(called = false).subcommands(TestCommand(called = false)).parse("")
-        }
+        }.error shouldBe true
 
         val child = TestCommand(called = true, name = "foo")
         TestCommand(called = true).subcommands(child).apply {
@@ -73,7 +73,9 @@ class CliktCommandTest {
     @JsName("printHelpOnEmptyArgs__true")
     fun `printHelpOnEmptyArgs = true`() {
         class C : TestCommand(called = false, printHelpOnEmptyArgs = true)
-        shouldThrow<PrintHelpMessage> { C().parse("") }
+        shouldThrow<PrintHelpMessage> {
+            C().parse("")
+        }.error shouldBe true
     }
 
     @Test

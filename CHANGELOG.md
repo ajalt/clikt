@@ -1,6 +1,11 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Added `error` parameter to `PrintMessage` and `PrintHelpMessage`. When `true`, `CliktCommand.main` will exit with status code 1. ([#187](https://github.com/ajalt/clikt/issues/187))
+
+### Changed
+- When `printHelpOnEmptyArgs` is `true` and no arguments are present, or when `invokeWithoutSubcommand` is `false` and no subcommand is present, `CliktCommand.main` will now exit with status code 1 rather than 0. 
 
 ## [2.7.1] - 2020-05-19
 ### Fixed

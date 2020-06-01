@@ -37,7 +37,7 @@ internal object Parser {
         prefixes.remove("")
 
         if (startingArgI > tokens.lastIndex && command.printHelpOnEmptyArgs) {
-            throw PrintHelpMessage(command)
+            throw PrintHelpMessage(command, error = true)
         }
 
         val positionalArgs = ArrayList<String>()
@@ -153,7 +153,7 @@ internal object Parser {
             command._arguments.forEach { it.postValidate(context) }
 
             if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
-                throw PrintHelpMessage(command)
+                throw PrintHelpMessage(command, error = true)
             }
 
             command.currentContext.invokedSubcommand = subcommand

@@ -111,61 +111,64 @@ internal object Parser {
         val invocationsByOptionByGroup = invocationsByGroup.mapValues { (_, invs) -> invs.groupBy({ it.opt }, { it.inv }).filterKeys { it !is EagerOption } }
 
         try {
-            // Finalize eager options
-            invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
+            // Finalize and validate everything as long as we aren't resuming a parse for multiple subcommands
+            if (canRun) {
+                // Finalize eager options
+                invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
 
-            // Finalize un-grouped options that occurred on the command line
-            invocationsByOptionByGroup[null]?.forEach { (o, inv) -> o.finalize(context, inv) }
+                // Finalize un-grouped options that occurred on the command line
+                invocationsByOptionByGroup[null]?.forEach { (o, inv) -> o.finalize(context, inv) }
 
-            // Finalize un-grouped options not provided on the command line so that they can apply default values etc.
-            command._options.forEach { o ->
-                if (o !is EagerOption && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
-                    o.finalize(context, emptyList())
+                // Finalize un-grouped options not provided on the command line so that they can apply default values etc.
+                command._options.forEach { o ->
+                    if (o !is EagerOption && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
+                        o.finalize(context, emptyList())
+                    }
                 }
-            }
 
-            // Finalize option groups after other options so that the groups can use their values
-            invocationsByOptionByGroup.forEach { (group, invocations) ->
-                group?.finalize(context, invocations)
-            }
-
-            // Finalize groups with no invocations
-            command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
-
-            val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
-            parsedArgs.forEach { (it, v) -> it.finalize(context, v) }
-
-            if (excess > 0) {
-                if (hasMultipleSubAncestor) {
-                    i = tokens.size - excess
-                } else if (excess == 1 && subcommands.isNotEmpty()) {
-                    val actual = positionalArgs.last()
-                    throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
-                } else {
-                    val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
-                    throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} $actual")
+                // Finalize option groups after other options so that the groups can use their values
+                invocationsByOptionByGroup.forEach { (group, invocations) ->
+                    group?.finalize(context, invocations)
                 }
-            }
 
-            // Now that all parameters have been finalized, we can validate everything
-            command._options.forEach { o -> if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context) }
-            command._groups.forEach { it.postValidate(context) }
-            command._arguments.forEach { it.postValidate(context) }
+                // Finalize groups with no invocations
+                command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
 
-            if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
-                throw PrintHelpMessage(command, error = true)
-            }
-
-            command.currentContext.invokedSubcommand = subcommand
-            if (command.currentContext.printExtraMessages) {
-                val console = command.currentContext.console
-                for (warning in command.messages) {
-                    console.print(warning, error = true)
-                    console.print(console.lineSeparator, error = true)
+                val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
+                parsedArgs.forEach { (it, v) -> it.finalize(context, v) }
+                if (excess > 0) {
+                    if (hasMultipleSubAncestor) {
+                        i = tokens.size - excess
+                    } else if (excess == 1 && subcommands.isNotEmpty()) {
+                        val actual = positionalArgs.last()
+                        throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
+                    } else {
+                        val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
+                        throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} $actual")
+                    }
                 }
-            }
 
-            if (canRun) command.run()
+
+                // Now that all parameters have been finalized, we can validate everything
+                command._options.forEach { o -> if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context) }
+                command._groups.forEach { it.postValidate(context) }
+                command._arguments.forEach { it.postValidate(context) }
+
+                if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
+                    throw PrintHelpMessage(command, error = true)
+                }
+
+                command.currentContext.invokedSubcommand = subcommand
+                if (command.currentContext.printExtraMessages) {
+                    val console = command.currentContext.console
+                    for (warning in command.messages) {
+                        console.print(warning, error = true)
+                        console.print(console.lineSeparator, error = true)
+                    }
+                }
+
+                command.run()
+            }
         } catch (e: UsageError) {
             // Augment usage errors with the current context if they don't have one
             if (e.context == null) e.context = context

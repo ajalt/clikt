@@ -362,10 +362,26 @@ class SubcommandTest {
     }
 
     @Test
+    @JsName("multiple_subcommands_root_option")
+    fun `multiple subcommands with root option`() {
+        class C : TestCommand(count = 1, allowMultipleSubcommands = true) {
+            val x by option()
+
+            override fun run_() {
+                x shouldBe "xx"
+            }
+        }
+
+        val c = C()
+        c.subcommands(MultiSub1(1), MultiSub2(1)).parse("--x=xx foo 1 bar 2")
+        c.x shouldBe "xx"
+    }
+
+    @Test
     @JsName("multiple_subcommands_required_option")
     fun `multiple subcommands with required option`() {
-        class C : TestCommand(allowMultipleSubcommands = true) {
-            private val x: String by option().required()
+        class C : TestCommand(count = 1, allowMultipleSubcommands = true) {
+            val x by option().required()
 
             override fun run_() {
                 x shouldBe "xx"

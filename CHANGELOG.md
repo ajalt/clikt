@@ -7,6 +7,9 @@
 ### Changed
 - When `printHelpOnEmptyArgs` is `true` and no arguments are present, or when `invokeWithoutSubcommand` is `false` and no subcommand is present, `CliktCommand.main` will now exit with status code 1 rather than 0. 
 
+### Fixed
+- Fixed option values being reset when calling multiple subcommands with `allowMultipleSubcommands=true` ([#190](https://github.com/ajalt/clikt/issues/190))
+
 ## [2.7.1] - 2020-05-19
 ### Fixed
 - Fixed NPE thrown when in some cases when using `defaultByName` ([#179](https://github.com/ajalt/clikt/issues/179))

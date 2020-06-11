@@ -3,10 +3,7 @@ package com.github.ajalt.clikt.parameters.types
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
-import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.multiple
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.pair
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.forall
@@ -179,6 +176,31 @@ class RangeTest {
                 .message shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
         shouldThrow<BadParameterValue> { C().parse("-y10 1") }
                 .message shouldBe "Invalid value for \"-y\": 10 is not in the valid range of 3 to 4."
+    }
+
+    @Test
+    @JsName("restrictTo_option_char")
+    fun `restrictTo option char`() {
+        class C : TestCommand() {
+            val x by option("-x", "--xx").convert { it[0] }.restrictTo('b'..'d')
+        }
+
+        C().apply {
+            parse("")
+            x shouldBe null
+        }
+        C().apply {
+            parse("-xb")
+            x shouldBe 'b'
+        }
+        C().apply {
+            parse("-xd")
+            x shouldBe 'd'
+        }
+        shouldThrow<BadParameterValue> { C().parse("--xx=a") }
+                .message shouldBe "Invalid value for \"--xx\": a is not in the valid range of b to d."
+        shouldThrow<BadParameterValue> { C().parse("-xe") }
+                .message shouldBe "Invalid value for \"-x\": e is not in the valid range of b to d."
     }
 
     @Test

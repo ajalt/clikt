@@ -6,6 +6,7 @@
 
 ### Changed
 - When `printHelpOnEmptyArgs` is `true` and no arguments are present, or when `invokeWithoutSubcommand` is `false` and no subcommand is present, `CliktCommand.main` will now exit with status code 1 rather than 0. 
+- `restrictTo` now works with any `Comparable` value, not just `Number`.
 
 ### Fixed
 - Fixed option values being reset when calling multiple subcommands with `allowMultipleSubcommands=true` ([#190](https://github.com/ajalt/clikt/issues/190))

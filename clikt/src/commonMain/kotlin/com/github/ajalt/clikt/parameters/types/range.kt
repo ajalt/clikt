@@ -3,9 +3,8 @@ package com.github.ajalt.clikt.parameters.types
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
 
-private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
-                                  clamp: Boolean, fail: (String) -> Unit): T
-        where T : Number, T : Comparable<T> {
+private inline fun <T : Comparable<T>> checkRange(it: T, min: T? = null, max: T? = null,
+                                                  clamp: Boolean, fail: (String) -> Unit): T {
     require(min == null || max == null || min < max) { "min must be less than max" }
     if (clamp) {
         if (min != null && it < min) return min
@@ -28,15 +27,18 @@ private inline fun <T> checkRange(it: T, min: T? = null, max: T? = null,
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
+ * This must be called before transforms like `pair`, `default`, or `multiple`, since it checks each
+ * individual value.
+ *
  * ### Example:
  *
  * ```
- * argument().int().restrictTo(max=10, clamp=true)
+ * argument().int().restrictTo(max=10, clamp=true).default(10)
  * ```
  */
-fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
-        : ProcessedArgument<T, T> where T : Number, T : Comparable<T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } }, transformAll, transformValidator)
+fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
+        : ProcessedArgument<T, T> {
+    return copy({ checkRange(transformValue(it), min, max, clamp) { m -> fail(m) } }, transformAll, transformValidator)
 }
 
 /**
@@ -45,14 +47,18 @@ fun <T> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
+ * This must be called before transforms like `pair`, `default`, or `multiple`, since it checks each
+ * individual value.
+ *
  * ### Example:
  *
  * ```
- * argument().int().restrictTo(1..10, clamp=true)
+ * argument().int().restrictTo(1..10, clamp=true).default(10)
  * ```
  */
-fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
-        where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)
+fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false): ProcessedArgument<T, T> {
+    return restrictTo(range.start, range.endInclusive, clamp)
+}
 
 // Options
 
@@ -62,15 +68,17 @@ fun <T> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
+ * This must be called before transforms like `pair`, `default`, or `multiple`, since it checks each
+ * individual value.
+ *
  * ### Example:
  *
  * ```
- * option().int().restrictTo(max=10, clamp=true)
+ * option().int().restrictTo(max=10, clamp=true).default(10)
  * ```
  */
-fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
-        : OptionWithValues<T?, T, T> where T : Number, T : Comparable<T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp) { fail(it) } }, transformEach, transformAll, transformValidator)
+fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false): OptionWithValues<T?, T, T> {
+    return copy({ checkRange(transformValue(it), min, max, clamp) { m -> fail(m) } }, transformEach, transformAll, transformValidator)
 }
 
 
@@ -80,11 +88,15 @@ fun <T> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, cl
  * By default, conversion fails if the value is outside the range, but if [clamp] is true, the value will be
  * silently clamped to fit in the range.
  *
+ * This must be called before transforms like `pair`, `default`, or `multiple`, since it checks each
+ * individual value.
+ *
  * ### Example:
  *
  * ```
- * option().int().restrictTo(1..10, clamp=true)
+ * option().int().restrictTo(1..10, clamp=true).default(10)
  * ```
  */
-fun <T> OptionWithValues<T?, T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false)
-        where T : Number, T : Comparable<T> = restrictTo(range.start, range.endInclusive, clamp)
+fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false): OptionWithValues<T?, T, T> {
+    return restrictTo(range.start, range.endInclusive, clamp)
+}

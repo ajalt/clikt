@@ -12,8 +12,8 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
-import io.kotest.matchers.shouldBe
 import io.kotest.data.row
+import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -87,7 +87,7 @@ class PropertiesValueSourceTest {
         val file = testFolder.newFile()
         file.writeText("root.foo=bar")
 
-        class Root: TestCommand()
+        class Root : TestCommand()
         class C : TestCommand() {
             init {
                 context {

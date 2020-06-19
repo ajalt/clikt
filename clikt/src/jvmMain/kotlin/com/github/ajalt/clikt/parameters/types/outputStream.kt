@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.*
 import java.io.IOException
-import java.io.InputStream
 import java.io.OutputStream
 import java.nio.file.FileSystem
 import java.nio.file.FileSystems

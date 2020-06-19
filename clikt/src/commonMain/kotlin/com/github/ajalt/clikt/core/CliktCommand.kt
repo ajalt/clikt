@@ -349,7 +349,7 @@ abstract class CliktCommand(
         }
 
         if (_subcommands.isNotEmpty()) {
-            _subcommands.joinTo(this, " ", prefix=" subcommands=[", postfix="]")
+            _subcommands.joinTo(this, " ", prefix = " subcommands=[", postfix = "]")
         }
 
         append(">")

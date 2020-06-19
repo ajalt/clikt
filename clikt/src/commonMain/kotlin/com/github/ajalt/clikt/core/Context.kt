@@ -10,7 +10,7 @@ import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-typealias TypoSuggestor =  (enteredValue: String, possibleValues: List<String>) -> List<String>
+typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
 
 /**
  * A object used to control command line parsing and pass data between commands.
@@ -62,18 +62,18 @@ class Context(
     var obj: Any? = null
 
     /** Find the closest object of type [T] */
-    inline fun <reified T: Any> findObject(): T? {
+    inline fun <reified T : Any> findObject(): T? {
         return ancestors().mapNotNull { it.obj as? T }.firstOrNull()
     }
 
     @Suppress("unused")
     @Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(defaultValue)"))
-    inline fun <reified T: Any> findObject(defaultValue: () -> T): T {
+    inline fun <reified T : Any> findObject(defaultValue: () -> T): T {
         return findOrSetObject(defaultValue)
     }
 
     /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
-    inline fun <reified T: Any> findOrSetObject(defaultValue: () -> T): T {
+    inline fun <reified T : Any> findOrSetObject(defaultValue: () -> T): T {
         return findObject<T>() ?: defaultValue().also { obj = it }
     }
 
@@ -251,7 +251,7 @@ inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: (
     }
 }
 
-private val DEFAULT_CORRECTION_SUGGESTOR : TypoSuggestor = { enteredValue, possibleValues ->
+private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
     possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }
             .filter { it.second > 0.8 }
             .sortedByDescending { it.second }

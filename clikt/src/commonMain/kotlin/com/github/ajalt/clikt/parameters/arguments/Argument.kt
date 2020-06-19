@@ -6,8 +6,6 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
-import com.github.ajalt.clikt.parameters.arguments.defaultAllProcessor
-import com.github.ajalt.clikt.parameters.arguments.defaultValidator
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int

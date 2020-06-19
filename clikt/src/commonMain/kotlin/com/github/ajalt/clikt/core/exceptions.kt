@@ -40,7 +40,7 @@ open class PrintMessage(message: String, val error: Boolean = false) : CliktErro
 /**
  * Indicate that that the program finished in a controlled manner, and should complete with the given [statusCode]
  */
-class ProgramResult(val statusCode: Int): CliktError()
+class ProgramResult(val statusCode: Int) : CliktError()
 
 /**
  * An exception that indicates that shell completion code should be printed.

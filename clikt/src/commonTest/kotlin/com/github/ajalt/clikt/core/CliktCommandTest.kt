@@ -13,13 +13,12 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.string.shouldContain
-import io.kotest.data.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -29,9 +28,9 @@ class CliktCommandTest {
     @Suppress("ClassName")
     @JsName("inferring_command_name")
     fun `inferring command name`() {
-        class ListAllValuesCommand: TestCommand()
-        class LGTMMeansLookingGoodToMe: TestCommand()
-        class `nothing-to-change`: TestCommand()
+        class ListAllValuesCommand : TestCommand()
+        class LGTMMeansLookingGoodToMe : TestCommand()
+        class `nothing-to-change` : TestCommand()
         ListAllValuesCommand().commandName shouldBe "list-all-values"
         LGTMMeansLookingGoodToMe().commandName shouldBe "lgtmmeans-looking-good-to-me"
         `nothing-to-change`().commandName shouldBe "nothing-to-change"
@@ -250,7 +249,7 @@ class CliktCommandTest {
     @Test
     @JsName("treat_unknown_options_as_arguments_with_grouped_flag")
     fun `treat unknown options as arguments with grouped flag`() {
-        class C(called:Boolean) : TestCommand(called=called, treatUnknownOptionsAsArgs = true) {
+        class C(called: Boolean) : TestCommand(called = called, treatUnknownOptionsAsArgs = true) {
             val foo by option("-f").flag()
             val args by argument().multiple()
         }

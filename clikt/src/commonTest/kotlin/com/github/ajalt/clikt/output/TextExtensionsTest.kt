@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.output
 
 import io.kotest.data.blocking.forAll
-import io.kotest.matchers.shouldBe
 import io.kotest.data.row
+import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
 

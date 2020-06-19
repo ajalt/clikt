@@ -15,8 +15,8 @@ import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.skipDueToKT33294
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
-import io.kotest.matchers.shouldBe
 import io.kotest.data.row
+import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.fail
@@ -445,12 +445,12 @@ class OptionGroupsTest {
 
     @Test
     @JsName("groupSwitch_with_defaultByName_with_invalid_name")
-    fun `groupSwitch with defaultByName with invalid name`()  {
+    fun `groupSwitch with defaultByName with invalid name`() {
         class C : TestCommand(called = false) {
             val g by option().groupSwitch("--x" to Group1(), "--y" to Group2())
                     .defaultByName("--z")
         }
-       shouldThrow<IllegalArgumentException> { C() }
+        shouldThrow<IllegalArgumentException> { C() }
     }
 
     @Test

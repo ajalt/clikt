@@ -84,6 +84,7 @@ interface HelpFormatter {
     object Tags {
         /** A value that can be displayed to the user as the default for this option, or null if there is no default. */
         const val DEFAULT = "default"
+
         /** If true, this option is required. Only used for help output. */
         const val REQUIRED = "required"
     }

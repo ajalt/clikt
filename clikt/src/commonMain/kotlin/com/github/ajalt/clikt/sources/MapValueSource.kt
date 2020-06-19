@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.sources
 
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.pair
+import com.github.ajalt.clikt.parameters.options.triple
 
 /**
  * A [ValueSource] that reads values from a map.

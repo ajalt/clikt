@@ -8,9 +8,9 @@ import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.data.row
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import java.io.OutputStream

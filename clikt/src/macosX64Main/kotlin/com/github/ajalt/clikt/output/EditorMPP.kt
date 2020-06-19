@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.output
 
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.alloc
+import kotlinx.cinterop.ptr
 import platform.posix.stat
 
 internal actual fun MemScope.getModificationTime(filename: String): Long {

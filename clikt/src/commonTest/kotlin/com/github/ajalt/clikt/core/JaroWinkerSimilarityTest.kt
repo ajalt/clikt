@@ -1,15 +1,15 @@
 package com.github.ajalt.clikt.core
 
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
 import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
+import io.kotest.data.row
 import kotlin.test.Test
 
 
 class JaroWinkerSimilarityTest {
     @Test
-    fun jaroWinklerSimilarity() = forall(
+    fun jaroWinklerSimilarity() = forAll(
             row("", "",  1.0),
             row("", "a",  0.0),
             row("a", "",  0.0),

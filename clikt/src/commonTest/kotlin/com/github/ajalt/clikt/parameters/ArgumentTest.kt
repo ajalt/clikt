@@ -7,12 +7,12 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.contain
-import io.kotest.tables.row
+import io.kotest.data.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -31,7 +31,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_optional_argument")
-    fun `one optional argument`() = forall(
+    fun `one optional argument`() = forAll(
             row("", null),
             row("a=b", "a=b"),
             row("-- --", "--")
@@ -48,7 +48,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_default_argument")
-    fun `one default argument`() = forall(
+    fun `one default argument`() = forAll(
             row("", "def")
     ) { argv, expected ->
         class C : TestCommand() {
@@ -63,7 +63,7 @@ class ArgumentTest {
 
     @Test
     @JsName("defaultLazy_argument")
-    fun `defaultLazy argument`() = forall(
+    fun `defaultLazy argument`() = forAll(
             row("", "default", true)
     ) { argv, expected, ec ->
         var called = false
@@ -98,7 +98,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_optional_argument_nvalues_2")
-    fun `one optional argument nvalues=2`() = forall(
+    fun `one optional argument nvalues=2`() = forAll(
             row("", null)
     ) { argv, expected ->
         class C : TestCommand() {
@@ -113,7 +113,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_optional_argument_nvalues_3")
-    fun `one optional argument nvalues=3`() = forall(
+    fun `one optional argument nvalues=3`() = forAll(
             row("", null)
     ) { argv, expected ->
         class C : TestCommand() {
@@ -156,7 +156,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_argument_multiple_minus_unique_nvalues_minus_1")
-    fun `one argument multiple-unique nvalues=-1`() = forall(
+    fun `one argument multiple-unique nvalues=-1`() = forAll(
             row("", emptySet()),
             row("foo foo", setOf("foo")),
             row("foo bar", setOf("foo", "bar"))
@@ -172,7 +172,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_argument_nvalues_minus_1")
-    fun `one argument nvalues=-1`() = forall(
+    fun `one argument nvalues=-1`() = forAll(
             row("", emptyList()),
             row("foo", listOf("foo")),
             row("foo bar", listOf("foo", "bar")),
@@ -190,7 +190,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_required_argument_nvalues_minus_1")
-    fun `one required argument nvalues=-1`() = forall(
+    fun `one required argument nvalues=-1`() = forAll(
             row("foo", listOf("foo")),
             row("foo bar", listOf("foo", "bar")),
             row("foo bar baz", listOf("foo", "bar", "baz"))
@@ -217,7 +217,7 @@ class ArgumentTest {
 
     @Test
     @JsName("two_arguments_nvalues_minus_1_1")
-    fun `two arguments nvalues=-1,1`() = forall(
+    fun `two arguments nvalues=-1,1`() = forAll(
             row("foo", emptyList(), "foo"),
             row("foo bar baz", listOf("foo", "bar"), "baz")
     ) { argv, ex, ey ->
@@ -247,7 +247,7 @@ class ArgumentTest {
 
     @Test
     @JsName("two_arguments_nvalues_1_minus_1")
-    fun `two arguments nvalues=1,-1`() = forall(
+    fun `two arguments nvalues=1,-1`() = forAll(
             row("", null, emptyList()),
             row("foo bar", "foo", listOf("bar")),
             row("foo bar baz", "foo", listOf("bar", "baz"))
@@ -278,7 +278,7 @@ class ArgumentTest {
 
     @Test
     @JsName("value_minus_minus_with_argument")
-    fun `value -- with argument`() = forall(
+    fun `value -- with argument`() = forAll(
             row("--xx --xx -- --xx", "--xx", "--xx")
     ) { argv, ex, ey ->
         class C : TestCommand() {
@@ -409,7 +409,7 @@ class ArgumentTest {
 
     @Test
     @JsName("punctuation_in_arg_prefix_unix_style")
-    fun `punctuation in arg prefix unix style`() = forall(
+    fun `punctuation in arg prefix unix style`() = forAll(
             row("/foo")
     ) { argv ->
         class C : TestCommand() {
@@ -433,7 +433,7 @@ class ArgumentTest {
 
     @Test
     @JsName("punctuation_in_arg_prefix_windows_style")
-    fun `punctuation in arg prefix windows style`() = forall(
+    fun `punctuation in arg prefix windows style`() = forAll(
             row("-foo"),
             row("--foo")
     ) { argv ->
@@ -466,7 +466,7 @@ class ArgumentTest {
 
     @Test
     @JsName("wrapValue_argument")
-    fun `chained convert argument`() = forall(
+    fun `chained convert argument`() = forAll(
             row("", null),
             row("1", listOf(1))
     ) { argv, expected ->

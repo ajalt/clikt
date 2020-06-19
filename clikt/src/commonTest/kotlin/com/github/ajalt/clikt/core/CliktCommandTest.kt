@@ -12,14 +12,14 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.tables.row
+import io.kotest.data.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -80,7 +80,7 @@ class CliktCommandTest {
 
     @Test
     @JsName("shortHelp_extraction")
-    fun `shortHelp extraction`() = forall(
+    fun `shortHelp extraction`() = forAll(
             row("", ""),
             row("foo bar", "foo bar"),
             row("\n  \tfoo bar", "foo bar"),
@@ -95,7 +95,7 @@ class CliktCommandTest {
     }
 
     @Test
-    fun aliases() = forall(
+    fun aliases() = forAll(
             row("-xx", "x", emptyList()),
             row("a", "a", listOf("b")),
             row("a", "a", listOf("b")),

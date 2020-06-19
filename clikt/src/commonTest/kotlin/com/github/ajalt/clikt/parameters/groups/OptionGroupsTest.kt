@@ -14,9 +14,9 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.skipDueToKT33294
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
+import io.kotest.data.row
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.fail
@@ -25,7 +25,7 @@ import kotlin.test.fail
 class OptionGroupsTest {
     @Test
     @JsName("plain_option_group")
-    fun `plain option group`() = forall(
+    fun `plain option group`() = forAll(
             row("", null, "d", "d"),
             row("--x=1", "1", "d", "d"),
             row("--y=2", null, "2", "d"),
@@ -94,7 +94,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("mutually_exclusive_group")
-    fun `mutually exclusive group`() = forall(
+    fun `mutually exclusive group`() = forAll(
             row("", null, "d"),
             row("--x=1", "1", "d"),
             row("--x=1 --y=2", "2", "d"),
@@ -135,7 +135,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("multiple_mutually_exclusive_groups")
-    fun `multiple mutually exclusive groups`() = forall(
+    fun `multiple mutually exclusive groups`() = forAll(
             row("", null, null),
             row("--x=1", "1", null),
             row("--y=2", "2", null),
@@ -170,7 +170,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("mutually_exclusive_group_default")
-    fun `mutually exclusive group default`() = forall(
+    fun `mutually exclusive group default`() = forAll(
             row("", "d"),
             row("--x=1", "1"),
             row("--x=2", "2")
@@ -197,7 +197,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("co_occurring_option_group")
-    fun `co-occurring option group`() = forall(
+    fun `co-occurring option group`() = forAll(
             row("", false, null, null),
             row("--x=1", true, "1", null),
             row("--x=1 --y=2", true, "1", "2")
@@ -261,7 +261,7 @@ class OptionGroupsTest {
         class C : TestCommand() {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
         }
-        forall(
+        forAll(
                 row("", 0, null, null),
                 row("--g11=1 --g21=1", 0, null, null),
                 row("--g=1 --g11=2", 1, 2, null),
@@ -298,7 +298,7 @@ class OptionGroupsTest {
         class C : TestCommand() {
             val g by option().groupSwitch("--a" to Group1(), "--b" to Group2())
         }
-        forall(
+        forAll(
                 row("", 0, null, null),
                 row("--g11=1 --g21=1", 0, null, null),
                 row("--a --g11=2", 1, 2, null),
@@ -328,12 +328,12 @@ class OptionGroupsTest {
 
     @Test
     @JsName("plain_option_group_validation")
-    fun `plain option group validation`() = forall(
+    fun `plain option group validation`() = forAll(
             row("", null, true),
             row("--x=1", 1, true),
             row("--x=2", null, false)
     ) { argv, ex, ec ->
-        if (skipDueToKT33294) return@forall
+        if (skipDueToKT33294) return@forAll
 
         class G : OptionGroup() {
             val x by option().int().validate {
@@ -355,13 +355,13 @@ class OptionGroupsTest {
 
     @Test
     @JsName("cooccurring_option_group_validation")
-    fun `cooccurring option group validation`() = forall(
+    fun `cooccurring option group validation`() = forAll(
             row("", null, true, null),
             row("--x=1 --y=1", 1, true, null),
             row("--x=2", null, false, "Missing option \"--y\"."),
             row("--x=2 --y=1", null, false, "fail")
     ) { argv, ex, ec, em ->
-        if (skipDueToKT33294) return@forall
+        if (skipDueToKT33294) return@forAll
 
         class G : OptionGroup() {
             val x by option().int().validate {
@@ -384,14 +384,14 @@ class OptionGroupsTest {
 
     @Test
     @JsName("mutually_exclusive_group_validation")
-    fun `mutually exclusive group validation`() = forall(
+    fun `mutually exclusive group validation`() = forAll(
             row("", null, true),
             row("--x=1", 1, true),
             row("--y=1", 1, true),
             row("--x=2", 2, true),
             row("--y=2", 2, false)
     ) { argv, eg, ec ->
-        if (skipDueToKT33294) return@forall
+        if (skipDueToKT33294) return@forAll
 
         class C : TestCommand(called = ec) {
             val g by mutuallyExclusiveOptions(
@@ -411,7 +411,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("group_choice_with_defaultByName")
-    fun `groupChoice with defaultByName`() = forall(
+    fun `groupChoice with defaultByName`() = forAll(
             row("--g=3", "Group3"),
             row("", "Group4")
     ) { argv, ex ->
@@ -428,7 +428,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("group_switch_with_defaultByName")
-    fun `groupSwitch with defaultByName`() = forall(
+    fun `groupSwitch with defaultByName`() = forAll(
             row("--x", "Group3"),
             row("", "Group4")
     ) { argv, ex ->
@@ -465,7 +465,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("groupChoice_with_defaultByName_and_default_options")
-    fun `groupChoice with defaultByName and default options`() = forall(
+    fun `groupChoice with defaultByName and default options`() = forAll(
             row("", "Group5", 1, ""),
             row("--g=a", "Group5", 1, ""),
             row("--opt1=2 --opt2=foo", "Group5", 2, ""),
@@ -490,7 +490,7 @@ class OptionGroupsTest {
 
     @Test
     @JsName("groupSwitch_with_defaultByName_and_default_options")
-    fun `groupSwitch with defaultByName and default options`() = forall(
+    fun `groupSwitch with defaultByName and default options`() = forAll(
             row("", "Group5", 1, ""),
             row("--x", "Group5", 1, ""),
             row("--opt1=2 --opt2=foo", "Group5", 2, ""),

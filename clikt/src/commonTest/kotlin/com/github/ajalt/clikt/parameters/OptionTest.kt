@@ -6,9 +6,9 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.skipDueToKT33294
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
+import io.kotest.data.row
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 @Suppress("unused", "BooleanLiteralArgument")
 class OptionTest {
     @Test
-    fun inferEnvvar() = forall(
+    fun inferEnvvar() = forAll(
             row(setOf("--foo"), null, null, null),
             row(setOf("--bar"), null, "FOO", "FOO_BAR"),
             row(setOf("/bar"), null, "FOO", "FOO_BAR"),
@@ -34,7 +34,7 @@ class OptionTest {
 
     @Test
     @JsName("no_such_option")
-    fun `no such option`() = forall(
+    fun `no such option`() = forAll(
             row("--qux", "no such option: \"--qux\"."),
             row("--fo", "no such option: \"--fo\". Did you mean \"--foo\"?"),
             row("--fop", "no such option: \"--fop\". Did you mean \"--foo\"?"),
@@ -54,7 +54,7 @@ class OptionTest {
 
     @Test
     @JsName("one_option")
-    fun `one option`() = forall(
+    fun `one option`() = forAll(
             row("", null),
             row("--xx 3", "3"),
             row("--xx --xx", "--xx"),
@@ -93,7 +93,7 @@ class OptionTest {
 
     @Test
     @JsName("two_options")
-    fun `two options`() = forall(
+    fun `two options`() = forAll(
             row("--xx 3 --yy 4", "3", "4"),
             row("-x 3 --yy 4", "3", "4"),
             row("-x3 --yy 4", "3", "4"),
@@ -128,7 +128,7 @@ class OptionTest {
 
     @Test
     @JsName("two_options_nvalues_2")
-    fun `two options nvalues=2`() = forall(
+    fun `two options nvalues=2`() = forAll(
             row("", null, null),
             row("--yy 5 7", null, "5" to "7"),
             row("--xx 1 3 --yy 5 7", "1" to "3", "5" to "7"),
@@ -160,7 +160,7 @@ class OptionTest {
     fun `two options nvalues=3`() {
         val xvalue = Triple("1", "2", "3")
         val yvalue = Triple("5", "6", "7")
-        forall(
+        forAll(
                 row("", null, null),
                 row("--yy 5 6 7", null, yvalue),
                 row("--xx 1 2 3 --yy 5 6 7", xvalue, yvalue),
@@ -203,7 +203,7 @@ class OptionTest {
 
     @Test
     @JsName("two_options_with_split")
-    fun `two options with split`() = forall(
+    fun `two options with split`() = forAll(
             row("", null, null),
             row("-x 5 -y a", listOf(5), listOf("a")),
             row("-x 5,6 -y a:b", listOf(5, 6), listOf("a", "b"))
@@ -222,7 +222,7 @@ class OptionTest {
 
     @Test
     @JsName("flag_options")
-    fun `flag options`() = forall(
+    fun `flag options`() = forAll(
             row("", false, false, null),
             row("-xx", true, false, null),
             row("-xX", false, false, null),
@@ -260,7 +260,7 @@ class OptionTest {
 
     @Test
     @JsName("switch_options")
-    fun `switch options`() = forall(
+    fun `switch options`() = forAll(
             row("", null, -1),
             row("--xx -yy", 2, 4)) { argv, ex, ey ->
         class C : TestCommand() {
@@ -277,7 +277,7 @@ class OptionTest {
 
     @Test
     @JsName("counted_options")
-    fun `counted options`() = forall(
+    fun `counted options`() = forAll(
             row("", 0, false, null),
             row("-x -x", 2, false, null),
             row("-xx", 2, false, null),
@@ -314,7 +314,7 @@ class OptionTest {
 
     @Test
     @JsName("default_option")
-    fun `default option`() = forall(
+    fun `default option`() = forAll(
             row("", "def"),
             row("-x4", "4")) { argv, expected ->
         class C : TestCommand() {
@@ -329,7 +329,7 @@ class OptionTest {
 
     @Test
     @JsName("defaultLazy_option")
-    fun `defaultLazy option`() = forall(
+    fun `defaultLazy option`() = forAll(
             row("", "default", true),
             row("-xbar", "bar", false)) { argv, expected, ec ->
         var called = false
@@ -417,7 +417,7 @@ class OptionTest {
 
     @Test
     @JsName("multiple_with_unique_option_parsed")
-    fun `multiple with unique option parsed`() = forall(
+    fun `multiple with unique option parsed`() = forAll(
             row("--arg foo", setOf("foo")),
             row("--arg foo --arg bar --arg baz", setOf("foo", "bar", "baz")),
             row("--arg foo --arg foo --arg foo", setOf("foo"))
@@ -565,7 +565,7 @@ class OptionTest {
 
     @Test
     @JsName("one_option_with_slash_prefix")
-    fun `one option with slash prefix`() = forall(
+    fun `one option with slash prefix`() = forAll(
             row("", null),
             row("/xx 3", "3"),
             row("/xx=asd", "asd"),
@@ -585,7 +585,7 @@ class OptionTest {
 
     @Test
     @JsName("one_option_with_java_prefix")
-    fun `one option with java prefix`() = forall(
+    fun `one option with java prefix`() = forAll(
             row("", null),
             row("-xx 3", "3"),
             row("-xx=asd", "asd"),
@@ -604,7 +604,7 @@ class OptionTest {
 
     @Test
     @JsName("two_options_with_chmod_prefixes")
-    fun `two options with chmod prefixes`() = forall(
+    fun `two options with chmod prefixes`() = forAll(
             row("", false, false),
             row("-x", false, false),
             row("-x +x", true, false),
@@ -629,7 +629,7 @@ class OptionTest {
 
     @Test
     @JsName("normalized_tokens")
-    fun `normalized tokens`() = forall(
+    fun `normalized tokens`() = forAll(
             row("", null),
             row("--XX=FOO", "FOO"),
             row("--xx=FOO", "FOO"),
@@ -646,7 +646,7 @@ class OptionTest {
 
     @Test
     @JsName("aliased_tokens")
-    fun `aliased tokens`() = forall(
+    fun `aliased tokens`() = forAll(
             row("", null),
             row("--yy 3", "3")) { argv, expected ->
         class C : TestCommand() {
@@ -695,7 +695,7 @@ class OptionTest {
 
     @Test
     @JsName("options_with_chained_convert")
-    fun `options with chained convert`() = forall(
+    fun `options with chained convert`() = forAll(
             row("", null),
             row("--x=1", listOf(1))
     ) { argv, expected ->
@@ -710,7 +710,7 @@ class OptionTest {
 
     @Test
     @JsName("associate_options")
-    fun `associate options`() = forall(
+    fun `associate options`() = forAll(
             row("", emptyMap()),
             row("-Xfoo=bar", mapOf("foo" to "bar")),
             row("-Xfoo=bar -X baz=qux", mapOf("foo" to "bar", "baz" to "qux")),
@@ -728,7 +728,7 @@ class OptionTest {
 
     @Test
     @JsName("customized_splitPair")
-    fun `customized splitPair`() = forall(
+    fun `customized splitPair`() = forAll(
             row("", null),
             row("-Xfoo:1", "foo|1"),
             row("-Xfoo:1 -Xbar:2", "bar|2"),

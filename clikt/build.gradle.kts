@@ -45,6 +45,7 @@ kotlin {
         get("commonTest").dependencies {
             api(kotlin("test-common"))
             api(kotlin("test-annotations-common"))
+            api("io.kotest:kotest-assertions-core:4.1.0.RC2")
         }
 
         get("jvmMain").dependencies {

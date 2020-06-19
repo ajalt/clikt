@@ -8,9 +8,9 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
+import io.kotest.data.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -173,7 +173,7 @@ class ChoiceTypeTest {
 
     @Test
     @JsName("enum_option")
-    fun `enum option`() = forall(
+    fun `enum option`() = forAll(
             row("", null),
             row("--xx A", TestEnum.A),
             row("--xx a", TestEnum.A),
@@ -193,7 +193,7 @@ class ChoiceTypeTest {
 
     @Test
     @JsName("enum_option_key")
-    fun `enum option key`() = forall(
+    fun `enum option key`() = forAll(
             row("", null),
             row("-xAz", TestEnum.A),
             row("-xaZ", TestEnum.A),
@@ -227,7 +227,7 @@ class ChoiceTypeTest {
 
     @Test
     @JsName("enum_option_with_default")
-    fun `enum option with default`() = forall(
+    fun `enum option with default`() = forAll(
             row("", TestEnum.B),
             row("--xx A", TestEnum.A),
             row("--xx=A", TestEnum.A),
@@ -244,7 +244,7 @@ class ChoiceTypeTest {
 
     @Test
     @JsName("enum_argument")
-    fun `enum argument`() = forall(
+    fun `enum argument`() = forAll(
             row("", null, emptyList()),
             row("A", TestEnum.A, emptyList()),
             row("b", TestEnum.B, emptyList()),
@@ -264,7 +264,7 @@ class ChoiceTypeTest {
 
     @Test
     @JsName("enum_argument_key")
-    fun `enum argument key`() = forall(
+    fun `enum argument key`() = forAll(
             row("", emptyList()),
             row("az", listOf(TestEnum.A)),
             row("AZ", listOf(TestEnum.A)),

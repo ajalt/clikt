@@ -8,9 +8,9 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -18,7 +18,7 @@ import kotlin.test.Test
 class IntTypeTest {
     @Test
     @JsName("int_option")
-    fun `int option`() = forall(
+    fun `int option`() = forAll(
             row("", null),
             row("--xx=4", 4),
             row("-x5", 5)) { argv, expected ->
@@ -45,7 +45,7 @@ class IntTypeTest {
 
     @Test
     @JsName("int_option_with_default")
-    fun `int option with default`() = forall(
+    fun `int option with default`() = forAll(
             row("", 111),
             row("--xx=4", 4),
             row("-x5", 5)) { argv, expected ->
@@ -60,7 +60,7 @@ class IntTypeTest {
 
     @Test
     @JsName("int_argument")
-    fun `int argument`() = forall(
+    fun `int argument`() = forAll(
             row("", null, emptyList<Int>()),
             row("1 2", 1, listOf(2)),
             row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->

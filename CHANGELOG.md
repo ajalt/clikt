@@ -1,13 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+
+## [2.8.0] - 2020-06-19
 ### Added
 - Added `error` parameter to `PrintMessage` and `PrintHelpMessage`. When `true`, `CliktCommand.main` will exit with status code 1. ([#187](https://github.com/ajalt/clikt/issues/187))
 
 ### Changed
 - When `printHelpOnEmptyArgs` is `true` and no arguments are present, or when `invokeWithoutSubcommand` is `false` and no subcommand is present, `CliktCommand.main` will now exit with status code 1 rather than 0. 
 - `restrictTo` now works with any `Comparable` value, not just `Number`.
-- `CliktCommand.main` now accepts `Array<out String>`, not just `Array<String>`.
+- `CliktCommand.main` now accepts `Array<out String>`, not just `Array<String>`. ([#196](https://github.com/ajalt/clikt/issues/196))
 
 ### Fixed
 - Fixed option values being reset when calling multiple subcommands with `allowMultipleSubcommands=true` ([#190](https://github.com/ajalt/clikt/issues/190))

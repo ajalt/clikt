@@ -295,7 +295,7 @@ abstract class CliktCommand(
         }
     }
 
-    fun main(argv: Array<String>) = main(argv.asList())
+    fun main(argv: Array<out String>) = main(argv.asList())
 
     /**
      * Perform actions after parsing is complete and this command is invoked.

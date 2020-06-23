@@ -23,7 +23,7 @@ class EagerOption(
         private val callback: OptionTransformContext.() -> Unit
 ) : StaticallyGroupedOption {
     constructor(vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
-                helpTags: Map<String, String> = emptyMap(), groupName: String?=null,
+                helpTags: Map<String, String> = emptyMap(), groupName: String? = null,
                 callback: OptionTransformContext.() -> Unit)
             : this(names.toSet(), nvalues, help, hidden, helpTags, groupName, callback)
 

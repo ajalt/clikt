@@ -16,6 +16,7 @@ interface ParameterGroup {
      * parameters in the help output.
      */
     val groupName: String?
+
     /**
      * A help message to display for this group.
      *

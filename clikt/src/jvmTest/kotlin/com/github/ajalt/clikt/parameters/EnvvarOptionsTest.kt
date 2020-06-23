@@ -8,9 +8,9 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.TestSource
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import org.junit.contrib.java.lang.system.RestoreSystemProperties
@@ -134,7 +134,7 @@ class EnvvarOptionsTest {
     }
 
     @Test
-    fun `flag envvars`() = forall(
+    fun `flag envvars`() = forAll(
             row(null, null, false, 0),
             row("YES", "3", true, 3),
             row("false", "5", false, 5)
@@ -161,7 +161,7 @@ class EnvvarOptionsTest {
     }
 
     @Test
-    fun `readEnvvarBeforeValuesSource when both exist`() = forall(
+    fun `readEnvvarBeforeValuesSource when both exist`() = forAll(
             row(true, "bar"),
             row(false, "baz")
     ) { envvarFirst, expected ->

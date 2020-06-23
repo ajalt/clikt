@@ -7,9 +7,9 @@ import com.github.ajalt.clikt.parameters.options.eagerOption
 import com.github.ajalt.clikt.parameters.options.versionOption
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -17,7 +17,7 @@ import kotlin.test.Test
 class EagerOptionsTest {
     @Test
     @JsName("custom_eager_option")
-    fun `custom eager option`() = forall(
+    fun `custom eager option`() = forAll(
             row("", false, false),
             row("--option", true, false),
             row("-p", false, true),

@@ -7,10 +7,10 @@ import com.github.ajalt.clikt.testing.TestCommand
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.tables.row
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.SystemOutRule
 import java.io.OutputStream
@@ -87,7 +87,7 @@ class OutputStreamTest {
     }
 
     @Test
-    fun truncateExisting() = forall(
+    fun truncateExisting() = forAll(
             row(true, "baz"),
             row(false, "bar\nbaz")
     ) { truncateExisting, expected ->

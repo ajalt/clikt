@@ -18,6 +18,7 @@ internal fun String.wrapText(
 private val TEXT_START_REGEX = Regex("\\S")
 private val PRE_P_END_REGEX = Regex("""```[ \t]*(?:\n\s*|[ \t]*$)""")
 private val PLAIN_P_END_REGEX = Regex("""[ \t]*\n(?:\s*```|[ \t]*\n\s*)|\s*$""")
+
 // there's no dotall flag on JS, so we have to use [\s\S] instead
 private val PRE_P_CONTENTS_REGEX = Regex("""```([\s\S]*?)```""")
 

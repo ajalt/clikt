@@ -6,11 +6,11 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -40,7 +40,7 @@ class RangeTest {
 
     @Test
     @JsName("restrictTo_option_min_clamp")
-    fun `restrictTo option min clamp`() = forall(
+    fun `restrictTo option min clamp`() = forAll(
             row("", null),
             row("--xx=1", 1),
             row("--xx -123", 1),
@@ -80,7 +80,7 @@ class RangeTest {
 
     @Test
     @JsName("restrictTo_option_max_clamp")
-    fun `restrictTo option max clamp`() = forall(
+    fun `restrictTo option max clamp`() = forAll(
             row("", null),
             row("--xx=1", 1),
             row("--xx 123", 1),

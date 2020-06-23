@@ -8,9 +8,9 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -18,7 +18,7 @@ import kotlin.test.Test
 class DoubleTest {
     @Test
     @JsName("double_option")
-    fun `double option`() = forall(
+    fun `double option`() = forAll(
             row("", null),
             row("--xx 3", 3.0),
             row("--xx=4.0", 4.0),
@@ -46,7 +46,7 @@ class DoubleTest {
 
     @Test
     @JsName("double_option_with_default")
-    fun `double option with default`() = forall(
+    fun `double option with default`() = forAll(
             row("", -1.0),
             row("--xx=4.0", 4.0),
             row("-x5.5", 5.5)) { argv, expected ->
@@ -61,7 +61,7 @@ class DoubleTest {
 
     @Test
     @JsName("double_argument")
-    fun `double argument`() = forall(
+    fun `double argument`() = forAll(
             row("", null, emptyList<Float>()),
             row("1.1 2", 1.1, listOf(2.0)),
             row("1.1 2 3", 1.1, listOf(2.0, 3.0))) { argv, ex, ey ->

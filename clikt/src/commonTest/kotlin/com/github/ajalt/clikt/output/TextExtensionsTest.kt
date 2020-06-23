@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.output
 
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -16,7 +16,7 @@ private fun String.wrapText(
 
 class TextExtensionsTest {
     @Test
-    fun wrapText() = forall(
+    fun wrapText() = forAll(
             row("abc".wrapText(), "abc"),
             row("abc\n".wrapText(), "abc"),
             row("abc\n".wrapText(width = 2), "abc"),
@@ -37,7 +37,7 @@ class TextExtensionsTest {
     }
 
     @Test
-    fun splitParagraphs() = forall(
+    fun splitParagraphs() = forAll(
             row("a\nb", listOf("a\nb")),
             row("a\n\nb", listOf("a", "b")),
             row(" a \n \n b ", listOf("a", "b")),

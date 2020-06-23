@@ -11,16 +11,16 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.TestCommand
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.forall
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.tables.row
 import kotlin.js.JsName
 import kotlin.test.Test
 
 class SubcommandTest {
     @Test
-    fun subcommand() = forall(
+    fun subcommand() = forAll(
             row("--xx 2 sub --xx 3 --yy 4"),
             row("--xx 2 sub -x 3 --yy 4"),
             row("--xx 2 sub -x3 --yy 4"),
@@ -89,7 +89,7 @@ class SubcommandTest {
 
     @Test
     @JsName("multiple_subcommands")
-    fun `multiple subcommands`() = forall(
+    fun `multiple subcommands`() = forAll(
             row("-x1 sub1 2 3", true),
             row("-x1 sub2 -x2 -y3", false)
     ) { argv, sub1Called ->
@@ -168,7 +168,7 @@ class SubcommandTest {
 
     @Test
     @JsName("normalized_subcommand_names")
-    fun `normalized subcommand names`() = forall(
+    fun `normalized subcommand names`() = forAll(
             row("a b", false, false),
             row("a b SUB -xfoo", true, false),
             row("a b SUB -xfoo SUB2 -xfoo", true, true),
@@ -203,7 +203,7 @@ class SubcommandTest {
 
     @Test
     @JsName("aliased_subcommand_names")
-    fun `aliased subcommand names`() = forall(
+    fun `aliased subcommand names`() = forAll(
             row("a b", false),
             row("a 1 sub -xfoo", true),
             row("a 2", true),
@@ -259,7 +259,7 @@ class SubcommandTest {
     }
 
     @Test
-    fun noSuchSubcommand() = forall(
+    fun noSuchSubcommand() = forAll(
             row("qux", "no such subcommand: \"qux\"."),
             row("fo", "no such subcommand: \"fo\". Did you mean \"foo\"?"),
             row("fop", "no such subcommand: \"fop\". Did you mean \"foo\"?"),
@@ -287,7 +287,7 @@ class SubcommandTest {
     }
 
     @Test
-    fun allowMultipleSubcommands() = forall(
+    fun allowMultipleSubcommands() = forAll(
             row("foo a", 1, 0, "a", null, null),
             row("foo a foo b", 2, 0, "b", null, null),
             row("bar a", 0, 1, null, null, "a"),
@@ -331,7 +331,7 @@ class SubcommandTest {
 
     @Test
     @JsName("multiple_subcommands_with_varargs")
-    fun `multiple subcommands with varargs`() = forall(
+    fun `multiple subcommands with varargs`() = forAll(
             row("foo f1 baz", 1, 1, "f1", emptyList()),
             row("foo f1 foo f2 baz", 2, 1, "f2", emptyList()),
             row("baz foo", 0, 1, "", listOf("foo")),

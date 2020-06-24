@@ -1,14 +1,21 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.mpp.isWindowsMpp
+import kotlin.browser.document
 
 private external val process: dynamic
 private external val Buffer: dynamic
 private external fun require(mod: String): dynamic
 
-private val fs = require("fs")
+actual fun defaultCliktConsole(): CliktConsole {
+    return try {
+        NodeCliktConsole(require("fs"))
+    } catch (e: dynamic) {
+        BrowserCliktConsole()
+    }
+}
 
-actual fun defaultCliktConsole(): CliktConsole = object : CliktConsole {
+private class NodeCliktConsole(private val fs: dynamic) : CliktConsole {
     override fun promptForLine(prompt: String, hideInput: Boolean): String? = buildString {
         // hideInput is not currently implemented
         println(prompt)
@@ -31,4 +38,17 @@ actual fun defaultCliktConsole(): CliktConsole = object : CliktConsole {
     }
 
     override val lineSeparator: String get() = if (isWindowsMpp()) "\r\n" else "\n"
+}
+
+private class BrowserCliktConsole : CliktConsole {
+    override fun promptForLine(prompt: String, hideInput: Boolean): String? {
+        return null
+    }
+
+    override fun print(text: String, error: Boolean) {
+        document.write(text)
+    }
+
+    override val lineSeparator: String
+        get() = "<br>"
 }

@@ -13,7 +13,7 @@ internal actual val String.graphemeLengthMpp: Int
         return generateSequence { breaks.next() }.takeWhile { it != BreakIterator.DONE }.count()
     }
 
-internal actual fun exitProcessMpp(status: Int): Nothing {
+internal actual fun exitProcessMpp(status: Int) {
     exitProcess(status)
 }
 

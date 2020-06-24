@@ -151,5 +151,3 @@ class Commit : CliktCommand(
 fun main(args: Array<String>) = Repo()
         .subcommands(Clone(), Delete(), SetUser(), Commit())
         .main(args)
-
-

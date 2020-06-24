@@ -3,15 +3,17 @@ package com.github.ajalt.clikt.output
 import com.github.ajalt.clikt.mpp.isWindowsMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
 
-internal expect class Editor(
+internal interface Editor {
+    fun editFile(filename: String)
+    fun edit(text: String): String?
+}
+
+internal expect fun createEditor(
         editorPath: String?,
         env: Map<String, String>,
         requireSave: Boolean,
         extension: String
-) {
-    fun editFile(filename: String)
-    fun edit(text: String): String?
-}
+): Editor
 
 internal fun inferEditorPath(commandExists: (String) -> Boolean): String {
     for (key in arrayOf("VISUAL", "EDITOR")) {

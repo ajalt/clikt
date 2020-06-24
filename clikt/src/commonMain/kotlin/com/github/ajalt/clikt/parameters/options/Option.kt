@@ -92,8 +92,9 @@ internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<Str
         require(invalidName == null) { "Invalid option name \"$invalidName\"" }
         return names
     }
-    val normalizedName = propertyName.split(Regex("(?<=[a-z])(?=[A-Z])"))
-            .joinToString("-", prefix = "--") { it.toLowerCase() }
+    val normalizedName = "--" + propertyName.replace(Regex("""[a-z][A-Z]""")) {
+        "${it.value[0]}-${it.value[1]}"
+    }.toLowerCase()
     return setOf(normalizedName)
 }
 

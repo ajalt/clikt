@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Clikt's JS target now supports both NodeJS and Browsers. ([#198](https://github.com/ajalt/clikt/issues/198))
 
 ## [2.8.0] - 2020-06-19
 ### Added

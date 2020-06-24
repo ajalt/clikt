@@ -9,13 +9,19 @@ import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.toKString
 import platform.posix.*
 
+internal actual fun createEditor(
+        editorPath: String?,
+        env: Map<String, String>,
+        requireSave: Boolean,
+        extension: String
+): Editor = NativeEditor(editorPath, env, requireSave, extension)
 
-internal actual class Editor actual constructor(
+private class NativeEditor(
         private val editorPath: String?,
         private val env: Map<String, String>,
         private val requireSave: Boolean,
         private val extension: String
-) {
+) : Editor {
     private fun getEditorPath(): String {
         val nul = if (isWindowsMpp()) "nul" else "/dev/null"
         return editorPath ?: inferEditorPath { editor ->
@@ -23,7 +29,7 @@ internal actual class Editor actual constructor(
         }
     }
 
-    actual fun editFile(filename: String) {
+    override fun editFile(filename: String) {
         editFileWithEditor(getEditorPath(), filename)
     }
 
@@ -32,7 +38,7 @@ internal actual class Editor actual constructor(
         if (exitCode != 0) throw CliktError("${editorCmd.takeWhile { !it.isWhitespace() }}: Editing failed!")
     }
 
-    actual fun edit(text: String): String? = memScoped {
+    override fun edit(text: String): String? = memScoped {
         var filename = "${tmpnam(null)!!.toKString().trimEnd('.').replace("\\", "/")}.${extension.trimStart('.')}"
 
         // workaround for minGW bug that tries to create temp files in the root directory

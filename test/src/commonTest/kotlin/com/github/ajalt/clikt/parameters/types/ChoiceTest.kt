@@ -99,7 +99,7 @@ class ChoiceTypeTest {
         class C : TestCommand() {
             val x by argument().choice("foo", "bar")
             override fun run_() {
-                _arguments[0].name shouldBe "X"
+                registeredArguments()[0].name shouldBe "X"
             }
         }
 
@@ -126,7 +126,7 @@ class ChoiceTypeTest {
         class C : TestCommand() {
             val x by argument().choice("foo" to 1, "bar" to 2)
             override fun run_() {
-                _arguments[0].name shouldBe "X"
+                registeredArguments()[0].name shouldBe "X"
             }
         }
 

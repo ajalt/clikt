@@ -53,10 +53,7 @@ kotlin {
         }
 
         get("jvmTest").dependencies {
-            api(kotlin("reflect"))
             api(kotlin("test-junit"))
-            api("com.github.stefanbirkner:system-rules:1.18.0")
-            api("com.google.jimfs:jimfs:1.1")
         }
 
         get("jsMain").dependencies {
@@ -71,12 +68,6 @@ kotlin {
 
         listOf("macosX64Main", "linuxX64Main", "mingwX64Main").forEach {
             get(it).dependsOn(nativeMain)
-        }
-
-        val nativeTest = if (ideaActive) get("nativeTest") else create("nativeTest")
-
-        listOf("macosX64Test", "linuxX64Test", "mingwX64Test").forEach {
-            get(it).dependsOn(nativeTest)
         }
     }
 }

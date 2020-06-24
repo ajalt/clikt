@@ -17,6 +17,10 @@ kotlin {
     macosX64()
 
     sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+
         get("commonTest").dependencies {
             api(project(":clikt"))
             api(kotlin("stdlib-common"))

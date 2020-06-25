@@ -2,8 +2,7 @@ package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.mpp.readEnvvar
-
-private external fun require(mod: String): dynamic
+import com.github.ajalt.clikt.mpp.nodeRequire
 
 internal actual fun createEditor(
         editorPath: String?,
@@ -12,12 +11,12 @@ internal actual fun createEditor(
         extension: String
 ): Editor {
     try {
-        val fs = require("fs")
-        val crypto = require("crypto")
-        val childProcess = require("child_process")
+        val fs = nodeRequire("fs")
+        val crypto = nodeRequire("crypto")
+        val childProcess = nodeRequire("child_process")
         return NodeJsEditor(fs, crypto, childProcess, editorPath, env, requireSave, extension)
-    } catch (e: dynamic) {
-        throw IllegalStateException("Cannot edit files on this platform", e as? Throwable)
+    } catch (e: Exception) {
+        throw IllegalStateException("Cannot edit files on this platform", e)
     }
 }
 

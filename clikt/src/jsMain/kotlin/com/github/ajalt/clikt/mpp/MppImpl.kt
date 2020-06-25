@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.mpp
 
 private external val process: dynamic
-private external fun require(mod: String): dynamic
 
 private interface JsMppImpls {
     fun readEnvvar(key: String): String?
@@ -31,8 +30,8 @@ private class NodeMppImpls(private val fs: dynamic) : JsMppImpls {
 }
 
 private val impls: JsMppImpls = try {
-    NodeMppImpls(require("fs"))
-} catch (e: dynamic) {
+    NodeMppImpls(nodeRequire("fs"))
+} catch (e: Exception) {
     BrowserMppImpls
 }
 

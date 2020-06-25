@@ -1,16 +1,15 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.mpp.isWindowsMpp
-import kotlin.browser.document
+import com.github.ajalt.clikt.mpp.nodeRequire
 
 private external val process: dynamic
 private external val Buffer: dynamic
-private external fun require(mod: String): dynamic
 
 actual fun defaultCliktConsole(): CliktConsole {
     return try {
-        NodeCliktConsole(require("fs"))
-    } catch (e: dynamic) {
+        NodeCliktConsole(nodeRequire("fs"))
+    } catch (e: Exception) {
         BrowserCliktConsole()
     }
 }

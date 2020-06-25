@@ -236,9 +236,9 @@ All functionality is supported, except the `hideInput` parameter of [prompt][pro
 
 ### Browser JavaScript
 
-The default [CliktConsole][CliktConsole] calls [document.write][document.write], which is probably
-not what you want. You can [define your own CliktConsole][#replacing-stdin-and-stdout], or you can
-call [parse][parse] instead of [main][main] and handle output yourself.
+The default [CliktConsole][CliktConsole] only outputs to the browser's developer console, which is
+probably not what you want. You can [define your own CliktConsole][#replacing-stdin-and-stdout], or
+you can call [parse][parse] instead of [main][main] and handle output yourself.
 
 [editText][editText] and [editFile][editFile] are not supported. [prompt][prompt] is only supported
 if you define your own CliktConsole.
@@ -247,7 +247,6 @@ if you define your own CliktConsole.
 [CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.md
 [customizing-context]: commands.md#customizing-contexts
 [dash-dash]:           arguments.md#option-like-arguments-using-
-[document.write]:      https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-document/write.html
 [editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/
 [editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/
 [expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.md

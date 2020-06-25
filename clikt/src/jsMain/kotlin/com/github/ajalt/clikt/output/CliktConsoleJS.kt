@@ -46,9 +46,9 @@ private class BrowserCliktConsole : CliktConsole {
     }
 
     override fun print(text: String, error: Boolean) {
-        document.write(text)
+        println(text)
     }
 
     override val lineSeparator: String
-        get() = "<br>"
+        get() = "\n"
 }

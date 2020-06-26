@@ -2,18 +2,33 @@ package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.mpp.readEnvvar
+import com.github.ajalt.clikt.mpp.nodeRequire
 
-private external fun require(mod: String): dynamic
-private val fs = require("fs")
-private val crypto = require("crypto")
-private val childProcess = require("child_process")
+internal actual fun createEditor(
+        editorPath: String?,
+        env: Map<String, String>,
+        requireSave: Boolean,
+        extension: String
+): Editor {
+    try {
+        val fs = nodeRequire("fs")
+        val crypto = nodeRequire("crypto")
+        val childProcess = nodeRequire("child_process")
+        return NodeJsEditor(fs, crypto, childProcess, editorPath, env, requireSave, extension)
+    } catch (e: Exception) {
+        throw IllegalStateException("Cannot edit files on this platform", e)
+    }
+}
 
-internal actual class Editor actual constructor(
+private class NodeJsEditor(
+        private val fs: dynamic,
+        private val crypto: dynamic,
+        private val childProcess: dynamic,
         private val editorPath: String?,
         private val env: Map<String, String>,
         private val requireSave: Boolean,
         private val extension: String
-) {
+) : Editor {
     private fun getEditorPath(): String {
         return editorPath ?: inferEditorPath { editor ->
             val options = jsObject(
@@ -43,7 +58,7 @@ internal actual class Editor actual constructor(
         }
     }
 
-    actual fun editFile(filename: String) {
+    override fun editFile(filename: String) {
         editFileWithEditor(getEditorCommand(), filename)
     }
 
@@ -57,7 +72,7 @@ internal actual class Editor actual constructor(
         return (fs.statSync(path).mtimeMs as Number).toInt()
     }
 
-    actual fun edit(text: String): String? {
+    override fun edit(text: String): String? {
         val editorCmd = getEditorCommand()
         val textToEdit = normalizeEditorText(editorCmd[0], text)
         val tmpFilename = getTmpFileName(extension)

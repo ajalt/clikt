@@ -20,7 +20,7 @@ internal actual fun readEnvvar(key: String): String? = getenv(key)?.toKString()
 
 internal actual fun isWindowsMpp(): Boolean = Platform.osFamily == OsFamily.WINDOWS
 
-internal actual fun exitProcessMpp(status: Int): Nothing = exitProcess(status)
+internal actual fun exitProcessMpp(status: Int): Unit = exitProcess(status)
 
 internal actual fun readFileIfExists(filename: String): String? {
     val file = fopen(filename, "r") ?: return null

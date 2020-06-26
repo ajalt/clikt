@@ -38,4 +38,7 @@ interface CliktConsole {
 }
 
 
+/**
+ * Return a CliktConsole for this platform.
+ */
 expect fun defaultCliktConsole(): CliktConsole

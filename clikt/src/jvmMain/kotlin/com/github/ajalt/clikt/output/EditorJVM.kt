@@ -4,12 +4,19 @@ import com.github.ajalt.clikt.core.CliktError
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-internal actual class Editor actual constructor(
+internal actual fun createEditor(
+        editorPath: String?,
+        env: Map<String, String>,
+        requireSave: Boolean,
+        extension: String
+): Editor = JvmEditor(editorPath, env, requireSave, extension)
+
+private class JvmEditor(
         private val editorPath: String?,
         private val env: Map<String, String>,
         private val requireSave: Boolean,
         private val extension: String
-) {
+) : Editor {
     private fun getEditorPath(): String {
         return editorPath ?: inferEditorPath { editor ->
             try {
@@ -46,11 +53,11 @@ internal actual class Editor actual constructor(
         }
     }
 
-    actual fun editFile(filename: String) {
+    override fun editFile(filename: String) {
         editFileWithEditor(getEditorCommand(), filename)
     }
 
-    actual fun edit(text: String): String? {
+    override fun edit(text: String): String? {
         val editorCmd = getEditorCommand()
         val textToEdit = normalizeEditorText(editorCmd[0], text)
         val file = createTempFile(suffix = extension)

@@ -55,7 +55,7 @@ class Commit : CliktCommand(
                 }
             }
         }
-        echo("Files to be commited: $files")
+        echo("Files to be committed: $files")
         echo("Commit message:")
         echo(msg)
     }

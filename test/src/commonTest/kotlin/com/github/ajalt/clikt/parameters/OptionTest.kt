@@ -16,17 +16,6 @@ import kotlin.test.assertTrue
 @Suppress("unused", "BooleanLiteralArgument")
 class OptionTest {
     @Test
-    fun inferEnvvar() = forAll(
-            row(setOf("--foo"), null, null, null),
-            row(setOf("--bar"), null, "FOO", "FOO_BAR"),
-            row(setOf("/bar"), null, "FOO", "FOO_BAR"),
-            row(setOf("-b"), null, "FOO", "FOO_B"),
-            row(setOf("-b", "--bar"), null, "FOO", "FOO_BAR")
-    ) { names, envvar, prefix, expected ->
-        inferEnvvar(names, envvar, prefix) shouldBe expected
-    }
-
-    @Test
     @JsName("zero_options")
     fun `zero options`() {
         TestCommand(called = true).parse(arrayOf())
@@ -455,7 +444,7 @@ class OptionTest {
             val w by option().convert("BAR") { it }
             val u by option().flag()
             override fun run_() {
-                _options.forEach {
+                registeredOptions().forEach {
                     assertTrue(it is EagerOption || // skip help option
                             "--x" in it.names && it.metavar == "TEXT" ||
                             "--y" in it.names && it.metavar == "FOO" ||

@@ -50,7 +50,7 @@ object TermUi {
             requireSave: Boolean = false,
             extension: String = ".txt"
     ): String? {
-        return Editor(editor, env, requireSave, extension).edit(text)
+        return createEditor(editor, env, requireSave, extension).edit(text)
     }
 
     /**
@@ -65,7 +65,7 @@ object TermUi {
             requireSave: Boolean = false,
             extension: String = ".txt"
     ) {
-        Editor(editor, env, requireSave, extension).editFile(filename)
+        createEditor(editor, env, requireSave, extension).editFile(filename)
     }
 
     /**

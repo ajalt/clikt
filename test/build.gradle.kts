@@ -21,19 +21,23 @@ kotlin {
             languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
         }
 
-        get("commonTest").dependencies {
-            api(project(":clikt"))
-            api(kotlin("stdlib-common"))
-            api(kotlin("test-common"))
-            api(kotlin("test-annotations-common"))
-            api("io.kotest:kotest-assertions-core:4.1.0")
+        val commonTest by getting {
+            dependencies {
+                api(project(":clikt"))
+                api(kotlin("stdlib-common"))
+                api(kotlin("test-common"))
+                api(kotlin("test-annotations-common"))
+                api("io.kotest:kotest-assertions-core:4.1.0")
+            }
         }
 
-        get("jvmTest").dependencies {
-            api(kotlin("reflect"))
-            api(kotlin("test-junit"))
-            api("com.github.stefanbirkner:system-rules:1.18.0")
-            api("com.google.jimfs:jimfs:1.1")
+        val jvmTest by getting {
+            dependencies {
+                api(kotlin("reflect"))
+                api(kotlin("test-junit"))
+                api("com.github.stefanbirkner:system-rules:1.18.0")
+                api("com.google.jimfs:jimfs:1.1")
+            }
         }
 
         val jsTest by creating {
@@ -46,7 +50,9 @@ kotlin {
             get(it).dependsOn(jsTest)
         }
 
-        val nativeTest by creating {}
+        val nativeTest by creating {
+            dependsOn(commonTest)
+        }
 
         listOf("macosX64Test", "linuxX64Test", "mingwX64Test").forEach {
             get(it).dependsOn(nativeTest)

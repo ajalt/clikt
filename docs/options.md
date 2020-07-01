@@ -874,6 +874,19 @@ Hello Foo
 Hello Bar
 ```
 
+### Flag Option Values from Environment Variables
+
+For flag options, any of the following (case-insensitive) environment variable values will be
+interpreted as `true`:
+
+- `"true"`, `"t"`, `"1"`, `"yes"`, `"y"`, `"on"`
+
+The following (case-insensitive) values wil be interpreted as `false`:
+
+- `"false"`, `"f"`, `"0"`, `"no"`, `"n"`, `"off"`
+
+All other values are invalid.
+
 ## Values from Configuration Files
 
 Clikt also supports reading option values from one or more configuration files (or other sources)

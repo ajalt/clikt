@@ -107,7 +107,7 @@ fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): Fla
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
                     "false", "f", "0", "no", "n", "off" -> false
-                    else -> throw BadParameterValue("${readEnvvar(envvar ?: "")} is not a valid boolean", this)
+                    else -> throw BadParameterValue("$it is not a valid boolean", this)
                 }
             },
             transformAll = {

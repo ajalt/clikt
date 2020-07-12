@@ -34,6 +34,7 @@ class OptionTest {
             val foo by option()
             val bar by option()
             val baz by option()
+            val fob by option(hidden = true)
         }
 
         shouldThrow<NoSuchOption> {

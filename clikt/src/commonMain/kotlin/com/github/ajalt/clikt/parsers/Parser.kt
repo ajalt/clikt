@@ -206,7 +206,7 @@ internal object Parser {
         } else {
             throw NoSuchOption(
                     givenName = name,
-                    possibilities = context.correctionSuggestor(name, optionsByName.keys.toList())
+                    possibilities = context.correctionSuggestor(name, optionsByName.filterNot { it.value.hidden }.keys.toList())
             )
         }
 

@@ -4,6 +4,9 @@
 ### Added
 - Clikt's JS target now supports both NodeJS and Browsers. ([#198](https://github.com/ajalt/clikt/issues/198))
 
+### Fixed
+- Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/198))
+
 ## [2.8.0] - 2020-06-19
 ### Added
 - Added `error` parameter to `PrintMessage` and `PrintHelpMessage`. When `true`, `CliktCommand.main` will exit with status code 1. ([#187](https://github.com/ajalt/clikt/issues/187))

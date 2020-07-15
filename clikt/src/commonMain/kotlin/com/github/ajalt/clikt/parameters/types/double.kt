@@ -14,4 +14,4 @@ private fun valueToDouble(it: String): Double {
 fun RawArgument.double() = convert { valueToDouble(it) }
 
 /** Convert the option values to a `Double` */
-fun RawOption.double() = convert("FLOAT") { valueToDouble(it) }
+fun RawOption.double(metavar: String = "FLOAT") = convert(metavar) { valueToDouble(it) }

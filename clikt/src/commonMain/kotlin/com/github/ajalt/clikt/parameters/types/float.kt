@@ -14,4 +14,4 @@ private fun valueToFloat(it: String): Float {
 fun RawArgument.float() = convert { valueToFloat(it) }
 
 /** Convert the option values to a `Float` */
-fun RawOption.float() = convert("FLOAT") { valueToFloat(it) }
+fun RawOption.float(metavar: String = "FLOAT") = convert(metavar) { valueToFloat(it) }

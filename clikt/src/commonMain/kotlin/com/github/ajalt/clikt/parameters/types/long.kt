@@ -14,4 +14,4 @@ internal fun valueToLong(it: String): Long {
 fun RawArgument.long() = convert { valueToLong(it) }
 
 /** Convert the option values to a `Long` */
-fun RawOption.long() = convert("INT") { valueToLong(it) }
+fun RawOption.long(metavar: String = "INT") = convert(metavar) { valueToLong(it) }

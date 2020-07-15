@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
+import kotlin.jvm.JvmOverloads
 
 private fun valueToDouble(it: String): Double {
     return it.toDoubleOrNull() ?: throw BadParameterValue("$it is not a valid floating point value")
@@ -14,4 +15,5 @@ private fun valueToDouble(it: String): Double {
 fun RawArgument.double() = convert { valueToDouble(it) }
 
 /** Convert the option values to a `Double` */
+@JvmOverloads
 fun RawOption.double(metavar: String = "FLOAT") = convert(metavar) { valueToDouble(it) }

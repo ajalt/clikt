@@ -2,12 +2,14 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.mpp.readEnvvar
+import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
+import kotlin.jvm.JvmOverloads
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -157,12 +159,27 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
  */
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
 
-/** Set a default value for a option. */
-fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
+/**
+ * Set a default [value] for an option.
+ *
+ * @param defaultForHelp The help text for this option's default value if the help formatter is
+ *   configured to show them, or null if the default value should not be shown.
+ */
+@JvmOverloads
+fun <T : Any> FlagOption<T?>.default(
+        value: T,
+        defaultForHelp: String? = null
+): FlagOption<T> {
+    val tags = if (defaultForHelp == null) {
+        helpTags
+    } else {
+        helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+    }
     return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },
             transformAll = { transformAll(it) ?: value },
-            validator = validator
+            validator = validator,
+            helpTags = tags
     )
 }
 

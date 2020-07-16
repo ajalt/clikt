@@ -523,7 +523,6 @@ class CliktHelpFormatterTest {
             val baz by option(help = "baz option help").flag("--no-baz")
             val good by option(help = "good option help").flag("--bad", default = true, defaultForHelp = "good")
             val feature by option(help = "feature switch").switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero")
-            val verbosity by option("-v", help = "verbosity level").counted(defaultForHelp = "not verbose")
             val hidden by option(help = "hidden", hidden = true)
             val arg by argument()
             val multi by argument().multiple(required = true)
@@ -591,7 +590,6 @@ class CliktHelpFormatterTest {
                 |  --baz / --no-baz  baz option help
                 |  --good / --bad    good option help (default: good)
                 |  --one, --two      feature switch (default: zero)
-                |  -v                verbosity level (default: not verbose)
                 |  -E, --eager2      this is an eager option
                 |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit

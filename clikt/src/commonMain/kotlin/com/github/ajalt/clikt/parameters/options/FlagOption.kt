@@ -124,11 +124,8 @@ fun RawOption.flag(
 /**
  * Turn an option into a flag that counts the number of times the option occurs on the command line.
  */
-fun RawOption.counted(
-        defaultForHelp: String = ""
-): FlagOption<Int> {
-    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
-    return FlagOption(names, emptySet(), help, hidden, tags, envvar,
+fun RawOption.counted(): FlagOption<Int> {
+    return FlagOption(names, emptySet(), help, hidden, helpTags, envvar,
             transformEnvvar = { valueToInt(it) },
             transformAll = { it.size },
             validator = {})

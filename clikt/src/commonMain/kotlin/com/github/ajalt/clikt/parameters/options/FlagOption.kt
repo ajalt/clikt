@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit

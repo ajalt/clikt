@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.parameters.types.valueToInt
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
-import kotlin.jvm.JvmOverloads
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -164,7 +163,6 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
  * @param defaultForHelp The help text for this option's default value if the help formatter is
  *   configured to show them, or null if the default value should not be shown.
  */
-@JvmOverloads
 fun <T : Any> FlagOption<T?>.default(
         value: T,
         defaultForHelp: String = value.toString()

@@ -167,13 +167,9 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
 @JvmOverloads
 fun <T : Any> FlagOption<T?>.default(
         value: T,
-        defaultForHelp: String? = null
+        defaultForHelp: String = value.toString()
 ): FlagOption<T> {
-    val tags = if (defaultForHelp == null) {
-        helpTags
-    } else {
-        helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
-    }
+    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },
             transformAll = { transformAll(it) ?: value },

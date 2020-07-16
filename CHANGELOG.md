@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Clikt's JS target now supports both NodeJS and Browsers. ([#198](https://github.com/ajalt/clikt/issues/198))
+- Default values for flag options are now shown in the help. Help text can be customized using the `defaultForHelp` argument, similar to non-flag options.
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/198))

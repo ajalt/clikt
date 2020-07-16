@@ -587,7 +587,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |* --foo INT         foo option help (required)
                 |  -b, --bar META    bar option help (default: optdef)
-                |  --baz / --no-baz  baz option help (default: false)
+                |  --baz / --no-baz  baz option help
                 |  --good / --bad    good option help (default: good)
                 |  --one, --two      feature switch (default: zero)
                 |  -E, --eager2      this is an eager option

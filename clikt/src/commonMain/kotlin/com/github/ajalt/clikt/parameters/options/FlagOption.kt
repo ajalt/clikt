@@ -104,7 +104,7 @@ class FlagOption<T>(
 fun RawOption.flag(
         vararg secondaryNames: String,
         default: Boolean = false,
-        defaultForHelp: String = default.toString()
+        defaultForHelp: String = ""
 ): FlagOption<Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     return FlagOption(names, secondaryNames.toSet(), help, hidden, tags, envvar,

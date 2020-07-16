@@ -101,8 +101,13 @@ class FlagOption<T>(
  *   practice to provide secondary names so that users can disable an option that was previously enabled.
  * @param default the value for this property if the option is not given on the command line.
  */
-fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
-    return FlagOption(names, secondaryNames.toSet(), help, hidden, helpTags, envvar,
+fun RawOption.flag(
+        vararg secondaryNames: String,
+        default: Boolean = false,
+        defaultForHelp: String = default.toString()
+): FlagOption<Boolean> {
+    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+    return FlagOption(names, secondaryNames.toSet(), help, hidden, tags, envvar,
             transformEnvvar = {
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true

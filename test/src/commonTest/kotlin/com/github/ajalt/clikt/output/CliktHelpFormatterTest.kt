@@ -521,6 +521,7 @@ class CliktHelpFormatterTest {
             val foo by option(help = "foo option help").int().required()
             val bar by option("-b", "--bar", help = "bar option help", metavar = "META").default("optdef")
             val baz by option(help = "baz option help").flag("--no-baz")
+            val good by option(help = "good option help").flag("--bad", default = true, defaultForHelp = "good")
             val feature by option(help = "feature switch").switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero")
             val hidden by option(help = "hidden", hidden = true)
             val arg by argument()
@@ -586,7 +587,8 @@ class CliktHelpFormatterTest {
                 |Options:
                 |* --foo INT         foo option help (required)
                 |  -b, --bar META    bar option help (default: optdef)
-                |  --baz / --no-baz  baz option help
+                |  --baz / --no-baz  baz option help (default: false)
+                |  --good / --bad    good option help (default: good)
                 |  --one, --two      feature switch (default: zero)
                 |  -E, --eager2      this is an eager option
                 |  --version         Show the version and exit

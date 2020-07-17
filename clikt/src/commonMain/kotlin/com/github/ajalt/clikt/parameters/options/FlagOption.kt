@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.mpp.readEnvvar
+import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
@@ -100,9 +100,24 @@ class FlagOption<T>(
  * @param secondaryNames additional names for that option that cause the option value to be false. It's good
  *   practice to provide secondary names so that users can disable an option that was previously enabled.
  * @param default the value for this property if the option is not given on the command line.
+ * @param defaultForHelp The help text for this option's default value if the help formatter is configured
+ *   to show them. By default, an empty string is being used to suppress the "default" help text.
+ *
+ * ### Example:
+ *
+ * ```
+ * val flag by option(help = "flag option").flag("--no-flag", default = true, defaultForHelp = "enable")
+ * // Options:
+ * // --flag / --no-flag  flag option (default: enable)
+ * ```
  */
-fun RawOption.flag(vararg secondaryNames: String, default: Boolean = false): FlagOption<Boolean> {
-    return FlagOption(names, secondaryNames.toSet(), help, hidden, helpTags, envvar,
+fun RawOption.flag(
+        vararg secondaryNames: String,
+        default: Boolean = false,
+        defaultForHelp: String = ""
+): FlagOption<Boolean> {
+    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+    return FlagOption(names, secondaryNames.toSet(), help, hidden, tags, envvar,
             transformEnvvar = {
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
@@ -157,12 +172,22 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
  */
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> = switch(mapOf(*choices))
 
-/** Set a default value for a option. */
-fun <T : Any> FlagOption<T?>.default(value: T): FlagOption<T> {
+/**
+ * Set a default [value] for an option.
+ *
+ * @param defaultForHelp The help text for this option's default value if the help formatter is configured
+ *   to show them. Use an empty string to suppress the "default" help text.
+ */
+fun <T : Any> FlagOption<T?>.default(
+        value: T,
+        defaultForHelp: String = value.toString()
+): FlagOption<T> {
+    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },
             transformAll = { transformAll(it) ?: value },
-            validator = validator
+            validator = validator,
+            helpTags = tags
     )
 }
 

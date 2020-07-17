@@ -100,6 +100,8 @@ class FlagOption<T>(
  * @param secondaryNames additional names for that option that cause the option value to be false. It's good
  *   practice to provide secondary names so that users can disable an option that was previously enabled.
  * @param default the value for this property if the option is not given on the command line.
+ * @param defaultForHelp The help text for this option's default value if the help formatter is configured
+ *   to show them. By default, an empty string is being used to suppress the "default" help text.
  */
 fun RawOption.flag(
         vararg secondaryNames: String,
@@ -165,8 +167,8 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
 /**
  * Set a default [value] for an option.
  *
- * @param defaultForHelp The help text for this option's default value if the help formatter is
- *   configured to show them, or null if the default value should not be shown.
+ * @param defaultForHelp The help text for this option's default value if the help formatter is configured
+ *   to show them. Use an empty string to suppress the "default" help text.
  */
 fun <T : Any> FlagOption<T?>.default(
         value: T,

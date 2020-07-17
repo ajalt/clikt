@@ -102,6 +102,14 @@ class FlagOption<T>(
  * @param default the value for this property if the option is not given on the command line.
  * @param defaultForHelp The help text for this option's default value if the help formatter is configured
  *   to show them. By default, an empty string is being used to suppress the "default" help text.
+ *
+ * ### Example:
+ *
+ * ```
+ * val flag by option(help = "flag option").flag("--no-flag", default = true, defaultForHelp = "enable")
+ * // Options:
+ * // --flag / --no-flag  flag option (default: enable)
+ * ```
  */
 fun RawOption.flag(
         vararg secondaryNames: String,

@@ -21,7 +21,7 @@ interface ValueSource {
 
     companion object {
         /**
-         * Get a name for an option that can by useful as a key for a value source.
+         * Get a name for an option that can be useful as a key for a value source.
          *
          * The returned value is the longest option name with its prefix removed
          *

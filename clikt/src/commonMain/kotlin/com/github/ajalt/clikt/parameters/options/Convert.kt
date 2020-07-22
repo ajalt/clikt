@@ -13,9 +13,9 @@ import kotlin.jvm.JvmName
 /**
  * Convert the option's value type.
  *
- * The [conversion] is called once for each value in each invocation of the option. If any errors are thrown,
- * they are caught and a [BadParameterValue] is thrown with the error message. You can call `fail` to throw a
- * [BadParameterValue] manually.
+ * The [conversion] is called once for each value in each invocation of the option. If any errors
+ * are thrown, they are caught and a [BadParameterValue] is thrown with the error message. You can
+ * call [fail][OptionTransformContext.fail] to throw a [BadParameterValue] manually.
  *
  * You can call `convert` more than once to wrap the result of the previous `convert`, but it cannot
  * be called after [transformAll] (e.g. [multiple]) or [transformValues] (e.g. [pair]).

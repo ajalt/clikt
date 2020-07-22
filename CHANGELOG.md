@@ -4,6 +4,7 @@
 ### Added
 - Clikt's JS target now supports both NodeJS and Browsers. ([#198](https://github.com/ajalt/clikt/issues/198))
 - Default values for switch options are now shown in the help. Help text can be customized using the `defaultForHelp` argument, similar to normal options. ([#205](https://github.com/ajalt/clikt/issues/205))
+- Added `FlagOption.convert` ([#208](https://github.com/ajalt/clikt/issues/208))
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/198))

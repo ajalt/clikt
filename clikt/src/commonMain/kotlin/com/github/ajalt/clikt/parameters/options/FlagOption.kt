@@ -11,6 +11,9 @@ import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/** A block that converts a flag value from one type to another */
+typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
+
 /**
  * An [Option] that has no values.
  *
@@ -129,6 +132,47 @@ fun RawOption.flag(
                 if (it.isEmpty()) default else it.last() !in secondaryNames
             },
             validator = {})
+}
+
+/**
+ * Convert the option's value type.
+ *
+ * The [conversion] is called once with the final value of the option. If any errors are thrown,
+ * they are caught and a [BadParameterValue] is thrown with the error message. You can call
+ * [fail][OptionTransformContext.fail] to throw a [BadParameterValue] manually.
+ *
+ * ## Example
+ *
+ * ```
+ * val loud by option().flag().convert { if (it) Volume.Loud else Volume.Soft }
+ * ```
+ */
+inline fun <InT, OutT> FlagOption<InT>.convert(crossinline conversion: FlagConverter<InT, OutT>): FlagOption<OutT> {
+    val envTransform: OptionTransformContext.(String) -> OutT = {
+        val orig = transformEnvvar(it)
+        try {
+            conversion(orig)
+        } catch (err: UsageError) {
+            throw err
+        } catch (err: Exception) {
+            fail(err.message ?: "")
+        }
+    }
+    val allTransform: OptionTransformContext.(List<String>) -> OutT = {
+        val orig = transformAll(it)
+        try {
+            conversion(orig)
+        } catch (err: UsageError) {
+            throw err
+        } catch (err: Exception) {
+            fail(err.message ?: "")
+        }
+    }
+    return copy(
+            transformEnvvar = envTransform,
+            transformAll = allTransform,
+            validator = {}
+    )
 }
 
 /**

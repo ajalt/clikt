@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT33294
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -246,6 +247,51 @@ class OptionTest {
         }
 
         C().parse(argv)
+    }
+
+    @Test
+    @JsName("flag_convert")
+    fun `flag convert`() = forAll(
+            row("", E.B, "false"),
+            row("-xx", E.A, "false"),
+            row("-xX", E.B, "false"),
+            row("-Xx", E.A, "false"),
+            row("-x --no-xx", E.B, "false"),
+            row("--xx", E.A, "false"),
+            row("--no-xx", E.B, "false"),
+            row("--no-xx --xx", E.A, "false"),
+            row("-y", E.B, "true"),
+            row("--yy", E.B, "true"),
+            row("-xy", E.A, "true"),
+            row("-yx", E.A, "true"),
+            row("-x -y", E.A, "true"),
+            row("--xx --yy", E.A, "true")
+    ) { argv, ex, ey ->
+        class C: TestCommand() {
+            val x by option("-x", "--xx").flag("-X", "--no-xx")
+                    .convert { if (it) E.A else E.B }
+            val y by option("-y", "--yy").flag()
+                    .convert { it.toString() }
+            override fun run_() {
+                x shouldBe ex
+                y shouldBe ey
+            }
+        }
+
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("flag_convert_validate")
+    fun `flag convert validate`() {
+        class C: TestCommand() {
+            val x by option().flag("--no-x")
+                    .convert { if (it) E.A else E.B }
+                    .validate { require(it == E.A) }
+        }
+
+        C().parse("--x").x shouldBe E.A
+        shouldThrow<UsageError> { C().parse("--no-x") }
     }
 
     @Test
@@ -735,3 +781,6 @@ class OptionTest {
         C().parse(argv)
     }
 }
+
+
+private enum class E { A, B }

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.beInstanceOf
 import io.kotest.matchers.should

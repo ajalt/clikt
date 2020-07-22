@@ -37,13 +37,8 @@ open class TestCommand(
 
     open fun run_() = Unit
 
-    fun parse(argv: String) {
-        parse(splitArgv(argv))
-        assertCalled(this)
-    }
-
     companion object {
-        private fun assertCalled(cmd: CliktCommand) {
+        fun assertCalled(cmd: CliktCommand) {
             if (cmd is TestCommand) {
                 if (cmd.count != null) {
                     assertEquals(cmd.count, cmd.actualCount, "command call count")
@@ -57,4 +52,10 @@ open class TestCommand(
             }
         }
     }
+}
+
+fun <T: TestCommand>T.parse(argv: String): T {
+    parse(splitArgv(argv))
+    TestCommand.assertCalled(this)
+    return this
 }

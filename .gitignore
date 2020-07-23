@@ -8,3 +8,5 @@ captures/
 .externalNativeBuild
 out/
 docs/api/
+docs/changelog.md
+docs/index.md

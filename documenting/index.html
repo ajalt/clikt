@@ -1,14 +1,12 @@
 
 
 
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
         <meta name="description" content="Clikt: Simple, powerful command line parser for Kotlin">
       
@@ -16,27 +14,8 @@
       
         <meta name="author" content="AJ Alt">
       
-      
-        <meta name="lang:clipboard.copy" content="Copy to clipboard">
-      
-        <meta name="lang:clipboard.copied" content="Copied to clipboard">
-      
-        <meta name="lang:search.language" content="en">
-      
-        <meta name="lang:search.pipeline.stopwords" content="True">
-      
-        <meta name="lang:search.pipeline.trimmer" content="True">
-      
-        <meta name="lang:search.result.none" content="No matching documents">
-      
-        <meta name="lang:search.result.one" content="1 matching document">
-      
-        <meta name="lang:search.result.other" content="# matching documents">
-      
-        <meta name="lang:search.tokenizer" content="[\s\-]+">
-      
       <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.4.0">
     
     
       
@@ -44,9 +23,9 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe0cca5b.min.css">
       
-        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a46bcfb3.min.css">
       
       
         
@@ -55,16 +34,13 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
-    
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
     
-    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
     
     
       <link rel="stylesheet" href="../css/extra.css">
@@ -75,73 +51,75 @@
     
   </head>
   
-    
-    
-    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="amber">
   
-    <svg class="md-svg">
-      <defs>
-        
-        
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
-        
-      </defs>
-    </svg>
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
-    
-      <a href="#documenting-scripts" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documenting-scripts" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
     
       <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid">
-    <div class="md-flex">
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Clikt" class="md-header-nav__button md-logo">
-          
-            <img src="../img/wordmark_small.svg" width="24" height="24">
-          
-        </a>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
-      </div>
-      <div class="md-flex__cell md-flex__cell--stretch">
-        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          
-            <span class="md-header-nav__topic">
-              Clikt
-            </span>
-            <span class="md-header-nav__topic">
-              
-                Documenting Scripts
-              
-            </span>
-          
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="Clikt" class="md-header-nav__button md-logo" aria-label="Clikt">
+      
+  <img src="../img/wordmark_small.svg" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Clikt
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Documenting Scripts
+            
+          </span>
         </div>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        
-          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-          
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="__search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
-        &#xE5CD;
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
       </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Type to start searching
+            Initializing search
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -149,71 +127,55 @@
     </div>
   </div>
 </div>
+    
+    
+      <div class="md-header-nav__source">
         
-      </div>
-      
-        <div class="md-flex__cell md-flex__cell--shrink">
-          <div class="md-header-nav__source">
-            
-
-
-  
-
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
+<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
   <div class="md-source__repository">
     Clikt
   </div>
 </a>
-          </div>
-        </div>
-      
-    </div>
+      </div>
+    
   </nav>
 </header>
     
-    <div class="md-container">
+    <div class="md-container" data-md-component="container">
       
         
       
       
-      <main class="md-main" role="main">
-        <div class="md-main__inner md-grid" data-md-component="container">
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
           
             
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href=".." title="Clikt" class="md-nav__button md-logo">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Clikt" class="md-nav__button md-logo" aria-label="Clikt">
       
-        <img src="../img/wordmark_small.svg" width="48" height="48">
-      
+  <img src="../img/wordmark_small.svg" alt="logo">
+
     </a>
     Clikt
   </label>
   
     <div class="md-nav__source">
       
-
-
-  
-
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
+<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
   <div class="md-source__repository">
     Clikt
   </div>
@@ -229,13 +191,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
     
     <label class="md-nav__link" for="nav-1">
       Quickstart
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
       <label class="md-nav__title" for="nav-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Quickstart
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -313,13 +281,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       Why Clikt?
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Why Clikt?
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -361,13 +335,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
       Parameters
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Parameters" data-md-level="1">
       <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Parameters
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -457,13 +437,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
       Options
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Options" data-md-level="1">
       <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Options
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -745,13 +731,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Arguments
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Arguments" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Arguments
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -805,13 +797,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
       Commands
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Commands" data-md-level="1">
       <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Commands
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -937,13 +935,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
     
     <label class="md-nav__link" for="nav-7">
       Documenting Scripts
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
       <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Documenting Scripts
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1057,13 +1061,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
     <label class="md-nav__link" for="nav-8">
       Advanced Patterns
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
       <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Advanced Patterns
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1129,6 +1139,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../advanced/#multiplatform-support" title="Multiplatform Support" class="md-nav__link">
+      Multiplatform Support
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1141,13 +1163,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
     <label class="md-nav__link" for="nav-9">
       Utilities
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Utilities" data-md-level="1">
       <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Utilities
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1201,13 +1229,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
     <label class="md-nav__link" for="nav-10">
       Bash Autocomplete
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
       <label class="md-nav__title" for="nav-10">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Bash Autocomplete
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1273,13 +1307,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
     
     <label class="md-nav__link" for="nav-11">
       Exception Handling
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
       <label class="md-nav__title" for="nav-11">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         Exception Handling
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1333,13 +1373,19 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
     
     <label class="md-nav__link" for="nav-12">
       API reference
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="API reference" data-md-level="1">
       <label class="md-nav__title" for="nav-12">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
         API reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1410,6 +1456,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../changelog/" title="Change Log" class="md-nav__link">
+      Change Log
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -1421,13 +1479,18 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -1470,7 +1533,7 @@
     Required Options in Help
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Required Options in Help">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1506,10 +1569,6 @@
   
 </li>
       
-      
-      
-      
-      
     </ul>
   
 </nav>
@@ -1522,7 +1581,12 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajalt/clikt/edit/master/docs/documenting.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajalt/clikt/edit/master/docs/documenting.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  
                 
                 
                 <h1 id="documenting-scripts">Documenting Scripts<a class="headerlink" href="#documenting-scripts" title="Permanent link">&para;</a></h1>
@@ -1534,10 +1598,8 @@ and set it on the <a href="../commands/#customizing-contexts">command&rsquo;s co
 <p><a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/">Commands</a> and parameters accept a <code>help</code> argument. Commands also accept an <code>epilog</code>
 argument, which is printed after the parameters and commands on the help page. All text is
 automatically trimmed of leading indentation and re-wrapped to the terminal width.</p>
-<div class="superfences-tabs">
-<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
-<label for="__tab_1_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;</span>
+<div class="tabbed-set" data-tabs="1:2">
+<input name="__tabbed_1" type="radio" id="__tabbed_1_1" checked="checked" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;</span>
 <span class="s">    This script prints NAME COUNT times.</span>
 
 <span class="s">    COUNT must be a positive number, and defaults to 1.</span>
@@ -1547,10 +1609,8 @@ automatically trimmed of leading indentation and re-wrapped to the terminal widt
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">repeat</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name!&quot;</span><span class="p">)</span> <span class="p">}</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_1" type="radio" id="__tab_1_1" />
-<label for="__tab_1_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./hello --help
+</code></pre></div></div>
+<input name="__tabbed_1" type="radio" id="__tabbed_1_2" /><label for="__tabbed_1_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./hello --help
 Usage: hello [OPTIONS] NAME
 
   This script prints NAME COUNT times.
@@ -1560,7 +1620,7 @@ Usage: hello [OPTIONS] NAME
 Options:
   -c, --count COUNT number of greetings
   -h, --help        Show this message and exit
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <p>Option names and metavars will appear in help output even if no help
 string is specified for them. On the other hand, arguments only appear
@@ -1573,10 +1633,8 @@ undesirable if you have some preformatted text, such as source code or a bullete
 <p>You can preformat a paragraph by surrounding it with markdown-style triple backticks. The backticks
 will be removed from the output, and if the backticks are on a line by themselves, the line will be
 removed. All whitespace and newlines in the paragraph will be preserved, and will be be rewrapped.</p>
-<div class="superfences-tabs">
-<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
-<label for="__tab_2_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;This is my command.</span>
+<div class="tabbed-set" data-tabs="2:2">
+<input name="__tabbed_2" type="radio" id="__tabbed_2_1" checked="checked" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;This is my command.</span>
 
 <span class="s">      This paragraph will be wrapped, but the following list will not:</span>
 
@@ -1587,10 +1645,8 @@ removed. All whitespace and newlines in the paragraph will be preserved, and wil
 
 <span class="s">      This is a new paragraph that will be wrapped if it&#39;s wider than the teminal width.</span>
 <span class="s">      &quot;&quot;&quot;</span><span class="p">)</span>
-</pre></div></div>
-<input name="__tabs_2" type="radio" id="__tab_2_1" />
-<label for="__tab_2_1">Help output</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>Usage: tool
+</code></pre></div></div>
+<input name="__tabbed_2" type="radio" id="__tabbed_2_2" /><label for="__tabbed_2_2">Help output</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>Usage: tool
 
   This is my command. 
 
@@ -1605,15 +1661,13 @@ removed. All whitespace and newlines in the paragraph will be preserved, and wil
 
 Options:
   -h, --help  Show this message and exit
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h2 id="subcommand-short-help">Subcommand Short Help<a class="headerlink" href="#subcommand-short-help" title="Permanent link">&para;</a></h2>
 <p>Subcommands are listed in the help page based on their <a href="../commands/#customizing-command-name">name</a>.
 They have a short help string which is the first line of their help.</p>
-<div class="superfences-tabs">
-<input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
-<label for="__tab_3_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span>
+<div class="tabbed-set" data-tabs="3:2">
+<input name="__tabbed_3" type="radio" id="__tabbed_3_1" checked="checked" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">Execute</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;&quot;&quot;</span>
 <span class="s">    Execute the command.</span>
@@ -1622,10 +1676,8 @@ They have a short help string which is the first line of their help.</p>
 <span class="s">    &quot;&quot;&quot;</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">Abort</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;Kill any running commands.&quot;</span><span class="p">)</span>
-</pre></div></div>
-<input name="__tabs_3" type="radio" id="__tab_3_1" />
-<label for="__tab_3_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
+</code></pre></div></div>
+<input name="__tabbed_3" type="radio" id="__tabbed_3_2" /><label for="__tabbed_3_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS] COMMAND [ARGS]...
 
 Options:
@@ -1634,7 +1686,7 @@ Options:
 Commands:
   execute  Execute the command.
   abort    Kill any running commands.
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h2 id="help-option-customization">Help Option Customization<a class="headerlink" href="#help-option-customization" title="Permanent link">&para;</a></h2>
 <p>Clikt handles the help option is specially. It is added automatically to
@@ -1643,10 +1695,8 @@ not used for the help option. If the help option has no unique names, it
 is not added.</p>
 <p>You can change the help option&rsquo;s name and help message on the
 <a href="../commands/#customizing-contexts">command&rsquo;s context</a>:</p>
-<div class="superfences-tabs">
-<input name="__tabs_4" type="radio" id="__tab_4_0" checked="checked" />
-<label for="__tab_4_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="tabbed-set" data-tabs="4:2">
+<input name="__tabbed_4" type="radio" id="__tabbed_4_1" checked="checked" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span>
             <span class="n">helpOptionNames</span> <span class="p">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;/help&quot;</span><span class="p">)</span>
@@ -1654,15 +1704,13 @@ is not added.</p>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_4" type="radio" id="__tab_4_1" />
-<label for="__tab_4_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool /help
+</code></pre></div></div>
+<input name="__tabbed_4" type="radio" id="__tabbed_4_2" /><label for="__tabbed_4_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool /help
 Usage: tool [OPTIONS]
 
 Options:
   /help  show the help
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <p>If you don&rsquo;t want a help option to be added, you can set
 <code>helpOptionNames = emptySet()</code></p>
@@ -1671,10 +1719,8 @@ Options:
 <code>showRequiredTag = true</code> to the <code>CliktHelpFormatter</code>. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default/"><code>default</code></a>.</p>
-<div class="superfences-tabs">
-<input name="__tabs_5" type="radio" id="__tab_5_0" checked="checked" />
-<label for="__tab_5_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="tabbed-set" data-tabs="5:2">
+<input name="__tabbed_5" type="radio" id="__tabbed_5_1" checked="checked" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">helpFormatter</span> <span class="p">=</span> <span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">showDefaultValues</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">}</span>
@@ -1682,26 +1728,22 @@ the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.aj
     <span class="k">val</span> <span class="py">a</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is optional&quot;</span><span class="p">).</span><span class="n">default</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">b</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is also optional&quot;</span><span class="p">).</span><span class="n">default</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">,</span> <span class="n">defaultForHelp</span><span class="p">=</span><span class="s">&quot;chosen for you&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_5" type="radio" id="__tab_5_1" />
-<label for="__tab_5_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
+</code></pre></div></div>
+<input name="__tabbed_5" type="radio" id="__tabbed_5_2" /><label for="__tabbed_5_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS]
 
 Options:
   --a TEXT    this is optional (default: value)
   --b TEXT    this is also optional (default: chosen for you)
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h2 id="required-options-in-help">Required Options in Help<a class="headerlink" href="#required-options-in-help" title="Permanent link">&para;</a></h2>
 <p>By default, <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required/"><code>required</code></a> options are displayed the same way as other options. The help
 formatter includes two different ways to show that an option is required.</p>
 <h3 id="required-option-marker">Required Option Marker<a class="headerlink" href="#required-option-marker" title="Permanent link">&para;</a></h3>
 <p>You can pass a character to the <code>requiredOptionMarker</code> argument of the <code>CliktHelpFormatter</code>.</p>
-<div class="superfences-tabs">
-<input name="__tabs_6" type="radio" id="__tab_6_0" checked="checked" />
-<label for="__tab_6_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="tabbed-set" data-tabs="6:2">
+<input name="__tabbed_6" type="radio" id="__tabbed_6_1" checked="checked" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">helpFormatter</span> <span class="p">=</span> <span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">requiredOptionMarker</span> <span class="p">=</span> <span class="s">&quot;*&quot;</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">}</span>
@@ -1709,24 +1751,20 @@ formatter includes two different ways to show that an option is required.</p>
     <span class="k">val</span> <span class="py">option</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is optional&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">required</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is required&quot;</span><span class="p">).</span><span class="n">required</span><span class="p">()</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_6" type="radio" id="__tab_6_1" />
-<label for="__tab_6_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
+</code></pre></div></div>
+<input name="__tabbed_6" type="radio" id="__tabbed_6_2" /><label for="__tabbed_6_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS]
 
 Options:
   --option TEXT    this is optional
 * --required TEXT  this is required
   -h, --help       Show this message and exit
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h3 id="required-option-tag">Required Option Tag<a class="headerlink" href="#required-option-tag" title="Permanent link">&para;</a></h3>
 <p>You can also show a tag for required options by passing <code>showRequiredTag = true</code> to the <code>CliktHelpFormatter</code>.</p>
-<div class="superfences-tabs">
-<input name="__tabs_7" type="radio" id="__tab_7_0" checked="checked" />
-<label for="__tab_7_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="tabbed-set" data-tabs="7:2">
+<input name="__tabbed_7" type="radio" id="__tabbed_7_1" checked="checked" /><label for="__tabbed_7_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> <span class="n">helpFormatter</span> <span class="p">=</span> <span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">showRequiredTag</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">}</span>
@@ -1734,26 +1772,22 @@ Options:
     <span class="k">val</span> <span class="py">option</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is optional&quot;</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">required</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;this is required&quot;</span><span class="p">).</span><span class="n">required</span><span class="p">()</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_7" type="radio" id="__tab_7_1" />
-<label for="__tab_7_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
+</code></pre></div></div>
+<input name="__tabbed_7" type="radio" id="__tabbed_7_2" /><label for="__tabbed_7_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS]
 
 Options:
   --option TEXT    this is optional
   --required TEXT  this is required (required)
   -h, --help       Show this message and exit
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h2 id="grouping-options-in-help">Grouping Options in Help<a class="headerlink" href="#grouping-options-in-help" title="Permanent link">&para;</a></h2>
 <p>You can group options into separate help sections by using <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a>. The name of
 the group will be shown in the output. You can also add an extra help message to be shown with the
 group. Groups can&rsquo;t be nested.</p>
-<div class="superfences-tabs">
-<input name="__tabs_8" type="radio" id="__tab_8_0" checked="checked" />
-<label for="__tab_8_0">Example</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">(</span>
+<div class="tabbed-set" data-tabs="8:2">
+<input name="__tabbed_8" type="radio" id="__tabbed_8_1" checked="checked" /><label for="__tabbed_8_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">(</span>
         <span class="n">name</span> <span class="p">=</span> <span class="s">&quot;User Options&quot;</span><span class="p">,</span> 
         <span class="n">help</span> <span class="p">=</span> <span class="s">&quot;Options controlling the user&quot;</span>
 <span class="p">)</span> <span class="p">{</span>
@@ -1764,10 +1798,8 @@ group. Groups can&rsquo;t be nested.</p>
 <span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">userOptions</span> <span class="k">by</span> <span class="n">UserOptions</span><span class="p">()</span>
 <span class="p">}</span>
-</pre></div></div>
-<input name="__tabs_8" type="radio" id="__tab_8_1" />
-<label for="__tab_8_1">Usage</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./tool --help
+</code></pre></div></div>
+<input name="__tabbed_8" type="radio" id="__tabbed_8_2" /><label for="__tabbed_8_2">Usage</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: cli [OPTIONS]
 
 User Options:
@@ -1779,28 +1811,24 @@ User Options:
 
 Options:
   -h, --help  Show this message and exit
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <h2 id="suggesting-corrections-for-mistyped-parameters">Suggesting Corrections for Mistyped Parameters<a class="headerlink" href="#suggesting-corrections-for-mistyped-parameters" title="Permanent link">&para;</a></h2>
 <p>When an option or subcommand is mistyped, Clikt will suggest corrections that are similar to the typed value.</p>
-<div class="superfences-tabs">
-<input name="__tabs_9" type="radio" id="__tab_9_0" checked="checked" />
-<label for="__tab_9_0">Mistyped Option</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli --sise=5
+<div class="tabbed-set" data-tabs="9:2">
+<input name="__tabbed_9" type="radio" id="__tabbed_9_1" checked="checked" /><label for="__tabbed_9_1">Mistyped Option</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./cli --sise=5
 Error: no such option: &quot;--sise&quot;. Did you mean &quot;--size&quot;?
-</pre></div></div>
-<input name="__tabs_9" type="radio" id="__tab_9_1" />
-<label for="__tab_9_1">Mistyped Subcommand</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>$ ./cli building
+</code></pre></div></div>
+<input name="__tabbed_9" type="radio" id="__tabbed_9_2" /><label for="__tabbed_9_2">Mistyped Subcommand</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./cli building
 Usage: cli [OPTIONS] COMMAND [ARGS]...
 
 Error: no such subcommand: &quot;building&quot;. Did you mean &quot;build&quot;?
-</pre></div></div>
+</code></pre></div></div>
 </div>
 <p>By default, Clikt will suggest corrections of any similar option or subcommand name based on a
 similarity metric. You can customize the suggestions by setting a <code>correctionSuggestor</code> on your
 command&rsquo;s context.</p>
-<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">init</span> <span class="p">{</span>
         <span class="n">context</span> <span class="p">{</span> 
             <span class="c1">// Only suggest corrections that start with the entered value</span>
@@ -1810,10 +1838,7 @@ command&rsquo;s context.</p>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-                
-                  
-                
+</code></pre></div>
                 
               
               
@@ -1837,11 +1862,10 @@ command&rsquo;s context.</p>
             Copyright &copy; 2020 AJ Alt
           </div>
         
-        powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
-        and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
-          Material for MkDocs</a>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
       </div>
       
     </div>
@@ -1850,9 +1874,18 @@ command&rsquo;s context.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/vendor.d710d30a.min.js"></script>
+      <script src="../assets/javascripts/bundle.b39636ac.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.a68abb33.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
       
     
   </body>

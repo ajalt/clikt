@@ -9,7 +9,6 @@ import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
 
-@OptIn(ExperimentalValueSourceApi::class)
 class ChainedValueSourceTest {
     @Test
     @JsName("reads_from_the_first_available_value")

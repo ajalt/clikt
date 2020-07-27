@@ -13,7 +13,6 @@ import org.junit.Rule
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import kotlin.test.Test
 
-@OptIn(ExperimentalCompletionCandidates::class)
 @Suppress("unused")
 class CompletionTest {
     @Rule

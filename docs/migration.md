@@ -10,4 +10,9 @@ variables are no longer split automatically.
 
 If you still want to split option values, you can do so explicitly with [`split()`][split].
 
+### Experimental APIs
+
+The Value Source API and Completion Generation APIs no longer require opt-in. You can use these APIs
+without needing the `ExperimentalValueSourceApi` or `ExperimentalCompletionCandidates` annotations.
+
 [split][api/clikt/com.github.ajalt.clikt.parameters.options/split.md]

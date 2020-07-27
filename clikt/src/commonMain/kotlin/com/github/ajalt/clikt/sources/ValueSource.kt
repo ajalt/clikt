@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
-@ExperimentalValueSourceApi
 interface ValueSource {
     data class Invocation(val values: List<String>) {
         companion object {

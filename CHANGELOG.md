@@ -21,6 +21,9 @@
 - Removed `envvarSplit` parameter from `option()` and `convert()`. Option values from environment variables are no longer split automatically. ([#177](https://github.com/ajalt/clikt/issues/177))
 - Removed public constructors from the following classes: `ProcessedArgument`, `OptionWithValues`, `FlagOption`, `CoOccurringOptionGroup`, `ChoiceGroup`, `MutuallyExclusiveOptions`.
 
+### Deprecated
+- `@ExperimentalCompletionCandidates` and `@ExperimentalValueSourceApi` annotations. These APIs no longer require an opt-in.
+
 ## 2.8.0
 _2020-06-19_
 

@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.completion
 @RequiresOptIn
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+@Deprecated(message = "This opt-in requirement is not used anymore. Remove its usages from your code.")
 annotation class ExperimentalCompletionCandidates
 
 /**
@@ -43,7 +44,6 @@ sealed class CompletionCandidates {
      * word being typed. The word being typed can be retrieved from the `COMP_WORDS` array at index
      * `COMP_CWORD`.
      */
-    @ExperimentalCompletionCandidates
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
         enum class ShellType { BASH }
         companion object {

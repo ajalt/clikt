@@ -40,7 +40,6 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
  *   names and filters the list down to values to suggest to the user.
  */
-@OptIn(ExperimentalValueSourceApi::class)
 class Context(
         val parent: Context?,
         val command: CliktCommand,
@@ -170,7 +169,6 @@ class Context(
          *
          * You can set multiple sources with [valueSources]
          */
-        @ExperimentalValueSourceApi
         var valueSource: ValueSource? = parent?.valueSource
 
         /**
@@ -179,7 +177,6 @@ class Context(
          * Values are read from the first source, then if it doesn't return a value, later sources
          * are read successively until one returns a value or all sources have been read.
          */
-        @ExperimentalValueSourceApi
         fun valueSources(vararg sources: ValueSource) {
             valueSource = ChainedValueSource(sources.toList())
         }

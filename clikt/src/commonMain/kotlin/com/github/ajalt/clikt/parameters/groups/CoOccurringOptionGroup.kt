@@ -9,9 +9,11 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class CoOccurringOptionGroup<GroupT : OptionGroup, OutT>(
+typealias CoOccurringOptionGroupTransform<GroupT, OutT> = (occurred: Boolean?, group: GroupT, context: Context) -> OutT
+
+class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
         internal val group: GroupT,
-        private val transform: (occurred: Boolean?, group: GroupT, context: Context) -> OutT
+        private val transform: CoOccurringOptionGroupTransform<GroupT, OutT>
 ) : ParameterGroupDelegate<OutT> {
     override val groupName: String? get() = group.groupName
     override val groupHelp: String? get() = group.groupHelp
@@ -38,6 +40,10 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT>(
 
     override fun postValidate(context: Context) {
         if (occurred) group.postValidate(context)
+    }
+
+    fun <T> copy(transform: CoOccurringOptionGroupTransform<GroupT, T>): CoOccurringOptionGroup<GroupT, T> {
+        return CoOccurringOptionGroup(group, transform)
     }
 }
 

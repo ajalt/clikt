@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class MutuallyExclusiveOptions<OptT : Any, OutT>(
+class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         internal val options: List<OptionDelegate<OptT?>>,
         override val groupName: String?,
         override val groupHelp: String?,

@@ -14,7 +14,7 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class ChoiceGroup<GroupT : OptionGroup, OutT>(
+class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
         internal val option: OptionDelegate<String?>,
         internal val groups: Map<String, GroupT>,
         internal val transform: (GroupT?) -> OutT

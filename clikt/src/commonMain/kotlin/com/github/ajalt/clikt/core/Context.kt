@@ -65,15 +65,9 @@ class Context(
         return ancestors().mapNotNull { it.obj as? T }.firstOrNull()
     }
 
-    @Suppress("unused")
-    @Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(defaultValue)"))
-    inline fun <reified T : Any> findObject(defaultValue: () -> T): T {
-        return findOrSetObject(defaultValue)
-    }
-
     /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
     inline fun <reified T : Any> findOrSetObject(defaultValue: () -> T): T {
-        return findObject<T>() ?: defaultValue().also { obj = it }
+        return findObject() ?: defaultValue().also { obj = it }
     }
 
     /** Find the outermost context */
@@ -223,12 +217,6 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
             return thisRef.currentContext.findObject<T>()
         }
     }
-}
-
-@Suppress("unused")
-@Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(default)"))
-inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
-    return findOrSetObject(default)
 }
 
 /**

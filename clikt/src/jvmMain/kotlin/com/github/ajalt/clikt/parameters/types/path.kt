@@ -41,40 +41,6 @@ internal fun convertToPath(
     }
 }
 
-//<editor-fold desc="arguments">
-
-// This overload exists so that calls to `file()` aren't marked as deprecated.
-// Remove once the deprecated function is removed.
-/**
- * Convert the argument to a [Path].
- *
- * @param mustExist If true, fail if the given path does not exist
- * @param canBeFile If false, fail if the given path is a file
- * @param canBeDir If false, fail if the given path is a directory
- * @param mustBeWritable If true, fail if the given path is not writable
- * @param mustBeReadable If true, fail if the given path is not readable
- * @param fileSystem The [FileSystem] with which to resolve paths
- * @param canBeSymlink If false, fail if the given path is a symlink
- */
-@Suppress("KDocUnresolvedReference")
-fun RawArgument.path(fileSystem: FileSystem = FileSystems.getDefault()): ProcessedArgument<Path, Path> {
-    return path(mustExist = false, fileSystem = fileSystem)
-}
-
-@Deprecated("Parameters have been renamed. All arguments must be called by name to remove this warning.", ReplaceWith(
-        "this.path(mustExist=exists, canBeFile=fileOkay, canBeDir=folderOkay, mustBeWritable=writable, mustBeReadable=readable, fileSystem=fileSystem)"
-))
-fun RawArgument.path(
-        exists: Boolean = false,
-        fileOkay: Boolean = true,
-        folderOkay: Boolean = true,
-        writable: Boolean = false,
-        readable: Boolean = false,
-        fileSystem: FileSystem = FileSystems.getDefault()
-): ProcessedArgument<Path, Path> {
-    return path(exists, fileOkay, folderOkay, writable, readable, true, fileSystem)
-}
-
 /**
  * Convert the argument to a [Path].
  *
@@ -98,41 +64,6 @@ fun RawArgument.path(
     return convert(completionCandidates = CompletionCandidates.Path) { str ->
         convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
     }
-}
-
-//</editor-fold>
-//<editor-fold desc="options">
-
-// This overload exists so that calls to `file()` aren't marked as deprecated.
-// Remove once the deprecated function is removed.
-/**
- * Convert the option to a [Path].
- *
- * @param mustExist If true, fail if the given path does not exist
- * @param canBeFile If false, fail if the given path is a file
- * @param canBeDir If false, fail if the given path is a directory
- * @param mustBeWritable If true, fail if the given path is not writable
- * @param mustBeReadable If true, fail if the given path is not readable
- * @param fileSystem The [FileSystem] with which to resolve paths.
- * @param canBeSymlink If false, fail if the given path is a symlink
- */
-@Suppress("KDocUnresolvedReference")
-fun RawOption.path(fileSystem: FileSystem = FileSystems.getDefault()): NullableOption<Path, Path> {
-    return path(mustExist = false, fileSystem = fileSystem)
-}
-
-@Deprecated("Parameters have been renamed. All arguments must be called by name to remove this warning.", ReplaceWith(
-        "this.path(mustExist=exists, canBeFile=fileOkay, canBeDir=folderOkay, mustBeWritable=writable, mustBeReadable=readable, fileSystem=fileSystem)"
-))
-fun RawOption.path(
-        exists: Boolean = false,
-        fileOkay: Boolean = true,
-        folderOkay: Boolean = true,
-        writable: Boolean = false,
-        readable: Boolean = false,
-        fileSystem: FileSystem = FileSystems.getDefault()
-): NullableOption<Path, Path> {
-    return path(exists, fileOkay, folderOkay, writable, readable, true, fileSystem)
 }
 
 /**
@@ -160,4 +91,3 @@ fun RawOption.path(
         convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
     }
 }
-//</editor-fold>

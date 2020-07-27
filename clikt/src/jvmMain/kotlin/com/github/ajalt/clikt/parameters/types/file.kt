@@ -38,34 +38,6 @@ private fun convertToFile(
     }
 }
 
-// This overload exists so that calls to `file()` aren't marked as deprecated.
-// Remove once the deprecated function is removed.
-/**
- * Convert the argument to a [File].
- *
- * @param mustExist If true, fail if the given path does not exist
- * @param canBeFile If false, fail if the given path is a file
- * @param canBeDir If false, fail if the given path is a directory
- * @param mustBeWritable If true, fail if the given path is not writable
- * @param mustBeReadable If true, fail if the given path is not readable
- * @param canBeSymlink If false, fail if the given path is a symlink
- */
-@Suppress("KDocUnresolvedReference")
-fun RawArgument.file(): ProcessedArgument<File, File> = file(mustExist = false)
-
-@Deprecated("Parameters have been renamed. All arguments must be called by name to remove this warning.", ReplaceWith(
-        "this.file(mustExist=exists, canBeFile=fileOkay, canBeDir=folderOkay, mustBeWritable=writable, mustBeReadable=readable)"
-))
-fun RawArgument.file(
-        exists: Boolean = false,
-        fileOkay: Boolean = true,
-        folderOkay: Boolean = true,
-        writable: Boolean = false,
-        readable: Boolean = false
-): ProcessedArgument<File, File> {
-    return file(exists, fileOkay, folderOkay, writable, readable, canBeSymlink = true)
-}
-
 /**
  * Convert the argument to a [File].
  *
@@ -87,33 +59,6 @@ fun RawArgument.file(
     return convert(completionCandidates = CompletionCandidates.Path) { str ->
         convertToFile(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink) { fail(it) }
     }
-}
-
-// This overload exists so that calls to `file()` aren't marked as deprecated.
-// Remove once the deprecated function is removed.
-/**
- * Convert the option to a [File].
- *
- * @param mustExist If true, fail if the given path does not exist
- * @param canBeFile If false, fail if the given path is a file
- * @param canBeDir If false, fail if the given path is a directory
- * @param mustBeWritable If true, fail if the given path is not writable
- * @param mustBeReadable If true, fail if the given path is not readable
- */
-@Suppress("KDocUnresolvedReference")
-fun RawOption.file(): NullableOption<File, File> = file(mustExist = false)
-
-@Deprecated("Parameters have been renamed. All arguments must be called by name to remove this warning.", ReplaceWith(
-        "this.file(mustExist=exists, canBeFile=fileOkay, canBeDir=folderOkay, mustBeWritable=writable, mustBeReadable=readable)"
-))
-fun RawOption.file(
-        exists: Boolean = false,
-        fileOkay: Boolean = true,
-        folderOkay: Boolean = true,
-        writable: Boolean = false,
-        readable: Boolean = false
-): NullableOption<File, File> {
-    return file(exists, fileOkay, folderOkay, writable, readable, canBeSymlink = true)
 }
 
 /**

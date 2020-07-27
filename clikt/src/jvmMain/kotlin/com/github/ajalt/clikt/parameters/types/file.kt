@@ -135,8 +135,7 @@ fun RawOption.file(
         canBeSymlink: Boolean = true
 ): NullableOption<File, File> {
     val name = pathType(canBeFile, canBeDir)
-    val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
-    return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) { str ->
+    return convert(name.toUpperCase(), completionCandidates = CompletionCandidates.Path) { str ->
         convertToFile(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink) { fail(it) }
     }
 }

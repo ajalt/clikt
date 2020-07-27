@@ -28,14 +28,11 @@ import kotlin.jvm.JvmName
  * ```
  *
  * @param metavar The metavar for the type. Overridden by a metavar passed to [option].
- * @param envvarSplit If the value is read from an envvar, the pattern to split the value on. The default
- *   splits on whitespace. This value is can be overridden by passing a value to the [option] function.
  * @param completionCandidates candidates to use when completing this option in shell autocomplete,
  *   if no candidates are specified in [option]
  */
 inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
         metavar: String = "VALUE",
-        envvarSplit: Regex = this.envvarSplit.default,
         completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
         crossinline conversion: ValueConverter<InT, ValueT>
 ): NullableOption<ValueT, ValueT> {
@@ -51,7 +48,6 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
     }
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
             metavarWithDefault = metavarWithDefault.copy(default = metavar),
-            envvarSplit = this.envvarSplit.copy(default = envvarSplit),
             completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
     )
 }

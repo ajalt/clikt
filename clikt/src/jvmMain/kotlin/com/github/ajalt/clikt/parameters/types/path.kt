@@ -156,8 +156,7 @@ fun RawOption.path(
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<Path, Path> {
     val name = pathType(canBeFile, canBeDir)
-    val split = if (TermUi.isWindows) Regex.fromLiteral(";") else Regex.fromLiteral(":")
-    return convert(name.toUpperCase(), envvarSplit = split, completionCandidates = CompletionCandidates.Path) { str ->
+    return convert(name.toUpperCase(), completionCandidates = CompletionCandidates.Path) { str ->
         convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
     }
 }

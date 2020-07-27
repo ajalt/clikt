@@ -127,4 +127,6 @@ nav:
       - 'Arguments': api/clikt/com.github.ajalt.clikt.parameters.arguments/
       - 'Parameter Type Conversions': api/clikt/com.github.ajalt.clikt.parameters.types/
       - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/
-  - 'Change Log': changelog.md
+  - 'Releases':
+    - 'Change Log': changelog.md
+    - 'Upgrading to Newer Releases': migration.md

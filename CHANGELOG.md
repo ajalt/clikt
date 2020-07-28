@@ -7,7 +7,8 @@
 - Added `FlagOption.convert` ([#208](https://github.com/ajalt/clikt/issues/208))
 
 ### Fixed
-- Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/198))
+- Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))
+- Options and Arguments with `multiple(required=true)` will now show as required in help output. ([#212](https://github.com/ajalt/clikt/issues/212))
 
 ## 2.8.0
 _2020-06-19_

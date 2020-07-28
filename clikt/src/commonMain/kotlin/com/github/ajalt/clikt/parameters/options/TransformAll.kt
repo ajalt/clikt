@@ -125,7 +125,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
         default: List<EachT> = emptyList(),
         required: Boolean = false
 ): OptionWithValues<List<EachT>, EachT, ValueT> {
-    return transformAll {
+    return transformAll(showAsRequired = required) {
         when {
             it.isEmpty() && required -> throw MissingParameter(option)
             it.isEmpty() && !required -> default

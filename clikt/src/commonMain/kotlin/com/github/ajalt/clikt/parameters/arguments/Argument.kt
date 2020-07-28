@@ -132,7 +132,7 @@ class ProcessedArgument<AllT, ValueT>(
         get() = completionCandidatesWithDefault.value
 
     override val parameterHelp
-        get() = ParameterHelp.Argument(name, help, required && nvalues == 1 || nvalues > 1, nvalues < 0, helpTags)
+        get() = ParameterHelp.Argument(name, help, required || nvalues > 1, nvalues < 0, helpTags)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 

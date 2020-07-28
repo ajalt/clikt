@@ -10,6 +10,8 @@ import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -55,19 +57,17 @@ private fun sub(
 
 class CliktHelpFormatterTest {
     @Test
-    fun formatUsage() {
-        val f = CliktHelpFormatter()
-        f.formatUsage(l(), programName = "prog1") shouldBe "Usage: prog1"
-        f.formatUsage(l(opt("-x")), programName = "prog2") shouldBe "Usage: prog2 [OPTIONS]"
-        f.formatUsage(l(arg("FOO")), programName = "prog3") shouldBe "Usage: prog3 [FOO]"
-        f.formatUsage(l(arg("FOO", required = true)), programName = "prog4") shouldBe "Usage: prog4 FOO"
-        f.formatUsage(l(arg("FOO", repeatable = true)), programName = "prog5") shouldBe "Usage: prog5 [FOO]..."
-        f.formatUsage(l(arg("FOO", required = true, repeatable = true)), programName = "prog6") shouldBe "Usage: prog6 FOO..."
-        f.formatUsage(l(
-                arg("FOO", required = true, repeatable = true), opt("-x"), arg("BAR")), programName = "prog7"
-        ) shouldBe "Usage: prog7 [OPTIONS] FOO... [BAR]"
-        f.formatUsage(l(opt("-x"), arg("FOO"), sub("bar")), programName = "prog8"
-        ) shouldBe "Usage: prog8 [OPTIONS] [FOO] COMMAND [ARGS]..."
+    fun formatUsage() = forAll(
+            row(l(), "Usage: prog"),
+            row(l(opt("-x")), "Usage: prog [OPTIONS]"),
+            row(l(arg("FOO")), "Usage: prog [FOO]"),
+            row(l(arg("FOO", required = true)), "Usage: prog FOO"),
+            row(l(arg("FOO", repeatable = true)), "Usage: prog [FOO]..."),
+            row(l(arg("FOO", required = true, repeatable = true)), "Usage: prog FOO..."),
+            row(l(arg("FOO", required = true, repeatable = true), opt("-x"), arg("BAR")), "Usage: prog [OPTIONS] FOO... [BAR]"),
+            row(l(opt("-x"), arg("FOO"), sub("bar")), "Usage: prog [OPTIONS] [FOO] COMMAND [ARGS]...")
+    ) { params, expected ->
+        CliktHelpFormatter().formatUsage(params, "prog") shouldBe expected
     }
 
     @Test
@@ -524,6 +524,7 @@ class CliktHelpFormatterTest {
             val good by option(help = "good option help").flag("--bad", default = true, defaultForHelp = "good")
             val feature by option(help = "feature switch").switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero")
             val hidden by option(help = "hidden", hidden = true)
+            val multiOpt by option(help = "multiple").multiple(required = true)
             val arg by argument()
             val multi by argument().multiple(required = true)
 
@@ -555,7 +556,7 @@ class CliktHelpFormatterTest {
                 .subcommands(Sub(), Sub2())
 
         c.getFormattedHelp() shouldBe """
-                |Usage: program [OPTIONS] ARG [MULTI]... COMMAND [ARGS]...
+                |Usage: program [OPTIONS] ARG MULTI... COMMAND [ARGS]...
                 |
                 |  This is a program.
                 |
@@ -590,6 +591,7 @@ class CliktHelpFormatterTest {
                 |  --baz / --no-baz  baz option help
                 |  --good / --bad    good option help (default: good)
                 |  --one, --two      feature switch (default: zero)
+                |* --multi-opt TEXT  multiple (required)
                 |  -E, --eager2      this is an eager option
                 |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit

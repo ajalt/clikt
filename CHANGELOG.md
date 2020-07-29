@@ -9,6 +9,7 @@
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))
 - Options and Arguments with `multiple(required=true)` will now show as required in help output. ([#212](https://github.com/ajalt/clikt/issues/212))
+- Multiple short lines in a help text paragraph no longer appear dedented ([#215](https://github.com/ajalt/clikt/issues/215))
 
 ## 2.8.0
 _2020-06-19_

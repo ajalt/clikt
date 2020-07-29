@@ -18,6 +18,8 @@ internal fun String.wrapText(
 private val TEXT_START_REGEX = Regex("\\S")
 private val PRE_P_END_REGEX = Regex("""```[ \t]*(?:\n\s*|[ \t]*$)""")
 private val PLAIN_P_END_REGEX = Regex("""[ \t]*\n(?:\s*```|[ \t]*\n\s*)|\s*$""")
+private val LINE_BREAK_REGEX = Regex("\r?\n")
+private val WHITESPACE_REGEX = Regex("\\s+")
 
 // there's no dotall flag on JS, so we have to use [\s\S] instead
 private val PRE_P_CONTENTS_REGEX = Regex("""```([\s\S]*?)```""")
@@ -42,25 +44,28 @@ internal fun splitParagraphs(text: String): List<String> {
     return paragraphs
 }
 
-private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String, subsequentIndent: String) {
+private fun StringBuilder.tryPreformat(text: String, initialIndent: String, subsequentIndent: String): Boolean {
     val value = PRE_P_CONTENTS_REGEX.matchEntire(text)?.groups?.get(1)?.value
     val pre = value?.replaceIndent(subsequentIndent)?.removePrefix(subsequentIndent)
+            ?: return false
 
-    if (pre != null) {
-        for ((i, line) in pre.split(Regex("\r?\n")).withIndex()) {
-            if (i == 0) append(initialIndent)
-            else append("\n")
-            append(line.trimEnd())
-        }
-        return
+    for ((i, line) in pre.split(LINE_BREAK_REGEX).withIndex()) {
+        if (i == 0) append(initialIndent)
+        else append("\n")
+        append(line.trimEnd())
     }
+    return true
+}
+
+private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String, subsequentIndent: String) {
+    if (tryPreformat(text, initialIndent, subsequentIndent)) return
 
     if (initialIndent.length + text.length <= width) {
-        append(initialIndent).append(text.trim())
+        append(initialIndent).append(text.replace(WHITESPACE_REGEX, " ").trim())
         return
     }
 
-    val words = text.trim().split(Regex("\\s+"))
+    val words = text.trim().split(WHITESPACE_REGEX)
     append(initialIndent)
     var currentWidth = initialIndent.length
     for ((i, word) in words.withIndex()) {

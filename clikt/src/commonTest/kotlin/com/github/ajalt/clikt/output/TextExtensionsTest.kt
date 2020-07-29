@@ -31,6 +31,7 @@ class TextExtensionsTest {
             row("a b c\n\nd e f".wrapText(width = 3), "a b\nc\n\nd e\nf"),
             row("a b c\n\nd e f".wrapText(width = 4, initialIndent = "=",
                     subsequentIndent = "-"), "=a b\n-c\n\n-d e\n-f"),
+            row("a\nb".wrapText(initialIndent = "...", subsequentIndent = "--"), "...a b"),
             row("".wrapText(), "")
     ) { actual, expected ->
         actual shouldBe expected

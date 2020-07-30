@@ -70,7 +70,7 @@ open class CliktHelpFormatter(
 
         if (usage.isEmpty()) {
             append(prog)
-        } else if (prog.graphemeLength >= width - 20) {
+        } else if (prog.graphemeLength >= width - 20 && prog.graphemeLength + usage.graphemeLength > width - 2) {
             append(prog).append("\n")
             val usageIndent = " ".repeat(minOf(width / 3, 11))
             usage.wrapText(this, width, usageIndent, usageIndent)

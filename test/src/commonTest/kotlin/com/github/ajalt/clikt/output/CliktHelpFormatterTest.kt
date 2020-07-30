@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.NoOpCliktCommand
@@ -108,6 +110,12 @@ class CliktHelpFormatterTest {
                 |           [OPTIONS] FIRST SECOND THIRD FOURTH FIFTH
                 |           SIXTH
                 """.trimMargin()
+    }
+
+    @Test
+    @JsName("formatUsage_narrow_width")
+    fun `formatUsage narrow width`() {
+        CliktHelpFormatter(width = 22).formatUsage(l(opt("-x")), "prog") shouldBe "Usage: prog [OPTIONS]"
     }
 
     @Test

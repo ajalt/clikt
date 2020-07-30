@@ -1,5 +1,7 @@
 package com.github.ajalt.clikt.output
 
+internal const val NEL = "\u0085"
+
 internal fun String.wrapText(
         sb: StringBuilder,
         width: Int = 78,
@@ -17,9 +19,10 @@ internal fun String.wrapText(
 
 private val TEXT_START_REGEX = Regex("\\S")
 private val PRE_P_END_REGEX = Regex("""```[ \t]*(?:\n\s*|[ \t]*$)""")
-private val PLAIN_P_END_REGEX = Regex("""[ \t]*\n(?:\s*```|[ \t]*\n\s*)|\s*$""")
+private val PLAIN_P_END_REGEX = Regex("""[ \t]*\n(?:\s*```|[ \t]*\n\s*)|$NEL?\s*$""")
 private val LINE_BREAK_REGEX = Regex("\r?\n")
-private val WHITESPACE_REGEX = Regex("\\s+")
+private val WHITESPACE_OR_NEL_REGEX = Regex("""\s+|$NEL""")
+private val WORD_OR_NEL_REGEX = Regex("""[^\s$NEL]+|$NEL""")
 
 // there's no dotall flag on JS, so we have to use [\s\S] instead
 private val PRE_P_CONTENTS_REGEX = Regex("""```([\s\S]*?)```""")
@@ -28,18 +31,21 @@ internal fun splitParagraphs(text: String): List<String> {
     val paragraphs = mutableListOf<String>()
     var i = TEXT_START_REGEX.find(text)?.range?.first ?: return emptyList()
     while (i < text.length) {
-        val end = if (text.startsWith("```", startIndex = i)) {
+        val range = if (text.startsWith("```", startIndex = i)) {
             PRE_P_END_REGEX.find(text, i + 3)?.let {
                 (it.range.first + 3)..it.range.last
             }
         } else {
             PLAIN_P_END_REGEX.find(text, i)?.let {
-                if (it.value.endsWith("```")) it.range.first..(it.range.last - 3)
-                else it.range
+                when {
+                    it.value.startsWith(NEL) -> it.range.first + 1..it.range.first + 1
+                    it.value.endsWith("```") -> it.range.first..(it.range.last - 3)
+                    else -> it.range
+                }
             }
         } ?: text.length..text.length
-        paragraphs += text.substring(i, end.first)
-        i = end.last + 1
+        paragraphs += text.substring(i, range.first)
+        i = range.last + 1
     }
     return paragraphs
 }
@@ -59,25 +65,39 @@ private fun StringBuilder.tryPreformat(text: String, initialIndent: String, subs
 
 private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String, subsequentIndent: String) {
     if (tryPreformat(text, initialIndent, subsequentIndent)) return
+    val breakLine = "\n$subsequentIndent"
 
     if (initialIndent.length + text.length <= width) {
-        append(initialIndent).append(text.replace(WHITESPACE_REGEX, " ").trim())
+        val newText = text.trim().replace(WHITESPACE_OR_NEL_REGEX) {
+            if (it.value == NEL) breakLine else " "
+        }
+        append(initialIndent).append(newText)
         return
     }
 
-    val words = text.trim().split(WHITESPACE_REGEX)
+    val words = WORD_OR_NEL_REGEX.findAll(text).map { it.value }.toList()
     append(initialIndent)
     var currentWidth = initialIndent.length
+    var prevWasNel = false
     for ((i, word) in words.withIndex()) {
-        if (i > 0) {
+        if (word == NEL) {
+            append(breakLine)
+            currentWidth = subsequentIndent.length
+            prevWasNel = true
+            continue
+        }
+
+        if (i > 0 && !prevWasNel) {
             if (currentWidth + word.length + 1 > width) {
-                append("\n").append(subsequentIndent)
+                append(breakLine)
                 currentWidth = subsequentIndent.length
             } else {
                 append(" ")
                 currentWidth += 1
             }
         }
+
+        prevWasNel = false
         append(word)
         currentWidth += word.length
     }

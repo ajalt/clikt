@@ -121,7 +121,7 @@ class CliktHelpFormatterTest {
                 |
                 |Options:
                 |  -a, --aa INT  some thing to live by
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -136,7 +136,7 @@ class CliktHelpFormatterTest {
                 |
                 |Options:
                 |  -a, --aa / -A, --no-aa  some thing to know
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -155,7 +155,7 @@ class CliktHelpFormatterTest {
                 |  -a, --aa INT  some thing to live by
                 |
                 |Dolor Sit Amet.
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -188,7 +188,7 @@ class CliktHelpFormatterTest {
                 |
                 |Options:
                 |  -a, --aa INT  some thing to live by
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -224,7 +224,7 @@ class CliktHelpFormatterTest {
                 |  Vivamus dictum varius massa, at euismod turpis
                 |  maximus eu. Suspendisse molestie mauris at turpis
                 |  bibendum egestas.
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -287,8 +287,41 @@ class CliktHelpFormatterTest {
                 |
                 |              Donec sed ligula blandit, luctus sem ac,
                 |              sagittis risus.
-                """.trimMargin("|")
+                """.trimMargin()
     }
+
+    @Test
+    @JsName("formatHelp_one_opt_manual_line_break_narrow")
+    fun `formatHelp one opt manual line break narrow`() {
+        val f = CliktHelpFormatter(width = 32)
+        f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "Lorem ipsum dolor\u0085(sit amet, consectetur)")),
+                programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa INT  Lorem ipsum
+                |                dolor
+                |                (sit amet,
+                |                consectetur)
+                """.trimMargin()
+    }
+
+    @Test
+    @JsName("formatHelp_one_opt_manual_line_break_wide")
+    fun `formatHelp one opt manual line break wide`() {
+        val f = CliktHelpFormatter(width = 78)
+        f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "Lorem ipsum dolor\u0085(sit amet, consectetur)")),
+                programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -a, --aa INT  Lorem ipsum dolor
+                |                (sit amet, consectetur)
+                """.trimMargin()
+    }
+
 
     @Test
     @JsName("formatHelp_option_wrapping")
@@ -313,7 +346,7 @@ class CliktHelpFormatterTest {
                 |  -t, --entirely-too-long-option WOWSOLONG
                 |                this option has a long name and a long
                 |                descrption
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -332,7 +365,7 @@ class CliktHelpFormatterTest {
                 |  -L, --lorem-ipsum  Lorem ipsum dolor sit amet, consectetur e
                 |                     adipiscing elit. Nulla vitae porta nisi.
                 |                     Interdum et malesuada fames ac ante ipsum
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -357,7 +390,7 @@ class CliktHelpFormatterTest {
                 |
                 |Options:
                 |  -d, --dd INT  some thing to live by dd
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -374,7 +407,7 @@ class CliktHelpFormatterTest {
                 |Arguments:
                 |  FOO  some thing to live by
                 |  BAR  another argument
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -391,7 +424,7 @@ class CliktHelpFormatterTest {
                 |Commands:
                 |  foo  some thing to live by
                 |  bar  another argument
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -415,7 +448,7 @@ class CliktHelpFormatterTest {
                 |
                 |Commands:
                 |  sub
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -448,7 +481,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |  --opt [g1|g2]  select group
                 |  -h, --help     Show this message and exit
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -481,7 +514,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |  --g1, --g2  select group
                 |  -h, --help  Show this message and exit
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -601,7 +634,7 @@ class CliktHelpFormatterTest {
                 |  sub2  another command
                 |
                 |This is the epilog
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -618,7 +651,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |  -a, --aa INT  aa option help
                 |* -b, --bb INT  bb option help
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -635,7 +668,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |  -a, --aa INT  aa option help
                 |  -b, --bb INT  bb option help (required)
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -652,7 +685,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |  -a, --aa INT  aa option help
                 |  -b, --bb INT  bb option help (default: 123)
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -669,7 +702,7 @@ class CliktHelpFormatterTest {
                 |Options:
                 |  -a, --aa INT  aa option help
                 |  -b, --bb INT  bb option help (deprecated)
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -686,7 +719,7 @@ class CliktHelpFormatterTest {
                 |Arguments:
                 |  ARG1  arg 1 help
                 |  ARG2  arg 2 help (deprecated)
-                """.trimMargin("|")
+                """.trimMargin()
     }
 
     @Test
@@ -703,6 +736,6 @@ class CliktHelpFormatterTest {
                 |Commands:
                 |  sub1  sub 1 help
                 |  sub2  sub 2 help (deprecated)
-                """.trimMargin("|")
+                """.trimMargin()
     }
 }

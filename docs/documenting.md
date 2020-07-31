@@ -85,6 +85,33 @@ Options:
   -h, --help  Show this message and exit
 ```
 
+## Manual Line Breaks
+
+If you want to insert a line break manually without preformmating the entire paragraph, you can use
+the [Unicode Next Line (NEL) character][nel]. You can type a NEL with the unicode literal `\u0085`.
+
+Clikt will treat NEL similarly to how `<br>` behaves in HTML: The NEL will be replaced with a line
+break in the output, and the paragraph will still be wrapped to the terminal width.
+
+```kotlin tab="Example"
+class Tool : NoOpCliktCommand() {
+    val option by option(
+        help="This help will be at least two lines.\u0085(this will start a new line)"
+    )
+}
+```
+
+```text tab="Help output"
+Usage: tool
+
+Options:
+  --option    This help will be at least 
+              two lines.
+              (this will start a new 
+              line)
+  -h, --help  Show this message and exit
+```
+
 ## Subcommand Short Help
 
 Subcommands are listed in the help page based on their [name][customizing-command-name].
@@ -303,6 +330,7 @@ class Cli : NoOpCliktCommand() {
 [customizing-contexts]:     commands.md#customizing-contexts
 [default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.md
 [HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
+[nel]:                      https://www.fileformat.info/info/unicode/char/0085/index.htm
 [OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.md
 [provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md
 [required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.md

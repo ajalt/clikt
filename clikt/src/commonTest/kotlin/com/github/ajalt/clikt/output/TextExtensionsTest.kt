@@ -6,50 +6,68 @@ import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
 
-private fun String.wrapText(
+private fun String.wrap(
         width: Int = 78,
         initialIndent: String = "",
         subsequentIndent: String = ""
 ): String = buildString {
-    wrapText(this, width, initialIndent, subsequentIndent)
-}
+    unshow().wrapText(this, width, initialIndent, subsequentIndent)
+}.show()
+
+private fun String.show() = replace("\n", "⏎")
+private fun String.unshow() = replace("⏎", "\n")
 
 class TextExtensionsTest {
+    private fun r(
+            input: String,
+            expected: String,
+            width: Int = 78,
+            initialIndent: String = "",
+            subsequentIndent: String = ""
+    ) = row(input, expected, width, initialIndent, subsequentIndent)
+
     @Test
     fun wrapText() = forAll(
-            row("abc".wrapText(), "abc"),
-            row("abc\n".wrapText(), "abc"),
-            row("abc\n".wrapText(width = 2), "abc"),
-            row("abc".wrapText(width = 2), "abc"),
-            row("a c".wrapText(width = 2), "a\nc"),
-            row("a b c".wrapText(width = 3), "a b\nc"),
-            row("a bc".wrapText(width = 3), "a\nbc"),
-            row("abc".wrapText(initialIndent = "=", subsequentIndent = "-"), "=abc"),
-            row("a b c".wrapText(width = 4, initialIndent = "=", subsequentIndent = "-"), "=a b\n-c"),
-            row("a b c".wrapText(width = 3, initialIndent = "= "), "= a\nb c"),
-            row("a\n\nb".wrapText(width = 3), "a\n\nb"),
-            row("a b c\n\nd e f".wrapText(width = 3), "a b\nc\n\nd e\nf"),
-            row("a b c\n\nd e f".wrapText(width = 4, initialIndent = "=",
-                    subsequentIndent = "-"), "=a b\n-c\n\n-d e\n-f"),
-            row("a\nb".wrapText(initialIndent = "...", subsequentIndent = "--"), "...a b"),
-            row("".wrapText(), "")
-    ) { actual, expected ->
-        actual shouldBe expected
+            r("", ""),
+            r("abc", "abc"),
+            r("abc⏎", "abc"),
+            r("abc⏎", "abc", width = 2),
+            r("abc", "abc", width = 2),
+            r("a c", "a⏎c", width = 2),
+            r("a b c", "a b⏎c", width = 3),
+            r("a bc", "a⏎bc", width = 3),
+            r("abc", "=abc", initialIndent = "=", subsequentIndent = "-"),
+            r("a b c", "=a b⏎-c", width = 4, initialIndent = "=", subsequentIndent = "-"),
+            r("a b c", "= a⏎b c", width = 3, initialIndent = "= ", subsequentIndent = ""),
+            r("a⏎⏎b", "a⏎⏎b", width = 3),
+            r("a b c⏎⏎d e f", "a b⏎c⏎⏎d e⏎f", width = 3),
+            r("a b c⏎⏎d e f", "=a b⏎-c⏎⏎-d e⏎-f", width = 4, initialIndent = "=", subsequentIndent = "-"),
+            r("a⏎b", "...a b", initialIndent = "...", subsequentIndent = "--"),
+            r("a b${NEL}c d", "a b⏎c d"),
+            r("a b$NEL⏎c d", "a b⏎c d", width = 4),
+            r("a$NEL${NEL}b$NEL", "a⏎⏎b⏎", width = 4),
+            r("a b$NEL⏎c d", ".a b⏎-c d", width = 4, initialIndent = ".", subsequentIndent = "-")
+    ) { input, expected, width, initialIndent, subsequentIndent ->
+        input.wrap(width, initialIndent, subsequentIndent) shouldBe expected
     }
 
     @Test
     fun splitParagraphs() = forAll(
-            row("a\nb", listOf("a\nb")),
-            row("a\n\nb", listOf("a", "b")),
-            row(" a \n \n b ", listOf("a", "b")),
-            row("a\n\n```b```", listOf("a", "```b```")),
-            row("```a```\n\n b ", listOf("```a```", "b")),
-            row("a\n\n```\nb\n```", listOf("a", "```\nb\n```")),
-            row("a\n```\nb\n```", listOf("a", "```\nb\n```")),
-            row(" a \n ``` \n b \n ``` ", listOf("a", "``` \n b \n ```")),
-            row("a \n \n \n ```\nb\n```\n```\nc\n```", listOf("a", "```\nb\n```", "```\nc\n```"))
-    ) { text, ps ->
-        splitParagraphs(text) shouldBe ps
+            row("a", listOf("a")),
+            row(NEL, listOf(NEL)),
+            row("```", listOf("```")),
+            row("```$NEL", listOf("```$NEL")),
+            row("a⏎b", listOf("a⏎b")),
+            row("a⏎⏎b", listOf("a", "b")),
+            row(" a ⏎ ⏎ b ", listOf("a", "b")),
+            row("a⏎⏎```b```", listOf("a", "```b```")),
+            row("```a```⏎⏎ b ", listOf("```a```", "b")),
+            row("a⏎⏎```⏎b⏎```", listOf("a", "```⏎b⏎```")),
+            row("a⏎```⏎b⏎```", listOf("a", "```⏎b⏎```")),
+            row(" a ⏎ ``` ⏎ b ⏎ ``` ", listOf("a", "``` ⏎ b ⏎ ```")),
+            row("a ⏎ ⏎ ⏎ ```⏎b⏎```⏎```⏎c⏎```", listOf("a", "```⏎b⏎```", "```⏎c⏎```"))
+    ) { text, expected ->
+        splitParagraphs(text.unshow()).map { it.show() } shouldBe expected
     }
 
     @Test
@@ -63,7 +81,7 @@ class TextExtensionsTest {
           d
         ```
         e
-        """.wrapText() shouldBe """
+        """.wrap() shouldBe """
         |a
         |
         |b    b
@@ -71,6 +89,6 @@ class TextExtensionsTest {
         |  d
         |
         |e
-        """.trimMargin()
+        """.trimMargin().show()
     }
 }

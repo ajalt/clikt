@@ -94,6 +94,7 @@ nav:
   - 'Documenting Scripts':
       - 'Help Texts': documenting/
       - 'Preformatting Paragraphs': documenting/#preformatting-paragraphs
+      - 'Manual Line Breaks': documenting/#manual-line-breaks
       - 'Subcommand Short Help': documenting/#subcommand-short-help
       - 'Help Option Customization': documenting/#help-option-customization
       - 'Default Values in Help': documenting/#default-values-in-help

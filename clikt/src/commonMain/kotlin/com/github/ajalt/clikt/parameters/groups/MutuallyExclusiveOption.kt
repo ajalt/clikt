@@ -56,6 +56,18 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
         }
     }
 
+    /**
+     * Change the properties of this group.
+     *
+     * @param name  The name of the group, or null if parameters in the group should not be separated from other
+     *   parameters in the help output.
+     * @param help A help message to display for this group. If [name] is null, this parameter has
+     *   no effect.
+     */
+    fun copy(name: String? = groupName, help: String? = groupHelp): MutuallyExclusiveOptions<OptT, OutT> {
+        return MutuallyExclusiveOptions(options, name, help, transformAll)
+    }
+
     fun <T> copy(transformAll: (List<OptT>) -> T) = MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)
 }
 

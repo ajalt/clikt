@@ -267,6 +267,24 @@ fun ParameterHolder.option(
 )
 
 /**
+ * Set the help for this option.
+ *
+ * Although you would normally pass the help string as an argument to [option], this function can be
+ * more convenient for long help strings.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by option()
+ *      .int()
+ *      .help("This is an option that takes a number")
+ * ```
+ */
+fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(help: String): OptionWithValues<AllT, EachT, ValueT> {
+    return copy(help = help)
+}
+
+/**
  * Check the final option value and raise an error if it's not valid.
  *
  * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`

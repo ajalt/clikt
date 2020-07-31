@@ -221,6 +221,24 @@ fun CliktCommand.argument(
 }
 
 /**
+ * Set the help for this argument.
+ *
+ * Although you would normally pass the help string as an argument to [argument], this function can be
+ * more convenient for long help strings.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by argument()
+ *      .int()
+ *      .help("This is an argument that takes a number")
+ * ```
+ */
+fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.help(help: String): ProcessedArgument<AllT, ValueT> {
+    return copy(help = help)
+}
+
+/**
  * Transform all values to the final argument type.
  *
  * The input is a list of values, one for each value on the command line. The values in the

@@ -57,9 +57,29 @@ abstract class CliktCommand(
         internal val allowMultipleSubcommands: Boolean = false,
         internal val treatUnknownOptionsAsArgs: Boolean = false
 ) : ParameterHolder {
-    val commandName = name ?: inferCommandName()
-    val commandHelp = help
-    val commandHelpEpilog = epilog
+    /**
+     * The name of this command, used in help output.
+     *
+     * You can set this by passing `name` to the [CliktCommand] constructor.
+     */
+    val commandName: String = name ?: inferCommandName()
+
+    /**
+     * The help text for this command.
+     *
+     * You can set this by passing `help` to the [CliktCommand] constructor, or by overriding this
+     * property.
+     */
+    open val commandHelp: String = help
+
+    /**
+     * Help text to display at the end of the help output, after any parameters.
+     *
+     * You can set this by passing `epilog` to the [CliktCommand] constructor, or by overriding this
+     * property.
+     */
+    open val commandHelpEpilog: String = epilog
+
     internal var _subcommands: List<CliktCommand> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
     internal val _arguments: MutableList<Argument> = mutableListOf()

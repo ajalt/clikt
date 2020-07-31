@@ -135,6 +135,24 @@ fun RawOption.flag(
 }
 
 /**
+ * Set the help for this option.
+ *
+ * Although you would normally pass the help string as an argument to [option], this function can be
+ * more convenient for long help strings.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by option()
+ *      .flag()
+ *      .help("This option is a flag")
+ * ```
+ */
+fun <T> FlagOption<T>.help(help: String): FlagOption<T> {
+    return copy(help = help)
+}
+
+/**
  * Convert the option's value type.
  *
  * The [conversion] is called once with the final value of the option. If any errors are thrown,

@@ -111,6 +111,7 @@ private class UnclosableOutputStream(private var delegate: OutputStream?) : Outp
     override fun write(b: ByteArray, off: Int, len: Int) = stream.write(b, off, len)
     override fun flush() = stream.flush()
     override fun close() {
+        delegate?.flush()
         delegate = null
     }
 }

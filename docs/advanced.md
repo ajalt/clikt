@@ -237,7 +237,7 @@ All functionality is supported, except the `hideInput` parameter of [prompt][pro
 ### Browser JavaScript
 
 The default [CliktConsole][CliktConsole] only outputs to the browser's developer console, which is
-probably not what you want. You can [define your own CliktConsole][#replacing-stdin-and-stdout], or
+probably not what you want. You can [define your own CliktConsole](#replacing-stdin-and-stdout), or
 you can call [parse][parse] instead of [main][main] and handle output yourself.
 
 [editText][editText] and [editFile][editFile] are not supported. [prompt][prompt] is only supported

@@ -87,8 +87,6 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  *
  * @property metavarWithDefault The metavar to use. Specified at option creation.
  * @property envvar The environment variable name to use.
- * @property envvarSplit The pattern to split envvar values on. If the envvar splits into multiple values,
- *   each one will be treated like a separate invocation of the option.
  * @property valueSplit The pattern to split values from the command line on. By default, values are
  *   split on whitespace.
  * @property transformValue Called in [finalize] to transform each value provided to each invocation.
@@ -107,7 +105,6 @@ class OptionWithValues<AllT, EachT, ValueT>(
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         val envvar: String?,
-        val envvarSplit: ValueWithDefault<Regex>,
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
         val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
@@ -140,7 +137,10 @@ class OptionWithValues<AllT, EachT, ValueT>(
                 v.values.map { Invocation("", it.values) }
             }
             is FinalValue.Envvar -> {
-                v.value.split(envvarSplit.value).map { Invocation(v.key, listOf(it)) }
+                when (valueSplit) {
+                    null -> listOf(Invocation(v.key, listOf(v.value)))
+                    else -> listOf(Invocation(v.key, v.value.split(valueSplit)))
+                }
             }
         }
 
@@ -176,13 +176,12 @@ class OptionWithValues<AllT, EachT, ValueT>(
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
-            envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidatesWithDefault,
+                helpTags, envvar, valueSplit, parser, completionCandidatesWithDefault,
                 transformValue, transformEach, transformAll, validator)
     }
 
@@ -196,13 +195,12 @@ class OptionWithValues<AllT, EachT, ValueT>(
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
-            envvarSplit: ValueWithDefault<Regex> = this.envvarSplit,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, envvarSplit, valueSplit, parser, completionCandidatesWithDefault,
+                helpTags, envvar, valueSplit, parser, completionCandidatesWithDefault,
                 transformValue, transformEach, transformAll, validator)
     }
 }
@@ -234,8 +232,6 @@ internal fun <T> defaultValidator(): OptionValidator<T> = { }
  * @param hidden Hide this option from help outputs.
  * @param envvar The environment variable that will be used for the value if one is not given on the command
  *   line.
- * @param envvarSplit The pattern to split the value of the [envvar] on. Defaults to whitespace,
- *   although some conversions like `file` change the default.
  * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("unused")
@@ -245,7 +241,6 @@ fun ParameterHolder.option(
         metavar: String? = null,
         hidden: Boolean = false,
         envvar: String? = null,
-        envvarSplit: Regex? = null,
         helpTags: Map<String, String> = emptyMap(),
         completionCandidates: CompletionCandidates? = null
 ): RawOption = OptionWithValues(
@@ -256,7 +251,6 @@ fun ParameterHolder.option(
         hidden = hidden,
         helpTags = helpTags,
         envvar = envvar,
-        envvarSplit = ValueWithDefault(envvarSplit, Regex("\\s+")),
         valueSplit = null,
         parser = OptionWithValuesParser,
         completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),

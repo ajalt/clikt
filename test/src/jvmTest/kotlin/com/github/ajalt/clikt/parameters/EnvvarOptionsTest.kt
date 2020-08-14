@@ -113,24 +113,19 @@ class EnvvarOptionsTest {
     }
 
     @Test
-    fun `file envvar`() {
+    fun `split envvar`() {
         env["FOO"] = "/home"
 
         class C : TestCommand() {
             val foo by option(envvar = "FOO").file()
-            val bar by option(envvar = "BAR").file().multiple()
+            val bar by option(envvar = "BAR").file().split(";")
             override fun run_() {
                 foo shouldBe File("/home")
                 bar shouldBe listOf(File("/bar"), File("/baz"))
             }
         }
 
-        System.setProperty("os.name", "Microsoft Windows 10 PRO")
         env["BAR"] = "/bar;/baz"
-        C().parse(emptyArray())
-
-        System.setProperty("os.name", "OpenBSD")
-        env["BAR"] = "/bar:/baz"
         C().parse(emptyArray())
     }
 

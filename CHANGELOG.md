@@ -8,6 +8,7 @@
 - Added ability to use unicode NEL character (`\u0085`) to manually break lines in help output ([#214](https://github.com/ajalt/clikt/issues/214))
 - Added `help("")` extension to options and arguments as an alternative to passing the help as an argument ([#207](https://github.com/ajalt/clikt/issues/207))
 - Added `valueSourceKey` parameter to `option`
+- Added `check{}` extensions to options and arguments as an alternative to `validate`
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))

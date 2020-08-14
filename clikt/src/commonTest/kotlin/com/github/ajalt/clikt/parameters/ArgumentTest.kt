@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.skipDueToKT33294
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -330,6 +331,27 @@ class ArgumentTest {
         called = false
         C().parse("")
         called shouldBe false
+    }
+
+    @Test
+    @JsName("argument_check")
+    fun `argument check`() = forAll(
+            row("bar foo", "Invalid value for \"X\": bar"),
+            row("foo bar", "Invalid value for \"Y\": fail bar"),
+            row("foo foo bar", "Invalid value for \"Z\": bar"),
+            row("foo foo foo bar", "Invalid value for \"W\": fail bar")
+    ) { argv, message ->
+        if (skipDueToKT33294) return@forAll
+
+        class C : TestCommand() {
+            val x by argument().check { it == "foo" }
+            val y by argument().check(lazyMessage = { "fail $it" }) { it == "foo" }
+
+            val z by argument().optional().check { it == "foo" }
+            val w by argument().optional().check(lazyMessage = { "fail $it" }) { it == "foo" }
+        }
+
+        shouldThrow<BadParameterValue> { C().parse(argv) }.message shouldBe message
     }
 
     @Test

@@ -3,10 +3,7 @@ package com.github.ajalt.clikt.samples.validation
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.convert
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.transformAll
-import com.github.ajalt.clikt.parameters.options.transformValues
-import com.github.ajalt.clikt.parameters.options.validate
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import java.net.URL
 
@@ -14,11 +11,7 @@ data class Quad(val a: Int, val b: Int, val c: Int, val d: Int)
 
 class Cli : CliktCommand(help = "Validation examples") {
     val count by option(help = "A positive even number").int()
-            .validate {
-                require(it > 0 && it % 2 == 0) {
-                    "Should be a positive, even integer"
-                }
-            }
+            .check("Should be a positive, even integer") { it > 0 && it % 2 == 0 }
 
     val biggerCount by option(help = "A number larger than --count").int()
             .validate {

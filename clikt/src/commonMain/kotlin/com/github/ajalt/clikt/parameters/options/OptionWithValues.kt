@@ -5,6 +5,7 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
@@ -34,7 +35,7 @@ class OptionCallTransformContext(
     fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
-    inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
+    inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {
         if (!value) fail(lazyMessage())
     }
 }
@@ -46,13 +47,13 @@ class OptionCallTransformContext(
  */
 class OptionTransformContext(val option: Option, val context: Context) : Option by option {
     /** Throw an exception indicating that usage was incorrect. */
-    fun fail(message: String): Nothing = throw UsageError(message, option)
+    fun fail(message: String): Nothing = throw BadParameterValue(message, option)
 
     /** Issue a message that can be shown to the user */
     fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
-    inline fun require(value: Boolean, lazyMessage: () -> String = { "invalid value" }) {
+    inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {
         if (!value) fail(lazyMessage())
     }
 }
@@ -311,10 +312,12 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(help: Strin
 /**
  * Check the final option value and raise an error if it's not valid.
  *
- * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
- * if the value is not valid. It is not called if the delegate value is null.
+ * The [validator] is called with the final option type (the output of [transformAll]), and should
+ * call [fail][OptionTransformContext.fail] if the value is not valid.
  *
- * You can also call `require` to fail automatically if an expression is false.
+ * Your [validator] can also call [require][OptionTransformContext.require] to fail automatically if
+ * an expression is false, or [message][OptionTransformContext.message] to show the user a warning
+ * message without aborting.
  *
  * ### Example:
  *
@@ -331,11 +334,13 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
 /**
  * Check the final option value and raise an error if it's not valid.
  *
- * The [validator] is called with the final option type (the output of [transformAll]), and should call `fail`
- * if the value is not valid. It is not called if the delegate value is null.
+ * The [validator] is called with the final option type (the output of [transformAll]), and should
+ * call [fail][OptionTransformContext.fail] if the value is not valid. The [validator] is not called
+ * if the delegate value is null.
  *
- * You can also call `require` to fail automatically if an expression is false, or `warn` to show
- * the user a warning message without aborting.
+ * Your [validator] can also call [require][OptionTransformContext.require] to fail automatically if
+ * an expression is false, or [message][OptionTransformContext.message] to show the user a warning
+ * message without aborting.
  *
  * ### Example:
  *
@@ -345,10 +350,102 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
  */
 @JvmName("nullableValidate")
 @JsName("nullableValidate")
-fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
-        validator: OptionValidator<AllT>
+inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
+        crossinline validator: OptionValidator<AllT>
 ): OptionDelegate<AllT?> {
     return copy(transformValue, transformEach, transformAll, { if (it != null) validator(it) })
+}
+
+/**
+ * Check the final option value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final option type (the output of [transformAll]), and should
+ * return `false` if the value is not valid. You can specify a [message] to include in the error
+ * output.
+ *
+ * You can use [validate] for more complex checks.
+ *
+ * ### Example:
+ *
+ * ```
+ * val opt by option().int().check("value must be even") { it % 2 == 0 }
+ * ```
+ */
+inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.check(
+        message: String,
+        crossinline validator: (AllT) -> Boolean
+): OptionDelegate<AllT> {
+    return check({ message }, validator)
+}
+
+/**
+ * Check the final argument value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final option type (the output of [transformAll]), and should
+ * return `false` if the value is not valid. You can specify a [lazyMessage] the returns a message
+ * to include in the error output.
+ *
+ * You can use [validate] for more complex checks.
+ *
+ * ### Example:
+ *
+ * ```
+ * val opt by option().int().check(lazyMessage={"$it is not even"}) { it % 2 == 0 }
+ * ```
+ */
+inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.check(
+        crossinline lazyMessage: (AllT) -> String = { it.toString() },
+        crossinline validator: (AllT) -> Boolean
+): OptionDelegate<AllT> {
+    return validate { require(validator(it)) { lazyMessage(it) } }
+}
+
+/**
+ * Check the final option value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final option type (the output of [transformAll]), and should
+ * return `false` if the value is not valid. You can specify a [message] to include in the error
+ * output. The [validator] is not called if the delegate value is null.
+ *
+ * You can use [validate] for more complex checks.
+ *
+ * ### Example:
+ *
+ * ```
+ * val opt by option().int().check("value must be even") { it % 2 == 0 }
+ * ```
+ */
+@JvmName("nullableCheck")
+@JsName("nullableCheck")
+inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.check(
+        message: String,
+        crossinline validator: (AllT) -> Boolean
+): OptionDelegate<AllT?> {
+    return check({ message }, validator)
+}
+
+/**
+ * Check the final argument value and raise an error if it's not valid.
+ *
+ * The [validator] is called with the final option type (the output of [transformAll]), and should
+ * return `false` if the value is not valid. You can specify a [lazyMessage] the returns a message
+ * to include in the error output. The [validator] is not called if the delegate value is null.
+ *
+ * You can use [validate] for more complex checks.
+ *
+ * ### Example:
+ *
+ * ```
+ * val opt by option().int().check(lazyMessage={"$it is not even"}) { it % 2 == 0 }
+ * ```
+ */
+@JvmName("nullableLazyCheck")
+@JsName("nullableLazyCheck")
+inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.check(
+        crossinline lazyMessage: (AllT) -> String = { it.toString() },
+        crossinline validator: (AllT) -> Boolean
+): OptionDelegate<AllT?> {
+    return validate { require(validator(it)) { lazyMessage(it) } }
 }
 
 /**

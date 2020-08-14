@@ -233,16 +233,49 @@ Your file contents: some text
 ## Parameter Validation
 
 After converting a value to a new type, you can perform additional validation on the converted value
-with [`option().validate()`][validate] and [`argument().validate()`][validate].
-`validate` takes a lambda that returns nothing, but can call `fail("error message")` if the value is
-invalid. You can also call `require()`, which will fail if the provided expression is false. The
-lambda is only called if the value is non-null.
+with [`check()`][checkOpt] and [`validate()`][validateOpt] (or the [argument][checkArg]
+[equivalents][validateArg]).
 
-```kotlin
-val opt by option().int().validate {
-    require(it % 2 == 0) { "value must be even" }
+### `check()`
+
+[`check()`][checkOpt] is similar the stdlib function of the [same name][checkKotlin]: it takes
+lambda that returns a boolean to indicate if the parameter value is valid or not, and reports an
+error if it returns false. The lambda is only called if the parameter value is non-null.
+
+```kotlin tab="Example"
+class Tool : CliktCommand() {
+    val number by option(help = "An even number").int()
+            .check("value must be even") { it % 2 == 0 }
+
+    override fun run() {
+        echo("number=$number")
+    }
 }
 ```
+
+```text tab="Usage 1"
+$ ./tool --number=2
+number=2
+```
+
+```text tab="Usage 2"
+$ ./tool
+number=null
+```
+
+```text tab="Usage 3"
+$ ./tool --number=1
+Usage: tool [OPTIONS]
+
+Error: invalid value for --number: value must be even
+```
+
+### `validate()`
+
+For more complex validation, you can use [`validate()`][validateOpt]. This function takes a lambda
+that returns nothing, but can call `fail("error message")` if the value is invalid. You can also
+call `require()`, which will fail if the provided expression is false. Like `check`, the lambda is
+only called if the value is non-null.
 
 The lambdas you pass to `validate` are called after the values for all options and arguments have
 been set, so (unlike in transforms) you can reference other parameters:
@@ -275,6 +308,9 @@ Error: --bigger-number must be bigger than --number
 ```
 
 
+[checkArg]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.md
+[checkKotlin]:    https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html
+[checkOpt]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.md
 [choice]:         api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
 [convert]:        api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
 [defaultStdin]:   api/clikt/com.github.ajalt.clikt.parameters.types/default-stdin.md
@@ -289,4 +325,5 @@ Error: --bigger-number must be bigger than --number
 [outputStream]:   api/clikt/com.github.ajalt.clikt.parameters.types/output-stream.md
 [path]:           api/clikt/com.github.ajalt.clikt.parameters.types/path.md
 [restrictTo]:     api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.md
-[validate]:       api/clikt/com.github.ajalt.clikt.parameters.options/validate.md
+[validateArg]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.md
+[validateOpt]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.md

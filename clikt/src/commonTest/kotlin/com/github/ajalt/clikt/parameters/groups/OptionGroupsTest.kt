@@ -6,10 +6,7 @@ import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.MissingParameter
 import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.required
-import com.github.ajalt.clikt.parameters.options.validate
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
@@ -351,7 +348,7 @@ class OptionGroupsTest {
         }
 
         if (ec) C().parse(argv)
-        else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe "fail"
+        else shouldThrow<BadParameterValue> { C().parse(argv) }.message shouldBe "Invalid value for \"--x\": fail"
     }
 
     @Test
@@ -360,14 +357,12 @@ class OptionGroupsTest {
             row("", null, true, null),
             row("--x=1 --y=1", 1, true, null),
             row("--x=2", null, false, "Missing option \"--y\"."),
-            row("--x=2 --y=1", null, false, "fail")
+            row("--x=2 --y=1", null, false, "Invalid value for \"--x\": fail")
     ) { argv, ex, ec, em ->
         if (skipDueToKT33294) return@forAll
 
         class G : OptionGroup() {
-            val x by option().int().validate {
-                require(it == 1) { "fail" }
-            }
+            val x by option().int().check("fail") { it == 1 }
             val y by option().required()
         }
 
@@ -407,7 +402,7 @@ class OptionGroupsTest {
             }
         }
         if (ec) C().parse(argv)
-        else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe "fail"
+        else shouldThrow<UsageError> { C().parse(argv) }.message shouldBe "Invalid value for \"--y\": fail"
     }
 
     @Test

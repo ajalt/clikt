@@ -23,7 +23,7 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  */
 // `T` is deliberately not an out parameter.
 @OptIn(ExperimentalValueSourceApi::class)
-class FlagOption<T>(
+class FlagOption<T> internal constructor(
         names: Set<String>,
         override val secondaryNames: Set<String>,
         override val optionHelp: String,

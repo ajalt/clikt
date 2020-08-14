@@ -97,7 +97,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
 @OptIn(ExperimentalValueSourceApi::class)
-class OptionWithValues<AllT, EachT, ValueT>(
+class OptionWithValues<AllT, EachT, ValueT> internal constructor(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,
         override val nvalues: Int,

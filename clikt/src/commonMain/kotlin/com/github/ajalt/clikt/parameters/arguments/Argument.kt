@@ -109,7 +109,7 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  * @property transformAll Called in [finalize] to transform the list of values to the final type.
  * @property transformValidator Called after all parameters have been [finalize]d to validate the result of [transformAll]
  */
-class ProcessedArgument<AllT, ValueT>(
+class ProcessedArgument<AllT, ValueT> internal constructor(
         name: String,
         override val nvalues: Int,
         override val required: Boolean,
@@ -181,7 +181,7 @@ class ProcessedArgument<AllT, ValueT>(
     }
 }
 
-internal typealias RawArgument = ProcessedArgument<String, String>
+typealias RawArgument = ProcessedArgument<String, String>
 
 @PublishedApi
 internal fun <T : Any> defaultAllProcessor(): ArgCallsTransformer<T, T> = { it.single() }

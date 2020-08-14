@@ -103,7 +103,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,
         override val nvalues: Int,
-        override val help: String,
+        override val optionHelp: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         val envvar: String?,
@@ -172,7 +172,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
             names: Set<String> = this.names,
             metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
-            help: String = this.help,
+            help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
@@ -192,7 +192,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
             names: Set<String> = this.names,
             metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
-            help: String = this.help,
+            help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
@@ -252,7 +252,7 @@ fun ParameterHolder.option(
         names = names.toSet(),
         metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
         nvalues = 1,
-        help = help,
+        optionHelp = help,
         hidden = hidden,
         helpTags = helpTags,
         envvar = envvar,
@@ -265,6 +265,24 @@ fun ParameterHolder.option(
         transformAll = defaultAllProcessor(),
         transformValidator = defaultValidator()
 )
+
+/**
+ * Set the help for this option.
+ *
+ * Although you would normally pass the help string as an argument to [option], this function
+ * can be more convenient for long help strings.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by option()
+ *      .int()
+ *      .help("This is an option that takes a number")
+ * ```
+ */
+fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(help: String): OptionWithValues<AllT, EachT, ValueT> {
+    return copy(help = help)
+}
 
 /**
  * Check the final option value and raise an error if it's not valid.

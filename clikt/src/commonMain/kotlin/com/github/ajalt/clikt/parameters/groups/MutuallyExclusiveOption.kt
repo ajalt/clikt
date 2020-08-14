@@ -60,6 +60,19 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
 }
 
 /**
+ * Set the name and help for this option.
+ *
+ * Although you would normally pass the name and help strings as arguments to
+ * [mutuallyExclusiveOptions], this function can be more convenient for long help strings.
+ *
+ * @param name The name of the group.
+ * @param help A help message to display for this group.
+ */
+fun <OptT: Any, OutT> MutuallyExclusiveOptions<OptT, OutT>.help(name: String, help: String): MutuallyExclusiveOptions<OptT, OutT> {
+    return MutuallyExclusiveOptions(options, name, help, transformAll)
+}
+
+/**
  * Declare a set of two or more mutually exclusive options.
  *
  * If none of the options are given on the command line, the value of this delegate will be null.
@@ -77,6 +90,11 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
  *   option("--oranges").int()
  * )
  * ```
+ *
+ * @param name If given, the options in this group will be grouped together under this value in the
+ * help output
+ * @param help If given, this text will be added in help output to the group. If [name] is null,
+ *   this value is not used.
  *
  * @see com.github.ajalt.clikt.parameters.options.switch
  * @see com.github.ajalt.clikt.parameters.types.choice

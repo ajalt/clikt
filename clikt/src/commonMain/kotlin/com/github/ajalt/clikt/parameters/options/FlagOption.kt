@@ -26,7 +26,7 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
 class FlagOption<T>(
         names: Set<String>,
         override val secondaryNames: Set<String>,
-        override val help: String,
+        override val optionHelp: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         val envvar: String?,
@@ -75,7 +75,7 @@ class FlagOption<T>(
             validator: OptionValidator<T>,
             names: Set<String> = this.names,
             secondaryNames: Set<String> = this.secondaryNames,
-            help: String = this.help,
+            help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar
@@ -88,7 +88,7 @@ class FlagOption<T>(
             validator: OptionValidator<T> = this.validator,
             names: Set<String> = this.names,
             secondaryNames: Set<String> = this.secondaryNames,
-            help: String = this.help,
+            help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar
@@ -120,7 +120,7 @@ fun RawOption.flag(
         defaultForHelp: String = ""
 ): FlagOption<Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
-    return FlagOption(names, secondaryNames.toSet(), help, hidden, tags, envvar,
+    return FlagOption(names, secondaryNames.toSet(), optionHelp, hidden, tags, envvar,
             transformEnvvar = {
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
@@ -132,6 +132,24 @@ fun RawOption.flag(
                 if (it.isEmpty()) default else it.last() !in secondaryNames
             },
             validator = {})
+}
+
+/**
+ * Set the help for this option.
+ *
+ * Although you would normally pass the help string as an argument to [option], this function
+ * can be more convenient for long help strings.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by option()
+ *      .flag()
+ *      .help("This option is a flag")
+ * ```
+ */
+fun <T> FlagOption<T>.help(help: String): FlagOption<T> {
+    return copy(help = help)
 }
 
 /**
@@ -179,7 +197,7 @@ inline fun <InT, OutT> FlagOption<InT>.convert(crossinline conversion: FlagConve
  * Turn an option into a flag that counts the number of times the option occurs on the command line.
  */
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, emptySet(), help, hidden, helpTags, envvar,
+    return FlagOption(names, emptySet(), optionHelp, hidden, helpTags, envvar,
             transformEnvvar = { valueToInt(it) },
             transformAll = { it.size },
             validator = {})
@@ -196,7 +214,7 @@ fun RawOption.counted(): FlagOption<Int> {
  */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(choices.keys, emptySet(), help, hidden, helpTags, null,
+    return FlagOption(choices.keys, emptySet(), optionHelp, hidden, helpTags, null,
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },

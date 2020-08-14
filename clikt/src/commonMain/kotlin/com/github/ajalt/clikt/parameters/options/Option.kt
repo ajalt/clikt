@@ -21,7 +21,7 @@ interface Option {
     val metavar: String?
 
     /** The description of this option, usually a single line. */
-    val help: String
+    val optionHelp: String
 
     /** The parser for this option's values. */
     val parser: OptionParser
@@ -48,7 +48,7 @@ interface Option {
     val parameterHelp: HelpFormatter.ParameterHelp.Option?
         get() = when {
             hidden -> null
-            else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, help, nvalues, helpTags,
+            else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, optionHelp, nvalues, helpTags,
                     groupName = (this as? StaticallyGroupedOption)?.groupName
                             ?: (this as? GroupableOption)?.parameterGroup?.groupName
             )

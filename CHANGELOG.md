@@ -6,11 +6,16 @@
 - Default values for switch options are now shown in the help. Help text can be customized using the `defaultForHelp` argument, similar to normal options. ([#205](https://github.com/ajalt/clikt/issues/205))
 - Added `FlagOption.convert` ([#208](https://github.com/ajalt/clikt/issues/208))
 - Added ability to use unicode NEL character (`\u0085`) to manually break lines in help output ([#214](https://github.com/ajalt/clikt/issues/214))
+- Added `help("")` extension to options and arguments as an alternative to passing the help as an argument ([#207](https://github.com/ajalt/clikt/issues/207))
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))
 - Options and Arguments with `multiple(required=true)` will now show as required in help output. ([#212](https://github.com/ajalt/clikt/issues/212))
 - Multiple short lines in a help text paragraph no longer appear dedented ([#215](https://github.com/ajalt/clikt/issues/215))
+
+### Changed
+- `Argument.help` and `Option.help` properties have been renamed to `argumentHelp` and `optionHelp`, respectively. The `help` parameter names to `option()` and `argument()` are unchanged.
+- `commandHelp` and `commandHelpEpilog` properties on `CliktCommand` are now `open`, so you can choose to override them instead of passing `help` and `epilog` to the constructor.
 
 ## 2.8.0
 _2020-06-19_

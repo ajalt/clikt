@@ -11,6 +11,9 @@ and set it on the [command's context][customizing-contexts].
 argument, which is printed after the parameters and commands on the help page. All text is
 automatically trimmed of leading indentation and re-wrapped to the terminal width.
 
+As an alternative to passing your help strings as function arguments, you can also use the `help()`
+extensions for your options, and override `commandHelp` and `commandHelpEpilog` on your commands.
+
 ```kotlin tab="Example"
 class Hello : CliktCommand(help = """
     This script prints NAME COUNT times.
@@ -24,7 +27,21 @@ class Hello : CliktCommand(help = """
 }
 ```
 
-```text tab="Usage"
+```kotlin tab="Alternate style"
+class Hello : CliktCommand() {
+    override val commandHelp = """
+        This script prints NAME COUNT times.
+    
+        COUNT must be a positive number, and defaults to 1.
+    """
+    val count by option("-c", "--count", metavar="COUNT").int().default(1)
+        .help("number of greetings")
+    val name by argument()
+    override fun run() = repeat(count) { echo("Hello $name!") }
+}
+```
+
+```text tab="Help output"
 $ ./hello --help
 Usage: hello [OPTIONS] NAME
 

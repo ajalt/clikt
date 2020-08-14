@@ -549,7 +549,8 @@ class CliktHelpFormatterTest {
             val g2 by G2().cooccurring()
             val ex by mutuallyExclusiveOptions(
                     option("--ex-foo", help = "exclusive foo"),
-                    option("--ex-bar", help = "exclusive bar"),
+                    option("--ex-bar", help = "exclusive bar")
+            ).help(
                     name = "Exclusive",
                     help = "These options are exclusive"
             )
@@ -562,8 +563,8 @@ class CliktHelpFormatterTest {
             val foo by option(help = "foo option help").int().required()
             val bar by option("-b", "--bar", help = "bar option help", metavar = "META").default("optdef")
             val baz by option(help = "baz option help").flag("--no-baz")
-            val good by option(help = "good option help").flag("--bad", default = true, defaultForHelp = "good")
-            val feature by option(help = "feature switch").switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero")
+            val good by option().flag("--bad", default = true, defaultForHelp = "good").help("good option help")
+            val feature by option().switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero").help("feature switch")
             val hidden by option(help = "hidden", hidden = true)
             val multiOpt by option(help = "multiple").multiple(required = true)
             val arg by argument()
@@ -583,12 +584,13 @@ class CliktHelpFormatterTest {
             }
         }
 
-        class Sub : NoOpCliktCommand(help = """
+        class Sub : NoOpCliktCommand(helpTags = mapOf("deprecated" to "")) {
+            override val commandHelp: String = """
             a subcommand
 
             with extra help
-            """,
-                helpTags = mapOf("deprecated" to ""))
+            """
+        }
 
         class Sub2 : NoOpCliktCommand(help = "another command")
 

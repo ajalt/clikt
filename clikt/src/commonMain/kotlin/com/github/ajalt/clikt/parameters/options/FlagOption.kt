@@ -22,7 +22,6 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  * @property transformAll Called to transform all invocations of this option into the final option type.
  */
 // `T` is deliberately not an out parameter.
-@OptIn(ExperimentalValueSourceApi::class)
 class FlagOption<T> internal constructor(
         names: Set<String>,
         override val secondaryNames: Set<String>,

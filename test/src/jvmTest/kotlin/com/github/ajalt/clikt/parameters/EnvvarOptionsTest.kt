@@ -19,7 +19,6 @@ import java.io.File
 import kotlin.test.Test
 
 
-@OptIn(ExperimentalValueSourceApi::class)
 class EnvvarOptionsTest {
     @Rule
     @JvmField

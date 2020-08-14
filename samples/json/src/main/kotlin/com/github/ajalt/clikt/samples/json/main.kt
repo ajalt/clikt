@@ -17,7 +17,6 @@ class Subcommand : CliktCommand() {
     }
 }
 
-@OptIn(ExperimentalValueSourceApi::class)
 class Cli : CliktCommand(help = "An example using json files for configuration values") {
     init {
         context {

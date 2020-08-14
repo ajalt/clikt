@@ -16,7 +16,6 @@ import java.io.File
 /**
  * A [ValueSource] that uses Kotlin serialization to parse JSON files
  */
-@OptIn(ExperimentalValueSourceApi::class)
 class JsonValueSource(
         private val root: JsonObject
 ) : ValueSource {

@@ -24,19 +24,3 @@ open class NoOpCliktCommand(
 ) {
     override fun run() = Unit
 }
-
-@Deprecated(
-        "This class has been renamed to NoOpCliktCommand",
-        ReplaceWith("NoOpCliktCommand(help, epilog, name, invokeWithoutSubcommand, printHelpOnEmptyArgs, helpTags, autoCompleteEnvvar)")
-)
-open class NoRunCliktCommand(
-        help: String = "",
-        epilog: String = "",
-        name: String? = null,
-        invokeWithoutSubcommand: Boolean = false,
-        printHelpOnEmptyArgs: Boolean = false,
-        helpTags: Map<String, String> = emptyMap(),
-        autoCompleteEnvvar: String? = ""
-) : CliktCommand(help, epilog, name, invokeWithoutSubcommand, printHelpOnEmptyArgs, helpTags, autoCompleteEnvvar) {
-    override fun run() = Unit
-}

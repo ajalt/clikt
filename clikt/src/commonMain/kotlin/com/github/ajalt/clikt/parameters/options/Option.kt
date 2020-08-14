@@ -136,7 +136,6 @@ internal fun <EachT, AllT> deprecationTransformer(
 
 internal fun Option.longestName(): String? = names.maxBy { it.length }
 
-@OptIn(ExperimentalValueSourceApi::class)
 internal sealed class FinalValue {
     data class Parsed(val values: List<OptionParser.Invocation>) : FinalValue()
     data class Sourced(val values: List<ValueSource.Invocation>) : FinalValue()
@@ -159,7 +158,6 @@ internal fun Option.getFinalValue(
     } ?: FinalValue.Parsed(emptyList())
 }
 
-@OptIn(ExperimentalValueSourceApi::class)
 private fun Option.readValueSource(context: Context): FinalValue? {
     return context.valueSource?.getValues(context, this)?.ifEmpty { null }
             ?.let { FinalValue.Sourced(it) }

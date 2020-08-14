@@ -6,7 +6,6 @@ import com.github.ajalt.clikt.parameters.options.Option
 /**
  * A [ValueSource] that looks for values in multiple other sources.
  */
-@ExperimentalValueSourceApi
 class ChainedValueSource(val sources: List<ValueSource>) : ValueSource {
     init {
         require(sources.isNotEmpty()) { "Must provide configuration sources" }

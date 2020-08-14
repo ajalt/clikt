@@ -40,7 +40,6 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
  *   names and filters the list down to values to suggest to the user.
  */
-@OptIn(ExperimentalValueSourceApi::class)
 class Context(
         val parent: Context?,
         val command: CliktCommand,
@@ -66,15 +65,9 @@ class Context(
         return ancestors().mapNotNull { it.obj as? T }.firstOrNull()
     }
 
-    @Suppress("unused")
-    @Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(defaultValue)"))
-    inline fun <reified T : Any> findObject(defaultValue: () -> T): T {
-        return findOrSetObject(defaultValue)
-    }
-
     /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
     inline fun <reified T : Any> findOrSetObject(defaultValue: () -> T): T {
-        return findObject<T>() ?: defaultValue().also { obj = it }
+        return findObject() ?: defaultValue().also { obj = it }
     }
 
     /** Find the outermost context */
@@ -170,7 +163,6 @@ class Context(
          *
          * You can set multiple sources with [valueSources]
          */
-        @ExperimentalValueSourceApi
         var valueSource: ValueSource? = parent?.valueSource
 
         /**
@@ -179,7 +171,6 @@ class Context(
          * Values are read from the first source, then if it doesn't return a value, later sources
          * are read successively until one returns a value or all sources have been read.
          */
-        @ExperimentalValueSourceApi
         fun valueSources(vararg sources: ValueSource) {
             valueSource = ChainedValueSource(sources.toList())
         }
@@ -226,12 +217,6 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
             return thisRef.currentContext.findObject<T>()
         }
     }
-}
-
-@Suppress("unused")
-@Deprecated("This overload has been renamed findOrSetObject", replaceWith = ReplaceWith("findOrSetObject(default)"))
-inline fun <reified T : Any> CliktCommand.findObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
-    return findOrSetObject(default)
 }
 
 /**

@@ -96,7 +96,6 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
-@OptIn(ExperimentalValueSourceApi::class)
 class OptionWithValues<AllT, EachT, ValueT> internal constructor(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,
@@ -349,43 +348,3 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
     return copy(transformValue, transformEach, deprecationTransformer(message, error, transformAll), transformValidator, helpTags = helpTags)
 }
-
-@Deprecated(
-        "Cannot wrap an option that isn't converted",
-        replaceWith = ReplaceWith("this.convert(wrapper)"),
-        level = DeprecationLevel.ERROR
-)
-@JvmName("rawWrapValue")
-@JsName("rawWrapValue")
-@Suppress("UNUSED_PARAMETER")
-fun RawOption.wrapValue(wrapper: (String) -> Any): RawOption = this
-
-/**
- * Wrap the option's values after a conversion is applied.
- *
- * This can be useful if you want to use different option types wrapped in a sealed class for
- * [mutuallyExclusiveOptions].
- *
- * This can only be called on an option after [convert] or a conversion function like [int].
- *
- * If you just want to perform checks on the value without converting it to another type, use
- * [validate] instead.
- *
- * ## Example
- *
- * ```
- * sealed class GroupTypes {
- *   data class FileType(val file: File) : GroupTypes()
- *   data class StringType(val string: String) : GroupTypes()
- * }
- *
- * val group by mutuallyExclusiveOptions<GroupTypes>(
- *   option("-f").file().wrapValue(::FileType),
- *   option("-s").convert { StringType(it) }
- * )
- * ```
- */
-@Deprecated("Use `convert` instead", ReplaceWith("this.convert(wrapper)"))
-inline fun <T1 : Any, T2 : Any> NullableOption<T1, T1>.wrapValue(
-        crossinline wrapper: (T1) -> T2
-): NullableOption<T2, T2> = convert { wrapper(it) }

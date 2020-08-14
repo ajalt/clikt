@@ -135,10 +135,6 @@ abstract class CliktCommand(
         throw PrintCompletionMessage(completion, forceUnixLineEndings = true)
     }
 
-    @Deprecated("Renamed to currentContext", ReplaceWith("currentContext"))
-    val context: Context
-        get() = currentContext
-
     /**
      * This command's context.
      *

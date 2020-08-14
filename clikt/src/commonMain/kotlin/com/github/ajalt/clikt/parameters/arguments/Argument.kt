@@ -38,7 +38,7 @@ interface Argument {
      *
      * It's usually better to leave this null and describe options in the usage line of the command instead.
      */
-    val help: String
+    val argumentHelp: String
 
     /** Extra information about this argument to pass to the help formatter. */
     val helpTags: Map<String, String>
@@ -113,7 +113,7 @@ class ProcessedArgument<AllT, ValueT>(
         name: String,
         override val nvalues: Int,
         override val required: Boolean,
-        override val help: String,
+        override val argumentHelp: String,
         override val helpTags: Map<String, String>,
         val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
         val transformValue: ArgValueTransformer<ValueT>,
@@ -132,7 +132,7 @@ class ProcessedArgument<AllT, ValueT>(
         get() = completionCandidatesWithDefault.value
 
     override val parameterHelp
-        get() = ParameterHelp.Argument(name, help, required || nvalues > 1, nvalues < 0, helpTags)
+        get() = ParameterHelp.Argument(name, argumentHelp, required || nvalues > 1, nvalues < 0, helpTags)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
@@ -160,7 +160,7 @@ class ProcessedArgument<AllT, ValueT>(
             name: String = this.name,
             nvalues: Int = this.nvalues,
             required: Boolean = this.required,
-            help: String = this.help,
+            help: String = this.argumentHelp,
             helpTags: Map<String, String> = this.helpTags,
             completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): ProcessedArgument<AllT, ValueT> {
@@ -173,7 +173,7 @@ class ProcessedArgument<AllT, ValueT>(
             name: String = this.name,
             nvalues: Int = this.nvalues,
             required: Boolean = this.required,
-            help: String = this.help,
+            help: String = this.argumentHelp,
             helpTags: Map<String, String> = this.helpTags,
             completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): ProcessedArgument<AllT, ValueT> {
@@ -211,7 +211,7 @@ fun CliktCommand.argument(
             name = name,
             nvalues = 1,
             required = true,
-            help = help,
+            argumentHelp = help,
             helpTags = helpTags,
             completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
             transformValue = { it },
@@ -223,8 +223,8 @@ fun CliktCommand.argument(
 /**
  * Set the help for this argument.
  *
- * Although you would normally pass the help string as an argument to [argument], this function can be
- * more convenient for long help strings.
+ * Although you would normally pass the help string as an argument to [argument], this function
+ * can be more convenient for long help strings.
  *
  * ### Example:
  *

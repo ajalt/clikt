@@ -16,7 +16,7 @@ import com.github.ajalt.clikt.parsers.OptionParser
 class EagerOption(
         override val names: Set<String>,
         override val nvalues: Int,
-        override val help: String,
+        override val optionHelp: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         override val groupName: String?,

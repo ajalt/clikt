@@ -103,7 +103,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
         names: Set<String>,
         val metavarWithDefault: ValueWithDefault<String?>,
         override val nvalues: Int,
-        override val help: String,
+        override val optionHelp: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
         val envvar: String?,
@@ -172,7 +172,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
             names: Set<String> = this.names,
             metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
-            help: String = this.help,
+            help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
@@ -192,7 +192,7 @@ class OptionWithValues<AllT, EachT, ValueT>(
             names: Set<String> = this.names,
             metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
-            help: String = this.help,
+            help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
@@ -252,7 +252,7 @@ fun ParameterHolder.option(
         names = names.toSet(),
         metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
         nvalues = 1,
-        help = help,
+        optionHelp = help,
         hidden = hidden,
         helpTags = helpTags,
         envvar = envvar,
@@ -269,8 +269,8 @@ fun ParameterHolder.option(
 /**
  * Set the help for this option.
  *
- * Although you would normally pass the help string as an argument to [option], this function can be
- * more convenient for long help strings.
+ * Although you would normally pass the help string as an argument to [option], this function
+ * can be more convenient for long help strings.
  *
  * ### Example:
  *

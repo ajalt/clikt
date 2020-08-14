@@ -550,7 +550,7 @@ class CliktHelpFormatterTest {
             val ex by mutuallyExclusiveOptions(
                     option("--ex-foo", help = "exclusive foo"),
                     option("--ex-bar", help = "exclusive bar")
-            ).copy(
+            ).help(
                     name = "Exclusive",
                     help = "These options are exclusive"
             )

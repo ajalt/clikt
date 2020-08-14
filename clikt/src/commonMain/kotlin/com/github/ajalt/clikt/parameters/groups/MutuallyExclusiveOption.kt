@@ -56,19 +56,20 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
         }
     }
 
-    /**
-     * Change the properties of this group.
-     *
-     * @param name  The name of the group, or null if parameters in the group should not be separated from other
-     *   parameters in the help output.
-     * @param help A help message to display for this group. If [name] is null, this parameter has
-     *   no effect.
-     */
-    fun copy(name: String? = groupName, help: String? = groupHelp): MutuallyExclusiveOptions<OptT, OutT> {
-        return MutuallyExclusiveOptions(options, name, help, transformAll)
-    }
-
     fun <T> copy(transformAll: (List<OptT>) -> T) = MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)
+}
+
+/**
+ * Set the name and help for this option.
+ *
+ * Although you would normally pass the name and help strings as arguments to
+ * [mutuallyExclusiveOptions], this function can be more convenient for long help strings.
+ *
+ * @param name The name of the group.
+ * @param help A help message to display for this group.
+ */
+fun <OptT: Any, OutT> MutuallyExclusiveOptions<OptT, OutT>.help(name: String, help: String): MutuallyExclusiveOptions<OptT, OutT> {
+    return MutuallyExclusiveOptions(options, name, help, transformAll)
 }
 
 /**
@@ -89,6 +90,11 @@ class MutuallyExclusiveOptions<OptT : Any, OutT>(
  *   option("--oranges").int()
  * )
  * ```
+ *
+ * @param name If given, the options in this group will be grouped together under this value in the
+ * help output
+ * @param help If given, this text will be added in help output to the group. If [name] is null,
+ *   this value is not used.
  *
  * @see com.github.ajalt.clikt.parameters.options.switch
  * @see com.github.ajalt.clikt.parameters.types.choice

@@ -218,7 +218,7 @@ open class CliktHelpFormatter(
     }
 
     private fun measureFirstColumn(rows: List<DefinitionRow>): Int =
-            rows.maxBy { it.col1.graphemeLength }?.col1?.graphemeLength?.coerceAtMost(maxColWidth) ?: maxColWidth
+            rows.maxByOrNull { it.col1.graphemeLength }?.col1?.graphemeLength?.coerceAtMost(maxColWidth) ?: maxColWidth
 
     private fun StringBuilder.section(title: String) {
         append("\n").append(renderSectionTitle(title)).append("\n")

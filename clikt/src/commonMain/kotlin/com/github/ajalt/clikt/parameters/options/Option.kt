@@ -103,7 +103,7 @@ internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<Str
 internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: String?): String? {
     if (envvar != null) return envvar
     if (names.isEmpty() || autoEnvvarPrefix == null) return null
-    val name = splitOptionPrefix(names.maxBy { it.length }!!).second
+    val name = splitOptionPrefix(names.maxByOrNull { it.length }!!).second
     if (name.isEmpty()) return null
     return autoEnvvarPrefix + "_" + name.replace(Regex("\\W"), "_").toUpperCase()
 }
@@ -136,7 +136,7 @@ internal fun <EachT, AllT> deprecationTransformer(
     transformAll(it)
 }
 
-internal fun Option.longestName(): String? = names.maxBy { it.length }
+internal fun Option.longestName(): String? = names.maxByOrNull { it.length }
 
 internal sealed class FinalValue {
     data class Parsed(val values: List<OptionParser.Invocation>) : FinalValue()

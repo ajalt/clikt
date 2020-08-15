@@ -15,7 +15,7 @@ internal object CompletionGenerator {
                 .flatMap { arg -> (1..arg.nvalues).map { "'${arg.name}'" } }
                 .joinToString(" ")
         val varargName = command._arguments.find { it.nvalues < 0 }?.name.orEmpty()
-        val paramsWithCandidates = (options.map { o -> o.first.maxBy { it.length }!! to o.second } + arguments)
+        val paramsWithCandidates = (options.map { o -> o.first.maxByOrNull { it.length }!! to o.second } + arguments)
 
         if (options.isEmpty() && subcommands.isEmpty() && arguments.isEmpty()) return ""
 
@@ -92,7 +92,7 @@ internal object CompletionGenerator {
                 append("          __skip_opt_eq\n")
                 if (nargs > 0) {
                     append("          (( i = i + $nargs ))\n")
-                    append("          [[ \${i} -gt COMP_CWORD ]] && in_param='${names.maxBy { it.length }}' || in_param=''\n")
+                    append("          [[ \${i} -gt COMP_CWORD ]] && in_param='${names.maxByOrNull { it.length }}' || in_param=''\n")
                 } else {
                     append("          in_param=''\n")
                 }

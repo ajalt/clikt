@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.TestSource
 import com.github.ajalt.clikt.testing.parse

@@ -7,7 +7,6 @@ import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
 import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
-import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -28,6 +27,7 @@ class FlagOption<T> internal constructor(
         override val optionHelp: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
+        override val valueSourceKey: String?,
         val envvar: String?,
         val transformEnvvar: OptionTransformContext.(String) -> T,
         val transformAll: CallsTransformer<String, T>,
@@ -77,9 +77,21 @@ class FlagOption<T> internal constructor(
             help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
+            valueSourceKey: String? = this.valueSourceKey,
             envvar: String? = this.envvar
     ): FlagOption<T> {
-        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll, validator)
+        return FlagOption(
+                names = names,
+                secondaryNames = secondaryNames,
+                optionHelp = help,
+                hidden = hidden,
+                helpTags = helpTags,
+                valueSourceKey = valueSourceKey,
+                envvar = envvar,
+                transformEnvvar = transformEnvvar,
+                transformAll = transformAll,
+                validator = validator
+        )
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -90,9 +102,21 @@ class FlagOption<T> internal constructor(
             help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
+            valueSourceKey: String? = this.valueSourceKey,
             envvar: String? = this.envvar
     ): FlagOption<T> {
-        return FlagOption(names, secondaryNames, help, hidden, helpTags, envvar, transformEnvvar, transformAll, validator)
+        return FlagOption(
+                names = names,
+                secondaryNames = secondaryNames,
+                optionHelp = help,
+                hidden = hidden,
+                helpTags = helpTags,
+                valueSourceKey = valueSourceKey,
+                envvar = envvar,
+                transformEnvvar = transformEnvvar,
+                transformAll = transformAll,
+                validator = validator
+        )
     }
 }
 
@@ -119,7 +143,14 @@ fun RawOption.flag(
         defaultForHelp: String = ""
 ): FlagOption<Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
-    return FlagOption(names, secondaryNames.toSet(), optionHelp, hidden, tags, envvar,
+    return FlagOption(
+            names = names,
+            secondaryNames = secondaryNames.toSet(),
+            optionHelp = optionHelp,
+            hidden = hidden,
+            helpTags = tags,
+            valueSourceKey = valueSourceKey,
+            envvar = envvar,
             transformEnvvar = {
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
@@ -130,7 +161,8 @@ fun RawOption.flag(
             transformAll = {
                 if (it.isEmpty()) default else it.last() !in secondaryNames
             },
-            validator = {})
+            validator = {}
+    )
 }
 
 /**
@@ -196,10 +228,18 @@ inline fun <InT, OutT> FlagOption<InT>.convert(crossinline conversion: FlagConve
  * Turn an option into a flag that counts the number of times the option occurs on the command line.
  */
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(names, emptySet(), optionHelp, hidden, helpTags, envvar,
+    return FlagOption(
+            names = names,
+            secondaryNames = emptySet(),
+            optionHelp = optionHelp,
+            hidden = hidden,
+            helpTags = helpTags,
+            valueSourceKey = valueSourceKey,
+            envvar = envvar,
             transformEnvvar = { valueToInt(it) },
             transformAll = { it.size },
-            validator = {})
+            validator = {}
+    )
 }
 
 /**
@@ -213,7 +253,14 @@ fun RawOption.counted(): FlagOption<Int> {
  */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(choices.keys, emptySet(), optionHelp, hidden, helpTags, null,
+    return FlagOption(
+            names = choices.keys,
+            secondaryNames = emptySet(),
+            optionHelp = optionHelp,
+            hidden = hidden,
+            helpTags = helpTags,
+            valueSourceKey = null,
+            envvar = null,
             transformEnvvar = {
                 throw UsageError("environment variables not supported for switch options", this)
             },

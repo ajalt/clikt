@@ -6,7 +6,6 @@ import com.github.ajalt.clikt.mpp.isLetterOrDigit
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parsers.OptionParser
-import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -43,6 +42,9 @@ interface Option {
 
     /** Optional set of strings to use when the user invokes shell autocomplete on a value for this option. */
     val completionCandidates: CompletionCandidates get() = CompletionCandidates.None
+
+    /** Optional explicit key to use when looking this option up from a [ValueSource] */
+    val valueSourceKey: String?
 
     /** Information about this option for the help output. */
     val parameterHelp: HelpFormatter.ParameterHelp.Option?

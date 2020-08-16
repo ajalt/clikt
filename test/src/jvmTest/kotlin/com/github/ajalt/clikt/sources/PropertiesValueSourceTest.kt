@@ -64,8 +64,8 @@ class PropertiesValueSourceTest {
             init {
                 context {
                     valueSources(
-                            PropertiesValueSource.from(file1),
-                            PropertiesValueSource.from(file2)
+                            PropertiesValueSource.from(file1.toPath()),
+                            PropertiesValueSource.from(file2.toPath())
                     )
                 }
             }
@@ -85,10 +85,10 @@ class PropertiesValueSourceTest {
     @Test
     fun `properties files with subcommands`() {
         val file = testFolder.newFile()
-        file.writeText("root.foo=bar")
+        file.writeText("sub.foo=bar\nOPTION=baz")
 
         class Root : TestCommand()
-        class C : TestCommand() {
+        class Sub : TestCommand() {
             init {
                 context {
                     valueSource = PropertiesValueSource.from(file)
@@ -96,13 +96,15 @@ class PropertiesValueSourceTest {
             }
 
             val foo by option()
+            val opt by option(valueSourceKey = "OPTION")
 
             override fun run_() {
                 foo shouldBe "bar"
+                opt shouldBe "baz"
             }
         }
 
-        Root().subcommands(C()).parse("c")
+        Root().subcommands(Sub()).parse("sub")
     }
 
 

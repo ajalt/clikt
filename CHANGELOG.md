@@ -7,6 +7,7 @@
 - Added `FlagOption.convert` ([#208](https://github.com/ajalt/clikt/issues/208))
 - Added ability to use unicode NEL character (`\u0085`) to manually break lines in help output ([#214](https://github.com/ajalt/clikt/issues/214))
 - Added `help("")` extension to options and arguments as an alternative to passing the help as an argument ([#207](https://github.com/ajalt/clikt/issues/207))
+- Added `valueSourceKey` parameter to `option`
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))
@@ -16,6 +17,7 @@
 ### Changed
 - `Argument.help` and `Option.help` properties have been renamed to `argumentHelp` and `optionHelp`, respectively. The `help` parameter names to `option()` and `argument()` are unchanged.
 - `commandHelp` and `commandHelpEpilog` properties on `CliktCommand` are now `open`, so you can choose to override them instead of passing `help` and `epilog` to the constructor.
+- Replaced `MapValueSource.defaultKey` with `ValueSource.getKey()`, which is more customizable.
 
 ### Removed
 - Removed `envvarSplit` parameter from `option()` and `convert()`. Option values from environment variables are no longer split automatically. ([#177](https://github.com/ajalt/clikt/issues/177))

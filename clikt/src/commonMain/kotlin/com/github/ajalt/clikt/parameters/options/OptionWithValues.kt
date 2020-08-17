@@ -6,12 +6,10 @@ package com.github.ajalt.clikt.parameters.options
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
-import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 import com.github.ajalt.clikt.parsers.OptionWithValuesParser
-import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 import kotlin.js.JsName
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
@@ -103,6 +101,7 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
         override val optionHelp: String,
         override val hidden: Boolean,
         override val helpTags: Map<String, String>,
+        override val valueSourceKey: String?,
         val envvar: String?,
         val valueSplit: Regex?,
         override val parser: OptionWithValuesParser,
@@ -174,14 +173,29 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
             help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
+            valueSourceKey: String? = this.valueSourceKey,
             envvar: String? = this.envvar,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, valueSplit, parser, completionCandidatesWithDefault,
-                transformValue, transformEach, transformAll, validator)
+        return OptionWithValues(
+                names = names,
+                metavarWithDefault = metavarWithDefault,
+                nvalues = nvalues,
+                optionHelp = help,
+                hidden = hidden,
+                helpTags = helpTags,
+                valueSourceKey = valueSourceKey,
+                envvar = envvar,
+                valueSplit = valueSplit,
+                parser = parser,
+                completionCandidatesWithDefault = completionCandidatesWithDefault,
+                transformValue = transformValue,
+                transformEach = transformEach,
+                transformAll = transformAll,
+                transformValidator = validator
+        )
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -194,13 +208,28 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
             hidden: Boolean = this.hidden,
             helpTags: Map<String, String> = this.helpTags,
             envvar: String? = this.envvar,
+            valueSourceKey: String? = this.valueSourceKey,
             valueSplit: Regex? = this.valueSplit,
             parser: OptionWithValuesParser = this.parser,
             completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
     ): OptionWithValues<AllT, EachT, ValueT> {
-        return OptionWithValues(names, metavarWithDefault, nvalues, help, hidden,
-                helpTags, envvar, valueSplit, parser, completionCandidatesWithDefault,
-                transformValue, transformEach, transformAll, validator)
+        return OptionWithValues(
+                names = names,
+                metavarWithDefault = metavarWithDefault,
+                nvalues = nvalues,
+                optionHelp = help,
+                hidden = hidden,
+                helpTags = helpTags,
+                valueSourceKey = valueSourceKey,
+                envvar = envvar,
+                valueSplit = valueSplit,
+                parser = parser,
+                completionCandidatesWithDefault = completionCandidatesWithDefault,
+                transformValue = transformValue,
+                transformEach = transformEach,
+                transformAll = transformAll,
+                transformValidator = validator
+        )
     }
 }
 
@@ -241,7 +270,8 @@ fun ParameterHolder.option(
         hidden: Boolean = false,
         envvar: String? = null,
         helpTags: Map<String, String> = emptyMap(),
-        completionCandidates: CompletionCandidates? = null
+        completionCandidates: CompletionCandidates? = null,
+        valueSourceKey: String? = null
 ): RawOption = OptionWithValues(
         names = names.toSet(),
         metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
@@ -249,6 +279,7 @@ fun ParameterHolder.option(
         optionHelp = help,
         hidden = hidden,
         helpTags = helpTags,
+        valueSourceKey = valueSourceKey,
         envvar = envvar,
         valueSplit = null,
         parser = OptionWithValuesParser,

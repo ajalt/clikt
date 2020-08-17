@@ -921,7 +921,11 @@ You can also pass multiple sources to [`Context.valueSources`][Context.valueSour
 source will be searched for the value in order.
 
 Clikt includes support for reading values [from a map][MapValueSource], and (on JVM) [from Java
-Properties files][PropertiesValueSource]. You can add any other file type by implementing
+Properties files][PropertiesValueSource]. For these two sources, you can customize the keys used to
+look up options by passing the result of [`ValueSource.getKey`][ValueSource.getKey] or
+[`ValueSource.envvarKey`][ValueSource.envvarKey] to the source's `getKey` constructor parameter.
+ 
+ You can add any other file type by implementing
 [ValueSource][ValueSource]. See the [JSON sample][json sample] for an implementation that uses
 [kotlinx.serialization][serialization] to load values from JSON files.
 
@@ -1051,5 +1055,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [triple]:                      api/clikt/com.github.ajalt.clikt.parameters.options/triple.md
 [unique]:                      api/clikt/com.github.ajalt.clikt.parameters.options/unique.md
 [ValueSource]:                 api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md
+[ValueSource.envvarKey]:       api/clikt/com.github.ajalt.clikt.sources/-value-source/envvar-key.md
+[ValueSource.getKey]:          api/clikt/com.github.ajalt.clikt.sources/-value-source/get-key.md
 [versionOption]:               api/clikt/com.github.ajalt.clikt.parameters.options/version-option.md
 [wrapValue]:                   api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value.md

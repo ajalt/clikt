@@ -14,7 +14,10 @@ plugins {
 
 kotlin {
     jvm()
-    js { nodejs() }
+    js {
+        nodejs()
+        browser()
+    }
 
     linuxX64()
     mingwX64()
@@ -38,6 +41,8 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 api(kotlin("test-junit"))
+                api("com.github.stefanbirkner:system-rules:1.18.0")
+                api("com.google.jimfs:jimfs:1.1")
             }
         }
 
@@ -53,6 +58,12 @@ kotlin {
 
         listOf("macosX64Main", "linuxX64Main", "mingwX64Main").forEach {
             get(it).dependsOn(nativeMain)
+        }
+
+        val nativeTest by creating {}
+
+        listOf("macosX64Test", "linuxX64Test", "mingwX64Test").forEach {
+            get(it).dependsOn(nativeTest)
         }
     }
 }

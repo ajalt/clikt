@@ -55,15 +55,27 @@ kotlin {
         val nativeMain by creating {
             dependsOn(commonMain)
         }
-
-        listOf("macosX64Main", "linuxX64Main", "mingwX64Main").forEach {
-            get(it).dependsOn(nativeMain)
+        val linuxX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val mingwX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(nativeMain)
         }
 
-        val nativeTest by creating {}
-
-        listOf("macosX64Test", "linuxX64Test", "mingwX64Test").forEach {
-            get(it).dependsOn(nativeTest)
+        val nativeTest by creating {
+            dependsOn(commonMain)
+        }
+        val linuxX64Test by getting {
+            dependsOn(nativeTest)
+        }
+        val mingwX64Test by getting {
+            dependsOn(nativeTest)
+        }
+        val macosX64Test by getting {
+            dependsOn(nativeTest)
         }
     }
 }

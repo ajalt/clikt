@@ -15,6 +15,7 @@
 - Multiple short lines in a help text paragraph no longer appear dedented ([#215](https://github.com/ajalt/clikt/issues/215))
 
 ### Changed
+- Updated Kotlin to 1.4.0
 - `Argument.help` and `Option.help` properties have been renamed to `argumentHelp` and `optionHelp`, respectively. The `help` parameter names to `option()` and `argument()` are unchanged.
 - `commandHelp` and `commandHelpEpilog` properties on `CliktCommand` are now `open`, so you can choose to override them instead of passing `help` and `epilog` to the constructor.
 - Replaced `MapValueSource.defaultKey` with `ValueSource.getKey()`, which is more customizable.

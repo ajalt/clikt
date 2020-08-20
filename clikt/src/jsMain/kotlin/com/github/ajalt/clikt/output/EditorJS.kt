@@ -1,8 +1,8 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.mpp.nodeRequire
+import com.github.ajalt.clikt.mpp.readEnvvar
 
 internal actual fun createEditor(
         editorPath: String?,

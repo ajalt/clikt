@@ -12,62 +12,70 @@ plugins {
 }
 
 
-// True if intellij is running. When true, we create a single native target named "native" using the
-// current OS. Otherwise (when run with gradle), we create all native targets and have them depend
-// on the native module. If we don't do this, IntelliJ won't know what target the nativeMain source
-// set is for, and won't resolve references to native libraries.
-val ideaActive = System.getProperty("idea.active") == "true"
-val os = org.gradle.internal.os.OperatingSystem.current()!!
-
 kotlin {
     jvm()
-    js { nodejs() }
+    js {
+        nodejs()
+        browser()
+    }
 
     linuxX64()
     mingwX64()
     macosX64()
-
-    if (ideaActive) {
-        if (os.isMacOsX) macosX64("native")
-        if (os.isWindows) mingwX64("native")
-        if (os.isLinux) linuxX64("native")
-    }
 
     sourceSets {
         all {
             languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
         }
 
-        get("commonMain").dependencies {
-            api(kotlin("stdlib-common"))
+        val commonMain by getting {}
+
+        val commonTest by getting {
+            dependencies {
+                api(kotlin("test-common"))
+                api(kotlin("test-annotations-common"))
+                api("io.kotest:kotest-assertions-core:4.2.0")
+            }
         }
 
-        get("commonTest").dependencies {
-            api(kotlin("test-common"))
-            api(kotlin("test-annotations-common"))
-            api("io.kotest:kotest-assertions-core:4.1.0")
+        val jvmTest by getting {
+            dependencies {
+                api(kotlin("test-junit"))
+                api("com.github.stefanbirkner:system-rules:1.18.0")
+                api("com.google.jimfs:jimfs:1.1")
+            }
         }
 
-        get("jvmMain").dependencies {
-            api(kotlin("stdlib"))
+        val jsTest by getting {
+            dependencies {
+                api(kotlin("test-js"))
+            }
         }
 
-        get("jvmTest").dependencies {
-            api(kotlin("test-junit"))
+        val nativeMain by creating {
+            dependsOn(commonMain)
+        }
+        val linuxX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val mingwX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(nativeMain)
         }
 
-        get("jsMain").dependencies {
-            api(kotlin("stdlib-js"))
+        val nativeTest by creating {
+            dependsOn(commonTest)
         }
-
-        get("jsTest").dependencies {
-            api(kotlin("test-js"))
+        val linuxX64Test by getting {
+            dependsOn(nativeTest)
         }
-
-        val nativeMain = if (ideaActive) get("nativeMain") else create("nativeMain")
-
-        listOf("macosX64Main", "linuxX64Main", "mingwX64Main").forEach {
-            get(it).dependsOn(nativeMain)
+        val mingwX64Test by getting {
+            dependsOn(nativeTest)
+        }
+        val macosX64Test by getting {
+            dependsOn(nativeTest)
         }
     }
 }

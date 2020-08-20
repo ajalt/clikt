@@ -1,7 +1,4 @@
-enableFeaturePreview("GRADLE_METADATA")
-
 include("clikt")
-include("test")
 include("samples:copy")
 include("samples:repo")
 include("samples:validation")

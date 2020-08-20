@@ -34,7 +34,7 @@ kotlin {
             dependencies {
                 api(kotlin("test-common"))
                 api(kotlin("test-annotations-common"))
-                api("io.kotest:kotest-assertions-core:4.2.0.RC2")
+                api("io.kotest:kotest-assertions-core:4.2.0")
             }
         }
 
@@ -66,7 +66,7 @@ kotlin {
         }
 
         val nativeTest by creating {
-            dependsOn(commonMain)
+            dependsOn(commonTest)
         }
         val linuxX64Test by getting {
             dependsOn(nativeTest)

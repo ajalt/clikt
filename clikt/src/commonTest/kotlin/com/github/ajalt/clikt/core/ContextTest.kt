@@ -3,9 +3,9 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.beInstanceOf
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -77,7 +77,7 @@ class ContextTest {
         shouldThrow<NullPointerException> { parent.o2 }
         shouldThrow<NullPointerException> { child.o2 }
 
-        parent.o1 should beInstanceOf<Foo>()
+        parent.o1 should beInstanceOf(Foo::class)
         parent.o2 shouldBeSameInstanceAs parent.o1
         child.o1 shouldBeSameInstanceAs parent.o1
         child.o2 shouldBeSameInstanceAs parent.o1

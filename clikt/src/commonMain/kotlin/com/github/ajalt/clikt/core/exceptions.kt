@@ -110,8 +110,9 @@ open class BadParameterValue : UsageError {
     constructor(text: String, option: Option, context: Context? = null) : super(text, option, context)
 
     override fun formatMessage(): String {
-        if (inferParamName().isEmpty()) return "Invalid value: $text"
-        return "Invalid value for \"${inferParamName()}\": $text"
+        val error = if (text.isNullOrBlank()) "" else ": $text"
+        if (inferParamName().isEmpty()) return "Invalid value$error"
+        return "Invalid value for \"${inferParamName()}\"$error"
     }
 }
 

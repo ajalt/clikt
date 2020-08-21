@@ -1,19 +1,26 @@
 package com.github.ajalt.clikt.parameters.types
 
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
 
-private inline fun <T : Comparable<T>> checkRange(it: T, min: T? = null, max: T? = null,
-                                                  clamp: Boolean, fail: (String) -> Unit): T {
+private inline fun <T : Comparable<T>> checkRange(
+        it: T,
+        min: T?,
+        max: T?,
+        clamp: Boolean,
+        context: Context,
+        fail: (String) -> Unit
+): T {
     require(min == null || max == null || min < max) { "min must be less than max" }
     if (clamp) {
         if (min != null && it < min) return min
         if (max != null && it > max) return max
     } else if (min != null && it < min || max != null && it > max) {
         fail(when {
-            min == null -> "$it is larger than the maximum valid value of $max."
-            max == null -> "$it is smaller than the minimum valid value of $min."
-            else -> "$it is not in the valid range of $min to $max."
+            min == null -> context.localization.rangeExceededMax(it.toString(), max.toString())
+            max == null -> context.localization.rangeExceededMin(it.toString(), min.toString())
+            else -> context.localization.rangeExceededBoth(it.toString(), min.toString(), max.toString())
         })
     }
     return it
@@ -38,7 +45,7 @@ private inline fun <T : Comparable<T>> checkRange(it: T, min: T? = null, max: T?
  */
 fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ProcessedArgument<T, T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp) { m -> fail(m) } }, transformAll, transformValidator)
+    return copy({ checkRange(transformValue(it), min, max, clamp, context) { m -> fail(m) } }, transformAll, transformValidator)
 }
 
 /**
@@ -78,7 +85,7 @@ fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>
  * ```
  */
 fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false): OptionWithValues<T?, T, T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp) { m -> fail(m) } }, transformEach, transformAll, transformValidator)
+    return copy({ checkRange(transformValue(it), min, max, clamp, context) { m -> fail(m) } }, transformEach, transformAll, transformValidator)
 }
 
 

@@ -7,11 +7,14 @@ import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+class MutuallyExclusiveOptionTransformContext(val context: Context)
+typealias MutuallyExclusiveOptionsTransform<OptT, OutT> = MutuallyExclusiveOptionTransformContext.(List<OptT>) -> OutT
+
 class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         internal val options: List<OptionDelegate<OptT?>>,
         override val groupName: String?,
         override val groupHelp: String?,
-        internal val transformAll: (List<OptT>) -> OutT
+        internal val transformAll: MutuallyExclusiveOptionsTransform<OptT, OutT>
 ) : ParameterGroupDelegate<OutT> {
     init {
         require(options.size > 1) { "must provide at least two options to a mutually exclusive group" }
@@ -47,7 +50,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         }
 
         val values = options.mapNotNull { it.value }
-        value = transformAll(values)
+        value = MutuallyExclusiveOptionTransformContext(context).transformAll(values)
     }
 
     override fun postValidate(context: Context) {
@@ -56,7 +59,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         }
     }
 
-    fun <T> copy(transformAll: (List<OptT>) -> T) = MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)
+    fun <T> copy(transformAll: MutuallyExclusiveOptionsTransform<OptT, T>) = MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)
 }
 
 /**
@@ -125,9 +128,11 @@ fun <T : Any> MutuallyExclusiveOptions<T, T?>.single(): MutuallyExclusiveOptions
  * a [UsageError] is thrown.
  */
 fun <T : Any> MutuallyExclusiveOptions<T, T?>.required(): MutuallyExclusiveOptions<T, T> {
-    return copy {
-        transformAll(it)
-                ?: throw UsageError("Must provide one of ${options.joinToString { it.longestName()!! }}")
+    return copy { values ->
+        transformAll(values) ?: run {
+            val names = options.joinToString { it.longestName()!! }
+            throw UsageError(context.localization.requiredMutexOption(names))
+        }
     }
 }
 

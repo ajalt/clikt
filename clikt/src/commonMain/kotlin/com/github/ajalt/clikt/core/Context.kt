@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.output.CliktConsole
-import com.github.ajalt.clikt.output.CliktHelpFormatter
-import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.output.defaultCliktConsole
+import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
@@ -53,7 +50,8 @@ class Context(
         val expandArgumentFiles: Boolean,
         val readEnvvarBeforeValueSource: Boolean,
         val valueSource: ValueSource?,
-        val correctionSuggestor: TypoSuggestor
+        val correctionSuggestor: TypoSuggestor,
+        val localization: Localization
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -180,6 +178,11 @@ class Context(
          * names and filters the list down to values to suggest to the user.
          */
         var correctionSuggestor: TypoSuggestor = DEFAULT_CORRECTION_SUGGESTOR
+
+        /**
+         * Localized strings to use for help output and error reporting.
+         */
+        var localization: Localization = defaultLocalization
     }
 
     companion object {
@@ -190,8 +193,9 @@ class Context(
                         parent?.let { p -> p.ancestors().any { it.command.allowMultipleSubcommands } } != true
                 return Context(
                         parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer, console,
-                        expandArgumentFiles, readEnvvarBeforeValueSource, valueSource, correctionSuggestor
+                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer,
+                        console, expandArgumentFiles, readEnvvarBeforeValueSource, valueSource,
+                        correctionSuggestor, localization
                 )
             }
         }
@@ -201,21 +205,13 @@ class Context(
 /** Find the closest object of type [T], or throw a [NullPointerException] */
 @Suppress("unused") // these extensions don't use their receiver, but we want to limit where they can be called
 inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
-    return object : ReadOnlyProperty<CliktCommand, T> {
-        override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-            return thisRef.currentContext.findObject<T>()!!
-        }
-    }
+    return ReadOnlyProperty<CliktCommand, T> { thisRef, _ -> thisRef.currentContext.findObject<T>()!! }
 }
 
 /** Find the closest object of type [T], or null */
 @Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCommand, T?> {
-    return object : ReadOnlyProperty<CliktCommand, T?> {
-        override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T? {
-            return thisRef.currentContext.findObject<T>()
-        }
-    }
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject<T>() }
 }
 
 /**
@@ -228,11 +224,7 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
  */
 @Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
-    return object : ReadOnlyProperty<CliktCommand, T> {
-        override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T {
-            return thisRef.currentContext.findOrSetObject(default)
-        }
-    }
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(default) }
 }
 
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->

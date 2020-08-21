@@ -41,7 +41,7 @@ The following subclasses exist:
 * [`UsageError`][UsageError] : The command line was incorrect in some way. All other exceptions subclass from this. These exceptions are automatically augmented with extra information about the current parameter, if possible.
 * [`ProgramResult`][ProgramResult] : The program should exit with the `statusCode` from this exception.
 * [`BadParameterValue`][BadParameterValue] : A parameter was given the correct number of values, but of invalid format or type.
-* [`MissingParameter`][MissingParameter] : A required parameter was not provided.
+* [`MissingOption`][MissingOption] and [`MissingArgument`][MissingArgument]: A required parameter was not provided.
 * [`NoSuchOption`][NoSuchOption] : An option was provided that does not exist.
 * [`NoSuchSubcommand`][NoSuchSubcommand] : A subcommand was called that does not exist.
 * [`IncorrectOptionValueCount`][IncorrectOptionValueCount] : An option was supplied but the number of values supplied to the option was incorrect.
@@ -61,7 +61,8 @@ The following subclasses exist:
 [IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.md
 [InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.md
 [main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
-[MissingParameter]:                api/clikt/com.github.ajalt.clikt.core/-missing-parameter/index.md
+[MissingArgument]:                 api/clikt/com.github.ajalt.clikt.core/-missing-argument/index.md
+[MissingOption]:                   api/clikt/com.github.ajalt.clikt.core/-missing-option/index.md
 [MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.md
 [NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.md
 [NoSuchSubcommand]:                api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/index.md

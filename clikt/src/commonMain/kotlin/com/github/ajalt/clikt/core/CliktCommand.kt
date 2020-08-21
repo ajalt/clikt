@@ -417,7 +417,7 @@ abstract class CliktCommand(
             echo(e.message, err = true)
             exitProcessMpp(1)
         } catch (e: Abort) {
-            echo("Aborted!", err = true)
+            echo(currentContext.localization.aborted(), err = true)
             exitProcessMpp(if (e.error) 1 else 0)
         }
     }

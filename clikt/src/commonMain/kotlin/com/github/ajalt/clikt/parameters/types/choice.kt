@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.completion.CompletionCandidates.Fixed
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
@@ -12,8 +13,8 @@ private fun mvar(choices: Iterable<String>): String {
     return choices.joinToString("|", prefix = "[", postfix = "]")
 }
 
-private fun errorMessage(choice: String, choices: Map<String, *>): String {
-    return "invalid choice: $choice. (choose from ${choices.keys.joinToString(", ")})"
+private fun errorMessage(context: Context, choice: String, choices: Map<String, *>): String {
+    return context.localization.invalidChoice(choice, choices.keys.joinToString(context.localization.listSeparator()))
 }
 
 // arguments
@@ -33,7 +34,7 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = 
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     val c = if (ignoreCase) choices.mapKeys { it.key.toLowerCase() } else choices
     return convert(completionCandidates = Fixed(choices.keys)) {
-        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(it, choices))
+        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(context, it, choices))
     }
 }
 
@@ -113,7 +114,7 @@ fun <T : Any> RawOption.choice(
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     val c = if (ignoreCase) choices.mapKeys { it.key.toLowerCase() } else choices
     return convert(metavar, completionCandidates = Fixed(choices.keys)) {
-        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(it, choices))
+        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(context, it, choices))
     }
 }
 

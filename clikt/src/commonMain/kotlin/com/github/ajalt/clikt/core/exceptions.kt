@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.output.defaultLocalization
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
@@ -85,7 +86,7 @@ open class UsageError private constructor(
 
     fun helpMessage(): String = buildString {
         context?.let { append(it.command.getFormattedUsage()).append("\n\n") }
-        append("Error: ").append(formatMessage())
+        append(localization.usageError(formatMessage()))
     }
 
     override val message: String? get() = formatMessage()
@@ -98,100 +99,117 @@ open class UsageError private constructor(
         argument != null -> argument!!.name
         else -> ""
     }
+
+    protected val localization get() = context?.localization ?: defaultLocalization
 }
 
 /**
  * A parameter was given the correct number of values, but of invalid format or type.
  */
-open class BadParameterValue : UsageError {
+class BadParameterValue : UsageError {
     constructor(text: String, context: Context? = null) : super(text, null, context)
     constructor(text: String, paramName: String, context: Context? = null) : super(text, paramName, context)
     constructor(text: String, argument: Argument, context: Context? = null) : super(text, argument, context)
     constructor(text: String, option: Option, context: Context? = null) : super(text, option, context)
 
     override fun formatMessage(): String {
-        val error = if (text.isNullOrBlank()) "" else ": $text"
-        if (inferParamName().isEmpty()) return "Invalid value$error"
-        return "Invalid value for \"${inferParamName()}\"$error"
-    }
-}
+        val m = text.takeUnless { it.isNullOrBlank() }
+        val p = inferParamName().takeIf { it.isNotBlank() }
 
-/** A required parameter was not provided */
-open class MissingParameter : UsageError {
-    constructor(argument: Argument, context: Context? = null) : super("", argument, context) {
-        this.paramType = "argument"
-    }
-
-    constructor(option: Option, context: Context? = null) : super("", option, context) {
-        this.paramType = "option"
-    }
-
-    private val paramType: String
-
-    override fun formatMessage(): String {
-        return "Missing $paramType \"${inferParamName()}\"."
-    }
-}
-
-/** A parameter was provided that does not exist. */
-open class NoSuchParameter(
-        protected val parameterType: String,
-        protected val givenName: String,
-        protected val possibilities: List<String> = emptyList(),
-        context: Context? = null
-) : UsageError("", context = context) {
-    override fun formatMessage(): String {
-        return "no such ${parameterType}: \"$givenName\"." + when {
-            possibilities.size == 1 -> " Did you mean \"${possibilities[0]}\"?"
-            possibilities.size > 1 -> possibilities.joinToString(
-                    prefix = " (Possible ${parameterType}s: ", postfix = ")")
-            else -> ""
+        return when {
+            m == null && p == null -> localization.badParameter()
+            m == null && p != null -> localization.badParameterWithParam(p)
+            m != null && p == null -> localization.badParameterWithMessage(m)
+            m != null && p != null -> localization.badParameterWithMessageAndParam(p, m)
+            else -> error("impossible")
         }
     }
 }
 
+/** A required option was not provided */
+class MissingOption(option: Option, context: Context? = null) : UsageError("", option, context) {
+    override fun formatMessage() = localization.missingOption(inferParamName())
+}
+
+/** A required argument was not provided */
+class MissingArgument(argument: Argument, context: Context? = null) : UsageError("", argument, context) {
+    override fun formatMessage() = localization.missingArgument(inferParamName())
+}
+
+/** A parameter was provided that does not exist. */
+open class NoSuchParameter protected constructor(context: Context?) : UsageError("", context = context)
+
 /** A subcommand was provided that does not exist. */
-open class NoSuchSubcommand(
-        givenName: String,
-        possibilities: List<String> = emptyList(),
+class NoSuchSubcommand(
+        private val givenName: String,
+        private val possibilities: List<String> = emptyList(),
         context: Context? = null
-) : NoSuchParameter("subcommand", givenName, possibilities, context)
+) : NoSuchParameter(context) {
+    override fun formatMessage(): String {
+        val suggestion = when (possibilities.size) {
+            0 -> return localization.noSuchSubcommand(givenName)
+            1 -> localization.didYouMean(possibilities[0])
+            else -> possibilities.joinToString(
+                    separator = localization.listSeparator(),
+                    prefix = localization.possibleSubcommandsPrefix(),
+                    postfix = localization.possibleParameterPostfix()
+            )
+        }
+
+        return localization.noSuchSubcommand(givenName, suggestion)
+    }
+}
 
 
 /** An option was provided that does not exist. */
-open class NoSuchOption(
-        givenName: String,
-        possibilities: List<String> = emptyList(),
+class NoSuchOption(
+        private val givenName: String,
+        private val possibilities: List<String> = emptyList(),
         context: Context? = null
-) : NoSuchParameter("option", givenName, possibilities, context)
+) : NoSuchParameter(context) {
+    override fun formatMessage(): String {
+        val suggestion = when (possibilities.size) {
+            0 -> return localization.noSuchOption(givenName)
+            1 -> localization.didYouMean(possibilities[0])
+            else -> possibilities.joinToString(
+                    separator = localization.listSeparator(),
+                    prefix = localization.possibleOptionsPrefix(),
+                    postfix = localization.possibleParameterPostfix()
+            )
+        }
+
+        return localization.noSuchOption(givenName, suggestion)
+    }
+}
+
 
 /** An option was supplied but the number of values supplied to the option was incorrect. */
-open class IncorrectOptionValueCount(
+class IncorrectOptionValueCount(
         option: Option,
         private val givenName: String,
         context: Context? = null
 ) : UsageError("", option, context) {
     override fun formatMessage(): String {
-        return when (option!!.nvalues) {
-            0 -> "$givenName option does not take a value"
-            1 -> "$givenName option requires an argument"
-            else -> "$givenName option requires ${option!!.nvalues} arguments"
+        return when (val count = option!!.nvalues) {
+            0 -> localization.incorrectOptionValueCountZero(givenName)
+            1 -> localization.incorrectOptionValueCountOne(givenName)
+            else -> localization.incorrectOptionValueCountMany(givenName, count)
         }
     }
 }
 
 /** An argument was supplied but the number of values supplied was incorrect. */
-open class IncorrectArgumentValueCount(
+class IncorrectArgumentValueCount(
         argument: Argument,
         context: Context? = null
 ) : UsageError("", argument, context) {
     override fun formatMessage(): String {
-        return "argument ${inferParamName()} takes ${argument!!.nvalues} values"
+        return localization.incorrectArgumentValueCount(inferParamName(), argument!!.nvalues)
     }
 }
 
-open class MutuallyExclusiveGroupException(
-        protected val names: List<String>,
+class MutuallyExclusiveGroupException(
+        private val names: List<String>,
         context: Context? = null
 ) : UsageError("", context = context) {
     init {
@@ -199,14 +217,32 @@ open class MutuallyExclusiveGroupException(
     }
 
     override fun formatMessage(): String {
-        return "option ${names.first()} cannot be used with ${names.drop(1).joinToString(" or ")}"
+        val others = names.drop(1).joinToString(localization.mutexGroupExceptionNameSeparator())
+        return localization.mutexGroupException(names.first(), others)
     }
 }
 
 /** A required configuration file was not found. */
-class FileNotFound(filename: String) : UsageError("$filename not found")
+class FileNotFound(
+        private val filename: String,
+        context: Context? = null
+) : UsageError("", context = context) {
+    override fun formatMessage(): String {
+        return localization.fileNotFound(filename)
+    }
+}
 
 /** A configuration file failed to parse correctly */
-class InvalidFileFormat(filename: String, message: String, lineno: Int? = null) : UsageError(
-        "incorrect format in file $filename${lineno?.let { " line $it" } ?: ""}}: $message"
-)
+class InvalidFileFormat(
+        private val filename: String,
+        message: String,
+        private val lineno: Int? = null,
+        context: Context? = null
+) : UsageError(message, context = context) {
+    override fun formatMessage(): String {
+        return when (lineno) {
+            null -> localization.invalidFileFormat(filename, text!!)
+            else -> localization.invalidFileFormat(filename, lineno, text!!)
+        }
+    }
+}

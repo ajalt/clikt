@@ -3,7 +3,7 @@ package com.github.ajalt.clikt.parameters.groups
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.MissingOption
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.OptionDelegate
@@ -53,7 +53,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
 
         val group = groups[key]
                 ?: throw BadParameterValue(
-                        "invalid choice: $key. (choose from ${groups.keys.joinToString()})",
+                        context.localization.invalidGroupChoice(key, groups.keys.joinToString(context.localization.listSeparator())),
                         option,
                         context
                 )
@@ -99,7 +99,7 @@ fun <T : OptionGroup> RawOption.groupChoice(vararg choices: Pair<String, T>): Ch
 
 /**
  * If a [groupChoice] or [groupSwitch] option is not called on the command line, throw a
- * [MissingParameter] exception.
+ * [MissingOption] exception.
  *
  * ### Example:
  *
@@ -108,7 +108,7 @@ fun <T : OptionGroup> RawOption.groupChoice(vararg choices: Pair<String, T>): Ch
  * ```
  */
 fun <T : OptionGroup> ChoiceGroup<T, T?>.required(): ChoiceGroup<T, T> {
-    return ChoiceGroup(option, groups) { it ?: throw MissingParameter(option) }
+    return ChoiceGroup(option, groups) { it ?: throw MissingOption(option) }
 }
 
 /**

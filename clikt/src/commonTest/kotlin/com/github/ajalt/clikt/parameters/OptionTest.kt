@@ -25,7 +25,7 @@ class OptionTest {
     @Test
     @JsName("no_such_option")
     fun `no such option`() = forAll(
-            row("--qux", "no such option: \"--qux\"."),
+            row("--qux", "no such option: \"--qux\""),
             row("--fo", "no such option: \"--fo\". Did you mean \"--foo\"?"),
             row("--fop", "no such option: \"--fop\". Did you mean \"--foo\"?"),
             row("--car", "no such option: \"--car\". Did you mean \"--bar\"?"),
@@ -187,7 +187,7 @@ class OptionTest {
             val y by option("-y", "--yy").pair()
         }
         shouldThrow<IncorrectOptionValueCount> { C().parse("-x") }.message shouldBe
-                "-x option requires 2 arguments"
+                "-x option requires 2 values"
         shouldThrow<UsageError> { C().parse("--yy foo bar baz") }.message shouldBe
                 "Got unexpected extra argument (baz)"
     }
@@ -394,9 +394,9 @@ class OptionTest {
 
         C().parse("--x=foo")
 
-        shouldThrow<MissingParameter> {
+        shouldThrow<MissingOption> {
             C().parse("")
-        }.message shouldBe "Missing option \"--x\"."
+        }.message shouldBe "Missing option \"--x\""
     }
 
     @Test
@@ -477,8 +477,8 @@ class OptionTest {
         C(true).apply { parse("--x 1"); x shouldBe listOf("1") }
         C(true).apply { parse("--x 2 --x 3"); x shouldBe listOf("2", "3") }
 
-        shouldThrow<MissingParameter> { C(false).parse("") }
-                .message shouldBe "Missing option \"--x\"."
+        shouldThrow<MissingOption> { C(false).parse("") }
+                .message shouldBe "Missing option \"--x\""
     }
 
     @Test
@@ -575,7 +575,7 @@ class OptionTest {
         called shouldBe true
 
         called = false
-        shouldThrow<MissingParameter> { C().parse("") }
+        shouldThrow<MissingOption> { C().parse("") }
     }
 
     @Test

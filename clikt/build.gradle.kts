@@ -82,6 +82,7 @@ kotlin {
 
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
 }
 
 val dokka by tasks.getting(DokkaTask::class) {

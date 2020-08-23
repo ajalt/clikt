@@ -187,7 +187,7 @@ class OptionTest {
             val y by option("-y", "--yy").pair()
         }
         shouldThrow<IncorrectOptionValueCount> { C().parse("-x") }.message shouldBe
-                "-x option requires 2 values"
+                "option -x requires 2 values"
         shouldThrow<UsageError> { C().parse("--yy foo bar baz") }.message shouldBe
                 "Got unexpected extra argument (baz)"
     }

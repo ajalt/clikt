@@ -135,7 +135,7 @@ class ArgumentTest {
             val x by argument().pair()
         }
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo") }
-                .message shouldBe "argument X takes 2 values"
+                .message shouldBe "argument X requires 2 values"
         shouldThrow<UsageError> { C().parse("foo bar baz") }
                 .message shouldBe "Got unexpected extra argument (baz)"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
@@ -150,7 +150,7 @@ class ArgumentTest {
         }
 
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo bar") }
-                .message shouldBe "argument X takes 3 values"
+                .message shouldBe "argument X requires 3 values"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
                 .message shouldBe "Got unexpected extra argument (qux)"
 

@@ -146,17 +146,7 @@ class NoSuchSubcommand(
         context: Context? = null
 ) : NoSuchParameter(context) {
     override fun formatMessage(): String {
-        val suggestion = when (possibilities.size) {
-            0 -> return localization.noSuchSubcommand(givenName)
-            1 -> localization.didYouMean(possibilities[0])
-            else -> possibilities.joinToString(
-                    separator = localization.listSeparator(),
-                    prefix = localization.possibleSubcommandsPrefix(),
-                    postfix = localization.possibleParameterPostfix()
-            )
-        }
-
-        return localization.noSuchSubcommand(givenName, suggestion)
+        return localization.noSuchSubcommand(givenName, possibilities)
     }
 }
 
@@ -168,17 +158,7 @@ class NoSuchOption(
         context: Context? = null
 ) : NoSuchParameter(context) {
     override fun formatMessage(): String {
-        val suggestion = when (possibilities.size) {
-            0 -> return localization.noSuchOption(givenName)
-            1 -> localization.didYouMean(possibilities[0])
-            else -> possibilities.joinToString(
-                    separator = localization.listSeparator(),
-                    prefix = localization.possibleOptionsPrefix(),
-                    postfix = localization.possibleParameterPostfix()
-            )
-        }
-
-        return localization.noSuchOption(givenName, suggestion)
+        return localization.noSuchOption(givenName, possibilities)
     }
 }
 
@@ -190,11 +170,7 @@ class IncorrectOptionValueCount(
         context: Context? = null
 ) : UsageError("", option, context) {
     override fun formatMessage(): String {
-        return when (val count = option!!.nvalues) {
-            0 -> localization.incorrectOptionValueCountZero(givenName)
-            1 -> localization.incorrectOptionValueCountOne(givenName)
-            else -> localization.incorrectOptionValueCountMany(givenName, count)
-        }
+        return  localization.incorrectOptionValueCount(givenName, option!!.nvalues)
     }
 }
 
@@ -217,8 +193,7 @@ class MutuallyExclusiveGroupException(
     }
 
     override fun formatMessage(): String {
-        val others = names.drop(1).joinToString(localization.mutexGroupExceptionNameSeparator())
-        return localization.mutexGroupException(names.first(), others)
+        return localization.mutexGroupException(names.first(), names.drop(1))
     }
 }
 

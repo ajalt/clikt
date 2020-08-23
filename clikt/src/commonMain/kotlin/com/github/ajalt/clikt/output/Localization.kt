@@ -33,46 +33,57 @@ interface Localization {
     fun missingArgument(paramName: String) = "Missing argument \"$paramName\""
 
     /** Message for [NoSuchSubcommand] */
-    fun noSuchSubcommand(name: String) = "no such subcommand: \"$name\""
-
-    /** Message for [NoSuchSubcommand] */
-    fun noSuchSubcommand(name: String, suggestion: String) = "no such subcommand: \"$name\". $suggestion"
+    fun noSuchSubcommand(name: String, possibilities: List<String>): String {
+        return "no such subcommand: \"$name\"" + when(possibilities.size) {
+            0 -> ""
+            1 -> ". Did you mean \"${possibilities[0]}\"?"
+            else ->  possibilities.joinToString(prefix = ". (Possible subcommands: ", postfix = ")")
+        }
+    }
 
     /** Message for [NoSuchOption] */
-    fun noSuchOption(name: String) = "no such option: \"$name\""
+    fun noSuchOption(name: String, possibilities: List<String>): String {
+        return "no such option: \"$name\"" + when(possibilities.size) {
+            0 -> ""
+            1 -> ". Did you mean \"${possibilities[0]}\"?"
+            else ->  possibilities.joinToString(prefix = ". (Possible options: ", postfix = ")")
+        }
+    }
 
-    /** Message for [NoSuchOption] */
-    fun noSuchOption(name: String, suggestion: String) = "no such option: \"$name\". $suggestion"
+    /**
+     * Message for [IncorrectOptionValueCount]
+     *
+     * @param count non-negative count of required values
+     */
+    fun incorrectOptionValueCount(name: String, count: Int): String {
+        return when (count) {
+            0 -> "option $name does not take a value"
+            1 -> "option $name requires a value"
+            else -> "option $name requires $count values"
+        }
+    }
 
-    /** A single suggestion for [noSuchOption] and [noSuchSubcommand]*/
-    fun didYouMean(possibility: String) = "Did you mean \"$possibility\"?"
+    /**
+     * Message for [IncorrectArgumentValueCount]
+     *
+     * @param count non-negative count of required values
+     */
+    fun incorrectArgumentValueCount(name: String, count: Int): String {
+        return when (count) {
+            0 -> "argument $name does not take a value"
+            1 -> "argument $name requires a value"
+            else -> "argument $name requires $count values"
+        }
+    }
 
-    /** Multiple suggestions for [noSuchOption] are joined with this prefix */
-    fun possibleOptionsPrefix() = "(Possible options: "
-
-    /** Multiple suggestions for [noSuchSubcommand] are joined with this prefix */
-    fun possibleSubcommandsPrefix() = "(Possible subcommands: "
-
-    /** Multiple suggestions for [noSuchOption] and [noSuchSubcommand] are join with this postfix */
-    fun possibleParameterPostfix() = ")"
-
-    /** Message for [IncorrectOptionValueCount] when the option does not take a value*/
-    fun incorrectOptionValueCountZero(name: String) = "$name option does not take a value"
-
-    /** Message for [IncorrectOptionValueCount] when the option requires one value */
-    fun incorrectOptionValueCountOne(name: String) = "$name option requires a value"
-
-    /** Message for [IncorrectOptionValueCount] when the option requires more than one value */
-    fun incorrectOptionValueCountMany(name: String, count: Int) = "$name option requires $count values"
-
-    /** Message for [IncorrectArgumentValueCount] */
-    fun incorrectArgumentValueCount(name: String, count: Int) = "argument $name takes $count values"
-
-    /** Message for [MutuallyExclusiveGroupException] */
-    fun mutexGroupException(name: String, others: String) = "option $name cannot be used with $others"
-
-    /** Separator used to join option names for [mutexGroupException]*/
-    fun mutexGroupExceptionNameSeparator() = " or "
+    /**
+     * Message for [MutuallyExclusiveGroupException]
+     *
+     * @param others non-empty list of other options in the group
+     */
+    fun mutexGroupException(name: String, others: List<String>): String {
+        return "option $name cannot be used with ${others.joinToString(" or ")}"
+    }
 
     /** Message for [FileNotFound] */
     fun fileNotFound(filename: String) = "$filename not found"
@@ -104,8 +115,14 @@ interface Localization {
     /** Required [MutuallyExclusiveOptions] was not provided */
     fun requiredMutexOption(options: String) = "Must provide one of $options"
 
-    /** [ChoiceGroup] value was invalid */
-    fun invalidGroupChoice(value: String, choices: String) = "invalid choice: $value. (choose from $choices)"
+    /**
+     * [ChoiceGroup] value was invalid
+     *
+     * @param choices non-empty list of possible choices
+     */
+    fun invalidGroupChoice(value: String, choices: List<String>): String {
+        return "invalid choice: $value. (choose from ${choices.joinToString()})"
+    }
 
     /** Invalid value for a parameter of type [Double] or [Float] */
     fun floatConversionError(value: String) = "$value is not a valid floating point value"
@@ -125,8 +142,14 @@ interface Localization {
     /** Invalid value falls outside range */
     fun rangeExceededBoth(value: String, min: String, max: String) = "$value is not in the valid range of $min to $max."
 
-    /** Invalid value for `choice` parameter */
-    fun invalidChoice(choice: String, choices: String) = "invalid choice: $choice. (choose from $choices)"
+    /**
+     * Invalid value for `choice` parameter
+     *
+     * @param choices non-empty list of possible choices
+     */
+    fun invalidChoice(choice: String, choices: List<String>): String {
+        return "invalid choice: $choice. (choose from ${choices.joinToString()})"
+    }
 
     /** The `pathType` parameter to [pathDoesNotExist] and other `path*` errors */
     fun pathTypeFile() = "File"
@@ -154,9 +177,6 @@ interface Localization {
 
     /** Invalid path type */
     fun pathIsSymlink(pathType: String, path: String) = "$pathType \"$path\" is a symlink."
-
-    /** String used to join multiple items into a list */
-    fun listSeparator() = ", "
 }
 
 internal val defaultLocalization = object : Localization {}

@@ -14,7 +14,7 @@ private fun mvar(choices: Iterable<String>): String {
 }
 
 private fun errorMessage(context: Context, choice: String, choices: Map<String, *>): String {
-    return context.localization.invalidChoice(choice, choices.keys.joinToString(context.localization.listSeparator()))
+    return context.localization.invalidChoice(choice, choices.keys.toList())
 }
 
 // arguments

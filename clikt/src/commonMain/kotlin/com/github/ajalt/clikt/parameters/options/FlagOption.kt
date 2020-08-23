@@ -35,7 +35,7 @@ class FlagOption<T> internal constructor(
 ) : OptionDelegate<T> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
-    override val metavar: String? = null
+    override fun metavar(context: Context): String? = null
     override val nvalues: Int get() = 0
     override val parser = FlagOptionParser
     override var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")

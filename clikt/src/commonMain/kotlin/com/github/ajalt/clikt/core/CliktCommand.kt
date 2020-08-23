@@ -113,9 +113,9 @@ abstract class CliktCommand(
     }
 
     private fun allHelpParams(): List<ParameterHelp> {
-        return _options.mapNotNull { it.parameterHelp } +
-                _arguments.mapNotNull { it.parameterHelp } +
-                _groups.mapNotNull { it.parameterHelp } +
+        return _options.mapNotNull { it.parameterHelp(currentContext) } +
+                _arguments.mapNotNull { it.parameterHelp(currentContext) } +
+                _groups.mapNotNull { it.parameterHelp(currentContext) } +
                 _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags) }
     }
 

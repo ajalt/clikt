@@ -177,6 +177,24 @@ interface Localization {
 
     /** Invalid path type */
     fun pathIsSymlink(pathType: String, path: String) = "$pathType \"$path\" is a symlink."
+
+    /** Metavar used for options with unspecified value type */
+    fun defaultMetavar() = "VALUE"
+
+    /** Metavar used for options that take [String] values */
+    fun stringMetavar() = "TEXT"
+
+    /** Metavar used for options that take [Float] or [Double] values */
+    fun floatMetavar() = "FLOAT"
+
+    /** Metavar used for options that take [Int] or [Long] values */
+    fun intMetavar() = "INT"
+
+    /** Metavar used for options that take `File` or `Path` values */
+    fun pathMetavar() = "PATH"
+
+    /** Metavar used for options that take `InputStream` or `OutputStream` values */
+    fun fileMetavar() = "FILE"
 }
 
 internal val defaultLocalization = object : Localization {}

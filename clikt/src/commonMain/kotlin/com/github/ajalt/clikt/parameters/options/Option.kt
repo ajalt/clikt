@@ -17,7 +17,7 @@ import kotlin.reflect.KProperty
  */
 interface Option {
     /** A name representing the values for this option that can be displayed to the user. */
-    val metavar: String?
+    fun metavar(context: Context): String?
 
     /** The description of this option, usually a single line. */
     val optionHelp: String
@@ -47,14 +47,13 @@ interface Option {
     val valueSourceKey: String?
 
     /** Information about this option for the help output. */
-    val parameterHelp: HelpFormatter.ParameterHelp.Option?
-        get() = when {
-            hidden -> null
-            else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar, optionHelp, nvalues, helpTags,
-                    groupName = (this as? StaticallyGroupedOption)?.groupName
-                            ?: (this as? GroupableOption)?.parameterGroup?.groupName
-            )
-        }
+    fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Option? = when {
+        hidden -> null
+        else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar(context), optionHelp, nvalues, helpTags,
+                groupName = (this as? StaticallyGroupedOption)?.groupName
+                        ?: (this as? GroupableOption)?.parameterGroup?.groupName
+        )
+    }
 
     /**
      * Called after this command's argv is parsed to transform and store the option's value.

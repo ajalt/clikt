@@ -15,4 +15,4 @@ private fun valueToFloat(context: Context, it: String): Float {
 fun RawArgument.float() = convert { valueToFloat(context, it) }
 
 /** Convert the option values to a `Float` */
-fun RawOption.float() = convert("FLOAT") { valueToFloat(context, it) }
+fun RawOption.float() = convert({ localization.floatMetavar() }) { valueToFloat(context, it) }

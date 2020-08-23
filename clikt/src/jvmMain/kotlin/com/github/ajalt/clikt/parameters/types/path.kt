@@ -89,7 +89,7 @@ fun RawOption.path(
         canBeSymlink: Boolean = true,
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<Path, Path> {
-    return convert("PATH", completionCandidates = CompletionCandidates.Path) { str ->
+    return convert({ localization.pathMetavar() }, CompletionCandidates.Path) { str ->
         convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem, context) { fail(it) }
     }
 }

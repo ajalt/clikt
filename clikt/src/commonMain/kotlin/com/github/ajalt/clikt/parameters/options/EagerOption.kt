@@ -33,7 +33,7 @@ class EagerOption(
 
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
-    override val metavar: String? get() = null
+    override fun metavar(context: Context): String? = null
     override val valueSourceKey: String? get() = null
     override fun postValidate(context: Context) {}
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {

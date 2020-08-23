@@ -82,7 +82,7 @@ fun RawOption.file(
         mustBeReadable: Boolean = false,
         canBeSymlink: Boolean = true
 ): NullableOption<File, File> {
-    return convert("PATH", completionCandidates = CompletionCandidates.Path) { str ->
+    return convert({ localization.pathMetavar() }, CompletionCandidates.Path) { str ->
         convertToFile(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, context) { fail(it) }
     }
 }

@@ -15,4 +15,4 @@ internal fun valueToInt(context: Context, it: String): Int {
 fun RawArgument.int() = convert { valueToInt(context, it) }
 
 /** Convert the option values to an `Int` */
-fun RawOption.int() = convert("INT") { valueToInt(context, it) }
+fun RawOption.int() = convert({ localization.intMetavar() }) { valueToInt(context, it) }

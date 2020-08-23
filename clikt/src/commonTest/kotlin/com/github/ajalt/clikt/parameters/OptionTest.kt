@@ -493,11 +493,11 @@ class OptionTest {
             override fun run_() {
                 registeredOptions().forEach {
                     assertTrue(it is EagerOption || // skip help option
-                            "--x" in it.names && it.metavar == "TEXT" ||
-                            "--y" in it.names && it.metavar == "FOO" ||
-                            "--z" in it.names && it.metavar == "FOO" ||
-                            "--w" in it.names && it.metavar == "BAR" ||
-                            "--u" in it.names && it.metavar == null,
+                            "--x" in it.names && it.metavar(currentContext) == "TEXT" ||
+                            "--y" in it.names && it.metavar(currentContext) == "FOO" ||
+                            "--z" in it.names && it.metavar(currentContext) == "FOO" ||
+                            "--w" in it.names && it.metavar(currentContext) == "BAR" ||
+                            "--u" in it.names && it.metavar(currentContext) == null,
                             message = "bad option $it"
                     )
                 }

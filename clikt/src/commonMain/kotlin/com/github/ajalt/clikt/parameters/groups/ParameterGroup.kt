@@ -24,12 +24,11 @@ interface ParameterGroup {
      */
     val groupHelp: String?
 
-    val parameterHelp: HelpFormatter.ParameterHelp.Group?
-        get() {
-            val n = groupName
-            val h = groupHelp
-            return if (n == null || h == null) null else HelpFormatter.ParameterHelp.Group(n, h)
-        }
+    fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Group? {
+        val n = groupName
+        val h = groupHelp
+        return if (n == null || h == null) null else HelpFormatter.ParameterHelp.Group(n, h)
+    }
 
     /**
      * Called after this command's argv is parsed and all options are validated to validate the group constraints.

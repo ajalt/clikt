@@ -45,7 +45,7 @@ private fun convertToInputStream(s: String, fileSystem: FileSystem, context: Con
 fun RawOption.inputStream(
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<InputStream, InputStream> {
-    return convert("FILE", completionCandidates = CompletionCandidates.Path) { s ->
+    return convert({ localization.fileMetavar() }, CompletionCandidates.Path) { s ->
         convertToInputStream(s, fileSystem, context) { fail(it) }
     }
 }

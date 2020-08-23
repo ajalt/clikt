@@ -15,4 +15,4 @@ private fun valueToDouble(context: Context, it: String): Double {
 fun RawArgument.double() = convert { valueToDouble( context, it) }
 
 /** Convert the option values to a `Double` */
-fun RawOption.double() = convert("FLOAT") { valueToDouble(context,  it) }
+fun RawOption.double() = convert({ localization.floatMetavar() }) { valueToDouble(context, it) }

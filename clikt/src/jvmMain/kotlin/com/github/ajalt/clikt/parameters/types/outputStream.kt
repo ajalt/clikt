@@ -59,7 +59,7 @@ fun RawOption.outputStream(
         truncateExisting: Boolean = false,
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<OutputStream, OutputStream> {
-    return convert("FILE", completionCandidates = CompletionCandidates.Path) { s ->
+    return convert({ localization.fileMetavar() }, CompletionCandidates.Path) { s ->
         convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
     }
 }

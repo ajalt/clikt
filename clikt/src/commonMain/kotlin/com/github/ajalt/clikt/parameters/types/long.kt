@@ -15,4 +15,4 @@ internal fun valueToLong(context: Context, it: String): Long {
 fun RawArgument.long() = convert { valueToLong(context, it) }
 
 /** Convert the option values to a `Long` */
-fun RawOption.long() = convert("INT") { valueToLong(context, it) }
+fun RawOption.long() = convert({ localization.intMetavar() }) { valueToLong(context, it) }

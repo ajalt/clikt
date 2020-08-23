@@ -11,6 +11,7 @@
 - Added `check{}` extensions to options and arguments as an alternative to `validate`
 - Added `prompt` and `confirm` functions to `CliktCommand` that call the `TermUi` equivalents with the current console.
 - Added `echo()` overload with no parameters to CliktCommand that prints a newline by itself.
+- Added localization support. You can set an implementation of the `Localization` interface on your context with your translations. ([#227](https://github.com/ajalt/clikt/issues/227))
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))
@@ -22,6 +23,7 @@
 - `Argument.help` and `Option.help` properties have been renamed to `argumentHelp` and `optionHelp`, respectively. The `help` parameter names to `option()` and `argument()` are unchanged.
 - `commandHelp` and `commandHelpEpilog` properties on `CliktCommand` are now `open`, so you can choose to override them instead of passing `help` and `epilog` to the constructor.
 - Replaced `MapValueSource.defaultKey` with `ValueSource.getKey()`, which is more customizable.
+- `Option.metavar`, `Option.parameterHelp`, `OptionGroup.parameterHelp` and `Argument.parameterHelp` properties are now functions.
 
 ### Removed
 - Removed `envvarSplit` parameter from `option()` and `convert()`. Option values from environment variables are no longer split automatically. ([#177](https://github.com/ajalt/clikt/issues/177))

@@ -137,6 +137,23 @@ object TermUi {
         }
     }
 
+    /**
+     * Prompt a user for text input.
+     *
+     * If the user sends a terminate signal (e.g. ctrl-c) while the prompt is active, null will be returned.
+     *
+     * @param text The text to display for the prompt.
+     * @param default The default value to use for the input. If the user enters a newline without any other
+     *   value, [default] will be returned.
+     * @param hideInput If true, the user's input will not be echoed back to the screen. This is commonly used
+     *   for password inputs.
+     * @param requireConfirmation If true, the user will be required to enter the same value twice before it
+     *   is accepted.
+     * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
+     * @param promptSuffix A delimiter printed between the [text] and the user's input.
+     * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
+     */
     fun prompt(
             text: String,
             default: String? = null,

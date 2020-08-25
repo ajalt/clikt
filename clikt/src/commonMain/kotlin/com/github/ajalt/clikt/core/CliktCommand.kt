@@ -3,8 +3,10 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
+import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
+import com.github.ajalt.clikt.output.defaultCliktConsole
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -261,6 +263,112 @@ abstract class CliktCommand(
             lineSeparator: String = currentContext.console.lineSeparator
     ) {
         TermUi.echo(message, trailingNewline, err, currentContext.console, lineSeparator)
+    }
+
+    /**
+     * Prompt a user for text input.
+     *
+     * If the user sends a terminate signal (e.g. ctrl-c) while the prompt is active, null will be returned.
+     *
+     * @param text The text to display for the prompt.
+     * @param default The default value to use for the input. If the user enters a newline without any other
+     *   value, [default] will be returned.
+     * @param hideInput If true, the user's input will not be echoed back to the screen. This is commonly used
+     *   for password inputs.
+     * @param requireConfirmation If true, the user will be required to enter the same value twice before it
+     *   is accepted.
+     * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
+     * @param promptSuffix A delimiter printed between the [text] and the user's input.
+     * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
+     */
+    protected fun prompt(
+            text: String,
+            default: String? = null,
+            hideInput: Boolean = false,
+            requireConfirmation: Boolean = false,
+            confirmationPrompt: String = "Repeat for confirmation: ",
+            promptSuffix: String = ": ",
+            showDefault: Boolean = true,
+    ): String? {
+        return TermUi.prompt(
+                text = text,
+                default = default,
+                hideInput = hideInput,
+                requireConfirmation = requireConfirmation,
+                confirmationPrompt = confirmationPrompt,
+                promptSuffix = promptSuffix,
+                showDefault = showDefault,
+                console = currentContext.console,
+                convert = { it }
+        )
+    }
+
+    /**
+     * Prompt a user for text input and convert the result.
+     *
+     * If the user sends a terminate signal (e.g. ctrl-c) while the prompt is active, null will be returned.
+     *
+     * @param text The text to display for the prompt.
+     * @param default The default value to use for the input. If the user enters a newline without any other
+     *   value, [default] will be returned. This parameter is a String instead of [T], since it will be
+     *   displayed to the user.
+     * @param hideInput If true, the user's input will not be echoed back to the screen. This is commonly used
+     *   for password inputs.
+     * @param requireConfirmation If true, the user will be required to enter the same value twice before it
+     *   is accepted.
+     * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
+     * @param promptSuffix A delimiter printed between the [text] and the user's input.
+     * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @param convert A callback that will convert the text that the user enters to the return value of the
+     *   function. If the callback raises a [UsageError], its message will be printed and the user will be
+     *   asked to enter a new value. If [default] is not null and the user does not input a value, the value
+     *   of [default] will be passed to this callback.
+     * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
+     */
+    protected fun <T> prompt(
+            text: String,
+            default: String? = null,
+            hideInput: Boolean = false,
+            requireConfirmation: Boolean = false,
+            confirmationPrompt: String = "Repeat for confirmation: ",
+            promptSuffix: String = ": ",
+            showDefault: Boolean = true,
+            convert: ((String) -> T)
+    ): T? {
+        return TermUi.prompt(
+                text = text,
+                default = default,
+                hideInput = hideInput,
+                requireConfirmation = requireConfirmation,
+                confirmationPrompt = confirmationPrompt,
+                promptSuffix = promptSuffix,
+                showDefault = showDefault,
+                console = currentContext.console,
+                convert = convert
+        )
+    }
+
+    /**
+     * Prompt for user confirmation.
+     *
+     * Responses will be read from stdin, even if it's redirected to a file.
+     *
+     * @param text the question to ask
+     * @param default the default, used if stdin is empty
+     * @param abort if `true`, a negative answer aborts the program by raising [Abort]
+     * @param promptSuffix a string added after the question and choices
+     * @param showDefault if false, the choices will not be shown in the prompt.
+     * @return the user's response, or null if stdin is not interactive and EOF was encountered.
+     */
+    protected fun confirm(
+            text: String,
+            default: Boolean = false,
+            abort: Boolean = false,
+            promptSuffix: String = ": ",
+            showDefault: Boolean = true
+    ): Boolean? {
+        return TermUi.confirm(text, default, abort, promptSuffix, showDefault, currentContext.console)
     }
 
     /**

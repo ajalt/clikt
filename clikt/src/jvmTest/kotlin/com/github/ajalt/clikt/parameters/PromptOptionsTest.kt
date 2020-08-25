@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.parse
 import io.kotest.matchers.collections.beEmpty
 import io.kotest.matchers.collections.containExactly
 import io.kotest.matchers.should
@@ -43,6 +44,32 @@ class PromptOptionsTest {
     }
 
     @Test
+    fun `command prompt`() {
+        stdin.provideLines("bar")
+
+        class C: TestCommand() {
+            override fun run_() {
+                prompt("Foo") shouldBe "bar"
+            }
+        }
+        C().parse("")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: "
+    }
+
+    @Test
+    fun `command confirm`() {
+        stdin.provideLines("y")
+
+        class C: TestCommand() {
+            override fun run_() {
+                confirm("Foo") shouldBe true
+            }
+        }
+        C().parse("")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo [y/N]: "
+    }
+
+    @Test
     fun `prompt option`() {
         stdin.provideLines("foo", "bar")
 
@@ -54,7 +81,7 @@ class PromptOptionsTest {
                 bar shouldBe "bar"
             }
         }
-        C().parse(emptyArray())
+        C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
     }
 
@@ -88,7 +115,7 @@ class PromptOptionsTest {
                 foo shouldBe "bar"
             }
         }
-        C().parse(emptyArray())
+        C().parse("")
         console.prompts should containExactly("Foo: ")
         console.prints should beEmpty()
         stdout.logWithNormalizedLineSeparator shouldBe ""
@@ -145,7 +172,7 @@ class PromptOptionsTest {
                 foo shouldBe "foo"
             }
         }
-        C().parse(emptyArray())
+        C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "INPUT: "
     }
 
@@ -163,7 +190,7 @@ class PromptOptionsTest {
                 baz shouldBe "baz"
             }
         }
-        C().parse(emptyArray())
+        C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: Some thing: "
     }
 
@@ -179,7 +206,7 @@ class PromptOptionsTest {
                 bar shouldBe "bar"
             }
         }
-        C().parse(emptyArray())
+        C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
     }
 
@@ -194,7 +221,7 @@ class PromptOptionsTest {
             }
         }
 
-        C().parse(emptyArray())
+        C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "Foo [baz]: "
     }
 
@@ -209,6 +236,6 @@ class PromptOptionsTest {
             }
         }
 
-        C().parse(emptyArray())
+        C().parse("")
     }
 }

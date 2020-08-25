@@ -195,6 +195,33 @@ interface Localization {
 
     /** Metavar used for options that take `InputStream` or `OutputStream` values */
     fun fileMetavar() = "FILE"
+
+    /** The title for the usage section of help output */
+    fun usageTitle(): String = "Usage:"
+
+    /** The title for the options section of help output */
+    fun optionsTitle(): String = "Options:"
+
+    /** The title for the arguments section of help output */
+    fun argumentsTitle(): String = "Arguments:"
+
+    /** The title for the subcommands section of help output */
+    fun commandsTitle(): String = "Commands:"
+
+    /** The that indicates where options may be present in the usage help output */
+    fun optionsMetavar(): String = "[OPTIONS]"
+
+    /** The that indicates where subcommands may be present in the usage help output */
+    fun commandMetavar(): String = "COMMAND [ARGS]..."
+
+    /** Text rendered for parameters tagged with [HelpFormatter.Tags.DEFAULT] */
+    fun helpTagDefault(): String = "default"
+
+    /** Text rendered for parameters tagged with [HelpFormatter.Tags.REQUIRED] */
+    fun helpTagRequired(): String = "required"
+
+    /** The default message for the `--help` option. This can be overridden with [Context.helpOptionMessage] */
+    fun helpOptionMessage(): String = "Show this message and exit"
 }
 
 internal val defaultLocalization = object : Localization {}

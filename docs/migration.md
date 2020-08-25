@@ -15,4 +15,16 @@ If you still want to split option values, you can do so explicitly with [`split(
 The Value Source API and Completion Generation APIs no longer require opt-in. You can use these APIs
 without needing the `ExperimentalValueSourceApi` or `ExperimentalCompletionCandidates` annotations.
 
-[split][api/clikt/com.github.ajalt.clikt.parameters.options/split.md]
+### Localization
+
+By default, all strings are defined in the [`Localization`][Localization] object set on your
+[context][[Context.localization]. This means that string parameters like `usageTitle` in the
+constructor for [`CliktHelpFormatter`][CliktHelpFormatter] have been removed in favor of functions like
+[`Localization.usageTitle()`][Localization.usageTitle].
+
+
+[CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.md
+[Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.md
+[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.md
+[Localization.usageTitle]:  api/clikt/com.github.ajalt.clikt.output/-localization/usage-title.md
+[split]:                    api/clikt/com.github.ajalt.clikt.parameters.options/split.md

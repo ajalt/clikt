@@ -8,7 +8,7 @@
 - Added ability to use unicode NEL character (`\u0085`) to manually break lines in help output ([#214](https://github.com/ajalt/clikt/issues/214))
 - Added `help("")` extension to options and arguments as an alternative to passing the help as an argument ([#207](https://github.com/ajalt/clikt/issues/207))
 - Added `valueSourceKey` parameter to `option`
-- Added `check{}` extensions to options and arguments as an alternative to `validate`
+- Added `check()` extensions to options and arguments as an alternative to `validate()`
 - Added `prompt` and `confirm` functions to `CliktCommand` that call the `TermUi` equivalents with the current console.
 - Added `echo()` overload with no parameters to CliktCommand that prints a newline by itself.
 - Added localization support. You can set an implementation of the `Localization` interface on your context with your translations. ([#227](https://github.com/ajalt/clikt/issues/227))
@@ -24,6 +24,7 @@
 - `commandHelp` and `commandHelpEpilog` properties on `CliktCommand` are now `open`, so you can choose to override them instead of passing `help` and `epilog` to the constructor.
 - Replaced `MapValueSource.defaultKey` with `ValueSource.getKey()`, which is more customizable.
 - `Option.metavar`, `Option.parameterHelp`, `OptionGroup.parameterHelp` and `Argument.parameterHelp` properties are now functions.
+- Changed constructor parameters of `CliktHelpFormatter`. Added `localization` and removed `usageTitle`, `optionsTitle`, `argumentsTitle`, `commandsTitle`, `optionsMetavar`, and `commandMetavar`. Those strings are now defined on equivalently named functions on `Localization`.
 
 ### Removed
 - Removed `envvarSplit` parameter from `option()` and `convert()`. Option values from environment variables are no longer split automatically. ([#177](https://github.com/ajalt/clikt/issues/177))

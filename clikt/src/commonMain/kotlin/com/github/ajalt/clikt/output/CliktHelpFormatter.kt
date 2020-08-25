@@ -5,16 +5,11 @@ import com.github.ajalt.clikt.mpp.readEnvvar
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class CliktHelpFormatter(
+        protected val localization: Localization = defaultLocalization,
         protected val indent: String = "  ",
         width: Int? = null,
         maxWidth: Int = 78,
         maxColWidth: Int? = null,
-        protected val usageTitle: String = "Usage:",
-        protected val optionsTitle: String = "Options:",
-        protected val argumentsTitle: String = "Arguments:",
-        protected val commandsTitle: String = "Commands:",
-        protected val optionsMetavar: String = "[OPTIONS]",
-        protected val commandMetavar: String = "COMMAND [ARGS]...",
         protected val colSpacing: Int = 2,
         protected val requiredOptionMarker: String? = null,
         protected val showDefaultValues: Boolean = false,
@@ -49,10 +44,10 @@ open class CliktHelpFormatter(
             parameters: List<HelpFormatter.ParameterHelp>,
             programName: String
     ) {
-        val prog = "${renderSectionTitle(usageTitle)} $programName"
+        val prog = "${renderSectionTitle(localization.usageTitle())} $programName"
         val usage = buildString {
             if (parameters.any { it is HelpFormatter.ParameterHelp.Option }) {
-                append(optionsMetavar)
+                append(localization.optionsMetavar())
             }
 
             parameters.filterIsInstance<HelpFormatter.ParameterHelp.Argument>().forEach {
@@ -64,7 +59,7 @@ open class CliktHelpFormatter(
             }
 
             if (parameters.any { it is HelpFormatter.ParameterHelp.Subcommand }) {
-                append(" ").append(commandMetavar)
+                append(" ").append(localization.commandMetavar())
             }
         }
 
@@ -94,7 +89,8 @@ open class CliktHelpFormatter(
                 .toList()
                 .sortedBy { it.first == null }
                 .forEach { (title, params) ->
-                    addOptionGroup(title?.let { "$it:" } ?: optionsTitle, groupsByName[title]?.help, params)
+                    addOptionGroup(title?.let { "$it:" }
+                            ?: localization.optionsTitle(), groupsByName[title]?.help, params)
                 }
     }
 
@@ -124,7 +120,7 @@ open class CliktHelpFormatter(
         }
         if (arguments.isNotEmpty() && arguments.any { it.col2.isNotEmpty() }) {
             append("\n")
-            section(argumentsTitle)
+            section(localization.argumentsTitle())
             appendDefinitionList(arguments)
         }
     }
@@ -135,7 +131,7 @@ open class CliktHelpFormatter(
         }
         if (commands.isNotEmpty()) {
             append("\n")
-            section(commandsTitle)
+            section(localization.commandsTitle())
             appendDefinitionList(commands)
         }
     }
@@ -168,7 +164,12 @@ open class CliktHelpFormatter(
     }
 
     protected open fun renderTag(tag: String, value: String): String {
-        return if (value.isBlank()) "($tag)" else "($tag: $value)"
+        val t = when(tag) {
+            HelpFormatter.Tags.DEFAULT -> localization.helpTagDefault()
+            HelpFormatter.Tags.REQUIRED -> localization.helpTagRequired()
+            else -> tag
+        }
+        return if (value.isBlank()) "($t)" else "($t: $value)"
     }
 
     protected open fun renderOptionName(name: String): String = name

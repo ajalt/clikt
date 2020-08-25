@@ -347,48 +347,31 @@ class Cli : NoOpCliktCommand() {
 You can localize error messages by implementing [`Localization`][Localization] and setting the
 [`localization`][Context.localization] property on your context.
 
-If you're using the default [`CliktHelpFormatter`][CliktHelpFormatter], you can localize the help output with the
-constructor parameters like `usageTitle`.
-
-
 ```kotlin tab="Example"
 class CursiveLocalization : Localization {
-    override fun usageError(message: String) = "𝐸𝓇𝓇𝑜𝓇: $message"
-    override fun noSuchOption(name: String, possibilities: List<String>) = "𝓃𝑜 𝓈𝓊𝒸𝒽 𝑜𝓅𝓉𝒾𝑜𝓃: $name"
+    override fun usageTitle() = "𝒰𝓈𝒶𝑔𝑒:"
+    override fun optionsTitle() = "𝒪𝓅𝓉𝒾𝑜𝓃𝓈:"
+    override fun optionsMetavar() = "[𝒪𝒫𝒯𝐼𝒪𝒩𝒮]:"
+    override fun helpOptionMessage() = "𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉"
+
     // ... override the rest of the strings here
 }
 
 class I18NTool : NoOpCliktCommand(help = "𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒") {
     init {
-        context {
-            helpOptionMessage = "𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉"
-            helpFormatter = CliktHelpFormatter(
-                    usageTitle = "𝒰𝓈𝒶𝑔𝑒:",
-                    optionsTitle = "𝒪𝓅𝓉𝒾𝑜𝓃𝓈:",
-                    argumentsTitle = "𝒜𝓇𝑔𝓊𝓂𝑒𝓃𝓉𝓈:",
-                    commandsTitle = "𝒞𝑜𝓂𝓂𝒶𝓃𝒹𝓈:",
-                    optionsMetavar = "[𝒪𝒫𝒯𝐼𝒪𝒩𝒮]:",
-                    commandMetavar = "𝒞𝒪𝑀𝑀𝒜𝒩𝒟 [𝒜𝑅𝒢𝒮]…"
-            )
-            localization = CursiveLocalization()
-        }
+        context { localization = CursiveLocalization() }
     }
 }
 ```
 
-```text tab="Usage 1"
+```text tab="Usage"
 $ ./i18ntool --help
 𝒰𝓈𝒶𝑔𝑒: i18ntool [𝒪𝒫𝒯𝐼𝒪𝒩𝒮]
 
   𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒
 
 𝒪𝓅𝓉𝒾𝑜𝓃𝓈:
-  -𝒽, --𝒽𝑒𝓁𝓅  𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉
-```
-
-```text tab="Usage 2"
-$ ./i18ntool --none
-𝐸𝓇𝓇𝑜𝓇: 𝓃𝑜 𝓈𝓊𝒸𝒽 𝑜𝓅𝓉𝒾𝑜𝓃: "--none"
+  -h, --help  𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉
 ```
 
 [CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.md

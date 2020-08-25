@@ -116,11 +116,11 @@ class Context(
          */
         var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
 
-        /** The description of the help option.*/
-        var helpOptionMessage: String = parent?.helpOptionMessage ?: "Show this message and exit"
+        /** The description of the help option, or `null` to use the default from the [localization]. */
+        var helpOptionMessage: String? = parent?.helpOptionMessage
 
-        /** The help formatter for this command*/
-        var helpFormatter: HelpFormatter = parent?.helpFormatter ?: CliktHelpFormatter()
+        /** The help formatter for this command, or null to use the default */
+        var helpFormatter: HelpFormatter? = parent?.helpFormatter
 
         /** An optional transformation function that is called to transform command line */
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
@@ -191,9 +191,11 @@ class Context(
                 block()
                 val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
                         parent?.let { p -> p.ancestors().any { it.command.allowMultipleSubcommands } } != true
+                val formatter = helpFormatter ?: CliktHelpFormatter(localization)
+                val helpMessage = helpOptionMessage ?: localization.helpOptionMessage()
                 return Context(
                         parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                        helpOptionNames, helpOptionMessage, helpFormatter, tokenTransformer,
+                        helpOptionNames, helpMessage, formatter, tokenTransformer,
                         console, expandArgumentFiles, readEnvvarBeforeValueSource, valueSource,
                         correctionSuggestor, localization
                 )

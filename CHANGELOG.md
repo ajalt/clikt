@@ -10,6 +10,7 @@
 - Added `valueSourceKey` parameter to `option`
 - Added `check{}` extensions to options and arguments as an alternative to `validate`
 - Added `prompt` and `confirm` functions to `CliktCommand` that call the `TermUi` equivalents with the current console.
+- Added `echo()` overload with no parameters to CliktCommand that prints a newline by itself.
 
 ### Fixed
 - Hidden options will no longer be suggested as possible typo corrections. ([#202](https://github.com/ajalt/clikt/issues/202))

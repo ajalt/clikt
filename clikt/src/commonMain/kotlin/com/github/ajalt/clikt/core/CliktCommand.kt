@@ -3,10 +3,8 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
-import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
-import com.github.ajalt.clikt.output.defaultCliktConsole
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -244,6 +242,11 @@ abstract class CliktCommand(
      * tokens from an existing alias are being parsed.
      */
     open fun aliases(): Map<String, List<String>> = emptyMap()
+
+    /** Prints [lineSeparator] to `stdout`, or to `stderr` if [err] is true */
+    protected fun echo(err: Boolean = false, lineSeparator: String = currentContext.console.lineSeparator) {
+        echo("", err = err, lineSeparator = lineSeparator)
+    }
 
     /**
      * Print the [message] to the screen.

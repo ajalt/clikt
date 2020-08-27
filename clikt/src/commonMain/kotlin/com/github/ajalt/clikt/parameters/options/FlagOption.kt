@@ -35,7 +35,7 @@ class FlagOption<T> internal constructor(
 ) : OptionDelegate<T> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
-    override val metavar: String? = null
+    override fun metavar(context: Context): String? = null
     override val nvalues: Int get() = 0
     override val parser = FlagOptionParser
     override var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
@@ -55,7 +55,8 @@ class FlagOption<T> internal constructor(
             is FinalValue.Parsed -> transformAll(transformContext, invocations.map { it.name })
             is FinalValue.Sourced -> {
                 if (v.values.size != 1 || v.values[0].values.size != 1) {
-                    throw UsageError("Invalid flag value in file for option ${longestName()}", this)
+                    val message = context.localization.invalidFlagValueInFile(longestName() ?: "")
+                    throw UsageError(message, this)
                 }
                 transformEnvvar(transformContext, v.values[0].values[0])
             }
@@ -155,7 +156,7 @@ fun RawOption.flag(
                 when (it.toLowerCase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
                     "false", "f", "0", "no", "n", "off" -> false
-                    else -> throw BadParameterValue("$it is not a valid boolean", this)
+                    else -> throw BadParameterValue(context.localization.boolConversionError(it), this)
                 }
             },
             transformAll = {
@@ -236,7 +237,7 @@ fun RawOption.counted(): FlagOption<Int> {
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
             envvar = envvar,
-            transformEnvvar = { valueToInt(it) },
+            transformEnvvar = { valueToInt(context, it) },
             transformAll = { it.size },
             validator = {}
     )
@@ -262,7 +263,7 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
             valueSourceKey = null,
             envvar = null,
             transformEnvvar = {
-                throw UsageError("environment variables not supported for switch options", this)
+                throw UsageError(context.localization.switchOptionEnvvar(), this)
             },
             transformAll = { names -> names.map { choices.getValue(it) }.lastOrNull() },
             validator = {}

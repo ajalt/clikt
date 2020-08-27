@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
@@ -12,10 +13,10 @@ import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
 
-private fun pathType(fileOkay: Boolean, folderOkay: Boolean): String = when {
-    fileOkay && !folderOkay -> "File"
-    !fileOkay && folderOkay -> "Directory"
-    else -> "Path"
+private fun pathType(context: Context, fileOkay: Boolean, folderOkay: Boolean): String = when {
+    fileOkay && !folderOkay -> context.localization.pathTypeFile()
+    !fileOkay && folderOkay -> context.localization.pathTypeDirectory()
+    else -> context.localization.pathTypeOther()
 }
 
 internal fun convertToPath(
@@ -27,16 +28,19 @@ internal fun convertToPath(
         mustBeReadable: Boolean,
         canBeSymlink: Boolean,
         fileSystem: FileSystem,
+        context: Context,
         fail: (String) -> Unit
 ): Path {
-    val name = pathType(canBeFile, canBeFolder)
-    return fileSystem.getPath(path).also {
-        if (mustExist && !Files.exists(it)) fail("$name \"$it\" does not exist.")
-        if (!canBeFile && Files.isRegularFile(it)) fail("$name \"$it\" is a file.")
-        if (!canBeFolder && Files.isDirectory(it)) fail("$name \"$it\" is a directory.")
-        if (mustBeWritable && !Files.isWritable(it)) fail("$name \"$it\" is not writable.")
-        if (mustBeReadable && !Files.isReadable(it)) fail("$name \"$it\" is not readable.")
-        if (!canBeSymlink && Files.isSymbolicLink(it)) fail("$name \"$it\" is a symlink.")
+    val name = pathType(context, canBeFile, canBeFolder)
+    return with(context.localization) {
+        fileSystem.getPath(path).also {
+            if (mustExist && !Files.exists(it)) fail(pathDoesNotExist(name, it.toString()))
+            if (!canBeFile && Files.isRegularFile(it)) fail(pathIsFile(name, it.toString()))
+            if (!canBeFolder && Files.isDirectory(it)) fail(pathIsDirectory(name, it.toString()))
+            if (mustBeWritable && !Files.isWritable(it)) fail(pathIsNotWritable(name, it.toString()))
+            if (mustBeReadable && !Files.isReadable(it)) fail(pathIsNotReadable(name, it.toString()))
+            if (!canBeSymlink && Files.isSymbolicLink(it)) fail(pathIsSymlink(name, it.toString()))
+        }
     }
 }
 
@@ -61,7 +65,7 @@ fun RawArgument.path(
         fileSystem: FileSystem = FileSystems.getDefault()
 ): ProcessedArgument<Path, Path> {
     return convert(completionCandidates = CompletionCandidates.Path) { str ->
-        convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
+        convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem, context) { fail(it) }
     }
 }
 
@@ -85,8 +89,7 @@ fun RawOption.path(
         canBeSymlink: Boolean = true,
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<Path, Path> {
-    val name = pathType(canBeFile, canBeDir)
-    return convert(name.toUpperCase(), completionCandidates = CompletionCandidates.Path) { str ->
-        convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem) { fail(it) }
+    return convert({ localization.pathMetavar() }, CompletionCandidates.Path) { str ->
+        convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem, context) { fail(it) }
     }
 }

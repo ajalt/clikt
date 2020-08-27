@@ -4,7 +4,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.Abort
-import com.github.ajalt.clikt.core.MissingParameter
+import com.github.ajalt.clikt.core.MissingOption
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.TermUi
 import kotlin.jvm.JvmMultifileClass
@@ -92,7 +92,7 @@ inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
 }
 
 /**
- * If the option is not called on the command line (and is not set in an envvar), throw a [MissingParameter].
+ * If the option is not called on the command line (and is not set in an envvar), throw a [MissingOption].
  *
  * This must be applied after all other transforms.
  *
@@ -103,7 +103,7 @@ inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
  * ```
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithValues<EachT, EachT, ValueT> {
-    return transformAll(showAsRequired = true) { it.lastOrNull() ?: throw MissingParameter(option) }
+    return transformAll(showAsRequired = true) { it.lastOrNull() ?: throw MissingOption(option) }
 }
 
 /**
@@ -118,7 +118,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithVa
  * ```
  *
  * @param default The value to use if the option is not supplied. Defaults to an empty list.
- * @param required If true, [default] is ignored and [MissingParameter] will be thrown if no
+ * @param required If true, [default] is ignored and [MissingOption] will be thrown if no
  *   instances of the option are present on the command line.
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
@@ -127,7 +127,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
 ): OptionWithValues<List<EachT>, EachT, ValueT> {
     return transformAll(showAsRequired = required) {
         when {
-            it.isEmpty() && required -> throw MissingParameter(option)
+            it.isEmpty() && required -> throw MissingOption(option)
             it.isEmpty() && !required -> default
             else -> it
         }

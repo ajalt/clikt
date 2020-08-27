@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.*
 import java.io.IOException
@@ -9,7 +10,7 @@ import java.nio.file.FileSystem
 import java.nio.file.FileSystems
 import java.nio.file.Files
 
-private fun convertToInputStream(s: String, fileSystem: FileSystem, fail: (String) -> Unit): InputStream {
+private fun convertToInputStream(s: String, fileSystem: FileSystem, context: Context, fail: (String) -> Unit): InputStream {
     return if (s == "-") {
         UnclosableInputStream(System.`in`)
     } else {
@@ -22,6 +23,7 @@ private fun convertToInputStream(s: String, fileSystem: FileSystem, fail: (Strin
                 mustBeReadable = true,
                 canBeSymlink = true,
                 fileSystem = fileSystem,
+                context = context,
                 fail = fail
         )
         Files.newInputStream(path)
@@ -43,8 +45,8 @@ private fun convertToInputStream(s: String, fileSystem: FileSystem, fail: (Strin
 fun RawOption.inputStream(
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<InputStream, InputStream> {
-    return convert("FILE", completionCandidates = CompletionCandidates.Path) { s ->
-        convertToInputStream(s, fileSystem) { fail(it) }
+    return convert({ localization.fileMetavar() }, CompletionCandidates.Path) { s ->
+        convertToInputStream(s, fileSystem, context) { fail(it) }
     }
 }
 
@@ -72,7 +74,7 @@ fun RawArgument.inputStream(
         fileSystem: FileSystem = FileSystems.getDefault()
 ): ProcessedArgument<InputStream, InputStream> {
     return convert(completionCandidates = CompletionCandidates.Path) { s ->
-        convertToInputStream(s, fileSystem) { fail(it) }
+        convertToInputStream(s, fileSystem, context) { fail(it) }
     }
 }
 

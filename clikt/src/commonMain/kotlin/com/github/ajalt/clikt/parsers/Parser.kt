@@ -73,7 +73,7 @@ internal object Parser {
                         positionalArgs += tok.drop(1)
                         i += 1
                     } else {
-                        tokens = loadArgFile(normTok.drop(1)) + tokens.slice(i + 1..tokens.lastIndex)
+                        tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
                         i = 0
                         minAliasI = 0
                     }
@@ -144,7 +144,8 @@ internal object Parser {
                         throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
                     } else {
                         val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
-                        throw UsageError("Got unexpected extra argument${if (excess == 1) "" else "s"} $actual")
+                        val message = if (excess == 1) context.localization.extraArgumentOne(actual) else context.localization.extraArgumentMany(actual, excess)
+                        throw UsageError(message)
                     }
                 }
 
@@ -262,7 +263,7 @@ internal object Parser {
                 else -> argument.nvalues
             }
             if (consumed > remaining) {
-                if (remaining == 0) throw MissingParameter(argument)
+                if (remaining == 0) throw MissingArgument(argument)
                 else throw IncorrectArgumentValueCount(argument)
             }
             out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed)
@@ -273,14 +274,14 @@ internal object Parser {
         return excess to out
     }
 
-    private fun loadArgFile(filename: String): List<String> {
-        val text = readFileIfExists(filename) ?: throw FileNotFound(filename)
+    private fun loadArgFile(filename: String, context: Context): List<String> {
+        val text = readFileIfExists(filename) ?: throw FileNotFound(filename, context)
         val toks = mutableListOf<String>()
         var inQuote: Char? = null
         val sb = StringBuilder()
         var i = 0
         fun err(msg: String): Nothing {
-            throw InvalidFileFormat(filename, msg, text.take(i).count { it == '\n' })
+            throw InvalidFileFormat(filename, msg, text.take(i).count { it == '\n' }, context)
         }
         loop@ while (i < text.length) {
             val c = text[i]
@@ -289,11 +290,11 @@ internal object Parser {
                     i += 1
                 }
                 c == '\n' && inQuote != null -> {
-                    err("unclosed quote")
+                    err(context.localization.unclosedQuote())
                 }
                 c == '\\' -> {
-                    if (i >= text.lastIndex) err("file ends with \\")
-                    if (text[i + 1] in "\r\n") err("unclosed quote")
+                    if (i >= text.lastIndex) err(context.localization.fileEndsWithSlash())
+                    if (text[i + 1] in "\r\n") err(context.localization.unclosedQuote())
                     sb.append(text[i + 1])
                     i += 2
                 }
@@ -326,7 +327,7 @@ internal object Parser {
         }
 
         if (inQuote != null) {
-            throw UsageError("Missing closing quote in @-file")
+            err(context.localization.unclosedQuote())
         }
 
         if (sb.isNotEmpty()) {

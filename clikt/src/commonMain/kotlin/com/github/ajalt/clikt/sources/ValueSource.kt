@@ -73,7 +73,6 @@ interface ValueSource {
                 is FlagOption<*> -> option.envvar
                 else -> null
             }
-            println("$env, ${inferEnvvar(option.names, env, context.autoEnvvarPrefix)}")
             inferEnvvar(option.names, env, context.autoEnvvarPrefix) ?: ""
         }
     }

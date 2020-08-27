@@ -47,7 +47,7 @@ interface Argument {
     val completionCandidates: CompletionCandidates get() = CompletionCandidates.None
 
     /** Information about this argument for the help output. */
-    val parameterHelp: ParameterHelp.Argument?
+    fun parameterHelp(context: Context): ParameterHelp.Argument?
 
     /**
      * Called after this command's argv is parsed to transform and store the argument's value.
@@ -131,8 +131,7 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
     override val completionCandidates: CompletionCandidates
         get() = completionCandidatesWithDefault.value
 
-    override val parameterHelp
-        get() = ParameterHelp.Argument(name, argumentHelp, required || nvalues > 1, nvalues < 0, helpTags)
+    override fun parameterHelp(context: Context) = ParameterHelp.Argument(name, argumentHelp, required || nvalues > 1, nvalues < 0, helpTags)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 

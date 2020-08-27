@@ -135,7 +135,7 @@ class CliktCommandTest {
         }.helpMessage() shouldBe """
             |Usage: parent [OPTIONS] ARG
             |
-            |Error: Missing argument "ARG".
+            |Error: Missing argument "ARG"
             """.trimMargin()
     }
 
@@ -261,6 +261,6 @@ class CliktCommandTest {
         c.args shouldBe listOf("-g", "-i")
         shouldThrow<NoSuchOption> {
             C(false).parse("-fgi")
-        }.message shouldBe "no such option: \"-g\"."
+        }.message shouldBe "no such option: \"-g\""
     }
 }

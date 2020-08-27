@@ -2,10 +2,7 @@
 
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.MissingParameter
-import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -65,9 +62,9 @@ class OptionGroupsTest {
 
         C().parse("--x=foo")
 
-        shouldThrow<MissingParameter> {
+        shouldThrow<MissingOption> {
             C().parse("")
-        }.message shouldBe "Missing option \"--x\"."
+        }.message shouldBe "Missing option \"--x\""
     }
 
     @Test
@@ -234,7 +231,7 @@ class OptionGroupsTest {
         }
 
         shouldThrow<UsageError> { C().parse("--y=2") }
-                .message shouldBe "Missing option \"--x\"."
+                .message shouldBe "Missing option \"--x\""
     }
 
     @Test
@@ -356,7 +353,7 @@ class OptionGroupsTest {
     fun `cooccurring option group validation`() = forAll(
             row("", null, true, null),
             row("--x=1 --y=1", 1, true, null),
-            row("--x=2", null, false, "Missing option \"--y\"."),
+            row("--x=2", null, false, "Missing option \"--y\""),
             row("--x=2 --y=1", null, false, "Invalid value for \"--x\": fail")
     ) { argv, ex, ec, em ->
         if (skipDueToKT33294) return@forAll

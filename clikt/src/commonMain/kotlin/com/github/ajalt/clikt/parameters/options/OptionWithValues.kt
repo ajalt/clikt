@@ -97,7 +97,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 // default("").int()
 class OptionWithValues<AllT, EachT, ValueT> internal constructor(
         names: Set<String>,
-        val metavarWithDefault: ValueWithDefault<String?>,
+        val metavarWithDefault: ValueWithDefault<Context.() -> String?>,
         override val nvalues: Int,
         override val optionHelp: String,
         override val hidden: Boolean,
@@ -114,7 +114,7 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
 ) : OptionDelegate<AllT>, GroupableOption {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
-    override val metavar: String? get() = metavarWithDefault.value
+    override fun metavar(context: Context): String? = metavarWithDefault.value.invoke(context)
     override var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
         private set
     override val secondaryNames: Set<String> get() = emptySet()
@@ -169,7 +169,7 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
             transformAll: CallsTransformer<EachT, AllT>,
             validator: OptionValidator<AllT>,
             names: Set<String> = this.names,
-            metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
+            metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
             help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
@@ -203,7 +203,7 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
     fun copy(
             validator: OptionValidator<AllT> = this.transformValidator,
             names: Set<String> = this.names,
-            metavarWithDefault: ValueWithDefault<String?> = this.metavarWithDefault,
+            metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
             nvalues: Int = this.nvalues,
             help: String = this.optionHelp,
             hidden: Boolean = this.hidden,
@@ -275,7 +275,7 @@ fun ParameterHolder.option(
         valueSourceKey: String? = null
 ): RawOption = OptionWithValues(
         names = names.toSet(),
-        metavarWithDefault = ValueWithDefault(metavar, "TEXT"),
+        metavarWithDefault = ValueWithDefault(metavar?.let { { it } }, { localization.stringMetavar() }),
         nvalues = 1,
         optionHelp = help,
         hidden = hidden,

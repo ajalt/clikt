@@ -170,11 +170,15 @@ You can change the help option's name and help message on the
 [command's context][customizing-contexts]:
 
 ```kotlin tab="Example"
+class HelpLocalization: Localization {
+    override fun helpOptionMessage(): String = "show the help"
+}
+
 class Tool : NoOpCliktCommand() {
     init {
         context {
             helpOptionNames = setOf("/help")
-            helpOptionMessage = "show the help"
+            localization = HelpLocalization()
         }
     }
 }
@@ -342,11 +346,46 @@ class Cli : NoOpCliktCommand() {
 }
 ```
 
+## Localization
+
+You can localize error messages by implementing [`Localization`][Localization] and setting the
+[`localization`][Context.localization] property on your context.
+
+```kotlin tab="Example"
+class CursiveLocalization : Localization {
+    override fun usageTitle() = "𝒰𝓈𝒶𝑔𝑒:"
+    override fun optionsTitle() = "𝒪𝓅𝓉𝒾𝑜𝓃𝓈:"
+    override fun optionsMetavar() = "[𝒪𝒫𝒯𝐼𝒪𝒩𝒮]:"
+    override fun helpOptionMessage() = "𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉"
+
+    // ... override the rest of the strings here
+}
+
+class I18NTool : NoOpCliktCommand(help = "𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒") {
+    init {
+        context { localization = CursiveLocalization() }
+    }
+}
+```
+
+```text tab="Usage"
+$ ./i18ntool --help
+𝒰𝓈𝒶𝑔𝑒: i18ntool [𝒪𝒫𝒯𝐼𝒪𝒩𝒮]
+
+  𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒
+
+𝒪𝓅𝓉𝒾𝑜𝓃𝓈:
+  -h, --help  𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉
+```
+
+[CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.md
 [Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
+[Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.md
 [customizing-command-name]: commands.md#customizing-command-name
 [customizing-contexts]:     commands.md#customizing-contexts
 [default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.md
 [HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
+[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.md
 [nel]:                      https://www.fileformat.info/info/unicode/char/0085/index.htm
 [OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.md
 [provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md

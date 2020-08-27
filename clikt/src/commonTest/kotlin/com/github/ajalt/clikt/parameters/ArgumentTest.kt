@@ -27,8 +27,8 @@ class ArgumentTest {
             val foo by argument()
         }
 
-        shouldThrow<MissingParameter> { C().parse("") }
-                .message shouldBe "Missing argument \"FOO\"."
+        shouldThrow<MissingArgument> { C().parse("") }
+                .message shouldBe "Missing argument \"FOO\""
     }
 
     @Test
@@ -94,8 +94,8 @@ class ArgumentTest {
 
         C().parse("1 2")
 
-        shouldThrow<MissingParameter> { C().parse("") }
-                .message shouldBe "Missing argument \"X\"."
+        shouldThrow<MissingArgument> { C().parse("") }
+                .message shouldBe "Missing argument \"X\""
     }
 
     @Test
@@ -135,7 +135,7 @@ class ArgumentTest {
             val x by argument().pair()
         }
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo") }
-                .message shouldBe "argument X takes 2 values"
+                .message shouldBe "argument X requires 2 values"
         shouldThrow<UsageError> { C().parse("foo bar baz") }
                 .message shouldBe "Got unexpected extra argument (baz)"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
@@ -150,7 +150,7 @@ class ArgumentTest {
         }
 
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo bar") }
-                .message shouldBe "argument X takes 3 values"
+                .message shouldBe "argument X requires 3 values"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
                 .message shouldBe "Got unexpected extra argument (qux)"
 
@@ -214,7 +214,7 @@ class ArgumentTest {
             val x by argument().multiple(required = true)
         }
 
-        shouldThrow<MissingParameter> { C().parse("") }
+        shouldThrow<MissingArgument> { C().parse("") }
     }
 
     @Test
@@ -242,7 +242,7 @@ class ArgumentTest {
             val foo by argument().multiple()
             val bar by argument()
         }
-        shouldThrow<MissingParameter> {
+        shouldThrow<MissingArgument> {
             C().parse("")
         }.message!! should contain("BAR")
     }
@@ -274,8 +274,8 @@ class ArgumentTest {
             val bar by argument().multiple()
         }
 
-        val ex = shouldThrow<MissingParameter> { C().parse("") }
-        ex.message!! should contain("Missing argument \"FOO\".")
+        val ex = shouldThrow<MissingArgument> { C().parse("") }
+        ex.message!! should contain("Missing argument \"FOO\"")
     }
 
     @Test
@@ -310,7 +310,7 @@ class ArgumentTest {
         C().parse("foo")
         called shouldBe true
 
-        shouldThrow<MissingParameter> { C().parse("") }
+        shouldThrow<MissingArgument> { C().parse("") }
     }
 
     @Test

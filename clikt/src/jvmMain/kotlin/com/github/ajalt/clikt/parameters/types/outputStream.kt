@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.*
 import java.io.IOException
@@ -15,6 +16,7 @@ private fun convertToOutputStream(
         createIfNotExist: Boolean,
         truncateExisting: Boolean,
         fileSystem: FileSystem,
+        context: Context,
         fail: (String) -> Unit
 ): OutputStream {
     return if (s == "-") {
@@ -28,7 +30,8 @@ private fun convertToOutputStream(
                 mustBeWritable = !createIfNotExist,
                 mustBeReadable = false,
                 canBeSymlink = true,
-                fileSystem = fileSystem
+                fileSystem = fileSystem,
+                context = context
         ) { fail(it) }
         val openType = if (truncateExisting) TRUNCATE_EXISTING else APPEND
         val options = arrayOf(WRITE, CREATE, openType)
@@ -56,8 +59,8 @@ fun RawOption.outputStream(
         truncateExisting: Boolean = false,
         fileSystem: FileSystem = FileSystems.getDefault()
 ): NullableOption<OutputStream, OutputStream> {
-    return convert("FILE", completionCandidates = CompletionCandidates.Path) { s ->
-        convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem) { fail(it) }
+    return convert({ localization.fileMetavar() }, CompletionCandidates.Path) { s ->
+        convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
     }
 }
 
@@ -90,7 +93,7 @@ fun RawArgument.outputStream(
         fileSystem: FileSystem = FileSystems.getDefault()
 ): ProcessedArgument<OutputStream, OutputStream> {
     return convert(completionCandidates = CompletionCandidates.Path) { s ->
-        convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem) { fail(it) }
+        convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
     }
 }
 

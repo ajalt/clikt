@@ -8,7 +8,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.github.ajalt"
+    group = "com.github.ajalt.clikt"
     version = getPublishVersion()
 
     repositories {

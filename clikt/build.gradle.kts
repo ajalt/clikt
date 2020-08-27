@@ -131,13 +131,6 @@ publishing {
         }
     }
 
-    publications {
-        // Keep the old publication name for the JVM target
-        (getByName("jvm") as MavenPublication).artifactId = "clikt"
-        (getByName("kotlinMultiplatform") as MavenPublication).artifactId = "clikt-multiplatform"
-    }
-
-
     repositories {
         val releaseUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
         val snapshotUrl = uri("https://oss.sonatype.org/content/repositories/snapshots")

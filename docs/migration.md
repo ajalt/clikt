@@ -2,6 +2,15 @@
 
 ## Upgrading to 3.0
 
+### Maven Coordinates
+
+Clikt's Maven groupId changed from `com.github.ajalt` to `com.github.ajalt.clikt`. So the full
+coordinate is now `com.github.ajalt.clikt:clikt:3.0.0`.
+
+With the new Multiplatform plugin in Kotlin 1.4, there is no longer a separate `clikt-multiplatform`
+artifact. You can use `com.github.ajalt.clikt:clikt:3.0.0` for both JVM-only and Multiplatform projects.
+
+
 ### Environment variable splitting
 
 There used to be an `envvarSplit` parameter to `option()` and its `convert()` that would split

@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
 
@@ -24,7 +23,6 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  * @property helpOptionNames The names to use for the help option. If any names in the set conflict with other
  *   options, the conflicting name will not be used for the help option. If the set is empty, or contains no
  *   unique names, no help option will be added.
- * @property helpOptionMessage The description of the help option.
  * @property helpFormatter The help formatter for this command.
  * @property tokenTransformer An optional transformation function that is called to transform command line
  *   tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive
@@ -43,7 +41,6 @@ class Context(
         val autoEnvvarPrefix: String?,
         val printExtraMessages: Boolean,
         val helpOptionNames: Set<String>,
-        val helpOptionMessage: String,
         val helpFormatter: HelpFormatter,
         val tokenTransformer: Context.(String) -> String,
         val console: CliktConsole,
@@ -115,9 +112,6 @@ class Context(
          * help option. If the set is empty, or contains no unique names, no help option will be added.
          */
         var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
-
-        /** The description of the help option, or `null` to use the default from the [localization]. */
-        var helpOptionMessage: String? = parent?.helpOptionMessage
 
         /** The help formatter for this command, or null to use the default */
         var helpFormatter: HelpFormatter? = parent?.helpFormatter
@@ -192,12 +186,10 @@ class Context(
                 val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
                         parent?.let { p -> p.ancestors().any { it.command.allowMultipleSubcommands } } != true
                 val formatter = helpFormatter ?: CliktHelpFormatter(localization)
-                val helpMessage = helpOptionMessage ?: localization.helpOptionMessage()
                 return Context(
                         parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                        helpOptionNames, helpMessage, formatter, tokenTransformer,
-                        console, expandArgumentFiles, readEnvvarBeforeValueSource, valueSource,
-                        correctionSuggestor, localization
+                        helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
+                        readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization
                 )
             }
         }

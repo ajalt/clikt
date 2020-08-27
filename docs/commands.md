@@ -234,13 +234,12 @@ and which are inherited by child commands.
 You can change these properties with the [`context`][context] builder function,
 which can be called in an `init` block, or on a command instance.
 
-For example, you can change the default help message for the `--help`
-option. These definitions are equivalent:
+For example, you can change the name of help option. These definitions are equivalent:
 
 ```kotlin tab="Version 1"
 class Cli : NoOpCliktCommand() {
     init {
-        context { helpOptionMessage = "print the help" }
+        context { helpOptionNames = setOf("/help") }
     }
 }
 fun main(args: Array<String>) = Cli()
@@ -249,7 +248,7 @@ fun main(args: Array<String>) = Cli()
 ```kotlin tab="Version 2"
 class Cli : NoOpCliktCommand()
 fun main(args: Array<String>) = Cli()
-    .context { helpOptionMessage = "print the help" }
+    .context { helpOptionNames = setOf("/help") }
     .main(args)
 ```
 

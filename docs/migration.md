@@ -18,13 +18,21 @@ without needing the `ExperimentalValueSourceApi` or `ExperimentalCompletionCandi
 ### Localization
 
 By default, all strings are defined in the [`Localization`][Localization] object set on your
-[context][[Context.localization]. This means that string parameters like `usageTitle` in the
-constructor for [`CliktHelpFormatter`][CliktHelpFormatter] have been removed in favor of functions like
+[context][[Context.localization]. 
+
+This means that string parameters like `usageTitle` in the constructor for
+[`CliktHelpFormatter`][CliktHelpFormatter] have been removed in favor of functions like
 [`Localization.usageTitle()`][Localization.usageTitle].
 
+`Context.helpOptionMessage` has also been removed in favor of
+[`Localization.helpOptionMessage()`][Localization.helpOptionMessage]. See [Help Option
+Customization][help-option-custom] for an example.
 
-[CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.md
-[Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.md
-[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.md
-[Localization.usageTitle]:  api/clikt/com.github.ajalt.clikt.output/-localization/usage-title.md
-[split]:                    api/clikt/com.github.ajalt.clikt.parameters.options/split.md
+
+[CliktHelpFormatter]:               api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.md
+[Context.localization]:             api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.md
+[help-option-custom]:               documenting.md#help-option-customization
+[Localization]:                     api/clikt/com.github.ajalt.clikt.output/-localization/index.md
+[Localization.usageTitle]:          api/clikt/com.github.ajalt.clikt.output/-localization/usage-title.md
+[Localization.helpOptionMessage]:   api/clikt/com.github.ajalt.clikt.output/-localization/help-option-message.md
+[split]:                            api/clikt/com.github.ajalt.clikt.parameters.options/split.md

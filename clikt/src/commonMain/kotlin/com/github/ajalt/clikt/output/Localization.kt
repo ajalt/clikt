@@ -220,7 +220,7 @@ interface Localization {
     /** Text rendered for parameters tagged with [HelpFormatter.Tags.REQUIRED] */
     fun helpTagRequired(): String = "required"
 
-    /** The default message for the `--help` option. This can be overridden with [Context.helpOptionMessage] */
+    /** The default message for the `--help` option. */
     fun helpOptionMessage(): String = "Show this message and exit"
 }
 

@@ -102,7 +102,7 @@ abstract class CliktCommand(
 
         if (currentContext.helpOptionNames.isNotEmpty()) {
             val names = currentContext.helpOptionNames - registeredOptionNames()
-            if (names.isNotEmpty()) _options += helpOption(names, currentContext.helpOptionMessage)
+            if (names.isNotEmpty()) _options += helpOption(names, currentContext.localization.helpOptionMessage())
         }
 
         for (command in _subcommands) {

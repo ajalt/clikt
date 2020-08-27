@@ -170,11 +170,15 @@ You can change the help option's name and help message on the
 [command's context][customizing-contexts]:
 
 ```kotlin tab="Example"
+class HelpLocalization: Localization {
+    override fun helpOptionMessage(): String = "show the help"
+}
+
 class Tool : NoOpCliktCommand() {
     init {
         context {
             helpOptionNames = setOf("/help")
-            helpOptionMessage = "show the help"
+            localization = HelpLocalization()
         }
     }
 }

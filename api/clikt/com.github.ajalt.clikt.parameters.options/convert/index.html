@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1518,6 +1584,26 @@
     Example
   </a>
   
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_1" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
+    Example
+  </a>
+  
 </li>
       
     </ul>
@@ -1542,9 +1628,9 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">convert</a></p>
 <h1 id="convert">convert<a class="headerlink" href="#convert" title="Permanent link">&para;</a></h1>
-<p><code>inline fun <InT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, ValueT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>> <a href="../-nullable-option/">NullableOption</a><InT, InT>.convert(metavar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;VALUE&rdquo;, envvarSplit: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a> = this.envvarSplit.default, completionCandidates: <a href="../../com.github.ajalt.clikt.completion/-completion-candidates/">CompletionCandidates</a> = completionCandidatesWithDefault.default, crossinline conversion: <a href="../-value-converter/">ValueConverter</a><InT, ValueT>): <a href="../-nullable-option/">NullableOption</a><ValueT, ValueT></code></p>
+<p><code>inline fun <InT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, ValueT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>> <a href="../-nullable-option/">NullableOption</a><InT, InT>.convert(metavar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, completionCandidates: <a href="../../com.github.ajalt.clikt.completion/-completion-candidates/">CompletionCandidates</a> = completionCandidatesWithDefault.default, crossinline conversion: <a href="../-value-converter/">ValueConverter</a><InT, ValueT>): <a href="../-nullable-option/">NullableOption</a><ValueT, ValueT></code></p>
 <p>Convert the option&rsquo;s value type.</p>
-<p>The <a href="./#com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.InT, )), kotlin.String, kotlin.text.Regex, com.github.ajalt.clikt.completion.CompletionCandidates, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.ValueT)))/conversion">conversion</a> is called once for each value in each invocation of the option. If any errors
+<p>The <a href="./#com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.InT, )), kotlin.String, com.github.ajalt.clikt.completion.CompletionCandidates, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.ValueT)))/conversion">conversion</a> is called once for each value in each invocation of the option. If any errors
 are thrown, they are caught and a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> is thrown with the error message. You can
 call <a href="../-option-transform-context/fail/">fail</a> to throw a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> manually.</p>
 <p>You can call <code>convert</code> more than once to wrap the result of the previous <code>convert</code>, but it cannot
@@ -1556,15 +1642,29 @@ val fileText: ByteArray? by option().file().convert { it.readBytes() }
 <code></code></p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>metavar</code> - The metavar for the type. Overridden by a metavar passed to <a href="../option/">option</a>.</p>
-<p><code>envvarSplit</code> - If the value is read from an envvar, the pattern to split the value on. The default
-splits on whitespace. This value is can be overridden by passing a value to the <a href="../option/">option</a> function.</p>
+<p><code>completionCandidates</code> - candidates to use when completing this option in shell autocomplete,
+if no candidates are specified in <a href="../option/">option</a><code>inline fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(noinline metavar:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { localization.defaultMetavar() }, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, crossinline conversion:</code><a href="../-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code></p>
+<p>Convert the option&rsquo;s value type.</p>
+<p>The <a href="./#com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.InT, )), kotlin.Function1((com.github.ajalt.clikt.core.Context, kotlin.String)), com.github.ajalt.clikt.completion.CompletionCandidates, kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionCallTransformContext, com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.ValueT)))/conversion">conversion</a> is called once for each value in each invocation of the option. If any errors
+are thrown, they are caught and a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> is thrown with the error message. You can
+call <a href="../-option-transform-context/fail/">fail</a> to throw a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> manually.</p>
+<p>You can call <code>convert</code> more than once to wrap the result of the previous <code>convert</code>, but it cannot
+be called after <a href="../transform-all/">transformAll</a> (e.g. <a href="../multiple/">multiple</a>) or <a href="../transform-values/">transformValues</a> (e.g. <a href="../pair/">pair</a>).</p>
+<h2 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h2>
+<p><code></code>
+val bd: BigDecimal? by option().convert { it.toBigDecimal() }
+val fileText: ByteArray? by option().file().convert { it.readBytes() }
+<code></code></p>
+<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
+<p><code>metavar</code> - A lambda returning the metavar for the type. The lambda has a <a href="../../com.github.ajalt.clikt.core/-context/">Context</a> receiver
+for access to localization. Overridden by a metavar passed to <a href="../option/">option</a>.</p>
 <p><code>completionCandidates</code> - candidates to use when completing this option in shell autocomplete,
 if no candidates are specified in <a href="../option/">option</a><code>inline fun &lt;InT, OutT&gt;</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;InT&gt;.convert(crossinline conversion:</code><a href="../-flag-converter/"><code>FlagConverter</code></a><code>&lt;InT, OutT&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;OutT&gt;</code></p>
 <p>Convert the option&rsquo;s value type.</p>
 <p>The <a href="./#com.github.ajalt.clikt.parameters.options$convert(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.convert.InT)), kotlin.Function2((com.github.ajalt.clikt.parameters.options.OptionTransformContext, com.github.ajalt.clikt.parameters.options.convert.InT, com.github.ajalt.clikt.parameters.options.convert.OutT)))/conversion">conversion</a> is called once with the final value of the option. If any errors are thrown,
 they are caught and a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> is thrown with the error message. You can call
 <a href="../-option-transform-context/fail/">fail</a> to throw a <a href="../../com.github.ajalt.clikt.core/-bad-parameter-value/">BadParameterValue</a> manually.</p>
-<h2 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h2>
+<h2 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h2>
 <p><code></code>
 val loud by option().flag().convert { if (it) Volume.Loud else Volume.Soft }
 <code></code></p>

@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1600,6 +1666,26 @@
   <a href="#parameter-validation" class="md-nav__link">
     Parameter Validation
   </a>
+  
+    <nav class="md-nav" aria-label="Parameter Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    check()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate" class="md-nav__link">
+    validate()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1810,19 +1896,43 @@ Your file contents: some text
 </div>
 <h2 id="parameter-validation">Parameter Validation<a class="headerlink" href="#parameter-validation" title="Permanent link">&para;</a></h2>
 <p>After converting a value to a new type, you can perform additional validation on the converted value
-with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>option().validate()</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>argument().validate()</code></a>.
-<code>validate</code> takes a lambda that returns nothing, but can call <code>fail("error message")</code> if the value is
-invalid. You can also call <code>require()</code>, which will fail if the provided expression is false. The
-lambda is only called if the value is non-null.</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">validate</span> <span class="p">{</span>
-    <span class="n">require</span><span class="p">(</span><span class="n">it</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span> <span class="s">&quot;value must be even&quot;</span> <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/check/"><code>check()</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>validate()</code></a> (or the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/check/">argument</a>
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/">equivalents</a>).</p>
+<h3 id="check"><code>check()</code><a class="headerlink" href="#check" title="Permanent link">&para;</a></h3>
+<p><a href="../api/clikt/com.github.ajalt.clikt.parameters.options/check/"><code>check()</code></a> is similar the stdlib function of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html">same name</a>: it takes
+lambda that returns a boolean to indicate if the parameter value is valid or not, and reports an
+error if it returns false. The lambda is only called if the parameter value is non-null.</p>
+<div class="tabbed-set" data-tabs="5:4">
+<input name="__tabbed_5" type="radio" id="__tabbed_5_1" checked="checked" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;An even number&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">check</span><span class="p">(</span><span class="s">&quot;value must be even&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span> <span class="p">}</span>
 
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;number=$number&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<input name="__tabbed_5" type="radio" id="__tabbed_5_2" /><label for="__tabbed_5_2">Usage 1</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --number=2
+number=2
+</code></pre></div></div>
+<input name="__tabbed_5" type="radio" id="__tabbed_5_3" /><label for="__tabbed_5_3">Usage 2</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool
+number=null
+</code></pre></div></div>
+<input name="__tabbed_5" type="radio" id="__tabbed_5_4" /><label for="__tabbed_5_4">Usage 3</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --number=1
+Usage: tool [OPTIONS]
+
+Error: invalid value for --number: value must be even
+</code></pre></div></div>
+</div>
+<h3 id="validate"><code>validate()</code><a class="headerlink" href="#validate" title="Permanent link">&para;</a></h3>
+<p>For more complex validation, you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/validate/"><code>validate()</code></a>. This function takes a lambda
+that returns nothing, but can call <code>fail("error message")</code> if the value is invalid. You can also
+call <code>require()</code>, which will fail if the provided expression is false. Like <code>check</code>, the lambda is
+only called if the value is non-null.</p>
 <p>The lambdas you pass to <code>validate</code> are called after the values for all options and arguments have
 been set, so (unlike in transforms) you can reference other parameters:</p>
-<div class="tabbed-set" data-tabs="5:3">
-<input name="__tabbed_5" type="radio" id="__tabbed_5_1" checked="checked" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="tabbed-set" data-tabs="6:3">
+<input name="__tabbed_6" type="radio" id="__tabbed_6_1" checked="checked" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
     <span class="k">val</span> <span class="py">biggerNumber</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">validate</span> <span class="p">{</span>
         <span class="n">require</span><span class="p">(</span><span class="n">it</span> <span class="p">&gt;</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
@@ -1835,10 +1945,10 @@ been set, so (unlike in transforms) you can reference other parameters:</p>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
-<input name="__tabbed_5" type="radio" id="__tabbed_5_2" /><label for="__tabbed_5_2">Usage 1</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --number=1
+<input name="__tabbed_6" type="radio" id="__tabbed_6_2" /><label for="__tabbed_6_2">Usage 1</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --number=1
 number=1, biggerNumber=null
 </code></pre></div></div>
-<input name="__tabbed_5" type="radio" id="__tabbed_5_3" /><label for="__tabbed_5_3">Usage 2</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --number=1 --bigger-number=0
+<input name="__tabbed_6" type="radio" id="__tabbed_6_3" /><label for="__tabbed_6_3">Usage 2</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code>$ ./tool --number=1 --bigger-number=0
 Usage: tool [OPTIONS]
 
 Error: --bigger-number must be bigger than --number

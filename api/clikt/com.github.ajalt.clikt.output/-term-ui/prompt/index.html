@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1495,6 +1561,13 @@
       
         <li class="md-nav__item">
   <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters_1" class="md-nav__link">
     Parameters
   </a>
   
@@ -1544,6 +1617,21 @@ of <a href="./#com.github.ajalt.clikt.output.TermUi$prompt(kotlin.String, kotlin
 <p><strong>Return</strong>
 the user&rsquo;s input, or null if the stdin is not interactive and EOF was encountered.</p>
 <p><code>fun prompt(text: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, default: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, hideInput: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, requireConfirmation: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, confirmationPrompt: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;Repeat for confirmation: &ldquo;, promptSuffix: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;: &ldquo;, showDefault: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?</code></p>
+<p>Prompt a user for text input.</p>
+<p>If the user sends a terminate signal (e.g. ctrl-c) while the prompt is active, null will be returned.</p>
+<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
+<p><code>text</code> - The text to display for the prompt.</p>
+<p><code>default</code> - The default value to use for the input. If the user enters a newline without any other
+value, <a href="./#com.github.ajalt.clikt.output.TermUi$prompt(kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/default">default</a> will be returned.</p>
+<p><code>hideInput</code> - If true, the user&rsquo;s input will not be echoed back to the screen. This is commonly used
+for password inputs.</p>
+<p><code>requireConfirmation</code> - If true, the user will be required to enter the same value twice before it
+is accepted.</p>
+<p><code>confirmationPrompt</code> - The text to show the user when <a href="./#com.github.ajalt.clikt.output.TermUi$prompt(kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/requireConfirmation">requireConfirmation</a> is true.</p>
+<p><code>promptSuffix</code> - A delimiter printed between the <a href="./#com.github.ajalt.clikt.output.TermUi$prompt(kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/text">text</a> and the user&rsquo;s input.</p>
+<p><code>showDefault</code> - If true, the <a href="./#com.github.ajalt.clikt.output.TermUi$prompt(kotlin.String, kotlin.String, kotlin.Boolean, kotlin.Boolean, kotlin.String, kotlin.String, kotlin.Boolean)/default">default</a> value will be shown as part of the prompt.</p>
+<p><strong>Return</strong>
+the user&rsquo;s input, or null if the stdin is not interactive and EOF was encountered.</p>
                 
               
               

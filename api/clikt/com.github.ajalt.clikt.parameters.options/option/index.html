@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1522,7 +1588,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">option</a></p>
 <h1 id="option">option<a class="headerlink" href="#option" title="Permanent link">&para;</a></h1>
-<p><code>fun <a href="../../com.github.ajalt.clikt.core/-parameter-holder/">ParameterHolder</a>.option(vararg names: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, metavar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, hidden: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, envvar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, envvarSplit: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a>? = null, helpTags: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = emptyMap(), completionCandidates: <a href="../../com.github.ajalt.clikt.completion/-completion-candidates/">CompletionCandidates</a>? = null): <a href="../-raw-option/">RawOption</a></code></p>
+<p><code>fun <a href="../../com.github.ajalt.clikt.core/-parameter-holder/">ParameterHolder</a>.option(vararg names: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, metavar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, hidden: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, envvar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, helpTags: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = emptyMap(), completionCandidates: <a href="../../com.github.ajalt.clikt.completion/-completion-candidates/">CompletionCandidates</a>? = null, valueSourceKey: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null): <a href="../-raw-option/">RawOption</a></code></p>
 <p>Create a property delegate option.</p>
 <p>By default, the property will return null if the option does not appear on the command line. If the option
 is invoked multiple times, the value from the last invocation will be used The option can be modified with
@@ -1536,8 +1602,6 @@ Automatically inferred from the type.</p>
 <p><code>hidden</code> - Hide this option from help outputs.</p>
 <p><code>envvar</code> - The environment variable that will be used for the value if one is not given on the command
 line.</p>
-<p><code>envvarSplit</code> - The pattern to split the value of the <a href="./#com.github.ajalt.clikt.parameters.options$option(com.github.ajalt.clikt.core.ParameterHolder, kotlin.Array((kotlin.String)), kotlin.String, kotlin.String, kotlin.Boolean, kotlin.String, kotlin.text.Regex, kotlin.collections.Map((kotlin.String, )), com.github.ajalt.clikt.completion.CompletionCandidates)/envvar">envvar</a> on. Defaults to whitespace,
-although some conversions like <code>file</code> change the default.</p>
 <p><code>helpTags</code> - Extra information about this option to pass to the help formatter</p>
                 
               

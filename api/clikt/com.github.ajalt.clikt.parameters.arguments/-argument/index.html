@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1549,12 +1615,12 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="completion-candidates/">completionCandidates</a></td>
-<td>Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.<code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a></td>
+<td><a href="argument-help/">argumentHelp</a></td>
+<td>The description of this argument.<code>abstract val argumentHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
-<td><a href="help/">help</a></td>
-<td>The description of this argument.<code>abstract val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
+<td><a href="completion-candidates/">completionCandidates</a></td>
+<td>Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.<code>open val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a></td>
 </tr>
 <tr>
 <td><a href="help-tags/">helpTags</a></td>
@@ -1567,10 +1633,6 @@
 <tr>
 <td><a href="nvalues/">nvalues</a></td>
 <td>The number of values that this argument takes.<code>abstract val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
-</tr>
-<tr>
-<td><a href="parameter-help/">parameterHelp</a></td>
-<td>Information about this argument for the help output.<code>abstract val parameterHelp: Argument?</code></td>
 </tr>
 <tr>
 <td><a href="required/">required</a></td>
@@ -1590,6 +1652,10 @@
 <tr>
 <td><a href="finalize/">finalize</a></td>
 <td>Called after this command&rsquo;s argv is parsed to transform and store the argument&rsquo;s value.<code>abstract fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, values:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
+</tr>
+<tr>
+<td><a href="parameter-help/">parameterHelp</a></td>
+<td>Information about this argument for the help output.<code>abstract fun parameterHelp(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>): Argument?</code></td>
 </tr>
 <tr>
 <td><a href="post-validate/">postValidate</a></td>

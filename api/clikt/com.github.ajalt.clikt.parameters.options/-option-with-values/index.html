@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1492,13 +1558,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#properties" class="md-nav__link">
@@ -1545,21 +1604,6 @@
 <h1 id="optionwithvalues">OptionWithValues<a class="headerlink" href="#optionwithvalues" title="Permanent link">&para;</a></h1>
 <p><code>class OptionWithValues<AllT, EachT, ValueT> : <a href="../-option-delegate/">OptionDelegate</a><AllT>, <a href="../../com.github.ajalt.clikt.core/-groupable-option/">GroupableOption</a></code></p>
 <p>An <a href="../-option/">Option</a> that takes one or more values.</p>
-<h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="-init-/">&lt;init&gt;</a></td>
-<td>An <a href="../-option/">Option</a> that takes one or more values.<code>OptionWithValues(names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt;, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?, envvarSplit:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>&gt;, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>?, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt;, transformValue:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;ValueT&gt;, transformEach:</code><a href="../-args-transformer/"><code>ArgsTransformer</code></a><code>&lt;ValueT, EachT&gt;, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;, transformValidator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;)</code></td>
-</tr>
-</tbody>
-</table>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1582,16 +1626,8 @@
 <td>The environment variable name to use.<code>val envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
-<td><a href="envvar-split/">envvarSplit</a></td>
-<td>The pattern to split envvar values on. If the envvar splits into multiple values, each one will be treated like a separate invocation of the option.<code>val envvarSplit:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>&gt;</code></td>
-</tr>
-<tr>
 <td><a href="group-name/">groupName</a></td>
 <td>The name of the group, or null if this option should not be grouped in the help output.<code>var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
-</tr>
-<tr>
-<td><a href="help/">help</a></td>
-<td>The description of this option, usually a single line.<code>val help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="help-tags/">helpTags</a></td>
@@ -1602,12 +1638,8 @@
 <td>If true, this option should not appear in help output.<code>val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
 </tr>
 <tr>
-<td><a href="metavar/">metavar</a></td>
-<td>A name representing the values for this option that can be displayed to the user.<code>val metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
-</tr>
-<tr>
 <td><a href="metavar-with-default/">metavarWithDefault</a></td>
-<td>The metavar to use. Specified at option creation.<code>val metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt;</code></td>
+<td>The metavar to use. Specified at option creation.<code>val metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt;</code></td>
 </tr>
 <tr>
 <td><a href="names/">names</a></td>
@@ -1616,6 +1648,10 @@
 <tr>
 <td><a href="nvalues/">nvalues</a></td>
 <td>The number of values that must be given to this option.<code>val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
+</tr>
+<tr>
+<td><a href="option-help/">optionHelp</a></td>
+<td>The description of this option, usually a single line.<code>val optionHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
 </tr>
 <tr>
 <td><a href="parameter-group/">parameterGroup</a></td>
@@ -1650,6 +1686,10 @@
 <td>The value for this option.<code>var value: AllT</code></td>
 </tr>
 <tr>
+<td><a href="value-source-key/">valueSourceKey</a></td>
+<td>Optional explicit key to use when looking this option up from a <a href="../../com.github.ajalt.clikt.sources/-value-source/">ValueSource</a><code>val valueSourceKey:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
+</tr>
+<tr>
 <td><a href="value-split/">valueSplit</a></td>
 <td>The pattern to split values from the command line on. By default, values are split on whitespace.<code>val valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>?</code></td>
 </tr>
@@ -1666,11 +1706,15 @@
 <tbody>
 <tr>
 <td><a href="copy/">copy</a></td>
-<td>Create a new option that is a copy of this one with different transforms.<code>fun &lt;AllT, EachT, ValueT&gt; copy(transformValue:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;ValueT&gt;, transformEach:</code><a href="../-args-transformer/"><code>ArgsTransformer</code></a><code>&lt;ValueT, EachT&gt;, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt; = this.metavarWithDefault, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>= this.nvalues, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.help, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar, envvarSplit:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>&gt; = this.envvarSplit, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = this.valueSplit, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>= this.parser, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt; = this.completionCandidatesWithDefault):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code><br>Create a new option that is a copy of this one with the same transforms.<code>fun copy(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt; = this.transformValidator, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt; = this.metavarWithDefault, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>= this.nvalues, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.help, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar, envvarSplit:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>&gt; = this.envvarSplit, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = this.valueSplit, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>= this.parser, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt; = this.completionCandidatesWithDefault):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></td>
+<td>Create a new option that is a copy of this one with different transforms.<code>fun &lt;AllT, EachT, ValueT&gt; copy(transformValue:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;ValueT&gt;, transformEach:</code><a href="../-args-transformer/"><code>ArgsTransformer</code></a><code>&lt;ValueT, EachT&gt;, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt; = this.metavarWithDefault, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>= this.nvalues, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.optionHelp, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, valueSourceKey:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.valueSourceKey, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = this.valueSplit, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>= this.parser, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt; = this.completionCandidatesWithDefault):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code><br>Create a new option that is a copy of this one with the same transforms.<code>fun copy(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt; = this.transformValidator, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt; = this.metavarWithDefault, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>= this.nvalues, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.optionHelp, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar, valueSourceKey:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.valueSourceKey, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = this.valueSplit, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>= this.parser, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt; = this.completionCandidatesWithDefault):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="finalize/">finalize</a></td>
 <td>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.<code>fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;Invocation&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
+</tr>
+<tr>
+<td><a href="metavar/">metavar</a></td>
+<td>A name representing the values for this option that can be displayed to the user.<code>fun metavar(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
 </tr>
 <tr>
 <td><a href="post-validate/">postValidate</a></td>
@@ -1696,12 +1740,16 @@
 <td>Change this option to take multiple values, each split on a <a href="../associate/#com.github.ajalt.clikt.parameters.options$associate(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String)/delimiter">delimiter</a>, and converted to a map.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.associate(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "="):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;&gt;</code></td>
 </tr>
 <tr>
+<td><a href="../check/">check</a></td>
+<td>Check the final option value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.check(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, validator: (AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code><br>Check the final argument value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.check(lazyMessage: (AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.toString() }, validator: (AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/choice/">choice</a></td>
 <td>Convert the option based on a fixed set of values.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.keys), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code><br><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.map { it.first }), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code><br>Restrict the option to a fixed set of values.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.asIterable()), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../convert/">convert</a></td>
-<td>Convert the option&rsquo;s value type.<code>fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "VALUE", envvarSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>= this.envvarSplit.default, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="../-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code></td>
+<td>Convert the option&rsquo;s value type.<code>fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="../-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code><br><code>fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(metavar:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { localization.defaultMetavar() }, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="../-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../counted/">counted</a></td>
@@ -1737,7 +1785,7 @@
 </tr>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/file/">file</a></td>
-<td>Convert the option to a <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.file():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>&gt;</code><br><code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.file(mustExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeFile:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, canBeDir:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, mustBeWritable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, mustBeReadable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeSymlink:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>&gt;``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.~~file~~(exists:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, fileOkay:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, folderOkay:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, writable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, readable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>&gt;</code></td>
+<td>Convert the option to a <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.file(mustExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeFile:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, canBeDir:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, mustBeWritable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, mustBeReadable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeSymlink:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../flag/">flag</a></td>
@@ -1754,6 +1802,10 @@
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.groups/group-switch/">groupSwitch</a></td>
 <td>Convert the option into a set of flags that each map to an option group.<code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupSwitch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code><br><code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupSwitch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../help/">help</a></td>
+<td>Set the help for this option.<code>fun &lt;AllT, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.help(help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a></td>
@@ -1781,7 +1833,7 @@
 </tr>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/path/">path</a></td>
-<td>Convert the option to a <a href="#">Path</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.path(fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;Path, Path&gt;</code><br><code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.path(mustExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeFile:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, canBeDir:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, mustBeWritable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, mustBeReadable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeSymlink:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;Path, Path&gt;``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.~~path~~(exists:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, fileOkay:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, folderOkay:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, writable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, readable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;Path, Path&gt;</code></td>
+<td>Convert the option to a <a href="#">Path</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.path(mustExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeFile:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, canBeDir:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, mustBeWritable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, mustBeReadable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeSymlink:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;Path, Path&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../prompt/">prompt</a></td>
@@ -1789,7 +1841,7 @@
 </tr>
 <tr>
 <td><a href="../required/">required</a></td>
-<td>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../../com.github.ajalt.clikt.core/-missing-parameter/">MissingParameter</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.required():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></td>
+<td>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.required():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to/">restrictTo</a></td>
@@ -1830,10 +1882,6 @@
 <tr>
 <td><a href="../validate/">validate</a></td>
 <td>Check the final option value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../wrap-value/">wrapValue</a></td>
-<td><code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.~~wrapValue~~(wrapper: (</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>):</code><a href="../-raw-option/"><code>RawOption</code></a><br>Wrap the option&rsquo;s values after a conversion is applied.<code>fun &lt;T1 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, T2 :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T1, T1&gt;.~~wrapValue~~(wrapper: (T1) -&gt; T2):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T2, T2&gt;</code></td>
 </tr>
 </tbody>
 </table>

@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1492,13 +1558,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#properties" class="md-nav__link">
@@ -1544,21 +1603,6 @@
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.groups</a> / <a href="./">ChoiceGroup</a></p>
 <h1 id="choicegroup">ChoiceGroup<a class="headerlink" href="#choicegroup" title="Permanent link">&para;</a></h1>
 <p><code>class ChoiceGroup<GroupT : <a href="../-option-group/index.md">OptionGroup</a>, OutT> : <a href="../-parameter-group-delegate/">ParameterGroupDelegate</a><OutT></code></p>
-<h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="-init-/">&lt;init&gt;</a></td>
-<td><code>ChoiceGroup(option:</code><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt;, groups:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, GroupT&gt;, transform: (GroupT?) -&gt; OutT)</code></td>
-</tr>
-</tbody>
-</table>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1620,7 +1664,7 @@
 </tr>
 <tr>
 <td><a href="../required/">required</a></td>
-<td>If a <a href="../group-choice/">groupChoice</a> or <a href="../group-switch/">groupSwitch</a> option is not called on the command line, throw a <a href="../../com.github.ajalt.clikt.core/-missing-parameter/">MissingParameter</a> exception.<code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="./"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;.required():</code><a href="./"><code>ChoiceGroup</code></a><code>&lt;T, T&gt;</code></td>
+<td>If a <a href="../group-choice/">groupChoice</a> or <a href="../group-switch/">groupSwitch</a> option is not called on the command line, throw a <a href="../../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a> exception.<code>fun &lt;T :</code><a href="../-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="./"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;.required():</code><a href="./"><code>ChoiceGroup</code></a><code>&lt;T, T&gt;</code></td>
 </tr>
 </tbody>
 </table>

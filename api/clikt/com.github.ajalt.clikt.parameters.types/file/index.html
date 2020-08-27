@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1507,13 +1573,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#parameters_2" class="md-nav__link">
-    Parameters
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1536,8 +1595,7 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.types</a> / <a href="./">file</a></p>
 <h1 id="file">file<a class="headerlink" href="#file" title="Permanent link">&para;</a></h1>
-<p><code>fun RawArgument.file(): <a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/">ProcessedArgument</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code>
-<code>fun RawArgument.file(mustExist: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeFile: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, canBeDir: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, mustBeWritable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, mustBeReadable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeSymlink: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true): <a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/">ProcessedArgument</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code></p>
+<p><code>fun <a href="../../com.github.ajalt.clikt.parameters.arguments/-raw-argument/">RawArgument</a>.file(mustExist: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeFile: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, canBeDir: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, mustBeWritable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, mustBeReadable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeSymlink: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true): <a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/">ProcessedArgument</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code></p>
 <p>Convert the argument to a <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>.</p>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
 <p><code>mustExist</code> - If true, fail if the given path does not exist</p>
@@ -1545,20 +1603,9 @@
 <p><code>canBeDir</code> - If false, fail if the given path is a directory</p>
 <p><code>mustBeWritable</code> - If true, fail if the given path is not writable</p>
 <p><code>mustBeReadable</code> - If true, fail if the given path is not readable</p>
-<p><code>canBeSymlink - If false, fail if the given path is a symlinkfun RawArgument.~~file~~(exists: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, fileOkay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, folderOkay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, writable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, readable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="../../com.github.ajalt.clikt.parameters.arguments/-processed-argument/">ProcessedArgument</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code>
-<strong>Deprecated:</strong> Parameters have been renamed. All arguments must be called by name to remove this warning.</p>
-<p><code>fun <a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/">RawOption</a>.~~file~~(exists: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, fileOkay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, folderOkay: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, writable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, readable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="../../com.github.ajalt.clikt.parameters.options/-nullable-option/">NullableOption</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code>
-<strong>Deprecated:</strong> Parameters have been renamed. All arguments must be called by name to remove this warning.</p>
-<p><code>fun <a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/">RawOption</a>.file(): <a href="../../com.github.ajalt.clikt.parameters.options/-nullable-option/">NullableOption</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code></p>
+<p><code>canBeSymlink - If false, fail if the given path is a symlinkfun <a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/">RawOption</a>.file(mustExist: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeFile: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, canBeDir: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, mustBeWritable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, mustBeReadable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeSymlink: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true): <a href="../../com.github.ajalt.clikt.parameters.options/-nullable-option/">NullableOption</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code></p>
 <p>Convert the option to a <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
-<p><code>mustExist</code> - If true, fail if the given path does not exist</p>
-<p><code>canBeFile</code> - If false, fail if the given path is a file</p>
-<p><code>canBeDir</code> - If false, fail if the given path is a directory</p>
-<p><code>mustBeWritable</code> - If true, fail if the given path is not writable</p>
-<p><code>mustBeReadable - If true, fail if the given path is not readablefun <a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/">RawOption</a>.file(mustExist: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeFile: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, canBeDir: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true, mustBeWritable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, mustBeReadable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false, canBeSymlink: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true): <a href="../../com.github.ajalt.clikt.parameters.options/-nullable-option/">NullableOption</a>&lt;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>, <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>&gt;</code></p>
-<p>Convert the option to a <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>.</p>
-<h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <p><code>mustExist</code> - If true, fail if the given path does not exist</p>
 <p><code>canBeFile</code> - If false, fail if the given path is a file</p>
 <p><code>canBeDir</code> - If false, fail if the given path is a directory</p>

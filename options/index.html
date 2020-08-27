@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -2082,7 +2148,7 @@ you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/mutua
 to group any nullable options into a mutually exclusive group. If more than one of the options in
 the group is given on the command line, the last value is used.</p>
 <p>If you want different types for each option, you can wrap them in a sealed class. You can also use
-<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value/"><code>wrapValue</code></a> if you have an existing conversion function like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int/">int</a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/">file</a>
+<a href="api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value.md"><code>wrapValue</code></a> if you have an existing conversion function like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int/">int</a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/">file</a>
 you&rsquo;d like to use.</p>
 <div class="tabbed-set" data-tabs="16:4">
 <input name="__tabbed_16" type="radio" id="__tabbed_16_1" checked="checked" /><label for="__tabbed_16_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Fruit</span> <span class="p">{</span>
@@ -2486,7 +2552,10 @@ Hello Foo
 <p>You can also pass multiple sources to <a href="../api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-sources/"><code>Context.valueSources</code></a>, and each
 source will be searched for the value in order.</p>
 <p>Clikt includes support for reading values <a href="../api/clikt/com.github.ajalt.clikt.sources/-map-value-source/">from a map</a>, and (on JVM) <a href="../api/clikt/com.github.ajalt.clikt.sources/-properties-value-source/">from Java
-Properties files</a>. You can add any other file type by implementing
+Properties files</a>. For these two sources, you can customize the keys used to
+look up options by passing the result of <a href="../api/clikt/com.github.ajalt.clikt.sources/-value-source/get-key/"><code>ValueSource.getKey</code></a> or
+<a href="../api/clikt/com.github.ajalt.clikt.sources/-value-source/envvar-key/"><code>ValueSource.envvarKey</code></a> to the source&rsquo;s <code>getKey</code> constructor parameter.</p>
+<p>You can add any other file type by implementing
 <a href="../api/clikt/com.github.ajalt.clikt.sources/-value-source/">ValueSource</a>. See the <a href="https://github.com/ajalt/clikt/tree/master/samples/json">JSON sample</a> for an implementation that uses
 <a href="https://github.com/Kotlin/kotlinx.serialization">kotlinx.serialization</a> to load values from JSON files.</p>
 <h3 id="configuration-files-and-environment-variables">Configuration Files and Environment Variables<a class="headerlink" href="#configuration-files-and-environment-variables" title="Permanent link">&para;</a></h3>

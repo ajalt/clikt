@@ -983,6 +983,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../../documenting/#manual-line-breaks" title="Manual Line Breaks" class="md-nav__link">
+      Manual Line Breaks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../../documenting/#subcommand-short-help" title="Subcommand Short Help" class="md-nav__link">
       Subcommand Short Help
     </a>
@@ -1045,6 +1057,18 @@
   <li class="md-nav__item">
     <a href="../../../documenting/#suggesting-corrections-for-mistyped-parameters" title="Suggesting Corrections for Mistyped Parameters" class="md-nav__link">
       Suggesting Corrections for Mistyped Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../documenting/#localization" title="Localization" class="md-nav__link">
+      Localization
     </a>
   </li>
 
@@ -1461,10 +1485,52 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    
+    <label class="md-nav__link" for="nav-13">
+      Releases
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <label class="md-nav__title" for="nav-13">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Releases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
   <li class="md-nav__item">
     <a href="../../../changelog/" title="Change Log" class="md-nav__link">
       Change Log
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../migration/" title="Upgrading to Newer Releases" class="md-nav__link">
+      Upgrading to Newer Releases
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1560,8 +1626,20 @@
 <td><code>class CoOccurringOptionGroup&lt;GroupT :</code><a href="-option-group/"><code>OptionGroup</code></a><code>, OutT&gt; :</code><a href="-parameter-group-delegate/"><code>ParameterGroupDelegate</code></a><code>&lt;OutT&gt;</code></td>
 </tr>
 <tr>
+<td><a href="-co-occurring-option-group-transform/">CoOccurringOptionGroupTransform</a></td>
+<td><code>typealias CoOccurringOptionGroupTransform&lt;GroupT, OutT&gt; = (occurred:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>?, group: GroupT, context:</code><a href="../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>) -&gt; OutT</code></td>
+</tr>
+<tr>
 <td><a href="-mutually-exclusive-options/">MutuallyExclusiveOptions</a></td>
 <td><code>class MutuallyExclusiveOptions&lt;OptT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, OutT&gt; :</code><a href="-parameter-group-delegate/"><code>ParameterGroupDelegate</code></a><code>&lt;OutT&gt;</code></td>
+</tr>
+<tr>
+<td><a href="-mutually-exclusive-options-transform/">MutuallyExclusiveOptionsTransform</a></td>
+<td><code>typealias MutuallyExclusiveOptionsTransform&lt;OptT, OutT&gt; =</code><a href="-mutually-exclusive-option-transform-context/"><code>MutuallyExclusiveOptionTransformContext</code></a><code>.(</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;OptT&gt;) -&gt; OutT</code></td>
+</tr>
+<tr>
+<td><a href="-mutually-exclusive-option-transform-context/">MutuallyExclusiveOptionTransformContext</a></td>
+<td><code>class MutuallyExclusiveOptionTransformContext</code></td>
 </tr>
 <tr>
 <td><a href="-option-group/">OptionGroup</a></td>
@@ -1607,6 +1685,10 @@
 <td>Convert the option into a set of flags that each map to an option group.<code>fun &lt;T :</code><a href="-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.groupSwitch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code><br><code>fun &lt;T :</code><a href="-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../com.github.ajalt.clikt.parameters.options/-raw-option/"><code>RawOption</code></a><code>.groupSwitch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></td>
 </tr>
 <tr>
+<td><a href="help/">help</a></td>
+<td>Set the name and help for this option.<code>fun &lt;OptT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, OutT&gt;</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;OptT, OutT&gt;.help(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;OptT, OutT&gt;</code></td>
+</tr>
+<tr>
 <td><a href="mutually-exclusive-options/">mutuallyExclusiveOptions</a></td>
 <td>Declare a set of two or more mutually exclusive options.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>.mutuallyExclusiveOptions(option1:</code><a href="../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T?&gt;, option2:</code><a href="../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T?&gt;, vararg options:</code><a href="../com.github.ajalt.clikt.parameters.options/-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T?&gt;, name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null):</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;</code></td>
 </tr>
@@ -1616,7 +1698,7 @@
 </tr>
 <tr>
 <td><a href="required/">required</a></td>
-<td>If a <a href="group-choice/">groupChoice</a> or <a href="group-switch/">groupSwitch</a> option is not called on the command line, throw a <a href="../com.github.ajalt.clikt.core/-missing-parameter/">MissingParameter</a> exception.<code>fun &lt;T :</code><a href="-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;.required():</code><a href="-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T&gt;</code><br>Make a <a href="mutually-exclusive-options/">mutuallyExclusiveOptions</a> group required. If none of the options in the group are given, a <a href="../com.github.ajalt.clikt.core/-usage-error/">UsageError</a> is thrown.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;.required():</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T&gt;</code></td>
+<td>If a <a href="group-choice/">groupChoice</a> or <a href="group-switch/">groupSwitch</a> option is not called on the command line, throw a <a href="../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a> exception.<code>fun &lt;T :</code><a href="-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;.required():</code><a href="-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T&gt;</code><br>Make a <a href="mutually-exclusive-options/">mutuallyExclusiveOptions</a> group required. If none of the options in the group are given, a <a href="../com.github.ajalt.clikt.core/-usage-error/">UsageError</a> is thrown.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T?&gt;.required():</code><a href="-mutually-exclusive-options/"><code>MutuallyExclusiveOptions</code></a><code>&lt;T, T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="single/">single</a></td>

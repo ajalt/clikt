@@ -2147,9 +2147,7 @@ Options:
 you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options/"><code>mutuallyExclusiveOptions</code></a>
 to group any nullable options into a mutually exclusive group. If more than one of the options in
 the group is given on the command line, the last value is used.</p>
-<p>If you want different types for each option, you can wrap them in a sealed class. You can also use
-<a href="api/clikt/com.github.ajalt.clikt.parameters.options/wrap-value.md"><code>wrapValue</code></a> if you have an existing conversion function like <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int/">int</a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/">file</a>
-you&rsquo;d like to use.</p>
+<p>If you want different types for each option, you can wrap them in a sealed class.</p>
 <div class="tabbed-set" data-tabs="16:4">
 <input name="__tabbed_16" type="radio" id="__tabbed_16_1" checked="checked" /><label for="__tabbed_16_1">Example</label><div class="tabbed-content"><div class="highlight"><pre><span></span><code><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Fruit</span> <span class="p">{</span>
     <span class="k">data</span> <span class="k">class</span> <span class="nc">Oranges</span><span class="p">(</span><span class="k">val</span> <span class="py">size</span><span class="p">:</span> <span class="n">String</span><span class="p">):</span> <span class="n">Fruit</span><span class="p">()</span>
@@ -2158,7 +2156,7 @@ you&rsquo;d like to use.</p>
 <span class="k">class</span> <span class="nc">Order</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">val</span> <span class="py">fruit</span><span class="p">:</span> <span class="n">Fruit</span><span class="p">?</span> <span class="k">by</span> <span class="n">mutuallyExclusiveOptions</span><span class="p">&lt;</span><span class="n">Fruit</span><span class="p">&gt;(</span>
         <span class="n">option</span><span class="p">(</span><span class="s">&quot;--oranges&quot;</span><span class="p">).</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Oranges</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">},</span>
-        <span class="n">option</span><span class="p">(</span><span class="s">&quot;--apples&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">().</span><span class="n">wrapValue</span> <span class="p">{</span> <span class="n">Apples</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">option</span><span class="p">(</span><span class="s">&quot;--apples&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">().</span><span class="n">convert</span> <span class="p">{</span> <span class="n">Apples</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">)</span>
 
     <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>

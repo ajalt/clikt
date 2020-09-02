@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+
+## 3.0.0
+_2020-09-02_
+
 ### Added
 - Clikt's JS target now supports both NodeJS and Browsers. ([#198](https://github.com/ajalt/clikt/issues/198))
 - Default values for switch options are now shown in the help. Help text can be customized using the `defaultForHelp` argument, similar to normal options. ([#205](https://github.com/ajalt/clikt/issues/205))

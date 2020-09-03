@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 3.0.1
+_2020-09-03_
+
 ### Deprecated
 - Deprecated calling `echo` with `err` or `lineSeparator` but no `message`. 
 

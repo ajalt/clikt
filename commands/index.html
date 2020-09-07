@@ -1814,7 +1814,8 @@ with the given type. If no such object exists, they will either return <code>nul
 or create an instance of the object and store it on the command&rsquo;s context, depending on which
 function you call. Note that <code>findOrSetObject</code> won&rsquo;t set the Context&rsquo;s object until it&rsquo;s property
 value is accessed. If you need to set an object for subcommands without accessing the property, you
-should use the [<code>Context.findOrSetObject</code>] instead. </p>
+should use the <a href="api/clikt/com.github.ajalt.clikt.core/-context/find-or-set-object/"><code>Context.findOrSetObject</code></a>, or set
+<a href="../api/clikt/com.github.ajalt.clikt.core/-context/obj/"><code>Context.obj</code></a> directly, instead.</p>
 <h2 id="running-parent-command-without-children">Running Parent Command Without Children<a class="headerlink" href="#running-parent-command-without-children" title="Permanent link">&para;</a></h2>
 <p>Normally, if a command has children, <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/run/"><code>run</code></a> is not called unless a child
 command is invoked on the command line. Instead, <code>--help</code> is called on the parent. If you want to

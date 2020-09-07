@@ -185,7 +185,8 @@ with the given type. If no such object exists, they will either return `null`, t
 or create an instance of the object and store it on the command's context, depending on which
 function you call. Note that `findOrSetObject` won't set the Context's object until it's property
 value is accessed. If you need to set an object for subcommands without accessing the property, you
-should use the [`Context.findOrSetObject`] instead. 
+should use the [`Context.findOrSetObject`][Context.findOrSetObject], or set
+[`Context.obj`][Context.obj] directly, instead.
 
 ## Running Parent Command Without Children
 
@@ -402,6 +403,7 @@ cannot have `allowMultipleSubcommands=true`.
 [argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md
 [CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
 [Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/-context/find-or-set-object/
+[Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/obj.md
 [Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.md
 [context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
 [customizing-context]:           #customizing-contexts

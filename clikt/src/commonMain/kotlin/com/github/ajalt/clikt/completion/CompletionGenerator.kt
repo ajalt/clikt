@@ -8,6 +8,10 @@ object CompletionGenerator {
         return generateCompletion(command, zsh = false)
     }
 
+    fun generateZshCompletion(command: CliktCommand): String {
+        return generateCompletion(command, zsh = true)
+    }
+
     internal fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)

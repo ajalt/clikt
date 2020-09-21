@@ -3,8 +3,16 @@ package com.github.ajalt.clikt.completion
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
 import com.github.ajalt.clikt.core.CliktCommand
 
-internal object CompletionGenerator {
-    fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
+object CompletionGenerator {
+    fun generateBashCompletion(command: CliktCommand): String {
+        return generateCompletion(command, zsh = false)
+    }
+
+    fun generateZshCompletion(command: CliktCommand): String {
+        return generateCompletion(command, zsh = true)
+    }
+
+    internal fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options.map { Triple(it.names, it.completionCandidates, it.nvalues) }

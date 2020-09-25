@@ -291,12 +291,31 @@ fun <T : Any> FlagOption<T?>.default(
         value: T,
         defaultForHelp: String = value.toString()
 ): FlagOption<T> {
-    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     return copy(
             transformEnvvar = { transformEnvvar(it) ?: value },
             transformAll = { transformAll(it) ?: value },
             validator = validator,
-            helpTags = tags
+            helpTags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+    )
+}
+
+/**
+ * If the option is not called on the command line (and is not set in an envvar), throw a [MissingOption].
+ *
+ * This must be applied after all other transforms.
+ *
+ * ### Example:
+ *
+ * ```
+ * option().switch("--foo" to Foo(), "--bar" to Bar()).required()
+ * ```
+ */
+fun <T : Any> FlagOption<T?>.required(): FlagOption<T> {
+    return copy(
+            transformEnvvar = { transformEnvvar(it) ?: throw MissingOption(option) },
+            transformAll = { transformAll(it) ?: throw MissingOption(option) },
+            validator = validator,
+            helpTags = helpTags + mapOf(HelpFormatter.Tags.REQUIRED to "")
     )
 }
 

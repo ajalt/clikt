@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- Added `required()` for nullable flag options like `switch()`.
+
 ## 3.0.1
 _2020-09-03_
 

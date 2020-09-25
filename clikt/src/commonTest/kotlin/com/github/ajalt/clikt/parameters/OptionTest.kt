@@ -312,6 +312,18 @@ class OptionTest {
     }
 
     @Test
+    @JsName("required_switch_options")
+    fun `required switch options`() {
+        class C : TestCommand() {
+            val x by option().switch("-x" to 1, "-xx" to 2).required()
+        }
+
+        C().parse("-x").x shouldBe 1
+        C().parse("-xx").x shouldBe 2
+        shouldThrow<MissingOption> { C().parse("") }
+    }
+
+    @Test
     @JsName("counted_options")
     fun `counted options`() = forAll(
             row("", 0, false, null),

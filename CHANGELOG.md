@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- Added `required()` and `defaultLazy()` for nullable flag options like `switch()`. ([#240](https://github.com/ajalt/clikt/issues/240))
+
 ## 3.0.1
 _2020-09-03_
 

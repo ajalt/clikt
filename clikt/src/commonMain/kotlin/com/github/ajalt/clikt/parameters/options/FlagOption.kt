@@ -300,6 +300,24 @@ fun <T : Any> FlagOption<T?>.default(
 }
 
 /**
+ * Set a default [value] for an option from a lazy builder which is only called if the default value is used.
+ *
+ * @param defaultForHelp The help text for this option's default value if the help formatter is configured
+ *   to show them. By default, the default value is not shown in help.
+ */
+inline fun <T : Any> FlagOption<T?>.defaultLazy(
+        defaultForHelp: String = "",
+        crossinline value: () -> T
+):  FlagOption<T> {
+    return copy(
+            transformEnvvar = { transformEnvvar(it) ?: value() },
+            transformAll = { transformAll(it) ?: value() },
+            validator = validator,
+            helpTags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+    )
+}
+
+/**
  * If the option is not called on the command line (and is not set in an envvar), throw a [MissingOption].
  *
  * This must be applied after all other transforms.

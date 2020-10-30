@@ -46,18 +46,18 @@ jobs:
         with:
           dependencies-cache-enabled: true
           arguments: :clikt:publish -PinferVersion=true
-    deploy-windows:
-      needs: [ linux-tests, macos-tests, windows-tests ]
-      runs-on: windows-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: Fetch git tags
-          run: git fetch origin +refs/tags/*:refs/tags/*
-        - name: Deploy to sonatype
-          uses: eskatos/gradle-command-action@v1
-          with:
-            dependencies-cache-enabled: true
-            arguments: :clikt:publishMingwX64PublicationToMavenRepository -PinferVersion=true
+  deploy-windows:
+    needs: [ linux-tests, macos-tests, windows-tests ]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch git tags
+        run: git fetch origin +refs/tags/*:refs/tags/*
+      - name: Deploy to sonatype
+        uses: eskatos/gradle-command-action@v1
+        with:
+          dependencies-cache-enabled: true
+          arguments: :clikt:publishMingwX64PublicationToMavenRepository -PinferVersion=true
 
 env:
   GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx5g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"

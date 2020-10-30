@@ -35,6 +35,7 @@ markdown_extensions:
   - pymdownx.magiclink
   - pymdownx.smartsymbols
   - pymdownx.superfences
+  - pymdownx.tabbed
   - tables
 
 nav:

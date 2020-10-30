@@ -9,16 +9,17 @@ values for options and arguments. `choice` parameters are completed with their p
 Other parameter types are completed as file or directory names.
 [`Context.allowInterspersedArgs`][allowInterspersedArgs] is supported.
 
-```text tab="Example"
-$ ./repo <TAB><TAB>
-commit clone pull
+=== "Example"
+    ```text
+    $ ./repo <TAB><TAB>
+    commit clone pull
 
-$ ./repo -<TAB>
---config -h --help --repo-home --verbose
+    $ ./repo -<TAB>
+    --config -h --help --repo-home --verbose
 
-$./repo --repo-home ./g<TAB>
-./git ./got ./good
-```
+    $./repo --repo-home ./g<TAB>
+    ./git ./got ./good
+    ```
 
 ## Enabling Completion
 
@@ -91,33 +92,35 @@ Specifically, you should set the variable `COMPREPLY` to the completion(s) for t
 being typed. The word being typed can be retrieved from the `COMP_WORDS` array at index
 `COMP_CWORD`.
 
-```kotlin tab="Example with fromStdout"
-class Hello: CliktCommand() {
-    // This example uses `echo`, but you would use your own binary
-    // or script that prints the completions.
-    val name by option(completionCandidates =
-        CompletionCandidates.Custom.fromStdout("echo completion1 completion2")
-    )
-    override fun run() {
-        echo("Hello, $name!")
+=== "Example with fromStdout"
+    ```kotlin
+    class Hello: CliktCommand() {
+        // This example uses `echo`, but you would use your own binary
+        // or script that prints the completions.
+        val name by option(completionCandidates =
+            CompletionCandidates.Custom.fromStdout("echo completion1 completion2")
+        )
+        override fun run() {
+            echo("Hello, $name!")
+        }
     }
-}
-```
+    ```
 
-```kotlin tab="Example with full script"
-class Hello: CliktCommand() {
-    // This is identical to the previous example
-    val name by option(completionCandidates = CompletionCandidates.Custom {
-        """
-        WORDS=${'$'}(echo completion1 completion2)
-        COMPREPLY=(${'$'}(compgen -W "${'$'}WORDS" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))
-        """.trimIndent()
-    })
-    override fun run() {
-        echo("Hello, $name!")
+=== "Example with full script"
+    ```kotlin
+    class Hello: CliktCommand() {
+        // This is identical to the previous example
+        val name by option(completionCandidates = CompletionCandidates.Custom {
+            """
+            WORDS=${'$'}(echo completion1 completion2)
+            COMPREPLY=(${'$'}(compgen -W "${'$'}WORDS" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))
+            """.trimIndent()
+        })
+        override fun run() {
+            echo("Hello, $name!")
+        }
     }
-}
-```
+    ```
 
 ## Limitations
 

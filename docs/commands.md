@@ -15,40 +15,43 @@ called only if a child command is invoked, just before the subcommand's
 `run`. If a parent command is called without specifying a subcommand,
 the help page is printed and `run` is not called.
 
-```kotlin tab="Example"
-class Tool : CliktCommand() {
-    val verbose by option().flag("--no-verbose")
-    override fun run() {
-        echo("Verbose mode is ${if (verbose) "on" else "off"}")
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand() {
+        val verbose by option().flag("--no-verbose")
+        override fun run() {
+            echo("Verbose mode is ${if (verbose) "on" else "off"}")
+        }
     }
-}
 
-class Execute : CliktCommand() {
-    override fun run() {
-        echo("executing")
+    class Execute : CliktCommand() {
+        override fun run() {
+            echo("executing")
+        }
     }
-}
 
-fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
-```
+    fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
+    ```
 
-```text tab="Usage 1"
-$ ./tool
-Usage: tool [OPTIONS] COMMAND [ARGS]...
+=== "Usage 1"
+    ```text
+    $ ./tool
+    Usage: tool [OPTIONS] COMMAND [ARGS]...
 
-Options:
-  --verbose / --no-verbose
-  -h, --help                Show this message and exit
+    Options:
+      --verbose / --no-verbose
+      -h, --help                Show this message and exit
 
-Commands:
-  execute
-```
+    Commands:
+      execute
+    ```
 
-```text tab="Usage 2"
-$ ./tool --verbose execute
-Verbose mode is on
-executing
-```
+=== "Usage 2"
+    ```text
+    $ ./tool --verbose execute
+    Verbose mode is on
+    executing
+    ```
 
 ## Customizing Command Name
 
@@ -56,35 +59,38 @@ The default name for subcommands is inferred as a lowercase name from the comman
 can also set a name manually in the
 [`CliktCommand`][CliktCommand] constructor.
 
-```kotlin tab="Example"
-class Tool : CliktCommand() {
-    override fun run()= Unit
-}
-
-class Execute : CliktCommand(name = "RUN-ME") {
-    override fun run() {
-        echo("executing")
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand() {
+        override fun run()= Unit
     }
-}
 
-fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
-```
+    class Execute : CliktCommand(name = "RUN-ME") {
+        override fun run() {
+            echo("executing")
+        }
+    }
 
-```text tab="Usage 1"
-$ ./tool RUN-ME
-executing
-```
+    fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
+    ```
 
-```text tab="Usage 2"
-$ ./tool -h
-Usage: tool [OPTIONS] COMMAND [ARGS]...
+=== "Usage 1"
+    ```text
+    $ ./tool RUN-ME
+    executing
+    ```
 
-Options:
-  -h, --help  Show this message and exit
+=== "Usage 2"
+    ```text
+    $ ./tool -h
+    Usage: tool [OPTIONS] COMMAND [ARGS]...
 
-Commands:
-  RUN-ME
-```
+    Options:
+      -h, --help  Show this message and exit
+
+    Commands:
+      RUN-ME
+    ```
 
 ## Passing Parameters
 
@@ -93,33 +99,35 @@ command line affect which command will parse them. A parameter is parsed
 by a command if it occurs after the command name, but before any other
 command names.
 
-```kotlin tab="Example"
-class Tool : CliktCommand(help = "A tool that runs") {
-    val verbose by option().flag("--no-verbose")
-    override fun run() = Unit
-}
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand(help = "A tool that runs") {
+        val verbose by option().flag("--no-verbose")
+        override fun run() = Unit
+    }
 
-class Execute : CliktCommand(help = "Execute the command") {
-    val name by option()
-    override fun run() = Unit
-}
+    class Execute : CliktCommand(help = "Execute the command") {
+        val name by option()
+        override fun run() = Unit
+    }
 
-fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
-```
+    fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
+    ```
 
-```text tab="Usage"
-$ ./tool --help
-Usage: tool [OPTIONS] COMMAND [ARGS]...
+=== "Usage"
+    ```text
+    $ ./tool --help
+    Usage: tool [OPTIONS] COMMAND [ARGS]...
 
-  A tool that runs
+      A tool that runs
 
-Options:
-  --verbose / --no-verbose
-  -h, --help                Show this message and exit
+    Options:
+      --verbose / --no-verbose
+      -h, --help                Show this message and exit
 
-Commands:
-  execute  Execute the command
-```
+    Commands:
+      execute  Execute the command
+    ```
 
 If you instead execute `--help` after the subcommand, the subcommand's
 help is printed:
@@ -155,29 +163,31 @@ context, the configuration is inherited from the parent context.
 `Context` objects also have an `obj` property that can hold any user
 defined data. You can use the `obj` to create interfaces like this:
 
-```kotlin tab="Example"
-class Tool : CliktCommand() {
-    val verbose by option().flag("--no-verbose")
-    val config by findOrSetObject { mutableMapOf<String, String>() }
-    override fun run() {
-        config["VERBOSE"] = if (verbose) "on" else "off"
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand() {
+        val verbose by option().flag("--no-verbose")
+        val config by findOrSetObject { mutableMapOf<String, String>() }
+        override fun run() {
+            config["VERBOSE"] = if (verbose) "on" else "off"
+        }
     }
-}
 
-class Execute : CliktCommand() {
-    val config by requireObject<Map<String, String>>()
-    override fun run() {
-        echo("Verbose mode is ${config["VERBOSE"]}")
+    class Execute : CliktCommand() {
+        val config by requireObject<Map<String, String>>()
+        override fun run() {
+            echo("Verbose mode is ${config["VERBOSE"]}")
+        }
     }
-}
 
-fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
-```
+    fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
+    ```
 
-```text tab="Usage"
-$ ./tool --verbose execute
-Verbose mode is on
-```
+=== "Usage"
+    ```text
+    $ ./tool --verbose execute
+    Verbose mode is on
+    ```
 
 The [`findObject`][findObject], [`findOrSetObject`][findOrSetObject], and
 [`requireObject`][requireObject] functions will walk up the context tree until they find an object
@@ -196,37 +206,40 @@ change this behavior to always call `run()` on the parent, you can do so by sett
 `invokeWithoutSubcommand` to `true`. The `Context` will then have information on the subcommand that
 is about to be invoked, if there is one.
 
-```kotlin tab="Example"
-class Tool : CliktCommand(invokeWithoutSubcommand = true) {
-    override fun run() {
-        val subcommand = currentContext.invokedSubcommand
-        if (subcommand == null) {
-            echo("invoked without a subcommand")
-        } else {
-            echo("about to run ${subcommand.commandName}")
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand(invokeWithoutSubcommand = true) {
+        override fun run() {
+            val subcommand = currentContext.invokedSubcommand
+            if (subcommand == null) {
+                echo("invoked without a subcommand")
+            } else {
+                echo("about to run ${subcommand.commandName}")
+            }
         }
     }
-}
 
-class Execute : CliktCommand() {
-    override fun run() {
-        echo("running subcommand")
+    class Execute : CliktCommand() {
+        override fun run() {
+            echo("running subcommand")
+        }
     }
-}
 
-fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
-```
+    fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
+    ```
 
-```text tab="Usage 1"
-$ ./tool
-invoked without a subcommand
-```
+=== "Usage 1"
+    ```text
+    $ ./tool
+    invoked without a subcommand
+    ```
 
-```text tab="Usage 2"
-$./tool execute
-about to run execute
-running subcommand
-```
+=== "Usage 2"
+    ```text
+    $./tool execute
+    about to run execute
+    running subcommand
+    ```
 
 ## Customizing Contexts
 
@@ -237,29 +250,32 @@ which can be called in an `init` block, or on a command instance.
 
 For example, you can change the name of help option. These definitions are equivalent:
 
-```kotlin tab="Version 1"
-class Cli : NoOpCliktCommand() {
-    init {
-        context { helpOptionNames = setOf("/help") }
+=== "Version 1"
+    ```kotlin
+    class Cli : NoOpCliktCommand() {
+        init {
+            context { helpOptionNames = setOf("/help") }
+        }
     }
-}
-fun main(args: Array<String>) = Cli()
-```
+    fun main(args: Array<String>) = Cli()
+    ```
 
-```kotlin tab="Version 2"
-class Cli : NoOpCliktCommand()
-fun main(args: Array<String>) = Cli()
-    .context { helpOptionNames = setOf("/help") }
-    .main(args)
-```
+=== "Version 2"
+    ```kotlin
+    class Cli : NoOpCliktCommand()
+    fun main(args: Array<String>) = Cli()
+        .context { helpOptionNames = setOf("/help") }
+        .main(args)
+    ```
 
-```text tab="Usage"
-$ ./cli --help
-Usage: cli [OPTIONS]
+=== "Usage"
+    ```text
+    $ ./cli --help
+    Usage: cli [OPTIONS]
 
-Options:
-  -h, --help  print the help
-```
+    Options:
+      -h, --help  print the help
+    ```
 
 ## Printing the Help Message When No Arguments Are Given
 
@@ -270,20 +286,22 @@ You can change this behavior by passing `printHelpOnEmptyArgs = true` to your co
 constructor. This will cause a help message to be printed when no values are provided on the command
 line, regardless of the parameters in your command.
 
-```kotlin tab="Example"
-class Cli : CliktCommand(printHelpOnEmptyArgs = true) {
-    val arg by argument()
-    override fun run() { echo("Command ran") }
-}
-```
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand(printHelpOnEmptyArgs = true) {
+        val arg by argument()
+        override fun run() { echo("Command ran") }
+    }
+    ```
 
-```text tab="Usage"
-$ ./cli
-Usage: cli [OPTIONS]
+=== "Usage"
+    ```text
+    $ ./cli
+    Usage: cli [OPTIONS]
 
-Options:
-  -h, --help  print the help
-```
+    Options:
+      -h, --help  print the help
+    ```
 
 ## Warnings and Other Messages
 
@@ -300,47 +318,52 @@ You can issue a command message by calling
 [`CliktCommand.issueMessage`][issueMessage] or with the
 `message` function available in the context of parameter transformers.
 
-```kotlin tab="Example"
-class Cli : CliktCommand() {
-    // This will print the warning when the option is given, but not if there are errors
-    val opt by option().validate {
-        if (it.isEmpty()) message("Empty strings are not recommended")
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        // This will print the warning when the option is given, but not if there are errors
+        val opt by option().validate {
+            if (it.isEmpty()) message("Empty strings are not recommended")
+        }
+        override fun run() {
+            echo("command run")
+        }
     }
-    override fun run() {
-        echo("command run")
-    }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./cli --opt=''
-Empty strings are not recommended
-command run
-```
+=== "Usage 1"
+    ```text
+    $ ./cli --opt=''
+    Empty strings are not recommended
+    command run
+    ```
 
-```text tab="Usage 2"
-$ ./cli --opt='' --oops
-Error: no such option: "--oops".
-```
+=== "Usage 2"
+    ```text
+    $ ./cli --opt='' --oops
+    Error: no such option: "--oops".
+    ```
 
 You can disable automatic message printing on the [command's context][customizing-context]:
 
-```kotlin tab="Example"
-class Cli : CliktCommand() {
-    init { context { printExtraMessages = false } }
-    val opt by option().validate {
-        if (it.isEmpty()) message("Empty strings are not recommended")
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        init { context { printExtraMessages = false } }
+        val opt by option().validate {
+            if (it.isEmpty()) message("Empty strings are not recommended")
+        }
+        override fun run() {
+            echo("command run")
+        }
     }
-    override fun run() {
-        echo("command run")
-    }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./cli --opt=''
-command run
-```
+=== "Usage"
+    ```text
+    $ ./cli --opt=''
+    command run
+    ```
 
 ## Chaining and Repeating Subcommands
 
@@ -351,36 +374,38 @@ then the `publish` task, which are all subcommands of `gradle`.
 To do this with Clikt, pass `allowMultipleSubcommands = true` to your [CliktCommand][CliktCommand]
 constructor.
 
-```kotlin tab="Example"
-class Compiler: CliktCommand(allowMultipleSubcommands = true) {
-    override fun run() {
-        echo("Running compiler")
+=== "Example"
+    ```kotlin
+    class Compiler: CliktCommand(allowMultipleSubcommands = true) {
+        override fun run() {
+            echo("Running compiler")
+        }
     }
-}
 
-class Clean: CliktCommand() {
-    val force by option().flag()
-    override fun run() {
-        echo("Cleaning (force=$force)")
+    class Clean: CliktCommand() {
+        val force by option().flag()
+        override fun run() {
+            echo("Cleaning (force=$force)")
+        }
     }
-}
 
-class Build: CliktCommand() {
-    val file by argument().file()
-    override fun run() {
-        echo("Building $file")
+    class Build: CliktCommand() {
+        val file by argument().file()
+        override fun run() {
+            echo("Building $file")
+        }
     }
-}
 
-fun main(args: Array<String>) = Compiler().subcommands(Clean(), Build()).main(args)
-```
+    fun main(args: Array<String>) = Compiler().subcommands(Clean(), Build()).main(args)
+    ```
 
-```text tab="Usage"
-$ ./compiler clean --force build main.kt
-Running compiler
-Cleaning (force=true)
-Building main.kt
-```
+=== "Usage"
+    ```text
+    $ ./compiler clean --force build main.kt
+    Running compiler
+    Cleaning (force=true)
+    Building main.kt
+    ```
 
 The parent command will [`run`][run] once, and each subcommand will `run` once each time they're called.
 

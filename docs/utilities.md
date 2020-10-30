@@ -11,16 +11,17 @@ through [`TermUi.editText`][editText] and [`TermUi.editFile`][editFile]. These f
 program defined in the `VISUAL` or `EDITOR` environment variables, or a sensible default if neither
 are defined. The functions return the edited text if the user saved their changes.
 
-```kotlin tab="Example"
-fun getCommitMessage(): String? {
-    val message = """
-    # Enter your message.
-    # Lines starting with # are ignored
-    """.trimIndent()
-    return TermUi.editText(message, requireSave = true)
-            ?.replace(Regex("#[^\n]*\n"), "")
-}
-```
+=== "Example"
+    ```kotlin
+    fun getCommitMessage(): String? {
+        val message = """
+        # Enter your message.
+        # Lines starting with # are ignored
+        """.trimIndent()
+        return TermUi.editText(message, requireSave = true)
+                ?.replace(Regex("#[^\n]*\n"), "")
+    }
+    ```
 
 ## Input Prompts
 
@@ -30,19 +31,21 @@ default, it accepts any input string, but you can also pass in a conversion func
 conversion raises a [`UsageError`][UsageError],
 the prompt will ask the user to enter a different value.
 
-```kotlin tab="Example"
-val input = TermUi.prompt("Enter a number") {
-    it.toIntOrNull() ?: throw UsageError("$it is not a valid integer")
-}
-TermUi.echo("Twice your number is ${input * 2}")
-```
+=== "Example"
+    ```kotlin
+    val input = TermUi.prompt("Enter a number") {
+        it.toIntOrNull() ?: throw UsageError("$it is not a valid integer")
+    }
+    TermUi.echo("Twice your number is ${input * 2}")
+    ```
 
-```text tab="Interactive Session"
-Enter a number: foo
-Error: foo is not a valid integer
-Enter a number: 11
-Twice your number is 22
-```
+=== "Interactive Session"
+    ```text
+    Enter a number: foo
+    Error: foo is not a valid integer
+    Enter a number: 11
+    Twice your number is 22
+    ```
 
 ## Confirmation Prompts
 

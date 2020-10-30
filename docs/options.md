@@ -10,19 +10,21 @@ nullable. If the option is not given on the command line, the property
 value will be null. If the option is given at least once, the property
 will return the value of the last occurrence of the option.
 
-```kotlin tab="Example"
-class Hello: CliktCommand() {
-    val name by option(help="your name")
-    override fun run() {
-        echo("Hello, $name!")
+=== "Example"
+    ```kotlin
+    class Hello: CliktCommand() {
+        val name by option(help="your name")
+        override fun run() {
+            echo("Hello, $name!")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./hello --name=Foo
-Hello, Foo!
-```
+=== "Usage"
+    ```text
+    $ ./hello --name=Foo
+    Hello, Foo!
+    ```
 
 ## Option Names
 
@@ -45,28 +47,32 @@ class Hello: CliktCommand() {
 Option names that are two characters long (like `-n`) are treated as
 POSIX-style short options. You call them with a value like this:
 
-```text tab="Usage 1"
-$ ./hello -nfoo
-Hello, foo!
-```
+=== "Usage 1"
+    ```text
+    $ ./hello -nfoo
+    Hello, foo!
+    ```
 
-```text tab="Usage 2"
-$ ./hello -n foo
-Hello, foo!
-```
+=== "Usage 2"
+    ```text
+    $ ./hello -n foo
+    Hello, foo!
+    ```
 
 All other option names are considered long options, and can be called
 like this:
 
-```text tab="Usage 1"
-$ ./hello --name=foo
-Hello, foo!
-```
+=== "Usage 1"
+    ```text
+    $ ./hello --name=foo
+    Hello, foo!
+    ```
 
-```text tab="Usage 2"
-$ ./hello --name foo
-Hello, foo!
-```
+=== "Usage 2"
+    ```text
+    $ ./hello --name foo
+    Hello, foo!
+    ```
 
 ## Customizing Options
 
@@ -107,24 +113,27 @@ code.
 By default, option delegates return `null` if the option wasn't provided
 on the command line. You can instead return a default value with [`default`][default].
 
-```kotlin tab="Example"
-class Pow : CliktCommand() {
-    val exp by option("-e", "--exp").double().default(1.0)
-    override fun run() {
-        echo("2 ^ $exp = ${(2.0).pow(exp)}")
+=== "Example"
+    ```kotlin
+    class Pow : CliktCommand() {
+        val exp by option("-e", "--exp").double().default(1.0)
+        override fun run() {
+            echo("2 ^ $exp = ${(2.0).pow(exp)}")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./pow -e 8
-2 ^ 8.0 = 256.0
-```
+=== "Usage 1"
+    ```text
+    $ ./pow -e 8
+    2 ^ 8.0 = 256.0
+    ```
 
-```text tab="Usage 2"
-$ ./pow
-2 ^ 1.0 = 2.0
-```
+=== "Usage 2"
+    ```text
+    $ ./pow
+    2 ^ 1.0 = 2.0
+    ```
 
 If the default value is expensive to compute, you can use
 [`defaultLazy`][defaultLazy] instead of [`default`][default].
@@ -149,28 +158,30 @@ lambda that will transform a list of values into the output container. The list 
 size equal to the number you specify. If the user provides a different number of values, Clikt will
 inform the user and your lambda won't be called.
 
-```kotlin tab="Example"
-data class Quad<out T>(val a: T, val b: T, val c: T, val d: T)
-fun <T> Quad<T>.toList(): List<T> = listOf(a, b, c, d)
+=== "Example"
+    ```kotlin
+    data class Quad<out T>(val a: T, val b: T, val c: T, val d: T)
+    fun <T> Quad<T>.toList(): List<T> = listOf(a, b, c, d)
 
-class Geometry : CliktCommand() {
-    val square by option().int().pair()
-    val cube by option().int().triple()
-    val tesseract by option().int().transformValues(4) { Quad(it[0], it[1], it[2], it[3]) }
-    override fun run() {
-        echo("Square has dimensions ${square?.toList()?.joinToString("x")}")
-        echo("Cube has dimensions ${cube?.toList()?.joinToString("x")}")
-        echo("Tesseract has dimensions ${tesseract?.toList()?.joinToString("x")}")
+    class Geometry : CliktCommand() {
+        val square by option().int().pair()
+        val cube by option().int().triple()
+        val tesseract by option().int().transformValues(4) { Quad(it[0], it[1], it[2], it[3]) }
+        override fun run() {
+            echo("Square has dimensions ${square?.toList()?.joinToString("x")}")
+            echo("Cube has dimensions ${cube?.toList()?.joinToString("x")}")
+            echo("Tesseract has dimensions ${tesseract?.toList()?.joinToString("x")}")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./geometry --square 1 2 --cube 3 4 5 --tesseract 6 7 8 9
-Square has dimensions 1x2
-Cube has dimensions 3x4x5
-Tesseract has dimensions 6x7x8x9
-```
+=== "Usage"
+    ```text
+    $ ./geometry --square 1 2 --cube 3 4 5 --tesseract 6 7 8 9
+    Square has dimensions 1x2
+    Cube has dimensions 3x4x5
+    Tesseract has dimensions 6x7x8x9
+    ```
 
 ### Options With a Variable Number of Values
 
@@ -178,22 +189,24 @@ You can use [`split`][split] to allow a
 variable number of values to a single option invocation by separating the values with non-whitespace
 delimiters.
 
-```kotlin tab="Example"
-class C : CliktCommand() {
-    val profiles by option("-P").split(",")
-    override fun run() {
-        for (profile in profiles) {
-            echo(profile)
+=== "Example"
+    ```kotlin
+    class C : CliktCommand() {
+        val profiles by option("-P").split(",")
+        override fun run() {
+            for (profile in profiles) {
+                echo(profile)
+            }
         }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./split -P profile-1,profile-2
-profile-1
-profile-2
-```
+=== "Usage"
+    ```text
+    $ ./split -P profile-1,profile-2
+    profile-1
+    profile-2
+    ```
 
 
 ## Multiple Options
@@ -207,20 +220,22 @@ will cause the property delegate value to be a list, where each item in
 the list is the value of from one occurrence of the option. If the option
 is never given, the list will be empty (or you can specify a default to use).
 
-```kotlin tab="Example"
-class Commit : CliktCommand() {
-    val message: List<String> by option("-m").multiple()
-    override fun run() {
-        echo(message.joinToString("\n"))
+=== "Example"
+    ```kotlin
+    class Commit : CliktCommand() {
+        val message: List<String> by option("-m").multiple()
+        override fun run() {
+            echo(message.joinToString("\n"))
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./commit -m foo -m bar
-foo
-bar
-```
+=== "Usage"
+    ```text
+    $ ./commit -m foo -m bar
+    foo
+    bar
+    ```
 
 You can combine [`multiple`][multiple] with item type conversions and multiple values.
 
@@ -234,31 +249,35 @@ You can also supply a default value to [`multiple`][multiple] or require at leas
 on the command line. These are specified as arguments rather than with separate extension functions
 since they don't change the type of the delegate.
 
-```kotlin tab="Required"
-val opt: List<String> by option().multiple(required=true)
-```
+=== "Required"
+    ```kotlin
+    val opt: List<String> by option().multiple(required=true)
+    ```
 
-```kotlin tab="Default"
-val opt: List<String> by option().multiple(default=listOf("default message"))
-```
+=== "Default"
+    ```kotlin
+    val opt: List<String> by option().multiple(default=listOf("default message"))
+    ```
 
 ### Deduplicating option().multiple() into a unique set
 
 You can discard duplicate values from a `multiple` option with [`unique`][unique].
 
-```kotlin tab="Example"
-class Build : CliktCommand() {
-    val platforms: Set<String> by option("-p").multiple().unique()
-    override fun run() {
-        echo("Building for platforms: $platforms")
+=== "Example"
+    ```kotlin
+    class Build : CliktCommand() {
+        val platforms: Set<String> by option("-p").multiple().unique()
+        override fun run() {
+            echo("Building for platforms: $platforms")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./build -p android -p ios -p android
-Building for platforms: [android, ios]
-```
+=== "Usage"
+    ```text
+    $ ./build -p android -p ios -p android
+    Building for platforms: [android, ios]
+    ```
 
 ## Key-Value and Map Options
 
@@ -266,20 +285,22 @@ You can split an option's value into a key-value pair with [`splitPair`][splitPa
 delimiter `=` will be used to split. You can also use [`associate`][associate] to allow the option
 to be specified multiple times, and have its values collected in a map.
 
-```kotlin tab="Example"
-class Build : CliktCommand() {
-    val systemProp: Map<String, String> by option("-D", "--system-prop").associate()
+=== "Example"
+    ```kotlin
+    class Build : CliktCommand() {
+        val systemProp: Map<String, String> by option("-D", "--system-prop").associate()
 
-    override fun run() {
-        echo(systemProp)
+        override fun run() {
+            echo(systemProp)
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./build -Dplace=here --system-prop size=small
-{place=here, size=small}
-```
+=== "Usage"
+    ```text
+    $ ./build -Dplace=here --system-prop size=small
+    {place=here, size=small}
+    ```
 
 ## Boolean Flag Options
 
@@ -293,63 +314,70 @@ secondary names so that a user can disable the flag if it was enabled
 previously.
 
 
-```kotlin tab="Example"
-class Cli : CliktCommand() {
-    val flag by option("--on", "-o").flag("--off", "-O", default = false)
-    override fun run() {
-        echo(flag)
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        val flag by option("--on", "-o").flag("--off", "-O", default = false)
+        override fun run() {
+            echo(flag)
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./cli -o
-true
-```
+=== "Usage 1"
+    ```text
+    $ ./cli -o
+    true
+    ```
 
-```text tab="Usage 2"
-$ ./cli --on --off
-false
-```
+=== "Usage 2"
+    ```text
+    $ ./cli --on --off
+    false
+    ```
 
 
 Multiple short flag options can be combined when called on the command
 line:
 
-```kotlin tab="Example"
-class Cli : CliktCommand() {
-    val flagA by option("-a").flag()
-    val flagB by option("-b").flag()
-    val foo by option("-f")
-    override fun run() {
-        echo("$flagA $flagB $foo")
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        val flagA by option("-a").flag()
+        val flagB by option("-b").flag()
+        val foo by option("-f")
+        override fun run() {
+            echo("$flagA $flagB $foo")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./cli -abfFoo
-true true Foo
-```
+=== "Usage"
+    ```text
+    $ ./cli -abfFoo
+    true true Foo
+    ```
 
 ## Counted Flag Options
 
 You might want a flag option that counts the number of times it occurs on the command line. You can
 use [`counted`][counted] for this.
 
-```kotlin tab="Example"
-class Log : CliktCommand() {
-    val verbosity by option("-v").counted()
-    override fun run() {
-        echo("Verbosity level: $verbosity")
+=== "Example"
+    ```kotlin
+    class Log : CliktCommand() {
+        val verbosity by option("-v").counted()
+        override fun run() {
+            echo("Verbosity level: $verbosity")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./log -vvv
-Verbosity level: 3
-```
+=== "Usage"
+    ```text
+    $ ./log -vvv
+    Verbosity level: 3
+    ```
 
 ## Feature Switch Flags
 
@@ -358,22 +386,24 @@ Another way to use flags is to assign a value to each option name. You can do th
 option names to values. Note that the names in the map replace any previously specified or inferred
 names.
 
-```kotlin tab="Example"
-class Size : CliktCommand() {
-    val size by option().switch(
-        "--large" to "large", 
-        "--small" to "small"
-    ).default("unknown")
-    override fun run() {
-        echo("You picked size $size")
+=== "Example"
+    ```kotlin
+    class Size : CliktCommand() {
+        val size by option().switch(
+            "--large" to "large",
+            "--small" to "small"
+        ).default("unknown")
+        override fun run() {
+            echo("You picked size $size")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./size --small
-You picked size small
-```
+=== "Usage"
+    ```text
+    $ ./size --small
+    You picked size small
+    ```
 
 ## Choice Options
 
@@ -381,35 +411,39 @@ You can restrict the values that a regular option can take to a set of values us
 [`choice`][choice]. You can also map the
 input values to new types.
 
-```kotlin tab="Example"
-class Digest : CliktCommand() {
-    val hash by option().choice("md5", "sha1")
-    override fun run() {
-        echo(hash)
+=== "Example"
+    ```kotlin
+    class Digest : CliktCommand() {
+        val hash by option().choice("md5", "sha1")
+        override fun run() {
+            echo(hash)
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./digest --hash=md5
-md5
-```
+=== "Usage 1"
+    ```text
+    $ ./digest --hash=md5
+    md5
+    ```
 
-```text tab="Usage 2"
-$ ./digest --hash=sha256
-Usage: digest [OPTIONS]
+=== "Usage 2"
+    ```text
+    $ ./digest --hash=sha256
+    Usage: digest [OPTIONS]
 
-Error: Invalid value for "--hash": invalid choice: sha256. (choose from md5, sha1)
-```
+    Error: Invalid value for "--hash": invalid choice: sha256. (choose from md5, sha1)
+    ```
 
-```text tab="Usage 3"
-$ ./digest --help
-Usage: digest [OPTIONS]
+=== "Usage 3"
+    ```text
+    $ ./digest --help
+    Usage: digest [OPTIONS]
 
-Options:
-  --hash [md5|sha1]
-  -h, --help         Show this message and exit
-```
+    Options:
+      --hash [md5|sha1]
+      -h, --help         Show this message and exit
+    ```
 
 ## Mutually Exclusive Option Groups
 
@@ -420,51 +454,57 @@ the group is given on the command line, the last value is used.
 
 If you want different types for each option, you can wrap them in a sealed class.
 
-```kotlin tab="Example"
-sealed class Fruit {
-    data class Oranges(val size: String): Fruit()
-    data class Apples(val count: Int): Fruit()
-}
-class Order : CliktCommand() {
-    val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
-        option("--oranges").convert { Oranges(it) },
-        option("--apples").int().convert { Apples(it) }
-    )
+=== "Example"
+    ```kotlin
+    sealed class Fruit {
+        data class Oranges(val size: String): Fruit()
+        data class Apples(val count: Int): Fruit()
+    }
+    class Order : CliktCommand() {
+        val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
+            option("--oranges").convert { Oranges(it) },
+            option("--apples").int().convert { Apples(it) }
+        )
 
-    override fun run() = echo(fruit)
-}
-```
+        override fun run() = echo(fruit)
+    }
+    ```
 
-```text tab="Usage 1"
-$ ./order --apples=10
-Apples(count=10)
-```
+=== "Usage 1"
+    ```text
+    $ ./order --apples=10
+    Apples(count=10)
+    ```
 
-```text tab="Usage 2"
-$ ./order --oranges=small
-Oranges(size=small)
-```
+=== "Usage 2"
+    ```text
+    $ ./order --oranges=small
+    Oranges(size=small)
+    ```
 
-```text tab="Usage 3"
-$ ./order --apples=10 --oranges=large
-Oranges(size=large)
-```
+=== "Usage 3"
+    ```text
+    $ ./order --apples=10 --oranges=large
+    Oranges(size=large)
+    ```
 
 You can enforce that only one of the options is given with [`single`][single]:
 
-```kotlin tab="Example"
-val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
-        option("--apples").convert { Apples(it.toInt()) },
-        option("--oranges").convert { Oranges(it) }
-).single()
-```
+=== "Example"
+    ```kotlin
+    val fruit: Fruit? by mutuallyExclusiveOptions<Fruit>(
+            option("--apples").convert { Apples(it.toInt()) },
+            option("--oranges").convert { Oranges(it) }
+    ).single()
+    ```
 
-```text tab="Usage"
-$ ./order --apples=10 --oranges=small
-Usage: order [OPTIONS]
+=== "Usage"
+    ```text
+    $ ./order --apples=10 --oranges=small
+    Usage: order [OPTIONS]
 
-Error: option --apples cannot be used with --oranges
-```
+    Error: option --apples cannot be used with --oranges
+    ```
 
 Like regular options, you can make the entire group
 [`required`][required], or give it a [`default`][default] value.
@@ -482,39 +522,43 @@ Co-occurring groups must have at least one
 have non-required options. The `required` constraint is enforced if any of the options in the group
 are given on the command line. If none if the options are given, the value of the group is null.
 
-```kotlin tab="Example"
-class UserOptions : OptionGroup() {
-    val name by option().required()
-    val age by option().int()
-}
-class Tool : CliktCommand() {
-    val userOptions by UserOptions().cooccurring()
-    override fun run() {
-        userOptions?.let {
-            echo(it.name)
-            echo(it.age)
-        } ?: echo("No user options")
+=== "Example"
+    ```kotlin
+    class UserOptions : OptionGroup() {
+        val name by option().required()
+        val age by option().int()
     }
-}
-```
+    class Tool : CliktCommand() {
+        val userOptions by UserOptions().cooccurring()
+        override fun run() {
+            userOptions?.let {
+                echo(it.name)
+                echo(it.age)
+            } ?: echo("No user options")
+        }
+    }
+    ```
 
-```text tab="Usage 1"
-$ ./tool
-No user options
-```
+=== "Usage 1"
+    ```text
+    $ ./tool
+    No user options
+    ```
 
-```text tab="Usage 2"
-$ ./tool --name=jane --age=30
-jane
-30
-```
+=== "Usage 2"
+    ```text
+    $ ./tool --name=jane --age=30
+    jane
+    30
+    ```
 
-```text tab="Usage 3"
-$ ./tool --age=30
-Usage: tool [OPTIONS]
+=== "Usage 3"
+    ```text
+    $ ./tool --age=30
+    Usage: tool [OPTIONS]
 
-Error: Missing option "--name".
-```
+    Error: Missing option "--name".
+    ```
 
 Like [other option groups][grouping-options-in-help], you can specify a `name` and
 `help` text for the group if you want to set the group apart in the help output.
@@ -530,59 +574,64 @@ Options for groups other than the selected one are ignored, and only the selecte
 constraints are enforced. In the same way, `groupSwitch` options are similar to [`switch`
 options][choice-options].
 
-```kotlin tab="Example"
-sealed class LoadConfig(name: String): OptionGroup(name)
-class FromDisk : LoadConfig("Options for loading from disk") {
-    val path by option().file().required()
-    val followSymlinks by option().flag()
-}
+=== "Example"
+    ```kotlin
+    sealed class LoadConfig(name: String): OptionGroup(name)
+    class FromDisk : LoadConfig("Options for loading from disk") {
+        val path by option().file().required()
+        val followSymlinks by option().flag()
+    }
 
-class FromNetwork: LoadConfig("Options for loading from network") {
-    val url by option().required()
-    val username by option().prompt()
-    val password by option().prompt(hideInput = true)
-}
+    class FromNetwork: LoadConfig("Options for loading from network") {
+        val url by option().required()
+        val username by option().prompt()
+        val password by option().prompt(hideInput = true)
+    }
 
-class Tool : CliktCommand(help = "An example of a custom help formatter that uses ansi colors") {
-    val load by option().groupChoice(
-            "disk" to FromDisk(),
-            "network" to FromNetwork()
-    )
+    class Tool : CliktCommand(help = "An example of a custom help formatter that uses ansi colors") {
+        val load by option().groupChoice(
+                "disk" to FromDisk(),
+                "network" to FromNetwork()
+        )
 
-    override fun run() {
-        when(val it = load) {
-            is FromDisk -> echo("Loading from disk: ${it.path}")
-            is FromNetwork -> echo("Loading from network: ${it.url}")
-            null -> echo("Not loading")
+        override fun run() {
+            when(val it = load) {
+                is FromDisk -> echo("Loading from disk: ${it.path}")
+                is FromNetwork -> echo("Loading from network: ${it.url}")
+                null -> echo("Not loading")
+            }
         }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./tool --load=disk --path=./config --follow-symlinks
-Loading from disk: .\config
-```
+=== "Usage 1"
+    ```text
+    $ ./tool --load=disk --path=./config --follow-symlinks
+    Loading from disk: .\config
+    ```
 
-```text tab="Usage 2"
-$ ./tool --load=network --url=www.example.com --username=admin
-Password: *******
-Loading from network: www.example.com
-```
+=== "Usage 2"
+    ```text
+    $ ./tool --load=network --url=www.example.com --username=admin
+    Password: *******
+    Loading from network: www.example.com
+    ```
 
-```text tab="Usage 3"
-$ ./tool --load=disk
-Usage: cli [OPTIONS]
+=== "Usage 3"
+    ```text
+    $ ./tool --load=disk
+    Usage: cli [OPTIONS]
 
-Error: Missing option "--path".
-```
+    Error: Missing option "--path".
+    ```
 
-```text tab="Usage 4"
-$ ./tool --load=whoops
-Usage: cli [OPTIONS]
+=== "Usage 4"
+    ```text
+    $ ./tool --load=whoops
+    Usage: cli [OPTIONS]
 
-Error: Invalid value for "--load": invalid choice: whoops. (choose from disk, network)
-```
+    Error: Invalid value for "--load": invalid choice: whoops. (choose from disk, network)
+    ```
 
 ## Prompting For Input
 
@@ -590,25 +639,28 @@ In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input
 if one is not provided. Clikt can take care of this for you with the [`prompt`][prompt] function.
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    val name by option().prompt()
-    override fun run() {
-        echo("Hello $name")
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        val name by option().prompt()
+        override fun run() {
+            echo("Hello $name")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-./hello --name=foo
-Hello foo
-```
+=== "Usage 1"
+    ```text
+    ./hello --name=foo
+    Hello foo
+    ```
 
-```text tab="Usage 2"
-./hello
-Name: foo
-Hello foo
-```
+=== "Usage 2"
+    ```text
+    ./hello
+    Name: foo
+    Hello foo
+    ```
 
 The default prompt string is based on the option name, but
 [`prompt`][prompt] takes a number of parameters to customize the output.
@@ -619,21 +671,23 @@ You can also create a option that uses a hidden prompt and asks for
 confirmation. This combination of behavior is commonly used for
 passwords.
 
-```kotlin tab="Example"
-class Login : CliktCommand() {
-    val password by option().prompt(requireConfirmation = true, hideInput = true)
-    override fun run() {
-        echo("Your hidden password: $password")
+=== "Example"
+    ```kotlin
+    class Login : CliktCommand() {
+        val password by option().prompt(requireConfirmation = true, hideInput = true)
+        override fun run() {
+            echo("Your hidden password: $password")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./login
-Password:
-Repeat for confirmation:
-Your hidden password: hunter2
-```
+=== "Usage"
+    ```text
+    $ ./login
+    Password:
+    Repeat for confirmation:
+    Your hidden password: hunter2
+    ```
 
 
 ## Eager Options
@@ -651,24 +705,27 @@ function on a command directly, either in an `init` block, or on a command insta
 
 These definitions are equivalent:
 
-```kotlin tab="Version 1"
-class Cli : NoOpCliktCommand() {
-    init {
-        versionOption("1.0")
+=== "Version 1"
+    ```kotlin
+    class Cli : NoOpCliktCommand() {
+        init {
+            versionOption("1.0")
+        }
     }
-}
-fun main(args: Array<String>) = Cli().main(args)
-```
+    fun main(args: Array<String>) = Cli().main(args)
+    ```
 
-```kotlin tab="Version 2"
-class Cli : NoOpCliktCommand()
-fun main(args: Array<String>) = Cli().versionOption("1.0").main(args)
-```
+=== "Version 2"
+    ```kotlin
+    class Cli : NoOpCliktCommand()
+    fun main(args: Array<String>) = Cli().versionOption("1.0").main(args)
+    ```
 
-```text tab="Usage"
-$ ./cli --version
-cli version 1.0
-```
+=== "Usage"
+    ```text
+    $ ./cli --version
+    cli version 1.0
+    ```
 
 If you want to define your own option with a similar behavior, you can do so by calling
 [`eagerOption`][eagerOption]. This function takes an `action` that is called when the option is
@@ -697,50 +754,56 @@ message, and print a warning to stderr if the option is used.
 
 You can customize or omit the warning message and help tags, or change the warning into an error.
 
-```kotlin tab="Example"
-class Cli : CliktCommand() {
-   val opt by option(help = "option 1").deprecated()
-   val opt2 by option(help = "option 2").deprecated("WARNING: --opt2 is deprecated, use --new-opt instead", tagName = null)
-   val opt3 by option(help = "option 3").deprecated(tagName = "pending deprecation", tagValue = "use --new-opt instead")
-   val opt4 by option(help = "option 4").deprecated(error = true)
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+       val opt by option(help = "option 1").deprecated()
+       val opt2 by option(help = "option 2").deprecated("WARNING: --opt2 is deprecated, use --new-opt instead", tagName = null)
+       val opt3 by option(help = "option 3").deprecated(tagName = "pending deprecation", tagValue = "use --new-opt instead")
+       val opt4 by option(help = "option 4").deprecated(error = true)
 
-   override fun run() = echo("command run")
-}
-```
+       override fun run() = echo("command run")
+    }
+    ```
 
-```text tab="Usage 1"
-$ ./cli --opt=x
-WARNING: option --opt is deprecated
-command run
-```
+=== "Usage 1"
+    ```text
+    $ ./cli --opt=x
+    WARNING: option --opt is deprecated
+    command run
+    ```
 
-```text tab="Usage 2"
-$ ./cli --opt2=x
-WARNING: --op2 is deprecated, use --new-opt instead
-command run
-```
+=== "Usage 2"
+    ```text
+    $ ./cli --opt2=x
+    WARNING: --op2 is deprecated, use --new-opt instead
+    command run
+    ```
 
-```text tab="Usage 3"
-$ ./cli --opt3=x
-WARNING: option --opt3 is deprecated
-command run
-```
+=== "Usage 3"
+    ```text
+    $ ./cli --opt3=x
+    WARNING: option --opt3 is deprecated
+    command run
+    ```
 
-```text tab="Usage 4"
-$ ./cli --opt4=x
-ERROR: option --opt4 is deprecated
-```
+=== "Usage 4"
+    ```text
+    $ ./cli --opt4=x
+    ERROR: option --opt4 is deprecated
+    ```
 
-```text tab="Help Output"
-$ ./cli --help
-Usage: cli [OPTIONS]
+=== "Help Output"
+    ```text
+    $ ./cli --help
+    Usage: cli [OPTIONS]
 
-Options:
-  --opt TEXT   option 1 (deprecated)
-  --opt2 TEXT  option 2
-  --opt3 TEXT  option 3 (pending deprecation: use --new-opt instead)
-  --opt4 TEXT  option 4 (deprecated)
-```
+    Options:
+      --opt TEXT   option 1 (deprecated)
+      --opt2 TEXT  option 2
+      --opt3 TEXT  option 3 (pending deprecation: use --new-opt instead)
+      --opt4 TEXT  option 4 (deprecated)
+    ```
 
 ## Unknown Options
 
@@ -750,29 +813,31 @@ will cause Clikt to treat unknown options as positional arguments rather than re
 when one is encountered. You'll need to define an [`argument().multiple()`][argument.multiple]
 property to collect the options, otherwise an error will still be reported.
 
-```kotlin tab="Example"
-class Wrapper : CliktCommand(treatUnknownOptionsAsArgs = true) {
-    init { context { allowInterspersedArgs = false } }
+=== "Example"
+    ```kotlin
+    class Wrapper : CliktCommand(treatUnknownOptionsAsArgs = true) {
+        init { context { allowInterspersedArgs = false } }
 
-    val command by option(help = "?").required()
-    val arguments by argument().multiple()
+        val command by option(help = "?").required()
+        val arguments by argument().multiple()
 
-    override fun run() {
-        val cmd = (listOf(command) + arguments).joinToString(" ")
-        val proc = Runtime.getRuntime().exec(cmd)
-        println(proc.inputStream.bufferedReader().readText())
-        proc.waitFor()
+        override fun run() {
+            val cmd = (listOf(command) + arguments).joinToString(" ")
+            val proc = Runtime.getRuntime().exec(cmd)
+            println(proc.inputStream.bufferedReader().readText())
+            proc.waitFor()
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./wrapper --command=git tag --help | head -n4
-GIT-TAG(1)                        Git Manual                        GIT-TAG(1)
+=== "Usage"
+    ```text
+    $ ./wrapper --command=git tag --help | head -n4
+    GIT-TAG(1)                        Git Manual                        GIT-TAG(1)
 
-NAME
-       git-tag - Create, list, delete or verify a tag object signed with GPG
-```
+    NAME
+           git-tag - Create, list, delete or verify a tag object signed with GPG
+    ```
 
 Note that flag options in a single token (e.g. using `-abc` to specify `-a`, `-b`, and `-c` in a
 single token) will still report an error if they are unknown. Each option should be specified
@@ -799,26 +864,29 @@ envvar name inference.
 To set the envvar name manually, pass the name to
 [`option`][option]:
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    val name by option(envvar = "MY_NAME")
-    override fun run() {
-        echo("Hello $name")
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        val name by option(envvar = "MY_NAME")
+        override fun run() {
+            echo("Hello $name")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ export MY_NAME=Foo
-$ ./hello
-Hello Foo
-```
+=== "Usage 1"
+    ```text
+    $ export MY_NAME=Foo
+    $ ./hello
+    Hello Foo
+    ```
 
-```text tab="Usage 2"
-$ export MY_NAME=Foo
-$ ./hello --name=Bar
-Hello Bar
-```
+=== "Usage 2"
+    ```text
+    $ export MY_NAME=Foo
+    $ ./hello --name=Bar
+    Hello Bar
+    ```
 
 You can enable automatic envvar name inference by setting the `autoEnvvarPrefix` on a command's
 [`context`][context]. This will cause all options without
@@ -827,23 +895,25 @@ is set on the [`context`][context], it is propagated to
 subcommands. If you have a a subcommand called `foo` with an option `--bar`, and your prefix is
 `MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    init {
-        context { autoEnvvarPrefix = "HELLO" }
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        init {
+            context { autoEnvvarPrefix = "HELLO" }
+        }
+        val name by option()
+        override fun run() {
+            echo("Hello $name")
+        }
     }
-    val name by option()
-    override fun run() {
-        echo("Hello $name")
-    }
-}
-```
+    ```
 
-```text tab="Usage"
-$ export HELLO_NAME=Foo
-$ ./hello
-Hello Foo
-```
+=== "Usage"
+    ```text
+    $ export HELLO_NAME=Foo
+    $ ./hello
+    Hello Foo
+    ```
 
 ### Multiple Values from Environment Variables
 
@@ -856,21 +926,23 @@ to split according to the operating system's path splitting rules. On Windows, i
 semicolons (`;`). On other systems, it will split on colons (`:`). You can also specify a split
 pattern by passing it to the `envvarSplit` parameter of `option`.
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    val names by option(envvar = "NAMES").multiple()
-    override fun run() {
-        for (name in names) echo("Hello $name")
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        val names by option(envvar = "NAMES").multiple()
+        override fun run() {
+            for (name in names) echo("Hello $name")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ export NAMES=Foo Bar
-$ ./hello
-Hello Foo
-Hello Bar
-```
+=== "Usage"
+    ```text
+    $ export NAMES=Foo Bar
+    $ ./hello
+    Hello Foo
+    Hello Bar
+    ```
 
 ### Flag Option Values from Environment Variables
 
@@ -895,25 +967,27 @@ you can also set it in your git configuration file: `user.email=clikt@example.co
 Clikt allows you to specify one or more sources of option values that will be read from with the
 [`Context.valueSource`][Context.valueSource] builder.
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    init {
-        context { 
-            valueSource = PropertiesValueSource.from("myconfig.properties")
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        init {
+            context {
+                valueSource = PropertiesValueSource.from("myconfig.properties")
+            }
+        }
+        val name by option()
+        override fun run() {
+            echo("Hello $name")
         }
     }
-    val name by option()
-    override fun run() {
-        echo("Hello $name")
-    }
-}
-```
+    ```
 
-```text tab="Usage"
-$ echo "name=Foo" > myconfig.properties
-$ ./hello
-Hello Foo
-```
+=== "Usage"
+    ```text
+    $ echo "name=Foo" > myconfig.properties
+    $ ./hello
+    Hello Foo
+    ```
 
 You can also pass multiple sources to [`Context.valueSources`][Context.valueSources], and each
 source will be searched for the value in order.
@@ -922,7 +996,7 @@ Clikt includes support for reading values [from a map][MapValueSource], and (on 
 Properties files][PropertiesValueSource]. For these two sources, you can customize the keys used to
 look up options by passing the result of [`ValueSource.getKey`][ValueSource.getKey] or
 [`ValueSource.envvarKey`][ValueSource.envvarKey] to the source's `getKey` constructor parameter.
- 
+
  You can add any other file type by implementing
 [ValueSource][ValueSource]. See the [JSON sample][json sample] for an implementation that uses
 [kotlinx.serialization][serialization] to load values from JSON files.
@@ -941,36 +1015,40 @@ as it's entirely punctuation).
 
 For example, you can make a Windows-style interface with slashes:
 
-```kotlin tab="Example"
-class Hello: CliktCommand() {
-    val name by option("/name", help="your name")
-    override fun run() {
-        echo("Hello, $name!")
+=== "Example"
+    ```kotlin
+    class Hello: CliktCommand() {
+        val name by option("/name", help="your name")
+        override fun run() {
+            echo("Hello, $name!")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./hello /name Foo
-Hello, Foo!
-```
+=== "Usage"
+    ```text
+    $ ./hello /name Foo
+    Hello, Foo!
+    ```
 
 Or you can make a Java-style interface that uses single-dashes for long
 options:
 
-```kotlin tab="Example"
-class Hello: CliktCommand() {
-    val name by option("-name", help="your name")
-    override fun run() {
-        echo("Hello, $name!")
+=== "Example"
+    ```kotlin
+    class Hello: CliktCommand() {
+        val name by option("-name", help="your name")
+        override fun run() {
+            echo("Hello, $name!")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./hello -name Foo
-Hello, Foo!
-```
+=== "Usage"
+    ```text
+    $ ./hello -name Foo
+    Hello, Foo!
+    ```
 
 Note that inferred names will always have a POSIX-style prefix like
 `--name`. If you want to use a different prefix, you should specify all

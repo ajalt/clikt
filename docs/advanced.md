@@ -17,34 +17,37 @@ and returns a map of aliases to the tokens that they alias to.
 
 To implement git-style aliases:
 
-```kotlin tab="Example"
-class Repo : NoOpCliktCommand() {
-    // You could load the aliases from a config file etc.
-    override fun aliases(): Map<String, List<String>> = mapOf(
-            "ci" to listOf("commit"),
-            "cm" to listOf("commit", "-m")
-    )
-}
-
-class Commit: CliktCommand() {
-    val message by option("-m").default("")
-    override fun run() {
-        echo("Committing with message: $message")
+=== "Example"
+    ```kotlin
+    class Repo : NoOpCliktCommand() {
+        // You could load the aliases from a config file etc.
+        override fun aliases(): Map<String, List<String>> = mapOf(
+                "ci" to listOf("commit"),
+                "cm" to listOf("commit", "-m")
+        )
     }
-}
 
-fun main(args: Array<String>) = Repo().subcommands(Commit()).main(args)
-```
+    class Commit: CliktCommand() {
+        val message by option("-m").default("")
+        override fun run() {
+            echo("Committing with message: $message")
+        }
+    }
 
-```text tab="Usage 1"
-$ ./repo ci -m 'my message'
-Committing with message: my message
-```
+    fun main(args: Array<String>) = Repo().subcommands(Commit()).main(args)
+    ```
 
-```text tab="Usage 2"
-$ ./repo cm 'my message'
-Committing with message: my message
-```
+=== "Usage 1"
+    ```text
+    $ ./repo ci -m 'my message'
+    Committing with message: my message
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./repo cm 'my message'
+    Committing with message: my message
+    ```
 
 Note that aliases are not expanded recursively: none of the tokens that
 an alias expands to will be expanded again, even if they match another
@@ -52,42 +55,44 @@ alias.
 
 You also use this functionality to implement command prefixes:
 
-```kotlin tab="Example"
-class Tool : NoOpCliktCommand() {
-    override fun aliases(): Map<String, List<String>> {
-        val prefixCounts = mutableMapOf<String, Int>().withDefault { 0 }
-        val prefixes = mutableMapOf<String, List<String>>()
-        for (name in registeredSubcommandNames()) {
-            if (name.length < 3) continue
-            for (i in 1..name.lastIndex) {
-                val prefix = name.substring(0..i)
-                prefixCounts[prefix] = prefixCounts.getValue(prefix) + 1
-                prefixes[prefix] = listOf(name)
+=== "Example"
+    ```kotlin
+    class Tool : NoOpCliktCommand() {
+        override fun aliases(): Map<String, List<String>> {
+            val prefixCounts = mutableMapOf<String, Int>().withDefault { 0 }
+            val prefixes = mutableMapOf<String, List<String>>()
+            for (name in registeredSubcommandNames()) {
+                if (name.length < 3) continue
+                for (i in 1..name.lastIndex) {
+                    val prefix = name.substring(0..i)
+                    prefixCounts[prefix] = prefixCounts.getValue(prefix) + 1
+                    prefixes[prefix] = listOf(name)
+                }
             }
+            return prefixes.filterKeys { prefixCounts.getValue(it) == 1 }
         }
-        return prefixes.filterKeys { prefixCounts.getValue(it) == 1 }
     }
-}
 
-class Foo: CliktCommand() {
-    override fun run() {
-        echo("Running Foo")
+    class Foo: CliktCommand() {
+        override fun run() {
+            echo("Running Foo")
+        }
     }
-}
 
-class Bar: CliktCommand() {
-    override fun run() {
-        echo("Running Bar")
+    class Bar: CliktCommand() {
+        override fun run() {
+            echo("Running Bar")
+        }
     }
-}
 
-fun main(args: Array<String>) = Tool().subcommands(Foo(), Bar()).main(args)
-```
+    fun main(args: Array<String>) = Tool().subcommands(Foo(), Bar()).main(args)
+    ```
 
-```text tab="Usage"
-$ ./tool ba
-Running Bar
-```
+=== "Usage"
+    ```text
+    $ ./tool ba
+    Running Bar
+    ```
 
 ## Token Normalization
 
@@ -98,21 +103,23 @@ works on more types of tokens. You can set a [`tokenTransformer`][tokenTransform
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    init {
-        context { tokenTransformer = { it.toLowerCase() } }
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        init {
+            context { tokenTransformer = { it.toLowerCase() } }
+        }
+
+        val name by option()
+        override fun run() = echo("Hello $name!")
     }
+    ```
 
-    val name by option()
-    override fun run() = echo("Hello $name!")
-}
-```
-
-```text tab="Usage"
-$ ./hello --NAME=Foo
-Hello Foo!
-```
+=== "Usage"
+    ```text
+    $ ./hello --NAME=Foo
+    Hello Foo!
+    ```
 
 ## Replacing stdin and stdout
 
@@ -169,7 +176,7 @@ $ ./tool @cliargs
 
 Which is equivalent to calling it like this:
 
-```
+````
 $ ./tool --number 1 --name='jane doe' --age=30 ./file.txt
 ```
 

@@ -27,7 +27,7 @@ without needing the `ExperimentalValueSourceApi` or `ExperimentalCompletionCandi
 ### Localization
 
 By default, all strings are defined in the [`Localization`][Localization] object set on your
-[context][[Context.localization]. 
+[context][[Context.localization].
 
 This means that string parameters like `usageTitle` in the constructor for
 [`CliktHelpFormatter`][CliktHelpFormatter] have been removed in favor of functions like

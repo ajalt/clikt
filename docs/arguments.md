@@ -11,43 +11,47 @@ must be provided on the command line.
 By default, [`argument`][argument] takes a single `String` value which is required to be
 provided on the command line.
 
-```kotlin tab="Example"
+=== "Example"
+    ```kotlin
 
-class Hello : CliktCommand() {
-    val name by argument()
-    override fun run() {
-        echo("Hello $name!")
+    class Hello : CliktCommand() {
+        val name by argument()
+        override fun run() {
+            echo("Hello $name!")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./hello Foo
-Hello Foo!
-```
+=== "Usage"
+    ```text
+    $ ./hello Foo
+    Hello Foo!
+    ```
 
 Arguments appear in the usage string, but normally aren't listed in the
 help page. It's usually more clear to document arguments in the command
 help.
 
-```kotlin tab="Example"
-class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
-    private val source by argument().file(mustExist = true).multiple()
-    private val dest by argument().file()
-    override fun run() {
-        // ...
+=== "Example"
+    ```kotlin
+    class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
+        private val source by argument().file(mustExist = true).multiple()
+        private val dest by argument().file()
+        override fun run() {
+            // ...
+        }
     }
-}
-```
+    ```
 
-```text tab="Help Output"
-Usage: cp [OPTIONS] [SOURCE]... DEST
+=== "Help Output"
+    ```text
+    Usage: cp [OPTIONS] [SOURCE]... DEST
 
-  Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.
+      Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.
 
-Options:
-  -h, --help         Show this message and exit
-```
+    Options:
+      -h, --help         Show this message and exit
+    ```
 
 ## Variadic Arguments
 
@@ -59,20 +63,22 @@ they are frequently expanded with a glob pattern on the command line.
 Variadic arguments are declared with [`multiple`][multiple]. You can declare any number of arguments
 with fixed numbers of values, but only one variadic argument in a command.
 
-```kotlin tab="Example"
-class Copy : CliktCommand() {
-    val source: List<Path> by argument().path(mustExist = true).multiple()
-    val dest: Path by argument().path(canBeFile = false)
-    override fun run() {
-        echo("Copying files $source to $dest")
+=== "Example"
+    ```kotlin
+    class Copy : CliktCommand() {
+        val source: List<Path> by argument().path(mustExist = true).multiple()
+        val dest: Path by argument().path(canBeFile = false)
+        override fun run() {
+            echo("Copying files $source to $dest")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ ./copy file.* out/
-Copying files [file.txt, file.md] to out/
-```
+=== "Usage"
+    ```text
+    $ ./copy file.* out/
+    Copying files [file.txt, file.md] to out/
+    ```
 
 You can also use [`unique`][unique] to discard duplicates:
 
@@ -92,28 +98,31 @@ Clikt supports the POSIX convention of using `--` to force all following
 values to be treated as arguments. Any values before the `--` will be
 parsed normally.
 
-```kotlin tab="Example"
-class Touch : CliktCommand() {
-    val verbose by option().flag()
-    val files by argument().multiple()
-    override fun run() {
-        if (verbose) echo(files.joinToString("\n"))
+=== "Example"
+    ```kotlin
+    class Touch : CliktCommand() {
+        val verbose by option().flag()
+        val files by argument().multiple()
+        override fun run() {
+            if (verbose) echo(files.joinToString("\n"))
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./touch --foo.txt
-Usage: touch [OPTIONS] [FILES]...
+=== "Usage 1"
+    ```text
+    $ ./touch --foo.txt
+    Usage: touch [OPTIONS] [FILES]...
 
-Error: no such option: "--foo.txt".
-```
+    Error: no such option: "--foo.txt".
+    ```
 
-```text tab="Usage 2"
-$ ./touch --verbose -- --foo.txt bar.txt
---foo.txt
-bar.txt
-```
+=== "Usage 2"
+    ```text
+    $ ./touch --verbose -- --foo.txt bar.txt
+    --foo.txt
+    bar.txt
+    ```
 
 
 [argument]: api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md

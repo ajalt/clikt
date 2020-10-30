@@ -54,44 +54,47 @@ Instances of any command can be attached to other commands, allowing
 arbitrary nesting of commands. For example, you could write a script to
 manage a database:
 
-```kotlin tab="Example"
-class Database: CliktCommand() {
-    override fun run() = Unit
-}
-
-class Init: CliktCommand(help="Initialize the database") {
-    override fun run() {
-        echo("Initialized the database.")
+=== "Example"
+    ```kotlin
+    class Database: CliktCommand() {
+        override fun run() = Unit
     }
-}
 
-class Drop: CliktCommand(help="Drop the database") {
-    override fun run() {
-        echo("Dropped the database.")
+    class Init: CliktCommand(help="Initialize the database") {
+        override fun run() {
+            echo("Initialized the database.")
+        }
     }
-}
 
-fun main(args: Array<String>) = Database()
-        .subcommands(Init(), Drop())
-        .main(args)
-```
+    class Drop: CliktCommand(help="Drop the database") {
+        override fun run() {
+            echo("Dropped the database.")
+        }
+    }
 
-```text tab="Usage"
-$ ./db init
-Initialized the database.
-```
+    fun main(args: Array<String>) = Database()
+            .subcommands(Init(), Drop())
+            .main(args)
+    ```
 
-```text tab="Help Output"
-$ ./db --help
-Usage: database [OPTIONS] COMMAND [ARGS]...
+=== "Usage"
+    ```text
+    $ ./db init
+    Initialized the database.
+    ```
 
-Options:
-  -h, --help  Show this message and exit
+=== "Help Output"
+    ```text
+    $ ./db --help
+    Usage: database [OPTIONS] COMMAND [ARGS]...
 
-Commands:
-  init  Initialize the database
-  drop  Drop the database
-```
+    Options:
+      -h, --help  Show this message and exit
+
+    Commands:
+      init  Initialize the database
+      drop  Drop the database
+    ```
 
 
 ## Adding Parameters
@@ -99,27 +102,29 @@ Commands:
 To add parameters, use the [option][option] and [argument][argument] property
 delegates:
 
-```kotlin tab="Example"
-class Hello : CliktCommand() {
-    val count by option(help="Number of greetings").int().default(1)
-    val name by argument()
+=== "Example"
+    ```kotlin
+    class Hello : CliktCommand() {
+        val count by option(help="Number of greetings").int().default(1)
+        val name by argument()
 
-    override fun run() {
-        for (i in 1..count) {
-            echo("Hello $name!")
+        override fun run() {
+            for (i in 1..count) {
+                echo("Hello $name!")
+            }
         }
     }
-}
-```
+    ```
 
-```text tab="Help Output"
-$ ./hello --help
-Usage: hello [OPTIONS] USERNAME
+=== "Help Output"
+    ```text
+    $ ./hello --help
+    Usage: hello [OPTIONS] USERNAME
 
-Options:
-  --count INT  Number of greetings
-  -h, --help   Show this message and exit
-```
+    Options:
+      --count INT  Number of greetings
+      -h, --help   Show this message and exit
+    ```
 
 ## Developing Command Line Applications With Gradle
 

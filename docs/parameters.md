@@ -27,24 +27,26 @@ case of arguments) from the name of the property. You can also specify
 the names manually. Options can have any number of names, where
 arguments only have a single metavar.
 
-```kotlin tab="Example"
-class Cli : CliktCommand() {
-    val inferredOpt by option()
-    val inferred by argument()
-    val explicitOpt by option("-e", "--explicit")
-    val explicitArg by argument("<explicit>")
-    override fun run() = Unit
-}
-```
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        val inferredOpt by option()
+        val inferred by argument()
+        val explicitOpt by option("-e", "--explicit")
+        val explicitArg by argument("<explicit>")
+        override fun run() = Unit
+    }
+    ```
 
-```text tab="Help Output"
-Usage: cli [OPTIONS] INFERRED <explicit>
+=== "Help Output"
+    ```text
+    Usage: cli [OPTIONS] INFERRED <explicit>
 
-Options:
-  --inferred-opt TEXT
-  -e, --explicit TEXT
-  -h, --help           Show this message and exit
-```
+    Options:
+      --inferred-opt TEXT
+      -e, --explicit TEXT
+      -h, --help           Show this message and exit
+    ```
 
 ## Parameter Types
 
@@ -158,24 +160,27 @@ raising an exception.
 
 For example, you can create an option of type `BigDecimal` like this:
 
-```kotlin tab="Example"
-class Cli: CliktCommand() {
-    val opt by option().convert { it.toBigDecimal() }
-    override fun run() = echo("opt=$opt")
-}
-```
+=== "Example"
+    ```kotlin
+    class Cli: CliktCommand() {
+        val opt by option().convert { it.toBigDecimal() }
+        override fun run() = echo("opt=$opt")
+    }
+    ```
 
-```text tab="Usage 1"
-$ ./cli --opt=1.5
-opt=1.5
-```
+=== "Usage 1"
+    ```text
+    $ ./cli --opt=1.5
+    opt=1.5
+    ```
 
-```text tab="Usage 2"
-$ ./cli --opt=foo
-Usage: cli [OPTIONS]
+=== "Usage 2"
+    ```text
+    $ ./cli --opt=foo
+    Usage: cli [OPTIONS]
 
-Error: Invalid value for "--opt": For input string: "foo"
-```
+    Error: Invalid value for "--opt": For input string: "foo"
+    ```
 
 ### Metavars
 
@@ -183,52 +188,57 @@ You can also pass [`option().convert()`][convert] a metavar
 that will be printed in the help page instead of the default of `VALUE`.
 We can modify the above example to use a metavar and an explicit error message:
 
-```kotlin tab="Example"
-class Cli: CliktCommand() {
-    val opt by option(help="a real number").convert("FLOAT") {
-        it.toBigDecimalOrNull() ?: fail("A real number is required")
+=== "Example"
+    ```kotlin
+    class Cli: CliktCommand() {
+        val opt by option(help="a real number").convert("FLOAT") {
+            it.toBigDecimalOrNull() ?: fail("A real number is required")
+        }
+        override fun run() = echo("opt=$opt")
     }
-    override fun run() = echo("opt=$opt")
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./cli --opt=foo
-Usage: cli [OPTIONS]
+=== "Usage 1"
+    ```text
+    $ ./cli --opt=foo
+    Usage: cli [OPTIONS]
 
-Error: Invalid value for "--opt": A real number is required
-```
+    Error: Invalid value for "--opt": A real number is required
+    ```
 
-```text tab="Usage 2"
-$ ./cli --help
-Usage: cli [OPTIONS]
+=== "Usage 2"
+    ```text
+    $ ./cli --help
+    Usage: cli [OPTIONS]
 
-Options:
-  --opt FLOAT  a real number
-  -h, --help   Show this message and exit
-```
+    Options:
+      --opt FLOAT  a real number
+      -h, --help   Show this message and exit
+    ```
 
 ### Chaining
 
 You can call `convert` more than once on the same parameter. This allows you to reuse existing
 conversion functions. For example, you could automatically read the text of a file parameter.
 
-```kotlin tab="Example"
-class FileReader: CliktCommand() {
-    val file: String by argument()
-        .file(mustExist=true, canBeDir=false)
-        .convert { it.readText() }
-    override fun run() {
-        echo("Your file contents: $file")
+=== "Example"
+    ```kotlin
+    class FileReader: CliktCommand() {
+        val file: String by argument()
+            .file(mustExist=true, canBeDir=false)
+            .convert { it.readText() }
+        override fun run() {
+            echo("Your file contents: $file")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage"
-$ echo 'some text' > myfile.txt
-$ ./filereader ./myfile.txt
-Your file contents: some text
-```
+=== "Usage"
+    ```text
+    $ echo 'some text' > myfile.txt
+    $ ./filereader ./myfile.txt
+    Your file contents: some text
+    ```
 
 ## Parameter Validation
 
@@ -242,33 +252,37 @@ with [`check()`][checkOpt] and [`validate()`][validateOpt] (or the [argument][ch
 lambda that returns a boolean to indicate if the parameter value is valid or not, and reports an
 error if it returns false. The lambda is only called if the parameter value is non-null.
 
-```kotlin tab="Example"
-class Tool : CliktCommand() {
-    val number by option(help = "An even number").int()
-            .check("value must be even") { it % 2 == 0 }
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand() {
+        val number by option(help = "An even number").int()
+                .check("value must be even") { it % 2 == 0 }
 
-    override fun run() {
-        echo("number=$number")
+        override fun run() {
+            echo("number=$number")
+        }
     }
-}
-```
+    ```
 
-```text tab="Usage 1"
-$ ./tool --number=2
-number=2
-```
+=== "Usage 1"
+    ```text
+    $ ./tool --number=2
+    number=2
+    ```
 
-```text tab="Usage 2"
-$ ./tool
-number=null
-```
+=== "Usage 2"
+    ```text
+    $ ./tool
+    number=null
+    ```
 
-```text tab="Usage 3"
-$ ./tool --number=1
-Usage: tool [OPTIONS]
+=== "Usage 3"
+    ```text
+    $ ./tool --number=1
+    Usage: tool [OPTIONS]
 
-Error: invalid value for --number: value must be even
-```
+    Error: invalid value for --number: value must be even
+    ```
 
 ### `validate()`
 
@@ -280,32 +294,35 @@ only called if the value is non-null.
 The lambdas you pass to `validate` are called after the values for all options and arguments have
 been set, so (unlike in transforms) you can reference other parameters:
 
-```kotlin tab="Example"
-class Tool : CliktCommand() {
-    val number by option().int().default(0)
-    val biggerNumber by option().int().validate {
-        require(it > number) {
-            "--bigger-number must be bigger than --number"
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand() {
+        val number by option().int().default(0)
+        val biggerNumber by option().int().validate {
+            require(it > number) {
+                "--bigger-number must be bigger than --number"
+            }
+        }
+
+        override fun run() {
+            echo("number=$number, biggerNumber=$biggerNumber")
         }
     }
+    ```
 
-    override fun run() {
-        echo("number=$number, biggerNumber=$biggerNumber")
-    }
-}
-```
+=== "Usage 1"
+    ```text
+    $ ./tool --number=1
+    number=1, biggerNumber=null
+    ```
 
-```text tab="Usage 1"
-$ ./tool --number=1
-number=1, biggerNumber=null
-```
+=== "Usage 2"
+    ```text
+    $ ./tool --number=1 --bigger-number=0
+    Usage: tool [OPTIONS]
 
-```text tab="Usage 2"
-$ ./tool --number=1 --bigger-number=0
-Usage: tool [OPTIONS]
-
-Error: --bigger-number must be bigger than --number
-```
+    Error: --bigger-number must be bigger than --number
+    ```
 
 
 [checkArg]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.md

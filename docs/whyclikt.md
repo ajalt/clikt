@@ -141,7 +141,7 @@ requires you to register a type adapter with the library.
 This means that type errors are not caught until runtime, and many types
 of customization are not possible.
 
-For example, in JCommander, options that take multiple values cannot be converted 
+For example, in JCommander, options that take multiple values cannot be converted
 to other types. The [JCommander docs explain][jc_arity]:
 
 > ... only List<String> is allowed for parameters that define an arity.

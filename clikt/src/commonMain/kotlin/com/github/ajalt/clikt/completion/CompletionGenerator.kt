@@ -2,17 +2,18 @@ package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Shell
+import com.github.ajalt.clikt.parameters.options.FlagOption
 
 object CompletionGenerator {
-    fun generateBashCompletion(command: CliktCommand): String {
-        return generateCompletion(command, zsh = false)
+
+    fun generateCompletion(command: CliktCommand, shell: Shell): String = when (shell) {
+        Shell.FISH -> generateFishCompletion(command)
+        Shell.ZSH -> generateBasicCompletion(command, true)
+        Shell.BASH -> generateBasicCompletion(command, false)
     }
 
-    fun generateZshCompletion(command: CliktCommand): String {
-        return generateCompletion(command, zsh = true)
-    }
-
-    internal fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
+    private fun generateBasicCompletion(command: CliktCommand, zsh: Boolean = true): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options.map { Triple(it.names, it.completionCandidates, it.nvalues) }
@@ -247,7 +248,7 @@ object CompletionGenerator {
             """.trimMargin())
 
             for (subcommand in command._subcommands) {
-                append(generateCompletion(subcommand))
+                append(generateBasicCompletion(subcommand))
             }
 
             if (isTopLevel) {
@@ -268,4 +269,146 @@ object CompletionGenerator {
     private fun customParamCompletionName(commandFuncName: String, name: String): String {
         return "_${commandFuncName}_complete_${Regex("[^a-zA-Z0-9]").replace(name, "_")}"
     }
+
+    private fun generateFishCompletion(command: CliktCommand): String {
+        if (command.notHasMinimumAutoCompleteRequirements)
+            return ""
+
+        val commandName = command.commandName
+        val needingCommand = "__fish_use_subcommand"
+        val usingCommand = "__fish_seen_subcommand_from"
+
+        return generateFishCompletionForCommand(
+                command = command,
+                parentCommand = null,
+                rootCommandName = commandName,
+                needingCommand = needingCommand,
+                usingCommand = usingCommand
+        )
+    }
+
+    private fun generateFishCompletionForCommand(
+            command: CliktCommand,
+            parentCommand: CliktCommand?,
+            rootCommandName: String,
+            needingCommand: String,
+            usingCommand: String
+    ): String = buildString {
+        val isTopLevel = parentCommand == null
+        val commandName = command.commandName
+        val parentCommandName = parentCommand?.commandName
+
+        val options = command._options //.filterNot { it.hidden }
+        val subcommands = command._subcommands
+
+        if (isTopLevel) {
+            val subcommandsName = subcommands.joinToString(" ") { it.commandName }
+
+            appendLine("### Declaring all subcommands")
+            appendLine("""
+                set -l ${commandName}_subcommands '$subcommandsName'
+            """.trimIndent())
+
+            appendLine()
+            appendLine("### Adding top level options")
+        } else {
+            appendLine("### Declaring $commandName")
+            append("complete -f -c $rootCommandName ")
+
+            if (rootCommandName == parentCommandName) {
+                append("-n $needingCommand ")
+            } else {
+                append("-n $needingCommand $parentCommandName ")
+            }
+
+            append("-a $commandName ")
+
+            val help = command.commandHelp.replace("'", "\\'")
+            if (help != null) {
+                append("-d '${help}'")
+            }
+
+            appendLine()
+        }
+
+        options.mapNotNull { option ->
+            val names = option.names.shortAndLongNames
+            if (names.first == null && names.second == null)
+                return@mapNotNull null
+
+            val help = option.optionHelp.replace("'", "\\'")
+            buildString {
+                append("complete -f -c $rootCommandName ")
+
+                if (isTopLevel) {
+                    append("-n \"not $usingCommand \$${commandName}_subcommands\" ")
+                } else {
+                    append("-n \"$usingCommand $commandName\" ")
+                }
+
+                if (names.first != null) {
+                    append("-l ${names.first} ")
+                }
+
+                if (names.second != null) {
+                    append("-s ${names.second} ")
+                }
+
+                if (option !is FlagOption<*>) {
+                    append("--require-parameter ")
+                }
+
+                when (val completionCandidate = option.completionCandidates) {
+                    is CompletionCandidates.None -> {
+                    }
+                    is CompletionCandidates.Path -> {
+                        append("-a \"(__fish_complete_path)\" ")
+                    }
+                    is CompletionCandidates.Hostname -> {
+                        append("-a \"(__fish_print_hostnames)\" ")
+                    }
+                    is CompletionCandidates.Username -> {
+                        append("-a \"(__fish_complete_users)\" ")
+                    }
+                    is CompletionCandidates.Fixed -> {
+                        val options = completionCandidate.candidates.joinToString(" ")
+                        append("-a \"$options\" ")
+                    }
+                    is CompletionCandidates.Custom -> {
+                        // TODO: Implement custom fish completion
+                    }
+                }
+
+                if (help != null) {
+                    append("-d '$help'")
+                }
+            }
+        }.forEach(::appendLine)
+
+        appendLine()
+
+        subcommands.map { subCommand ->
+            generateFishCompletionForCommand(
+                    command = subCommand,
+                    parentCommand = command,
+                    rootCommandName = rootCommandName,
+                    needingCommand = needingCommand,
+                    usingCommand = usingCommand
+            )
+        }.forEach(::appendLine)
+    }
+
+    private val CliktCommand.notHasMinimumAutoCompleteRequirements: Boolean
+        get() = _options.isEmpty() && _subcommands.isEmpty() && _arguments.isEmpty()
+
+    private val Set<String>.shortAndLongNames: Pair<String?, String?>
+        get() {
+            val shortRegex = Regex("^-[a-zA-Z0-9]+")
+            val longRegex = Regex("^-{2}[a-zA-Z0-9-_]+")
+
+            val shortName: String? = find { shortRegex matches it }?.replace("-", "")
+            val longName: String? = find { longRegex matches it }?.replace("-", "")
+
+            return (longName to shortName)
+        }
 }

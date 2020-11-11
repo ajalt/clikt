@@ -131,8 +131,11 @@ abstract class CliktCommand(
             autoCompleteEnvvar.isBlank() -> "_${commandName.replace("-", "_").toUpperCase()}_COMPLETE"
             else -> autoCompleteEnvvar
         }
+
         val envval = readEnvvar(envvar) ?: return
-        val completion = CompletionGenerator.generateCompletion(command = this, zsh = "zsh" in envval)
+        val shell = Shell.parse(envval)
+
+        val completion = CompletionGenerator.generateCompletion(command = this, shell = shell)
         throw PrintCompletionMessage(completion, forceUnixLineEndings = true)
     }
 

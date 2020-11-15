@@ -376,7 +376,8 @@ object CompletionGenerator {
                         append("-a \"$completeOptions\" ")
                     }
                     is CompletionCandidates.Custom -> {
-                        // TODO: Implement custom fish completion
+                        val customCompletion = completionCandidate.generator(ShellType.FISH)
+                        append("-a $customCompletion ")
                     }
                 }
 

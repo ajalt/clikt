@@ -2,19 +2,30 @@ package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Shell
-import com.github.ajalt.clikt.parameters.options.FlagOption
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
 
 object CompletionGenerator {
 
-    fun generateCompletion(command: CliktCommand, shell: Shell): String = when (shell) {
-        Shell.FISH -> generateFishCompletion(command)
-        Shell.ZSH -> generateBasicCompletion(command, true)
-        Shell.BASH -> generateBasicCompletion(command, false)
+    fun generateBashCompletion(command: CliktCommand): String {
+        return generateCompletion(command, zsh = false)
     }
 
-    private fun generateBasicCompletion(command: CliktCommand, zsh: Boolean = true): String {
+    fun generateZshCompletion(command: CliktCommand): String {
+        return generateCompletion(command, zsh = true)
+    }
+
+    internal fun generateFishCompletion(command: CliktCommand): String {
+        if (command.notHasMinimumAutoCompleteRequirements)
+            return ""
+
+        return generateFishCompletionForCommand(
+                command = command,
+                parentCommand = null,
+                rootCommandName = command.commandName,
+        )
+    }
+
+    internal fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options
@@ -251,7 +262,7 @@ object CompletionGenerator {
             """.trimMargin())
 
             for (subcommand in command._subcommands) {
-                append(generateBasicCompletion(subcommand))
+                append(generateCompletion(subcommand))
             }
 
             if (isTopLevel) {
@@ -273,29 +284,10 @@ object CompletionGenerator {
         return "_${commandFuncName}_complete_${Regex("[^a-zA-Z0-9]").replace(name, "_")}"
     }
 
-    private fun generateFishCompletion(command: CliktCommand): String {
-        if (command.notHasMinimumAutoCompleteRequirements)
-            return ""
-
-        val commandName = command.commandName
-        val needingCommand = "__fish_use_subcommand"
-        val usingCommand = "__fish_seen_subcommand_from"
-
-        return generateFishCompletionForCommand(
-                command = command,
-                parentCommand = null,
-                rootCommandName = commandName,
-                needingCommand = needingCommand,
-                usingCommand = usingCommand
-        )
-    }
-
     private fun generateFishCompletionForCommand(
             command: CliktCommand,
             parentCommand: CliktCommand?,
             rootCommandName: String,
-            needingCommand: String,
-            usingCommand: String
     ): String = buildString {
         val isTopLevel = parentCommand == null
         val commandName = command.commandName
@@ -325,9 +317,9 @@ object CompletionGenerator {
             append("complete -f -c $rootCommandName ")
 
             if (rootCommandName == parentCommandName) {
-                append("-n $needingCommand ")
+                append("-n __fish_use_subcommand ")
             } else {
-                append("-n $needingCommand $parentCommandName ")
+                append("-n __fish_use_subcommand $parentCommandName ")
             }
 
             append("-a $commandName ")
@@ -350,9 +342,9 @@ object CompletionGenerator {
                 append("complete -f -c $rootCommandName ")
 
                 if (isTopLevel) {
-                    append("-n \"not $usingCommand \$${commandName}_subcommands\" ")
+                    append("-n \"not __fish_seen_subcommand_from \$${commandName}_subcommands\" ")
                 } else {
-                    append("-n \"$usingCommand $commandName\" ")
+                    append("-n \"__fish_seen_subcommand_from $commandName\" ")
                 }
 
                 if (names.first != null) {
@@ -401,8 +393,6 @@ object CompletionGenerator {
                     command = subCommand,
                     parentCommand = command,
                     rootCommandName = rootCommandName,
-                    needingCommand = needingCommand,
-                    usingCommand = usingCommand
             )
         }.forEach(::appendLine)
     }

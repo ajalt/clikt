@@ -133,9 +133,13 @@ abstract class CliktCommand(
         }
 
         val envval = readEnvvar(envvar) ?: return
-        val shell = Shell.parse(envval)
 
-        val completion = CompletionGenerator.generateCompletion(command = this, shell = shell)
+        val completion = when {
+            "fish" in envval -> CompletionGenerator.generateFishCompletion(command = this)
+            "zsh" in envval -> CompletionGenerator.generateZshCompletion(command = this)
+            else -> CompletionGenerator.generateBashCompletion(command = this)
+        }
+
         throw PrintCompletionMessage(completion, forceUnixLineEndings = true)
     }
 

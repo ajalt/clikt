@@ -15,7 +15,7 @@ object CompletionGenerator {
     }
 
     internal fun generateFishCompletion(command: CliktCommand): String {
-        if (command.notHasMinimumAutoCompleteRequirements)
+        if (command.hasFishCompletionRequirements.not())
             return ""
 
         return generateFishCompletionForCommand(
@@ -346,7 +346,7 @@ object CompletionGenerator {
 
         options.mapNotNull { option ->
             val names = option.names.shortAndLongNames
-            if (names.first == null && names.second == null)
+            if (names.first.isEmpty() && names.second.isEmpty())
                 return@mapNotNull null
 
             val help = option.optionHelp.replace("'", "\\'")
@@ -361,12 +361,12 @@ object CompletionGenerator {
                     append("-n \"__fish_seen_subcommand_from $commandName\" ")
                 }
 
-                if (names.first != null) {
-                    append("-l ${names.first} ")
+                names.first.forEach {
+                    append("-s $it ")
                 }
 
-                if (names.second != null) {
-                    append("-s ${names.second} ")
+                names.second.forEach {
+                    append("-l $it ")
                 }
 
                 if (option is OptionWithValues<*, *, *>) {
@@ -421,17 +421,14 @@ object CompletionGenerator {
         }.forEach(::append)
     }
 
-    private val CliktCommand.notHasMinimumAutoCompleteRequirements: Boolean
-        get() = _options.isEmpty() && _subcommands.isEmpty() && _arguments.isEmpty()
+    private val CliktCommand.hasFishCompletionRequirements: Boolean
+        get() = _options.flatMap { it.names }.any { it.startsWith('-') } ||
+                _subcommands.isNotEmpty()
 
-    private val Set<String>.shortAndLongNames: Pair<String?, String?>
-        get() {
-            val shortRegex = Regex("^-[a-zA-Z0-9]")
-            val longRegex = Regex("^-{2}[a-zA-Z0-9-_]+")
-
-            val shortName: String? = find { shortRegex matches it }?.trimStart('-')
-            val longName: String? = find { longRegex matches it }?.trimStart('-')
-
-            return (longName to shortName)
-        }
+    private val Set<String>.shortAndLongNames: Pair<List<String>, List<String>>
+        get() = filter { it.startsWith("-") && (it.length == 2 || it[1] == '-') }
+                .partition { it.length == 2 }
+                .let { data ->
+                    data.first.map { it.trimStart('-') } to data.second.map { it.trimStart('-') }
+                }
 }

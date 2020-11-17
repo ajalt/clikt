@@ -461,7 +461,7 @@ class CompletionTest {
             |
             |### Adding top level options
             |complete -f -c c -l o --require-parameter -a "(echo foo bar)" 
-            |complete -f -c c -l help -s h -d 'Show this message and exit'
+            |complete -f -c c -s h -l help -d 'Show this message and exit'
             |
             """.trimMargin()
     }
@@ -484,20 +484,20 @@ class CompletionTest {
         |set -l cli_subcommands 'sub sub-command'
         |
         |### Adding top level options
-        |complete -f -c cli -n "not __fish_seen_subcommand_from ${'$'}cli_subcommands" -l help -s h -d 'Show this message and exit'
+        |complete -f -c cli -n "not __fish_seen_subcommand_from ${'$'}cli_subcommands" -s h -l help -d 'Show this message and exit'
         |
         |### Declaring sub
         |complete -f -c cli -n __fish_use_subcommand -a sub 
-        |complete -f -c cli -n "__fish_seen_subcommand_from sub" -l help -s h -d 'Show this message and exit'
+        |complete -f -c cli -n "__fish_seen_subcommand_from sub" -s h -l help -d 'Show this message and exit'
         |
         |### Declaring sub-command
         |set -l cli_sub_command_subcommands 'long-sub-command'
         |complete -f -c cli -n __fish_use_subcommand -a sub-command 
-        |complete -f -c cli -n "__fish_seen_subcommand_from sub-command" -l help -s h -d 'Show this message and exit'
+        |complete -f -c cli -n "__fish_seen_subcommand_from sub-command" -s h -l help -d 'Show this message and exit'
         |
         |### Declaring long-sub-command
         |complete -f -c cli -n "__fish_seen_subcommand_from sub-command; and not __fish_seen_subcommand_from ${'$'}cli_sub_command_subcommands" -a long-sub-command 
-        |complete -f -c cli -n "__fish_seen_subcommand_from long-sub-command" -l help -s h -d 'Show this message and exit'
+        |complete -f -c cli -n "__fish_seen_subcommand_from long-sub-command" -s h -l help -d 'Show this message and exit'
         |
         """.trimMargin()
     }

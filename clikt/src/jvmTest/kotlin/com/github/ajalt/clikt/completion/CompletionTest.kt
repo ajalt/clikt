@@ -445,12 +445,6 @@ class CompletionTest {
         env.set("TEST_COMPLETE", "fish")
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
             val o by option(completionCandidates = CompletionCandidates.Custom.fromStdout("echo foo bar"))
-            val a by argument(completionCandidates = CompletionCandidates.Custom {
-                """
-                WORDS=${'$'}(echo zzz xxx)
-                COMPREPLY=(${'$'}(compgen -W "${'$'}WORDS" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))
-                """.trimIndent()
-            })
         }
 
         shouldThrow<PrintCompletionMessage> {

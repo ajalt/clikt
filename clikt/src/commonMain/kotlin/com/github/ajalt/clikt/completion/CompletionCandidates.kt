@@ -43,6 +43,11 @@ sealed class CompletionCandidates {
      * Specifically, you should set the variable `COMPREPLY` to the completion(s) for the current
      * word being typed. The word being typed can be retrieved from the `COMP_WORDS` array at index
      * `COMP_CWORD`.
+     *
+     * ## Fish
+     *
+     * Fish completions are made by the return of function or command calls. The string returned from [generator]
+     * should be the invocation of a function or a group of commands. e.g. "(__fish_print_hostnames)", "(ls -la)"
      */
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
         enum class ShellType { BASH, FISH }

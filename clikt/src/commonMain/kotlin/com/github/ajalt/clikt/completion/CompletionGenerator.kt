@@ -7,11 +7,11 @@ import com.github.ajalt.clikt.parameters.options.OptionWithValues
 object CompletionGenerator {
 
     fun generateBashCompletion(command: CliktCommand): String {
-        return generateCompletion(command, zsh = false)
+        return generateBashOrZshCompletion(command, zsh = false)
     }
 
     fun generateZshCompletion(command: CliktCommand): String {
-        return generateCompletion(command, zsh = true)
+        return generateBashOrZshCompletion(command, zsh = true)
     }
 
     fun generateFishCompletion(command: CliktCommand): String {
@@ -24,12 +24,12 @@ object CompletionGenerator {
         )
     }
 
-    internal fun generateCompletion(command: CliktCommand, zsh: Boolean = true): String {
+    private fun generateBashOrZshCompletion(command: CliktCommand, zsh: Boolean): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options
                 .filterNot { it.hidden }
-                .map { Triple(it.names, it.completionCandidates, it.nvalues) }
+                .map { Triple(it.names + it.secondaryNames, it.completionCandidates, it.nvalues) }
         val arguments = command._arguments.map { it.name to it.completionCandidates }
         val subcommands = command._subcommands.map { it.commandName }
         val fixedArgNameArray = command._arguments
@@ -261,7 +261,7 @@ object CompletionGenerator {
             """.trimMargin())
 
             for (subcommand in command._subcommands) {
-                append(generateCompletion(subcommand))
+                append(generateBashOrZshCompletion(subcommand, zsh))
             }
 
             if (isTopLevel) {
@@ -423,7 +423,7 @@ object CompletionGenerator {
     }
 
     private val CliktCommand.hasFishCompletionRequirements: Boolean
-        get() = _options.flatMap { it.names }.any { it.isValidFishCompletionOption } ||
+        get() = _options.flatMap { it.names + it.secondaryNames }.any { it.isValidFishCompletionOption } ||
                 _subcommands.isNotEmpty()
 
     private val Set<String>.shortAndLongNames: Pair<List<String>, List<String>>

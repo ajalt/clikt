@@ -14,7 +14,9 @@ import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.EnvironmentVariables
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
+@Suppress("unused")
 abstract class CompletionTestBase(private val envShell: String) {
     @Rule
     @JvmField
@@ -26,7 +28,7 @@ abstract class CompletionTestBase(private val envShell: String) {
             command.parse("")
         }.message
         try {
-            message shouldBe expected
+            assertEquals(expected.trimMargin(), message)
         } catch (e: Throwable) {
             println(message)
             throw e
@@ -41,7 +43,7 @@ abstract class CompletionTestBase(private val envShell: String) {
             val o by option(completionCandidates = CompletionCandidates.Custom.fromStdout("echo foo bar"))
             val a by argument(completionCandidates = CompletionCandidates.Custom {
                 when (envShell) {
-                    "fish" -> "echo zzz xxx"
+                    "fish" -> "(echo zzz xxx)"
                     else -> """
                         WORDS=${'$'}(echo zzz xxx)
                         COMPREPLY=(${'$'}(compgen -W "${'$'}WORDS" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))
@@ -62,11 +64,15 @@ abstract class CompletionTestBase(private val envShell: String) {
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE")
         class Sub : TestCommand()
         class SubCommand : TestCommand(name = "sub-command")
+        class SubSub : TestCommand()
         class LongSubCommand : TestCommand(name = "long-sub-command")
 
         doTest(
                 `subcommands with multi-word names expected`(),
-                C().subcommands(Sub(), SubCommand().subcommands(LongSubCommand()))
+                C().subcommands(
+                        Sub(),
+                        SubCommand().subcommands(SubSub(), LongSubCommand())
+                )
         )
     }
 
@@ -98,7 +104,8 @@ abstract class CompletionTestBase(private val envShell: String) {
             val host by option(completionCandidates = CompletionCandidates.Hostname)
             val user by option(completionCandidates = CompletionCandidates.Username)
             val fixed by option(completionCandidates = CompletionCandidates.Fixed("foo", "bar")).file()
-            val a by argument(completionCandidates = CompletionCandidates.Fixed("baz", "qux")).file()
+            val argUser by argument(completionCandidates = CompletionCandidates.Username).file()
+            val argFixed by argument(completionCandidates = CompletionCandidates.Fixed("baz", "qux")).file()
         }
 
         doTest(

@@ -34,7 +34,7 @@ kotlin {
             dependencies {
                 api(kotlin("test-common"))
                 api(kotlin("test-annotations-common"))
-                api("io.kotest:kotest-assertions-core:4.2.0")
+                api("io.kotest:kotest-assertions-core:4.3.1")
             }
         }
 

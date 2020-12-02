@@ -458,7 +458,7 @@ class BashCompletionTest : CompletionTestBase("true") {
         |_c() {
         |  local i=1
         |  local in_param=''
-        |  local fixed_arg_names=('A')
+        |  local fixed_arg_names=('ARGUSER' 'ARGFIXED')
         |  local vararg_name=''
         |  local can_parse_options=1
         |
@@ -536,7 +536,10 @@ class BashCompletionTest : CompletionTestBase("true") {
         |    --fixed)
         |      COMPREPLY=(${'$'}(compgen -W 'foo bar' -- "${'$'}{word}"))
         |      ;;
-        |    A)
+        |    ARGUSER)
+        |       COMPREPLY=(${'$'}(compgen -A user -- "${'$'}{word}"))
+        |      ;;
+        |    ARGFIXED)
         |      COMPREPLY=(${'$'}(compgen -W 'baz qux' -- "${'$'}{word}"))
         |      ;;
         |  esac

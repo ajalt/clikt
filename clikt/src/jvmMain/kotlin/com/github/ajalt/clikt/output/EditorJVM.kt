@@ -57,6 +57,7 @@ private class JvmEditor(
         editFileWithEditor(getEditorCommand(), filename)
     }
 
+    @Suppress("DEPRECATION") // The replacement is experimental
     override fun edit(text: String): String? {
         val editorCmd = getEditorCommand()
         val textToEdit = normalizeEditorText(editorCmd[0], text)

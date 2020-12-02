@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
+import com.github.ajalt.clikt.completion.CompletionOption
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
@@ -28,6 +29,10 @@ internal object Parser {
         val hasMultipleSubAncestor = generateSequence(context.parent) { it.parent }.any { it.command.allowMultipleSubcommands }
 
         for (option in command._options) {
+            require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
+                "options must have at least one name"
+            }
+
             for (name in option.names + option.secondaryNames) {
                 optionsByName[name] = option
                 if (name.length > 2) longNames += name
@@ -108,20 +113,24 @@ internal object Parser {
 
         val invocationsByOption = invocations.groupBy({ it.opt }, { it.inv })
         val invocationsByGroup = invocations.groupBy { (it.opt as? GroupableOption)?.parameterGroup }
-        val invocationsByOptionByGroup = invocationsByGroup.mapValues { (_, invs) -> invs.groupBy({ it.opt }, { it.inv }).filterKeys { it !is EagerOption } }
+        val invocationsByOptionByGroup = invocationsByGroup
+            .mapValues { (_, invs) ->
+                invs.groupBy({ it.opt }, { it.inv })
+                    .filterKeys { !it.isEager }
+            }
 
         try {
             // Finalize and validate everything as long as we aren't resuming a parse for multiple subcommands
             if (canRun) {
                 // Finalize eager options
-                invocationsByOption.forEach { (o, inv) -> if (o is EagerOption) o.finalize(context, inv) }
+                invocationsByOption.forEach { (o, inv) -> if (o.isEager) o.finalize(context, inv) }
 
                 // Finalize un-grouped options that occurred on the command line
                 invocationsByOptionByGroup[null]?.forEach { (o, inv) -> o.finalize(context, inv) }
 
                 // Finalize un-grouped options not provided on the command line so that they can apply default values etc.
                 command._options.forEach { o ->
-                    if (o !is EagerOption && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
+                    if (!o.isEager && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
                         o.finalize(context, emptyList())
                     }
                 }
@@ -337,3 +346,6 @@ internal object Parser {
         return toks
     }
 }
+
+// It would be better to have eagerness be a property on Option rather than needing these custom subclasses.
+private val Option.isEager get() = this is EagerOption || this is CompletionOption

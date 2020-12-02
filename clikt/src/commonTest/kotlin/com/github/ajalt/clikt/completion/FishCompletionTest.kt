@@ -12,7 +12,7 @@ class FishCompletionTest : CompletionTestBase("fish") {
         |complete -c c -s h -l help -d 'Show this message and exit'
         |
         |## Arguments for c
-        |complete -c c -fa (echo zzz xxx)
+        |complete -c c -fa "(echo zzz xxx)"
         |
         """
     }

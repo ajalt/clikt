@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.completion
 
 
-class BashCompletionTest : CompletionTestBase("true") {
+class BashCompletionTest : CompletionTestBase("bash") {
     override fun `custom completions expected`(): String {
         return """
         |#!/usr/bin/env bash

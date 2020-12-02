@@ -76,7 +76,7 @@ sealed class CompletionCandidates {
         companion object {
             fun fromStdout(command: String) = Custom {
                 when(it) {
-                    ShellType.FISH -> command
+                    ShellType.FISH -> "\"($command)\""
                     else -> "COMPREPLY=(\$(compgen -W \"\$($command)\" -- \"\${COMP_WORDS[\$COMP_CWORD]}\"))"
                 }
             }

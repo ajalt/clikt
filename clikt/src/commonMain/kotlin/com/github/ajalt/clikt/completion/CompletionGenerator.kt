@@ -1,17 +1,15 @@
 package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.PrintCompletionMessage
 
-object CompletionGenerator {
-    fun generateBashCompletion(command: CliktCommand): String {
-        return BashCompletionGenerator.generateBashOrZshCompletion(command, zsh = false)
-    }
-
-    fun generateZshCompletion(command: CliktCommand): String {
-        return BashCompletionGenerator.generateBashOrZshCompletion(command, zsh = true)
-    }
-
-    fun generateFishCompletion(command: CliktCommand): String {
-        return FishCompletionGenerator.generateFishCompletion(command)
+internal object CompletionGenerator {
+    fun throwCompletionMessage(command: CliktCommand, shell: String): Nothing {
+        val message = when(shell.trim().toLowerCase()) {
+            "fish"  -> FishCompletionGenerator.generateFishCompletion(command = command)
+            "zsh"  -> BashCompletionGenerator.generateBashOrZshCompletion(command = command, zsh = true)
+            else -> BashCompletionGenerator.generateBashOrZshCompletion(command = command, zsh = false)
+        }
+        throw PrintCompletionMessage(message, forceUnixLineEndings = true)
     }
 }

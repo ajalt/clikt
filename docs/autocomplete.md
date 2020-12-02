@@ -17,9 +17,12 @@ Clikt includes built-in support for generating autocomplete scripts for bash, zs
 ## Enabling Completion
 
 Clikt handles autocomplete by generating a shell script that defines the completion. You generate
-the script once each time your CLI changes, and load it each time your start your shell.
+the script once each time your CLI changes, and load it each time your start your shell. 
 
-To generate the shell script, you need to invoke your program with a special environment variable.
+### With an environment variable
+
+You can generate the completion script by invoking your program with a special environment variable.
+
 You can set the variable name manually with the `autoCompleteEnvvar` parameter in the
 [`CliktCommand` constructor][CliktCommand]. By default it's your command's name capitalized,
 with `-` replaced with `_`, and prefixed with another `_`.
@@ -40,7 +43,67 @@ You can generate the completion script and save it to a file like this:
 $ _MY_PROGRAM_COMPLETE=bash ./my-program > ~/my-program-completion.sh
 ```
 
-Finally, source the file to activate completion:
+### With an option
+
+If you'd prefer not to use environment variables, you can add a special option to your command with
+the [`completionOption`][completionOption] function. Invoking your program with this option will
+generate the completion script:
+
+=== "Example 1"
+    ```kotlin
+    class MyCommand: CliktCommand() {
+        init {
+            completionOption()
+        }
+        // ...
+    }
+    ```
+
+=== "Example 2"
+    ```kotlin
+    class MyCommand: CliktCommand() {
+        //..
+    }
+    
+    fun main(args: Array<String>) = MyCommand().completionOption().main(args)
+    ```
+
+=== "Usage"
+    ```text
+    $ ./my-command --generate-completion=bash > ~/my-program-completion.sh
+    ```
+
+### With a subcommand
+
+A third option is to add a subcommand that will generate the completion when invoked.
+
+=== "Example 1"
+    ```kotlin
+    class MyCommand: CliktCommand() {
+        init {
+            subcommands(CompletionCommand())
+        }
+        // ...
+    }
+    ```
+
+=== "Example 2"
+    ```kotlin
+    class MyCommand: CliktCommand() {
+        //..
+    }
+    
+    fun main(args: Array<String>) = MyCommand().subcommands(CompletionCommand()).main(args)
+    ```
+
+=== "Usage"
+    ```text
+    $ ./my-command generate-completion bash > ~/my-program-completion.sh
+    ```
+
+### Using the generated script
+
+Once you've generated the completion script, source the file to activate completion:
 
 ```bash
 $ source ~/my-program-completion.sh
@@ -152,3 +215,5 @@ Bash must be at least version 3, or Zsh must be at least version 4.1.
 [option]:                api/clikt/com.github.ajalt.clikt.parameters.options/option.md
 [path]:                  api/clikt/com.github.ajalt.clikt.parameters.types/path.md
 [token-normalization]:   advanced.md#token-normalization
+[completionOption]:      api/clikt/com.github.ajalt.clikt.completion/completion-option.md
+[CompletionCommand]:     api/clikt/com.github.ajalt.clikt.completion/-completion-command/index.md

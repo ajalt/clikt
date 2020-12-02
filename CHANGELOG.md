@@ -5,6 +5,7 @@
 ### Added
 - Added `required()` and `defaultLazy()` for nullable flag options like `switch()`. ([#240](https://github.com/ajalt/clikt/issues/240))
 - Added support for generating autocomplete scripts for Fish shells ([#189](https://github.com/ajalt/clikt/issues/189))
+- Added `CompletionCommand` and `CliktCommand.completionOption()` that will print an autocomplete script when invoked, as an alternative to using environment variables.
 
 ### Changed
 - Updated Kotlin to 1.4.20

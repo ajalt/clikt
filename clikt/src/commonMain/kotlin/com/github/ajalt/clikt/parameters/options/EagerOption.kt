@@ -26,11 +26,6 @@ class EagerOption(
                 helpTags: Map<String, String> = emptyMap(), groupName: String? = null,
                 callback: OptionTransformContext.() -> Unit)
             : this(names.toSet(), nvalues, help, hidden, helpTags, groupName, callback)
-
-    init {
-        require(names.isNotEmpty()) { "options must have at least one name" }
-    }
-
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
     override fun metavar(context: Context): String? = null

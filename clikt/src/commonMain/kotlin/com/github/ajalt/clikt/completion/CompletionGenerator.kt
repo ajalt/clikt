@@ -19,9 +19,6 @@ object CompletionGenerator {
         if (!command.hasFishCompletionRequirements) return ""
         return generateFishCompletionForCommand(
                 command = command,
-                parentCommand = null,
-                parentSubcommandsVarName = "${command.commandName}_subcommands".replace('-', '_'),
-                rootCommandName = command.commandName,
         )
     }
 
@@ -284,23 +281,22 @@ object CompletionGenerator {
         return "_${commandFuncName}_complete_${Regex("[^a-zA-Z0-9]").replace(name, "_")}"
     }
 
-    private fun generateFishCompletionForCommand(
-            command: CliktCommand,
-            parentCommand: CliktCommand?,
-            parentSubcommandsVarName: String,
-            rootCommandName: String,
-    ): String = buildString {
-        val isTopLevel = parentCommand == null
+    private fun generateFishCompletionForCommand(command: CliktCommand): String = buildString {
+        val parentCommandName = command.currentContext.parentNames().lastOrNull()
+        val rootCommandName = command.currentContext.commandNameWithParents().first()
+        val isTopLevel = parentCommandName == null
         val commandName = command.commandName
-        val parentCommandName = parentCommand?.commandName
-
         val options = command._options.filterNot { it.hidden }
         val arguments = command._arguments
         val subcommands = command._subcommands
         val hasSubcommands = subcommands.isNotEmpty()
-
-        val subcommandsVarName = "${parentCommandName?.let{ "${it}_" } ?: ""}${commandName}_subcommands"
-                .replace('-', '_')
+        val subcommandsVarName = command.currentContext.commandNameWithParents()
+                .joinToString("_") { it.replace(Regex("\\W"), "_") }
+        val parentSubcommandsVarName = when {
+            isTopLevel -> subcommandsVarName
+            else -> command.currentContext.parentNames()
+                    .joinToString("_") { it.replace(Regex("\\W"), "_") }
+        }
 
         if (isTopLevel) {
             appendLine("""
@@ -309,7 +305,7 @@ object CompletionGenerator {
             """.trimMargin())
         }
 
-        if (hasSubcommands || !isTopLevel){
+        if (hasSubcommands || !isTopLevel) {
             appendLine("\n\n### Setup for $commandName")
         }
 
@@ -379,14 +375,11 @@ object CompletionGenerator {
             appendLine()
         }
 
-        subcommands.map { subCommand ->
-            generateFishCompletionForCommand(
-                    command = subCommand,
-                    parentCommand = command,
-                    rootCommandName = rootCommandName,
-                    parentSubcommandsVarName = subcommandsVarName
-            )
-        }.forEach(::append)
+        for (subcommand in subcommands) {
+            append(generateFishCompletionForCommand(
+                    command = subcommand
+            ))
+        }
     }
 
     private fun StringBuilder.appendCompleteCall(

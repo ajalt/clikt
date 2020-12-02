@@ -43,12 +43,27 @@ sealed class CompletionCandidates {
      * Specifically, you should set the variable `COMPREPLY` to the completion(s) for the current
      * word being typed. The word being typed can be retrieved from the `COMP_WORDS` array at index
      * `COMP_CWORD`.
+     *
+     * ## Fish
+     *
+     * Fish completions are made by the return of function or command calls, or implemented manually.
+     * The string returned from [generator] can be the invocation of a function or a group of commands.
+     * e.g. "\"(__fish_print_hostnames)\"", "\"(ls -la)\""
+     * It can also be a multiline string manually created. In this case, each line will have one command.
+     * If you want to add a hint, just add an escaped tab (\\t) and the hint have to be in quotes.
+     * e.g. """'
+     * help\\t"show the help for this command"
+     * test\\t"run all test suite"
+     * start\\t"boot up the application"'""".trimIndent()
      */
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
-        enum class ShellType { BASH }
+        enum class ShellType { BASH, FISH }
         companion object {
             fun fromStdout(command: String) = Custom {
-                "COMPREPLY=(\$(compgen -W \"\$($command)\" -- \"\${COMP_WORDS[\$COMP_CWORD]}\"))"
+                when(it) {
+                    ShellType.FISH -> command
+                    else -> "COMPREPLY=(\$(compgen -W \"\$($command)\" -- \"\${COMP_WORDS[\$COMP_CWORD]}\"))"
+                }
             }
         }
     }

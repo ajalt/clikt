@@ -1,13 +1,6 @@
-# Bash Autocomplete
+# Shell Autocomplete
 
-Clikt includes built-in support for generating autocomplete scripts for bash and zsh.
-
-## Supported Functionality
-
-Currently subcommand, option, and [command alias][command-aliases] names can be completed, as well as
-values for options and arguments. `choice` parameters are completed with their possible values.
-Other parameter types are completed as file or directory names.
-[`Context.allowInterspersedArgs`][allowInterspersedArgs] is supported.
+Clikt includes built-in support for generating autocomplete scripts for bash, zsh and fish shells.
 
 === "Example"
     ```text
@@ -30,8 +23,8 @@ To generate the shell script, you need to invoke your program with a special env
 You can set the variable name manually with the `autoCompleteEnvvar` parameter in the
 [`CliktCommand` constructor][CliktCommand]. By default it's your command's name capitalized,
 with `-` replaced with `_`, and prefixed with another `_`.
-So if your command name is `my-command`, the variable would be `_MY_COMMAND_COMPLETE=bash`
-or `_MY_COMMAND_COMPLETE=zsh`, depending on your current shell.
+So if your command name is `my-command`, the variable would be `_MY_COMMAND_COMPLETE=bash`,
+ `_MY_COMMAND_COMPLETE=zsh`, or `_MY_COMMAND_COMPLETE=fish`, depending on your current shell.
 
 For example to activate bash autocomplete for this command:
 
@@ -53,13 +46,29 @@ Finally, source the file to activate completion:
 $ source ~/my-program-completion.sh
 ```
 
-You can add that source command to your .bashrc so that completion is always available:
+You can add that source command to your startup script so that completion is always available. For
+example, with bash:
 
 ```bash
 $ echo source ~/my-program-completion.sh >> ~/.bashrc
 ```
 
 You'll need to regenerate the completion script any time your command structure changes.
+
+## Supported Functionality
+
+### Bash and Zsh
+
+Currently subcommand, option, and [command alias][command-aliases] names can be completed, as well as
+values for options and arguments. `choice` parameters are completed with their possible values.
+Other parameter types are completed as file or directory names.
+[`Context.allowInterspersedArgs`][allowInterspersedArgs] is supported.
+
+### Fish
+
+Fish's completion mechanism is more limited that Bash's. Subcommands can be completed, options can
+be completed as long as they start with a `-`. Completion suggestions for positional arguments are
+the union of all positional arguments. Other advanced Clikt features are not supported. 
 
 ## Customizing Completions
 

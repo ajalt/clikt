@@ -46,15 +46,30 @@ sealed class CompletionCandidates {
      *
      * ## Fish
      *
-     * Fish completions are made by the return of function or command calls, or implemented manually.
-     * The string returned from [generator] can be the invocation of a function or a group of commands.
-     * e.g. "\"(__fish_print_hostnames)\"", "\"(ls -la)\""
-     * It can also be a multiline string manually created. In this case, each line will have one command.
-     * If you want to add a hint, just add an escaped tab (\\t) and the hint have to be in quotes.
-     * e.g. """'
+     * The string returned from [generator] should be a Fish string with each completion suggestion
+     * separated by a newline. Each completion can optionally end with a tab, followed by a
+     * description of the suggestion.
+     *
+     * ```
+     * """'
+     * start
+     * stop
      * help\\t"show the help for this command"
-     * test\\t"run all test suite"
-     * start\\t"boot up the application"'""".trimIndent()
+     * test\\t"run test suite"
+     * '"""
+     * ```
+     *
+     * You can also construct the string from a fish command or function call, e.g.
+     *
+     * ```
+     * "\"(__fish_print_hostnames)\""
+     * ```
+     *
+     * or
+     *
+     * ```
+     * "\"(ls -1)\""
+     * ```
      */
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
         enum class ShellType { BASH, FISH }

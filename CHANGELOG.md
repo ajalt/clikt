@@ -4,6 +4,10 @@
 
 ### Added
 - Added `required()` and `defaultLazy()` for nullable flag options like `switch()`. ([#240](https://github.com/ajalt/clikt/issues/240))
+- Added support for generating autocomplete scripts for Fish shells ([#189](https://github.com/ajalt/clikt/issues/189))
+
+### Changed
+- Updated Kotlin to 1.4.20
 
 ## 3.0.1
 _2020-09-03_

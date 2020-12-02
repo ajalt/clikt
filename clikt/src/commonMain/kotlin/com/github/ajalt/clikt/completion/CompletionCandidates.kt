@@ -51,11 +51,10 @@ sealed class CompletionCandidates {
      * e.g. "\"(__fish_print_hostnames)\"", "\"(ls -la)\""
      * It can also be a multiline string manually created. In this case, each line will have one command.
      * If you want to add a hint, just add an escaped tab (\\t) and the hint have to be in quotes.
-     * e.g. """
+     * e.g. """'
      * help\\t"show the help for this command"
      * test\\t"run all test suite"
-     * start\\t"boot up the application"
-     * """.trimIndent()
+     * start\\t"boot up the application"'""".trimIndent()
      */
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
         enum class ShellType { BASH, FISH }

@@ -295,17 +295,20 @@ internal object Parser {
         loop@ while (i < text.length) {
             val c = text[i]
             when {
-                c == '\r' -> {
+                c in "\r\n" && inQuote != null -> {
+                    sb.append(c)
                     i += 1
-                }
-                c == '\n' && inQuote != null -> {
-                    err(context.localization.unclosedQuote())
                 }
                 c == '\\' -> {
                     if (i >= text.lastIndex) err(context.localization.fileEndsWithSlash())
-                    if (text[i + 1] in "\r\n") err(context.localization.unclosedQuote())
-                    sb.append(text[i + 1])
-                    i += 2
+                    if (text[i + 1] in "\r\n") {
+                        do {
+                            i += 1
+                        } while (i <= text.lastIndex && text[i].isWhitespace())
+                    } else {
+                        sb.append(text[i + 1])
+                        i += 2
+                    }
                 }
                 c == inQuote -> {
                     toks += sb.toString()
@@ -313,15 +316,15 @@ internal object Parser {
                     inQuote = null
                     i += 1
                 }
-                inQuote == null && c == '#' -> {
+                c == '#' && inQuote == null -> {
                     i = text.indexOf('\n', i)
                     if (i < 0) break@loop
                 }
-                inQuote == null && c in "\"'" -> {
+                c in "\"'" && inQuote == null -> {
                     inQuote = c
                     i += 1
                 }
-                inQuote == null && c.isWhitespace() -> {
+                c.isWhitespace() && inQuote == null -> {
                     if (sb.isNotEmpty()) {
                         toks += sb.toString()
                         sb.clear()

@@ -185,14 +185,14 @@ inform the user and your lambda won't be called.
 
 ### Options With a Variable Number of Values
 
-You can use [`split`][split] to allow a
-variable number of values to a single option invocation by separating the values with non-whitespace
-delimiters.
+You can use [`split`][split] to allow a variable number of values to a single option invocation by
+separating the values with non-whitespace delimiters. This will also split [values from environment
+variables](#values-from-environment-variables).
 
 === "Example"
     ```kotlin
     class C : CliktCommand() {
-        val profiles by option("-P").split(",")
+        val profiles by option("-P", envvar="PROFILES").split(",")
         override fun run() {
             for (profile in profiles) {
                 echo(profile)
@@ -208,6 +208,13 @@ delimiters.
     profile-2
     ```
 
+=== "Usage with Environment Variable"
+    ```text
+    $ export PROFILES=profile-1,profile-2
+    $ ./split
+    profile-1
+    profile-2
+    ```
 
 ## Multiple Options
 
@@ -919,30 +926,7 @@ subcommands. If you have a a subcommand called `foo` with an option `--bar`, and
 
 You might need to allow users to specify multiple values for an option in a single environment
 variable. You can do this by creating an option with
-[`multiple`][multiple]. The environment
-variable's value will be split according a regex, which defaults to split on whitespace for most
-types. [`file`][file] will change the pattern
-to split according to the operating system's path splitting rules. On Windows, it will split on
-semicolons (`;`). On other systems, it will split on colons (`:`). You can also specify a split
-pattern by passing it to the `envvarSplit` parameter of `option`.
-
-=== "Example"
-    ```kotlin
-    class Hello : CliktCommand() {
-        val names by option(envvar = "NAMES").multiple()
-        override fun run() {
-            for (name in names) echo("Hello $name")
-        }
-    }
-    ```
-
-=== "Usage"
-    ```text
-    $ export NAMES=Foo Bar
-    $ ./hello
-    Hello Foo
-    Hello Bar
-    ```
+[`split`](#options-with-a-variable-number-of-values).
 
 ### Flag Option Values from Environment Variables
 

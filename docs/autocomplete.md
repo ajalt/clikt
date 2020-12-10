@@ -92,7 +92,7 @@ A third option is to add a subcommand that will generate the completion when inv
     class MyCommand: CliktCommand() {
         //..
     }
-    
+
     fun main(args: Array<String>) = MyCommand().subcommands(CompletionCommand()).main(args)
     ```
 

@@ -153,9 +153,9 @@ class CustomCLI : NoOpCliktCommand() {
 If you are using [`TermUI`][TermUI] directly,
 you can also pass your custom console as an argument.
 
-## Command Line Argument Files ("@-files")
+## Command Line Argument Files ("@argfiles")
 
-Similar to `javac`, Clikt supports loading command line parameters from a file using the "@-file"
+Similar to `javac`, Clikt supports loading command line parameters from a file using the "@argfile"
 syntax. You can pass any file path to a command prefixed with `@`, and the file will be expanded
 into the command line parameters. This can be useful on operating systems like Windows that have
 command line length limits.
@@ -176,37 +176,39 @@ $ ./tool @cliargs
 
 Which is equivalent to calling it like this:
 
-````
+```
 $ ./tool --number 1 --name='jane doe' --age=30 ./file.txt
 ```
 
-You can use any file path after the `@`, and can specify multiple @-files:
+You can use any file path after the `@`, and can specify multiple @argfiles:
 
 ```
 $ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile
 ```
 
-If you have any options with names that start with `@`, you can still use `@-files`, but values on
-the command line that match an option will be parsed as that option, rather than an `@-file`, so
+If you have any options with names that start with `@`, you can still use `@argfiles`, but values on
+the command line that match an option will be parsed as that option, rather than an `@argfile`, so
 you'll have to give your files a different name.
 
-### Preventing @-file expansion
+### Preventing @argfile expansion
 
 If you want to use a value starting with `@` as an argument without expanding it, you have three options:
 
 1. Pass it after a `--`, [which disables expansion for everything that occurs after it][dash-dash].
 2. Escape it with `@@`. The first `@` will be removed and the rest used as the argument value. For example, `@@file` will parse as the string `@file`
-3. Disable @-file expansion entirely by setting [`Context.expandArgumentFiles = false`][expandArgumentFiles]
+3. Disable @argfile expansion entirely by setting [`Context.expandArgumentFiles = false`][expandArgumentFiles]
 
 ### File format
 
-In argument files, normal shell quoting and escaping rules apply. Line breaks are treated as word
-separators, and can be used where you would normally use a space to separate parameters. Line breaks
-cannot occur within quotes. @-files can contain other @-file arguments, which will be expanded
-recursively.
-
-An unescaped `#` character outside of quotes is treated as a line comment: it and the rest of the
-line are skipped. You can pass a literal `#` by escaping it with `\#` or quoting it with `'#'`.
+- Normal shell quoting and escaping rules apply. 
+- Line breaks are treated as word separators, and can be used where you would normally use a space
+  to separate parameters.
+- Line breaks can occur within quotes, and will be included in the quoted value.
+- @argfiles can contain other @argfile arguments, which will be expanded recursively.
+- An unescaped `#` character outside of quotes is treated as a line comment: it and the rest of the
+  line are skipped. You can pass a literal `#` by escaping it with `\#` or quoting it with `'#'`.
+- If a `\` occurs at the end of a line, the next line is trimmed of leading whitespace and the two
+  lines are concatenated.
 
 ## Testing your Clikt CLI
 

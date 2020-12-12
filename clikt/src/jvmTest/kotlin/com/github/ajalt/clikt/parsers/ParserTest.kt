@@ -27,6 +27,9 @@ class ParserTest {
             val arg1 by argument()
             val arg2 by argument()
             val arg3 by argument()
+            val arg4 by argument()
+            val arg5 by argument()
+            val arg6 by argument()
 
             override fun run_() {
                 foo shouldBe "123"
@@ -34,6 +37,9 @@ class ParserTest {
                 arg1 shouldBe "\\"
                 arg2 shouldBe ""
                 arg3 shouldBe "#"
+                arg4 shouldBe "ab"
+                arg5 shouldBe "cd"
+                arg6 shouldBe "e\nf"
             }
         }
 
@@ -42,6 +48,12 @@ class ParserTest {
         |--foo 123 # comment
         |--bar='a b "\''
         |\\ "" \# #
+        |a\
+        | b
+        |c\
+        |d
+        |'e
+        |f'
         """.trimMargin())
 
         C().parse("@${file.path}")

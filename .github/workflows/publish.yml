@@ -18,7 +18,7 @@ jobs:
           dependencies-cache-enabled: true
           arguments: check --stacktrace
   macos-tests:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - uses: eskatos/gradle-command-action@v1
@@ -36,7 +36,7 @@ jobs:
 
   deploy-mac-and-linux:
     needs: [ linux-tests, macos-tests, windows-tests ]
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Fetch git tags

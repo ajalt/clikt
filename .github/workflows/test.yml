@@ -16,7 +16,7 @@ jobs:
           dependencies-cache-enabled: true
           arguments: check --stacktrace
   macos-tests:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - uses: eskatos/gradle-command-action@v1

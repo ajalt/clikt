@@ -8,7 +8,7 @@
 - Added `CompletionCommand` and `CliktCommand.completionOption()` that will print an autocomplete script when invoked, as an alternative to using environment variables.
 
 ### Changed
-- Updated Kotlin to 1.4.20
+- Updated Kotlin to 1.4.21
 - `@argfiles` now allow line breaks in quoted values, which are included in the value verbatim. You can now end lines with `\` to concatenate them with the follwing line. ([#248](https://github.com/ajalt/clikt/issues/248))
 
 ## 3.0.1

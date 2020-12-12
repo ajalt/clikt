@@ -81,8 +81,7 @@ dependencies {
    implementation("com.github.ajalt.clikt:clikt:3.0.1")
 }
 ```
-
-###### In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.
+ <sup>In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.</sup>
 
 #### Multiplatform
 

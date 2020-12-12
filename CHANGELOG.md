@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 3.1.0
+_2020-12-12_
+
 ### Added
 - Added `required()` and `defaultLazy()` for nullable flag options like `switch()`. ([#240](https://github.com/ajalt/clikt/issues/240))
 - Added support for generating autocomplete scripts for Fish shells ([#189](https://github.com/ajalt/clikt/issues/189))
@@ -9,7 +12,7 @@
 
 ### Changed
 - Updated Kotlin to 1.4.21
-- `@argfiles` now allow line breaks in quoted values, which are included in the value verbatim. You can now end lines with `\` to concatenate them with the follwing line. ([#248](https://github.com/ajalt/clikt/issues/248))
+- `@argfiles` now allow line breaks in quoted values, which are included in the value verbatim. You can now end lines with `\` to concatenate them with the following line. ([#248](https://github.com/ajalt/clikt/issues/248))
 
 ## 3.0.1
 _2020-09-03_

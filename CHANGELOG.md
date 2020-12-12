@@ -9,7 +9,7 @@
 
 ### Changed
 - Updated Kotlin to 1.4.20
-- `@argfiles` now allow line breaks in quoted values, and line continues outside of quotes when lines end with `\` ([#248](https://github.com/ajalt/clikt/issues/248))
+- `@argfiles` now allow line breaks in quoted values, which are included in the value verbatim. You can now end lines with `\` to concatenate them with the follwing line. ([#248](https://github.com/ajalt/clikt/issues/248))
 
 ## 3.0.1
 _2020-09-03_

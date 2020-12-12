@@ -1671,12 +1671,20 @@
 <td>Set a default <a href="../default/#com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.default.T)), com.github.ajalt.clikt.parameters.options.default.T, kotlin.String)/value">value</a> for an option.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T?&gt;.default(value: T, defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= value.toString()):</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
+<td><a href="../default-lazy/">defaultLazy</a></td>
+<td>Set a default <a href="../default-lazy/#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.defaultLazy.T)), kotlin.String, kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.T)))/value">value</a> for an option from a lazy builder which is only called if the default value is used.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T?&gt;.defaultLazy(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", value: () -&gt; T):</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code></td>
+</tr>
+<tr>
 <td><a href="../deprecated/">deprecated</a></td>
 <td>Mark this option as deprecated in the help output.<code>fun &lt;T&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = "", tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = "deprecated", tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../help/">help</a></td>
 <td>Set the help for this option.<code>fun &lt;T&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;.help(help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><a href="../required/">required</a></td>
+<td>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a>.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="./"><code>FlagOption</code></a><code>&lt;T?&gt;.required():</code><a href="./"><code>FlagOption</code></a><code>&lt;T&gt;</code></td>
 </tr>
 <tr>
 <td><a href="../validate/">validate</a></td>

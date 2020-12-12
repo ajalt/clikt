@@ -1531,16 +1531,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#command-line-argument-files-files" class="md-nav__link">
-    Command Line Argument Files ("@-files")
+  <a href="#command-line-argument-files-argfiles" class="md-nav__link">
+    Command Line Argument Files ("@argfiles")
   </a>
   
-    <nav class="md-nav" aria-label="Command Line Argument Files ("@-files")">
+    <nav class="md-nav" aria-label="Command Line Argument Files ("@argfiles")">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#preventing-file-expansion" class="md-nav__link">
-    Preventing @-file expansion
+  <a href="#preventing-argfile-expansion" class="md-nav__link">
+    Preventing @argfile expansion
   </a>
   
 </li>
@@ -1766,8 +1766,8 @@ when <a href="../commands/#customizing-contexts">customizing the command context
 
 <p>If you are using <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/"><code>TermUI</code></a> directly,
 you can also pass your custom console as an argument.</p>
-<h2 id="command-line-argument-files-files">Command Line Argument Files (&ldquo;@-files&rdquo;)<a class="headerlink" href="#command-line-argument-files-files" title="Permanent link">&para;</a></h2>
-<p>Similar to <code>javac</code>, Clikt supports loading command line parameters from a file using the &ldquo;@-file&rdquo;
+<h2 id="command-line-argument-files-argfiles">Command Line Argument Files (&ldquo;@argfiles&rdquo;)<a class="headerlink" href="#command-line-argument-files-argfiles" title="Permanent link">&para;</a></h2>
+<p>Similar to <code>javac</code>, Clikt supports loading command line parameters from a file using the &ldquo;@argfile&rdquo;
 syntax. You can pass any file path to a command prefixed with <code>@</code>, and the file will be expanded
 into the command line parameters. This can be useful on operating systems like Windows that have
 command line length limits.</p>
@@ -1782,27 +1782,35 @@ command line length limits.</p>
 </code></pre></div>
 
 <p>Which is equivalent to calling it like this:</p>
-<p><code>`
-$ ./tool --number 1 --name='jane doe' --age=30 ./file.txt</code></p>
-<p>You can use any file path after the <code>@</code>, and can specify multiple @-files:</p>
-<p><code>$ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile</code></p>
-<p>If you have any options with names that start with <code>@</code>, you can still use <code>@-files</code>, but values on
-the command line that match an option will be parsed as that option, rather than an <code>@-file</code>, so
+<div class="highlight"><pre><span></span><code>$ ./tool --number 1 --name=&#39;jane doe&#39; --age=30 ./file.txt
+</code></pre></div>
+
+<p>You can use any file path after the <code>@</code>, and can specify multiple @argfiles:</p>
+<div class="highlight"><pre><span></span><code>$ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile
+</code></pre></div>
+
+<p>If you have any options with names that start with <code>@</code>, you can still use <code>@argfiles</code>, but values on
+the command line that match an option will be parsed as that option, rather than an <code>@argfile</code>, so
 you&rsquo;ll have to give your files a different name.</p>
-<h3 id="preventing-file-expansion">Preventing @-file expansion<a class="headerlink" href="#preventing-file-expansion" title="Permanent link">&para;</a></h3>
+<h3 id="preventing-argfile-expansion">Preventing @argfile expansion<a class="headerlink" href="#preventing-argfile-expansion" title="Permanent link">&para;</a></h3>
 <p>If you want to use a value starting with <code>@</code> as an argument without expanding it, you have three options:</p>
 <ol>
 <li>Pass it after a <code>--</code>, <a href="../arguments/#option-like-arguments-using-">which disables expansion for everything that occurs after it</a>.</li>
 <li>Escape it with <code>@@</code>. The first <code>@</code> will be removed and the rest used as the argument value. For example, <code>@@file</code> will parse as the string <code>@file</code></li>
-<li>Disable @-file expansion entirely by setting <a href="../api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files/"><code>Context.expandArgumentFiles = false</code></a></li>
+<li>Disable @argfile expansion entirely by setting <a href="../api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files/"><code>Context.expandArgumentFiles = false</code></a></li>
 </ol>
 <h3 id="file-format">File format<a class="headerlink" href="#file-format" title="Permanent link">&para;</a></h3>
-<p>In argument files, normal shell quoting and escaping rules apply. Line breaks are treated as word
-separators, and can be used where you would normally use a space to separate parameters. Line breaks
-cannot occur within quotes. @-files can contain other @-file arguments, which will be expanded
-recursively.</p>
-<p>An unescaped <code>#</code> character outside of quotes is treated as a line comment: it and the rest of the
-line are skipped. You can pass a literal <code>#</code> by escaping it with <code>\#</code> or quoting it with <code>'#'</code>.</p>
+<ul>
+<li>Normal shell quoting and escaping rules apply. </li>
+<li>Line breaks are treated as word separators, and can be used where you would normally use a space
+  to separate parameters.</li>
+<li>Line breaks can occur within quotes, and will be included in the quoted value.</li>
+<li>@argfiles can contain other @argfile arguments, which will be expanded recursively.</li>
+<li>An unescaped <code>#</code> character outside of quotes is treated as a line comment: it and the rest of the
+  line are skipped. You can pass a literal <code>#</code> by escaping it with <code>\#</code> or quoting it with <code>'#'</code>.</li>
+<li>If a <code>\</code> occurs at the end of a line, the next line is trimmed of leading whitespace and the two
+  lines are concatenated.</li>
+</ul>
 <h2 id="testing-your-clikt-cli">Testing your Clikt CLI<a class="headerlink" href="#testing-your-clikt-cli" title="Permanent link">&para;</a></h2>
 <p><a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main/"><code>CliktCommand.main</code></a> calls <code>exitProcess</code> when invalid values are provided on the command
 line. In unit tests, you should instead call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse/"><code>CliktCommand.parse</code></a>, which throws exceptions

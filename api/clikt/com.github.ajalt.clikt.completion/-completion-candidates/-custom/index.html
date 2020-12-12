@@ -1514,7 +1514,14 @@
     Bash/ZSH
   </a>
   
-    <nav class="md-nav" aria-label="Bash/ZSH">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fish" class="md-nav__link">
+    Fish
+  </a>
+  
+    <nav class="md-nav" aria-label="Fish">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1581,6 +1588,26 @@ passed to <code>compgen -F</code>.</p>
 <p>Specifically, you should set the variable <code>COMPREPLY</code> to the completion(s) for the current
 word being typed. The word being typed can be retrieved from the <code>COMP_WORDS</code> array at index
 <code>COMP_CWORD</code>.</p>
+<h2 id="fish">Fish<a class="headerlink" href="#fish" title="Permanent link">&para;</a></h2>
+<p>The string returned from <a href="generator/">generator</a> should be a Fish string with each completion suggestion
+separated by a newline. Each completion can optionally end with a tab, followed by a
+description of the suggestion.</p>
+<p><code></code>
+&ldquo;&rdquo;&ldquo;&rsquo;
+start
+stop
+help\t&rdquo;show the help for this command&rdquo;
+test\t&rdquo;run test suite&rdquo;
+&lsquo;&ldquo;&rdquo;&rdquo;
+<code></code></p>
+<p>You can also construct the string from a fish command or function call, e.g.</p>
+<p><code></code>
+&ldquo;"(__fish_print_hostnames)"&rdquo;
+<code></code></p>
+<p>or</p>
+<p><code></code>
+&ldquo;"(ls -1)"&rdquo;
+<code></code></p>
 <h3 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h3>
 <table>
 <thead>

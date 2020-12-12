@@ -1529,6 +1529,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1568,6 +1575,10 @@
 <td><a href="-completion-candidates/">CompletionCandidates</a></td>
 <td>Configurations for generating shell autocomplete suggestions<code>sealed class CompletionCandidates</code></td>
 </tr>
+<tr>
+<td><a href="-completion-command/">CompletionCommand</a></td>
+<td>A subcommand that will print a completion script for the given shell when invoked.<code>class CompletionCommand :</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a></td>
+</tr>
 </tbody>
 </table>
 <h3 id="annotations">Annotations<a class="headerlink" href="#annotations" title="Permanent link">&para;</a></h3>
@@ -1582,6 +1593,21 @@
 <tr>
 <td><a href="-experimental-completion-candidates/">ExperimentalCompletionCandidates</a></td>
 <td><code>annotation class ~~ExperimentalCompletionCandidates~~</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="completion-option/">completionOption</a></td>
+<td>Add an option to a command that will print a completion script for the given shell when invoked.<code>fun &lt;T :</code><a href="../com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code></a><code>&gt; T.completionOption(vararg names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= arrayOf("--generate-completion"), help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false): T</code></td>
 </tr>
 </tbody>
 </table>

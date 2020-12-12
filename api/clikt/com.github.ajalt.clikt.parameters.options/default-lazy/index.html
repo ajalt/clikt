@@ -1510,6 +1510,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example:
   </a>
@@ -1535,7 +1542,11 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">defaultLazy</a></p>
 <h1 id="defaultlazy">defaultLazy<a class="headerlink" href="#defaultlazy" title="Permanent link">&para;</a></h1>
-<p><code>inline fun <EachT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, ValueT> <a href="../-nullable-option/">NullableOption</a><EachT, ValueT>.defaultLazy(defaultForHelp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, crossinline value: () -&gt; EachT): <a href="../-option-with-values/">OptionWithValues</a><EachT, EachT, ValueT></code></p>
+<p><code>inline fun <T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>> <a href="../-flag-option/">FlagOption</a><T?>.defaultLazy(defaultForHelp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &ldquo;&rdquo;, crossinline value: () -&gt; T): <a href="../-flag-option/">FlagOption</a><T></code></p>
+<p>Set a default <a href="./#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.FlagOption((com.github.ajalt.clikt.parameters.options.defaultLazy.T)), kotlin.String, kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.T)))/value">value</a> for an option from a lazy builder which is only called if the default value is used.</p>
+<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
+<p><code>defaultForHelp</code> - The help text for this option&rsquo;s default value if the help formatter is configured
+to show them. By default, the default value is not shown in help.<code>inline fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.defaultLazy(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", crossinline value: () -&gt; EachT):</code><a href="../-option-with-values/"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></p>
 <p>If the option is not called on the command line (and is not set in an envvar), call the <a href="./#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.String, kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</a> and use its
 return value for the option.</p>
 <p>This must be applied after all other transforms. If the option is given on the command line, <a href="./#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.String, kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</a> will

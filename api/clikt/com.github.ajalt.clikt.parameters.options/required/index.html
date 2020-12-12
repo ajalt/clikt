@@ -1516,6 +1516,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    Example:
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1535,10 +1542,17 @@
                 
                 <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">required</a></p>
 <h1 id="required">required<a class="headerlink" href="#required" title="Permanent link">&para;</a></h1>
-<p><code>fun <EachT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, ValueT> <a href="../-nullable-option/">NullableOption</a><EachT, ValueT>.required(): <a href="../-option-with-values/">OptionWithValues</a><EachT, EachT, ValueT></code></p>
+<p><code>fun <T : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>> <a href="../-flag-option/">FlagOption</a><T?>.required(): <a href="../-flag-option/">FlagOption</a><T></code></p>
 <p>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a>.</p>
 <p>This must be applied after all other transforms.</p>
 <h3 id="example">Example:<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<p><code></code>
+option().switch(&ldquo;&ndash;foo&rdquo; to Foo(), &ldquo;&ndash;bar&rdquo; to Bar()).required()
+<code></code></p>
+<p><code>fun <EachT : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, ValueT> <a href="../-nullable-option/">NullableOption</a><EachT, ValueT>.required(): <a href="../-option-with-values/">OptionWithValues</a><EachT, EachT, ValueT></code></p>
+<p>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a>.</p>
+<p>This must be applied after all other transforms.</p>
+<h3 id="example_1">Example:<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
 <p><code></code>
 val opt: Pair<Int, Int> by option().int().pair().required()
 <code></code></p>

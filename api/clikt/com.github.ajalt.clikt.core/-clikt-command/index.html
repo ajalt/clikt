@@ -1761,6 +1761,10 @@ errors.</p>
 <td>Create a property delegate argument.<code>fun</code><a href="./"><code>CliktCommand</code></a><code>.argument(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = emptyMap(), completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>? = null):</code><a href="../../com.github.ajalt.clikt.parameters.arguments/-raw-argument/"><code>RawArgument</code></a></td>
 </tr>
 <tr>
+<td><a href="../../com.github.ajalt.clikt.completion/completion-option/">completionOption</a></td>
+<td>Add an option to a command that will print a completion script for the given shell when invoked.<code>fun &lt;T :</code><a href="./"><code>CliktCommand</code></a><code>&gt; T.completionOption(vararg names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= arrayOf("--generate-completion"), help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false): T</code></td>
+</tr>
+<tr>
 <td><a href="../context/">context</a></td>
 <td>Configure this command&rsquo;s <a href="../-context/">Context</a>.<code>fun &lt;T :</code><a href="./"><code>CliktCommand</code></a><code>&gt; T.context(block: Builder.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a><code>): T</code></td>
 </tr>
@@ -1807,6 +1811,10 @@ errors.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><a href="../../com.github.ajalt.clikt.completion/-completion-command/">CompletionCommand</a></td>
+<td>A subcommand that will print a completion script for the given shell when invoked.<code>class CompletionCommand :</code><a href="./"><code>CliktCommand</code></a></td>
+</tr>
 <tr>
 <td><a href="../-no-op-clikt-command/">NoOpCliktCommand</a></td>
 <td>A <a href="./">CliktCommand</a> that has a default implementation of <a href="run/">CliktCommand.run</a> that is a no-op.<code>open class NoOpCliktCommand :</code><a href="./"><code>CliktCommand</code></a></td>

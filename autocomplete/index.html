@@ -17,7 +17,7 @@
     
     
       
-        <title>Bash Autocomplete - Clikt</title>
+        <title>Shell Autocomplete - Clikt</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bash-autocomplete" class="md-skip">
+        <a href="#shell-autocomplete" class="md-skip">
           Skip to content
         </a>
       
@@ -95,7 +95,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Bash Autocomplete
+              Shell Autocomplete
             
           </span>
         </div>
@@ -1510,16 +1510,70 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#supported-functionality" class="md-nav__link">
-    Supported Functionality
+  <a href="#enabling-completion" class="md-nav__link">
+    Enabling Completion
   </a>
+  
+    <nav class="md-nav" aria-label="Enabling Completion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-an-environment-variable" class="md-nav__link">
+    With an environment variable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-an-option" class="md-nav__link">
+    With an option
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-a-subcommand" class="md-nav__link">
+    With a subcommand
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-generated-script" class="md-nav__link">
+    Using the generated script
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enabling-completion" class="md-nav__link">
-    Enabling Completion
+  <a href="#supported-functionality" class="md-nav__link">
+    Supported Functionality
   </a>
+  
+    <nav class="md-nav" aria-label="Supported Functionality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bash-and-zsh" class="md-nav__link">
+    Bash and Zsh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fish" class="md-nav__link">
+    Fish
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1567,13 +1621,8 @@
                   </a>
                 
                 
-                <h1 id="bash-autocomplete">Bash Autocomplete<a class="headerlink" href="#bash-autocomplete" title="Permanent link">&para;</a></h1>
-<p>Clikt includes built-in support for generating autocomplete scripts for bash and zsh.</p>
-<h2 id="supported-functionality">Supported Functionality<a class="headerlink" href="#supported-functionality" title="Permanent link">&para;</a></h2>
-<p>Currently subcommand, option, and <a href="../advanced/#command-aliases">command alias</a> names can be completed, as well as
-values for options and arguments. <code>choice</code> parameters are completed with their possible values.
-Other parameter types are completed as file or directory names.
-<a href="../api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args/"><code>Context.allowInterspersedArgs</code></a> is supported.</p>
+                <h1 id="shell-autocomplete">Shell Autocomplete<a class="headerlink" href="#shell-autocomplete" title="Permanent link">&para;</a></h1>
+<p>Clikt includes built-in support for generating autocomplete scripts for bash, zsh and fish shells.</p>
 <div class="tabbed-set" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./repo &lt;TAB&gt;&lt;TAB&gt;
 commit clone pull
@@ -1589,13 +1638,14 @@ $./repo --repo-home ./g&lt;TAB&gt;
 </div>
 <h2 id="enabling-completion">Enabling Completion<a class="headerlink" href="#enabling-completion" title="Permanent link">&para;</a></h2>
 <p>Clikt handles autocomplete by generating a shell script that defines the completion. You generate
-the script once each time your CLI changes, and load it each time your start your shell.</p>
-<p>To generate the shell script, you need to invoke your program with a special environment variable.
-You can set the variable name manually with the <code>autoCompleteEnvvar</code> parameter in the
+the script once each time your CLI changes, and load it each time your start your shell. </p>
+<h3 id="with-an-environment-variable">With an environment variable<a class="headerlink" href="#with-an-environment-variable" title="Permanent link">&para;</a></h3>
+<p>You can generate the completion script by invoking your program with a special environment variable.</p>
+<p>You can set the variable name manually with the <code>autoCompleteEnvvar</code> parameter in the
 <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code> constructor</a>. By default it&rsquo;s your command&rsquo;s name capitalized,
 with <code>-</code> replaced with <code>_</code>, and prefixed with another <code>_</code>.
-So if your command name is <code>my-command</code>, the variable would be <code>_MY_COMMAND_COMPLETE=bash</code>
-or <code>_MY_COMMAND_COMPLETE=zsh</code>, depending on your current shell.</p>
+So if your command name is <code>my-command</code>, the variable would be <code>_MY_COMMAND_COMPLETE=bash</code>,
+ <code>_MY_COMMAND_COMPLETE=zsh</code>, or <code>_MY_COMMAND_COMPLETE=fish</code>, depending on your current shell.</p>
 <p>For example to activate bash autocomplete for this command:</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MyProgram</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
@@ -1606,15 +1656,83 @@ or <code>_MY_COMMAND_COMPLETE=zsh</code>, depending on your current shell.</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nv">_MY_PROGRAM_COMPLETE</span><span class="o">=</span>bash ./my-program &gt; ~/my-program-completion.sh
 </code></pre></div>
 
-<p>Finally, source the file to activate completion:</p>
+<h3 id="with-an-option">With an option<a class="headerlink" href="#with-an-option" title="Permanent link">&para;</a></h3>
+<p>If you&rsquo;d prefer not to use environment variables, you can add a special option to your command with
+the <a href="../api/clikt/com.github.ajalt.clikt.completion/completion-option/"><code>completionOption</code></a> function. Invoking your program with this option will
+generate the completion script:</p>
+<div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example 1</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MyCommand</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">completionOption</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Example 2</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MyCommand</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//..</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">MyCommand</span><span class="p">().</span><span class="n">completionOption</span><span class="p">().</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Usage</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./my-command --generate-completion=bash &gt; ~/my-program-completion.sh
+</code></pre></div>
+
+</div>
+</div>
+<h3 id="with-a-subcommand">With a subcommand<a class="headerlink" href="#with-a-subcommand" title="Permanent link">&para;</a></h3>
+<p>A third option is to add a subcommand that will generate the completion when invoked.</p>
+<div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example 1</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MyCommand</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">init</span> <span class="p">{</span>
+        <span class="n">subcommands</span><span class="p">(</span><span class="n">CompletionCommand</span><span class="p">())</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</div>
+<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Example 2</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MyCommand</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//..</span>
+<span class="p">}</span>
+
+<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">MyCommand</span><span class="p">().</span><span class="n">subcommands</span><span class="p">(</span><span class="n">CompletionCommand</span><span class="p">()).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">Usage</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./my-command generate-completion bash &gt; ~/my-program-completion.sh
+</code></pre></div>
+
+</div>
+</div>
+<h3 id="using-the-generated-script">Using the generated script<a class="headerlink" href="#using-the-generated-script" title="Permanent link">&para;</a></h3>
+<p>Once you&rsquo;ve generated the completion script, source the file to activate completion:</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">source</span> ~/my-program-completion.sh
 </code></pre></div>
 
-<p>You can add that source command to your .bashrc so that completion is always available:</p>
+<p>You can add that source command to your startup script so that completion is always available. For
+example, with bash:</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">echo</span> <span class="nb">source</span> ~/my-program-completion.sh &gt;&gt; ~/.bashrc
 </code></pre></div>
 
 <p>You&rsquo;ll need to regenerate the completion script any time your command structure changes.</p>
+<h2 id="supported-functionality">Supported Functionality<a class="headerlink" href="#supported-functionality" title="Permanent link">&para;</a></h2>
+<h3 id="bash-and-zsh">Bash and Zsh<a class="headerlink" href="#bash-and-zsh" title="Permanent link">&para;</a></h3>
+<p>Currently subcommand, option, and <a href="../advanced/#command-aliases">command alias</a> names can be completed, as well as
+values for options and arguments. <code>choice</code> parameters are completed with their possible values.
+Other parameter types are completed as file or directory names.
+<a href="../api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args/"><code>Context.allowInterspersedArgs</code></a> is supported.</p>
+<h3 id="fish">Fish<a class="headerlink" href="#fish" title="Permanent link">&para;</a></h3>
+<p>Fish&rsquo;s completion mechanism is more limited that Bash&rsquo;s. Subcommands can be completed, options can
+be completed as long as they start with a <code>-</code>. Completion suggestions for positional arguments are
+the union of all positional arguments. Other advanced Clikt features are not supported. </p>
 <h2 id="customizing-completions">Customizing Completions<a class="headerlink" href="#customizing-completions" title="Permanent link">&para;</a></h2>
 <p>There is built-in completion for values for <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice/"><code>choice</code></a> parameters,
 and for parameters converted with <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file/"><code>file</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path/"><code>path</code></a>.</p>
@@ -1639,7 +1757,7 @@ The string returned from [generator] should be the body of a function that will 
 <p>Specifically, you should set the variable <code>COMPREPLY</code> to the completion(s) for the current word
 being typed. The word being typed can be retrieved from the <code>COMP_WORDS</code> array at index
 <code>COMP_CWORD</code>.</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example with fromStdout</label><div class="tabbed-content">
+<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example with fromStdout</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// This example uses `echo`, but you would use your own binary</span>
     <span class="c1">// or script that prints the completions.</span>
@@ -1653,7 +1771,7 @@ being typed. The word being typed can be retrieved from the <code>COMP_WORDS</co
 </code></pre></div>
 
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Example with full script</label><div class="tabbed-content">
+<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Example with full script</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// This is identical to the previous example</span>
     <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">completionCandidates</span> <span class="p">=</span> <span class="n">CompletionCandidates</span><span class="p">.</span><span class="n">Custom</span> <span class="p">{</span>

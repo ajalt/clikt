@@ -78,13 +78,12 @@ Clikt is distributed through [Maven Central](https://search.maven.org/artifact/c
 
 ```groovy
 dependencies {
-   implementation("com.github.ajalt.clikt:clikt:3.0.1")
+   implementation("com.github.ajalt.clikt:clikt:3.1.0")
 }
 ```
  <sup>In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.</sup>
 
 #### Multiplatform
-
 Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for both
 NodeJS and Browsers). [See the docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) for more
 information about functionality supported on each target. You'll need to use Gradle 6 or newer.

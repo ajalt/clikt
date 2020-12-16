@@ -74,7 +74,7 @@ them with the included [`runsample` script](runsample).
 
 ## Installation
 
-Clikt is distributed through [Maven Central](https://search.maven.org/artifact/com.github.ajalt/clikt).
+Clikt is distributed through [Maven Central](https://search.maven.org/artifact/com.github.ajalt.clikt/clikt).
 
 ```groovy
 dependencies {
@@ -94,7 +94,7 @@ information about functionality supported on each target. You'll need to use Gra
 <details>
 <summary>Snapshot builds are also available</summary>
    
-<a href="https://oss.sonatype.org/content/repositories/snapshots/com/github/ajalt/clikt/"><img src="https://img.shields.io/nexus/s/com.github.ajalt/clikt?color=blue&label=latest%20shapshot&server=https%3A%2F%2Foss.sonatype.org"/></a>
+<a href="https://oss.sonatype.org/content/repositories/snapshots/com/github/ajalt/clikt/clikt/"><img src="https://img.shields.io/nexus/s/com.github.ajalt.clikt/clikt?color=blue&label=latest%20shapshot&server=https%3A%2F%2Foss.sonatype.org"/></a>
    
 <p>
 You'll need to add the Sonatype snapshots repository: 

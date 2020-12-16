@@ -1893,11 +1893,14 @@ Options:
 </div>
 </div>
 <h2 id="grouping-options-in-help">Grouping Options in Help<a class="headerlink" href="#grouping-options-in-help" title="Permanent link">&para;</a></h2>
-<p>You can group options into separate help sections by using <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a>. The name of
+<p>You can group options into separate help sections by using <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a>
+and importing <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate/">groups.provideDelegate</a>. The name of
 the group will be shown in the output. You can also add an extra help message to be shown with the
 group. Groups can&rsquo;t be nested.</p>
 <div class="tabbed-set" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><label for="__tabbed_9_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">com.github.ajalt.clikt.parameters.groups.provideDelegate</span>
+
+<span class="k">class</span> <span class="nc">UserOptions</span> <span class="p">:</span> <span class="n">OptionGroup</span><span class="p">(</span>
         <span class="n">name</span> <span class="p">=</span> <span class="s">&quot;User Options&quot;</span><span class="p">,</span>
         <span class="n">help</span> <span class="p">=</span> <span class="s">&quot;Options controlling the user&quot;</span>
 <span class="p">)</span> <span class="p">{</span>

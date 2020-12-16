@@ -297,12 +297,15 @@ You can also show a tag for required options by passing `showRequiredTag = true`
 
 ## Grouping Options in Help
 
-You can group options into separate help sections by using [OptionGroup][OptionGroup]. The name of
+You can group options into separate help sections by using [OptionGroup][OptionGroup]
+and importing [groups.provideDelegate][groups.provideDelegate]. The name of
 the group will be shown in the output. You can also add an extra help message to be shown with the
 group. Groups can't be nested.
 
 === "Example"
     ```kotlin
+    import com.github.ajalt.clikt.parameters.groups.provideDelegate
+
     class UserOptions : OptionGroup(
             name = "User Options",
             help = "Options controlling the user"
@@ -407,6 +410,7 @@ You can localize error messages by implementing [`Localization`][Localization] a
 [customizing-command-name]: commands.md#customizing-command-name
 [customizing-contexts]:     commands.md#customizing-contexts
 [default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.md
+[groups.provideDelegate]:   api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md
 [HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
 [Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.md
 [nel]:                      https://www.fileformat.info/info/unicode/char/0085/index.htm

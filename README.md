@@ -76,25 +76,15 @@ them with the included [`runsample` script](runsample).
 
 Clikt is distributed through [Maven Central](https://search.maven.org/artifact/com.github.ajalt.clikt/clikt).
 
- <sup>In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.</sup>
-
-#### Gradle
-
 ```groovy
 dependencies {
    implementation("com.github.ajalt.clikt:clikt:3.1.0")
 }
 ```
 
-#### Maven
+<sup>In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.</sup>
 
-```xml
-<dependency>
-    <groupId>com.github.ajalt.clikt</groupId>
-    <artifactId>clikt-jvm</artifactId>
-    <version>3.1.0</version>
-</dependency>
-```
+<sup>If you're using Maven instead of Gradle, use `<artifactId>clikt-jvm</artifactId>`</sup>
 
 #### Multiplatform
 Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for both

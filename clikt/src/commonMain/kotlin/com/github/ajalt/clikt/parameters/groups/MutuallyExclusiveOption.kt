@@ -11,10 +11,10 @@ class MutuallyExclusiveOptionTransformContext(val context: Context)
 typealias MutuallyExclusiveOptionsTransform<OptT, OutT> = MutuallyExclusiveOptionTransformContext.(List<OptT>) -> OutT
 
 class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
-        internal val options: List<OptionDelegate<OptT?>>,
-        override val groupName: String?,
-        override val groupHelp: String?,
-        internal val transformAll: MutuallyExclusiveOptionsTransform<OptT, OutT>
+    internal val options: List<OptionDelegate<out OptT?>>,
+    override val groupName: String?,
+    override val groupHelp: String?,
+    internal val transformAll: MutuallyExclusiveOptionsTransform<OptT, OutT>,
 ) : ParameterGroupDelegate<OutT> {
     init {
         require(options.size > 1) { "must provide at least two options to a mutually exclusive group" }
@@ -104,11 +104,11 @@ fun <OptT: Any, OutT> MutuallyExclusiveOptions<OptT, OutT>.help(name: String, he
  */
 @Suppress("unused")
 fun <T : Any> ParameterHolder.mutuallyExclusiveOptions(
-        option1: OptionDelegate<T?>,
-        option2: OptionDelegate<T?>,
-        vararg options: OptionDelegate<T?>,
-        name: String? = null,
-        help: String? = null
+    option1: OptionDelegate<out T?>,
+    option2: OptionDelegate<out T?>,
+    vararg options: OptionDelegate<out T?>,
+    name: String? = null,
+    help: String? = null,
 ): MutuallyExclusiveOptions<T, T?> {
     return MutuallyExclusiveOptions(listOf(option1, option2) + options, name, help) { it.lastOrNull() }
 }

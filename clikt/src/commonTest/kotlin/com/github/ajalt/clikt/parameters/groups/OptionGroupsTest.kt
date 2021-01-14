@@ -11,7 +11,9 @@ import com.github.ajalt.clikt.testing.skipDueToKT33294
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.startWith
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.fail
@@ -111,21 +113,34 @@ class OptionGroupsTest {
     @Test
     @JsName("mutually_exclusive_group_single")
     fun `mutually exclusive group single`() {
-        class C(val runAllowed: Boolean) : TestCommand() {
+        class C(called: Boolean) : TestCommand(called) {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y"), option("--z")).single()
-            override fun run_() {
-                if (!runAllowed) fail("run should not be called")
-            }
         }
 
         C(true).apply { parse("--x=1") }.g shouldBe "1"
         C(true).apply { parse("--y=1 --y=2") }.g shouldBe "2"
 
         shouldThrow<MutuallyExclusiveGroupException> { C(false).parse("--x=1 --y=2") }
-                .message shouldBe "option --x cannot be used with --y or --z"
+            .message shouldBe "option --x cannot be used with --y or --z"
 
         shouldThrow<MutuallyExclusiveGroupException> { C(false).parse("--y=1 --z=2") }
-                .message shouldBe "option --x cannot be used with --y or --z"
+            .message shouldBe "option --x cannot be used with --y or --z"
+    }
+
+    @Test
+    @JsName("mutually_exclusive_group_validate")
+    fun `mutually exclusive group validate`() {
+        class C(called: Boolean) : TestCommand(called) {
+            val g by mutuallyExclusiveOptions(
+                option("--x").convert { Sealed.Sealed1 }.check { true },
+                option("--y").convert { Sealed.Sealed2 }.check { false },
+            )
+        }
+
+        C(true).apply { parse("--x=1") }.g shouldBe Sealed.Sealed1
+
+        shouldThrow<BadParameterValue> { C(false).parse("--y=1") }
+            .message should startWith("Invalid value for \"--y\"")
     }
 
     @Test
@@ -565,4 +580,9 @@ private class Group5 : OptionGroup() {
 
 private class Group6 : OptionGroup() {
     val opt2 by option()
+}
+
+private sealed class Sealed {
+    object Sealed1 : Sealed()
+    object Sealed2 : Sealed()
 }

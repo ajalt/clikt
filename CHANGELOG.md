@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Make parameters of `mutuallyExclusiveOptions` covariant to allow validation without explicit type annotations. ([#265](https://github.com/ajalt/clikt/issues/265))
 
 ## 3.1.0
 _2020-12-12_

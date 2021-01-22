@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.pair
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.TestCommand
@@ -302,8 +303,10 @@ class SubcommandTest {
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo, bar, TestCommand(called = false))
         c.parse(argv)
         if (fc > 0) foo.arg shouldBe fa
-        bar.opt shouldBe bo
-        if (bc > 0) bar.arg shouldBe ba
+        if (bc > 0) {
+            bar.opt shouldBe bo
+            bar.arg shouldBe ba
+        }
     }
 
     @Test
@@ -390,6 +393,22 @@ class SubcommandTest {
         }
 
         C().subcommands(MultiSub1(1), MultiSub2(1)).parse("--x=xx foo 1 bar 2")
+    }
+
+    @Test
+    @JsName("accessing_options_of_uninvoked_subcommand")
+    fun `accessing options of uninvoked subcommand`() {
+        class Sub(name: String, called: Boolean) : TestCommand(called, name = name) {
+            val x by option().default("def")
+        }
+
+        shouldThrow<IllegalStateException> { Sub("sub", false).x }
+
+        val sub1 = Sub("sub1", true)
+        val sub2 = Sub("sub2", false)
+        TestCommand().subcommands(sub1, sub2).parse("sub1")
+        sub1.x shouldBe "def"
+        shouldThrow<IllegalStateException> { sub2.x }
     }
 }
 

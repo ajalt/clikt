@@ -10,22 +10,19 @@ import kotlin.reflect.KProperty
  * being read, it will return null if T is nullable, or throw an IllegalStateException otherwise.
  */
 internal class NullableLateinit<T>(private val errorMessage: String) : ReadWriteProperty<Any, T> {
-    private var _value: Any? = null
-    var value: T
-        set(value) {
-            _value = value
-        }
-        get() {
-            try {
-                @Suppress("UNCHECKED_CAST")
-                return _value as T
-            } catch (e: ClassCastException) {
-                throw IllegalStateException(errorMessage)
-            }
-        }
+    private object UNINITIALIZED
+
+    private var value: Any? = UNINITIALIZED
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        return value
+        if (value === UNINITIALIZED) throw IllegalStateException(errorMessage)
+
+        try {
+            @Suppress("UNCHECKED_CAST")
+            return value as T
+        } catch (e: ClassCastException) {
+            throw IllegalStateException(errorMessage)
+        }
     }
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {

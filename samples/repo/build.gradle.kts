@@ -1,3 +1,3 @@
 application {
-    mainClassName = "com.github.ajalt.clikt.samples.repo.MainKt"
+    mainClass.set("com.github.ajalt.clikt.samples.repo.MainKt")
 }

@@ -1,5 +1,5 @@
 application {
-    mainClassName = "com.github.ajalt.clikt.samples.ansicolors.MainKt"
+    mainClass.set("com.github.ajalt.clikt.samples.ansicolors.MainKt")
 }
 
 dependencies {

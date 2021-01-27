@@ -1,3 +1,3 @@
 application {
-    mainClassName = "com.github.ajalt.clikt.samples.copy.MainKt"
+    mainClass.set("com.github.ajalt.clikt.samples.copy.MainKt")
 }

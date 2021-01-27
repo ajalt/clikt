@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.*
 import java.io.File
 
@@ -36,7 +35,7 @@ class JsonValueSource(
             if (!file.isFile) return JsonValueSource(JsonObject(emptyMap()))
 
             val json = try {
-                Json(JsonConfiguration.Stable).parseJson(file.readText()) as? JsonObject
+                Json.parseToJsonElement(file.readText()) as? JsonObject
                         ?: throw InvalidFileFormat(file.path, "object expected", 1)
             } catch (e: SerializationException) {
                 if (requireValid) throw InvalidFileFormat(file.name, e.message ?: "could not read file")

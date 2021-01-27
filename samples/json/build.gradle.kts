@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.plugin.serialization").version("1.3.72")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
 }
 
 application {
@@ -7,5 +7,5 @@ application {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 }

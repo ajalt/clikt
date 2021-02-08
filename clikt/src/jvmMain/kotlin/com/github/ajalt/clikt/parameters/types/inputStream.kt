@@ -90,7 +90,7 @@ fun ProcessedArgument<InputStream, InputStream>.defaultStdin(): ArgumentDelegate
 /**
  * Checks whether this stream is an unclosable [System.`in`] proxy.
  */
-fun InputStream.isStdin(): Boolean = this is UnclosableInputStream
+fun InputStream.isCliktParameterDefaultStdin(): Boolean = this is UnclosableInputStream
 
 private class UnclosableInputStream(private var delegate: InputStream?) : InputStream() {
     private val stream get() = delegate ?: throw IOException("Stream closed")

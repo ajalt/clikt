@@ -73,12 +73,12 @@ class InputStreamTest {
     }
 
     @Test
-    fun `option inputStream is stdin`() {
+    fun `option inputStream is defaultStdin`() {
         class C : TestCommand() {
             val option by option().inputStream(fs).defaultStdin()
 
             override fun run_() {
-                option.isStdin().shouldBeTrue()
+                option.isCliktParameterDefaultStdin().shouldBeTrue()
             }
         }
 
@@ -86,14 +86,14 @@ class InputStreamTest {
     }
 
     @Test
-    fun `option inputStream is not stdin`() {
+    fun `option inputStream is not defaultStdin`() {
         Files.createFile(fs.getPath("foo"))
 
         class C : TestCommand() {
             val option by option().inputStream(fs)
 
             override fun run_() {
-                option?.isStdin()?.shouldBeFalse()
+                option?.isCliktParameterDefaultStdin()?.shouldBeFalse()
             }
         }
 
@@ -101,12 +101,12 @@ class InputStreamTest {
     }
 
     @Test
-    fun `argument inputStream is stdin`() {
+    fun `argument inputStream is defaultStdin`() {
         class C : TestCommand() {
             val stream by argument().inputStream(fs).defaultStdin()
 
             override fun run_() {
-                stream.isStdin().shouldBeTrue()
+                stream.isCliktParameterDefaultStdin().shouldBeTrue()
             }
         }
 
@@ -114,14 +114,14 @@ class InputStreamTest {
     }
 
     @Test
-    fun `argument inputStream is not stdin`() {
+    fun `argument inputStream is not defaultStdin`() {
         Files.createFile(fs.getPath("foo"))
 
         class C : TestCommand() {
             val stream by argument().inputStream(fs)
 
             override fun run_() {
-                stream.isStdin().shouldBeFalse()
+                stream.isCliktParameterDefaultStdin().shouldBeFalse()
             }
         }
 

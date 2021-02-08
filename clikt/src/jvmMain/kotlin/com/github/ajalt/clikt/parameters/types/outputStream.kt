@@ -109,7 +109,7 @@ fun ProcessedArgument<OutputStream, OutputStream>.defaultStdout(): ArgumentDeleg
 /**
  * Checks whether this stream is an unclosable [System.out] proxy.
  */
-fun OutputStream.isStdout(): Boolean = this is UnclosableOutputStream
+fun OutputStream.isCliktParameterDefaultStdout(): Boolean = this is UnclosableOutputStream
 
 private class UnclosableOutputStream(private var delegate: OutputStream?) : OutputStream() {
     private val stream get() = delegate ?: throw IOException("Stream closed")

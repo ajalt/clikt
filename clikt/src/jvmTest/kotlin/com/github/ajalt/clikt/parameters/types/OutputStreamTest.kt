@@ -79,12 +79,12 @@ class OutputStreamTest {
     }
 
     @Test
-    fun `option outputStream is stdout`() {
+    fun `option outputStream is defaultStdout`() {
         class C : TestCommand() {
             val option by option().outputStream(fileSystem = fs).defaultStdout()
 
             override fun run_() {
-                option.isStdout().shouldBeTrue()
+                option.isCliktParameterDefaultStdout().shouldBeTrue()
             }
         }
 
@@ -92,12 +92,12 @@ class OutputStreamTest {
     }
 
     @Test
-    fun `option outputStream is not stdout`() {
+    fun `option outputStream is not defaultStdout`() {
         class C : TestCommand() {
             val option by option().outputStream(fileSystem = fs)
 
             override fun run_() {
-                option?.isStdout()?.shouldBeFalse()
+                option?.isCliktParameterDefaultStdout()?.shouldBeFalse()
             }
         }
 
@@ -105,12 +105,12 @@ class OutputStreamTest {
     }
 
     @Test
-    fun `argument outputStream is stdout`() {
+    fun `argument outputStream is defaultStdout`() {
         class C : TestCommand() {
             val stream by argument().outputStream(fileSystem = fs).defaultStdout()
 
             override fun run_() {
-                stream.isStdout().shouldBeTrue()
+                stream.isCliktParameterDefaultStdout().shouldBeTrue()
             }
         }
 
@@ -118,12 +118,12 @@ class OutputStreamTest {
     }
 
     @Test
-    fun `argument outputStream is not stdout`() {
+    fun `argument outputStream is not defaultStdout`() {
         class C : TestCommand() {
             val stream by argument().outputStream(fileSystem = fs)
 
             override fun run_() {
-                stream.isStdout().shouldBeFalse()
+                stream.isCliktParameterDefaultStdout().shouldBeFalse()
             }
         }
 

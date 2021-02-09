@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- `InputStream.isCliktParameterDefaultStdin` and `OutputStream.isCliktParameterDefaultStdout` to check if the streams returned from `inputStream`/`outputStream` options are proxying stdin/stdout ([#272](https://github.com/ajalt/clikt/issues/272))
+
 ### Changed
 - Make parameters of `mutuallyExclusiveOptions` covariant to allow validation without explicit type annotations. ([#265](https://github.com/ajalt/clikt/issues/265))
 - Update kotlin to 1.4.30

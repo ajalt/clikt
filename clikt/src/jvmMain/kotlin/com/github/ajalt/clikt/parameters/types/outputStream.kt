@@ -11,35 +11,7 @@ import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption.*
 
-private fun convertToOutputStream(
-        s: String,
-        createIfNotExist: Boolean,
-        truncateExisting: Boolean,
-        fileSystem: FileSystem,
-        context: Context,
-        fail: (String) -> Unit
-): OutputStream {
-    return if (s == "-") {
-        UnclosableOutputStream(System.out)
-    } else {
-        val path = convertToPath(
-                s,
-                mustExist = !createIfNotExist,
-                canBeFile = true,
-                canBeFolder = false,
-                mustBeWritable = !createIfNotExist,
-                mustBeReadable = false,
-                canBeSymlink = true,
-                fileSystem = fileSystem,
-                context = context
-        ) { fail(it) }
-        val openType = if (truncateExisting) TRUNCATE_EXISTING else APPEND
-        val options = arrayOf(WRITE, CREATE, openType)
-        Files.newOutputStream(path, *options)
-    }
-}
-
-//<editor-fold desc="options">
+// region ========== Options ==========
 
 /**
  * Convert the option to an [OutputStream].
@@ -55,9 +27,9 @@ private fun convertToOutputStream(
  * @param truncateExisting If true, existing files will be truncated when opened. By default, the file will be appended to.
  */
 fun RawOption.outputStream(
-        createIfNotExist: Boolean = true,
-        truncateExisting: Boolean = false,
-        fileSystem: FileSystem = FileSystems.getDefault()
+    createIfNotExist: Boolean = true,
+    truncateExisting: Boolean = false,
+    fileSystem: FileSystem = FileSystems.getDefault(),
 ): NullableOption<OutputStream, OutputStream> {
     return convert({ localization.fileMetavar() }, CompletionCandidates.Path) { s ->
         convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
@@ -71,8 +43,8 @@ fun NullableOption<OutputStream, OutputStream>.defaultStdout(): OptionWithValues
     return default(UnclosableOutputStream(System.out), "-")
 }
 
-//</editor-fold>
-//<editor-fold desc="arguments">
+// endregion
+// region ========== Arguments ==========
 
 /**
  * Convert the argument to an [OutputStream].
@@ -88,9 +60,9 @@ fun NullableOption<OutputStream, OutputStream>.defaultStdout(): OptionWithValues
  * @param truncateExisting If true, existing files will be truncated when opened. By default, the file will be appended to.
  */
 fun RawArgument.outputStream(
-        createIfNotExist: Boolean = true,
-        truncateExisting: Boolean = false,
-        fileSystem: FileSystem = FileSystems.getDefault()
+    createIfNotExist: Boolean = true,
+    truncateExisting: Boolean = false,
+    fileSystem: FileSystem = FileSystems.getDefault(),
 ): ProcessedArgument<OutputStream, OutputStream> {
     return convert(completionCandidates = CompletionCandidates.Path) { s ->
         convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
@@ -104,12 +76,43 @@ fun ProcessedArgument<OutputStream, OutputStream>.defaultStdout(): ArgumentDeleg
     return default(UnclosableOutputStream(System.out))
 }
 
-//</editor-fold>
+// endregion
 
 /**
- * Checks whether this stream is an unclosable [System.out] proxy.
+ * Checks whether this stream was returned from an [outputStream] parameter, and that it is
+ * writing to [System.out] (because `-` was given, or no value was given and the parameter uses
+ * [defaultStdout]).
  */
-fun OutputStream.isCliktParameterDefaultStdout(): Boolean = this is UnclosableOutputStream
+val OutputStream.isCliktParameterDefaultStdout: Boolean
+    get() = this is UnclosableOutputStream
+
+private fun convertToOutputStream(
+    s: String,
+    createIfNotExist: Boolean,
+    truncateExisting: Boolean,
+    fileSystem: FileSystem,
+    context: Context,
+    fail: (String) -> Unit,
+): OutputStream {
+    return if (s == "-") {
+        UnclosableOutputStream(System.out)
+    } else {
+        val path = convertToPath(
+            s,
+            mustExist = !createIfNotExist,
+            canBeFile = true,
+            canBeFolder = false,
+            mustBeWritable = !createIfNotExist,
+            mustBeReadable = false,
+            canBeSymlink = true,
+            fileSystem = fileSystem,
+            context = context
+        ) { fail(it) }
+        val openType = if (truncateExisting) TRUNCATE_EXISTING else APPEND
+        val options = arrayOf(WRITE, CREATE, openType)
+        Files.newOutputStream(path, *options)
+    }
+}
 
 private class UnclosableOutputStream(private var delegate: OutputStream?) : OutputStream() {
     private val stream get() = delegate ?: throw IOException("Stream closed")

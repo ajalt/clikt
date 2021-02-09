@@ -84,7 +84,7 @@ class OutputStreamTest {
             val option by option().outputStream(fileSystem = fs).defaultStdout()
 
             override fun run_() {
-                option.isCliktParameterDefaultStdout().shouldBeTrue()
+                option.isCliktParameterDefaultStdout.shouldBeTrue()
             }
         }
 
@@ -97,7 +97,7 @@ class OutputStreamTest {
             val option by option().outputStream(fileSystem = fs)
 
             override fun run_() {
-                option?.isCliktParameterDefaultStdout()?.shouldBeFalse()
+                option?.isCliktParameterDefaultStdout?.shouldBeFalse()
             }
         }
 
@@ -110,7 +110,7 @@ class OutputStreamTest {
             val stream by argument().outputStream(fileSystem = fs).defaultStdout()
 
             override fun run_() {
-                stream.isCliktParameterDefaultStdout().shouldBeTrue()
+                stream.isCliktParameterDefaultStdout.shouldBeTrue()
             }
         }
 
@@ -123,7 +123,7 @@ class OutputStreamTest {
             val stream by argument().outputStream(fileSystem = fs)
 
             override fun run_() {
-                stream.isCliktParameterDefaultStdout().shouldBeFalse()
+                stream.isCliktParameterDefaultStdout.shouldBeFalse()
             }
         }
 

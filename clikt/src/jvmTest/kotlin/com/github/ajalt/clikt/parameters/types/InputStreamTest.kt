@@ -78,7 +78,7 @@ class InputStreamTest {
             val option by option().inputStream(fs).defaultStdin()
 
             override fun run_() {
-                option.isCliktParameterDefaultStdin().shouldBeTrue()
+                option.isCliktParameterDefaultStdin.shouldBeTrue()
             }
         }
 
@@ -93,7 +93,7 @@ class InputStreamTest {
             val option by option().inputStream(fs)
 
             override fun run_() {
-                option?.isCliktParameterDefaultStdin()?.shouldBeFalse()
+                option?.isCliktParameterDefaultStdin?.shouldBeFalse()
             }
         }
 
@@ -106,7 +106,7 @@ class InputStreamTest {
             val stream by argument().inputStream(fs).defaultStdin()
 
             override fun run_() {
-                stream.isCliktParameterDefaultStdin().shouldBeTrue()
+                stream.isCliktParameterDefaultStdin.shouldBeTrue()
             }
         }
 
@@ -121,7 +121,7 @@ class InputStreamTest {
             val stream by argument().inputStream(fs)
 
             override fun run_() {
-                stream.isCliktParameterDefaultStdin().shouldBeFalse()
+                stream.isCliktParameterDefaultStdin.shouldBeFalse()
             }
         }
 

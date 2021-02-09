@@ -145,6 +145,9 @@ reading or writing. They support the unix convention of passing `-` to specify s
 rather than a file on the filesystem. You'll need to close the streams yourself. You can also use
 [stdin][defaultStdin] or [stdout][defaultStdout] as their default values.
 
+If you need to check if one of these streams is pointing to a file rather than stdin or stdout, you
+can use [`isCliktParameterDefaultStdin`][isStdin] or [`isCliktParameterDefaultStdout`][isStdout].
+
 ## Custom Types
 
 You can convert parameter values to a custom type by using
@@ -338,6 +341,8 @@ been set, so (unlike in transforms) you can reference other parameters:
 [float]:          api/clikt/com.github.ajalt.clikt.parameters.types/float.md
 [inputStream]:    api/clikt/com.github.ajalt.clikt.parameters.types/input-stream.md
 [int]:            api/clikt/com.github.ajalt.clikt.parameters.types/int.md
+[isStdin]:        api/clikt/com.github.ajalt.clikt.parameters.types/java.io.-input-stream/is-clikt-parameter-default-stdin.md
+[isStdout]:       api/clikt/com.github.ajalt.clikt.parameters.types/java.io.-output-stream/is-clikt-parameter-default-stdout.md
 [long]:           api/clikt/com.github.ajalt.clikt.parameters.types/long.md
 [outputStream]:   api/clikt/com.github.ajalt.clikt.parameters.types/output-stream.md
 [path]:           api/clikt/com.github.ajalt.clikt.parameters.types/path.md

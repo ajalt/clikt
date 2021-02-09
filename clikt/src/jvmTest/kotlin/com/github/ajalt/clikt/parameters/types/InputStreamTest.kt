@@ -6,6 +6,8 @@ import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream
@@ -68,5 +70,61 @@ class InputStreamTest {
         }
 
         C().parse("")
+    }
+
+    @Test
+    fun `option inputStream is defaultStdin`() {
+        class C : TestCommand() {
+            val option by option().inputStream(fs).defaultStdin()
+
+            override fun run_() {
+                option.isCliktParameterDefaultStdin().shouldBeTrue()
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
+    fun `option inputStream is not defaultStdin`() {
+        Files.createFile(fs.getPath("foo"))
+
+        class C : TestCommand() {
+            val option by option().inputStream(fs)
+
+            override fun run_() {
+                option?.isCliktParameterDefaultStdin()?.shouldBeFalse()
+            }
+        }
+
+        C().parse("--option=foo")
+    }
+
+    @Test
+    fun `argument inputStream is defaultStdin`() {
+        class C : TestCommand() {
+            val stream by argument().inputStream(fs).defaultStdin()
+
+            override fun run_() {
+                stream.isCliktParameterDefaultStdin().shouldBeTrue()
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
+    fun `argument inputStream is not defaultStdin`() {
+        Files.createFile(fs.getPath("foo"))
+
+        class C : TestCommand() {
+            val stream by argument().inputStream(fs)
+
+            override fun run_() {
+                stream.isCliktParameterDefaultStdin().shouldBeFalse()
+            }
+        }
+
+        C().parse("foo")
     }
 }

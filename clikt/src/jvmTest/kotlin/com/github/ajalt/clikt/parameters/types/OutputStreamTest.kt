@@ -10,6 +10,8 @@ import com.google.common.jimfs.Jimfs
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.Rule
@@ -74,6 +76,58 @@ class OutputStreamTest {
         }
 
         C().parse("")
+    }
+
+    @Test
+    fun `option outputStream is defaultStdout`() {
+        class C : TestCommand() {
+            val option by option().outputStream(fileSystem = fs).defaultStdout()
+
+            override fun run_() {
+                option.isCliktParameterDefaultStdout().shouldBeTrue()
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
+    fun `option outputStream is not defaultStdout`() {
+        class C : TestCommand() {
+            val option by option().outputStream(fileSystem = fs)
+
+            override fun run_() {
+                option?.isCliktParameterDefaultStdout()?.shouldBeFalse()
+            }
+        }
+
+        C().parse("--option=foo")
+    }
+
+    @Test
+    fun `argument outputStream is defaultStdout`() {
+        class C : TestCommand() {
+            val stream by argument().outputStream(fileSystem = fs).defaultStdout()
+
+            override fun run_() {
+                stream.isCliktParameterDefaultStdout().shouldBeTrue()
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
+    fun `argument outputStream is not defaultStdout`() {
+        class C : TestCommand() {
+            val stream by argument().outputStream(fileSystem = fs)
+
+            override fun run_() {
+                stream.isCliktParameterDefaultStdout().shouldBeFalse()
+            }
+        }
+
+        C().parse("foo")
     }
 
     @Test

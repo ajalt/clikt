@@ -6,11 +6,10 @@
 task=$1
 shift 1
 
-if [ ! -d "samples/${task}" ]; then
-    echo "Unknown sample ${task}"
+if [ -z "${task}" ] || [ ! -d "samples/${task}" ]
+then
+    echo "Unknown sample: '${task}'"
     exit 1
 fi
 
-./gradlew --quiet :samples:${task}:installDist
-
-./samples/${task}/build/install/${task}/bin/${task} "$@"
+./gradlew --quiet ":samples:${task}:installDist" && "./samples/${task}/build/install/${task}/bin/${task}" "$@"

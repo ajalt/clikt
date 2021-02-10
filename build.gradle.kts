@@ -3,7 +3,7 @@ import java.io.ByteArrayOutputStream
 val VERSION_NAME: String by project
 
 plugins {
-    kotlin("jvm").version("1.4.30")
+    kotlin("jvm").version("1.4.21")
     id("org.jetbrains.dokka").version("0.10.1")
 }
 

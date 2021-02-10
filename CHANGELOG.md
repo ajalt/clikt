@@ -7,7 +7,6 @@
 
 ### Changed
 - Make parameters of `mutuallyExclusiveOptions` covariant to allow validation without explicit type annotations. ([#265](https://github.com/ajalt/clikt/issues/265))
-- Update kotlin to 1.4.30
 
 ### Fixed
 - Reading from an option or argument property on a command that hasn't been invoked will now always throw an `IllegalStateException`

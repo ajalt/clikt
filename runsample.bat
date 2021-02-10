@@ -7,11 +7,10 @@ if "%OS%"=="Windows_NT" setlocal EnableDelayedExpansion
 
 set TASK=%~1
 
-set UNKNOWN_SAMPLE=false
-if "%TASK: =%"==""            set UNKNOWN_SAMPLE=true
-if not exist "samples\%TASK%" set UNKNOWN_SAMPLE=true
+set SAMPLE=false
+if defined TASK if not "!TASK: =!"=="" if exist "samples\%TASK%" set SAMPLE=true
 
-if "%UNKNOWN_SAMPLE%"=="true" (
+if "%SAMPLE%"=="false" (
     echo Unknown sample: '%TASK%'
     exit /b 1
 )

@@ -8,7 +8,7 @@ if "%OS%"=="Windows_NT" setlocal EnableDelayedExpansion
 set TASK=%~1
 
 set SAMPLE=false
-if defined TASK if not "!TASK: =!"=="" if exist "samples\%TASK%" set SAMPLE=true
+if defined TASK if not "!TASK: =!"=="" if exist "samples\%TASK%\*" set SAMPLE=true
 
 if "%SAMPLE%"=="false" (
     echo Unknown sample: '%TASK%'

@@ -23,7 +23,7 @@ jobs:
         with:
           dependencies-cache-enabled: true
           # cacheKind is a workaround for KT-44826
-          arguments: macosX64Test --stacktrace -Dkotlin.native.cacheKind=none
+          arguments: macosX64Test --stacktrace -Pkotlin.native.cacheKind=none
   windows-tests:
     runs-on: windows-latest
     steps:

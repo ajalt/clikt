@@ -24,7 +24,8 @@ jobs:
       - uses: eskatos/gradle-command-action@v1
         with:
           dependencies-cache-enabled: true
-          arguments: macosX64Test --stacktrace
+          # cacheKind is a workaround for KT-44826
+          arguments: macosX64Test --stacktrace -Pkotlin.native.cacheKind=none
   windows-tests:
     runs-on: windows-latest
     steps:
@@ -45,7 +46,8 @@ jobs:
         uses: eskatos/gradle-command-action@v1
         with:
           dependencies-cache-enabled: true
-          arguments: :clikt:publish -PinferVersion=true
+          # cacheKind is a workaround for KT-44826
+          arguments: :clikt:publish -PinferVersion=true -Pkotlin.native.cacheKind=none
   deploy-windows:
     needs: [ linux-tests, macos-tests, windows-tests ]
     runs-on: windows-latest

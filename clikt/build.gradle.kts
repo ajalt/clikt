@@ -1,14 +1,21 @@
-@file:Suppress("PropertyName")
+@file:Suppress("PropertyName", "UNUSED_VARIABLE")
 
-import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka")
+    id("org.jetbrains.dokka") version "1.4.30"
     id("maven-publish")
     id("signing")
+}
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-base:1.4.30")
+    }
 }
 
 
@@ -84,14 +91,20 @@ tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-val dokka by tasks.getting(DokkaTask::class) {
-    outputDirectory = "$rootDir/docs/api"
-    outputFormat = "gfm"
-    multiplatform {}
-}
 
-val dokkaPostProcess by tasks.registering(DokkaProcess::class) {
-    inputs.files(dokka.outputs.files)
+tasks.dokkaHtml.configure {
+    outputDirectory.set(rootDir.resolve("docs/api"))
+    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+        customStyleSheets = listOf(rootDir.resolve("docs/css/logo-styles.css"))
+        customAssets = listOf(rootDir.resolve("docs/img/wordmark_small_dark.svg"))
+        footerMessage = "Copyright &copy; 2021 AJ Alt"
+    }
+    dokkaSourceSets {
+        configureEach {
+            reportUndocumented.set(false)
+            skipDeprecated.set(true)
+        }
+    }
 }
 
 val emptyJavadocJar by tasks.registering(Jar::class) {

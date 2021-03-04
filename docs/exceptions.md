@@ -51,24 +51,23 @@ The following subclasses exist:
 * [`InvalidFileFormat`][InvalidFileFormat] : A configuration file or @-file failed to parse correctly.
 
 
-[Abort]:                           api/clikt/com.github.ajalt.clikt.core/-abort/index.md
-[BadParameterValue]:               api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/index.md
-[CliktError]:                      api/clikt/com.github.ajalt.clikt.core/-clikt-error/index.md
-[convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
-[FileFormatError]:                 api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
-[FileNotFound]:                    api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.md
-[IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.md
-[IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.md
-[InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.md
-[main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
-[MissingArgument]:                 api/clikt/com.github.ajalt.clikt.core/-missing-argument/index.md
-[MissingOption]:                   api/clikt/com.github.ajalt.clikt.core/-missing-option/index.md
-[MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.md
-[NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.md
-[NoSuchSubcommand]:                api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/index.md
-[parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
-[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/index.md
-[PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.md
-[PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.md
-[ProgramResult]:                   api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
-[UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.md
+[Abort]:                           api/clikt/com.github.ajalt.clikt.core/-abort/index.html
+[BadParameterValue]:               api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/index.html
+[CliktError]:                      api/clikt/com.github.ajalt.clikt.core/-clikt-error/index.html
+[convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.html
+[FileNotFound]:                    api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.html
+[IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.html
+[IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.html
+[InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.html
+[main]:                            api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
+[MissingArgument]:                 api/clikt/com.github.ajalt.clikt.core/-missing-argument/index.html
+[MissingOption]:                   api/clikt/com.github.ajalt.clikt.core/-missing-option/index.html
+[MutuallyExclusiveGroupException]: api/clikt/com.github.ajalt.clikt.core/-mutually-exclusive-group-exception/index.html
+[NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.html
+[NoSuchSubcommand]:                api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/index.html
+[parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
+[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/
+[PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.html
+[PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.html
+[ProgramResult]:                   api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
+[UsageError]:                      api/clikt/com.github.ajalt.clikt.core/-usage-error/index.html

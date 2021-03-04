@@ -125,9 +125,9 @@ parsed normally.
     ```
 
 
-[argument]: api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.md
-[multiple]: api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md
+[argument]: api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
+[multiple]: api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html
 [options]:  options.md
-[pair]:     api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.md
-[triple]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.md
-[unique]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/unique.md
+[pair]:     api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.html
+[triple]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.html
+[unique]:   api/clikt/com.github.ajalt.clikt.parameters.arguments/unique.html

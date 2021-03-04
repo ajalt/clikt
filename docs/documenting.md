@@ -404,16 +404,16 @@ You can localize error messages by implementing [`Localization`][Localization] a
       -h, --help  𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉
     ```
 
-[CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.md
-[Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
-[Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.md
+[CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.html
+[Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
+[Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.html
 [customizing-command-name]: commands.md#customizing-command-name
 [customizing-contexts]:     commands.md#customizing-contexts
-[default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.md
-[groups.provideDelegate]:   api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md
-[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.md
-[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.md
+[default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.html
+[groups.provideDelegate]:   api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html
+[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.html
+[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.html
 [nel]:                      https://www.fileformat.info/info/unicode/char/0085/index.htm
-[OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.md
-[provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.md
-[required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.md
+[OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html
+[provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html
+[required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.html

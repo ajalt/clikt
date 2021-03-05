@@ -44,6 +44,25 @@ class OptionTest {
     }
 
     @Test
+    @JsName("no_such_short_option_with_long")
+    fun `no such short option with long`() = forAll(
+        row("-long", "no such option: \"-l\". Did you mean \"--long\"?"),
+        row("-foo", "no such option: \"-f\". Did you mean \"--foo\"?"),
+        row("-oof", "no such option: \"-f\". Did you mean \"--oof\"?"),
+    ) { argv, message ->
+        class C : TestCommand(called = false) {
+            val short by option("-o").flag()
+            val long by option()
+            val foo by option()
+            val oof by option()
+        }
+
+        shouldThrow<NoSuchOption> {
+            C().parse(argv)
+        }.message shouldBe message
+    }
+
+    @Test
     @JsName("one_option")
     fun `one option`() = forAll(
             row("", null),

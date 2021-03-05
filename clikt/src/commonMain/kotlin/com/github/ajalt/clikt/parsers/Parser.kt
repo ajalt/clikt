@@ -17,7 +17,12 @@ internal object Parser {
         parse(argv, context, 0, true)
     }
 
-    private fun parse(argv: List<String>, context: Context, startingArgI: Int, canRun: Boolean): Pair<List<String>, Int> {
+    private fun parse(
+        argv: List<String>,
+        context: Context,
+        startingArgI: Int,
+        canRun: Boolean,
+    ): Pair<List<String>, Int> {
         var tokens = argv
         val command = context.command
         val aliases = command.aliases()
@@ -26,7 +31,8 @@ internal object Parser {
         val arguments = command._arguments
         val prefixes = mutableSetOf<String>()
         val longNames = mutableSetOf<String>()
-        val hasMultipleSubAncestor = generateSequence(context.parent) { it.parent }.any { it.command.allowMultipleSubcommands }
+        val hasMultipleSubAncestor =
+            generateSequence(context.parent) { it.parent }.any { it.command.allowMultipleSubcommands }
 
         for (option in command._options) {
             require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
@@ -88,11 +94,23 @@ internal object Parser {
                     canParseOptions = false
                     canExpandAtFiles = false
                 }
-                canParseOptions && (prefix.length > 1 && prefix in prefixes || normTok in longNames || isLongOptionWithEquals(prefix, tok)) -> {
-                    consumeParse(parseLongOpt(command.treatUnknownOptionsAsArgs, context, tokens, tok, i, optionsByName))
+                canParseOptions && (prefix.length > 1 && prefix in prefixes || normTok in longNames || isLongOptionWithEquals(
+                    prefix,
+                    tok)) -> {
+                    consumeParse(parseLongOpt(command.treatUnknownOptionsAsArgs,
+                        context,
+                        tokens,
+                        tok,
+                        i,
+                        optionsByName))
                 }
                 canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
-                    consumeParse(parseShortOpt(command.treatUnknownOptionsAsArgs, context, tokens, tok, i, optionsByName))
+                    consumeParse(parseShortOpt(command.treatUnknownOptionsAsArgs,
+                        context,
+                        tokens,
+                        tok,
+                        i,
+                        optionsByName))
                 }
                 i >= minAliasI && tok in aliases -> {
                     tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
@@ -152,15 +170,21 @@ internal object Parser {
                         val actual = positionalArgs.last()
                         throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
                     } else {
-                        val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
-                        val message = if (excess == 1) context.localization.extraArgumentOne(actual) else context.localization.extraArgumentMany(actual, excess)
+                        val actual =
+                            positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
+                        val message =
+                            if (excess == 1) context.localization.extraArgumentOne(actual) else context.localization.extraArgumentMany(
+                                actual,
+                                excess)
                         throw UsageError(message)
                     }
                 }
 
 
                 // Now that all parameters have been finalized, we can validate everything
-                command._options.forEach { o -> if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context) }
+                command._options.forEach { o ->
+                    if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context)
+                }
                 command._groups.forEach { it.postValidate(context) }
                 command._arguments.forEach { it.postValidate(context) }
 
@@ -197,12 +221,12 @@ internal object Parser {
     }
 
     private fun parseLongOpt(
-            ignoreUnknown: Boolean,
-            context: Context,
-            tokens: List<String>,
-            tok: String,
-            index: Int,
-            optionsByName: Map<String, Option>
+        ignoreUnknown: Boolean,
+        context: Context,
+        tokens: List<String>,
+        tok: String,
+        index: Int,
+        optionsByName: Map<String, Option>,
     ): OptParseResult {
         val equalsIndex = tok.indexOf('=')
         var (name, value) = if (equalsIndex >= 0) {
@@ -215,8 +239,9 @@ internal object Parser {
             return OptParseResult(1, listOf(tok), emptyList())
         } else {
             throw NoSuchOption(
-                    givenName = name,
-                    possibilities = context.correctionSuggestor(name, optionsByName.filterNot { it.value.hidden }.keys.toList())
+                givenName = name,
+                possibilities = context.correctionSuggestor(name,
+                    optionsByName.filterNot { it.value.hidden }.keys.toList())
             )
         }
 
@@ -225,12 +250,12 @@ internal object Parser {
     }
 
     private fun parseShortOpt(
-            ignoreUnknown: Boolean,
-            context: Context,
-            tokens: List<String>,
-            tok: String,
-            index: Int,
-            optionsByName: Map<String, Option>
+        ignoreUnknown: Boolean,
+        context: Context,
+        tokens: List<String>,
+        tok: String,
+        index: Int,
+        optionsByName: Map<String, Option>,
     ): OptParseResult {
         val prefix = tok[0].toString()
         val invocations = mutableListOf<OptInvocation>()
@@ -241,27 +266,30 @@ internal object Parser {
             val option = optionsByName[name] ?: if (ignoreUnknown && tok.length == 2) {
                 return OptParseResult(1, listOf(tok), emptyList())
             } else {
-                throw NoSuchOption(name)
+                val possibilities = when {
+                    prefix == "-" && "-$tok" in optionsByName -> listOf("-$tok")
+                    else -> emptyList()
+                }
+                throw NoSuchOption(name, possibilities)
             }
             val result = option.parser.parseShortOpt(option, name, tokens, index, i)
             invocations += OptInvocation(option, result.invocation)
             if (result.consumedCount > 0) return OptParseResult(result.consumedCount, emptyList(), invocations)
         }
-        throw IllegalStateException(
-                "Error parsing short option ${tokens[index]}: no parser consumed value.")
+        throw IllegalStateException("Error parsing short option ${tokens[index]}: no parser consumed value.")
     }
 
     private fun parseArguments(
-            positionalArgs: List<String>,
-            arguments: List<Argument>
+        positionalArgs: List<String>,
+        arguments: List<Argument>,
     ): Pair<Int, MutableMap<Argument, List<String>>> {
         val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
         // values.
         val endSize = arguments.asReversed()
-                .takeWhile { it.nvalues > 0 }
-                .sumBy { it.nvalues }
+            .takeWhile { it.nvalues > 0 }
+            .sumBy { it.nvalues }
 
         var i = 0
         for (argument in arguments) {

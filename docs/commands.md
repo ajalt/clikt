@@ -160,8 +160,8 @@ context object for itself that is linked to its parent's context.
 customize command line parsing. Although each command creates its own
 context, the configuration is inherited from the parent context.
 
-`Context` objects also have an `obj` property that can hold any user
-defined data. You can use the `obj` to create interfaces like this:
+`Context` objects also have an [`obj`][Context.obj] property that can hold an object that can be
+accessed from child commands.
 
 === "Example"
     ```kotlin
@@ -190,13 +190,37 @@ defined data. You can use the `obj` to create interfaces like this:
     ```
 
 The [`findObject`][findObject], [`findOrSetObject`][findOrSetObject], and
-[`requireObject`][requireObject] functions will walk up the context tree until they find an object
-with the given type. If no such object exists, they will either return `null`, throw an exception,
-or create an instance of the object and store it on the command's context, depending on which
-function you call. Note that `findOrSetObject` won't set the Context's object until it's property
-value is accessed. If you need to set an object for subcommands without accessing the property, you
-should use the [`Context.findOrSetObject`][Context.findOrSetObject], or set
-[`Context.obj`][Context.obj] directly, instead.
+[`requireObject`][requireObject] functions will walk up the context tree until they find a
+[`obj`][Context.obj] with the given type. If no such object exists, they will either return `null`,
+throw an exception, or create an instance of the object and store it on the command's context,
+depending on which function you use. Since each context only has a single `obj`, if you need to
+store multiple objects on a single context, you could create a data class with everything you want
+to store and set that as your `obj`.
+
+Note that the [`findOrSetObject`][findOrSetObject] property is lazy and won't set the Context's
+`obj` until its value is accessed. If you need to set an object for subcommands without accessing
+the property, you should use [`currentContext.findOrSetObject`][Context.findOrSetObject], or set
+[`currentContext.obj`][Context.obj] directly, instead.
+
+=== "Eager initialization with findOrSetObject"
+    ```kotlin
+    class Tool : CliktCommand() {
+        override fun run() {
+            // runs eagerly
+            currentContext.findOrSetObject { MyConfig() }
+        }
+    }
+    ```
+
+=== "Eager initialization with currentContext.obj"
+    ```kotlin
+    class Tool : CliktCommand() {
+        override fun run() {
+            // runs eagerly, won't look for parent contexts
+            currentContext.obj = MyConfig()
+        }
+    }
+    ```
 
 ## Running Parent Command Without Children
 

@@ -17,12 +17,22 @@ cat CHANGELOG.md \
  | sed '/^## /,$!d' \
  > docs/changelog.md
 
+
+# Add the jinja frontmatter to the index
+cat > docs/index.md <<- EOM
+---
+hide:
+  - toc        # Hide table of contents
+---
+
+EOM
+
 # Copy the README into the index, omitting the license, docs links, and fixing hrefs
 cat README.md \
   | sed 's:docs/img:img:g' \
   | sed -e '/## Documentation/,/(runsample)\./d' \
   | sed '/## License/Q' \
-  > docs/index.md
+  >> docs/index.md
 
 # Add some extra links to the index page
 cat >> docs/index.md <<- EOM

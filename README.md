@@ -82,11 +82,13 @@ dependencies {
 }
 ```
 
-<sup>In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.</sup>
 
-<sup>If you're using Maven instead of Gradle, use `<artifactId>clikt-jvm</artifactId>`</sup>
+###### In version 3.0, the maven coordinates changed. Make sure you're using the new coordinates if you're updating from an older version.
+
+###### If you're using Maven instead of Gradle, use `<artifactId>clikt-jvm</artifactId>`
 
 #### Multiplatform
+
 Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for both
 NodeJS and Browsers). [See the docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) for more
 information about functionality supported on each target. You'll need to use Gradle 6 or newer.
@@ -113,7 +115,7 @@ repositories {
 
 ## License
 
-    Copyright 2018-2020 AJ Alt
+    Copyright 2018-2021 AJ Alt
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -191,7 +191,7 @@ object TermUi {
                 if (default) "Y/n" else "y/N")
         val rv: Boolean
         l@ while (true) {
-            val input = console.promptForLine(prompt, false)?.trim()?.toLowerCase() ?: return null
+            val input = console.promptForLine(prompt, false)?.trim()?.lowercase() ?: return null
             rv = when (input) {
                 "y", "yes" -> true
                 "n", "no" -> false

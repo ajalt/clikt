@@ -126,7 +126,7 @@ class Context(
          * prefix, envvar lookup is disabled.
          */
         var autoEnvvarPrefix: String? = parent?.autoEnvvarPrefix?.let {
-            it + "_" + command.commandName.replace(Regex("\\W"), "_").toUpperCase()
+            it + "_" + command.commandName.replace(Regex("\\W"), "_").uppercase()
         }
 
         /**

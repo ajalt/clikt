@@ -107,7 +107,7 @@ to implement case-insensitive parsing, for example:
     ```kotlin
     class Hello : CliktCommand() {
         init {
-            context { tokenTransformer = { it.toLowerCase() } }
+            context { tokenTransformer = { it.lowercase() } }
         }
 
         val name by option()

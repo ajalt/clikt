@@ -95,7 +95,7 @@ internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<Str
     }
     val normalizedName = "--" + propertyName.replace(Regex("""[a-z][A-Z]""")) {
         "${it.value[0]}-${it.value[1]}"
-    }.toLowerCase()
+    }.lowercase()
     return setOf(normalizedName)
 }
 
@@ -104,7 +104,7 @@ internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: 
     if (names.isEmpty() || autoEnvvarPrefix == null) return null
     val name = splitOptionPrefix(names.maxByOrNull { it.length }!!).second
     if (name.isEmpty()) return null
-    return autoEnvvarPrefix + "_" + name.replace(Regex("\\W"), "_").toUpperCase()
+    return autoEnvvarPrefix + "_" + name.replace(Regex("\\W"), "_").uppercase()
 }
 
 /** Split an option token into a pair of prefix to simple name. */

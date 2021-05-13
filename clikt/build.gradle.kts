@@ -47,23 +47,15 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                api(kotlin("test-common"))
-                api(kotlin("test-annotations-common"))
+                api(kotlin("test"))
                 api("io.kotest:kotest-assertions-core:4.5.0")
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                api(kotlin("test-junit"))
                 api("com.github.stefanbirkner:system-rules:1.18.0")
                 api("com.google.jimfs:jimfs:1.1")
-            }
-        }
-
-        val jsTest by getting {
-            dependencies {
-                api(kotlin("test-js"))
             }
         }
 

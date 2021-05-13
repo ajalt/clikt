@@ -193,7 +193,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
         promptSuffix: String = ": ",
         showDefault: Boolean = true): OptionWithValues<T, T, T> = transformAll { invocations ->
     val promptText = text ?: longestName()?.let { splitOptionPrefix(it).second }
-            ?.replace(Regex("\\W"), " ")?.capitalize() ?: "Value"
+            ?.replace(Regex("\\W"), " ")?.capitalize2() ?: "Value"
 
     when (val provided = invocations.lastOrNull()) {
         null -> TermUi.prompt(promptText, default, hideInput, requireConfirmation,
@@ -204,3 +204,6 @@ fun <T : Any> NullableOption<T, T>.prompt(
         else -> provided
     } ?: throw Abort()
 }
+
+// the stdlib capitalize was deprecated without a replacement
+private fun String.capitalize2(): String = replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }

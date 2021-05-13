@@ -199,7 +199,7 @@ class SubcommandTest {
         }
 
         C().subcommands(Sub().subcommands(Sub2()))
-                .context { tokenTransformer = { it.toLowerCase() } }
+                .context { tokenTransformer = { it.lowercase() } }
                 .parse(argv)
     }
 

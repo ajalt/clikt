@@ -128,7 +128,7 @@ abstract class CliktCommand(
     private fun generateCompletion() {
         if (autoCompleteEnvvar == null) return
         val envvar = when {
-            autoCompleteEnvvar.isBlank() -> "_${commandName.replace("-", "_").toUpperCase()}_COMPLETE"
+            autoCompleteEnvvar.isBlank() -> "_${commandName.replace("-", "_").uppercase()}_COMPLETE"
             else -> autoCompleteEnvvar
         }
 
@@ -520,5 +520,5 @@ private fun CliktCommand.inferCommandName(): String {
     val name = classSimpleName()
     return name.removeSuffix("Command").replace(Regex("([a-z])([A-Z])")) {
         "${it.groupValues[1]}-${it.groupValues[2]}"
-    }.toLowerCase()
+    }.lowercase()
 }

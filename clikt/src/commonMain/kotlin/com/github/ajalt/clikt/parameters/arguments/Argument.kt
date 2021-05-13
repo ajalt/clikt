@@ -137,7 +137,7 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
 
     override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>):
             ReadOnlyProperty<CliktCommand, AllT> {
-        if (name.isBlank()) name = prop.name.toUpperCase().replace("-", "_")
+        if (name.isBlank()) name = prop.name.uppercase().replace("-", "_")
         thisRef.registerArgument(this)
         return this
     }

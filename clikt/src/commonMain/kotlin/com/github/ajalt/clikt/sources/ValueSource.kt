@@ -60,7 +60,7 @@ interface ValueSource {
                 k = (context.commandNameWithParents().drop(1) + k).joinToString(joinSubcommands)
             }
             k = k.replace("-", replaceDashes)
-            if (uppercase) k = k.toUpperCase()
+            if (uppercase) k = k.uppercase()
             prefix + k
         }
 

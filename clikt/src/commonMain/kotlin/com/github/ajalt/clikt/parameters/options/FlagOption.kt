@@ -153,7 +153,7 @@ fun RawOption.flag(
             valueSourceKey = valueSourceKey,
             envvar = envvar,
             transformEnvvar = {
-                when (it.toLowerCase()) {
+                when (it.lowercase()) {
                     "true", "t", "1", "yes", "y", "on" -> true
                     "false", "f", "0", "no", "n", "off" -> false
                     else -> throw BadParameterValue(context.localization.boolConversionError(it), this)

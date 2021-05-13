@@ -1,0 +1,10 @@
+/* Custom CSS for Dokka docs */
+
+#logo {
+    background-image: url('../images/wordmark_small_dark.svg');
+}
+
+/* Remove the "What on this Page" tab that covers up the scroll bar */
+.page-summary {
+    display: none;
+}

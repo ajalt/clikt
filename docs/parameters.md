@@ -328,24 +328,24 @@ been set, so (unlike in transforms) you can reference other parameters:
     ```
 
 
-[checkArg]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.md
+[checkArg]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.html
 [checkKotlin]:    https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html
-[checkOpt]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.md
-[choice]:         api/clikt/com.github.ajalt.clikt.parameters.types/choice.md
-[convert]:        api/clikt/com.github.ajalt.clikt.parameters.options/convert.md
-[defaultStdin]:   api/clikt/com.github.ajalt.clikt.parameters.types/default-stdin.md
-[defaultStdout]:  api/clikt/com.github.ajalt.clikt.parameters.types/default-stdout.md
-[double]:         api/clikt/com.github.ajalt.clikt.parameters.types/double.md
-[enum]:           api/clikt/com.github.ajalt.clikt.parameters.types/enum.md
-[file]:           api/clikt/com.github.ajalt.clikt.parameters.types/file.md
-[float]:          api/clikt/com.github.ajalt.clikt.parameters.types/float.md
-[inputStream]:    api/clikt/com.github.ajalt.clikt.parameters.types/input-stream.md
-[int]:            api/clikt/com.github.ajalt.clikt.parameters.types/int.md
-[isStdin]:        api/clikt/com.github.ajalt.clikt.parameters.types/java.io.-input-stream/is-clikt-parameter-default-stdin.md
-[isStdout]:       api/clikt/com.github.ajalt.clikt.parameters.types/java.io.-output-stream/is-clikt-parameter-default-stdout.md
-[long]:           api/clikt/com.github.ajalt.clikt.parameters.types/long.md
-[outputStream]:   api/clikt/com.github.ajalt.clikt.parameters.types/output-stream.md
-[path]:           api/clikt/com.github.ajalt.clikt.parameters.types/path.md
-[restrictTo]:     api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.md
-[validateArg]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.md
-[validateOpt]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.md
+[checkOpt]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.html
+[choice]:         api/clikt/com.github.ajalt.clikt.parameters.types/choice.html
+[convert]:        api/clikt/com.github.ajalt.clikt.parameters.options/convert.html
+[defaultStdin]:   api/clikt/com.github.ajalt.clikt.parameters.types/default-stdin.html
+[defaultStdout]:  api/clikt/com.github.ajalt.clikt.parameters.types/default-stdout.html
+[double]:         api/clikt/com.github.ajalt.clikt.parameters.types/double.html
+[enum]:           api/clikt/com.github.ajalt.clikt.parameters.types/enum.html
+[file]:           api/clikt/com.github.ajalt.clikt.parameters.types/file.html
+[float]:          api/clikt/com.github.ajalt.clikt.parameters.types/float.html
+[inputStream]:    api/clikt/com.github.ajalt.clikt.parameters.types/input-stream.html
+[int]:            api/clikt/com.github.ajalt.clikt.parameters.types/int.html
+[isStdin]:        api/clikt/com.github.ajalt.clikt.parameters.types/is-clikt-parameter-default-stdin.html
+[isStdout]:       api/clikt/com.github.ajalt.clikt.parameters.types/is-clikt-parameter-default-stdout.html
+[long]:           api/clikt/com.github.ajalt.clikt.parameters.types/long.html
+[outputStream]:   api/clikt/com.github.ajalt.clikt.parameters.types/output-stream.html
+[path]:           api/clikt/com.github.ajalt.clikt.parameters.types/path.html
+[restrictTo]:     api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.html
+[validateArg]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.html
+[validateOpt]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.html

@@ -22,7 +22,7 @@ buildscript {
 kotlin {
     jvm()
 
-    /**
+    /*
      * We would like to use
      *     js(BOTH)
      * to enable consumers to use IR JS backend

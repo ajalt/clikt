@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 3.2.0
+_2021-05-14_
+
 ### Added
 - `InputStream.isCliktParameterDefaultStdin` and `OutputStream.isCliktParameterDefaultStdout` to check if the streams returned from `inputStream`/`outputStream` options are proxying stdin/stdout ([#272](https://github.com/ajalt/clikt/issues/272))
 

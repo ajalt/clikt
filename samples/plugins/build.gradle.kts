@@ -3,5 +3,5 @@ application {
 }
 
 dependencies {
-    compile("org.kodein.di:kodein-di-generic-jvm:5.2.0")
+    api("org.kodein.di:kodein-di-generic-jvm:5.2.0")
 }

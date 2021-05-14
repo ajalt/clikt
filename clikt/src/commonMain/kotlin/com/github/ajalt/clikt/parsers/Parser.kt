@@ -289,7 +289,7 @@ internal object Parser {
         // values.
         val endSize = arguments.asReversed()
             .takeWhile { it.nvalues > 0 }
-            .sumBy { it.nvalues }
+            .sumOf { it.nvalues }
 
         var i = 0
         for (argument in arguments) {

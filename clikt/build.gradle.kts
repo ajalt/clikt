@@ -21,6 +21,14 @@ buildscript {
 
 kotlin {
     jvm()
+
+    /**
+     * We would like to use
+     *     js(BOTH)
+     * to enable consumers to use IR JS backend
+     * https://kotlinlang.org/docs/js-ir-compiler.html
+     * However this is currently blocked by https://youtrack.jetbrains.com/issue/KT-43490
+     */
     js {
         nodejs()
         browser()
@@ -41,7 +49,7 @@ kotlin {
             dependencies {
                 api(kotlin("test-common"))
                 api(kotlin("test-annotations-common"))
-                api("io.kotest:kotest-assertions-core:4.3.1")
+                api("io.kotest:kotest-assertions-core:4.5.0")
             }
         }
 

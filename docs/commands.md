@@ -449,19 +449,19 @@ Subcommands of a command with `allowMultipleSubcommands=true` can themselves hav
 cannot have `allowMultipleSubcommands=true`.
 
 
-[argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.md
-[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.md
-[Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/-context/find-or-set-object/
-[Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/obj.md
-[Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.md
-[context]:                       api/clikt/com.github.ajalt.clikt.core/context.md
+[argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html
+[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
+[Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/find-or-set-object.html
+[Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/obj.html
+[Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.html
+[context]:                       api/clikt/com.github.ajalt.clikt.core/context.html
 [customizing-context]:           #customizing-contexts
 [deprecating-options]:           options.md#deprecating-options
-[findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.md
-[findOrSetObject]:               api/clikt/com.github.ajalt.clikt.core/find-or-set-object.md
-[interspersed]:                  api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.md
-[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.md
+[findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.html
+[findOrSetObject]:               api/clikt/com.github.ajalt.clikt.core/find-or-set-object.html
+[interspersed]:                  api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.html
+[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.html
 [printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
-[requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.md
-[run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.md
-[subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.md
+[requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.html
+[run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html
+[subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.html

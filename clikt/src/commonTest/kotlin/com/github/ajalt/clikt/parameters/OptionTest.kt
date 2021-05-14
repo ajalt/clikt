@@ -733,7 +733,7 @@ class OptionTest {
             }
         }
 
-        C().context { tokenTransformer = { it.toLowerCase() } }.parse(argv)
+        C().context { tokenTransformer = { it.lowercase() } }.parse(argv)
     }
 
     @Test

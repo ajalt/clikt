@@ -32,9 +32,9 @@ private fun errorMessage(context: Context, choice: String, choices: Map<String, 
  */
 fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = false): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    val c = if (ignoreCase) choices.mapKeys { it.key.toLowerCase() } else choices
+    val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
     return convert(completionCandidates = Fixed(choices.keys)) {
-        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(context, it, choices))
+        c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices))
     }
 }
 
@@ -112,9 +112,9 @@ fun <T : Any> RawOption.choice(
         ignoreCase: Boolean = false
 ): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    val c = if (ignoreCase) choices.mapKeys { it.key.toLowerCase() } else choices
+    val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
     return convert(metavar, completionCandidates = Fixed(choices.keys)) {
-        c[if (ignoreCase) it.toLowerCase() else it] ?: fail(errorMessage(context, it, choices))
+        c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices))
     }
 }
 

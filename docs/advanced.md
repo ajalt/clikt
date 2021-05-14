@@ -107,7 +107,7 @@ to implement case-insensitive parsing, for example:
     ```kotlin
     class Hello : CliktCommand() {
         init {
-            context { tokenTransformer = { it.toLowerCase() } }
+            context { tokenTransformer = { it.lowercase() } }
         }
 
         val name by option()
@@ -252,17 +252,17 @@ you can call [parse][parse] instead of [main][main] and handle output yourself.
 [editText][editText] and [editFile][editFile] are not supported. [prompt][prompt] is only supported
 if you define your own CliktConsole.
 
-[aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.md
-[CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.md
+[aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
+[CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.html
 [customizing-context]: commands.md#customizing-contexts
 [dash-dash]:           arguments.md#option-like-arguments-using-
-[editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file/
-[editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text/
-[expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.md
-[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.md
-[parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.md
-[ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.md
-[prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.md
-[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.md
-[tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.md
+[editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
+[editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
+[expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
+[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
+[parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
+[ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
+[prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
+[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
+[tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html
 

@@ -111,6 +111,12 @@ val emptyJavadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
 
+val jvmJar by tasks.getting(Jar::class) {
+    manifest {
+        attributes("Automatic-Module-Name" to "com.github.ajalt.clikt")
+    }
+}
+
 val isSnapshot = version.toString().endsWith("SNAPSHOT")
 val signingKey: String? by project
 val SONATYPE_USERNAME: String? by project

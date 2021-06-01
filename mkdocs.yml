@@ -1,7 +1,7 @@
 site_name: Clikt
 repo_name: Clikt
 repo_url: https://github.com/ajalt/clikt
-site_description: "Clikt: Simple, powerful command line parser for Kotlin"
+site_description: "Clikt: Multiplatform command line parser for Kotlin"
 site_author: AJ Alt
 remote_branch: gh-pages
 
@@ -12,8 +12,8 @@ theme:
   logo: img/wordmark_small.svg
   favicon: img/favicon.ico
   palette:
-    primary: 'blue grey'
-    accent: 'indigo'
+    primary: 'deep purple'
+    accent: 'deep orange'
   icon:
     repo: fontawesome/brands/github
 

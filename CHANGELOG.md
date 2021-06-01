@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Changed
+- Updated kotlin to 1.5.10
+
 ## 3.2.0
 _2021-05-14_
 

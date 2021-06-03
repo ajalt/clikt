@@ -6,14 +6,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Clikt: Simple, powerful command line parser for Kotlin">
+        <meta name="description" content="Clikt: Multiplatform command line parser for Kotlin">
       
       
       
         <meta name="author" content="AJ Alt">
       
-      <link rel="shortcut icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+      
+      <link rel="icon" href="../img/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
     
     
       
@@ -21,14 +22,14 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bc7e593a.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.9299cb39.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab28b872.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
         
           
           
-          <meta name="theme-color" content="#546d78">
+          <meta name="theme-color" content="#7e56c2">
         
       
     
@@ -36,9 +37,9 @@
     
       
         
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
       
     
     
@@ -57,16 +58,18 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="indigo">
-      
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange">
   
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
         
-        <a href="#310" class="md-skip">
+        <a href="#320" class="md-skip">
           Skip to content
         </a>
       
@@ -75,48 +78,50 @@
       
     </div>
     
-      
-
-<header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href=".." title="Clikt" class="md-header-nav__button md-logo" aria-label="Clikt">
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Clikt" class="md-header__button md-logo" aria-label="Clikt" data-md-component="logo">
       
   <img src="../img/wordmark_small.svg" alt="logo">
 
     </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
+    <label class="md-header__button md-icon" for="__drawer">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
             Clikt
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
               Change Log
             
           </span>
         </div>
-      
+      </div>
     </div>
     
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
       
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
       </button>
     </form>
     <div class="md-search__output">
@@ -133,9 +138,9 @@
 </div>
     
     
-      <div class="md-header-nav__source">
+      <div class="md-header__source">
         
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source">
+<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
@@ -158,14 +163,16 @@
         <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
 
+
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Clikt" class="md-nav__button md-logo" aria-label="Clikt">
+    <a href=".." title="Clikt" class="md-nav__button md-logo" aria-label="Clikt" data-md-component="logo">
       
   <img src="../img/wordmark_small.svg" alt="logo">
 
@@ -175,7 +182,7 @@
   
     <div class="md-nav__source">
       
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source">
+<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
@@ -192,1248 +199,1296 @@
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
-    
-    <label class="md-nav__link" for="nav-1">
-      Quickstart
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
-      <label class="md-nav__title" for="nav-1">
-        <span class="md-nav__icon md-icon"></span>
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
         Quickstart
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../quickstart/" class="md-nav__link">
-      Basic Concepts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../quickstart/#printing-to-stdout-and-stderr" class="md-nav__link">
-      Printing to Stdout and Stderr
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../quickstart/#nesting-commands" class="md-nav__link">
-      Nesting Commands
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../quickstart/#adding-parameters" class="md-nav__link">
-      Adding Parameters
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../quickstart/#developing-command-line-applications-with-gradle" class="md-nav__link">
-      Developing Command Line Applications With Gradle
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
-    <label class="md-nav__link" for="nav-2">
-      Why Clikt?
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Quickstart
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Basic Concepts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/#printing-to-stdout-and-stderr" class="md-nav__link">
+        Printing to Stdout and Stderr
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/#nesting-commands" class="md-nav__link">
+        Nesting Commands
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/#adding-parameters" class="md-nav__link">
+        Adding Parameters
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/#developing-command-line-applications-with-gradle" class="md-nav__link">
+        Developing Command Line Applications With Gradle
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
         Why Clikt?
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../whyclikt/" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../whyclikt/#why-not-a-java-library-like-jcommander" class="md-nav__link">
-      Why not a Java library like JCommander?
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
-      Parameters
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Parameters" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Why Clikt?
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../whyclikt/" class="md-nav__link">
+        Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../whyclikt/#why-not-a-java-library-like-jcommander" class="md-nav__link">
+        Why not a Java library like JCommander?
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
         Parameters
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../parameters/" class="md-nav__link">
-      Differences
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../parameters/#parameter-names" class="md-nav__link">
-      Parameter Names
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../parameters/#parameter-types" class="md-nav__link">
-      Parameter Types
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../parameters/#built-in-types" class="md-nav__link">
-      Built-In Types
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../parameters/#custom-types" class="md-nav__link">
-      Custom Types
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../parameters/#parameter-validation" class="md-nav__link">
-      Parameter Validation
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
-      Options
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Options" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Parameters" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Parameters
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/" class="md-nav__link">
+        Differences
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/#parameter-names" class="md-nav__link">
+        Parameter Names
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/#parameter-types" class="md-nav__link">
+        Parameter Types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/#built-in-types" class="md-nav__link">
+        Built-In Types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/#custom-types" class="md-nav__link">
+        Custom Types
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parameters/#parameter-validation" class="md-nav__link">
+        Parameter Validation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
         Options
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/" class="md-nav__link">
-      Basic Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#option-names" class="md-nav__link">
-      Option Names
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#customizing-options" class="md-nav__link">
-      Customizing Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#multi-value-options" class="md-nav__link">
-      Multi Value Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#multiple-options" class="md-nav__link">
-      Multiple Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#key-value-and-map-options" class="md-nav__link">
-      Key-Value and Map Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#boolean-flag-options" class="md-nav__link">
-      Boolean Flag Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#counted-flag-options" class="md-nav__link">
-      Counted Flag Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#feature-switch-flags" class="md-nav__link">
-      Feature Switch Flags
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#choice-options" class="md-nav__link">
-      Choice Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#mutually-exclusive-option-groups" class="md-nav__link">
-      Mutually Exclusive Option Groups
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#co-occurring-option-groups" class="md-nav__link">
-      Co-Occurring Option Groups
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#choice-and-switch-options-with-groups" class="md-nav__link">
-      Choice and Switch Options With Groups
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#prompting-for-input" class="md-nav__link">
-      Prompting For Input
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#password-prompts" class="md-nav__link">
-      Password Prompts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#eager-options" class="md-nav__link">
-      Eager Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#deprecating-options" class="md-nav__link">
-      Deprecating Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#unknown-options" class="md-nav__link">
-      Unknown Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#values-from-environment-variables" class="md-nav__link">
-      Values From Environment Variables
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#values-from-configuration-files" class="md-nav__link">
-      Values from Configuration Files
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#windows-and-java-style-option-prefixes" class="md-nav__link">
-      Windows and Java-Style Option Prefixes
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../options/#option-transformation-order" class="md-nav__link">
-      Option Transformation Order
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      Arguments
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Arguments" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Options" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Options
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/" class="md-nav__link">
+        Basic Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#option-names" class="md-nav__link">
+        Option Names
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#customizing-options" class="md-nav__link">
+        Customizing Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#multi-value-options" class="md-nav__link">
+        Multi Value Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#multiple-options" class="md-nav__link">
+        Multiple Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#key-value-and-map-options" class="md-nav__link">
+        Key-Value and Map Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#boolean-flag-options" class="md-nav__link">
+        Boolean Flag Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#counted-flag-options" class="md-nav__link">
+        Counted Flag Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#feature-switch-flags" class="md-nav__link">
+        Feature Switch Flags
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#choice-options" class="md-nav__link">
+        Choice Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#mutually-exclusive-option-groups" class="md-nav__link">
+        Mutually Exclusive Option Groups
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#co-occurring-option-groups" class="md-nav__link">
+        Co-Occurring Option Groups
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#choice-and-switch-options-with-groups" class="md-nav__link">
+        Choice and Switch Options With Groups
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#prompting-for-input" class="md-nav__link">
+        Prompting For Input
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#password-prompts" class="md-nav__link">
+        Password Prompts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#eager-options" class="md-nav__link">
+        Eager Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#deprecating-options" class="md-nav__link">
+        Deprecating Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#unknown-options" class="md-nav__link">
+        Unknown Options
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#values-from-environment-variables" class="md-nav__link">
+        Values From Environment Variables
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#values-from-configuration-files" class="md-nav__link">
+        Values from Configuration Files
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#windows-and-java-style-option-prefixes" class="md-nav__link">
+        Windows and Java-Style Option Prefixes
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../options/#option-transformation-order" class="md-nav__link">
+        Option Transformation Order
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
         Arguments
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../arguments/" class="md-nav__link">
-      Basic Arguments
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../arguments/#variadic-arguments" class="md-nav__link">
-      Variadic Arguments
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../arguments/#option-like-arguments-using-" class="md-nav__link">
-      Option-Like Arguments ("--")
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
-    
-    <label class="md-nav__link" for="nav-6">
-      Commands
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Commands" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Arguments" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Arguments
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arguments/" class="md-nav__link">
+        Basic Arguments
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arguments/#variadic-arguments" class="md-nav__link">
+        Variadic Arguments
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arguments/#option-like-arguments-using-" class="md-nav__link">
+        Option-Like Arguments ("--")
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      <label class="md-nav__link" for="__nav_6">
         Commands
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/" class="md-nav__link">
-      Executing Nested Commands
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#customizing-command-name" class="md-nav__link">
-      Customizing Command Name
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#passing-parameters" class="md-nav__link">
-      Passing Parameters
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#nested-handling-and-contexts" class="md-nav__link">
-      Nested Handling And Contexts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#running-parent-command-without-children" class="md-nav__link">
-      Running Parent Command Without Children
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#customizing-contexts" class="md-nav__link">
-      Customizing Contexts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#printing-the-help-message-when-no-arguments-are-given" class="md-nav__link">
-      Printing the Help Message When No Arguments Are Given
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#warnings-and-other-messages" class="md-nav__link">
-      Warnings and Other Messages
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../commands/#chaining-and-repeating-subcommands" class="md-nav__link">
-      Chaining and Repeating Subcommands
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
-    
-    <label class="md-nav__link" for="nav-7">
-      Documenting Scripts
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Commands" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Commands
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/" class="md-nav__link">
+        Executing Nested Commands
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#customizing-command-name" class="md-nav__link">
+        Customizing Command Name
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#passing-parameters" class="md-nav__link">
+        Passing Parameters
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#nested-handling-and-contexts" class="md-nav__link">
+        Nested Handling And Contexts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#running-parent-command-without-children" class="md-nav__link">
+        Running Parent Command Without Children
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#customizing-contexts" class="md-nav__link">
+        Customizing Contexts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#printing-the-help-message-when-no-arguments-are-given" class="md-nav__link">
+        Printing the Help Message When No Arguments Are Given
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#warnings-and-other-messages" class="md-nav__link">
+        Warnings and Other Messages
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/#chaining-and-repeating-subcommands" class="md-nav__link">
+        Chaining and Repeating Subcommands
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
         Documenting Scripts
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/" class="md-nav__link">
-      Help Texts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#preformatting-paragraphs" class="md-nav__link">
-      Preformatting Paragraphs
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#manual-line-breaks" class="md-nav__link">
-      Manual Line Breaks
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#subcommand-short-help" class="md-nav__link">
-      Subcommand Short Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#help-option-customization" class="md-nav__link">
-      Help Option Customization
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#default-values-in-help" class="md-nav__link">
-      Default Values in Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#required-options-in-help" class="md-nav__link">
-      Required Options in Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#grouping-options-in-help" class="md-nav__link">
-      Grouping Options in Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" class="md-nav__link">
-      Suggesting Corrections for Mistyped Parameters
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../documenting/#localization" class="md-nav__link">
-      Localization
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
-    
-    <label class="md-nav__link" for="nav-8">
-      Advanced Patterns
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Documenting Scripts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/" class="md-nav__link">
+        Help Texts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#preformatting-paragraphs" class="md-nav__link">
+        Preformatting Paragraphs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#manual-line-breaks" class="md-nav__link">
+        Manual Line Breaks
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#subcommand-short-help" class="md-nav__link">
+        Subcommand Short Help
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#help-option-customization" class="md-nav__link">
+        Help Option Customization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#default-values-in-help" class="md-nav__link">
+        Default Values in Help
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#required-options-in-help" class="md-nav__link">
+        Required Options in Help
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#grouping-options-in-help" class="md-nav__link">
+        Grouping Options in Help
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#suggesting-corrections-for-mistyped-parameters" class="md-nav__link">
+        Suggesting Corrections for Mistyped Parameters
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documenting/#localization" class="md-nav__link">
+        Localization
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
         Advanced Patterns
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../advanced/" class="md-nav__link">
-      Command Aliases
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../advanced/#token-normalization" class="md-nav__link">
-      Token Normalization
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../advanced/#replacing-stdin-and-stdout" class="md-nav__link">
-      Replacing stdin and stdout
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../advanced/#command-line-argument-files-files" class="md-nav__link">
-      Argument Files ("@-files")
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../advanced/#testing-your-clikt-cli" class="md-nav__link">
-      Testing your Clikt CLI
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../advanced/#multiplatform-support" class="md-nav__link">
-      Multiplatform Support
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
-    
-    <label class="md-nav__link" for="nav-9">
-      Utilities
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Utilities" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced Patterns
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        Command Aliases
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/#token-normalization" class="md-nav__link">
+        Token Normalization
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/#replacing-stdin-and-stdout" class="md-nav__link">
+        Replacing stdin and stdout
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/#command-line-argument-files-files" class="md-nav__link">
+        Argument Files ("@-files")
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/#testing-your-clikt-cli" class="md-nav__link">
+        Testing your Clikt CLI
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/#multiplatform-support" class="md-nav__link">
+        Multiplatform Support
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      <label class="md-nav__link" for="__nav_9">
         Utilities
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../utilities/" class="md-nav__link">
-      Launching Editors
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../utilities/#input-prompts" class="md-nav__link">
-      Input Prompts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../utilities/#confirmation-prompts" class="md-nav__link">
-      Confirmation Prompts
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
-    
-    <label class="md-nav__link" for="nav-10">
-      Bash Autocomplete
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
-      <label class="md-nav__title" for="nav-10">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Utilities" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Utilities
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities/" class="md-nav__link">
+        Launching Editors
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities/#input-prompts" class="md-nav__link">
+        Input Prompts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilities/#confirmation-prompts" class="md-nav__link">
+        Confirmation Prompts
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      <label class="md-nav__link" for="__nav_10">
         Bash Autocomplete
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../autocomplete/" class="md-nav__link">
-      Supported Functionality
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../autocomplete/#enabling-completion" class="md-nav__link">
-      Enabling Completion
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../autocomplete/#customizing-completions" class="md-nav__link">
-      Customizing Completions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../autocomplete/#limitations" class="md-nav__link">
-      Limitations
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
-    
-    <label class="md-nav__link" for="nav-11">
-      Exception Handling
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Bash Autocomplete
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autocomplete/" class="md-nav__link">
+        Supported Functionality
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autocomplete/#enabling-completion" class="md-nav__link">
+        Enabling Completion
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autocomplete/#customizing-completions" class="md-nav__link">
+        Customizing Completions
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autocomplete/#limitations" class="md-nav__link">
+        Limitations
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      <label class="md-nav__link" for="__nav_11">
         Exception Handling
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../exceptions/" class="md-nav__link">
-      Where are Exceptions Handled?
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../exceptions/#handling-exceptions-manually" class="md-nav__link">
-      Handling Exceptions Manually
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../exceptions/#which-exceptions-exist" class="md-nav__link">
-      Which Exceptions Exist?
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
-    
-    <label class="md-nav__link" for="nav-12">
-      API reference
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="API reference" data-md-level="1">
-      <label class="md-nav__title" for="nav-12">
         <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Exception Handling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exceptions/" class="md-nav__link">
+        Where are Exceptions Handled?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exceptions/#handling-exceptions-manually" class="md-nav__link">
+        Handling Exceptions Manually
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exceptions/#which-exceptions-exist" class="md-nav__link">
+        Which Exceptions Exist?
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+      
+      <label class="md-nav__link" for="__nav_12">
         API reference
+        <span class="md-nav__icon md-icon"></span>
       </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+      <nav class="md-nav" aria-label="API reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          API reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/clikt/com.github.ajalt.clikt.core/" class="md-nav__link">
+        Commands and Exceptions
+      </a>
+    </li>
+  
+
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/" class="md-nav__link">
+        Options
+      </a>
+    </li>
+  
+
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/" class="md-nav__link">
+        Arguments
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../api/clikt/com.github.ajalt.clikt.core/" class="md-nav__link">
-      Commands and Exceptions
-    </a>
-  </li>
-
-        
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/" class="md-nav__link">
+        Parameter Type Conversions
+      </a>
+    </li>
+  
+
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/clikt/com.github.ajalt.clikt.output/" class="md-nav__link">
+        Output Formatting
+      </a>
+    </li>
+  
+
           
-
-
-  <li class="md-nav__item">
-    <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/" class="md-nav__link">
-      Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/" class="md-nav__link">
-      Arguments
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/" class="md-nav__link">
-      Parameter Type Conversions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/clikt/com.github.ajalt.clikt.output/" class="md-nav__link">
-      Output Formatting
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
@@ -1441,46 +1496,48 @@
       
 
   
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13" checked>
+  
+  
     
-    <label class="md-nav__link" for="nav-13">
-      Releases
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Releases" data-md-level="1">
-      <label class="md-nav__title" for="nav-13">
-        <span class="md-nav__icon md-icon"></span>
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" checked>
+      
+      <label class="md-nav__link" for="__nav_13">
         Releases
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Change Log
         <span class="md-nav__icon md-icon"></span>
       </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
     
-    <a href="./" class="md-nav__link md-nav__link--active">
-      Change Log
-    </a>
-    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
       
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Change Log
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Change Log
+      </a>
+      
+        
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -1489,14 +1546,14 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#310" class="md-nav__link">
-    3.1.0
+  <a href="#320" class="md-nav__link">
+    3.2.0
   </a>
   
-    <nav class="md-nav" aria-label="3.1.0">
+    <nav class="md-nav" aria-label="3.2.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1508,6 +1565,40 @@
         
           <li class="md-nav__item">
   <a href="#changed" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#310" class="md-nav__link">
+    3.1.0
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
     Changed
   </a>
   
@@ -1547,21 +1638,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#fixed_1" class="md-nav__link">
     Fixed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     Changed
   </a>
   
@@ -1595,21 +1686,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
+  <a href="#added_3" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_2" class="md-nav__link">
+  <a href="#changed_3" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_1" class="md-nav__link">
+  <a href="#fixed_2" class="md-nav__link">
     Fixed
   </a>
   
@@ -1629,7 +1720,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed_2" class="md-nav__link">
+  <a href="#fixed_3" class="md-nav__link">
     Fixed
   </a>
   
@@ -1649,21 +1740,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_3" class="md-nav__link">
+  <a href="#added_4" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_3" class="md-nav__link">
+  <a href="#changed_4" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_3" class="md-nav__link">
+  <a href="#fixed_4" class="md-nav__link">
     Fixed
   </a>
   
@@ -1683,14 +1774,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_4" class="md-nav__link">
+  <a href="#added_5" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_4" class="md-nav__link">
+  <a href="#changed_5" class="md-nav__link">
     Changed
   </a>
   
@@ -1717,14 +1808,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_5" class="md-nav__link">
+  <a href="#added_6" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_5" class="md-nav__link">
+  <a href="#changed_6" class="md-nav__link">
     Changed
   </a>
   
@@ -1738,7 +1829,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_4" class="md-nav__link">
+  <a href="#fixed_5" class="md-nav__link">
     Fixed
   </a>
   
@@ -1758,21 +1849,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_6" class="md-nav__link">
+  <a href="#added_7" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_6" class="md-nav__link">
+  <a href="#changed_7" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_5" class="md-nav__link">
+  <a href="#fixed_6" class="md-nav__link">
     Fixed
   </a>
   
@@ -1792,14 +1883,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_7" class="md-nav__link">
+  <a href="#added_8" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_7" class="md-nav__link">
+  <a href="#changed_8" class="md-nav__link">
     Changed
   </a>
   
@@ -1816,40 +1907,6 @@
   </a>
   
     <nav class="md-nav" aria-label="2.2.0">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added_8" class="md-nav__link">
-    Added
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#changed_8" class="md-nav__link">
-    Changed
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fixed_6" class="md-nav__link">
-    Fixed
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#210" class="md-nav__link">
-    2.1.0
-  </a>
-  
-    <nav class="md-nav" aria-label="2.1.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1879,11 +1936,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#200" class="md-nav__link">
-    2.0.0
+  <a href="#210" class="md-nav__link">
+    2.1.0
   </a>
   
-    <nav class="md-nav" aria-label="2.0.0">
+    <nav class="md-nav" aria-label="2.1.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1896,26 +1953,6 @@
           <li class="md-nav__item">
   <a href="#changed_10" class="md-nav__link">
     Changed
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#170" class="md-nav__link">
-    1.7.0
-  </a>
-  
-    <nav class="md-nav" aria-label="1.7.0">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added_11" class="md-nav__link">
-    Added
   </a>
   
 </li>
@@ -1933,11 +1970,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#160" class="md-nav__link">
-    1.6.0
+  <a href="#200" class="md-nav__link">
+    2.0.0
   </a>
   
-    <nav class="md-nav" aria-label="1.6.0">
+    <nav class="md-nav" aria-label="2.0.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_11" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_11" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#170" class="md-nav__link">
+    1.7.0
+  </a>
+  
+    <nav class="md-nav" aria-label="1.7.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1960,6 +2024,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#160" class="md-nav__link">
+    1.6.0
+  </a>
+  
+    <nav class="md-nav" aria-label="1.6.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_13" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_10" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#150" class="md-nav__link">
     1.5.0
   </a>
@@ -1968,7 +2059,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_13" class="md-nav__link">
+  <a href="#added_14" class="md-nav__link">
     Added
   </a>
   
@@ -1988,14 +2079,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_14" class="md-nav__link">
+  <a href="#added_15" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_11" class="md-nav__link">
+  <a href="#changed_12" class="md-nav__link">
     Changed
   </a>
   
@@ -2015,21 +2106,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_15" class="md-nav__link">
+  <a href="#added_16" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_12" class="md-nav__link">
+  <a href="#changed_13" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_10" class="md-nav__link">
+  <a href="#fixed_11" class="md-nav__link">
     Fixed
   </a>
   
@@ -2049,14 +2140,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_16" class="md-nav__link">
+  <a href="#added_17" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_13" class="md-nav__link">
+  <a href="#changed_14" class="md-nav__link">
     Changed
   </a>
   
@@ -2076,7 +2167,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_17" class="md-nav__link">
+  <a href="#added_18" class="md-nav__link">
     Added
   </a>
   
@@ -2090,25 +2181,27 @@
     </ul>
   
 </nav>
-    
-  </li>
+      
+    </li>
+  
 
-        
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migration/" class="md-nav__link">
+        Upgrading to Newer Releases
+      </a>
+    </li>
+  
+
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="../migration/" class="md-nav__link">
-      Upgrading to Newer Releases
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
   </ul>
@@ -2118,7 +2211,8 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2130,14 +2224,14 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#310" class="md-nav__link">
-    3.1.0
+  <a href="#320" class="md-nav__link">
+    3.2.0
   </a>
   
-    <nav class="md-nav" aria-label="3.1.0">
+    <nav class="md-nav" aria-label="3.2.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2149,6 +2243,40 @@
         
           <li class="md-nav__item">
   <a href="#changed" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#310" class="md-nav__link">
+    3.1.0
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
     Changed
   </a>
   
@@ -2188,21 +2316,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_1" class="md-nav__link">
+  <a href="#added_2" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#fixed_1" class="md-nav__link">
     Fixed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     Changed
   </a>
   
@@ -2236,21 +2364,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_2" class="md-nav__link">
+  <a href="#added_3" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_2" class="md-nav__link">
+  <a href="#changed_3" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_1" class="md-nav__link">
+  <a href="#fixed_2" class="md-nav__link">
     Fixed
   </a>
   
@@ -2270,7 +2398,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed_2" class="md-nav__link">
+  <a href="#fixed_3" class="md-nav__link">
     Fixed
   </a>
   
@@ -2290,21 +2418,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_3" class="md-nav__link">
+  <a href="#added_4" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_3" class="md-nav__link">
+  <a href="#changed_4" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_3" class="md-nav__link">
+  <a href="#fixed_4" class="md-nav__link">
     Fixed
   </a>
   
@@ -2324,14 +2452,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_4" class="md-nav__link">
+  <a href="#added_5" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_4" class="md-nav__link">
+  <a href="#changed_5" class="md-nav__link">
     Changed
   </a>
   
@@ -2358,14 +2486,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_5" class="md-nav__link">
+  <a href="#added_6" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_5" class="md-nav__link">
+  <a href="#changed_6" class="md-nav__link">
     Changed
   </a>
   
@@ -2379,7 +2507,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_4" class="md-nav__link">
+  <a href="#fixed_5" class="md-nav__link">
     Fixed
   </a>
   
@@ -2399,21 +2527,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_6" class="md-nav__link">
+  <a href="#added_7" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_6" class="md-nav__link">
+  <a href="#changed_7" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_5" class="md-nav__link">
+  <a href="#fixed_6" class="md-nav__link">
     Fixed
   </a>
   
@@ -2433,14 +2561,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_7" class="md-nav__link">
+  <a href="#added_8" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_7" class="md-nav__link">
+  <a href="#changed_8" class="md-nav__link">
     Changed
   </a>
   
@@ -2457,40 +2585,6 @@
   </a>
   
     <nav class="md-nav" aria-label="2.2.0">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added_8" class="md-nav__link">
-    Added
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#changed_8" class="md-nav__link">
-    Changed
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fixed_6" class="md-nav__link">
-    Fixed
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#210" class="md-nav__link">
-    2.1.0
-  </a>
-  
-    <nav class="md-nav" aria-label="2.1.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2520,11 +2614,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#200" class="md-nav__link">
-    2.0.0
+  <a href="#210" class="md-nav__link">
+    2.1.0
   </a>
   
-    <nav class="md-nav" aria-label="2.0.0">
+    <nav class="md-nav" aria-label="2.1.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2537,26 +2631,6 @@
           <li class="md-nav__item">
   <a href="#changed_10" class="md-nav__link">
     Changed
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#170" class="md-nav__link">
-    1.7.0
-  </a>
-  
-    <nav class="md-nav" aria-label="1.7.0">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#added_11" class="md-nav__link">
-    Added
   </a>
   
 </li>
@@ -2574,11 +2648,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#160" class="md-nav__link">
-    1.6.0
+  <a href="#200" class="md-nav__link">
+    2.0.0
   </a>
   
-    <nav class="md-nav" aria-label="1.6.0">
+    <nav class="md-nav" aria-label="2.0.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_11" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_11" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#170" class="md-nav__link">
+    1.7.0
+  </a>
+  
+    <nav class="md-nav" aria-label="1.7.0">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2601,6 +2702,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#160" class="md-nav__link">
+    1.6.0
+  </a>
+  
+    <nav class="md-nav" aria-label="1.6.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_13" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_10" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#150" class="md-nav__link">
     1.5.0
   </a>
@@ -2609,7 +2737,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_13" class="md-nav__link">
+  <a href="#added_14" class="md-nav__link">
     Added
   </a>
   
@@ -2629,14 +2757,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_14" class="md-nav__link">
+  <a href="#added_15" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_11" class="md-nav__link">
+  <a href="#changed_12" class="md-nav__link">
     Changed
   </a>
   
@@ -2656,21 +2784,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_15" class="md-nav__link">
+  <a href="#added_16" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_12" class="md-nav__link">
+  <a href="#changed_13" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_10" class="md-nav__link">
+  <a href="#fixed_11" class="md-nav__link">
     Fixed
   </a>
   
@@ -2690,14 +2818,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_16" class="md-nav__link">
+  <a href="#added_17" class="md-nav__link">
     Added
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_13" class="md-nav__link">
+  <a href="#changed_14" class="md-nav__link">
     Changed
   </a>
   
@@ -2717,7 +2845,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#added_17" class="md-nav__link">
+  <a href="#added_18" class="md-nav__link">
     Added
   </a>
   
@@ -2736,7 +2864,7 @@
               </div>
             
           
-          <div class="md-content">
+          <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
                 
@@ -2747,15 +2875,30 @@
                 
                   <h1>Change Log</h1>
                 
-                <h2 id="310">3.1.0<a class="headerlink" href="#310" title="Permanent link">&para;</a></h2>
-<p><em>2020-12-12</em></p>
+                <h2 id="320">3.2.0<a class="headerlink" href="#320" title="Permanent link">&para;</a></h2>
+<p><em>2021-05-14</em></p>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>InputStream.isCliktParameterDefaultStdin</code> and <code>OutputStream.isCliktParameterDefaultStdout</code> to check if the streams returned from <code>inputStream</code>/<code>outputStream</code> options are proxying stdin/stdout (<a href="https://github.com/ajalt/clikt/issues/272">#272</a>)</li>
+</ul>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Make parameters of <code>mutuallyExclusiveOptions</code> covariant to allow validation without explicit type annotations. (<a href="https://github.com/ajalt/clikt/issues/265">#265</a>)</li>
+<li>Updated kotlin to 1.5.0</li>
+</ul>
+<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Reading from an option or argument property on a command that hasn&rsquo;t been invoked will now always throw an <code>IllegalStateException</code></li>
+</ul>
+<h2 id="310">3.1.0<a class="headerlink" href="#310" title="Permanent link">&para;</a></h2>
+<p><em>2020-12-12</em></p>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Added <code>required()</code> and <code>defaultLazy()</code> for nullable flag options like <code>switch()</code>. (<a href="https://github.com/ajalt/clikt/issues/240">#240</a>)</li>
 <li>Added support for generating autocomplete scripts for Fish shells (<a href="https://github.com/ajalt/clikt/issues/189">#189</a>)</li>
 <li>Added <code>CompletionCommand</code> and <code>CliktCommand.completionOption()</code> that will print an autocomplete script when invoked, as an alternative to using environment variables.</li>
 </ul>
-<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Updated Kotlin to 1.4.21</li>
 <li><code>@argfiles</code> now allow line breaks in quoted values, which are included in the value verbatim. You can now end lines with <code>\</code> to concatenate them with the following line. (<a href="https://github.com/ajalt/clikt/issues/248">#248</a>)</li>
@@ -2768,7 +2911,7 @@
 </ul>
 <h2 id="300">3.0.0<a class="headerlink" href="#300" title="Permanent link">&para;</a></h2>
 <p><em>2020-09-02</em></p>
-<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
+<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Clikt&rsquo;s JS target now supports both NodeJS and Browsers. (<a href="https://github.com/ajalt/clikt/issues/198">#198</a>)</li>
 <li>Default values for switch options are now shown in the help. Help text can be customized using the <code>defaultForHelp</code> argument, similar to normal options. (<a href="https://github.com/ajalt/clikt/issues/205">#205</a>)</li>
@@ -2781,13 +2924,13 @@
 <li>Added <code>echo()</code> overload with no parameters to CliktCommand that prints a newline by itself.</li>
 <li>Added localization support. You can set an implementation of the <code>Localization</code> interface on your context with your translations. (<a href="https://github.com/ajalt/clikt/issues/227">#227</a>)</li>
 </ul>
-<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Hidden options will no longer be suggested as possible typo corrections. (<a href="https://github.com/ajalt/clikt/issues/202">#202</a>)</li>
 <li>Options and Arguments with <code>multiple(required=true)</code> will now show as required in help output. (<a href="https://github.com/ajalt/clikt/issues/212">#212</a>)</li>
 <li>Multiple short lines in a help text paragraph no longer appear dedented (<a href="https://github.com/ajalt/clikt/issues/215">#215</a>)</li>
 </ul>
-<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
+<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Updated Kotlin to 1.4.0</li>
 <li><code>Argument.help</code> and <code>Option.help</code> properties have been renamed to <code>argumentHelp</code> and <code>optionHelp</code>, respectively. The <code>help</code> parameter names to <code>option()</code> and <code>argument()</code> are unchanged.</li>
@@ -2809,29 +2952,29 @@
 </ul>
 <h2 id="280">2.8.0<a class="headerlink" href="#280" title="Permanent link">&para;</a></h2>
 <p><em>2020-06-19</em></p>
-<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
+<h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Added <code>error</code> parameter to <code>PrintMessage</code> and <code>PrintHelpMessage</code>. When <code>true</code>, <code>CliktCommand.main</code> will exit with status code 1. (<a href="https://github.com/ajalt/clikt/issues/187">#187</a>)</li>
 </ul>
-<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
+<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>When <code>printHelpOnEmptyArgs</code> is <code>true</code> and no arguments are present, or when <code>invokeWithoutSubcommand</code> is <code>false</code> and no subcommand is present, <code>CliktCommand.main</code> will now exit with status code 1 rather than 0. </li>
 <li><code>restrictTo</code> now works with any <code>Comparable</code> value, not just <code>Number</code>.</li>
 <li><code>CliktCommand.main</code> now accepts <code>Array&lt;out String&gt;</code>, not just <code>Array&lt;String&gt;</code>. (<a href="https://github.com/ajalt/clikt/issues/196">#196</a>)</li>
 </ul>
-<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixed option values being reset when calling multiple subcommands with <code>allowMultipleSubcommands=true</code> (<a href="https://github.com/ajalt/clikt/issues/190">#190</a>)</li>
 </ul>
 <h2 id="271">2.7.1<a class="headerlink" href="#271" title="Permanent link">&para;</a></h2>
 <p><em>2020-05-19</em></p>
-<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixed NPE thrown in some cases when using <code>defaultByName</code> (<a href="https://github.com/ajalt/clikt/issues/179">#179</a>)</li>
 </ul>
 <h2 id="270">2.7.0<a class="headerlink" href="#270" title="Permanent link">&para;</a></h2>
 <p><em>2020-05-13</em></p>
-<h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">&para;</a></h3>
+<h3 id="added_4">Added<a class="headerlink" href="#added_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Ability to use custom program exit status codes via <code>ProgramResult</code>.</li>
 <li><code>inputStream</code> and <code>outputStream</code> conversions for options and arguments. (<a href="https://github.com/ajalt/clikt/issues/157">#157</a> and <a href="https://github.com/ajalt/clikt/issues/159">#159</a>)</li>
@@ -2839,25 +2982,25 @@
 <li><code>treatUnknownOptionsAsArgs</code> parameter to <code>CliktCommand</code>. (<a href="https://github.com/ajalt/clikt/issues/152">#152</a>)</li>
 <li><code>defaultByName</code> function for <code>groupChoice</code> and <code>groupSwitch</code> options. (<a href="https://github.com/ajalt/clikt/issues/171">#171</a>)</li>
 </ul>
-<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">&para;</a></h3>
+<h3 id="changed_4">Changed<a class="headerlink" href="#changed_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Update Kotlin to 1.3.71</li>
 <li>Improved command name inference. Now, a class like <code>MyAppCommand</code> will infer its <code>commandName</code> as <code>my-app</code> rather than <code>myappcommand</code>. You can still specify the name manually as before. ([#168][<a href="https://github.com/ajalt/clikt/pull/168">https://github.com/ajalt/clikt/pull/168</a>])</li>
 </ul>
-<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Correctly parse short options with attached values that contain <code>=</code></li>
 </ul>
 <h2 id="260">2.6.0<a class="headerlink" href="#260" title="Permanent link">&para;</a></h2>
 <p><em>2020-03-15</em></p>
-<h3 id="added_4">Added<a class="headerlink" href="#added_4" title="Permanent link">&para;</a></h3>
+<h3 id="added_5">Added<a class="headerlink" href="#added_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>registeredSubcommands</code>, <code>registeredOptions</code>, <code>registeredArguments</code>, and <code>registeredParameterGroups</code> methods on <code>CliktCommand</code>.</li>
 <li>Ability to <a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.sources/-value-source/index.md">read default option values</a> from configuration files and other sources. Support for Java property files is built in on JVM, see the <code>json</code> sample for an example of reading from other formats.</li>
 <li><code>allowMultipleSubcommands</code> parameter to <code>CliktCommand</code> that allows you to pass multiple subcommands in the same call. (<a href="https://ajalt.github.io/clikt/commands/#chaining-and-repeating-subcommands">docs</a>)</li>
 <li>Errors from typos in subcommand names will now include suggested corrections. Corrections for options and subcommands are now based on a Jaro-Winkler similarity metric, and can be customized with <code>Context.correctionSuggestor</code></li>
 </ul>
-<h3 id="changed_4">Changed<a class="headerlink" href="#changed_4" title="Permanent link">&para;</a></h3>
+<h3 id="changed_5">Changed<a class="headerlink" href="#changed_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Update Kotlin to 1.3.70</li>
 <li><code>convert</code> can be called more than once on the same option or argument, including after calls to conversion functions like <code>int</code> and <code>file</code>.</li>
@@ -2870,7 +3013,7 @@
 </ul>
 <h2 id="250">2.5.0<a class="headerlink" href="#250" title="Permanent link">&para;</a></h2>
 <p><em>2020-02-22</em></p>
-<h3 id="added_5">Added<a class="headerlink" href="#added_5" title="Permanent link">&para;</a></h3>
+<h3 id="added_6">Added<a class="headerlink" href="#added_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Clikt is now available as a Kotlin Multiplatform Project, supporting JVM, NodeJS, and native Windows, Linux, and macOS.</li>
 <li><code>eagerOption {}</code> function to more easily register eager options.</li>
@@ -2878,7 +3021,7 @@
 <li><code>canBeSymlink</code> parameter to <code>file()</code> and <code>path()</code> conversions that can be used to disallow symlinks</li>
 <li><code>CliktCommand.eagerOption</code> to simplify creating custom eager options</li>
 </ul>
-<h3 id="changed_5">Changed<a class="headerlink" href="#changed_5" title="Permanent link">&para;</a></h3>
+<h3 id="changed_6">Changed<a class="headerlink" href="#changed_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The parameter names of <code>file()</code> and <code>path()</code> conversions have changed. The existing names are deprecated, and can be converted to the new usages with an IntelliJ inspection. Note that if you are calling these functions with unnamed arguments (e.g. <code>file(true, false)</code>), you&rsquo;ll need to add argument names in order to remove the deprecation warning.</li>
 </ul>
@@ -2887,26 +3030,26 @@
 <li>The <code>CliktCommand.context</code> property has been deprecated in favor of the new name, <code>currentContext</code>, to avoid confusion with the <code>CliktCommand.context{}</code> method.</li>
 <li><code>NoRunCliktCommand</code> was renamed to <code>NoOpCliktCommand</code>. The existing class is deprecated. (<a href="https://github.com/ajalt/clikt/issues/130">#130</a>)</li>
 </ul>
-<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>file()</code> and <code>path()</code> conversions will now properly expand leading <code>~</code> in paths to the home directory for <code>mustExist</code>, <code>canBeFile</code>, and <code>canBeDir</code> checks. The property value is unchanged, and can still begin with a <code>~</code>. (<a href="https://github.com/ajalt/clikt/issues/79">#131</a>)</li>
 </ul>
 <h2 id="240">2.4.0<a class="headerlink" href="#240" title="Permanent link">&para;</a></h2>
 <p><em>2020-01-25</em></p>
-<h3 id="added_6">Added<a class="headerlink" href="#added_6" title="Permanent link">&para;</a></h3>
+<h3 id="added_7">Added<a class="headerlink" href="#added_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>CompletionCandidates.Fixed</code> now has a secondary convenience constructor that take a <code>vararg</code> of <code>String</code>s</li>
 <li><code>CompletionCadidates.Custom</code>, which allows you to call other binaries or write a script to generate completions. This class is currently experimental. (<a href="https://github.com/ajalt/clikt/issues/79">#79</a>)</li>
 <li><code>Option.wrapValue</code> and <code>Argument.wrapValue</code> to make it easier to reuse existing conversion functions.</li>
 <li><code>ignoreCase</code> parameter to <code>choice()</code> and <code>enum()</code> conversion functions.</li>
 </ul>
-<h3 id="changed_6">Changed<a class="headerlink" href="#changed_6" title="Permanent link">&para;</a></h3>
+<h3 id="changed_7">Changed<a class="headerlink" href="#changed_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>option()</code> and <code>argument()</code> now take optional <code>completionCandidates</code> parameters to override how completion is generated. The constructor and <code>copy</code> functions of <code>OptionsWithValues</code> and <code>ProcessedArgument</code> have changed to support default values.</li>
 <li>The overloads of <code>findObject</code> (<a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/-context/find-object/">1</a> <a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/find-object/">2</a>) that take a default value have been renamed <code>findOrSetObject</code>. The existing names are marked with <code>@Deprecated</code>, and IntelliJ can convert your callsites automatically. (<a href="https://github.com/ajalt/clikt/issues/110">#110</a>)</li>
 <li><code>enum()</code> parameters now accept case-insensitive values by default. You change this behavior by passing <code>ignoreCase = false</code> to <code>enum()</code> (<a href="https://github.com/ajalt/clikt/issues/115">#115</a>)</li>
 </ul>
-<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>groupChoice</code> help output now includes the choices in the help output metavar</li>
 <li><code>TermUi.edit*</code> functions could freeze on certain editors (<a href="https://github.com/ajalt/clikt/issues/99">#99</a>, thanks @iampravikant and @sebokopter)</li>
@@ -2915,48 +3058,48 @@
 </ul>
 <h2 id="230">2.3.0<a class="headerlink" href="#230" title="Permanent link">&para;</a></h2>
 <p><em>2019-11-07</em></p>
-<h3 id="added_7">Added<a class="headerlink" href="#added_7" title="Permanent link">&para;</a></h3>
+<h3 id="added_8">Added<a class="headerlink" href="#added_8" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>option().groupSwitch()</code>, which works like <code>groupChoice()</code>, but uses a <code>switch()</code> option rather than a <code>choice()</code> option.</li>
 <li><code>UsageError</code> now has a <code>statusCode</code> parameter (which defaults to 1). If you&rsquo;re using <code>ClicktCommand.main</code>, the value of <code>statusCode</code> will be passed to <code>exitProcess</code>. </li>
 </ul>
-<h3 id="changed_7">Changed<a class="headerlink" href="#changed_7" title="Permanent link">&para;</a></h3>
+<h3 id="changed_8">Changed<a class="headerlink" href="#changed_8" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Shell completion code is now printed by throwing a <code>PrintCompletionMessage</code> (a subclass of <code>PrintMessage</code>) rather than calling <code>echo</code> directly.</li>
 </ul>
 <h2 id="220">2.2.0<a class="headerlink" href="#220" title="Permanent link">&para;</a></h2>
 <p><em>2019-09-25</em></p>
-<h3 id="added_8">Added<a class="headerlink" href="#added_8" title="Permanent link">&para;</a></h3>
+<h3 id="added_9">Added<a class="headerlink" href="#added_9" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Added <a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.types/enum/"><code>enum()</code> conversion</a> for options and arguments. (<a href="https://github.com/ajalt/clikt/issues/84">#84</a>)</li>
 </ul>
-<h3 id="changed_8">Changed<a class="headerlink" href="#changed_8" title="Permanent link">&para;</a></h3>
+<h3 id="changed_9">Changed<a class="headerlink" href="#changed_9" title="Permanent link">&para;</a></h3>
 <ul>
 <li>There are now several ways of <a href="https://ajalt.github.io/clikt/advanced/#preventing-file-expansion">preventing @-file expansion</a></li>
 </ul>
-<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Help output missing items when no help text is specified. (<a href="https://github.com/ajalt/clikt/issues/85">#85</a>)</li>
 <li>Help output not grouping options in groups passed to <code>groupChoice</code>. (<a href="https://github.com/ajalt/clikt/issues/88">#88</a>)</li>
 </ul>
 <h2 id="210">2.1.0<a class="headerlink" href="#210" title="Permanent link">&para;</a></h2>
 <p><em>2019-05-23</em></p>
-<h3 id="added_9">Added<a class="headerlink" href="#added_9" title="Permanent link">&para;</a></h3>
+<h3 id="added_10">Added<a class="headerlink" href="#added_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Ability to prevent <a href="https://ajalt.github.io/clikt/documenting/#preventing-rewrapping">rewrapping individual paragraphs</a> in help output.</li>
 <li>Added parameter <code>required</code> to <code>Option.multiple()</code> to require at least one instance of the option on the command line.</li>
 </ul>
-<h3 id="changed_9">Changed<a class="headerlink" href="#changed_9" title="Permanent link">&para;</a></h3>
+<h3 id="changed_10">Changed<a class="headerlink" href="#changed_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>CliktCommand.toString()</code> now includes the names and values of all parameters and subcommands.</li>
 </ul>
-<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_8">Fixed<a class="headerlink" href="#fixed_8" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Create subcommand context when <code>helpOptionNames</code> is empty. (<a href="https://github.com/ajalt/clikt/issues/64">#64</a>)</li>
 </ul>
 <h2 id="200">2.0.0<a class="headerlink" href="#200" title="Permanent link">&para;</a></h2>
 <p><em>2019-05-12</em></p>
-<h3 id="added_10">Added<a class="headerlink" href="#added_10" title="Permanent link">&para;</a></h3>
+<h3 id="added_11">Added<a class="headerlink" href="#added_11" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="https://ajalt.github.io/clikt/autocomplete/">Bash autocomplete script generation</a>. A property named <code>completionCandidates</code> has been added to <code>Argument</code> and <code>Option</code> interfaces, and corresponding parameters have been added to the various implementation constructors, as well as the <code>convert</code> functions. You can use this to control the values autocomplete that will be suggested.</li>
 <li><a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/split/"><code>option().split()</code></a>, and the corresponding <a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.options/-option-with-values/value-split/"><code>OptionWithValues.valueSplit</code></a>.</li>
@@ -2965,7 +3108,7 @@
 <li><a href="https://ajalt.github.io/clikt/documenting/#grouping-options-in-help">Option groups</a>, <a href="https://ajalt.github.io/clikt/options/#prompting-for-input">mutually exclusive groups</a>, <a href="https://ajalt.github.io/clikt/options/#co-occurring-option-groups">co-occurring groups</a>, and <a href="https://ajalt.github.io/clikt/options/#choice-options-with-groups">choice options with groups</a></li>
 <li>Support for <a href="https://ajalt.github.io/clikt/advanced/#command-line-argument-files-files">Command line argument files</a> a.k.a &ldquo;@-files&rdquo;</li>
 </ul>
-<h3 id="changed_10">Changed<a class="headerlink" href="#changed_10" title="Permanent link">&para;</a></h3>
+<h3 id="changed_11">Changed<a class="headerlink" href="#changed_11" title="Permanent link">&para;</a></h3>
 <ul>
 <li>If multiple <code>--</code> tokens are present on the command line, all subsequent occurrences after the first are now parsed as positional arguments. Previously, subsequent <code>--</code> tokens were skipped.  </li>
 <li>The <code>PlaintextHelpFormatter</code> has been replaced with <code>CliktHelpFormatter</code>, which is more customizable. See <a href="https://ajalt.github.io/clikt/documenting/">the docs</a> for more info, or the <a href="https://github.com/ajalt/clikt/tree/master/samples/ansicolors">new sample</a> for an example of customizing help output to use ANSI colors.</li>
@@ -2975,70 +3118,70 @@
 </ul>
 <h2 id="170">1.7.0<a class="headerlink" href="#170" title="Permanent link">&para;</a></h2>
 <p><em>2019-03-23</em></p>
-<h3 id="added_11">Added<a class="headerlink" href="#added_11" title="Permanent link">&para;</a></h3>
+<h3 id="added_12">Added<a class="headerlink" href="#added_12" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>printHelpOnEmptyArgs</code> parameter to <code>CliktCommand</code> constructor. (<a href="https://github.com/ajalt/clikt/issues/41">#41</a>)</li>
 </ul>
-<h3 id="fixed_8">Fixed<a class="headerlink" href="#fixed_8" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_9">Fixed<a class="headerlink" href="#fixed_9" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Usage errors now correctly print subcommand names. (<a href="https://github.com/ajalt/clikt/issues/47">#47</a>)</li>
 <li>Arguments with <code>multiple(required=true)</code> now report an error if no argument is given on the command line. (<a href="https://github.com/ajalt/clikt/issues/36">#36</a>)</li>
 </ul>
 <h2 id="160">1.6.0<a class="headerlink" href="#160" title="Permanent link">&para;</a></h2>
 <p><em>2018-12-02</em></p>
-<h3 id="added_12">Added<a class="headerlink" href="#added_12" title="Permanent link">&para;</a></h3>
+<h3 id="added_13">Added<a class="headerlink" href="#added_13" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>.multiple().unique()</code> modifier for options and arguments.</li>
 </ul>
-<h3 id="fixed_9">Fixed<a class="headerlink" href="#fixed_9" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_10">Fixed<a class="headerlink" href="#fixed_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Support multi-line input when redirecting stdin</li>
 </ul>
 <h2 id="150">1.5.0<a class="headerlink" href="#150" title="Permanent link">&para;</a></h2>
 <p><em>2018-08-26</em></p>
-<h3 id="added_13">Added<a class="headerlink" href="#added_13" title="Permanent link">&para;</a></h3>
+<h3 id="added_14">Added<a class="headerlink" href="#added_14" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Ability to use alternate output streams rather than stdin and stdout by setting <code>Context.console</code> or by passing a console to <code>TermUI</code> functions.</li>
 </ul>
 <h2 id="140">1.4.0<a class="headerlink" href="#140" title="Permanent link">&para;</a></h2>
 <p><em>2018-07-31</em></p>
-<h3 id="added_14">Added<a class="headerlink" href="#added_14" title="Permanent link">&para;</a></h3>
+<h3 id="added_15">Added<a class="headerlink" href="#added_15" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>path()</code> type for parameter values</li>
 </ul>
-<h3 id="changed_11">Changed<a class="headerlink" href="#changed_11" title="Permanent link">&para;</a></h3>
+<h3 id="changed_12">Changed<a class="headerlink" href="#changed_12" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Clikt now targets JVM 8 bytecode</li>
 <li>Responses to <code>TermUi.confirm()</code> are now case-insensitive</li>
 </ul>
 <h2 id="130">1.3.0<a class="headerlink" href="#130" title="Permanent link">&para;</a></h2>
 <p><em>2018-06-23</em></p>
-<h3 id="added_15">Added<a class="headerlink" href="#added_15" title="Permanent link">&para;</a></h3>
+<h3 id="added_16">Added<a class="headerlink" href="#added_16" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>defaultLazy</code> extension for options and arguments</li>
 </ul>
-<h3 id="changed_12">Changed<a class="headerlink" href="#changed_12" title="Permanent link">&para;</a></h3>
+<h3 id="changed_13">Changed<a class="headerlink" href="#changed_13" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>main</code> now prints messages to stderr instead of stdout</li>
 </ul>
-<h3 id="fixed_10">Fixed<a class="headerlink" href="#fixed_10" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_11">Fixed<a class="headerlink" href="#fixed_11" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Parameter help messages are now wrapped more consistently</li>
 </ul>
 <h2 id="120">1.2.0<a class="headerlink" href="#120" title="Permanent link">&para;</a></h2>
 <p><em>2018-05-07</em></p>
-<h3 id="added_16">Added<a class="headerlink" href="#added_16" title="Permanent link">&para;</a></h3>
+<h3 id="added_17">Added<a class="headerlink" href="#added_17" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Default parameter to <code>option().default()</code></li>
 </ul>
-<h3 id="changed_13">Changed<a class="headerlink" href="#changed_13" title="Permanent link">&para;</a></h3>
+<h3 id="changed_14">Changed<a class="headerlink" href="#changed_14" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Treat tokens with unknown prefixes as arguments (this makes it easier
   to pass in file paths without using <code>--</code>).</li>
 </ul>
 <h2 id="110">1.1.0<a class="headerlink" href="#110" title="Permanent link">&para;</a></h2>
 <p><em>2018-04-15</em></p>
-<h3 id="added_17">Added<a class="headerlink" href="#added_17" title="Permanent link">&para;</a></h3>
+<h3 id="added_18">Added<a class="headerlink" href="#added_18" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>List&lt;String&gt;</code> overloads to <code>CliktCommand.parse</code> and <code>main</code></li>
 <li><code>err</code> parameter to <code>TermUi.echo</code></li>
@@ -3054,44 +3197,58 @@
             </article>
           </div>
         </div>
+        
       </main>
       
         
 <footer class="md-footer">
   
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-        
-          <a href="../migration/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Upgrading to Newer Releases
-              </div>
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../exceptions/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Where are Exceptions Handled?
             </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+      
+        <a href="../migration/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Upgrading to Newer Releases
             </div>
-          </a>
-        
-      </nav>
-    </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2020 AJ Alt
+            Copyright &copy; 2021 AJ Alt
           </div>
         
         Made with
         <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs
         </a>
+        
       </div>
       
     </div>
@@ -3099,19 +3256,13 @@
 </footer>
       
     </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
-      <script src="../assets/javascripts/vendor.6a3d08fc.min.js"></script>
-      <script src="../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-      
-      <script>
-        app = initialize({
-          base: "..",
-          features: [],
-          search: Object.assign({
-            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
+    
+      <script src="../assets/javascripts/bundle.7353b375.min.js"></script>
       
     
   </body>

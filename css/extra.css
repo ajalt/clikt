@@ -1,16 +1,9 @@
-.md-header-nav__topic {
+/* Custom CSS for mkdocs */
+
+.md-header__topic {
     color: transparent;
 }
 
-.md-header-nav__button.md-logo img {
+.md-header .md-logo img {
     width: 83px;
-}
-
-/* Imperfect hack to get links in code blocks to match the rest of the block */
-.md-typeset td > code:not(:first-child),
-.md-typeset td > a > code {
-    border-radius: 0 .1rem .1rem 0;
-    box-shadow: .29412em 0 0 hsla(0,0%,92.5%,.5);
-    background-color: hsla(0,0%,92.5%,.5);
-    padding: .07353em 0;
 }

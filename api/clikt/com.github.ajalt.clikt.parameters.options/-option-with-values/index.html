@@ -1,1885 +1,681 @@
-
-<!doctype html>
-<html lang="en" class="no-js">
+<html>
   <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-        <meta name="description" content="Clikt: Simple, powerful command line parser for Kotlin">
-      
-      
-      
-        <meta name="author" content="AJ Alt">
-      
-      <link rel="shortcut icon" href="../../../../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
-    
-    
-      
-        <title>Index - Clikt</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.bc7e593a.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab28b872.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#546d78">
-        
-      
-    
-    
-    
-      
-        
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
-      
-    
-    
-    
-      <link rel="stylesheet" href="../../../../css/extra.css">
-    
-    
-      
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="indigo">
-      
-  
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#optionwithvalues" class="md-skip">
-          Skip to content
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>OptionWithValues</title>
+<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script><link href="../../../images/wordmark_small_dark.svg"><link href="../../../styles/logo-styles.css" rel="Stylesheet">  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn"><a href="../../../index.html">
+          <div id="logo"></div>
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      
-
-<header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="../../../.." title="Clikt" class="md-header-nav__button md-logo" aria-label="Clikt">
-      
-  <img src="../../../../img/wordmark_small.svg" alt="logo">
-
-    </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
-            Clikt
-          </span>
-          <span class="md-header-nav__topic md-ellipsis">
-            
-              Index
-            
-          </span>
-        </div>
-      
-    </div>
-    
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
       </div>
-    </div>
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="clikt::com.github.ajalt.clikt.parameters.options/OptionWithValues///PointingToDeclaration//-71441751">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../../index.html">clikt</a>/<a href="../index.html">com.github.ajalt.clikt.parameters.options</a>/<a href="index.html">OptionWithValues</a></div>
+            <div class="pull-right d-flex">
+              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button></div>
+              <div id="searchBar"></div>
+            </div>
+          </div>
+          <div class="cover ">
+            <h1 class="cover"><span>Option</span><wbr></wbr><span>With</span><wbr></wbr><span>Values</span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">class <a href="index.html">OptionWithValues</a>&lt;<a href="index.html">AllT</a>, <a href="index.html">EachT</a>, <a href="index.html">ValueT</a>&gt; : <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="index.html">AllT</a>&gt; , <a href="../../com.github.ajalt.clikt.core/-groupable-option/index.html">GroupableOption</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">An <a href="../-option/index.html">Option</a> that takes one or more values.</p></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Extensions">Extensions</button></div>
+            <div class="tabs-section-body">
+              <h2 class="">Functions</h2>
+              <div class="table" data-togglable="Functions"><a data-name="37696383%2FFunctions%2F-71441751" anchor-label="copy" id="37696383%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="copy.html">copy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="37696383%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="copy.html">copy</a>(validator: <a href="../index.html#-72682504%2FClasslikes%2F-71441751">OptionValidator</a>&lt;<a href="index.html">AllT</a>&gt; = this.transformValidator, names: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = this.names, metavarWithDefault: <a href="../-value-with-default/index.html">ValueWithDefault</a>&lt;<a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?&gt; = this.metavarWithDefault, nvalues: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = this.nvalues, help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = this.optionHelp, hidden: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = this.hidden, helpTags: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = this.helpTags, envvar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = this.envvar, valueSourceKey: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = this.valueSourceKey, valueSplit: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a>? = this.valueSplit, parser: <a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/index.html">OptionWithValuesParser</a> = this.parser, completionCandidatesWithDefault: <a href="../-value-with-default/index.html">ValueWithDefault</a>&lt;<a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a>&gt; = this.completionCandidatesWithDefault): <a href="index.html">OptionWithValues</a>&lt;<a href="index.html">AllT</a>, <a href="index.html">EachT</a>, <a href="index.html">ValueT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1327317179%2FFunctions%2F-71441751" anchor-label="copy" id="1327317179%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="1327317179%2FFunctions%2F-71441751" anchor-label="copy" id="1327317179%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Create a new option that is a copy of this one with the same transforms.</div></div>
+<div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="copy.html">AllT</a>, <a href="copy.html">EachT</a>, <a href="copy.html">ValueT</a>&gt; <a href="copy.html">copy</a>(transformValue: <a href="../index.html#-2001971387%2FClasslikes%2F-71441751">ValueTransformer</a>&lt;<a href="copy.html">ValueT</a>&gt;, transformEach: <a href="../index.html#1742676793%2FClasslikes%2F-71441751">ArgsTransformer</a>&lt;<a href="copy.html">ValueT</a>, <a href="copy.html">EachT</a>&gt;, transformAll: <a href="../index.html#-1072745047%2FClasslikes%2F-71441751">CallsTransformer</a>&lt;<a href="copy.html">EachT</a>, <a href="copy.html">AllT</a>&gt;, validator: <a href="../index.html#-72682504%2FClasslikes%2F-71441751">OptionValidator</a>&lt;<a href="copy.html">AllT</a>&gt;, names: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = this.names, metavarWithDefault: <a href="../-value-with-default/index.html">ValueWithDefault</a>&lt;<a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?&gt; = this.metavarWithDefault, nvalues: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = this.nvalues, help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = this.optionHelp, hidden: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = this.hidden, helpTags: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt; = this.helpTags, valueSourceKey: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = this.valueSourceKey, envvar: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = this.envvar, valueSplit: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a>? = this.valueSplit, parser: <a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/index.html">OptionWithValuesParser</a> = this.parser, completionCandidatesWithDefault: <a href="../-value-with-default/index.html">ValueWithDefault</a>&lt;<a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a>&gt; = this.completionCandidatesWithDefault): <a href="index.html">OptionWithValues</a>&lt;<a href="copy.html">AllT</a>, <a href="copy.html">EachT</a>, <a href="copy.html">ValueT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-739952568%2FFunctions%2F-71441751" anchor-label="copy" id="-739952568%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-739952568%2FFunctions%2F-71441751" anchor-label="copy" id="-739952568%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Create a new option that is a copy of this one with different transforms.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1589429220%2FFunctions%2F-71441751" anchor-label="finalize" id="-1589429220%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="finalize.html">finalize</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1589429220%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">open override fun <a href="finalize.html">finalize</a>(context: <a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>, invocations: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../../com.github.ajalt.clikt.parsers/-option-parser/-invocation/index.html">OptionParser.Invocation</a>&gt;)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1589429220%2FFunctions%2F-71441751" anchor-label="finalize" id="-1589429220%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1589429220%2FFunctions%2F-71441751" anchor-label="finalize" id="-1589429220%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Called after this command's argv is parsed to transform and store the option's value.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1395784015%2FFunctions%2F-71441751" anchor-label="getValue" id="-1395784015%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../-option-delegate/get-value.html">getValue</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1395784015%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">open operator override fun <a href="../-option-delegate/get-value.html">getValue</a>(thisRef: <a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a>, property: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html">KProperty</a>&lt;*&gt;): <a href="index.html">AllT</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
-    
-    
-      <div class="md-header-nav__source">
-        
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1185172600%2FFunctions%2F-71441751" anchor-label="metavar" id="-1185172600%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="metavar.html">metavar</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1185172600%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">open override fun <a href="metavar.html">metavar</a>(context: <a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-  <div class="md-source__repository">
-    Clikt
+<a data-name="-1185172600%2FFunctions%2F-71441751" anchor-label="metavar" id="-1185172600%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1185172600%2FFunctions%2F-71441751" anchor-label="metavar" id="-1185172600%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>A name representing the values for this option that can be displayed to the user.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="228036904%2FFunctions%2F-71441751" anchor-label="parameterHelp" id="228036904%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../-option/parameter-help.html">parameterHelp</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="228036904%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">open fun <a href="../-option/parameter-help.html">parameterHelp</a>(context: <a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>): <a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-option/index.html">HelpFormatter.ParameterHelp.Option</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</a>
-      </div>
-    
-  </nav>
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
+<a data-name="228036904%2FFunctions%2F-71441751" anchor-label="parameterHelp" id="228036904%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="228036904%2FFunctions%2F-71441751" anchor-label="parameterHelp" id="228036904%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Information about this option for the help output.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="34976504%2FFunctions%2F-71441751" anchor-label="postValidate" id="34976504%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="post-validate.html">postValidate</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="34976504%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="Clikt" class="md-nav__button md-logo" aria-label="Clikt">
-      
-  <img src="../../../../img/wordmark_small.svg" alt="logo">
-
-    </a>
-    Clikt
-  </label>
-  
-    <div class="md-nav__source">
-      
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">open override fun <a href="post-validate.html">postValidate</a>(context: <a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-  <div class="md-source__repository">
-    Clikt
+<a data-name="34976504%2FFunctions%2F-71441751" anchor-label="postValidate" id="34976504%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="34976504%2FFunctions%2F-71441751" anchor-label="postValidate" id="34976504%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Called after all of a command's parameters have been <a href="finalize.html">finalize</a>d to perform validation of the final value.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1459144131%2FFunctions%2F-71441751" anchor-label="provideDelegate" id="-1459144131%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="provide-delegate.html">provideDelegate</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1459144131%2FFunctions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">open operator override fun <a href="provide-delegate.html">provideDelegate</a>(thisRef: <a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a>, prop: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html">KProperty</a>&lt;*&gt;): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html">ReadOnlyProperty</a>&lt;<a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a>, <a href="index.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
-    
-    <label class="md-nav__link" for="nav-1">
-      Quickstart
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
-      <label class="md-nav__title" for="nav-1">
-        <span class="md-nav__icon md-icon"></span>
-        Quickstart
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../quickstart/" class="md-nav__link">
-      Basic Concepts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../quickstart/#printing-to-stdout-and-stderr" class="md-nav__link">
-      Printing to Stdout and Stderr
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../quickstart/#nesting-commands" class="md-nav__link">
-      Nesting Commands
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../quickstart/#adding-parameters" class="md-nav__link">
-      Adding Parameters
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../quickstart/#developing-command-line-applications-with-gradle" class="md-nav__link">
-      Developing Command Line Applications With Gradle
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
-    <label class="md-nav__link" for="nav-2">
-      Why Clikt?
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        <span class="md-nav__icon md-icon"></span>
-        Why Clikt?
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../whyclikt/" class="md-nav__link">
-      Why not a Kotlin library like kotlin-argparser or kotlinx.cli?
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../whyclikt/#why-not-a-java-library-like-jcommander" class="md-nav__link">
-      Why not a Java library like JCommander?
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
-      Parameters
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Parameters" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        <span class="md-nav__icon md-icon"></span>
-        Parameters
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../parameters/" class="md-nav__link">
-      Differences
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../parameters/#parameter-names" class="md-nav__link">
-      Parameter Names
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../parameters/#parameter-types" class="md-nav__link">
-      Parameter Types
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../parameters/#built-in-types" class="md-nav__link">
-      Built-In Types
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../parameters/#custom-types" class="md-nav__link">
-      Custom Types
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../parameters/#parameter-validation" class="md-nav__link">
-      Parameter Validation
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
-      Options
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Options" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
-        <span class="md-nav__icon md-icon"></span>
-        Options
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/" class="md-nav__link">
-      Basic Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#option-names" class="md-nav__link">
-      Option Names
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#customizing-options" class="md-nav__link">
-      Customizing Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#multi-value-options" class="md-nav__link">
-      Multi Value Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#multiple-options" class="md-nav__link">
-      Multiple Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#key-value-and-map-options" class="md-nav__link">
-      Key-Value and Map Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#boolean-flag-options" class="md-nav__link">
-      Boolean Flag Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#counted-flag-options" class="md-nav__link">
-      Counted Flag Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#feature-switch-flags" class="md-nav__link">
-      Feature Switch Flags
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#choice-options" class="md-nav__link">
-      Choice Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#mutually-exclusive-option-groups" class="md-nav__link">
-      Mutually Exclusive Option Groups
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#co-occurring-option-groups" class="md-nav__link">
-      Co-Occurring Option Groups
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#choice-and-switch-options-with-groups" class="md-nav__link">
-      Choice and Switch Options With Groups
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#prompting-for-input" class="md-nav__link">
-      Prompting For Input
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#password-prompts" class="md-nav__link">
-      Password Prompts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#eager-options" class="md-nav__link">
-      Eager Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#deprecating-options" class="md-nav__link">
-      Deprecating Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#unknown-options" class="md-nav__link">
-      Unknown Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#values-from-environment-variables" class="md-nav__link">
-      Values From Environment Variables
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#values-from-configuration-files" class="md-nav__link">
-      Values from Configuration Files
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#windows-and-java-style-option-prefixes" class="md-nav__link">
-      Windows and Java-Style Option Prefixes
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../options/#option-transformation-order" class="md-nav__link">
-      Option Transformation Order
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      Arguments
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Arguments" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        <span class="md-nav__icon md-icon"></span>
-        Arguments
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../arguments/" class="md-nav__link">
-      Basic Arguments
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../arguments/#variadic-arguments" class="md-nav__link">
-      Variadic Arguments
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../arguments/#option-like-arguments-using-" class="md-nav__link">
-      Option-Like Arguments ("--")
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
-    
-    <label class="md-nav__link" for="nav-6">
-      Commands
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Commands" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
-        <span class="md-nav__icon md-icon"></span>
-        Commands
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/" class="md-nav__link">
-      Executing Nested Commands
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#customizing-command-name" class="md-nav__link">
-      Customizing Command Name
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#passing-parameters" class="md-nav__link">
-      Passing Parameters
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#nested-handling-and-contexts" class="md-nav__link">
-      Nested Handling And Contexts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#running-parent-command-without-children" class="md-nav__link">
-      Running Parent Command Without Children
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#customizing-contexts" class="md-nav__link">
-      Customizing Contexts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#printing-the-help-message-when-no-arguments-are-given" class="md-nav__link">
-      Printing the Help Message When No Arguments Are Given
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#warnings-and-other-messages" class="md-nav__link">
-      Warnings and Other Messages
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../commands/#chaining-and-repeating-subcommands" class="md-nav__link">
-      Chaining and Repeating Subcommands
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
-    
-    <label class="md-nav__link" for="nav-7">
-      Documenting Scripts
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
-        <span class="md-nav__icon md-icon"></span>
-        Documenting Scripts
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/" class="md-nav__link">
-      Help Texts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#preformatting-paragraphs" class="md-nav__link">
-      Preformatting Paragraphs
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#manual-line-breaks" class="md-nav__link">
-      Manual Line Breaks
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#subcommand-short-help" class="md-nav__link">
-      Subcommand Short Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#help-option-customization" class="md-nav__link">
-      Help Option Customization
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#default-values-in-help" class="md-nav__link">
-      Default Values in Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#required-options-in-help" class="md-nav__link">
-      Required Options in Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#grouping-options-in-help" class="md-nav__link">
-      Grouping Options in Help
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#suggesting-corrections-for-mistyped-parameters" class="md-nav__link">
-      Suggesting Corrections for Mistyped Parameters
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../documenting/#localization" class="md-nav__link">
-      Localization
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
-    
-    <label class="md-nav__link" for="nav-8">
-      Advanced Patterns
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
-        <span class="md-nav__icon md-icon"></span>
-        Advanced Patterns
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../advanced/" class="md-nav__link">
-      Command Aliases
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../advanced/#token-normalization" class="md-nav__link">
-      Token Normalization
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../advanced/#replacing-stdin-and-stdout" class="md-nav__link">
-      Replacing stdin and stdout
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../advanced/#command-line-argument-files-files" class="md-nav__link">
-      Argument Files ("@-files")
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../advanced/#testing-your-clikt-cli" class="md-nav__link">
-      Testing your Clikt CLI
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../advanced/#multiplatform-support" class="md-nav__link">
-      Multiplatform Support
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
-    
-    <label class="md-nav__link" for="nav-9">
-      Utilities
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Utilities" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
-        <span class="md-nav__icon md-icon"></span>
-        Utilities
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../utilities/" class="md-nav__link">
-      Launching Editors
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../utilities/#input-prompts" class="md-nav__link">
-      Input Prompts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../utilities/#confirmation-prompts" class="md-nav__link">
-      Confirmation Prompts
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
-    
-    <label class="md-nav__link" for="nav-10">
-      Bash Autocomplete
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
-      <label class="md-nav__title" for="nav-10">
-        <span class="md-nav__icon md-icon"></span>
-        Bash Autocomplete
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../autocomplete/" class="md-nav__link">
-      Supported Functionality
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../autocomplete/#enabling-completion" class="md-nav__link">
-      Enabling Completion
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../autocomplete/#customizing-completions" class="md-nav__link">
-      Customizing Completions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../autocomplete/#limitations" class="md-nav__link">
-      Limitations
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
-    
-    <label class="md-nav__link" for="nav-11">
-      Exception Handling
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
-        <span class="md-nav__icon md-icon"></span>
-        Exception Handling
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../exceptions/" class="md-nav__link">
-      Where are Exceptions Handled?
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../exceptions/#handling-exceptions-manually" class="md-nav__link">
-      Handling Exceptions Manually
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../exceptions/#which-exceptions-exist" class="md-nav__link">
-      Which Exceptions Exist?
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
-    
-    <label class="md-nav__link" for="nav-12">
-      API reference
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="API reference" data-md-level="1">
-      <label class="md-nav__title" for="nav-12">
-        <span class="md-nav__icon md-icon"></span>
-        API reference
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../com.github.ajalt.clikt.core/" class="md-nav__link">
-      Commands and Exceptions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../" class="md-nav__link">
-      Options
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../com.github.ajalt.clikt.parameters.arguments/" class="md-nav__link">
-      Arguments
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../com.github.ajalt.clikt.parameters.types/" class="md-nav__link">
-      Parameter Type Conversions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../com.github.ajalt.clikt.output/" class="md-nav__link">
-      Output Formatting
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
-    
-    <label class="md-nav__link" for="nav-13">
-      Releases
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="Releases" data-md-level="1">
-      <label class="md-nav__title" for="nav-13">
-        <span class="md-nav__icon md-icon"></span>
-        Releases
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../changelog/" class="md-nav__link">
-      Change Log
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../../migration/" class="md-nav__link">
-      Upgrading to Newer Releases
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-  </ul>
-</nav>
+<a data-name="-1459144131%2FFunctions%2F-71441751" anchor-label="provideDelegate" id="-1459144131%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1459144131%2FFunctions%2F-71441751" anchor-label="provideDelegate" id="-1459144131%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Implementations must call <a href="../../com.github.ajalt.clikt.core/-parameter-holder/register-option.html">ParameterHolder.registerOption</a></div></div>
+</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            
-            
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#properties" class="md-nav__link">
-    Properties
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-functions" class="md-nav__link">
-    Extension Functions
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
+              <h2 class="">Properties</h2>
+              <div class="table" data-togglable="Properties"><a data-name="-1870542653%2FProperties%2F-71441751" anchor-label="completionCandidates" id="-1870542653%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="completion-candidates.html">completionCandidates</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1870542653%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1870542653%2FProperties%2F-71441751" anchor-label="completionCandidates" id="-1870542653%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="completion-candidates.html">completionCandidates</a>: <a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1870542653%2FProperties%2F-71441751" anchor-label="completionCandidates" id="-1870542653%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Optional set of strings to use when the user invokes shell autocomplete on a value for this option.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="257512668%2FProperties%2F-71441751" anchor-label="completionCandidatesWithDefault" id="257512668%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="completion-candidates-with-default.html">completionCandidatesWithDefault</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="257512668%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="257512668%2FProperties%2F-71441751" anchor-label="completionCandidatesWithDefault" id="257512668%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="completion-candidates-with-default.html">completionCandidatesWithDefault</a>: <a href="../-value-with-default/index.html">ValueWithDefault</a>&lt;<a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="61137205%2FProperties%2F-71441751" anchor-label="envvar" id="61137205%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="envvar.html">envvar</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="61137205%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="61137205%2FProperties%2F-71441751" anchor-label="envvar" id="61137205%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="envvar.html">envvar</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="61137205%2FProperties%2F-71441751" anchor-label="envvar" id="61137205%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The environment variable name to use.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1399363391%2FProperties%2F-71441751" anchor-label="groupName" id="-1399363391%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="group-name.html">groupName</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1399363391%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1399363391%2FProperties%2F-71441751" anchor-label="groupName" id="-1399363391%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override var <a href="group-name.html">groupName</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1399363391%2FProperties%2F-71441751" anchor-label="groupName" id="-1399363391%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The name of the group, or null if this option should not be grouped in the help output.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1833598165%2FProperties%2F-71441751" anchor-label="helpTags" id="1833598165%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="help-tags.html">helpTags</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1833598165%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1833598165%2FProperties%2F-71441751" anchor-label="helpTags" id="1833598165%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="help-tags.html">helpTags</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1833598165%2FProperties%2F-71441751" anchor-label="helpTags" id="1833598165%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Extra information about this option to pass to the help formatter.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1183727781%2FProperties%2F-71441751" anchor-label="hidden" id="1183727781%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="hidden.html">hidden</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1183727781%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1183727781%2FProperties%2F-71441751" anchor-label="hidden" id="1183727781%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="hidden.html">hidden</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1183727781%2FProperties%2F-71441751" anchor-label="hidden" id="1183727781%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>If true, this option should not appear in help output.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="496178166%2FProperties%2F-71441751" anchor-label="metavarWithDefault" id="496178166%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="metavar-with-default.html">metavarWithDefault</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="496178166%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="496178166%2FProperties%2F-71441751" anchor-label="metavarWithDefault" id="496178166%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="metavar-with-default.html">metavarWithDefault</a>: <a href="../-value-with-default/index.html">ValueWithDefault</a>&lt;<a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="496178166%2FProperties%2F-71441751" anchor-label="metavarWithDefault" id="496178166%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The metavar to use.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-700550173%2FProperties%2F-71441751" anchor-label="names" id="-700550173%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="names.html">names</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-700550173%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-700550173%2FProperties%2F-71441751" anchor-label="names" id="-700550173%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override var <a href="names.html">names</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-700550173%2FProperties%2F-71441751" anchor-label="names" id="-700550173%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The names that can be used to invoke this option.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2067309979%2FProperties%2F-71441751" anchor-label="nvalues" id="2067309979%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="nvalues.html">nvalues</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2067309979%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="2067309979%2FProperties%2F-71441751" anchor-label="nvalues" id="2067309979%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="nvalues.html">nvalues</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="2067309979%2FProperties%2F-71441751" anchor-label="nvalues" id="2067309979%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The number of values that must be given to this option.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="271422841%2FProperties%2F-71441751" anchor-label="optionHelp" id="271422841%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="option-help.html">optionHelp</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="271422841%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="271422841%2FProperties%2F-71441751" anchor-label="optionHelp" id="271422841%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="option-help.html">optionHelp</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="271422841%2FProperties%2F-71441751" anchor-label="optionHelp" id="271422841%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The description of this option, usually a single line.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1483723129%2FProperties%2F-71441751" anchor-label="parameterGroup" id="1483723129%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="parameter-group.html">parameterGroup</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1483723129%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1483723129%2FProperties%2F-71441751" anchor-label="parameterGroup" id="1483723129%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override var <a href="parameter-group.html">parameterGroup</a>: <a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/index.html">ParameterGroup</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1483723129%2FProperties%2F-71441751" anchor-label="parameterGroup" id="1483723129%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The group that this option belongs to, or null.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1316118480%2FProperties%2F-71441751" anchor-label="parser" id="1316118480%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="parser.html">parser</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1316118480%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1316118480%2FProperties%2F-71441751" anchor-label="parser" id="1316118480%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="parser.html">parser</a>: <a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/index.html">OptionWithValuesParser</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1316118480%2FProperties%2F-71441751" anchor-label="parser" id="1316118480%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The parser for this option's values.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1842938533%2FProperties%2F-71441751" anchor-label="secondaryNames" id="-1842938533%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="secondary-names.html">secondaryNames</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1842938533%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1842938533%2FProperties%2F-71441751" anchor-label="secondaryNames" id="-1842938533%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="secondary-names.html">secondaryNames</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1842938533%2FProperties%2F-71441751" anchor-label="secondaryNames" id="-1842938533%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Names that can be used for a secondary purpose, like disabling flag options.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-2085611366%2FProperties%2F-71441751" anchor-label="transformAll" id="-2085611366%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="transform-all.html">transformAll</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2085611366%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-2085611366%2FProperties%2F-71441751" anchor-label="transformAll" id="-2085611366%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="transform-all.html">transformAll</a>: <a href="../index.html#-1072745047%2FClasslikes%2F-71441751">CallsTransformer</a>&lt;<a href="index.html">EachT</a>, <a href="index.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-2085611366%2FProperties%2F-71441751" anchor-label="transformAll" id="-2085611366%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Called in <a href="finalize.html">finalize</a> to transform all invocations into the final value.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-2084423362%2FProperties%2F-71441751" anchor-label="transformEach" id="-2084423362%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="transform-each.html">transformEach</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2084423362%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-2084423362%2FProperties%2F-71441751" anchor-label="transformEach" id="-2084423362%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="transform-each.html">transformEach</a>: <a href="../index.html#1742676793%2FClasslikes%2F-71441751">ArgsTransformer</a>&lt;<a href="index.html">ValueT</a>, <a href="index.html">EachT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-2084423362%2FProperties%2F-71441751" anchor-label="transformEach" id="-2084423362%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Called in <a href="finalize.html">finalize</a> to transform each invocation.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1535663735%2FProperties%2F-71441751" anchor-label="transformValidator" id="-1535663735%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="transform-validator.html">transformValidator</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1535663735%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1535663735%2FProperties%2F-71441751" anchor-label="transformValidator" id="-1535663735%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="transform-validator.html">transformValidator</a>: <a href="../index.html#-72682504%2FClasslikes%2F-71441751">OptionValidator</a>&lt;<a href="index.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1535663735%2FProperties%2F-71441751" anchor-label="transformValidator" id="-1535663735%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Called after all parameters have been <a href="finalize.html">finalized</a> to validate the output of <a href="../../com.github.ajalt.clikt.parameters.arguments/transform-all.html">transformAll</a></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1544811702%2FProperties%2F-71441751" anchor-label="transformValue" id="-1544811702%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="transform-value.html">transformValue</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1544811702%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1544811702%2FProperties%2F-71441751" anchor-label="transformValue" id="-1544811702%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="transform-value.html">transformValue</a>: <a href="../index.html#-2001971387%2FClasslikes%2F-71441751">ValueTransformer</a>&lt;<a href="index.html">ValueT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1544811702%2FProperties%2F-71441751" anchor-label="transformValue" id="-1544811702%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Called in <a href="finalize.html">finalize</a> to transform each value provided to each invocation.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1711360474%2FProperties%2F-71441751" anchor-label="value" id="1711360474%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="value.html">value</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1711360474%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1711360474%2FProperties%2F-71441751" anchor-label="value" id="1711360474%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override var <a href="value.html">value</a>: <a href="index.html">AllT</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1711360474%2FProperties%2F-71441751" anchor-label="value" id="1711360474%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The value for this option.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-800810340%2FProperties%2F-71441751" anchor-label="valueSourceKey" id="-800810340%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="value-source-key.html">valueSourceKey</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-800810340%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-800810340%2FProperties%2F-71441751" anchor-label="valueSourceKey" id="-800810340%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="value-source-key.html">valueSourceKey</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-800810340%2FProperties%2F-71441751" anchor-label="valueSourceKey" id="-800810340%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Optional explicit key to use when looking this option up from a ValueSource</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1092258310%2FProperties%2F-71441751" anchor-label="valueSplit" id="1092258310%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="value-split.html">valueSplit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1092258310%2FProperties%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1092258310%2FProperties%2F-71441751" anchor-label="valueSplit" id="1092258310%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="value-split.html">valueSplit</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1092258310%2FProperties%2F-71441751" anchor-label="valueSplit" id="1092258310%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The pattern to split values from the command line on.</div></div></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            
-          
-          <div class="md-content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                  <a href="https://github.com/ajalt/clikt/edit/master/docs/api/clikt/com.github.ajalt.clikt.parameters.options/-option-with-values/index.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <p><a href="../../">clikt</a> / <a href="../">com.github.ajalt.clikt.parameters.options</a> / <a href="./">OptionWithValues</a></p>
-<h1 id="optionwithvalues">OptionWithValues<a class="headerlink" href="#optionwithvalues" title="Permanent link">&para;</a></h1>
-<p><code>class OptionWithValues<AllT, EachT, ValueT> : <a href="../-option-delegate/">OptionDelegate</a><AllT>, <a href="../../com.github.ajalt.clikt.core/-groupable-option/">GroupableOption</a></code></p>
-<p>An <a href="../-option/">Option</a> that takes one or more values.</p>
-<h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="completion-candidates/">completionCandidates</a></td>
-<td>Optional set of strings to use when the user invokes shell autocomplete on a value for this option.<code>val completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a></td>
-</tr>
-<tr>
-<td><a href="completion-candidates-with-default/">completionCandidatesWithDefault</a></td>
-<td><code>val completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="envvar/">envvar</a></td>
-<td>The environment variable name to use.<code>val envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
-</tr>
-<tr>
-<td><a href="group-name/">groupName</a></td>
-<td>The name of the group, or null if this option should not be grouped in the help output.<code>var groupName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
-</tr>
-<tr>
-<td><a href="help-tags/">helpTags</a></td>
-<td>Extra information about this option to pass to the help formatter.<code>val helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="hidden/">hidden</a></td>
-<td>If true, this option should not appear in help output.<code>val hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a></td>
-</tr>
-<tr>
-<td><a href="metavar-with-default/">metavarWithDefault</a></td>
-<td>The metavar to use. Specified at option creation.<code>val metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt;</code></td>
-</tr>
-<tr>
-<td><a href="names/">names</a></td>
-<td>The names that can be used to invoke this option. They must start with a punctuation character.<code>var names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="nvalues/">nvalues</a></td>
-<td>The number of values that must be given to this option.<code>val nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a></td>
-</tr>
-<tr>
-<td><a href="option-help/">optionHelp</a></td>
-<td>The description of this option, usually a single line.<code>val optionHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a></td>
-</tr>
-<tr>
-<td><a href="parameter-group/">parameterGroup</a></td>
-<td>The group that this option belongs to, or null. Set by the group.<code>var parameterGroup:</code><a href="../../com.github.ajalt.clikt.parameters.groups/-parameter-group/"><code>ParameterGroup</code></a><code>?</code></td>
-</tr>
-<tr>
-<td><a href="parser/">parser</a></td>
-<td>The parser for this option&rsquo;s values.<code>val parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a></td>
-</tr>
-<tr>
-<td><a href="secondary-names/">secondaryNames</a></td>
-<td>Names that can be used for a secondary purpose, like disabling flag options.<code>val secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="transform-all/">transformAll</a></td>
-<td>Called in <a href="finalize/">finalize</a> to transform all invocations into the final value.<code>val transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="transform-each/">transformEach</a></td>
-<td>Called in <a href="finalize/">finalize</a> to transform each invocation.<code>val transformEach:</code><a href="../-args-transformer/"><code>ArgsTransformer</code></a><code>&lt;ValueT, EachT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="transform-validator/">transformValidator</a></td>
-<td>Called after all parameters have been <a href="finalize/">finalized</a> to validate the output of <a href="transform-all/">transformAll</a><code>val transformValidator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="transform-value/">transformValue</a></td>
-<td>Called in <a href="finalize/">finalize</a> to transform each value provided to each invocation.<code>val transformValue:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="value/">value</a></td>
-<td>The value for this option.<code>var value: AllT</code></td>
-</tr>
-<tr>
-<td><a href="value-source-key/">valueSourceKey</a></td>
-<td>Optional explicit key to use when looking this option up from a <a href="../../com.github.ajalt.clikt.sources/-value-source/">ValueSource</a><code>val valueSourceKey:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
-</tr>
-<tr>
-<td><a href="value-split/">valueSplit</a></td>
-<td>The pattern to split values from the command line on. By default, values are split on whitespace.<code>val valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>?</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="copy/">copy</a></td>
-<td>Create a new option that is a copy of this one with different transforms.<code>fun &lt;AllT, EachT, ValueT&gt; copy(transformValue:</code><a href="../-value-transformer/"><code>ValueTransformer</code></a><code>&lt;ValueT&gt;, transformEach:</code><a href="../-args-transformer/"><code>ArgsTransformer</code></a><code>&lt;ValueT, EachT&gt;, transformAll:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;, validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt; = this.metavarWithDefault, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>= this.nvalues, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.optionHelp, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, valueSourceKey:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.valueSourceKey, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = this.valueSplit, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>= this.parser, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt; = this.completionCandidatesWithDefault):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code><br>Create a new option that is a copy of this one with the same transforms.<code>fun copy(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt; = this.transformValidator, names:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.names, metavarWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?&gt; = this.metavarWithDefault, nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>= this.nvalues, help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= this.optionHelp, hidden:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= this.hidden, helpTags:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt; = this.helpTags, envvar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.envvar, valueSourceKey:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.valueSourceKey, valueSplit:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>? = this.valueSplit, parser:</code><a href="../../com.github.ajalt.clikt.parsers/-option-with-values-parser/"><code>OptionWithValuesParser</code></a><code>= this.parser, completionCandidatesWithDefault:</code><a href="../-value-with-default/"><code>ValueWithDefault</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>&gt; = this.completionCandidatesWithDefault):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="finalize/">finalize</a></td>
-<td>Called after this command&rsquo;s argv is parsed to transform and store the option&rsquo;s value.<code>fun finalize(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>, invocations:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;Invocation&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
-</tr>
-<tr>
-<td><a href="metavar/">metavar</a></td>
-<td>A name representing the values for this option that can be displayed to the user.<code>fun metavar(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>?</code></td>
-</tr>
-<tr>
-<td><a href="post-validate/">postValidate</a></td>
-<td>Called after all of a command&rsquo;s parameters have been <a href="../-option/finalize/">finalize</a>d to perform validation of the final value.<code>fun postValidate(context:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
-</tr>
-<tr>
-<td><a href="provide-delegate/">provideDelegate</a></td>
-<td>Implementations must call <a href="../../com.github.ajalt.clikt.core/-parameter-holder/register-option/">ParameterHolder.registerOption</a><code>operator fun provideDelegate(thisRef:</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, prop:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><code>KProperty</code></a><code>&lt;*&gt;):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html"><code>ReadOnlyProperty</code></a><code>&lt;</code><a href="../../com.github.ajalt.clikt.core/-parameter-holder/"><code>ParameterHolder</code></a><code>, AllT&gt;</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="extension-functions">Extension Functions<a class="headerlink" href="#extension-functions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../associate/">associate</a></td>
-<td>Change this option to take multiple values, each split on a <a href="../associate/#com.github.ajalt.clikt.parameters.options$associate(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String)/delimiter">delimiter</a>, and converted to a map.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.associate(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "="):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../check/">check</a></td>
-<td>Check the final option value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.check(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, validator: (AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code><br>Check the final argument value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.check(lazyMessage: (AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.toString() }, validator: (AllT) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/choice/">choice</a></td>
-<td>Convert the option based on a fixed set of values.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.keys), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code><br><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.map { it.first }), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code><br>Restrict the option to a fixed set of values.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.choice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= mvar(choices.asIterable()), ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../convert/">convert</a></td>
-<td>Convert the option&rsquo;s value type.<code>fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(metavar:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="../-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code><br><code>fun &lt;InT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;InT, InT&gt;.convert(metavar:</code><a href="../../com.github.ajalt.clikt.core/-context/"><code>Context</code></a><code>.() -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { localization.defaultMetavar() }, completionCandidates:</code><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/"><code>CompletionCandidates</code></a><code>= completionCandidatesWithDefault.default, conversion:</code><a href="../-value-converter/"><code>ValueConverter</code></a><code>&lt;InT, ValueT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;ValueT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../counted/">counted</a></td>
-<td>Turn an option into a flag that counts the number of times the option occurs on the command line.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.counted():</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../default/">default</a></td>
-<td>If the option is not called on the command line (and is not set in an envvar), use <a href="../default/#com.github.ajalt.clikt.parameters.options$default(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.EachT, com.github.ajalt.clikt.parameters.options.default.ValueT)), com.github.ajalt.clikt.parameters.options.default.EachT, kotlin.String)/value">value</a> for the option.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.default(value: EachT, defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= value.toString()):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../default-lazy/">defaultLazy</a></td>
-<td>If the option is not called on the command line (and is not set in an envvar), call the <a href="../default-lazy/#com.github.ajalt.clikt.parameters.options$defaultLazy(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.EachT, com.github.ajalt.clikt.parameters.options.defaultLazy.ValueT)), kotlin.String, kotlin.Function0((com.github.ajalt.clikt.parameters.options.defaultLazy.EachT)))/value">value</a> and use its return value for the option.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.defaultLazy(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", value: () -&gt; EachT):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/default-stdin/">defaultStdin</a></td>
-<td>Use <code>-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a> option.<code>fun</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;.defaultStdin():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/default-stdout/">defaultStdout</a></td>
-<td>Use <code>-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/output-stream/">outputStream</a> option.<code>fun</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;.defaultStdout():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../deprecated/">deprecated</a></td>
-<td>Mark this option as deprecated in the help output.<code>fun &lt;AllT, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.deprecated(message:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = "", tagName:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = "deprecated", tagValue:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "", error:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/double/">double</a></td>
-<td>Convert the option values to a <code>Double``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.double():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><code>Double</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html"><code>Double</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/enum/">enum</a></td>
-<td>Convert the option to the values of an enum.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html"><code>Enum</code></a><code>&lt;T&gt;&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.enum(ignoreCase:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, key: (T) -&gt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= { it.name }):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/file/">file</a></td>
-<td>Convert the option to a <a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html">File</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.file(mustExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeFile:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, canBeDir:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, mustBeWritable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, mustBeReadable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeSymlink:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><code>File</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../flag/">flag</a></td>
-<td>Turn an option into a boolean flag.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.flag(vararg secondaryNames:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, default:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= ""):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/float/">float</a></td>
-<td>Convert the option values to a <code>Float``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.float():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html"><code>Float</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html"><code>Float</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.groups/group-choice/">groupChoice</a></td>
-<td>Convert the option to an option group based on a fixed set of values.<code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupChoice(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code><br><code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupChoice(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.groups/group-switch/">groupSwitch</a></td>
-<td>Convert the option into a set of flags that each map to an option group.<code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupSwitch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code><br><code>fun &lt;T :</code><a href="../../com.github.ajalt.clikt.parameters.groups/-option-group/"><code>OptionGroup</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.groupSwitch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../../com.github.ajalt.clikt.parameters.groups/-choice-group/"><code>ChoiceGroup</code></a><code>&lt;T, T?&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../help/">help</a></td>
-<td>Set the help for this option.<code>fun &lt;AllT, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.help(help:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/input-stream/">inputStream</a></td>
-<td>Convert the option to an <a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html">InputStream</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.inputStream(fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/InputStream.html"><code>InputStream</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/int/">int</a></td>
-<td>Convert the option values to an <code>Int``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.int():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/long/">long</a></td>
-<td>Convert the option values to a <code>Long``fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.long():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><code>Long</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><code>Long</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../multiple/">multiple</a></td>
-<td>Make the option return a list of calls; each item in the list is the value of one call.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.multiple(default:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;EachT&gt; = emptyList(), required:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;EachT&gt;, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/output-stream/">outputStream</a></td>
-<td>Convert the option to an <a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html">OutputStream</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.outputStream(createIfNotExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, truncateExisting:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>,</code><a href="https://docs.oracle.com/javase/6/docs/api/java/io/OutputStream.html"><code>OutputStream</code></a><code>&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../pair/">pair</a></td>
-<td>Change this option to take two values, held in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.pair():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;ValueT, ValueT&gt;, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/path/">path</a></td>
-<td>Convert the option to a <a href="#">Path</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.path(mustExist:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeFile:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, canBeDir:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, mustBeWritable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, mustBeReadable:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, canBeSymlink:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true, fileSystem: FileSystem = FileSystems.getDefault()):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;Path, Path&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../prompt/">prompt</a></td>
-<td>If the option isn&rsquo;t given on the command line, prompt the user for manual input.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;T, T&gt;.prompt(text:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, default:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = null, hideInput:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, requireConfirmation:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false, confirmationPrompt:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "Repeat for confirmation: ", promptSuffix:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= ": ", showDefault:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= true):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;T, T, T&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../required/">required</a></td>
-<td>If the option is not called on the command line (and is not set in an envvar), throw a <a href="../../com.github.ajalt.clikt.core/-missing-option/">MissingOption</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.required():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;EachT, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to/">restrictTo</a></td>
-<td>Restrict the option values to fit into a range.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html"><code>Comparable</code></a><code>&lt;T&gt;&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;T?, T, T&gt;.restrictTo(min: T? = null, max: T? = null, clamp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;T?, T, T&gt;</code><br><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html"><code>Comparable</code></a><code>&lt;T&gt;&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;T?, T, T&gt;.restrictTo(range:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-closed-range/index.html"><code>ClosedRange</code></a><code>&lt;T&gt;, clamp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= false):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;T?, T, T&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../split/">split</a></td>
-<td>Change to option to take any number of values, separated by a <a href="../split/#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)), kotlin.text.Regex)/regex">regex</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.split(regex:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html"><code>Regex</code></a><code>):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;, ValueT&gt;</code><br>Change to option to take any number of values, separated by a string <a href="../split/#com.github.ajalt.clikt.parameters.options$split(com.github.ajalt.clikt.parameters.options.OptionWithValues((com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.EachT, com.github.ajalt.clikt.parameters.options.split.ValueT)), kotlin.String)/delimiter">delimiter</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.split(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;?,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;ValueT&gt;, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../split-pair/">splitPair</a></td>
-<td>Split this option&rsquo;s value into two with a <a href="../split-pair/#com.github.ajalt.clikt.parameters.options$splitPair(com.github.ajalt.clikt.parameters.options.OptionWithValues((kotlin.String, kotlin.String, )), kotlin.String)/delimiter">delimiter</a>.<code>fun</code><a href="../-raw-option/"><code>RawOption</code></a><code>.splitPair(delimiter:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>= "="):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>&gt;&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../switch/">switch</a></td>
-<td>Turn an option into a set of flags that each map to a value.<code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;</code><br><code>fun &lt;T :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>&gt;</code><a href="../-raw-option/"><code>RawOption</code></a><code>.switch(vararg choices:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, T&gt;):</code><a href="../-flag-option/"><code>FlagOption</code></a><code>&lt;T?&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../to-map/">toMap</a></td>
-<td>Convert this option&rsquo;s values from a list of pairs into a map with key-value pairs from the list.<code>fun &lt;A, B&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;&gt;.toMap():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code>Map</code></a><code>&lt;A, B&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;,</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><code>Pair</code></a><code>&lt;A, B&gt;&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../transform-all/">transformAll</a></td>
-<td>Transform all calls to the option to the final option type.<code>fun &lt;AllT, EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.transformAll(defaultForHelp:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>? = this.helpTags[HelpFormatter.Tags.DEFAULT], showAsRequired:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><code>Boolean</code></a><code>= HelpFormatter.Tags.REQUIRED in this.helpTags, transform:</code><a href="../-calls-transformer/"><code>CallsTransformer</code></a><code>&lt;EachT, AllT&gt;):</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../transform-values/">transformValues</a></td>
-<td>Change the number of values that this option takes.<code>fun &lt;EachInT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachOutT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachInT, ValueT&gt;.transformValues(nvalues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><code>Int</code></a><code>, transform:</code><a href="../-args-transformer/"><code>ArgsTransformer</code></a><code>&lt;ValueT, EachOutT&gt;):</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachOutT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../triple/">triple</a></td>
-<td>Change this option to take three values, held in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a>.<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;EachT, ValueT&gt;.triple():</code><a href="../-nullable-option/"><code>NullableOption</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html"><code>Triple</code></a><code>&lt;ValueT, ValueT, ValueT&gt;, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../unique/">unique</a></td>
-<td>Make the <a href="../multiple/">multiple</a> option return a unique set of calls<code>fun &lt;EachT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code>List</code></a><code>&lt;EachT&gt;, EachT, ValueT&gt;.unique():</code><a href="./"><code>OptionWithValues</code></a><code>&lt;</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><code>Set</code></a><code>&lt;EachT&gt;, EachT, ValueT&gt;</code></td>
-</tr>
-<tr>
-<td><a href="../validate/">validate</a></td>
-<td>Check the final option value and raise an error if it&rsquo;s not valid.<code>fun &lt;AllT :</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code>Any</code></a><code>, EachT, ValueT&gt;</code><a href="./"><code>OptionWithValues</code></a><code>&lt;AllT, EachT, ValueT&gt;.validate(validator:</code><a href="../-option-validator/"><code>OptionValidator</code></a><code>&lt;AllT&gt;):</code><a href="../-option-delegate/"><code>OptionDelegate</code></a><code>&lt;AllT&gt;</code></td>
-</tr>
-</tbody>
-</table>
-                
-              
-              
-                
+              <h2 class="tabbedcontent">Extensions</h2>
+              <div class="table" data-togglable="Extensions"><a data-name="-1383197648%2FExtensions%2F-71441751" anchor-label="check" id="-1383197648%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../check.html">check</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1383197648%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">inline fun &lt;<a href="../check.html">AllT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../check.html">AllT</a>, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt;.<a href="../check.html">check</a>(message: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, crossinline validator: (<a href="../check.html">AllT</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../check.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1129111760%2FExtensions%2F-71441751" anchor-label="check" id="1129111760%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="1129111760%2FExtensions%2F-71441751" anchor-label="check" id="1129111760%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Check the final option value and raise an error if it's not valid.</div></div>
+<div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
-              
-            </article>
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">inline fun &lt;<a href="../check.html">AllT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../check.html">AllT</a>, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt;.<a href="../check.html">check</a>(crossinline lazyMessage: (<a href="../check.html">AllT</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = { it.toString() }, crossinline validator: (<a href="../check.html">AllT</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../check.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1437219073%2FExtensions%2F-71441751" anchor-label="check" id="1437219073%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="1437219073%2FExtensions%2F-71441751" anchor-label="check" id="1437219073%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Check the final argument value and raise an error if it's not valid.</div></div>
+<div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html">JvmName</a>(<span>name = <span class="breakable-word">nullableCheck</span></span><wbr></wbr>)</div></div>inline fun &lt;<a href="../check.html">AllT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../check.html">AllT</a>?, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt;.<a href="../check.html">check</a>(message: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, crossinline validator: (<a href="../check.html">AllT</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../check.html">AllT</a>?&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1406435113%2FExtensions%2F-71441751" anchor-label="check" id="-1406435113%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1406435113%2FExtensions%2F-71441751" anchor-label="check" id="-1406435113%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Check the final option value and raise an error if it's not valid.</div></div>
+<div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html">JvmName</a>(<span>name = <span class="breakable-word">nullableLazyCheck</span></span><wbr></wbr>)</div></div>inline fun &lt;<a href="../check.html">AllT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../check.html">AllT</a>?, <a href="../check.html">EachT</a>, <a href="../check.html">ValueT</a>&gt;.<a href="../check.html">check</a>(crossinline lazyMessage: (<a href="../check.html">AllT</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = { it.toString() }, crossinline validator: (<a href="../check.html">AllT</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../check.html">AllT</a>?&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1610406950%2FExtensions%2F-71441751" anchor-label="check" id="-1610406950%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1610406950%2FExtensions%2F-71441751" anchor-label="check" id="-1610406950%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Check the final argument value and raise an error if it's not valid.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-52220191%2FExtensions%2F-71441751" anchor-label="deprecated" id="-52220191%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../deprecated.html">deprecated</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-52220191%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../deprecated.html">AllT</a>, <a href="../deprecated.html">EachT</a>, <a href="../deprecated.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../deprecated.html">AllT</a>, <a href="../deprecated.html">EachT</a>, <a href="../deprecated.html">ValueT</a>&gt;.<a href="../deprecated.html">deprecated</a>(message: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = &quot;&quot;, tagName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = &quot;deprecated&quot;, tagValue: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> = &quot;&quot;, error: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../deprecated.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-52220191%2FExtensions%2F-71441751" anchor-label="deprecated" id="-52220191%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-52220191%2FExtensions%2F-71441751" anchor-label="deprecated" id="-52220191%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Mark this option as deprecated in the help output.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2132834933%2FExtensions%2F-71441751" anchor-label="help" id="2132834933%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../help.html">help</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2132834933%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../help.html">AllT</a>, <a href="../help.html">EachT</a>, <a href="../help.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../help.html">AllT</a>, <a href="../help.html">EachT</a>, <a href="../help.html">ValueT</a>&gt;.<a href="../help.html">help</a>(help: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="index.html">OptionWithValues</a>&lt;<a href="../help.html">AllT</a>, <a href="../help.html">EachT</a>, <a href="../help.html">ValueT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="2132834933%2FExtensions%2F-71441751" anchor-label="help" id="2132834933%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="2132834933%2FExtensions%2F-71441751" anchor-label="help" id="2132834933%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Set the help for this option.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-296586752%2FExtensions%2F-71441751" anchor-label="restrictTo" id="-296586752%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">restrictTo</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-296586752%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>?, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;.<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">restrictTo</a>(min: <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>? = null, max: <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>? = null, clamp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="index.html">OptionWithValues</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>?, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-386979701%2FExtensions%2F-71441751" anchor-label="restrictTo" id="-386979701%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-386979701%2FExtensions%2F-71441751" anchor-label="restrictTo" id="-386979701%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Restrict the option values to fit into a range.</div></div>
+<div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>?, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;.<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">restrictTo</a>(range: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-closed-range/index.html">ClosedRange</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;, clamp: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false): <a href="index.html">OptionWithValues</a>&lt;<a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>?, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>, <a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1530921951%2FExtensions%2F-71441751" anchor-label="restrictTo" id="1530921951%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="1530921951%2FExtensions%2F-71441751" anchor-label="restrictTo" id="1530921951%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Restrict the option values to fit into a range.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-732152132%2FExtensions%2F-71441751" anchor-label="toMap" id="-732152132%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../to-map.html">toMap</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-732152132%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt;&gt;, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt;, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt;&gt;.<a href="../to-map.html">toMap</a>(): <a href="index.html">OptionWithValues</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt;, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt;, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="../to-map.html">A</a>, <a href="../to-map.html">B</a>&gt;&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-732152132%2FExtensions%2F-71441751" anchor-label="toMap" id="-732152132%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-732152132%2FExtensions%2F-71441751" anchor-label="toMap" id="-732152132%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Convert this option's values from a list of pairs into a map with key-value pairs from the list.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1310408929%2FExtensions%2F-71441751" anchor-label="unique" id="-1310408929%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../unique.html">unique</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1310408929%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../unique.html">EachT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../unique.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../unique.html">EachT</a>&gt;, <a href="../unique.html">EachT</a>, <a href="../unique.html">ValueT</a>&gt;.<a href="../unique.html">unique</a>(): <a href="index.html">OptionWithValues</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>&lt;<a href="../unique.html">EachT</a>&gt;, <a href="../unique.html">EachT</a>, <a href="../unique.html">ValueT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="-1310408929%2FExtensions%2F-71441751" anchor-label="unique" id="-1310408929%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1310408929%2FExtensions%2F-71441751" anchor-label="unique" id="-1310408929%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Make the <a href="../multiple.html">multiple</a> option return a unique set of calls<h3 class=""> Example:</h3><div class="sample-container"><code class="" theme="idea"><pre>val opt: Set&lt;Int&gt; by option().int().multiple().unique()</pre></code></div></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1533655875%2FExtensions%2F-71441751" anchor-label="validate" id="-1533655875%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+                <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="../validate.html">validate</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1533655875%2FExtensions%2F-71441751"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="platform-tags ">
+                        <div class="platform-tag common-like">common</div>
+                      </div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun &lt;<a href="../validate.html">AllT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../validate.html">EachT</a>, <a href="../validate.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../validate.html">AllT</a>, <a href="../validate.html">EachT</a>, <a href="../validate.html">ValueT</a>&gt;.<a href="../validate.html">validate</a>(validator: <a href="../index.html#-72682504%2FClasslikes%2F-71441751">OptionValidator</a>&lt;<a href="../validate.html">AllT</a>&gt;): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../validate.html">AllT</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="1942046725%2FExtensions%2F-71441751" anchor-label="validate" id="1942046725%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="1942046725%2FExtensions%2F-71441751" anchor-label="validate" id="1942046725%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Check the final option value and raise an error if it's not valid.</div></div>
+<div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html">JvmName</a>(<span>name = <span class="breakable-word">nullableValidate</span></span><wbr></wbr>)</div></div>inline fun &lt;<a href="../validate.html">AllT</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>, <a href="../validate.html">EachT</a>, <a href="../validate.html">ValueT</a>&gt; <a href="index.html">OptionWithValues</a>&lt;<a href="../validate.html">AllT</a>?, <a href="../validate.html">EachT</a>, <a href="../validate.html">ValueT</a>&gt;.<a href="../validate.html">validate</a>(crossinline validator: <a href="../index.html#-72682504%2FClasslikes%2F-71441751">OptionValidator</a>&lt;<a href="../validate.html">AllT</a>&gt;): <a href="../-option-delegate/index.html">OptionDelegate</a>&lt;<a href="../validate.html">AllT</a>?&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<a data-name="547108100%2FExtensions%2F-71441751" anchor-label="validate" id="547108100%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="brief "><a data-name="547108100%2FExtensions%2F-71441751" anchor-label="validate" id="547108100%2FExtensions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Check the final option value and raise an error if it's not valid.</div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </main>
-      
-        
-<footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2020 AJ Alt
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
-      
     </div>
-  </div>
-</footer>
-      
-    </div>
-    
-      <script src="../../../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
-      <script src="../../../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-      
-      <script>
-        app = initialize({
-          base: "../../../..",
-          features: [],
-          search: Object.assign({
-            worker: "../../../../assets/javascripts/worker/search.4ac00218.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
-      
-    
   </body>
 </html>
+

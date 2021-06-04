@@ -37,6 +37,7 @@ kotlin {
     linuxX64()
     mingwX64()
     macosX64()
+    linuxArm32Hfp()
 
     sourceSets {
         all {
@@ -69,6 +70,10 @@ kotlin {
             dependsOn(nativeMain)
         }
         val macosX64Main by getting {
+            dependsOn(nativeMain)
+        }
+
+        val linuxArm32HfpMain by getting {
             dependsOn(nativeMain)
         }
 

@@ -33,9 +33,9 @@ import kotlin.jvm.JvmName
  *   if no candidates are specified in [option]
  */
 inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
-        metavar: String,
-        completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
-        crossinline conversion: ValueConverter<InT, ValueT>
+    metavar: String,
+    completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
+    crossinline conversion: ValueConverter<InT, ValueT>,
 ): NullableOption<ValueT, ValueT> {
     return convert({ metavar }, completionCandidates, conversion)
 }
@@ -63,9 +63,9 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
  *   if no candidates are specified in [option]
  */
 inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
-        noinline metavar: Context.() -> String = { localization.defaultMetavar() },
-        completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
-        crossinline conversion: ValueConverter<InT, ValueT>
+    noinline metavar: Context.() -> String = { localization.defaultMetavar() },
+    completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
+    crossinline conversion: ValueConverter<InT, ValueT>,
 ): NullableOption<ValueT, ValueT> {
     val proc: ValueTransformer<ValueT> = {
         try {
@@ -78,8 +78,8 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
         }
     }
     return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
-            metavarWithDefault = metavarWithDefault.copy(default = metavar),
-            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
+        metavarWithDefault = metavarWithDefault.copy(default = metavar),
+        completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
     )
 }
 
@@ -102,12 +102,12 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
         : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
     return copy(
-            transformValue = transformValue,
-            transformEach = { it },
-            transformAll = defaultAllProcessor(),
-            validator = defaultValidator(),
-            nvalues = 1,
-            valueSplit = regex
+        transformValue = transformValue,
+        transformEach = { it },
+        transformAll = defaultAllProcessor(),
+        validator = defaultValidator(),
+        nvalues = 1,
+        valueSplit = regex
     )
 }
 

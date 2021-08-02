@@ -18,11 +18,11 @@ object TermUi {
      * @param lineSeparator The line separator to use, defaults to the [console]'s `lineSeparator`
      */
     fun echo(
-            message: Any?,
-            trailingNewline: Boolean = true,
-            err: Boolean = false,
-            console: CliktConsole = defaultCliktConsole(),
-            lineSeparator: String = console.lineSeparator
+        message: Any?,
+        trailingNewline: Boolean = true,
+        err: Boolean = false,
+        console: CliktConsole = defaultCliktConsole(),
+        lineSeparator: String = console.lineSeparator,
     ) {
         val text = message?.toString()?.replace(Regex("\r?\n"), lineSeparator) ?: "null"
         console.print(if (trailingNewline) text + lineSeparator else text, err)
@@ -44,11 +44,11 @@ object TermUi {
      * @throws CliktError if the editor cannot be opened.
      */
     fun editText(
-            text: String,
-            editor: String? = null,
-            env: Map<String, String> = emptyMap(),
-            requireSave: Boolean = false,
-            extension: String = ".txt"
+        text: String,
+        editor: String? = null,
+        env: Map<String, String> = emptyMap(),
+        requireSave: Boolean = false,
+        extension: String = ".txt",
     ): String? {
         return createEditor(editor, env, requireSave, extension).edit(text)
     }
@@ -59,11 +59,11 @@ object TermUi {
      * @see editText for usage and parameter descriptions.
      */
     fun editFile(
-            filename: String,
-            editor: String? = null,
-            env: Map<String, String> = emptyMap(),
-            requireSave: Boolean = false,
-            extension: String = ".txt"
+        filename: String,
+        editor: String? = null,
+        env: Map<String, String> = emptyMap(),
+        requireSave: Boolean = false,
+        extension: String = ".txt",
     ) {
         createEditor(editor, env, requireSave, extension).editFile(filename)
     }
@@ -91,15 +91,15 @@ object TermUi {
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     fun <T> prompt(
-            text: String,
-            default: String? = null,
-            hideInput: Boolean = false,
-            requireConfirmation: Boolean = false,
-            confirmationPrompt: String = "Repeat for confirmation: ",
-            promptSuffix: String = ": ",
-            showDefault: Boolean = true,
-            console: CliktConsole = defaultCliktConsole(),
-            convert: ((String) -> T)
+        text: String,
+        default: String? = null,
+        hideInput: Boolean = false,
+        requireConfirmation: Boolean = false,
+        confirmationPrompt: String = "Repeat for confirmation: ",
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true,
+        console: CliktConsole = defaultCliktConsole(),
+        convert: ((String) -> T),
     ): T? {
         val prompt = buildPrompt(text, promptSuffix, showDefault, default)
 
@@ -155,16 +155,16 @@ object TermUi {
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     fun prompt(
-            text: String,
-            default: String? = null,
-            hideInput: Boolean = false,
-            requireConfirmation: Boolean = false,
-            confirmationPrompt: String = "Repeat for confirmation: ",
-            promptSuffix: String = ": ",
-            showDefault: Boolean = true
+        text: String,
+        default: String? = null,
+        hideInput: Boolean = false,
+        requireConfirmation: Boolean = false,
+        confirmationPrompt: String = "Repeat for confirmation: ",
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true,
     ): String? {
         return prompt(text, default, hideInput, requireConfirmation,
-                confirmationPrompt, promptSuffix, showDefault) { it }
+            confirmationPrompt, promptSuffix, showDefault) { it }
     }
 
     /**
@@ -180,15 +180,15 @@ object TermUi {
      * @return the user's response, or null if stdin is not interactive and EOF was encountered.
      */
     fun confirm(
-            text: String,
-            default: Boolean = false,
-            abort: Boolean = false,
-            promptSuffix: String = ": ",
-            showDefault: Boolean = true,
-            console: CliktConsole = defaultCliktConsole()
+        text: String,
+        default: Boolean = false,
+        abort: Boolean = false,
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true,
+        console: CliktConsole = defaultCliktConsole(),
     ): Boolean? {
         val prompt = buildPrompt(text, promptSuffix, showDefault,
-                if (default) "Y/n" else "y/N")
+            if (default) "Y/n" else "y/N")
         val rv: Boolean
         l@ while (true) {
             val input = console.promptForLine(prompt, false)?.trim()?.lowercase() ?: return null
@@ -210,8 +210,10 @@ object TermUi {
     /** True if the current platform is a version of windows. */
     val isWindows: Boolean get() = isWindowsMpp()
 
-    private fun buildPrompt(text: String, suffix: String, showDefault: Boolean,
-                            default: String?) = buildString {
+    private fun buildPrompt(
+        text: String, suffix: String, showDefault: Boolean,
+        default: String?,
+    ) = buildString {
         append(text)
         if (!default.isNullOrBlank() && showDefault) {
             append(" [").append(default).append("]")

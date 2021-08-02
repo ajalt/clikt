@@ -15,9 +15,9 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
-        internal val option: OptionDelegate<String?>,
-        internal val groups: Map<String, GroupT>,
-        internal val transform: (GroupT?) -> OutT
+    internal val option: OptionDelegate<String?>,
+    internal val groups: Map<String, GroupT>,
+    internal val transform: (GroupT?) -> OutT,
 ) : ParameterGroupDelegate<OutT> {
     override val groupName: String? = null
     override val groupHelp: String? = null
@@ -52,9 +52,9 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
         }
 
         val group = groups[key] ?: throw BadParameterValue(
-                context.localization.invalidGroupChoice(key, groups.keys.toList()),
-                option,
-                context
+            context.localization.invalidGroupChoice(key, groups.keys.toList()),
+            option,
+            context
         )
         group.finalize(context, invocationsByOption.filterKeys { it in group.options })
         chosenGroup = group

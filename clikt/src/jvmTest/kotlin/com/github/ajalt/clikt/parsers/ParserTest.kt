@@ -91,7 +91,7 @@ class ParserTest {
         """.trimMargin())
 
         shouldThrow<UsageError> { C().parse("@${file.path}") }
-                .text shouldContain "unclosed quote"
+            .text shouldContain "unclosed quote"
     }
 
     @Test

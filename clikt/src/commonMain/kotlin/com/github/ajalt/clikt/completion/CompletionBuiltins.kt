@@ -13,7 +13,7 @@ private val choices = arrayOf("bash", "zsh", "fish")
 internal class CompletionOption(
     override val names: Set<String>,
     override val optionHelp: String,
-    override val hidden: Boolean
+    override val hidden: Boolean,
 ) : StaticallyGroupedOption {
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = OptionWithValuesParser

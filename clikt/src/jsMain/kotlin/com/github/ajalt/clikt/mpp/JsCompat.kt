@@ -3,7 +3,7 @@ package com.github.ajalt.clikt.mpp
 
 // https://github.com/iliakan/detect-node
 private val isNode: Boolean = js(
-        "Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]'"
+    "Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]'"
 ) as Boolean
 
 /** Load module [mod], or throw an exception if not running on NodeJS */
@@ -36,7 +36,7 @@ internal fun nodeRequire(mod: String): dynamic {
         throw IllegalArgumentException("Module not available: $mod", e as? Throwable)
     }
     require(
-            imported != null && js("typeof imported !== 'undefined'").unsafeCast<Boolean>()
+        imported != null && js("typeof imported !== 'undefined'").unsafeCast<Boolean>()
     ) { "Module not available: $mod" }
     return imported
 }

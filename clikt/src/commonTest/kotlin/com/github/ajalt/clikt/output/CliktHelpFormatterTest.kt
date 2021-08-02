@@ -21,53 +21,54 @@ import kotlin.test.Test
 private fun <T> l(vararg t: T) = listOf(*t)
 
 private fun opt(
-        names: List<String>,
-        metavar: String? = null,
-        help: String = "",
-        nvalues: Int = 1,
-        secondaryNames: List<String> = emptyList(),
-        tags: Map<String, String> = emptyMap(),
-        group: String? = null
+    names: List<String>,
+    metavar: String? = null,
+    help: String = "",
+    nvalues: Int = 1,
+    secondaryNames: List<String> = emptyList(),
+    tags: Map<String, String> = emptyMap(),
+    group: String? = null,
 ): ParameterHelp.Option {
     return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, group)
 }
 
 private fun opt(
-        name: String,
-        metavar: String? = null,
-        help: String = "",
-        nvalues: Int = 1,
-        secondaryNames: List<String> = emptyList(),
-        tags: Map<String, String> = emptyMap()
+    name: String,
+    metavar: String? = null,
+    help: String = "",
+    nvalues: Int = 1,
+    secondaryNames: List<String> = emptyList(),
+    tags: Map<String, String> = emptyMap(),
 ): ParameterHelp.Option {
     return opt(l(name), metavar, help, nvalues, secondaryNames, tags)
 }
 
 private fun arg(
-        name: String,
-        help: String = "",
-        required: Boolean = false,
-        repeatable: Boolean = false,
-        tags: Map<String, String> = emptyMap()
+    name: String,
+    help: String = "",
+    required: Boolean = false,
+    repeatable: Boolean = false,
+    tags: Map<String, String> = emptyMap(),
 ) = ParameterHelp.Argument(name, help, required, repeatable, tags)
 
 private fun sub(
-        name: String,
-        help: String = "",
-        tags: Map<String, String> = emptyMap()
+    name: String,
+    help: String = "",
+    tags: Map<String, String> = emptyMap(),
 ) = ParameterHelp.Subcommand(name, help, tags)
 
 class CliktHelpFormatterTest {
     @Test
     fun formatUsage() = forAll(
-            row(l(), "Usage: prog"),
-            row(l(opt("-x")), "Usage: prog [OPTIONS]"),
-            row(l(arg("FOO")), "Usage: prog [FOO]"),
-            row(l(arg("FOO", required = true)), "Usage: prog FOO"),
-            row(l(arg("FOO", repeatable = true)), "Usage: prog [FOO]..."),
-            row(l(arg("FOO", required = true, repeatable = true)), "Usage: prog FOO..."),
-            row(l(arg("FOO", required = true, repeatable = true), opt("-x"), arg("BAR")), "Usage: prog [OPTIONS] FOO... [BAR]"),
-            row(l(opt("-x"), arg("FOO"), sub("bar")), "Usage: prog [OPTIONS] [FOO] COMMAND [ARGS]...")
+        row(l(), "Usage: prog"),
+        row(l(opt("-x")), "Usage: prog [OPTIONS]"),
+        row(l(arg("FOO")), "Usage: prog [FOO]"),
+        row(l(arg("FOO", required = true)), "Usage: prog FOO"),
+        row(l(arg("FOO", repeatable = true)), "Usage: prog [FOO]..."),
+        row(l(arg("FOO", required = true, repeatable = true)), "Usage: prog FOO..."),
+        row(l(arg("FOO", required = true, repeatable = true), opt("-x"), arg("BAR")),
+            "Usage: prog [OPTIONS] FOO... [BAR]"),
+        row(l(opt("-x"), arg("FOO"), sub("bar")), "Usage: prog [OPTIONS] [FOO] COMMAND [ARGS]...")
     ) { params, expected ->
         CliktHelpFormatter().formatUsage(params, "prog") shouldBe expected
     }
@@ -77,13 +78,13 @@ class CliktHelpFormatterTest {
     fun `formatUsage wrapping options string`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatUsage(l(
-                opt("-x"),
-                arg("FIRST", required = true),
-                arg("SECOND", required = true),
-                arg("THIRD", required = true),
-                arg("FOURTH", required = true),
-                arg("FIFTH", required = true),
-                arg("SIXTH", required = true)
+            opt("-x"),
+            arg("FIRST", required = true),
+            arg("SECOND", required = true),
+            arg("THIRD", required = true),
+            arg("FOURTH", required = true),
+            arg("FIFTH", required = true),
+            arg("SIXTH", required = true)
         ), programName = "cli a_very_long command") shouldBe
                 """
                 |Usage: cli a_very_long command [OPTIONS] FIRST SECOND
@@ -97,13 +98,13 @@ class CliktHelpFormatterTest {
     fun `formatUsage wrapping command name`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatUsage(l(
-                opt("-x"),
-                arg("FIRST", required = true),
-                arg("SECOND", required = true),
-                arg("THIRD", required = true),
-                arg("FOURTH", required = true),
-                arg("FIFTH", required = true),
-                arg("SIXTH", required = true)
+            opt("-x"),
+            arg("FIRST", required = true),
+            arg("SECOND", required = true),
+            arg("THIRD", required = true),
+            arg("FOURTH", required = true),
+            arg("FIFTH", required = true),
+            arg("SIXTH", required = true)
         ), programName = "cli a_very_very_very_long command") shouldBe
                 """
                 |Usage: cli a_very_very_very_long command
@@ -123,7 +124,7 @@ class CliktHelpFormatterTest {
     fun `formatHelp one opt`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-                programName = "prog") shouldBe
+            programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -137,7 +138,7 @@ class CliktHelpFormatterTest {
     fun `formatHelp one opt secondary name`() {
         val f = CliktHelpFormatter(width = 60)
         f.formatHelp("", "", l(
-                opt(l("--aa", "-a"), null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))
+            opt(l("--aa", "-a"), null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -152,8 +153,8 @@ class CliktHelpFormatterTest {
     fun `formatHelp one opt prolog`() {
         val f = CliktHelpFormatter()
         f.formatHelp(prolog = "Lorem Ipsum.", epilog = "Dolor Sit Amet.",
-                parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-                programName = "prog") shouldBe
+            parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+            programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -178,8 +179,8 @@ class CliktHelpFormatterTest {
                 Morbi id libero purus. Praesent sit amet neque tellus. Vestibulum in condimentum turpis, in
                 consectetur ex.
                 """, epilog = "",
-                parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-                programName = "prog") shouldBe
+            parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
+            programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -216,8 +217,8 @@ class CliktHelpFormatterTest {
                 Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
                 turpis bibendum egestas.
                 """, epilog = "",
-                parameters = l(),
-                programName = "prog") shouldBe
+            parameters = l(),
+            programName = "prog") shouldBe
                 """
                 |Usage: prog
                 |
@@ -240,9 +241,9 @@ class CliktHelpFormatterTest {
     fun `formatHelp parameter preformat`() {
         val f = CliktHelpFormatter(width = 54, maxColWidth = 12)
         f.formatHelp(prolog = "", epilog = "",
-                parameters = l(
-                        opt(l("-x"), nvalues = 0, help = "```Quisque viverra leo nec massa gravida congue.```"),
-                        arg("FOO", help = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            parameters = l(
+                opt(l("-x"), nvalues = 0, help = "```Quisque viverra leo nec massa gravida congue.```"),
+                arg("FOO", help = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
                 ```
                 - Morbi id libero purus.
@@ -253,19 +254,19 @@ class CliktHelpFormatterTest {
                 Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
                 turpis bibendum egestas.
                 """),
-                        arg("BAR", help = "Phasellus ultrices felis elit, ac interdum nibh dictum ac."),
-                        arg("BAZ", help = """Mauris a sapien non est rhoncus accumsan.
+                arg("BAR", help = "Phasellus ultrices felis elit, ac interdum nibh dictum ac."),
+                arg("BAZ", help = """Mauris a sapien non est rhoncus accumsan.
                            ```
                            Nullam laoreet erat vel tempor viverra. Aliquam lacinia nisl ac varius dapibus.
                            ```
                         """),
-                        sub("subcommand", """```
+                sub("subcommand", """```
                             Morbi gravida, massa eu volutpat viverra, quam nunc tristique diam.```
 
                             Donec sed ligula blandit, luctus sem ac, sagittis risus.
                             """)
-                ),
-                programName = "prog") shouldBe
+            ),
+            programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS] [FOO] [BAR] [BAZ] COMMAND
                 |            [ARGS]...
@@ -303,7 +304,7 @@ class CliktHelpFormatterTest {
     fun `formatHelp one opt manual line break narrow`() {
         val f = CliktHelpFormatter(width = 32)
         f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "Lorem ipsum dolor\u0085(sit amet, consectetur)")),
-                programName = "prog") shouldBe
+            programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -320,7 +321,7 @@ class CliktHelpFormatterTest {
     fun `formatHelp one opt manual line break wide`() {
         val f = CliktHelpFormatter(width = 78)
         f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "Lorem ipsum dolor\u0085(sit amet, consectetur)")),
-                programName = "prog") shouldBe
+            programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
                 |
@@ -336,11 +337,11 @@ class CliktHelpFormatterTest {
     fun `formatHelp option wrapping`() {
         val f = CliktHelpFormatter(width = 54, maxColWidth = 12)
         f.formatHelp("", "", l(
-                opt(l("-x"), "X", nvalues = 2, help = "one very very very very very very long option"),
-                opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
-                opt(l("-z", "--zzzzzzzzzzzzz"), "ZZZZZZZZ", help = "a short option"),
-                opt(l("-t", "--entirely-too-long-option"), "WOWSOLONG",
-                        help = "this option has a long name and a long descrption")
+            opt(l("-x"), "X", nvalues = 2, help = "one very very very very very very long option"),
+            opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
+            opt(l("-z", "--zzzzzzzzzzzzz"), "ZZZZZZZZ", help = "a short option"),
+            opt(l("-t", "--entirely-too-long-option"), "WOWSOLONG",
+                help = "this option has a long name and a long descrption")
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -362,9 +363,9 @@ class CliktHelpFormatterTest {
     fun `formatHelp option wrapping long help issue #10`() {
         val f = CliktHelpFormatter(width = 62)
         f.formatHelp("", "", l(
-                opt(l("-L", "--lorem-ipsum"),
-                        help = "Lorem ipsum dolor sit amet, consectetur e  adipiscing elit. Nulla vitae " +
-                                "porta nisi.  Interdum et malesuada fames ac ante ipsum")
+            opt(l("-L", "--lorem-ipsum"),
+                help = "Lorem ipsum dolor sit amet, consectetur e  adipiscing elit. Nulla vitae " +
+                        "porta nisi.  Interdum et malesuada fames ac ante ipsum")
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -381,10 +382,10 @@ class CliktHelpFormatterTest {
     fun `formatHelp option groups`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
-                opt(l("--aa", "-a"), "INT", "some thing to live by aa", group = "Grouped"),
-                opt(l("--bb", "-b"), "INT", "some thing to live by bb", group = "Singleton"),
-                opt(l("--cc", "-c"), "INT", "some thing to live by cc", group = "Grouped"),
-                opt(l("--dd", "-d"), "INT", "some thing to live by dd")
+            opt(l("--aa", "-a"), "INT", "some thing to live by aa", group = "Grouped"),
+            opt(l("--bb", "-b"), "INT", "some thing to live by bb", group = "Singleton"),
+            opt(l("--cc", "-c"), "INT", "some thing to live by cc", group = "Grouped"),
+            opt(l("--dd", "-d"), "INT", "some thing to live by dd")
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -406,8 +407,8 @@ class CliktHelpFormatterTest {
     fun `formatHelp arguments`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
-                arg("FOO", "some thing to live by", required = true),
-                arg("BAR", "another argument")
+            arg("FOO", "some thing to live by", required = true),
+            arg("BAR", "another argument")
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog FOO [BAR]
@@ -423,9 +424,9 @@ class CliktHelpFormatterTest {
     fun `formatHelp subcommands`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
-                sub("foo", "some thing to live by"),
-                sub("bar", "another argument")),
-                programName = "prog") shouldBe
+            sub("foo", "some thing to live by"),
+            sub("bar", "another argument")),
+            programName = "prog") shouldBe
                 """
                 |Usage: prog COMMAND [ARGS]...
                 |
@@ -539,32 +540,33 @@ class CliktHelpFormatterTest {
         }
 
         class C : NoOpCliktCommand(name = "program",
-                help = """
+            help = """
                 This is a program.
 
                 This is the prolog.
                 """,
-                epilog = "This is the epilog") {
+            epilog = "This is the epilog") {
             val g by G().cooccurring()
             val g2 by G2().cooccurring()
             val ex by mutuallyExclusiveOptions(
-                    option("--ex-foo", help = "exclusive foo"),
-                    option("--ex-bar", help = "exclusive bar")
+                option("--ex-foo", help = "exclusive foo"),
+                option("--ex-bar", help = "exclusive bar")
             ).help(
-                    name = "Exclusive",
-                    help = "These options are exclusive"
+                name = "Exclusive",
+                help = "These options are exclusive"
             )
             val ex2 by mutuallyExclusiveOptions(
-                    option("--ex-baz", help = "exclusive baz"),
-                    option("--ex-qux", help = "exclusive qux"),
-                    option("--ex-quz", help = "exclusive quz"),
-                    name = "Exclusive without help"
+                option("--ex-baz", help = "exclusive baz"),
+                option("--ex-qux", help = "exclusive qux"),
+                option("--ex-quz", help = "exclusive quz"),
+                name = "Exclusive without help"
             )
             val foo by option(help = "foo option help").int().required()
             val bar by option("-b", "--bar", help = "bar option help", metavar = "META").default("optdef")
             val baz by option(help = "baz option help").flag("--no-baz")
             val good by option().flag("--bad", default = true, defaultForHelp = "good").help("good option help")
-            val feature by option().switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero").help("feature switch")
+            val feature by option().switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero")
+                .help("feature switch")
             val hidden by option(help = "hidden", hidden = true)
             val multiOpt by option(help = "multiple").multiple(required = true)
             val arg by argument()
@@ -573,9 +575,9 @@ class CliktHelpFormatterTest {
             init {
                 context {
                     helpFormatter = CliktHelpFormatter(
-                            showDefaultValues = true,
-                            showRequiredTag = true,
-                            requiredOptionMarker = "*"
+                        showDefaultValues = true,
+                        showRequiredTag = true,
+                        requiredOptionMarker = "*"
                     )
                 }
 
@@ -595,8 +597,8 @@ class CliktHelpFormatterTest {
         class Sub2 : NoOpCliktCommand(help = "another command")
 
         val c = C()
-                .versionOption("1.0")
-                .subcommands(Sub(), Sub2())
+            .versionOption("1.0")
+            .subcommands(Sub(), Sub2())
 
         c.getFormattedHelp() shouldBe """
                 |Usage: program [OPTIONS] ARG MULTI... COMMAND [ARGS]...
@@ -652,8 +654,8 @@ class CliktHelpFormatterTest {
     fun `required option marker`() {
         val f = CliktHelpFormatter(width = 54, requiredOptionMarker = "*")
         f.formatHelp("", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
+            opt(l("--aa", "-a"), "INT", "aa option help"),
+            opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -669,8 +671,8 @@ class CliktHelpFormatterTest {
     fun `required option tag`() {
         val f = CliktHelpFormatter(width = 54, showRequiredTag = true)
         f.formatHelp("", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
+            opt(l("--aa", "-a"), "INT", "aa option help"),
+            opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -686,8 +688,8 @@ class CliktHelpFormatterTest {
     fun `default option tag`() {
         val f = CliktHelpFormatter(width = 54, showDefaultValues = true)
         f.formatHelp("", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.DEFAULT to "123"))
+            opt(l("--aa", "-a"), "INT", "aa option help"),
+            opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.DEFAULT to "123"))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -703,8 +705,8 @@ class CliktHelpFormatterTest {
     fun `custom tag`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf("deprecated" to ""))
+            opt(l("--aa", "-a"), "INT", "aa option help"),
+            opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf("deprecated" to ""))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [OPTIONS]
@@ -720,8 +722,8 @@ class CliktHelpFormatterTest {
     fun `argument tag`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
-                arg("ARG1", "arg 1 help"),
-                arg("ARG2", "arg 2 help", tags = mapOf("deprecated" to ""))
+            arg("ARG1", "arg 1 help"),
+            arg("ARG2", "arg 2 help", tags = mapOf("deprecated" to ""))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog [ARG1] [ARG2]
@@ -737,8 +739,8 @@ class CliktHelpFormatterTest {
     fun `subcommand tag`() {
         val f = CliktHelpFormatter(width = 54)
         f.formatHelp("", "", l(
-                sub("sub1", "sub 1 help"),
-                sub("sub2", "sub 2 help", tags = mapOf("deprecated" to ""))
+            sub("sub1", "sub 1 help"),
+            sub("sub2", "sub 2 help", tags = mapOf("deprecated" to ""))
         ), programName = "prog") shouldBe
                 """
                 |Usage: prog COMMAND [ARGS]...

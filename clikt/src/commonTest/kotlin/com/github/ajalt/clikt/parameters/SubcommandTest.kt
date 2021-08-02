@@ -23,52 +23,52 @@ import kotlin.test.Test
 class SubcommandTest {
     @Test
     fun subcommand() = forAll(
-            row("--xx 2 sub --xx 3 --yy 4"),
-            row("--xx 2 sub -x 3 --yy 4"),
-            row("--xx 2 sub -x3 --yy 4"),
-            row("--xx 2 sub --xx 3 -y4"),
-            row("--xx 2 sub --xx=3 --yy=4"),
-            row("--xx 2 sub -x3 --yy=4"),
-            row("--xx 2 sub -x 3 -y 4"),
-            row("--xx 2 sub -x3 -y 4"),
-            row("--xx 2 sub -x 3 -y4"),
-            row("--xx 2 sub -x3 -y4"),
+        row("--xx 2 sub --xx 3 --yy 4"),
+        row("--xx 2 sub -x 3 --yy 4"),
+        row("--xx 2 sub -x3 --yy 4"),
+        row("--xx 2 sub --xx 3 -y4"),
+        row("--xx 2 sub --xx=3 --yy=4"),
+        row("--xx 2 sub -x3 --yy=4"),
+        row("--xx 2 sub -x 3 -y 4"),
+        row("--xx 2 sub -x3 -y 4"),
+        row("--xx 2 sub -x 3 -y4"),
+        row("--xx 2 sub -x3 -y4"),
 
-            row("--xx=2 sub --xx 3 --yy 4"),
-            row("--xx=2 sub --xx 3 -y 4"),
-            row("--xx=2 sub -x 3 --yy 4"),
-            row("--xx=2 sub -x3 --yy 4"),
-            row("--xx=2 sub --xx 3 -y4"),
-            row("--xx=2 sub --xx=3 --yy=4"),
-            row("--xx=2 sub -x3 --yy=4"),
-            row("--xx=2 sub -x 3 -y 4"),
-            row("--xx=2 sub -x3 -y 4"),
-            row("--xx=2 sub -x 3 -y4"),
-            row("--xx=2 sub -x3 -y4"),
+        row("--xx=2 sub --xx 3 --yy 4"),
+        row("--xx=2 sub --xx 3 -y 4"),
+        row("--xx=2 sub -x 3 --yy 4"),
+        row("--xx=2 sub -x3 --yy 4"),
+        row("--xx=2 sub --xx 3 -y4"),
+        row("--xx=2 sub --xx=3 --yy=4"),
+        row("--xx=2 sub -x3 --yy=4"),
+        row("--xx=2 sub -x 3 -y 4"),
+        row("--xx=2 sub -x3 -y 4"),
+        row("--xx=2 sub -x 3 -y4"),
+        row("--xx=2 sub -x3 -y4"),
 
-            row("-x 2 sub --xx 3 --yy 4"),
-            row("-x 2 sub --xx 3 -y 4"),
-            row("-x 2 sub -x 3 --yy 4"),
-            row("-x 2 sub -x3 --yy 4"),
-            row("-x 2 sub --xx 3 -y4"),
-            row("-x 2 sub --xx=3 --yy=4"),
-            row("-x 2 sub -x3 --yy=4"),
-            row("-x 2 sub -x 3 -y 4"),
-            row("-x 2 sub -x3 -y 4"),
-            row("-x 2 sub -x 3 -y4"),
-            row("-x 2 sub -x3 -y4"),
+        row("-x 2 sub --xx 3 --yy 4"),
+        row("-x 2 sub --xx 3 -y 4"),
+        row("-x 2 sub -x 3 --yy 4"),
+        row("-x 2 sub -x3 --yy 4"),
+        row("-x 2 sub --xx 3 -y4"),
+        row("-x 2 sub --xx=3 --yy=4"),
+        row("-x 2 sub -x3 --yy=4"),
+        row("-x 2 sub -x 3 -y 4"),
+        row("-x 2 sub -x3 -y 4"),
+        row("-x 2 sub -x 3 -y4"),
+        row("-x 2 sub -x3 -y4"),
 
-            row("-x2 sub --xx 3 --yy 4"),
-            row("-x2 sub --xx 3 -y 4"),
-            row("-x2 sub -x 3 --yy 4"),
-            row("-x2 sub -x3 --yy 4"),
-            row("-x2 sub --xx 3 -y4"),
-            row("-x2 sub --xx=3 --yy=4"),
-            row("-x2 sub -x3 --yy=4"),
-            row("-x2 sub -x 3 -y 4"),
-            row("-x2 sub -x3 -y 4"),
-            row("-x2 sub -x 3 -y4"),
-            row("-x2 sub -x3 -y4")
+        row("-x2 sub --xx 3 --yy 4"),
+        row("-x2 sub --xx 3 -y 4"),
+        row("-x2 sub -x 3 --yy 4"),
+        row("-x2 sub -x3 --yy 4"),
+        row("-x2 sub --xx 3 -y4"),
+        row("-x2 sub --xx=3 --yy=4"),
+        row("-x2 sub -x3 --yy=4"),
+        row("-x2 sub -x 3 -y 4"),
+        row("-x2 sub -x3 -y 4"),
+        row("-x2 sub -x 3 -y4"),
+        row("-x2 sub -x3 -y4")
     ) { argv ->
         class C : TestCommand() {
             val x by option("-x", "--xx")
@@ -92,8 +92,8 @@ class SubcommandTest {
     @Test
     @JsName("multiple_subcommands")
     fun `multiple subcommands`() = forAll(
-            row("-x1 sub1 2 3", true),
-            row("-x1 sub2 -x2 -y3", false)
+        row("-x1 sub1 2 3", true),
+        row("-x1 sub2 -x2 -y3", false)
     ) { argv, sub1Called ->
         class C : TestCommand(called = true) {
             val x by option("-x", "--xx")
@@ -165,16 +165,16 @@ class SubcommandTest {
         }
 
         C().subcommands(Sub())
-                .parse("--xx --xx -- --yy sub --xx foo")
+            .parse("--xx --xx -- --yy sub --xx foo")
     }
 
     @Test
     @JsName("normalized_subcommand_names")
     fun `normalized subcommand names`() = forAll(
-            row("a b", false, false),
-            row("a b SUB -xfoo", true, false),
-            row("a b SUB -xfoo SUB2 -xfoo", true, true),
-            row("a b SUB -xfoo sub2 -xfoo", true, true)
+        row("a b", false, false),
+        row("a b SUB -xfoo", true, false),
+        row("a b SUB -xfoo SUB2 -xfoo", true, true),
+        row("a b SUB -xfoo sub2 -xfoo", true, true)
     ) { argv, call1, call2 ->
 
         class C : TestCommand(invokeWithoutSubcommand = true) {
@@ -199,19 +199,19 @@ class SubcommandTest {
         }
 
         C().subcommands(Sub().subcommands(Sub2()))
-                .context { tokenTransformer = { it.lowercase() } }
-                .parse(argv)
+            .context { tokenTransformer = { it.lowercase() } }
+            .parse(argv)
     }
 
     @Test
     @JsName("aliased_subcommand_names")
     fun `aliased subcommand names`() = forAll(
-            row("a b", false),
-            row("a 1 sub -xfoo", true),
-            row("a 2", true),
-            row("3", true),
-            row("a b 4 -xfoo", true),
-            row("a b 4 1", true)) { argv, called ->
+        row("a b", false),
+        row("a 1 sub -xfoo", true),
+        row("a 2", true),
+        row("3", true),
+        row("a b 4 -xfoo", true),
+        row("a b 4 1", true)) { argv, called ->
 
         class C : TestCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
@@ -220,10 +220,10 @@ class SubcommandTest {
             }
 
             override fun aliases() = mapOf(
-                    "1" to "b".split(" "),
-                    "2" to "b sub -xfoo".split(" "),
-                    "3" to "a b sub -xfoo".split(" "),
-                    "4" to "sub".split(" ")
+                "1" to "b".split(" "),
+                "2" to "b sub -xfoo".split(" "),
+                "3" to "a b sub -xfoo".split(" "),
+                "4" to "sub".split(" ")
             )
         }
 
@@ -234,7 +234,7 @@ class SubcommandTest {
             }
 
             override fun aliases() = mapOf(
-                    "1" to listOf("-xfoo")
+                "1" to listOf("-xfoo")
             )
         }
 
@@ -252,7 +252,7 @@ class SubcommandTest {
 
         shouldThrow<UsageError> {
             Parent().subcommands(Child().subcommands(Grandchild()))
-                    .parse("child grandchild")
+                .parse("child grandchild")
         }.helpMessage() shouldBe """
             |Usage: parent child grandchild [OPTIONS] ARG
             |
@@ -262,16 +262,16 @@ class SubcommandTest {
 
     @Test
     fun noSuchSubcommand() = forAll(
-            row("qux", "no such subcommand: \"qux\""),
-            row("fo", "no such subcommand: \"fo\". Did you mean \"foo\"?"),
-            row("fop", "no such subcommand: \"fop\". Did you mean \"foo\"?"),
-            row("bart", "no such subcommand: \"bart\". Did you mean \"bar\"?"),
-            row("ba", "no such subcommand: \"ba\". (Possible subcommands: bar, baz)")
+        row("qux", "no such subcommand: \"qux\""),
+        row("fo", "no such subcommand: \"fo\". Did you mean \"foo\"?"),
+        row("fop", "no such subcommand: \"fop\". Did you mean \"foo\"?"),
+        row("bart", "no such subcommand: \"bart\". Did you mean \"bar\"?"),
+        row("ba", "no such subcommand: \"ba\". (Possible subcommands: bar, baz)")
     ) { argv, message ->
         shouldThrow<NoSuchSubcommand> {
             TestCommand()
-                    .subcommands(TestCommand(name = "foo"), TestCommand(name = "bar"), TestCommand(name = "baz"))
-                    .parse(argv)
+                .subcommands(TestCommand(name = "foo"), TestCommand(name = "bar"), TestCommand(name = "baz"))
+                .parse(argv)
         }.message shouldBe message
     }
 
@@ -290,13 +290,13 @@ class SubcommandTest {
 
     @Test
     fun allowMultipleSubcommands() = forAll(
-            row("foo a", 1, 0, "a", null, null),
-            row("foo a foo b", 2, 0, "b", null, null),
-            row("bar a", 0, 1, null, null, "a"),
-            row("bar a bar b", 0, 2, null, null, "b"),
-            row("bar --opt=o a", 0, 1, null, "o", "a"),
-            row("foo a bar --opt=o b foo c bar d", 2, 2, "c", null, "d"),
-            row("foo a bar b foo c bar --opt=o d", 2, 2, "c", "o", "d")
+        row("foo a", 1, 0, "a", null, null),
+        row("foo a foo b", 2, 0, "b", null, null),
+        row("bar a", 0, 1, null, null, "a"),
+        row("bar a bar b", 0, 2, null, null, "b"),
+        row("bar --opt=o a", 0, 1, null, "o", "a"),
+        row("foo a bar --opt=o b foo c bar d", 2, 2, "c", null, "d"),
+        row("foo a bar b foo c bar --opt=o d", 2, 2, "c", "o", "d")
     ) { argv, fc, bc, fa, bo, ba ->
         val foo = MultiSub1(count = fc)
         val bar = MultiSub2(count = bc)
@@ -336,11 +336,11 @@ class SubcommandTest {
     @Test
     @JsName("multiple_subcommands_with_varargs")
     fun `multiple subcommands with varargs`() = forAll(
-            row("foo f1 baz", 1, 1, "f1", emptyList()),
-            row("foo f1 foo f2 baz", 2, 1, "f2", emptyList()),
-            row("baz foo", 0, 1, "", listOf("foo")),
-            row("baz foo baz foo", 0, 1, "", listOf("foo", "baz", "foo")),
-            row("foo f1 baz foo f2", 1, 1, "f1", listOf("foo", "f2"))
+        row("foo f1 baz", 1, 1, "f1", emptyList()),
+        row("foo f1 foo f2 baz", 2, 1, "f2", emptyList()),
+        row("baz foo", 0, 1, "", listOf("foo")),
+        row("baz foo baz foo", 0, 1, "", listOf("foo", "baz", "foo")),
+        row("foo f1 baz foo f2", 1, 1, "f1", listOf("foo", "f2"))
     ) { argv, fc, bc, fa, ba ->
         class Baz : TestCommand(name = "baz", count = bc) {
             val arg by argument().multiple()
@@ -359,7 +359,7 @@ class SubcommandTest {
     @JsName("multiple_subcommands_nesting_multiple_subcommands")
     fun `multiple subcommands nesting multiple subcommands`() {
         val c = TestCommand(allowMultipleSubcommands = true)
-                .subcommands(TestCommand(allowMultipleSubcommands = true))
+            .subcommands(TestCommand(allowMultipleSubcommands = true))
         shouldThrow<IllegalArgumentException> {
             c.parse("")
         }.message shouldContain "allowMultipleSubcommands"

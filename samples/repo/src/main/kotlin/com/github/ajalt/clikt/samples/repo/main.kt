@@ -14,7 +14,7 @@ import java.io.File
 data class RepoConfig(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
 class Repo : CliktCommand(
-        help = """Repo is a command line tool that showcases how to build complex
+    help = """Repo is a command line tool that showcases how to build complex
         command line interfaces with Clikt.
 
         This tool is supposed to look like a distributed version control
@@ -24,12 +24,12 @@ class Repo : CliktCommand(
     }
 
     val repoHome: String by option(help = "Changes the repository folder location.")
-            .default(".repo")
+        .default(".repo")
     val config: List<Pair<String, String>> by option(help = "Overrides a config key/value pair.")
-            .pair()
-            .multiple()
+        .pair()
+        .multiple()
     val verbose: Boolean by option("-v", "--verbose", help = "Enables verbose mode.")
-            .flag()
+        .flag()
 
     override fun run() {
         val repo = RepoConfig(repoHome, HashMap(), verbose)
@@ -42,7 +42,7 @@ class Repo : CliktCommand(
 
 
 class Clone : CliktCommand(
-        help = """Clones a repository.
+    help = """Clones a repository.
 
         This will clone the repository at SRC into the folder DEST. If DEST
         is not provided this will automatically use the last path component
@@ -51,10 +51,10 @@ class Clone : CliktCommand(
     val src: File by argument().file()
     val dest: File? by argument().file().optional()
     val shallow: Boolean by option(help = "Makes a checkout shallow or deep.  Deep by default.")
-            .flag("--deep")
+        .flag("--deep")
 
     val rev: String by option("--rev", "-r", help = "Clone a specific revision instead of HEAD.")
-            .default("HEAD")
+        .default("HEAD")
 
     override fun run() {
         val destName = dest?.name ?: src.name
@@ -68,7 +68,7 @@ class Clone : CliktCommand(
 }
 
 class Delete : CliktCommand(
-        help = """Deletes a repository.
+    help = """Deletes a repository.
 
         This will throw away the current repository.""") {
     val repo: RepoConfig by requireObject()
@@ -80,17 +80,17 @@ class Delete : CliktCommand(
 }
 
 class SetUser : CliktCommand(
-        name = "setuser",
-        help = """Sets the user credentials.
+    name = "setuser",
+    help = """Sets the user credentials.
 
         This will override the current user config.""") {
     val repo: RepoConfig by requireObject()
     val username: String by option(help = "The developer's shown username.")
-            .prompt()
+        .prompt()
     val email: String by option(help = "The developer's email address.")
-            .prompt(text = "E-Mail")
+        .prompt(text = "E-Mail")
     val password: String by option(help = "The login password.")
-            .prompt(hideInput = true, requireConfirmation = true)
+        .prompt(hideInput = true, requireConfirmation = true)
 
     override fun run() {
         repo.config["username"] = username
@@ -102,7 +102,7 @@ class SetUser : CliktCommand(
 
 
 class Commit : CliktCommand(
-        help = """Commits outstanding changes.
+    help = """Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
         "repo push" to push up your changes to other repositories.
@@ -111,12 +111,12 @@ class Commit : CliktCommand(
         will be committed.""") {
     val repo: RepoConfig by requireObject()
     val message: List<String> by option("--message", "-m",
-            help = "The commit message. If provided multiple times " +
-                    "each argument gets converted into a new line.")
-            .multiple()
+        help = "The commit message. If provided multiple times " +
+                "each argument gets converted into a new line.")
+        .multiple()
     val files: List<File> by argument()
-            .file()
-            .multiple()
+        .file()
+        .multiple()
 
     override fun run() {
         val msg: String = if (message.isNotEmpty()) {
@@ -149,5 +149,5 @@ class Commit : CliktCommand(
 }
 
 fun main(args: Array<String>) = Repo()
-        .subcommands(Clone(), Delete(), SetUser(), Commit())
-        .main(args)
+    .subcommands(Clone(), Delete(), SetUser(), Commit())
+    .main(args)

@@ -110,15 +110,15 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  * @property transformValidator Called after all parameters have been [finalize]d to validate the result of [transformAll]
  */
 class ProcessedArgument<AllT, ValueT> internal constructor(
-        name: String,
-        override val nvalues: Int,
-        override val required: Boolean,
-        override val argumentHelp: String,
-        override val helpTags: Map<String, String>,
-        val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
-        val transformValue: ArgValueTransformer<ValueT>,
-        val transformAll: ArgCallsTransformer<AllT, ValueT>,
-        val transformValidator: ArgValidator<AllT>
+    name: String,
+    override val nvalues: Int,
+    override val required: Boolean,
+    override val argumentHelp: String,
+    override val helpTags: Map<String, String>,
+    val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
+    val transformValue: ArgValueTransformer<ValueT>,
+    val transformAll: ArgCallsTransformer<AllT, ValueT>,
+    val transformValidator: ArgValidator<AllT>,
 ) : ArgumentDelegate<AllT> {
     init {
         require(nvalues != 0) { "Arguments cannot have nvalues == 0" }
@@ -131,7 +131,8 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
     override val completionCandidates: CompletionCandidates
         get() = completionCandidatesWithDefault.value
 
-    override fun parameterHelp(context: Context) = ParameterHelp.Argument(name, argumentHelp, required || nvalues > 1, nvalues < 0, helpTags)
+    override fun parameterHelp(context: Context) =
+        ParameterHelp.Argument(name, argumentHelp, required || nvalues > 1, nvalues < 0, helpTags)
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
@@ -153,30 +154,46 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
 
     /** Create a new argument that is a copy of this one with different transforms. */
     fun <AllT, ValueT> copy(
-            transformValue: ArgValueTransformer<ValueT>,
-            transformAll: ArgCallsTransformer<AllT, ValueT>,
-            validator: ArgValidator<AllT>,
-            name: String = this.name,
-            nvalues: Int = this.nvalues,
-            required: Boolean = this.required,
-            help: String = this.argumentHelp,
-            helpTags: Map<String, String> = this.helpTags,
-            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
+        transformValue: ArgValueTransformer<ValueT>,
+        transformAll: ArgCallsTransformer<AllT, ValueT>,
+        validator: ArgValidator<AllT>,
+        name: String = this.name,
+        nvalues: Int = this.nvalues,
+        required: Boolean = this.required,
+        help: String = this.argumentHelp,
+        helpTags: Map<String, String> = this.helpTags,
+        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidatesWithDefault, transformValue, transformAll, validator)
+        return ProcessedArgument(name,
+            nvalues,
+            required,
+            help,
+            helpTags,
+            completionCandidatesWithDefault,
+            transformValue,
+            transformAll,
+            validator)
     }
 
     /** Create a new argument that is a copy of this one with the same transforms. */
     fun copy(
-            validator: ArgValidator<AllT> = this.transformValidator,
-            name: String = this.name,
-            nvalues: Int = this.nvalues,
-            required: Boolean = this.required,
-            help: String = this.argumentHelp,
-            helpTags: Map<String, String> = this.helpTags,
-            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
+        validator: ArgValidator<AllT> = this.transformValidator,
+        name: String = this.name,
+        nvalues: Int = this.nvalues,
+        required: Boolean = this.required,
+        help: String = this.argumentHelp,
+        helpTags: Map<String, String> = this.helpTags,
+        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name, nvalues, required, help, helpTags, completionCandidatesWithDefault, transformValue, transformAll, validator)
+        return ProcessedArgument(name,
+            nvalues,
+            required,
+            help,
+            helpTags,
+            completionCandidatesWithDefault,
+            transformValue,
+            transformAll,
+            validator)
     }
 }
 
@@ -201,21 +218,21 @@ internal fun <T> defaultValidator(): ArgValidator<T> = {}
  */
 @Suppress("unused")
 fun CliktCommand.argument(
-        name: String = "",
-        help: String = "",
-        helpTags: Map<String, String> = emptyMap(),
-        completionCandidates: CompletionCandidates? = null
+    name: String = "",
+    help: String = "",
+    helpTags: Map<String, String> = emptyMap(),
+    completionCandidates: CompletionCandidates? = null,
 ): RawArgument {
     return ProcessedArgument(
-            name = name,
-            nvalues = 1,
-            required = true,
-            argumentHelp = help,
-            helpTags = helpTags,
-            completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
-            transformValue = { it },
-            transformAll = defaultAllProcessor(),
-            transformValidator = defaultValidator()
+        name = name,
+        nvalues = 1,
+        required = true,
+        argumentHelp = help,
+        helpTags = helpTags,
+        completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
+        transformValue = { it },
+        transformAll = defaultAllProcessor(),
+        transformValidator = defaultValidator()
     )
 }
 
@@ -257,12 +274,13 @@ fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.help(help: String): Processed
  * @param required If true, an error with be thrown if no values are provided to this argument.
  */
 fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
-        nvalues: Int? = null,
-        required: Boolean? = null,
-        transform: ArgCallsTransformer<AllOutT, ValueT>): ProcessedArgument<AllOutT, ValueT> {
+    nvalues: Int? = null,
+    required: Boolean? = null,
+    transform: ArgCallsTransformer<AllOutT, ValueT>,
+): ProcessedArgument<AllOutT, ValueT> {
     return copy(transformValue, transform, defaultValidator(),
-            nvalues = nvalues ?: this.nvalues,
-            required = required ?: this.required)
+        nvalues = nvalues ?: this.nvalues,
+        required = required ?: this.required)
 }
 
 /**
@@ -391,8 +409,8 @@ inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -
  *   if no candidates are specified in [argument]
  */
 inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
-        completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
-        crossinline conversion: ArgValueConverter<InT, ValueT>
+    completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
+    crossinline conversion: ArgValueConverter<InT, ValueT>,
 ): ProcessedArgument<ValueT, ValueT> {
     val conv: ArgValueTransformer<ValueT> = {
         try {
@@ -405,7 +423,7 @@ inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
         }
     }
     return copy(conv, defaultAllProcessor(), defaultValidator(),
-            completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
+        completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
     )
 }
 
@@ -470,8 +488,8 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.validate(validator: Ar
  * ```
  */
 inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
-        message: String,
-        crossinline validator: (AllT) -> Boolean
+    message: String,
+    crossinline validator: (AllT) -> Boolean,
 ): ArgumentDelegate<AllT> {
     return check({ message }, validator)
 }
@@ -492,8 +510,8 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
  * ```
  */
 inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
-        crossinline lazyMessage: (AllT) -> String = { it.toString() },
-        crossinline validator: (AllT) -> Boolean
+    crossinline lazyMessage: (AllT) -> String = { it.toString() },
+    crossinline validator: (AllT) -> Boolean,
 ): ArgumentDelegate<AllT> {
     return validate { require(validator(it)) { lazyMessage(it) } }
 }
@@ -516,8 +534,8 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
 @JvmName("nullableCheck")
 @JsName("nullableCheck")
 inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
-        message: String,
-        crossinline validator: (AllT) -> Boolean
+    message: String,
+    crossinline validator: (AllT) -> Boolean,
 ): ArgumentDelegate<AllT?> {
     return check({ message }, validator)
 }
@@ -540,8 +558,8 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
 @JvmName("nullableLazyCheck")
 @JsName("nullableLazyCheck")
 inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
-        crossinline lazyMessage: (AllT) -> String = { it.toString() },
-        crossinline validator: (AllT) -> Boolean
+    crossinline lazyMessage: (AllT) -> String = { it.toString() },
+    crossinline validator: (AllT) -> Boolean,
 ): ArgumentDelegate<AllT?> {
     return validate { require(validator(it)) { lazyMessage(it) } }
 }

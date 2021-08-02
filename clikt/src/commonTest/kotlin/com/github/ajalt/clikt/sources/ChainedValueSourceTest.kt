@@ -14,9 +14,9 @@ class ChainedValueSourceTest {
     @JsName("reads_from_the_first_available_value")
     fun `reads from the first available value`() {
         val sources = arrayOf(
-                TestSource(),
-                TestSource("foo" to "bar"),
-                TestSource("foo" to "baz")
+            TestSource(),
+            TestSource("foo" to "bar"),
+            TestSource("foo" to "baz")
         )
 
         class C : TestCommand() {

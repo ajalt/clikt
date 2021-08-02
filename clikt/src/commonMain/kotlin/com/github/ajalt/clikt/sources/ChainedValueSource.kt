@@ -13,8 +13,8 @@ class ChainedValueSource(val sources: List<ValueSource>) : ValueSource {
 
     override fun getValues(context: Context, option: Option): List<ValueSource.Invocation> {
         return sources.asSequence()
-                .map { it.getValues(context, option) }
-                .firstOrNull { it.isNotEmpty() }
-                .orEmpty()
+            .map { it.getValues(context, option) }
+            .firstOrNull { it.isNotEmpty() }
+            .orEmpty()
     }
 }

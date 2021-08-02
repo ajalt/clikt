@@ -69,8 +69,8 @@ interface ParameterGroupDelegate<out T> : ParameterGroup, ReadOnlyProperty<Clikt
  * ```
  */
 open class OptionGroup(
-        name: String? = null,
-        help: String? = null
+    name: String? = null,
+    help: String? = null,
 ) : ParameterGroup, ParameterHolder {
     internal val options: MutableList<GroupableOption> = mutableListOf()
     override val groupName: String? = name
@@ -94,10 +94,11 @@ open class OptionGroup(
     override fun postValidate(context: Context) = options.forEach { it.postValidate(context) }
 }
 
-operator fun <T : OptionGroup> T.provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T> {
+operator fun <T : OptionGroup> T.provideDelegate(
+    thisRef: CliktCommand,
+    prop: KProperty<*>,
+): ReadOnlyProperty<CliktCommand, T> {
     thisRef.registerOptionGroup(this)
     options.forEach { thisRef.registerOption(it) }
-    return object : ReadOnlyProperty<CliktCommand, T> {
-        override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = this@provideDelegate
-    }
+    return ReadOnlyProperty { _, _ -> this@provideDelegate }
 }

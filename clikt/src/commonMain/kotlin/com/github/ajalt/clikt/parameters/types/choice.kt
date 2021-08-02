@@ -49,7 +49,10 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = 
  * argument().choice("foo" to 1, "bar" to 2)
  * ```
  */
-fun <T : Any> RawArgument.choice(vararg choices: Pair<String, T>, ignoreCase: Boolean = false): ProcessedArgument<T, T> {
+fun <T : Any> RawArgument.choice(
+    vararg choices: Pair<String, T>,
+    ignoreCase: Boolean = false,
+): ProcessedArgument<T, T> {
     return choice(choices.toMap(), ignoreCase)
 }
 
@@ -85,8 +88,8 @@ fun RawArgument.choice(vararg choices: String, ignoreCase: Boolean = false): Pro
  *   the enum name.
  */
 inline fun <reified T : Enum<T>> RawArgument.enum(
-        ignoreCase: Boolean = true,
-        key: (T) -> String = { it.name }
+    ignoreCase: Boolean = true,
+    key: (T) -> String = { it.name },
 ): ProcessedArgument<T, T> {
     return choice(enumValues<T>().associateBy { key(it) }, ignoreCase)
 }
@@ -107,9 +110,9 @@ inline fun <reified T : Enum<T>> RawArgument.enum(
  * @see com.github.ajalt.clikt.parameters.groups.groupChoice
  */
 fun <T : Any> RawOption.choice(
-        choices: Map<String, T>,
-        metavar: String = mvar(choices.keys),
-        ignoreCase: Boolean = false
+    choices: Map<String, T>,
+    metavar: String = mvar(choices.keys),
+    ignoreCase: Boolean = false,
 ): NullableOption<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
@@ -132,9 +135,9 @@ fun <T : Any> RawOption.choice(
  * @see com.github.ajalt.clikt.parameters.groups.groupChoice
  */
 fun <T : Any> RawOption.choice(
-        vararg choices: Pair<String, T>,
-        metavar: String = mvar(choices.map { it.first }),
-        ignoreCase: Boolean = false
+    vararg choices: Pair<String, T>,
+    metavar: String = mvar(choices.map { it.first }),
+    ignoreCase: Boolean = false,
 ): NullableOption<T, T> {
     return choice(choices.toMap(), metavar, ignoreCase)
 }
@@ -152,9 +155,9 @@ fun <T : Any> RawOption.choice(
  * ```
  */
 fun RawOption.choice(
-        vararg choices: String,
-        metavar: String = mvar(choices.asIterable()),
-        ignoreCase: Boolean = false
+    vararg choices: String,
+    metavar: String = mvar(choices.asIterable()),
+    ignoreCase: Boolean = false,
 ): NullableOption<String, String> {
     return choice(choices.associateBy { it }, metavar, ignoreCase)
 }
@@ -175,8 +178,8 @@ fun RawOption.choice(
  *   the enum name.
  */
 inline fun <reified T : Enum<T>> RawOption.enum(
-        ignoreCase: Boolean = true,
-        key: (T) -> String = { it.name }
+    ignoreCase: Boolean = true,
+    key: (T) -> String = { it.name },
 ): NullableOption<T, T> {
     return choice(enumValues<T>().associateBy { key(it) }, ignoreCase = ignoreCase)
 }

@@ -24,9 +24,9 @@ import kotlin.reflect.KProperty
  * @property option The option that was invoked
  */
 class OptionCallTransformContext(
-        val name: String,
-        val option: Option,
-        val context: Context
+    val name: String,
+    val option: Option,
+    val context: Context,
 ) : Option by option {
     /** Throw an exception indicating that an invalid value was provided. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, name)
@@ -96,21 +96,21 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
 class OptionWithValues<AllT, EachT, ValueT> internal constructor(
-        names: Set<String>,
-        val metavarWithDefault: ValueWithDefault<Context.() -> String?>,
-        override val nvalues: Int,
-        override val optionHelp: String,
-        override val hidden: Boolean,
-        override val helpTags: Map<String, String>,
-        override val valueSourceKey: String?,
-        val envvar: String?,
-        val valueSplit: Regex?,
-        override val parser: OptionWithValuesParser,
-        val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
-        val transformValue: ValueTransformer<ValueT>,
-        val transformEach: ArgsTransformer<ValueT, EachT>,
-        val transformAll: CallsTransformer<EachT, AllT>,
-        val transformValidator: OptionValidator<AllT>
+    names: Set<String>,
+    val metavarWithDefault: ValueWithDefault<Context.() -> String?>,
+    override val nvalues: Int,
+    override val optionHelp: String,
+    override val hidden: Boolean,
+    override val helpTags: Map<String, String>,
+    override val valueSourceKey: String?,
+    val envvar: String?,
+    val valueSplit: Regex?,
+    override val parser: OptionWithValuesParser,
+    val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
+    val transformValue: ValueTransformer<ValueT>,
+    val transformEach: ArgsTransformer<ValueT, EachT>,
+    val transformAll: CallsTransformer<EachT, AllT>,
+    val transformValidator: OptionValidator<AllT>,
 ) : OptionDelegate<AllT>, GroupableOption {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
@@ -149,7 +149,10 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
         })
     }
 
-    override operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, AllT> {
+    override operator fun provideDelegate(
+        thisRef: ParameterHolder,
+        prop: KProperty<*>,
+    ): ReadOnlyProperty<ParameterHolder, AllT> {
         require(secondaryNames.isEmpty()) {
             "Secondary option names are only allowed on flag options."
         }
@@ -164,72 +167,72 @@ class OptionWithValues<AllT, EachT, ValueT> internal constructor(
 
     /** Create a new option that is a copy of this one with different transforms. */
     fun <AllT, EachT, ValueT> copy(
-            transformValue: ValueTransformer<ValueT>,
-            transformEach: ArgsTransformer<ValueT, EachT>,
-            transformAll: CallsTransformer<EachT, AllT>,
-            validator: OptionValidator<AllT>,
-            names: Set<String> = this.names,
-            metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
-            nvalues: Int = this.nvalues,
-            help: String = this.optionHelp,
-            hidden: Boolean = this.hidden,
-            helpTags: Map<String, String> = this.helpTags,
-            valueSourceKey: String? = this.valueSourceKey,
-            envvar: String? = this.envvar,
-            valueSplit: Regex? = this.valueSplit,
-            parser: OptionWithValuesParser = this.parser,
-            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
+        transformValue: ValueTransformer<ValueT>,
+        transformEach: ArgsTransformer<ValueT, EachT>,
+        transformAll: CallsTransformer<EachT, AllT>,
+        validator: OptionValidator<AllT>,
+        names: Set<String> = this.names,
+        metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
+        nvalues: Int = this.nvalues,
+        help: String = this.optionHelp,
+        hidden: Boolean = this.hidden,
+        helpTags: Map<String, String> = this.helpTags,
+        valueSourceKey: String? = this.valueSourceKey,
+        envvar: String? = this.envvar,
+        valueSplit: Regex? = this.valueSplit,
+        parser: OptionWithValuesParser = this.parser,
+        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(
-                names = names,
-                metavarWithDefault = metavarWithDefault,
-                nvalues = nvalues,
-                optionHelp = help,
-                hidden = hidden,
-                helpTags = helpTags,
-                valueSourceKey = valueSourceKey,
-                envvar = envvar,
-                valueSplit = valueSplit,
-                parser = parser,
-                completionCandidatesWithDefault = completionCandidatesWithDefault,
-                transformValue = transformValue,
-                transformEach = transformEach,
-                transformAll = transformAll,
-                transformValidator = validator
+            names = names,
+            metavarWithDefault = metavarWithDefault,
+            nvalues = nvalues,
+            optionHelp = help,
+            hidden = hidden,
+            helpTags = helpTags,
+            valueSourceKey = valueSourceKey,
+            envvar = envvar,
+            valueSplit = valueSplit,
+            parser = parser,
+            completionCandidatesWithDefault = completionCandidatesWithDefault,
+            transformValue = transformValue,
+            transformEach = transformEach,
+            transformAll = transformAll,
+            transformValidator = validator
         )
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
     fun copy(
-            validator: OptionValidator<AllT> = this.transformValidator,
-            names: Set<String> = this.names,
-            metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
-            nvalues: Int = this.nvalues,
-            help: String = this.optionHelp,
-            hidden: Boolean = this.hidden,
-            helpTags: Map<String, String> = this.helpTags,
-            envvar: String? = this.envvar,
-            valueSourceKey: String? = this.valueSourceKey,
-            valueSplit: Regex? = this.valueSplit,
-            parser: OptionWithValuesParser = this.parser,
-            completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault
+        validator: OptionValidator<AllT> = this.transformValidator,
+        names: Set<String> = this.names,
+        metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
+        nvalues: Int = this.nvalues,
+        help: String = this.optionHelp,
+        hidden: Boolean = this.hidden,
+        helpTags: Map<String, String> = this.helpTags,
+        envvar: String? = this.envvar,
+        valueSourceKey: String? = this.valueSourceKey,
+        valueSplit: Regex? = this.valueSplit,
+        parser: OptionWithValuesParser = this.parser,
+        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValues(
-                names = names,
-                metavarWithDefault = metavarWithDefault,
-                nvalues = nvalues,
-                optionHelp = help,
-                hidden = hidden,
-                helpTags = helpTags,
-                valueSourceKey = valueSourceKey,
-                envvar = envvar,
-                valueSplit = valueSplit,
-                parser = parser,
-                completionCandidatesWithDefault = completionCandidatesWithDefault,
-                transformValue = transformValue,
-                transformEach = transformEach,
-                transformAll = transformAll,
-                transformValidator = validator
+            names = names,
+            metavarWithDefault = metavarWithDefault,
+            nvalues = nvalues,
+            optionHelp = help,
+            hidden = hidden,
+            helpTags = helpTags,
+            valueSourceKey = valueSourceKey,
+            envvar = envvar,
+            valueSplit = valueSplit,
+            parser = parser,
+            completionCandidatesWithDefault = completionCandidatesWithDefault,
+            transformValue = transformValue,
+            transformEach = transformEach,
+            transformAll = transformAll,
+            transformValidator = validator
         )
     }
 }
@@ -265,30 +268,30 @@ internal fun <T> defaultValidator(): OptionValidator<T> = { }
  */
 @Suppress("unused")
 fun ParameterHolder.option(
-        vararg names: String,
-        help: String = "",
-        metavar: String? = null,
-        hidden: Boolean = false,
-        envvar: String? = null,
-        helpTags: Map<String, String> = emptyMap(),
-        completionCandidates: CompletionCandidates? = null,
-        valueSourceKey: String? = null
+    vararg names: String,
+    help: String = "",
+    metavar: String? = null,
+    hidden: Boolean = false,
+    envvar: String? = null,
+    helpTags: Map<String, String> = emptyMap(),
+    completionCandidates: CompletionCandidates? = null,
+    valueSourceKey: String? = null,
 ): RawOption = OptionWithValues(
-        names = names.toSet(),
-        metavarWithDefault = ValueWithDefault(metavar?.let { { it } }, { localization.stringMetavar() }),
-        nvalues = 1,
-        optionHelp = help,
-        hidden = hidden,
-        helpTags = helpTags,
-        valueSourceKey = valueSourceKey,
-        envvar = envvar,
-        valueSplit = null,
-        parser = OptionWithValuesParser,
-        completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
-        transformValue = { it },
-        transformEach = defaultEachProcessor(),
-        transformAll = defaultAllProcessor(),
-        transformValidator = defaultValidator()
+    names = names.toSet(),
+    metavarWithDefault = ValueWithDefault(metavar?.let { { it } }) { localization.stringMetavar() },
+    nvalues = 1,
+    optionHelp = help,
+    hidden = hidden,
+    helpTags = helpTags,
+    valueSourceKey = valueSourceKey,
+    envvar = envvar,
+    valueSplit = null,
+    parser = OptionWithValuesParser,
+    completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
+    transformValue = { it },
+    transformEach = defaultEachProcessor(),
+    transformAll = defaultAllProcessor(),
+    transformValidator = defaultValidator()
 )
 
 /**
@@ -326,7 +329,7 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(help: Strin
  * ```
  */
 fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
-        validator: OptionValidator<AllT>
+    validator: OptionValidator<AllT>,
 ): OptionDelegate<AllT> {
     return copy(transformValue, transformEach, transformAll, validator)
 }
@@ -351,7 +354,7 @@ fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.validate(
 @JvmName("nullableValidate")
 @JsName("nullableValidate")
 inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.validate(
-        crossinline validator: OptionValidator<AllT>
+    crossinline validator: OptionValidator<AllT>,
 ): OptionDelegate<AllT?> {
     return copy(transformValue, transformEach, transformAll, { if (it != null) validator(it) })
 }
@@ -372,8 +375,8 @@ inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.va
  * ```
  */
 inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.check(
-        message: String,
-        crossinline validator: (AllT) -> Boolean
+    message: String,
+    crossinline validator: (AllT) -> Boolean,
 ): OptionDelegate<AllT> {
     return check({ message }, validator)
 }
@@ -394,8 +397,8 @@ inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.che
  * ```
  */
 inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.check(
-        crossinline lazyMessage: (AllT) -> String = { it.toString() },
-        crossinline validator: (AllT) -> Boolean
+    crossinline lazyMessage: (AllT) -> String = { it.toString() },
+    crossinline validator: (AllT) -> Boolean,
 ): OptionDelegate<AllT> {
     return validate { require(validator(it)) { lazyMessage(it) } }
 }
@@ -418,8 +421,8 @@ inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.che
 @JvmName("nullableCheck")
 @JsName("nullableCheck")
 inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.check(
-        message: String,
-        crossinline validator: (AllT) -> Boolean
+    message: String,
+    crossinline validator: (AllT) -> Boolean,
 ): OptionDelegate<AllT?> {
     return check({ message }, validator)
 }
@@ -442,8 +445,8 @@ inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.ch
 @JvmName("nullableLazyCheck")
 @JsName("nullableLazyCheck")
 inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.check(
-        crossinline lazyMessage: (AllT) -> String = { it.toString() },
-        crossinline validator: (AllT) -> Boolean
+    crossinline lazyMessage: (AllT) -> String = { it.toString() },
+    crossinline validator: (AllT) -> Boolean,
 ): OptionDelegate<AllT?> {
     return validate { require(validator(it)) { lazyMessage(it) } }
 }
@@ -468,11 +471,15 @@ inline fun <AllT : Any, EachT, ValueT> OptionWithValues<AllT?, EachT, ValueT>.ch
  * @param error If true, when the option is invoked, a [CliktError] is raised immediately instead of issuing a warning.
  */
 fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
-        message: String? = "",
-        tagName: String? = "deprecated",
-        tagValue: String = "",
-        error: Boolean = false
+    message: String? = "",
+    tagName: String? = "deprecated",
+    tagValue: String = "",
+    error: Boolean = false,
 ): OptionDelegate<AllT> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
-    return copy(transformValue, transformEach, deprecationTransformer(message, error, transformAll), transformValidator, helpTags = helpTags)
+    return copy(transformValue,
+        transformEach,
+        deprecationTransformer(message, error, transformAll),
+        transformValidator,
+        helpTags = helpTags)
 }

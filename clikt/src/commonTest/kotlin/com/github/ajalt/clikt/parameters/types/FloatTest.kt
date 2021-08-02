@@ -19,9 +19,9 @@ class FloatTest {
     @Test
     @JsName("float_option")
     fun `float option`() = forAll(
-            row("", null),
-            row("--xx=4.0", 4f),
-            row("-x5.5", 5.5f)) { argv, expected ->
+        row("", null),
+        row("--xx=4.0", 4f),
+        row("-x5.5", 5.5f)) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").float()
             override fun run_() {
@@ -40,15 +40,15 @@ class FloatTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-                .message shouldBe "Invalid value for \"--foo\": bar is not a valid floating point value"
+            .message shouldBe "Invalid value for \"--foo\": bar is not a valid floating point value"
     }
 
     @Test
     @JsName("float_option_with_default")
     fun `float option with default`() = forAll(
-            row("", -1f),
-            row("--xx=4.0", 4f),
-            row("-x5.5", 5.5f)) { argv, expected ->
+        row("", -1f),
+        row("--xx=4.0", 4f),
+        row("-x5.5", 5.5f)) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").float().default(-1f)
             override fun run_() {
@@ -61,9 +61,9 @@ class FloatTest {
     @Test
     @JsName("float_argument")
     fun `float argument`() = forAll(
-            row("", null, emptyList()),
-            row("1.1 2", 1.1f, listOf(2f)),
-            row("1.1 2 3", 1.1f, listOf(2f, 3f))) { argv, ex, ey ->
+        row("", null, emptyList()),
+        row("1.1 2", 1.1f, listOf(2f)),
+        row("1.1 2 3", 1.1f, listOf(2f, 3f))) { argv, ex, ey ->
         class C : TestCommand() {
             val x by argument().float().optional()
             val y by argument().float().multiple()

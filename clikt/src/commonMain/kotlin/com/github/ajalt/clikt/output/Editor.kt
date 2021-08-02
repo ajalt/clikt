@@ -9,10 +9,10 @@ internal interface Editor {
 }
 
 internal expect fun createEditor(
-        editorPath: String?,
-        env: Map<String, String>,
-        requireSave: Boolean,
-        extension: String
+    editorPath: String?,
+    env: Map<String, String>,
+    requireSave: Boolean,
+    extension: String,
 ): Editor
 
 internal fun inferEditorPath(commandExists: (String) -> Boolean): String {

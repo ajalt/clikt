@@ -11,7 +11,7 @@ import org.kodein.di.generic.setBinding
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
 class Cli : CliktCommand(
-        help = """Repo is a command line tool that showcases how to build complex
+    help = """Repo is a command line tool that showcases how to build complex
         command line interfaces with Clikt.
 
         This tool is supposed to look like a distributed version control
@@ -21,12 +21,12 @@ class Cli : CliktCommand(
     }
 
     val repoHome: String by option(help = "Changes the repository folder location.")
-            .default(".repo")
+        .default(".repo")
     val config: List<Pair<String, String>> by option(help = "Overrides a config key/value pair.")
-            .pair()
-            .multiple()
+        .pair()
+        .multiple()
     val verbose: Boolean by option("-v", "--verbose", help = "Enables verbose mode.")
-            .flag()
+        .flag()
 
     override fun run() {
         val repo = Repo(repoHome, HashMap(), verbose)

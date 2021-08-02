@@ -5,10 +5,10 @@ import com.github.ajalt.clikt.mpp.nodeRequire
 import com.github.ajalt.clikt.mpp.readEnvvar
 
 internal actual fun createEditor(
-        editorPath: String?,
-        env: Map<String, String>,
-        requireSave: Boolean,
-        extension: String
+    editorPath: String?,
+    env: Map<String, String>,
+    requireSave: Boolean,
+    extension: String,
 ): Editor {
     try {
         val fs = nodeRequire("fs")
@@ -21,20 +21,20 @@ internal actual fun createEditor(
 }
 
 private class NodeJsEditor(
-        private val fs: dynamic,
-        private val crypto: dynamic,
-        private val childProcess: dynamic,
-        private val editorPath: String?,
-        private val env: Map<String, String>,
-        private val requireSave: Boolean,
-        private val extension: String
+    private val fs: dynamic,
+    private val crypto: dynamic,
+    private val childProcess: dynamic,
+    private val editorPath: String?,
+    private val env: Map<String, String>,
+    private val requireSave: Boolean,
+    private val extension: String,
 ) : Editor {
     private fun getEditorPath(): String {
         return editorPath ?: inferEditorPath { editor ->
             val options = jsObject(
-                    "timeout" to 100,
-                    "windowsHide" to true,
-                    "stdio" to "ignore"
+                "timeout" to 100,
+                "windowsHide" to true,
+                "stdio" to "ignore"
             )
             childProcess.execSync("${getWhichCommand()} $editor", options) == 0
         }

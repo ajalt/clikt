@@ -19,10 +19,10 @@ class EagerOptionsTest {
     @Test
     @JsName("custom_eager_option")
     fun `custom eager option`() = forAll(
-            row("", false, false),
-            row("--option", true, false),
-            row("-p", false, true),
-            row("-op", true, true)
+        row("", false, false),
+        row("--option", true, false),
+        row("-p", false, true),
+        row("-op", true, true)
     ) { argv, eO, eP ->
         var calledO = false
         var calledP = false
@@ -48,7 +48,7 @@ class EagerOptionsTest {
 
         shouldThrow<Abort> {
             C().eagerOption("--foo") { throw Abort(error = false) }
-                    .parse("--foo")
+                .parse("--foo")
         }.error shouldBe false
     }
 

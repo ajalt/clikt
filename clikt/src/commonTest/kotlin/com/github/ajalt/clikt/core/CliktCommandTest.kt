@@ -81,12 +81,12 @@ class CliktCommandTest {
     @Test
     @JsName("shortHelp_extraction")
     fun `shortHelp extraction`() = forAll(
-            row("", ""),
-            row("foo bar", "foo bar"),
-            row("\n  \tfoo bar", "foo bar"),
-            row("```\n  foo bar", "foo bar"),
-            row("```\n  foo bar", "foo bar"),
-            row("```foo\nbar", "foo")
+        row("", ""),
+        row("foo bar", "foo bar"),
+        row("\n  \tfoo bar", "foo bar"),
+        row("```\n  foo bar", "foo bar"),
+        row("```\n  foo bar", "foo bar"),
+        row("```foo\nbar", "foo")
     ) { help, expected ->
         class C : NoOpCliktCommand(help = help) {
             val sh = shortHelp()
@@ -96,12 +96,12 @@ class CliktCommandTest {
 
     @Test
     fun aliases() = forAll(
-            row("-xx", "x", emptyList()),
-            row("a", "a", listOf("b")),
-            row("a", "a", listOf("b")),
-            row("b", null, listOf("-xa")),
-            row("recurse", null, listOf("recurse")),
-            row("recurse2", "foo", listOf("recurse", "recurse2"))
+        row("-xx", "x", emptyList()),
+        row("a", "a", listOf("b")),
+        row("a", "a", listOf("b")),
+        row("b", null, listOf("-xa")),
+        row("recurse", null, listOf("recurse")),
+        row("recurse2", "foo", listOf("recurse", "recurse2"))
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by option("-x", "--xx")
@@ -112,11 +112,11 @@ class CliktCommandTest {
             }
 
             override fun aliases() = mapOf(
-                    "y" to listOf("-x"),
-                    "a" to listOf("-xa", "b"),
-                    "b" to listOf("--", "-xa"),
-                    "recurse" to listOf("recurse"),
-                    "recurse2" to listOf("recurse", "--xx=foo", "recurse2")
+                "y" to listOf("-x"),
+                "a" to listOf("-xa", "b"),
+                "b" to listOf("--", "-xa"),
+                "recurse" to listOf("recurse"),
+                "recurse2" to listOf("recurse", "--xx=foo", "recurse2")
             )
         }
 
@@ -153,12 +153,14 @@ class CliktCommandTest {
         }
 
         Cmd().toString() shouldBe "<Cmd name=cmd options=[--option --int] arguments=[ARG]>"
-        Cmd().apply { parse("--int=123 bar") }.toString() shouldBe "<Cmd name=cmd options=[--option=null --int=123 --help] arguments=[ARG=bar]>"
-        Cmd().apply { parse("foo") }.toString() shouldBe "<Cmd name=cmd options=[--option=null --int=null --help] arguments=[ARG=foo]>"
+        Cmd().apply { parse("--int=123 bar") }
+            .toString() shouldBe "<Cmd name=cmd options=[--option=null --int=123 --help] arguments=[ARG=bar]>"
+        Cmd().apply { parse("foo") }
+            .toString() shouldBe "<Cmd name=cmd options=[--option=null --int=null --help] arguments=[ARG=foo]>"
 
         Cmd().subcommands(Sub()).apply { parse("-ooo bar sub --foo=baz") }.toString().shouldBe(
-                "<Cmd name=cmd options=[--option=oo --int=null --help] arguments=[ARG=bar] " +
-                        "subcommands=[<Sub name=sub options=[--foo=baz --help]>]>"
+            "<Cmd name=cmd options=[--option=oo --int=null --help] arguments=[ARG=bar] " +
+                    "subcommands=[<Sub name=sub options=[--foo=baz --help]>]>"
         )
     }
 
@@ -178,13 +180,14 @@ class CliktCommandTest {
             val g by G()
             val g2 by G2().cooccurring()
             val ge by mutuallyExclusiveOptions(
-                    option("--e1"),
-                    option("--e2")
+                option("--e1"),
+                option("--e2")
             )
         }
 
         Cmd().toString() shouldBe "<Cmd name=cmd options=[--option --foo --bar --e1 --e2]>"
-        Cmd().apply { parse("-oo --foo=f --e1=1") }.toString() shouldBe "<Cmd name=cmd options=[--option=o --foo=f --bar=null --e1=1 --e2=null --help]>"
+        Cmd().apply { parse("-oo --foo=f --e1=1") }
+            .toString() shouldBe "<Cmd name=cmd options=[--option=o --foo=f --bar=null --e1=1 --e2=null --help]>"
     }
 
     // https://github.com/ajalt/clikt/issues/64
@@ -225,7 +228,7 @@ class CliktCommandTest {
 
         c.registeredSubcommands().shouldContainExactlyInAnyOrder(child1, child2)
         c.registeredOptions().map { it.names.single() }.shouldContainExactlyInAnyOrder(
-                "--o1", "--o2", "--og"
+            "--o1", "--o2", "--og"
         )
         c.registeredArguments().map { it.name } shouldBe listOf("A")
         c.registeredParameterGroups() shouldBe listOf(g)

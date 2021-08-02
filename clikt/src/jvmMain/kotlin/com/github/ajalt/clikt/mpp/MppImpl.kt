@@ -5,7 +5,7 @@ import java.text.BreakIterator
 import kotlin.system.exitProcess
 
 internal actual fun isWindowsMpp(): Boolean = System.getProperty("os.name")
-        .contains(Regex("windows", RegexOption.IGNORE_CASE))
+    .contains(Regex("windows", RegexOption.IGNORE_CASE))
 
 internal actual val String.graphemeLengthMpp: Int
     get() {

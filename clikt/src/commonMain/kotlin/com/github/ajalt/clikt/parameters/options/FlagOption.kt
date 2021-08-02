@@ -22,16 +22,16 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  */
 // `T` is deliberately not an out parameter.
 class FlagOption<T> internal constructor(
-        names: Set<String>,
-        override val secondaryNames: Set<String>,
-        override val optionHelp: String,
-        override val hidden: Boolean,
-        override val helpTags: Map<String, String>,
-        override val valueSourceKey: String?,
-        val envvar: String?,
-        val transformEnvvar: OptionTransformContext.(String) -> T,
-        val transformAll: CallsTransformer<String, T>,
-        val validator: OptionValidator<T>
+    names: Set<String>,
+    override val secondaryNames: Set<String>,
+    override val optionHelp: String,
+    override val hidden: Boolean,
+    override val helpTags: Map<String, String>,
+    override val valueSourceKey: String?,
+    val envvar: String?,
+    val transformEnvvar: OptionTransformContext.(String) -> T,
+    val transformAll: CallsTransformer<String, T>,
+    val validator: OptionValidator<T>,
 ) : OptionDelegate<T> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
@@ -43,7 +43,10 @@ class FlagOption<T> internal constructor(
     override var names: Set<String> = names
         private set
 
-    override operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, T> {
+    override operator fun provideDelegate(
+        thisRef: ParameterHolder,
+        prop: KProperty<*>,
+    ): ReadOnlyProperty<ParameterHolder, T> {
         names = inferOptionNames(names, prop.name)
         thisRef.registerOption(this)
         return this
@@ -70,53 +73,53 @@ class FlagOption<T> internal constructor(
 
     /** Create a new option that is a copy of this one with different transforms. */
     fun <T> copy(
-            transformEnvvar: OptionTransformContext.(String) -> T,
-            transformAll: CallsTransformer<String, T>,
-            validator: OptionValidator<T>,
-            names: Set<String> = this.names,
-            secondaryNames: Set<String> = this.secondaryNames,
-            help: String = this.optionHelp,
-            hidden: Boolean = this.hidden,
-            helpTags: Map<String, String> = this.helpTags,
-            valueSourceKey: String? = this.valueSourceKey,
-            envvar: String? = this.envvar
+        transformEnvvar: OptionTransformContext.(String) -> T,
+        transformAll: CallsTransformer<String, T>,
+        validator: OptionValidator<T>,
+        names: Set<String> = this.names,
+        secondaryNames: Set<String> = this.secondaryNames,
+        help: String = this.optionHelp,
+        hidden: Boolean = this.hidden,
+        helpTags: Map<String, String> = this.helpTags,
+        valueSourceKey: String? = this.valueSourceKey,
+        envvar: String? = this.envvar,
     ): FlagOption<T> {
         return FlagOption(
-                names = names,
-                secondaryNames = secondaryNames,
-                optionHelp = help,
-                hidden = hidden,
-                helpTags = helpTags,
-                valueSourceKey = valueSourceKey,
-                envvar = envvar,
-                transformEnvvar = transformEnvvar,
-                transformAll = transformAll,
-                validator = validator
+            names = names,
+            secondaryNames = secondaryNames,
+            optionHelp = help,
+            hidden = hidden,
+            helpTags = helpTags,
+            valueSourceKey = valueSourceKey,
+            envvar = envvar,
+            transformEnvvar = transformEnvvar,
+            transformAll = transformAll,
+            validator = validator
         )
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
     fun copy(
-            validator: OptionValidator<T> = this.validator,
-            names: Set<String> = this.names,
-            secondaryNames: Set<String> = this.secondaryNames,
-            help: String = this.optionHelp,
-            hidden: Boolean = this.hidden,
-            helpTags: Map<String, String> = this.helpTags,
-            valueSourceKey: String? = this.valueSourceKey,
-            envvar: String? = this.envvar
+        validator: OptionValidator<T> = this.validator,
+        names: Set<String> = this.names,
+        secondaryNames: Set<String> = this.secondaryNames,
+        help: String = this.optionHelp,
+        hidden: Boolean = this.hidden,
+        helpTags: Map<String, String> = this.helpTags,
+        valueSourceKey: String? = this.valueSourceKey,
+        envvar: String? = this.envvar,
     ): FlagOption<T> {
         return FlagOption(
-                names = names,
-                secondaryNames = secondaryNames,
-                optionHelp = help,
-                hidden = hidden,
-                helpTags = helpTags,
-                valueSourceKey = valueSourceKey,
-                envvar = envvar,
-                transformEnvvar = transformEnvvar,
-                transformAll = transformAll,
-                validator = validator
+            names = names,
+            secondaryNames = secondaryNames,
+            optionHelp = help,
+            hidden = hidden,
+            helpTags = helpTags,
+            valueSourceKey = valueSourceKey,
+            envvar = envvar,
+            transformEnvvar = transformEnvvar,
+            transformAll = transformAll,
+            validator = validator
         )
     }
 }
@@ -139,30 +142,30 @@ class FlagOption<T> internal constructor(
  * ```
  */
 fun RawOption.flag(
-        vararg secondaryNames: String,
-        default: Boolean = false,
-        defaultForHelp: String = ""
+    vararg secondaryNames: String,
+    default: Boolean = false,
+    defaultForHelp: String = "",
 ): FlagOption<Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     return FlagOption(
-            names = names,
-            secondaryNames = secondaryNames.toSet(),
-            optionHelp = optionHelp,
-            hidden = hidden,
-            helpTags = tags,
-            valueSourceKey = valueSourceKey,
-            envvar = envvar,
-            transformEnvvar = {
-                when (it.lowercase()) {
-                    "true", "t", "1", "yes", "y", "on" -> true
-                    "false", "f", "0", "no", "n", "off" -> false
-                    else -> throw BadParameterValue(context.localization.boolConversionError(it), this)
-                }
-            },
-            transformAll = {
-                if (it.isEmpty()) default else it.last() !in secondaryNames
-            },
-            validator = {}
+        names = names,
+        secondaryNames = secondaryNames.toSet(),
+        optionHelp = optionHelp,
+        hidden = hidden,
+        helpTags = tags,
+        valueSourceKey = valueSourceKey,
+        envvar = envvar,
+        transformEnvvar = {
+            when (it.lowercase()) {
+                "true", "t", "1", "yes", "y", "on" -> true
+                "false", "f", "0", "no", "n", "off" -> false
+                else -> throw BadParameterValue(context.localization.boolConversionError(it), this)
+            }
+        },
+        transformAll = {
+            if (it.isEmpty()) default else it.last() !in secondaryNames
+        },
+        validator = {}
     )
 }
 
@@ -219,9 +222,9 @@ inline fun <InT, OutT> FlagOption<InT>.convert(crossinline conversion: FlagConve
         }
     }
     return copy(
-            transformEnvvar = envTransform,
-            transformAll = allTransform,
-            validator = {}
+        transformEnvvar = envTransform,
+        transformAll = allTransform,
+        validator = {}
     )
 }
 
@@ -230,16 +233,16 @@ inline fun <InT, OutT> FlagOption<InT>.convert(crossinline conversion: FlagConve
  */
 fun RawOption.counted(): FlagOption<Int> {
     return FlagOption(
-            names = names,
-            secondaryNames = emptySet(),
-            optionHelp = optionHelp,
-            hidden = hidden,
-            helpTags = helpTags,
-            valueSourceKey = valueSourceKey,
-            envvar = envvar,
-            transformEnvvar = { valueToInt(context, it) },
-            transformAll = { it.size },
-            validator = {}
+        names = names,
+        secondaryNames = emptySet(),
+        optionHelp = optionHelp,
+        hidden = hidden,
+        helpTags = helpTags,
+        valueSourceKey = valueSourceKey,
+        envvar = envvar,
+        transformEnvvar = { valueToInt(context, it) },
+        transformAll = { it.size },
+        validator = {}
     )
 }
 
@@ -255,18 +258,18 @@ fun RawOption.counted(): FlagOption<Int> {
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return FlagOption(
-            names = choices.keys,
-            secondaryNames = emptySet(),
-            optionHelp = optionHelp,
-            hidden = hidden,
-            helpTags = helpTags,
-            valueSourceKey = null,
-            envvar = null,
-            transformEnvvar = {
-                throw UsageError(context.localization.switchOptionEnvvar(), this)
-            },
-            transformAll = { names -> names.map { choices.getValue(it) }.lastOrNull() },
-            validator = {}
+        names = choices.keys,
+        secondaryNames = emptySet(),
+        optionHelp = optionHelp,
+        hidden = hidden,
+        helpTags = helpTags,
+        valueSourceKey = null,
+        envvar = null,
+        transformEnvvar = {
+            throw UsageError(context.localization.switchOptionEnvvar(), this)
+        },
+        transformAll = { names -> names.map { choices.getValue(it) }.lastOrNull() },
+        validator = {}
     )
 }
 
@@ -288,14 +291,14 @@ fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): FlagOption<T?> 
  *   to show them. Use an empty string to suppress the "default" help text.
  */
 fun <T : Any> FlagOption<T?>.default(
-        value: T,
-        defaultForHelp: String = value.toString()
+    value: T,
+    defaultForHelp: String = value.toString(),
 ): FlagOption<T> {
     return copy(
-            transformEnvvar = { transformEnvvar(it) ?: value },
-            transformAll = { transformAll(it) ?: value },
-            validator = validator,
-            helpTags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+        transformEnvvar = { transformEnvvar(it) ?: value },
+        transformAll = { transformAll(it) ?: value },
+        validator = validator,
+        helpTags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     )
 }
 
@@ -306,14 +309,14 @@ fun <T : Any> FlagOption<T?>.default(
  *   to show them. By default, the default value is not shown in help.
  */
 inline fun <T : Any> FlagOption<T?>.defaultLazy(
-        defaultForHelp: String = "",
-        crossinline value: () -> T
-):  FlagOption<T> {
+    defaultForHelp: String = "",
+    crossinline value: () -> T,
+): FlagOption<T> {
     return copy(
-            transformEnvvar = { transformEnvvar(it) ?: value() },
-            transformAll = { transformAll(it) ?: value() },
-            validator = validator,
-            helpTags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+        transformEnvvar = { transformEnvvar(it) ?: value() },
+        transformAll = { transformAll(it) ?: value() },
+        validator = validator,
+        helpTags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     )
 }
 
@@ -330,10 +333,10 @@ inline fun <T : Any> FlagOption<T?>.defaultLazy(
  */
 fun <T : Any> FlagOption<T?>.required(): FlagOption<T> {
     return copy(
-            transformEnvvar = { transformEnvvar(it) ?: throw MissingOption(option) },
-            transformAll = { transformAll(it) ?: throw MissingOption(option) },
-            validator = validator,
-            helpTags = helpTags + mapOf(HelpFormatter.Tags.REQUIRED to "")
+        transformEnvvar = { transformEnvvar(it) ?: throw MissingOption(option) },
+        transformAll = { transformAll(it) ?: throw MissingOption(option) },
+        validator = validator,
+        helpTags = helpTags + mapOf(HelpFormatter.Tags.REQUIRED to "")
     )
 }
 
@@ -358,10 +361,10 @@ fun <T : Any> FlagOption<T>.validate(validator: OptionValidator<T>): OptionDeleg
  * @param error If true, when the option is invoked, a [CliktError] is raised immediately instead of issuing a warning.
  */
 fun <T> FlagOption<T>.deprecated(
-        message: String? = "",
-        tagName: String? = "deprecated",
-        tagValue: String = "",
-        error: Boolean = false
+    message: String? = "",
+    tagName: String? = "deprecated",
+    tagValue: String = "",
+    error: Boolean = false,
 ): OptionDelegate<T> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
     return copy(transformEnvvar, deprecationTransformer(message, error, transformAll), validator, helpTags = helpTags)

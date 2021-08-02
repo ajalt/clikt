@@ -69,12 +69,13 @@ class PrintCompletionMessage(message: String, val forceUnixLineEndings: Boolean)
  *   [CliktCommand.main], it will pass this value to `exitProcess` after printing [message]. Defaults to 1.
  */
 open class UsageError private constructor(
-        val text: String? = null,
-        var paramName: String? = null,
-        var option: Option? = null,
-        var argument: Argument? = null,
-        var context: Context? = null,
-        val statusCode: Int = 1) : CliktError() {
+    val text: String? = null,
+    var paramName: String? = null,
+    var option: Option? = null,
+    var argument: Argument? = null,
+    var context: Context? = null,
+    val statusCode: Int = 1,
+) : CliktError() {
     constructor(text: String, paramName: String? = null, context: Context? = null, statusCode: Int = 1)
             : this(text, paramName, null, null, context, statusCode)
 
@@ -141,9 +142,9 @@ open class NoSuchParameter protected constructor(context: Context?) : UsageError
 
 /** A subcommand was provided that does not exist. */
 class NoSuchSubcommand(
-        private val givenName: String,
-        private val possibilities: List<String> = emptyList(),
-        context: Context? = null
+    private val givenName: String,
+    private val possibilities: List<String> = emptyList(),
+    context: Context? = null,
 ) : NoSuchParameter(context) {
     override fun formatMessage(): String {
         return localization.noSuchSubcommand(givenName, possibilities)
@@ -153,9 +154,9 @@ class NoSuchSubcommand(
 
 /** An option was provided that does not exist. */
 class NoSuchOption(
-        private val givenName: String,
-        private val possibilities: List<String> = emptyList(),
-        context: Context? = null
+    private val givenName: String,
+    private val possibilities: List<String> = emptyList(),
+    context: Context? = null,
 ) : NoSuchParameter(context) {
     override fun formatMessage(): String {
         return localization.noSuchOption(givenName, possibilities)
@@ -165,19 +166,19 @@ class NoSuchOption(
 
 /** An option was supplied but the number of values supplied to the option was incorrect. */
 class IncorrectOptionValueCount(
-        option: Option,
-        private val givenName: String,
-        context: Context? = null
+    option: Option,
+    private val givenName: String,
+    context: Context? = null,
 ) : UsageError("", option, context) {
     override fun formatMessage(): String {
-        return  localization.incorrectOptionValueCount(givenName, option!!.nvalues)
+        return localization.incorrectOptionValueCount(givenName, option!!.nvalues)
     }
 }
 
 /** An argument was supplied but the number of values supplied was incorrect. */
 class IncorrectArgumentValueCount(
-        argument: Argument,
-        context: Context? = null
+    argument: Argument,
+    context: Context? = null,
 ) : UsageError("", argument, context) {
     override fun formatMessage(): String {
         return localization.incorrectArgumentValueCount(inferParamName(), argument!!.nvalues)
@@ -185,8 +186,8 @@ class IncorrectArgumentValueCount(
 }
 
 class MutuallyExclusiveGroupException(
-        private val names: List<String>,
-        context: Context? = null
+    private val names: List<String>,
+    context: Context? = null,
 ) : UsageError("", context = context) {
     init {
         require(names.size > 1) { "must provide at least two names" }
@@ -199,8 +200,8 @@ class MutuallyExclusiveGroupException(
 
 /** A required configuration file was not found. */
 class FileNotFound(
-        private val filename: String,
-        context: Context? = null
+    private val filename: String,
+    context: Context? = null,
 ) : UsageError("", context = context) {
     override fun formatMessage(): String {
         return localization.fileNotFound(filename)
@@ -209,10 +210,10 @@ class FileNotFound(
 
 /** A configuration file failed to parse correctly */
 class InvalidFileFormat(
-        private val filename: String,
-        message: String,
-        private val lineno: Int? = null,
-        context: Context? = null
+    private val filename: String,
+    message: String,
+    private val lineno: Int? = null,
+    context: Context? = null,
 ) : UsageError(message, context = context) {
     override fun formatMessage(): String {
         return when (lineno) {

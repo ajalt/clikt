@@ -10,17 +10,17 @@ import kotlinx.cinterop.toKString
 import platform.posix.*
 
 internal actual fun createEditor(
-        editorPath: String?,
-        env: Map<String, String>,
-        requireSave: Boolean,
-        extension: String
+    editorPath: String?,
+    env: Map<String, String>,
+    requireSave: Boolean,
+    extension: String,
 ): Editor = NativeEditor(editorPath, env, requireSave, extension)
 
 private class NativeEditor(
-        private val editorPath: String?,
-        private val env: Map<String, String>,
-        private val requireSave: Boolean,
-        private val extension: String
+    private val editorPath: String?,
+    private val env: Map<String, String>,
+    private val requireSave: Boolean,
+    private val extension: String,
 ) : Editor {
     private fun getEditorPath(): String {
         val nul = if (isWindowsMpp()) "nul" else "/dev/null"

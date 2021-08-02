@@ -12,7 +12,7 @@ private fun valueToDouble(context: Context, it: String): Double {
 }
 
 /** Convert the argument values to a `Double` */
-fun RawArgument.double() = convert { valueToDouble( context, it) }
+fun RawArgument.double() = convert { valueToDouble(context, it) }
 
 /** Convert the option values to a `Double` */
 fun RawOption.double() = convert({ localization.floatMetavar() }) { valueToDouble(context, it) }

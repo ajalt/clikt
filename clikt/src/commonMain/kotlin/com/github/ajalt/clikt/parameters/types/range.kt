@@ -5,12 +5,12 @@ import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
 
 private inline fun <T : Comparable<T>> checkRange(
-        it: T,
-        min: T?,
-        max: T?,
-        clamp: Boolean,
-        context: Context,
-        fail: (String) -> Unit
+    it: T,
+    min: T?,
+    max: T?,
+    clamp: Boolean,
+    context: Context,
+    fail: (String) -> Unit,
 ): T {
     require(min == null || max == null || min < max) { "min must be less than max" }
     if (clamp) {
@@ -45,7 +45,11 @@ private inline fun <T : Comparable<T>> checkRange(
  */
 fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
         : ProcessedArgument<T, T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp, context) { m -> fail(m) } }, transformAll, transformValidator)
+    return copy(
+        { checkRange(transformValue(it), min, max, clamp, context) { m -> fail(m) } },
+        transformAll,
+        transformValidator
+    )
 }
 
 /**
@@ -63,7 +67,10 @@ fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: 
  * argument().int().restrictTo(1..10, clamp=true).default(10)
  * ```
  */
-fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false): ProcessedArgument<T, T> {
+fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(
+    range: ClosedRange<T>,
+    clamp: Boolean = false,
+): ProcessedArgument<T, T> {
     return restrictTo(range.start, range.endInclusive, clamp)
 }
 
@@ -84,8 +91,17 @@ fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(range: ClosedRange<T>
  * option().int().restrictTo(max=10, clamp=true).default(10)
  * ```
  */
-fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false): OptionWithValues<T?, T, T> {
-    return copy({ checkRange(transformValue(it), min, max, clamp, context) { m -> fail(m) } }, transformEach, transformAll, transformValidator)
+fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(
+    min: T? = null,
+    max: T? = null,
+    clamp: Boolean = false,
+): OptionWithValues<T?, T, T> {
+    return copy(
+        { checkRange(transformValue(it), min, max, clamp, context) { m -> fail(m) } },
+        transformEach,
+        transformAll,
+        transformValidator
+    )
 }
 
 
@@ -104,6 +120,9 @@ fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(min: T? = null, ma
  * option().int().restrictTo(1..10, clamp=true).default(10)
  * ```
  */
-fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(range: ClosedRange<T>, clamp: Boolean = false): OptionWithValues<T?, T, T> {
+fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(
+    range: ClosedRange<T>,
+    clamp: Boolean = false,
+): OptionWithValues<T?, T, T> {
     return restrictTo(range.start, range.endInclusive, clamp)
 }

@@ -20,9 +20,9 @@ class IntTypeTest {
     @Test
     @JsName("int_option")
     fun `int option`() = forAll(
-            row("", null),
-            row("--xx=4", 4),
-            row("-x5", 5)) { argv, expected ->
+        row("", null),
+        row("--xx=4", 4),
+        row("-x5", 5)) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").int()
             override fun run_() {
@@ -41,15 +41,15 @@ class IntTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-                .message shouldBe "Invalid value for \"--foo\": bar is not a valid integer"
+            .message shouldBe "Invalid value for \"--foo\": bar is not a valid integer"
     }
 
     @Test
     @JsName("int_option_with_default")
     fun `int option with default`() = forAll(
-            row("", 111),
-            row("--xx=4", 4),
-            row("-x5", 5)) { argv, expected ->
+        row("", 111),
+        row("--xx=4", 4),
+        row("-x5", 5)) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").int().default(111)
             override fun run_() {
@@ -62,9 +62,9 @@ class IntTypeTest {
     @Test
     @JsName("int_argument")
     fun `int argument`() = forAll(
-            row("", null, emptyList<Int>()),
-            row("1 2", 1, listOf(2)),
-            row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->
+        row("", null, emptyList<Int>()),
+        row("1 2", 1, listOf(2)),
+        row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->
         class C : TestCommand() {
             val x by argument().int().optional()
             val y by argument().int().multiple()

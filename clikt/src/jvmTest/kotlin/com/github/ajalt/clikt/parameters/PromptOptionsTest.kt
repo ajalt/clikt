@@ -47,7 +47,7 @@ class PromptOptionsTest {
     fun `command prompt`() {
         stdin.provideLines("bar")
 
-        class C: TestCommand() {
+        class C : TestCommand() {
             override fun run_() {
                 prompt("Foo") shouldBe "bar"
             }
@@ -60,7 +60,7 @@ class PromptOptionsTest {
     fun `command confirm`() {
         stdin.provideLines("y")
 
-        class C: TestCommand() {
+        class C : TestCommand() {
             override fun run_() {
                 confirm("Foo") shouldBe true
             }

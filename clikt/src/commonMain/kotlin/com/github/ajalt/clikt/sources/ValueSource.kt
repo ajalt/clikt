@@ -50,10 +50,10 @@ interface ValueSource {
          * @param replaceDashes `-` characters in option names will be replaced with this character.
          */
         fun getKey(
-                prefix: String = "",
-                joinSubcommands: String? = null,
-                uppercase: Boolean = false,
-                replaceDashes: String = "-"
+            prefix: String = "",
+            joinSubcommands: String? = null,
+            uppercase: Boolean = false,
+            replaceDashes: String = "-",
         ): (Context, Option) -> String = { context, option ->
             var k = name(option).replace("-", replaceDashes)
             if (joinSubcommands != null) {

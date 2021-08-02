@@ -3,10 +3,10 @@ package com.github.ajalt.clikt.output
 internal const val NEL = "\u0085"
 
 internal fun String.wrapText(
-        sb: StringBuilder,
-        width: Int = 78,
-        initialIndent: String = "",
-        subsequentIndent: String = ""
+    sb: StringBuilder,
+    width: Int = 78,
+    initialIndent: String = "",
+    subsequentIndent: String = "",
 ) {
     require(initialIndent.length < width) { "initialIndent >= width: ${initialIndent.length} >= $width" }
     require(subsequentIndent.length < width) { "subsequentIndent >= width: ${subsequentIndent.length} >= $width" }
@@ -53,7 +53,7 @@ internal fun splitParagraphs(text: String): List<String> {
 private fun StringBuilder.tryPreformat(text: String, initialIndent: String, subsequentIndent: String): Boolean {
     val value = PRE_P_CONTENTS_REGEX.matchEntire(text)?.groups?.get(1)?.value
     val pre = value?.replaceIndent(subsequentIndent)?.removePrefix(subsequentIndent)
-            ?: return false
+        ?: return false
 
     for ((i, line) in pre.split(LINE_BREAK_REGEX).withIndex()) {
         if (i == 0) append(initialIndent)

@@ -3,21 +3,20 @@ package com.github.ajalt.clikt.completion
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.Option
-import com.github.ajalt.clikt.parameters.options.OptionWithValues
 
 internal object BashCompletionGenerator {
     fun generateBashOrZshCompletion(command: CliktCommand, zsh: Boolean): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options
-                .filterNot { it.hidden }
-                .map { Triple(it.allNames, it.completionCandidates, it.nvalues) }
+            .filterNot { it.hidden }
+            .map { Triple(it.allNames, it.completionCandidates, it.nvalues) }
         val arguments = command._arguments.map { it.name to it.completionCandidates }
         val subcommands = command._subcommands.map { it.commandName }
         val fixedArgNameArray = command._arguments
-                .takeWhile { it.nvalues > 0 }
-                .flatMap { arg -> (1..arg.nvalues).map { "'${arg.name}'" } }
-                .joinToString(" ")
+            .takeWhile { it.nvalues > 0 }
+            .flatMap { arg -> (1..arg.nvalues).map { "'${arg.name}'" } }
+            .joinToString(" ")
         val varargName = command._arguments.find { it.nvalues < 0 }?.name.orEmpty()
         val paramsWithCandidates = (options.map { o -> o.first.maxByOrNull { it.length }!! to o.second } + arguments)
 
@@ -58,7 +57,7 @@ internal object BashCompletionGenerator {
             // Generate functions for any custom completions
             for ((name, candidate) in paramsWithCandidates) {
                 val body = (candidate as? CompletionCandidates.Custom)?.generator?.invoke(ShellType.BASH)
-                        ?: continue
+                    ?: continue
                 val indentedBody = body.trimIndent().prependIndent("  ")
                 append("""
                 |
@@ -165,8 +164,8 @@ internal object BashCompletionGenerator {
 
             if (options.isNotEmpty()) {
                 val prefixChars = options.flatMap { it.first }
-                        .mapTo(mutableSetOf()) { it.first().toString() }
-                        .joinToString("")
+                    .mapTo(mutableSetOf()) { it.first().toString() }
+                    .joinToString("")
                 append("""
                 |  if [[ "${"$"}{word}" =~ ^[$prefixChars] ]]; then
                 |    COMPREPLY=(${'$'}(compgen -W '
@@ -216,7 +215,8 @@ internal object BashCompletionGenerator {
                         if (completion.generator(ShellType.BASH) != null) {
                             // redirect stderr to /dev/null, because bash prints a warning that
                             // "compgen -F might not do what you expect"
-                            append("       COMPREPLY=(\$(compgen -F ${customParamCompletionName(funcName, name)} 2>/dev/null))\n")
+                            val fname = customParamCompletionName(funcName,name)
+                            append("       COMPREPLY=(\$(compgen -F $fname 2>/dev/null))\n")
                         }
                     }
                 }
@@ -254,8 +254,8 @@ internal object BashCompletionGenerator {
 
     private fun commandCompletionFuncName(command: CliktCommand): Pair<Boolean, String> {
         val ancestors = generateSequence(command.currentContext) { it.parent }
-                .map { it.command.commandName }
-                .toList().asReversed()
+            .map { it.command.commandName }
+            .toList().asReversed()
         val isTopLevel = ancestors.size == 1
         val funcName = ancestors.joinToString("_", prefix = "_").replace('-', '_')
         return isTopLevel to funcName

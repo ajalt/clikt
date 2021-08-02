@@ -106,16 +106,16 @@ internal object FishCompletionGenerator {
 
         for (subcommand in subcommands) {
             append(generateFishCompletionForCommand(
-                    command = subcommand
+                command = subcommand
             ))
         }
     }
 
     private fun StringBuilder.appendCompleteCall(
-            rootCommandName: String,
-            isTopLevel: Boolean,
-            hasSubcommands: Boolean,
-            commandName: String
+        rootCommandName: String,
+        isTopLevel: Boolean,
+        hasSubcommands: Boolean,
+        commandName: String,
     ) {
         append("complete -c $rootCommandName")
 

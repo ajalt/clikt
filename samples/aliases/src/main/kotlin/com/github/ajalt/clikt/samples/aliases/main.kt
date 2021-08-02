@@ -14,10 +14,10 @@ import java.io.File
  *   have multiple tokens (e.g. `cm = commit -m`).
  */
 class AliasedCli(private val configFile: File) : NoOpCliktCommand(
-        help = "An example that supports aliased subcommands") {
+    help = "An example that supports aliased subcommands") {
     override fun aliases(): Map<String, List<String>> {
         return configFile.readLines().map { it.split("=", limit = 2) }
-                .associate { it[0].trim() to it[1].trim().split(Regex("\\s+")) }
+            .associate { it[0].trim() to it[1].trim().split(Regex("\\s+")) }
     }
 }
 
@@ -42,6 +42,6 @@ class Commit : CliktCommand(help = "clone a repository") {
 fun main(args: Array<String>) {
     // The file path is relative to the project root for use with `runsample`
     AliasedCli(File("samples/aliases/src/main/kotlin/com/github/ajalt/clikt/samples/aliases/aliases.cfg"))
-            .subcommands(Push(), Pull(), Clone(), Commit())
-            .main(args)
+        .subcommands(Push(), Pull(), Clone(), Commit())
+        .main(args)
 }

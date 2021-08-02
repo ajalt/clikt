@@ -6,8 +6,10 @@ import com.github.ajalt.clikt.parsers.OptionParser.ParseResult
 
 /** An option that takes one more values */
 object OptionWithValuesParser : OptionParser {
-    override fun parseLongOpt(option: Option, name: String, argv: List<String>,
-                              index: Int, explicitValue: String?): ParseResult {
+    override fun parseLongOpt(
+        option: Option, name: String, argv: List<String>,
+        index: Int, explicitValue: String?,
+    ): ParseResult {
         require(option.nvalues > 0) {
             "This parser can only be used with a fixed number of arguments. Try the flag parser instead."
         }
@@ -25,13 +27,15 @@ object OptionWithValuesParser : OptionParser {
             OptionParser.Invocation(name, args)
         } else {
             OptionParser.Invocation(name, listOf(explicitValue
-                    ?: argv[index + 1]))
+                ?: argv[index + 1]))
         }
         return ParseResult(consumedCount, invocation)
     }
 
-    override fun parseShortOpt(option: Option, name: String, argv: List<String>,
-                               index: Int, optionIndex: Int): ParseResult {
+    override fun parseShortOpt(
+        option: Option, name: String, argv: List<String>,
+        index: Int, optionIndex: Int,
+    ): ParseResult {
         val opt = argv[index]
         val hasIncludedValue = optionIndex != opt.lastIndex
         val explicitValue = if (hasIncludedValue) opt.substring(optionIndex + 1) else null

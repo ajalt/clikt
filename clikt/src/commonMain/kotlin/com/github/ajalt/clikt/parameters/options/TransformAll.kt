@@ -32,9 +32,9 @@ import kotlin.jvm.JvmName
  *   does not affect behavior outside of help formatting.
  */
 fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
-        defaultForHelp: String? = this.helpTags[HelpFormatter.Tags.DEFAULT],
-        showAsRequired: Boolean = HelpFormatter.Tags.REQUIRED in this.helpTags,
-        transform: CallsTransformer<EachT, AllT>
+    defaultForHelp: String? = this.helpTags[HelpFormatter.Tags.DEFAULT],
+    showAsRequired: Boolean = HelpFormatter.Tags.REQUIRED in this.helpTags,
+    transform: CallsTransformer<EachT, AllT>,
 ): OptionWithValues<AllT, EachT, ValueT> {
     val tags = this.helpTags.toMutableMap()
 
@@ -61,8 +61,8 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
  * ```
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
-        value: EachT,
-        defaultForHelp: String = value.toString()
+    value: EachT,
+    defaultForHelp: String = value.toString(),
 ): OptionWithValues<EachT, EachT, ValueT> {
     return transformAll(defaultForHelp) { it.lastOrNull() ?: value }
 }
@@ -85,8 +85,8 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
  * ```
  */
 inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
-        defaultForHelp: String = "",
-        crossinline value: () -> EachT
+    defaultForHelp: String = "",
+    crossinline value: () -> EachT,
 ): OptionWithValues<EachT, EachT, ValueT> {
     return transformAll(defaultForHelp) { it.lastOrNull() ?: value() }
 }
@@ -122,8 +122,8 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithVa
  *   instances of the option are present on the command line.
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
-        default: List<EachT> = emptyList(),
-        required: Boolean = false
+    default: List<EachT> = emptyList(),
+    required: Boolean = false,
 ): OptionWithValues<List<EachT>, EachT, ValueT> {
     return transformAll(showAsRequired = required) {
         when {
@@ -154,10 +154,10 @@ fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique():
  */
 fun <A, B> OptionWithValues<List<Pair<A, B>>, Pair<A, B>, Pair<A, B>>.toMap(): OptionWithValues<Map<A, B>, Pair<A, B>, Pair<A, B>> {
     return copy(
-            transformValue = transformValue,
-            transformEach = transformEach,
-            transformAll = { transformAll(it).toMap() },
-            validator = defaultValidator()
+        transformValue = transformValue,
+        transformEach = transformEach,
+        transformAll = { transformAll(it).toMap() },
+        validator = defaultValidator()
     )
 }
 
@@ -185,19 +185,20 @@ fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, S
  * @param showDefault Show [default] to the user in the prompt.
  */
 fun <T : Any> NullableOption<T, T>.prompt(
-        text: String? = null,
-        default: String? = null,
-        hideInput: Boolean = false,
-        requireConfirmation: Boolean = false,
-        confirmationPrompt: String = "Repeat for confirmation: ",
-        promptSuffix: String = ": ",
-        showDefault: Boolean = true): OptionWithValues<T, T, T> = transformAll { invocations ->
+    text: String? = null,
+    default: String? = null,
+    hideInput: Boolean = false,
+    requireConfirmation: Boolean = false,
+    confirmationPrompt: String = "Repeat for confirmation: ",
+    promptSuffix: String = ": ",
+    showDefault: Boolean = true,
+): OptionWithValues<T, T, T> = transformAll { invocations ->
     val promptText = text ?: longestName()?.let { splitOptionPrefix(it).second }
-            ?.replace(Regex("\\W"), " ")?.capitalize2() ?: "Value"
+        ?.replace(Regex("\\W"), " ")?.capitalize2() ?: "Value"
 
     when (val provided = invocations.lastOrNull()) {
         null -> TermUi.prompt(promptText, default, hideInput, requireConfirmation,
-                confirmationPrompt, promptSuffix, showDefault, context.console) {
+            confirmationPrompt, promptSuffix, showDefault, context.console) {
             val ctx = OptionCallTransformContext("", this, context)
             transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))
         }

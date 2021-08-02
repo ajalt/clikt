@@ -25,8 +25,8 @@ import kotlin.jvm.JvmName
  * ```
  */
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
-        nvalues: Int,
-        transform: ArgsTransformer<ValueT, EachOutT>
+    nvalues: Int,
+    transform: ArgsTransformer<ValueT, EachOutT>,
 ): NullableOption<EachOutT, ValueT> {
     require(nvalues != 0) { "Cannot set nvalues = 0. Use flag() instead." }
     require(nvalues > 0) { "Options cannot have nvalues < 0" }

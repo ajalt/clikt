@@ -28,15 +28,15 @@ class ArgumentTest {
         }
 
         shouldThrow<MissingArgument> { C().parse("") }
-                .message shouldBe "Missing argument \"FOO\""
+            .message shouldBe "Missing argument \"FOO\""
     }
 
     @Test
     @JsName("one_optional_argument")
     fun `one optional argument`() = forAll(
-            row("", null),
-            row("a=b", "a=b"),
-            row("-- --", "--")
+        row("", null),
+        row("a=b", "a=b"),
+        row("-- --", "--")
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().optional()
@@ -51,7 +51,7 @@ class ArgumentTest {
     @Test
     @JsName("one_default_argument")
     fun `one default argument`() = forAll(
-            row("", "def")
+        row("", "def")
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().default("def")
@@ -66,7 +66,7 @@ class ArgumentTest {
     @Test
     @JsName("defaultLazy_argument")
     fun `defaultLazy argument`() = forAll(
-            row("", "default", true)
+        row("", "default", true)
     ) { argv, expected, ec ->
         var called = false
 
@@ -95,13 +95,13 @@ class ArgumentTest {
         C().parse("1 2")
 
         shouldThrow<MissingArgument> { C().parse("") }
-                .message shouldBe "Missing argument \"X\""
+            .message shouldBe "Missing argument \"X\""
     }
 
     @Test
     @JsName("one_optional_argument_nvalues_2")
     fun `one optional argument nvalues=2`() = forAll(
-            row("", null)
+        row("", null)
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().pair().optional()
@@ -116,7 +116,7 @@ class ArgumentTest {
     @Test
     @JsName("one_optional_argument_nvalues_3")
     fun `one optional argument nvalues=3`() = forAll(
-            row("", null)
+        row("", null)
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().triple().optional()
@@ -135,11 +135,11 @@ class ArgumentTest {
             val x by argument().pair()
         }
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo") }
-                .message shouldBe "argument X requires 2 values"
+            .message shouldBe "argument X requires 2 values"
         shouldThrow<UsageError> { C().parse("foo bar baz") }
-                .message shouldBe "Got unexpected extra argument (baz)"
+            .message shouldBe "Got unexpected extra argument (baz)"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
-                .message shouldBe "Got unexpected extra arguments (baz qux)"
+            .message shouldBe "Got unexpected extra arguments (baz qux)"
     }
 
     @Test
@@ -150,18 +150,18 @@ class ArgumentTest {
         }
 
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo bar") }
-                .message shouldBe "argument X requires 3 values"
+            .message shouldBe "argument X requires 3 values"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
-                .message shouldBe "Got unexpected extra argument (qux)"
+            .message shouldBe "Got unexpected extra argument (qux)"
 
     }
 
     @Test
     @JsName("one_argument_multiple_minus_unique_nvalues_minus_1")
     fun `one argument multiple-unique nvalues=-1`() = forAll(
-            row("", emptySet()),
-            row("foo foo", setOf("foo")),
-            row("foo bar", setOf("foo", "bar"))
+        row("", emptySet()),
+        row("foo foo", setOf("foo")),
+        row("foo bar", setOf("foo", "bar"))
     ) { argv, expected ->
         val command = object : TestCommand() {
             val x by argument().multiple().unique()
@@ -175,10 +175,10 @@ class ArgumentTest {
     @Test
     @JsName("one_argument_nvalues_minus_1")
     fun `one argument nvalues=-1`() = forAll(
-            row("", emptyList()),
-            row("foo", listOf("foo")),
-            row("foo bar", listOf("foo", "bar")),
-            row("foo bar baz", listOf("foo", "bar", "baz"))
+        row("", emptyList()),
+        row("foo", listOf("foo")),
+        row("foo bar", listOf("foo", "bar")),
+        row("foo bar baz", listOf("foo", "bar", "baz"))
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().multiple()
@@ -193,9 +193,9 @@ class ArgumentTest {
     @Test
     @JsName("one_required_argument_nvalues_minus_1")
     fun `one required argument nvalues=-1`() = forAll(
-            row("foo", listOf("foo")),
-            row("foo bar", listOf("foo", "bar")),
-            row("foo bar baz", listOf("foo", "bar", "baz"))
+        row("foo", listOf("foo")),
+        row("foo bar", listOf("foo", "bar")),
+        row("foo bar baz", listOf("foo", "bar", "baz"))
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().multiple(required = true)
@@ -220,8 +220,8 @@ class ArgumentTest {
     @Test
     @JsName("two_arguments_nvalues_minus_1_1")
     fun `two arguments nvalues=-1,1`() = forAll(
-            row("foo", emptyList(), "foo"),
-            row("foo bar baz", listOf("foo", "bar"), "baz")
+        row("foo", emptyList(), "foo"),
+        row("foo bar baz", listOf("foo", "bar"), "baz")
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val foo by argument().multiple()
@@ -250,9 +250,9 @@ class ArgumentTest {
     @Test
     @JsName("two_arguments_nvalues_1_minus_1")
     fun `two arguments nvalues=1,-1`() = forAll(
-            row("", null, emptyList()),
-            row("foo bar", "foo", listOf("bar")),
-            row("foo bar baz", "foo", listOf("bar", "baz"))
+        row("", null, emptyList()),
+        row("foo bar", "foo", listOf("bar")),
+        row("foo bar baz", "foo", listOf("bar", "baz"))
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val foo by argument().optional()
@@ -281,7 +281,7 @@ class ArgumentTest {
     @Test
     @JsName("value_minus_minus_with_argument")
     fun `value -- with argument`() = forAll(
-            row("--xx --xx -- --xx", "--xx", "--xx")
+        row("--xx --xx -- --xx", "--xx", "--xx")
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by option("-x", "--xx")
@@ -336,10 +336,10 @@ class ArgumentTest {
     @Test
     @JsName("argument_check")
     fun `argument check`() = forAll(
-            row("bar foo", "Invalid value for \"X\": bar"),
-            row("foo bar", "Invalid value for \"Y\": fail bar"),
-            row("foo foo bar", "Invalid value for \"Z\": bar"),
-            row("foo foo foo bar", "Invalid value for \"W\": fail bar")
+        row("bar foo", "Invalid value for \"X\": bar"),
+        row("foo bar", "Invalid value for \"Y\": fail bar"),
+        row("foo foo bar", "Invalid value for \"Z\": bar"),
+        row("foo foo foo bar", "Invalid value for \"W\": fail bar")
     ) { argv, message ->
         if (skipDueToKT33294) return@forAll
 
@@ -433,7 +433,7 @@ class ArgumentTest {
     @Test
     @JsName("punctuation_in_arg_prefix_unix_style")
     fun `punctuation in arg prefix unix style`() = forAll(
-            row("/foo")
+        row("/foo")
     ) { argv ->
         class C : TestCommand() {
             val x by argument()
@@ -457,8 +457,8 @@ class ArgumentTest {
     @Test
     @JsName("punctuation_in_arg_prefix_windows_style")
     fun `punctuation in arg prefix windows style`() = forAll(
-            row("-foo"),
-            row("--foo")
+        row("-foo"),
+        row("--foo")
     ) { argv ->
         class C : TestCommand() {
             init {
@@ -490,8 +490,8 @@ class ArgumentTest {
     @Test
     @JsName("wrapValue_argument")
     fun `chained convert argument`() = forAll(
-            row("", null),
-            row("1", listOf(1))
+        row("", null),
+        row("1", listOf(1))
     ) { argv, expected ->
         class C : TestCommand() {
             val x by argument().int().convert { listOf(it) }.optional()

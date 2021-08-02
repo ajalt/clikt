@@ -376,7 +376,7 @@ internal object Parser {
         return toks
     }
 
-    fun throwExcessArgsError(positionalArgs: List<String>, excess: Int, context: Context): Nothing {
+    private fun throwExcessArgsError(positionalArgs: List<String>, excess: Int, context: Context): Nothing {
         val actual =
             positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
         val message =

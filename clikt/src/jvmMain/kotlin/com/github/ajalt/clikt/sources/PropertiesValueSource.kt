@@ -23,9 +23,9 @@ object PropertiesValueSource {
      *   [ValueSource.getKey] for most use cases.
      */
     fun from(
-            file: Path,
-            requireValid: Boolean = false,
-            getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = ".")
+        file: Path,
+        requireValid: Boolean = false,
+        getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = "."),
     ): ValueSource {
         val properties = Properties()
         if (Files.isRegularFile(file)) {
@@ -50,9 +50,9 @@ object PropertiesValueSource {
      *   [ValueSource.getKey] for most use cases.
      */
     fun from(
-            file: File,
-            requireValid: Boolean = false,
-            getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = ".")
+        file: File,
+        requireValid: Boolean = false,
+        getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = "."),
     ): ValueSource {
         val properties = Properties()
         if (file.isFile) {
@@ -77,9 +77,9 @@ object PropertiesValueSource {
      *   [ValueSource.getKey] for most use cases.
      */
     fun from(
-            file: String,
-            requireValid: Boolean = false,
-            getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = ".")
+        file: String,
+        requireValid: Boolean = false,
+        getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = "."),
     ): ValueSource = from(File(file), requireValid, getKey)
 
     /**
@@ -92,8 +92,8 @@ object PropertiesValueSource {
      * @param getKey A function that will return the property key for a given option.
      */
     fun from(
-            properties: Properties,
-            getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = ".")
+        properties: Properties,
+        getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = "."),
     ): ValueSource {
         val values = properties.entries.associate { it.key.toString() to it.value.toString() }
         return MapValueSource(values, getKey)

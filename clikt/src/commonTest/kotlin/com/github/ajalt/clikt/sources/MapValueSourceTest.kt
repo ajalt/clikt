@@ -14,20 +14,20 @@ import kotlin.test.Test
 class MapValueSourceTest {
     @Test
     fun getKey() = forAll(
-            row("p_", null, false, "-", "p_foo-bar"),
-            row("", ":", false, "-", "sub:foo-bar"),
-            row("", ":", true, ":", "SUB:FOO:BAR"),
-            row("", null, true, "-", "FOO-BAR"),
-            row("", null, false, "_", "foo_bar")
+        row("p_", null, false, "-", "p_foo-bar"),
+        row("", ":", false, "-", "sub:foo-bar"),
+        row("", ":", true, ":", "SUB:FOO:BAR"),
+        row("", null, true, "-", "FOO-BAR"),
+        row("", null, false, "_", "foo_bar")
     ) { p, j, c, r, k ->
         class Root : TestCommand()
         class Sub : TestCommand() {
             init {
                 context {
                     valueSource = MapValueSource(mapOf(
-                            "other" to "other",
-                            "FX" to "fixed",
-                            k to "foo"
+                        "other" to "other",
+                        "FX" to "fixed",
+                        k to "foo"
                     ), getKey = ValueSource.getKey(p, j, c, r))
                 }
             }
@@ -50,9 +50,9 @@ class MapValueSourceTest {
                 context {
                     autoEnvvarPrefix = "A"
                     valueSource = MapValueSource(mapOf(
-                            "FOO_E" to "foo",
-                            "A_BAR" to "bar",
-                            "B_V" to "baz"
+                        "FOO_E" to "foo",
+                        "A_BAR" to "bar",
+                        "B_V" to "baz"
                     ), getKey = ValueSource.envvarKey())
                 }
             }

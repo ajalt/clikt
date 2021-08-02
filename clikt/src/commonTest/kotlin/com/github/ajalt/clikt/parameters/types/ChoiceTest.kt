@@ -36,10 +36,10 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--xx baz") }
-                .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("--xx FOO") }
-                .message shouldBe "Invalid value for \"--xx\": invalid choice: FOO. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"--xx\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -47,7 +47,7 @@ class ChoiceTypeTest {
     fun `choice option map`() {
         class C : TestCommand() {
             val x by option("-x", "--xx")
-                    .choice("foo" to 1, "bar" to 2)
+                .choice("foo" to 1, "bar" to 2)
         }
 
         C().apply {
@@ -61,13 +61,13 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("-x baz") }
-                .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("--xx=baz") }
-                .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("-x FOO") }
-                .message shouldBe "Invalid value for \"-x\": invalid choice: FOO. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"-x\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -91,7 +91,7 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("-xbaz") }
-                .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -115,10 +115,10 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("baz") }
-                .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
-                .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -142,10 +142,10 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("baz") }
-                .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
-                .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -169,18 +169,18 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("baz qux") }
-                .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
     @JsName("enum_option")
     fun `enum option`() = forAll(
-            row("", null),
-            row("--xx A", TestEnum.A),
-            row("--xx a", TestEnum.A),
-            row("--xx=A", TestEnum.A),
-            row("-xB", TestEnum.B),
-            row("-xb", TestEnum.B)
+        row("", null),
+        row("--xx A", TestEnum.A),
+        row("--xx a", TestEnum.A),
+        row("--xx=A", TestEnum.A),
+        row("-xB", TestEnum.B),
+        row("-xb", TestEnum.B)
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").enum<TestEnum>()
@@ -195,11 +195,11 @@ class ChoiceTypeTest {
     @Test
     @JsName("enum_option_key")
     fun `enum option key`() = forAll(
-            row("", null),
-            row("-xAz", TestEnum.A),
-            row("-xaZ", TestEnum.A),
-            row("-xBz", TestEnum.B),
-            row("-xBZ", TestEnum.B)
+        row("", null),
+        row("-xAz", TestEnum.A),
+        row("-xaZ", TestEnum.A),
+        row("-xBz", TestEnum.B),
+        row("-xBZ", TestEnum.B)
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x").enum<TestEnum> { it.name + "z" }
@@ -220,19 +220,19 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-                .message shouldBe "Invalid value for \"--foo\": invalid choice: bar. (choose from A, B)"
+            .message shouldBe "Invalid value for \"--foo\": invalid choice: bar. (choose from A, B)"
 
         shouldThrow<BadParameterValue> { C().parse("--foo a") }
-                .message shouldBe "Invalid value for \"--foo\": invalid choice: a. (choose from A, B)"
+            .message shouldBe "Invalid value for \"--foo\": invalid choice: a. (choose from A, B)"
     }
 
     @Test
     @JsName("enum_option_with_default")
     fun `enum option with default`() = forAll(
-            row("", TestEnum.B),
-            row("--xx A", TestEnum.A),
-            row("--xx=A", TestEnum.A),
-            row("-xA", TestEnum.A)
+        row("", TestEnum.B),
+        row("--xx A", TestEnum.A),
+        row("--xx=A", TestEnum.A),
+        row("-xA", TestEnum.A)
     ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").enum<TestEnum>().default(TestEnum.B)
@@ -246,10 +246,10 @@ class ChoiceTypeTest {
     @Test
     @JsName("enum_argument")
     fun `enum argument`() = forAll(
-            row("", null, emptyList()),
-            row("A", TestEnum.A, emptyList()),
-            row("b", TestEnum.B, emptyList()),
-            row("A a B", TestEnum.A, listOf(TestEnum.A, TestEnum.B))
+        row("", null, emptyList()),
+        row("A", TestEnum.A, emptyList()),
+        row("b", TestEnum.B, emptyList()),
+        row("A a B", TestEnum.A, listOf(TestEnum.A, TestEnum.B))
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by argument().enum<TestEnum>().optional()
@@ -266,10 +266,10 @@ class ChoiceTypeTest {
     @Test
     @JsName("enum_argument_key")
     fun `enum argument key`() = forAll(
-            row("", emptyList()),
-            row("az", listOf(TestEnum.A)),
-            row("AZ", listOf(TestEnum.A)),
-            row("aZ Bz", listOf(TestEnum.A, TestEnum.B))
+        row("", emptyList()),
+        row("az", listOf(TestEnum.A)),
+        row("AZ", listOf(TestEnum.A)),
+        row("aZ Bz", listOf(TestEnum.A, TestEnum.B))
     ) { argv, ex ->
         class C : TestCommand() {
             val x by argument().enum<TestEnum> { it.name + "z" }.multiple()
@@ -290,9 +290,9 @@ class ChoiceTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("bar") }
-                .message shouldBe "Invalid value for \"FOO\": invalid choice: bar. (choose from A, B)"
+            .message shouldBe "Invalid value for \"FOO\": invalid choice: bar. (choose from A, B)"
 
         shouldThrow<BadParameterValue> { C().parse("a") }
-                .message shouldBe "Invalid value for \"FOO\": invalid choice: a. (choose from A, B)"
+            .message shouldBe "Invalid value for \"FOO\": invalid choice: a. (choose from A, B)"
     }
 }

@@ -14,18 +14,21 @@ import com.github.ajalt.clikt.parsers.OptionParser
  *   parameter.
  */
 class EagerOption(
-        override val names: Set<String>,
-        override val nvalues: Int,
-        override val optionHelp: String,
-        override val hidden: Boolean,
-        override val helpTags: Map<String, String>,
-        override val groupName: String?,
-        private val callback: OptionTransformContext.() -> Unit
+    override val names: Set<String>,
+    override val nvalues: Int,
+    override val optionHelp: String,
+    override val hidden: Boolean,
+    override val helpTags: Map<String, String>,
+    override val groupName: String?,
+    private val callback: OptionTransformContext.() -> Unit,
 ) : StaticallyGroupedOption {
-    constructor(vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
-                helpTags: Map<String, String> = emptyMap(), groupName: String? = null,
-                callback: OptionTransformContext.() -> Unit)
+    constructor(
+        vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
+        helpTags: Map<String, String> = emptyMap(), groupName: String? = null,
+        callback: OptionTransformContext.() -> Unit,
+    )
             : this(names.toSet(), nvalues, help, hidden, helpTags, groupName, callback)
+
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
     override fun metavar(context: Context): String? = null
@@ -55,13 +58,13 @@ internal fun helpOption(names: Set<String>, message: String): EagerOption {
  *   parameter.
  */
 fun <T : CliktCommand> T.eagerOption(
-        name: String,
-        vararg additionalNames: String,
-        help: String = "",
-        hidden: Boolean = false,
-        helpTags: Map<String, String> = emptyMap(),
-        groupName: String? = null,
-        action: OptionTransformContext.() -> Unit
+    name: String,
+    vararg additionalNames: String,
+    help: String = "",
+    hidden: Boolean = false,
+    helpTags: Map<String, String> = emptyMap(),
+    groupName: String? = null,
+    action: OptionTransformContext.() -> Unit,
 ): T = eagerOption(listOf(name) + additionalNames, help, hidden, helpTags, groupName, action)
 
 /**
@@ -79,18 +82,18 @@ fun <T : CliktCommand> T.eagerOption(
  *   parameter.
  */
 fun <T : CliktCommand> T.eagerOption(
-        names: Collection<String>,
-        help: String = "",
-        hidden: Boolean = false,
-        helpTags: Map<String, String> = emptyMap(),
-        groupName: String? = null,
-        action: OptionTransformContext.() -> Unit
+    names: Collection<String>,
+    help: String = "",
+    hidden: Boolean = false,
+    helpTags: Map<String, String> = emptyMap(),
+    groupName: String? = null,
+    action: OptionTransformContext.() -> Unit,
 ): T = apply { registerOption(EagerOption(names.toSet(), 0, help, hidden, helpTags, groupName, action)) }
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(
-        version: String,
-        help: String = "Show the version and exit",
-        names: Set<String> = setOf("--version"),
-        crossinline message: (String) -> String = { "$commandName version $it" }
+    version: String,
+    help: String = "Show the version and exit",
+    names: Set<String> = setOf("--version"),
+    crossinline message: (String) -> String = { "$commandName version $it" },
 ): T = eagerOption(names, help) { throw PrintMessage(message(version)) }

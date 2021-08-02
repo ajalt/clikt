@@ -7,7 +7,6 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.float
-import com.github.ajalt.clikt.sources.ExperimentalValueSourceApi
 
 class Subcommand : CliktCommand() {
     private val number by option(help = "an integer").float()
@@ -21,8 +20,8 @@ class Cli : CliktCommand(help = "An example using json files for configuration v
     init {
         context {
             valueSources(
-                    JsonValueSource.from(System.getProperty("user.dir") + "config.json"),
-                    JsonValueSource.from(System.getProperty("user.dir") + "/samples/json/config.json")
+                JsonValueSource.from(System.getProperty("user.dir") + "config.json"),
+                JsonValueSource.from(System.getProperty("user.dir") + "/samples/json/config.json")
             )
         }
     }

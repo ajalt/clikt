@@ -20,16 +20,16 @@ private fun pathType(context: Context, fileOkay: Boolean, folderOkay: Boolean): 
 }
 
 internal fun convertToPath(
-        path: String,
-        mustExist: Boolean,
-        canBeFile: Boolean,
-        canBeFolder: Boolean,
-        mustBeWritable: Boolean,
-        mustBeReadable: Boolean,
-        canBeSymlink: Boolean,
-        fileSystem: FileSystem,
-        context: Context,
-        fail: (String) -> Unit
+    path: String,
+    mustExist: Boolean,
+    canBeFile: Boolean,
+    canBeFolder: Boolean,
+    mustBeWritable: Boolean,
+    mustBeReadable: Boolean,
+    canBeSymlink: Boolean,
+    fileSystem: FileSystem,
+    context: Context,
+    fail: (String) -> Unit,
 ): Path {
     val name = pathType(context, canBeFile, canBeFolder)
     return with(context.localization) {
@@ -56,16 +56,24 @@ internal fun convertToPath(
  * @param canBeSymlink If false, fail if the given path is a symlink
  */
 fun RawArgument.path(
-        mustExist: Boolean = false,
-        canBeFile: Boolean = true,
-        canBeDir: Boolean = true,
-        mustBeWritable: Boolean = false,
-        mustBeReadable: Boolean = false,
-        canBeSymlink: Boolean = true,
-        fileSystem: FileSystem = FileSystems.getDefault()
+    mustExist: Boolean = false,
+    canBeFile: Boolean = true,
+    canBeDir: Boolean = true,
+    mustBeWritable: Boolean = false,
+    mustBeReadable: Boolean = false,
+    canBeSymlink: Boolean = true,
+    fileSystem: FileSystem = FileSystems.getDefault(),
 ): ProcessedArgument<Path, Path> {
     return convert(completionCandidates = CompletionCandidates.Path) { str ->
-        convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem, context) { fail(it) }
+        convertToPath(str,
+            mustExist,
+            canBeFile,
+            canBeDir,
+            mustBeWritable,
+            mustBeReadable,
+            canBeSymlink,
+            fileSystem,
+            context) { fail(it) }
     }
 }
 
@@ -81,15 +89,23 @@ fun RawArgument.path(
  * @param canBeSymlink If false, fail if the given path is a symlink
  */
 fun RawOption.path(
-        mustExist: Boolean = false,
-        canBeFile: Boolean = true,
-        canBeDir: Boolean = true,
-        mustBeWritable: Boolean = false,
-        mustBeReadable: Boolean = false,
-        canBeSymlink: Boolean = true,
-        fileSystem: FileSystem = FileSystems.getDefault()
+    mustExist: Boolean = false,
+    canBeFile: Boolean = true,
+    canBeDir: Boolean = true,
+    mustBeWritable: Boolean = false,
+    mustBeReadable: Boolean = false,
+    canBeSymlink: Boolean = true,
+    fileSystem: FileSystem = FileSystems.getDefault(),
 ): NullableOption<Path, Path> {
     return convert({ localization.pathMetavar() }, CompletionCandidates.Path) { str ->
-        convertToPath(str, mustExist, canBeFile, canBeDir, mustBeWritable, mustBeReadable, canBeSymlink, fileSystem, context) { fail(it) }
+        convertToPath(str,
+            mustExist,
+            canBeFile,
+            canBeDir,
+            mustBeWritable,
+            mustBeReadable,
+            canBeSymlink,
+            fileSystem,
+            context) { fail(it) }
     }
 }

@@ -48,15 +48,15 @@ import com.github.ajalt.clikt.parsers.Parser
 @Suppress("PropertyName")
 @ParameterHolderDsl
 abstract class CliktCommand(
-        help: String = "",
-        epilog: String = "",
-        name: String? = null,
-        val invokeWithoutSubcommand: Boolean = false,
-        val printHelpOnEmptyArgs: Boolean = false,
-        val helpTags: Map<String, String> = emptyMap(),
-        private val autoCompleteEnvvar: String? = "",
-        internal val allowMultipleSubcommands: Boolean = false,
-        internal val treatUnknownOptionsAsArgs: Boolean = false
+    help: String = "",
+    epilog: String = "",
+    name: String? = null,
+    val invokeWithoutSubcommand: Boolean = false,
+    val printHelpOnEmptyArgs: Boolean = false,
+    val helpTags: Map<String, String> = emptyMap(),
+    private val autoCompleteEnvvar: String? = "",
+    internal val allowMultipleSubcommands: Boolean = false,
+    internal val treatUnknownOptionsAsArgs: Boolean = false,
 ) : ParameterHolder {
     /**
      * The name of this command, used in help output.
@@ -233,7 +233,7 @@ abstract class CliktCommand(
     open fun getFormattedHelp(): String {
         val programName = getCommandNameWithParents()
         return currentContext.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
-                allHelpParams(), programName = programName)
+            allHelpParams(), programName = programName)
     }
 
     /**
@@ -251,11 +251,11 @@ abstract class CliktCommand(
     }
 
     @Deprecated(
-            message="Specify message explicitly with `err` or `lineSeparator`",
-            replaceWith = ReplaceWith("echo(\"\", err=err, lineSeparator=lineSeparator)")
+        message = "Specify message explicitly with `err` or `lineSeparator`",
+        replaceWith = ReplaceWith("echo(\"\", err=err, lineSeparator=lineSeparator)")
     )
     /** @suppress */
-    protected fun echo(err: Boolean, lineSeparator: String ) {
+    protected fun echo(err: Boolean, lineSeparator: String) {
         echo("", err = err, lineSeparator = lineSeparator)
     }
 
@@ -271,10 +271,10 @@ abstract class CliktCommand(
      * @param err If true, print to stderr instead of stdout
      */
     protected fun echo(
-            message: Any?,
-            trailingNewline: Boolean = true,
-            err: Boolean = false,
-            lineSeparator: String = currentContext.console.lineSeparator
+        message: Any?,
+        trailingNewline: Boolean = true,
+        err: Boolean = false,
+        lineSeparator: String = currentContext.console.lineSeparator,
     ) {
         TermUi.echo(message, trailingNewline, err, currentContext.console, lineSeparator)
     }
@@ -297,24 +297,24 @@ abstract class CliktCommand(
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     protected fun prompt(
-            text: String,
-            default: String? = null,
-            hideInput: Boolean = false,
-            requireConfirmation: Boolean = false,
-            confirmationPrompt: String = "Repeat for confirmation: ",
-            promptSuffix: String = ": ",
-            showDefault: Boolean = true,
+        text: String,
+        default: String? = null,
+        hideInput: Boolean = false,
+        requireConfirmation: Boolean = false,
+        confirmationPrompt: String = "Repeat for confirmation: ",
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true,
     ): String? {
         return TermUi.prompt(
-                text = text,
-                default = default,
-                hideInput = hideInput,
-                requireConfirmation = requireConfirmation,
-                confirmationPrompt = confirmationPrompt,
-                promptSuffix = promptSuffix,
-                showDefault = showDefault,
-                console = currentContext.console,
-                convert = { it }
+            text = text,
+            default = default,
+            hideInput = hideInput,
+            requireConfirmation = requireConfirmation,
+            confirmationPrompt = confirmationPrompt,
+            promptSuffix = promptSuffix,
+            showDefault = showDefault,
+            console = currentContext.console,
+            convert = { it }
         )
     }
 
@@ -341,25 +341,25 @@ abstract class CliktCommand(
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     protected fun <T> prompt(
-            text: String,
-            default: String? = null,
-            hideInput: Boolean = false,
-            requireConfirmation: Boolean = false,
-            confirmationPrompt: String = "Repeat for confirmation: ",
-            promptSuffix: String = ": ",
-            showDefault: Boolean = true,
-            convert: ((String) -> T)
+        text: String,
+        default: String? = null,
+        hideInput: Boolean = false,
+        requireConfirmation: Boolean = false,
+        confirmationPrompt: String = "Repeat for confirmation: ",
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true,
+        convert: ((String) -> T),
     ): T? {
         return TermUi.prompt(
-                text = text,
-                default = default,
-                hideInput = hideInput,
-                requireConfirmation = requireConfirmation,
-                confirmationPrompt = confirmationPrompt,
-                promptSuffix = promptSuffix,
-                showDefault = showDefault,
-                console = currentContext.console,
-                convert = convert
+            text = text,
+            default = default,
+            hideInput = hideInput,
+            requireConfirmation = requireConfirmation,
+            confirmationPrompt = confirmationPrompt,
+            promptSuffix = promptSuffix,
+            showDefault = showDefault,
+            console = currentContext.console,
+            convert = convert
         )
     }
 
@@ -376,11 +376,11 @@ abstract class CliktCommand(
      * @return the user's response, or null if stdin is not interactive and EOF was encountered.
      */
     protected fun confirm(
-            text: String,
-            default: Boolean = false,
-            abort: Boolean = false,
-            promptSuffix: String = ": ",
-            showDefault: Boolean = true
+        text: String,
+        default: Boolean = false,
+        abort: Boolean = false,
+        promptSuffix: String = ": ",
+        showDefault: Boolean = true,
     ): Boolean? {
         return TermUi.confirm(text, default, abort, promptSuffix, showDefault, currentContext.console)
     }

@@ -35,20 +35,20 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  *   names and filters the list down to values to suggest to the user.
  */
 class Context(
-        val parent: Context?,
-        val command: CliktCommand,
-        val allowInterspersedArgs: Boolean,
-        val autoEnvvarPrefix: String?,
-        val printExtraMessages: Boolean,
-        val helpOptionNames: Set<String>,
-        val helpFormatter: HelpFormatter,
-        val tokenTransformer: Context.(String) -> String,
-        val console: CliktConsole,
-        val expandArgumentFiles: Boolean,
-        val readEnvvarBeforeValueSource: Boolean,
-        val valueSource: ValueSource?,
-        val correctionSuggestor: TypoSuggestor,
-        val localization: Localization
+    val parent: Context?,
+    val command: CliktCommand,
+    val allowInterspersedArgs: Boolean,
+    val autoEnvvarPrefix: String?,
+    val printExtraMessages: Boolean,
+    val helpOptionNames: Set<String>,
+    val helpFormatter: HelpFormatter,
+    val tokenTransformer: Context.(String) -> String,
+    val console: CliktConsole,
+    val expandArgumentFiles: Boolean,
+    val readEnvvarBeforeValueSource: Boolean,
+    val valueSource: ValueSource?,
+    val correctionSuggestor: TypoSuggestor,
+    val localization: Localization,
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -76,8 +76,8 @@ class Context(
     /** Return a list of command names, starting with the topmost command and ending with this Context's parent. */
     fun parentNames(): List<String> {
         return ancestors().drop(1)
-                .map { it.command.commandName }
-                .toList().asReversed()
+            .map { it.command.commandName }
+            .toList().asReversed()
     }
 
     /** Return a list of command names, starting with the topmost command and ending with this Context's command. */
@@ -187,9 +187,9 @@ class Context(
                         parent?.let { p -> p.ancestors().any { it.command.allowMultipleSubcommands } } != true
                 val formatter = helpFormatter ?: CliktHelpFormatter(localization)
                 return Context(
-                        parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                        helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
-                        readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization
+                    parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
+                    helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
+                    readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization
                 )
             }
         }
@@ -199,13 +199,13 @@ class Context(
 /** Find the closest object of type [T], or throw a [NullPointerException] */
 @Suppress("unused") // these extensions don't use their receiver, but we want to limit where they can be called
 inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
-    return ReadOnlyProperty<CliktCommand, T> { thisRef, _ -> thisRef.currentContext.findObject<T>()!! }
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject()!! }
 }
 
 /** Find the closest object of type [T], or null */
 @Suppress("unused")
 inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCommand, T?> {
-    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject<T>() }
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject() }
 }
 
 /**
@@ -223,7 +223,7 @@ inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: (
 
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
     possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }
-            .filter { it.second > 0.8 }
-            .sortedByDescending { it.second }
-            .map { it.first }
+        .filter { it.second > 0.8 }
+        .sortedByDescending { it.second }
+        .map { it.first }
 }

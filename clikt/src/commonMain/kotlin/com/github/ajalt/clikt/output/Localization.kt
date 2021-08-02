@@ -24,7 +24,8 @@ interface Localization {
     fun badParameterWithParam(paramName: String) = "Invalid value for \"$paramName\""
 
     /** Message for [BadParameterValue] */
-    fun badParameterWithMessageAndParam(paramName: String, message: String) = "Invalid value for \"$paramName\": $message"
+    fun badParameterWithMessageAndParam(paramName: String, message: String) =
+        "Invalid value for \"$paramName\": $message"
 
     /** Message for [MissingOption] */
     fun missingOption(paramName: String) = "Missing option \"$paramName\""
@@ -34,19 +35,19 @@ interface Localization {
 
     /** Message for [NoSuchSubcommand] */
     fun noSuchSubcommand(name: String, possibilities: List<String>): String {
-        return "no such subcommand: \"$name\"" + when(possibilities.size) {
+        return "no such subcommand: \"$name\"" + when (possibilities.size) {
             0 -> ""
             1 -> ". Did you mean \"${possibilities[0]}\"?"
-            else ->  possibilities.joinToString(prefix = ". (Possible subcommands: ", postfix = ")")
+            else -> possibilities.joinToString(prefix = ". (Possible subcommands: ", postfix = ")")
         }
     }
 
     /** Message for [NoSuchOption] */
     fun noSuchOption(name: String, possibilities: List<String>): String {
-        return "no such option: \"$name\"" + when(possibilities.size) {
+        return "no such option: \"$name\"" + when (possibilities.size) {
             0 -> ""
             1 -> ". Did you mean \"${possibilities[0]}\"?"
-            else ->  possibilities.joinToString(prefix = ". (Possible options: ", postfix = ")")
+            else -> possibilities.joinToString(prefix = ". (Possible options: ", postfix = ")")
         }
     }
 
@@ -92,7 +93,8 @@ interface Localization {
     fun invalidFileFormat(filename: String, message: String) = "incorrect format in file $filename: $message"
 
     /** Message for [InvalidFileFormat]*/
-    fun invalidFileFormat(filename: String, lineNumber: Int, message: String) = "incorrect format in file $filename line $lineNumber: $message"
+    fun invalidFileFormat(filename: String, lineNumber: Int, message: String) =
+        "incorrect format in file $filename line $lineNumber: $message"
 
     /** Error in message for [InvalidFileFormat] */
     fun unclosedQuote() = "unclosed quote"

@@ -22,7 +22,10 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
 
     private var value: OutT by NullableLateinit("Cannot read from group delegate before parsing command line")
 
-    override operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
+    override operator fun provideDelegate(
+        thisRef: CliktCommand,
+        prop: KProperty<*>,
+    ): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
 
         for (option in options) {
@@ -59,7 +62,8 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         }
     }
 
-    fun <T> copy(transformAll: MutuallyExclusiveOptionsTransform<OptT, T>) = MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)
+    fun <T> copy(transformAll: MutuallyExclusiveOptionsTransform<OptT, T>) =
+        MutuallyExclusiveOptions(options, groupName, groupHelp, transformAll)
 }
 
 /**
@@ -71,7 +75,10 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
  * @param name The name of the group.
  * @param help A help message to display for this group.
  */
-fun <OptT: Any, OutT> MutuallyExclusiveOptions<OptT, OutT>.help(name: String, help: String): MutuallyExclusiveOptions<OptT, OutT> {
+fun <OptT : Any, OutT> MutuallyExclusiveOptions<OptT, OutT>.help(
+    name: String,
+    help: String,
+): MutuallyExclusiveOptions<OptT, OutT> {
     return MutuallyExclusiveOptions(options, name, help, transformAll)
 }
 

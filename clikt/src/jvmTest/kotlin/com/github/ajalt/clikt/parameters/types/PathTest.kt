@@ -30,8 +30,8 @@ class PathTest {
     fun `paths are resolved using the provided filesystem, if any`() {
         class C : TestCommand() {
             val path by option("-p")
-                    .path(fileSystem = fs)
-                    .required()
+                .path(fileSystem = fs)
+                .required()
 
             override fun run_() {
                 path.fileSystem shouldBe fs
@@ -45,8 +45,8 @@ class PathTest {
     fun `options can be paths`() {
         class C : TestCommand() {
             val path by option("-p")
-                    .path(fileSystem = fs)
-                    .required()
+                .path(fileSystem = fs)
+                .required()
 
             override fun run_() {
                 path.toString() shouldBe "foo"
@@ -60,8 +60,8 @@ class PathTest {
     fun `arguments can be paths`() {
         class C : TestCommand() {
             val paths by argument()
-                    .path(fileSystem = fs)
-                    .multiple()
+                .path(fileSystem = fs)
+                .multiple()
 
             override fun run_() {
                 paths.map { it.toString() } shouldBe listOf("foo", "bar", "baz")
@@ -75,9 +75,9 @@ class PathTest {
     fun `values can be converted before path is called`() {
         class C : TestCommand() {
             val path by option("-p")
-                    .convert { "/tmp/$it" }
-                    .path(fileSystem = fs)
-                    .required()
+                .convert { "/tmp/$it" }
+                .path(fileSystem = fs)
+                .required()
 
             override fun run_() {
                 path.toString() shouldBe "/tmp/foo"

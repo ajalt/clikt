@@ -5,15 +5,15 @@ import com.github.ajalt.clikt.mpp.readEnvvar
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class CliktHelpFormatter(
-        protected val localization: Localization = defaultLocalization,
-        protected val indent: String = "  ",
-        width: Int? = null,
-        maxWidth: Int = 78,
-        maxColWidth: Int? = null,
-        protected val colSpacing: Int = 2,
-        protected val requiredOptionMarker: String? = null,
-        protected val showDefaultValues: Boolean = false,
-        protected val showRequiredTag: Boolean = false
+    protected val localization: Localization = defaultLocalization,
+    protected val indent: String = "  ",
+    width: Int? = null,
+    maxWidth: Int = 78,
+    maxColWidth: Int? = null,
+    protected val colSpacing: Int = 2,
+    protected val requiredOptionMarker: String? = null,
+    protected val showDefaultValues: Boolean = false,
+    protected val showRequiredTag: Boolean = false,
 ) : HelpFormatter {
     protected val width: Int = when (width) {
         null -> minOf(maxWidth, readEnvvar("COLUMNS")?.toInt() ?: maxWidth)
@@ -27,10 +27,10 @@ open class CliktHelpFormatter(
     }
 
     override fun formatHelp(
-            prolog: String,
-            epilog: String,
-            parameters: List<HelpFormatter.ParameterHelp>,
-            programName: String
+        prolog: String,
+        epilog: String,
+        parameters: List<HelpFormatter.ParameterHelp>,
+        programName: String,
     ) = buildString {
         addUsage(parameters, programName)
         addProlog(prolog)
@@ -41,8 +41,8 @@ open class CliktHelpFormatter(
     }
 
     protected open fun StringBuilder.addUsage(
-            parameters: List<HelpFormatter.ParameterHelp>,
-            programName: String
+        parameters: List<HelpFormatter.ParameterHelp>,
+        programName: String,
     ) {
         val prog = "${renderSectionTitle(localization.usageTitle())} $programName"
         val usage = buildString {
@@ -85,23 +85,27 @@ open class CliktHelpFormatter(
     protected open fun StringBuilder.addOptions(parameters: List<HelpFormatter.ParameterHelp>) {
         val groupsByName = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Group>().associateBy { it.name }
         parameters.filterIsInstance<HelpFormatter.ParameterHelp.Option>()
-                .groupBy { it.groupName }
-                .toList()
-                .sortedBy { it.first == null }
-                .forEach { (title, params) ->
-                    addOptionGroup(title?.let { "$it:" }
-                            ?: localization.optionsTitle(), groupsByName[title]?.help, params)
-                }
+            .groupBy { it.groupName }
+            .toList()
+            .sortedBy { it.first == null }
+            .forEach { (title, params) ->
+                addOptionGroup(title?.let { "$it:" }
+                    ?: localization.optionsTitle(), groupsByName[title]?.help, params)
+            }
     }
 
-    protected open fun StringBuilder.addOptionGroup(title: String, help: String?, parameters: List<HelpFormatter.ParameterHelp.Option>) {
+    protected open fun StringBuilder.addOptionGroup(
+        title: String,
+        help: String?,
+        parameters: List<HelpFormatter.ParameterHelp.Option>,
+    ) {
         val options = parameters.map {
             val names = mutableListOf(joinNamesForOption(it.names))
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(it.secondaryNames)
             DefinitionRow(
-                    col1 = names.joinToString(" / ", postfix = optionMetavar(it)),
-                    col2 = renderHelpText(it.help, it.tags),
-                    marker = if (HelpFormatter.Tags.REQUIRED in it.tags) requiredOptionMarker else null
+                col1 = names.joinToString(" / ", postfix = optionMetavar(it)),
+                col2 = renderHelpText(it.help, it.tags),
+                marker = if (HelpFormatter.Tags.REQUIRED in it.tags) requiredOptionMarker else null
             )
         }
         if (options.isNotEmpty()) {
@@ -145,8 +149,8 @@ open class CliktHelpFormatter(
 
     protected open fun renderHelpText(help: String, tags: Map<String, String>): String {
         val renderedTags = tags.asSequence()
-                .filter { (k, v) -> shouldShowTag(k, v) }
-                .joinToString(" ") { (k, v) -> renderTag(k, v) }
+            .filter { (k, v) -> shouldShowTag(k, v) }
+            .joinToString(" ") { (k, v) -> renderTag(k, v) }
         return if (renderedTags.isEmpty()) help else "$help $renderedTags"
 
     }
@@ -164,7 +168,7 @@ open class CliktHelpFormatter(
     }
 
     protected open fun renderTag(tag: String, value: String): String {
-        val t = when(tag) {
+        val t = when (tag) {
             HelpFormatter.Tags.DEFAULT -> localization.helpTagDefault()
             HelpFormatter.Tags.REQUIRED -> localization.helpTagRequired()
             else -> tag
@@ -219,7 +223,7 @@ open class CliktHelpFormatter(
     }
 
     private fun measureFirstColumn(rows: List<DefinitionRow>): Int =
-            rows.maxByOrNull { it.col1.graphemeLength }?.col1?.graphemeLength?.coerceAtMost(maxColWidth) ?: maxColWidth
+        rows.maxByOrNull { it.col1.graphemeLength }?.col1?.graphemeLength?.coerceAtMost(maxColWidth) ?: maxColWidth
 
     private fun StringBuilder.section(title: String) {
         append("\n").append(renderSectionTitle(title)).append("\n")

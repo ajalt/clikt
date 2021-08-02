@@ -15,7 +15,7 @@ import org.kodein.di.generic.provider
 import java.io.File
 
 class Commit : CliktCommand(
-        help = """Commits outstanding changes.
+    help = """Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
         "repo push" to push up your changes to other repositories.
@@ -24,12 +24,12 @@ class Commit : CliktCommand(
         will be committed.""") {
     val repo: Repo by requireObject()
     val message: List<String> by option("--message", "-m",
-            help = "The commit message. If provided multiple times " +
-                    "each argument gets converted into a new line.")
-            .multiple()
+        help = "The commit message. If provided multiple times " +
+                "each argument gets converted into a new line.")
+        .multiple()
     val files: List<File> by argument()
-            .file()
-            .multiple()
+        .file()
+        .multiple()
 
     override fun run() {
         val msg: String = if (message.isNotEmpty()) {

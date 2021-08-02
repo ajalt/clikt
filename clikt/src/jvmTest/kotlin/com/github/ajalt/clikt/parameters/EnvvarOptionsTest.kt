@@ -107,7 +107,7 @@ class EnvvarOptionsTest {
         }
 
         C().subcommands(Sub().subcommands(Sub2().subcommands(Sub3())))
-                .parse("cmd1 sub2 sub3")
+            .parse("cmd1 sub2 sub3")
     }
 
     @Test
@@ -129,9 +129,9 @@ class EnvvarOptionsTest {
 
     @Test
     fun `flag envvars`() = forAll(
-            row(null, null, false, 0),
-            row("YES", "3", true, 3),
-            row("false", "5", false, 5)
+        row(null, null, false, 0),
+        row("YES", "3", true, 3),
+        row("false", "5", false, 5)
     ) { fv, bv, ef, eb ->
 
         env["FOO"] = fv
@@ -156,8 +156,8 @@ class EnvvarOptionsTest {
 
     @Test
     fun `readEnvvarBeforeValuesSource when both exist`() = forAll(
-            row(true, "bar"),
-            row(false, "baz")
+        row(true, "bar"),
+        row(false, "baz")
     ) { envvarFirst, expected ->
         env["FOO"] = "bar"
         val source = TestSource("foo" to "baz")

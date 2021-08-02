@@ -21,12 +21,12 @@ import java.nio.file.FileSystems
  * @param canBeSymlink If false, fail if the given path is a symlink
  */
 fun RawArgument.file(
-        mustExist: Boolean = false,
-        canBeFile: Boolean = true,
-        canBeDir: Boolean = true,
-        mustBeWritable: Boolean = false,
-        mustBeReadable: Boolean = false,
-        canBeSymlink: Boolean = true
+    mustExist: Boolean = false,
+    canBeFile: Boolean = true,
+    canBeDir: Boolean = true,
+    mustBeWritable: Boolean = false,
+    mustBeReadable: Boolean = false,
+    canBeSymlink: Boolean = true,
 ): ProcessedArgument<File, File> {
     return convert(CompletionCandidates.Path) { str ->
         convertToPath(
@@ -54,12 +54,12 @@ fun RawArgument.file(
  * @param canBeSymlink If false, fail if the given path is a symlink
  */
 fun RawOption.file(
-        mustExist: Boolean = false,
-        canBeFile: Boolean = true,
-        canBeDir: Boolean = true,
-        mustBeWritable: Boolean = false,
-        mustBeReadable: Boolean = false,
-        canBeSymlink: Boolean = true
+    mustExist: Boolean = false,
+    canBeFile: Boolean = true,
+    canBeDir: Boolean = true,
+    mustBeWritable: Boolean = false,
+    mustBeReadable: Boolean = false,
+    canBeSymlink: Boolean = true,
 ): NullableOption<File, File> {
     return convert({ localization.pathMetavar() }, CompletionCandidates.Path) { str ->
         convertToPath(

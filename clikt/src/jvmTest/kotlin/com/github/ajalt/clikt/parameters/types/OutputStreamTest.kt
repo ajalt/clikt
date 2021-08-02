@@ -143,8 +143,8 @@ class OutputStreamTest {
 
     @Test
     fun truncateExisting() = forAll(
-            row(true, "baz"),
-            row(false, "bar\nbaz")
+        row(true, "baz"),
+        row(false, "bar\nbaz")
     ) { truncateExisting, expected ->
         Files.write(fs.getPath("foo"), listOf("bar"))
 

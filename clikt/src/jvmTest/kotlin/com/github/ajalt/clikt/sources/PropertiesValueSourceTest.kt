@@ -30,9 +30,9 @@ class PropertiesValueSourceTest {
         file.writeText("foo=bar")
 
         forAll(
-                row("--foo 1", file, "1"),
-                row("", file, "bar"),
-                row("", File("!nonexistent!"), null)
+            row("--foo 1", file, "1"),
+            row("", file, "bar"),
+            row("", File("!nonexistent!"), null)
         ) { argv, f, expected ->
             class C : TestCommand() {
                 init {
@@ -64,8 +64,8 @@ class PropertiesValueSourceTest {
             init {
                 context {
                     valueSources(
-                            PropertiesValueSource.from(file1.toPath()),
-                            PropertiesValueSource.from(file2.toPath())
+                        PropertiesValueSource.from(file1.toPath()),
+                        PropertiesValueSource.from(file2.toPath())
                     )
                 }
             }

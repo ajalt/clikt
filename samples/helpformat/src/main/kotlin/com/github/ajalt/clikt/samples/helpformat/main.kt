@@ -18,10 +18,10 @@ class ArgparseLocalization : Localization {
 
 class ArgparseHelpFormatter : CliktHelpFormatter(ArgparseLocalization()) {
     override fun formatHelp(
-            prolog: String,
-            epilog: String,
-            parameters: List<HelpFormatter.ParameterHelp>,
-            programName: String
+        prolog: String,
+        epilog: String,
+        parameters: List<HelpFormatter.ParameterHelp>,
+        programName: String,
     ) = buildString {
         // argparse prints arguments before options
         addUsage(parameters, programName)

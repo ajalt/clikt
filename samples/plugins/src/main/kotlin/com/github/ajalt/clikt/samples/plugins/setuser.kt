@@ -11,17 +11,17 @@ import org.kodein.di.generic.inSet
 import org.kodein.di.generic.provider
 
 class SetUser : CliktCommand(
-        name = "setuser",
-        help = """Sets the user credentials.
+    name = "setuser",
+    help = """Sets the user credentials.
 
         This will override the current user config.""") {
     val repo: Repo by requireObject()
     val username: String by option(help = "The developer's shown username.")
-            .prompt()
+        .prompt()
     val email: String by option(help = "The developer's email address.")
-            .prompt(text = "E-Mail")
+        .prompt(text = "E-Mail")
     val password: String by option(help = "The login password.")
-            .prompt(hideInput = true, requireConfirmation = true)
+        .prompt(hideInput = true, requireConfirmation = true)
 
     override fun run() {
         repo.config["username"] = username

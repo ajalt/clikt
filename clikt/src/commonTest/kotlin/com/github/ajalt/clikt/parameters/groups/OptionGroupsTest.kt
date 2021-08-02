@@ -2,7 +2,10 @@
 
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.MissingOption
+import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -23,11 +26,11 @@ class OptionGroupsTest {
     @Test
     @JsName("plain_option_group")
     fun `plain option group`() = forAll(
-            row("", null, "d", "d"),
-            row("--x=1", "1", "d", "d"),
-            row("--y=2", null, "2", "d"),
-            row("--x=1 --y=2", "1", "2", "d"),
-            row("--x=1 --y=2 --o=3", "1", "2", "3")
+        row("", null, "d", "d"),
+        row("--x=1", "1", "d", "d"),
+        row("--y=2", null, "2", "d"),
+        row("--x=1 --y=2", "1", "2", "d"),
+        row("--x=1 --y=2 --o=3", "1", "2", "3")
     ) { argv, ex, ey, eo ->
         class G : OptionGroup() {
             val x by option()
@@ -86,17 +89,17 @@ class OptionGroupsTest {
         }
 
         shouldThrow<IllegalArgumentException> { C() }
-                .message shouldBe "Duplicate option name --x"
+            .message shouldBe "Duplicate option name --x"
     }
 
     @Test
     @JsName("mutually_exclusive_group")
     fun `mutually exclusive group`() = forAll(
-            row("", null, "d"),
-            row("--x=1", "1", "d"),
-            row("--x=1 --y=2", "2", "d"),
-            row("--y=3", "3", "d"),
-            row("--x=4 --o=5", "4", "5")
+        row("", null, "d"),
+        row("--x=1", "1", "d"),
+        row("--x=1 --y=2", "2", "d"),
+        row("--y=3", "3", "d"),
+        row("--x=4 --o=5", "4", "5")
     ) { argv, eg, eo ->
         class C : TestCommand() {
             val o by option().default("d")
@@ -146,12 +149,12 @@ class OptionGroupsTest {
     @Test
     @JsName("multiple_mutually_exclusive_groups")
     fun `multiple mutually exclusive groups`() = forAll(
-            row("", null, null),
-            row("--x=1", "1", null),
-            row("--y=2", "2", null),
-            row("--z=3", null, "3"),
-            row("--w=4", null, "4"),
-            row("--x=5 --w=6", "5", "6")
+        row("", null, null),
+        row("--x=1", "1", null),
+        row("--y=2", "2", null),
+        row("--z=3", null, "3"),
+        row("--w=4", null, "4"),
+        row("--x=5 --w=6", "5", "6")
     ) { argv, eg, eh ->
         class C : TestCommand() {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y"))
@@ -169,21 +172,21 @@ class OptionGroupsTest {
     fun `mutually exclusive group duplicate option name`() {
         class C : TestCommand(called = false) {
             val g by mutuallyExclusiveOptions(
-                    option("--x"),
-                    option("--x")
+                option("--x"),
+                option("--x")
             )
         }
 
         shouldThrow<IllegalArgumentException> { C() }
-                .message shouldBe "Duplicate option name --x"
+            .message shouldBe "Duplicate option name --x"
     }
 
     @Test
     @JsName("mutually_exclusive_group_default")
     fun `mutually exclusive group default`() = forAll(
-            row("", "d"),
-            row("--x=1", "1"),
-            row("--x=2", "2")
+        row("", "d"),
+        row("--x=1", "1"),
+        row("--x=2", "2")
     ) { argv, eg ->
         class C : TestCommand() {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y")).default("d")
@@ -202,15 +205,15 @@ class OptionGroupsTest {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y")).required()
         }
         shouldThrow<UsageError> { C().parse("") }
-                .message shouldBe "Must provide one of --x, --y"
+            .message shouldBe "Must provide one of --x, --y"
     }
 
     @Test
     @JsName("co_occurring_option_group")
     fun `co-occurring option group`() = forAll(
-            row("", false, null, null),
-            row("--x=1", true, "1", null),
-            row("--x=1 --y=2", true, "1", "2")
+        row("", false, null, null),
+        row("--x=1", true, "1", null),
+        row("--x=1 --y=2", true, "1", "2")
     ) { argv, eg, ex, ey ->
         class G : OptionGroup() {
             val x by option().required()
@@ -246,7 +249,7 @@ class OptionGroupsTest {
         }
 
         shouldThrow<UsageError> { C().parse("--y=2") }
-                .message shouldBe "Missing option \"--x\""
+            .message shouldBe "Missing option \"--x\""
     }
 
     @Test
@@ -262,7 +265,7 @@ class OptionGroupsTest {
         }
 
         shouldThrow<IllegalArgumentException> { C() }
-                .message shouldBe "At least one option in a co-occurring group must use `required()`"
+            .message shouldBe "At least one option in a co-occurring group must use `required()`"
     }
 
     @Test
@@ -272,13 +275,13 @@ class OptionGroupsTest {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
         }
         forAll(
-                row("", 0, null, null),
-                row("--g11=1 --g21=1", 0, null, null),
-                row("--g=1 --g11=2", 1, 2, null),
-                row("--g=1 --g11=2 --g12=3", 1, 2, 3),
-                row("--g=1 --g11=2 --g12=3", 1, 2, 3),
-                row("--g=2 --g21=2 --g22=3", 2, 2, 3),
-                row("--g=2 --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
+            row("", 0, null, null),
+            row("--g11=1 --g21=1", 0, null, null),
+            row("--g=1 --g11=2", 1, 2, null),
+            row("--g=1 --g11=2 --g12=3", 1, 2, 3),
+            row("--g=1 --g11=2 --g12=3", 1, 2, 3),
+            row("--g=2 --g21=2 --g22=3", 2, 2, 3),
+            row("--g=2 --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
         ) { argv, eg, eg1, eg2 ->
             with(C()) {
                 parse(argv)
@@ -299,7 +302,7 @@ class OptionGroupsTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--g=3") }
-                .message shouldBe "Invalid value for \"--g\": invalid choice: 3. (choose from 1, 2)"
+            .message shouldBe "Invalid value for \"--g\": invalid choice: 3. (choose from 1, 2)"
     }
 
     @Test
@@ -309,13 +312,13 @@ class OptionGroupsTest {
             val g by option().groupSwitch("--a" to Group1(), "--b" to Group2())
         }
         forAll(
-                row("", 0, null, null),
-                row("--g11=1 --g21=1", 0, null, null),
-                row("--a --g11=2", 1, 2, null),
-                row("--a --g11=2 --g12=3", 1, 2, 3),
-                row("--a --g11=2 --g12=3", 1, 2, 3),
-                row("--b --g21=2 --g22=3", 2, 2, 3),
-                row("--b --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
+            row("", 0, null, null),
+            row("--g11=1 --g21=1", 0, null, null),
+            row("--a --g11=2", 1, 2, null),
+            row("--a --g11=2 --g12=3", 1, 2, 3),
+            row("--a --g11=2 --g12=3", 1, 2, 3),
+            row("--b --g21=2 --g22=3", 2, 2, 3),
+            row("--b --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
         ) { argv, eg, eg1, eg2 ->
             with(C()) {
                 parse(argv)
@@ -339,9 +342,9 @@ class OptionGroupsTest {
     @Test
     @JsName("plain_option_group_validation")
     fun `plain option group validation`() = forAll(
-            row("", null, true),
-            row("--x=1", 1, true),
-            row("--x=2", null, false)
+        row("", null, true),
+        row("--x=1", 1, true),
+        row("--x=2", null, false)
     ) { argv, ex, ec ->
         if (skipDueToKT33294) return@forAll
 
@@ -366,10 +369,10 @@ class OptionGroupsTest {
     @Test
     @JsName("cooccurring_option_group_validation")
     fun `cooccurring option group validation`() = forAll(
-            row("", null, true, null),
-            row("--x=1 --y=1", 1, true, null),
-            row("--x=2", null, false, "Missing option \"--y\""),
-            row("--x=2 --y=1", null, false, "Invalid value for \"--x\": fail")
+        row("", null, true, null),
+        row("--x=1 --y=1", 1, true, null),
+        row("--x=2", null, false, "Missing option \"--y\""),
+        row("--x=2 --y=1", null, false, "Invalid value for \"--x\": fail")
     ) { argv, ex, ec, em ->
         if (skipDueToKT33294) return@forAll
 
@@ -393,20 +396,20 @@ class OptionGroupsTest {
     @Test
     @JsName("mutually_exclusive_group_validation")
     fun `mutually exclusive group validation`() = forAll(
-            row("", null, true),
-            row("--x=1", 1, true),
-            row("--y=1", 1, true),
-            row("--x=2", 2, true),
-            row("--y=2", 2, false)
+        row("", null, true),
+        row("--x=1", 1, true),
+        row("--y=1", 1, true),
+        row("--x=2", 2, true),
+        row("--y=2", 2, false)
     ) { argv, eg, ec ->
         if (skipDueToKT33294) return@forAll
 
         class C : TestCommand(called = ec) {
             val g by mutuallyExclusiveOptions(
-                    option("--x").int(),
-                    option("--y").int().validate {
-                        require(it == 1) { "fail" }
-                    }
+                option("--x").int(),
+                option("--y").int().validate {
+                    require(it == 1) { "fail" }
+                }
             )
 
             override fun run_() {
@@ -420,12 +423,12 @@ class OptionGroupsTest {
     @Test
     @JsName("group_choice_with_defaultByName")
     fun `groupChoice with defaultByName`() = forAll(
-            row("--g=3", "Group3"),
-            row("", "Group4")
+        row("--g=3", "Group3"),
+        row("", "Group4")
     ) { argv, ex ->
         class C : TestCommand() {
             val g by option().groupChoice("3" to Group3(), "4" to Group4())
-                    .defaultByName("4")
+                .defaultByName("4")
 
             override fun run_() {
                 g::class.simpleName shouldBe ex
@@ -437,12 +440,12 @@ class OptionGroupsTest {
     @Test
     @JsName("group_switch_with_defaultByName")
     fun `groupSwitch with defaultByName`() = forAll(
-            row("--x", "Group3"),
-            row("", "Group4")
+        row("--x", "Group3"),
+        row("", "Group4")
     ) { argv, ex ->
         class C : TestCommand() {
             val g by option().groupSwitch("--x" to Group3(), "--y" to Group4())
-                    .defaultByName("--y")
+                .defaultByName("--y")
 
             override fun run_() {
                 g::class.simpleName shouldBe ex
@@ -456,7 +459,7 @@ class OptionGroupsTest {
     fun `groupSwitch with defaultByName with invalid name`() {
         class C : TestCommand(called = false) {
             val g by option().groupSwitch("--x" to Group1(), "--y" to Group2())
-                    .defaultByName("--z")
+                .defaultByName("--z")
         }
         shouldThrow<IllegalArgumentException> { C() }
     }
@@ -466,7 +469,7 @@ class OptionGroupsTest {
     fun `groupChoice with defaultByName with invalid name`() {
         class C : TestCommand(called = false) {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
-                    .defaultByName("3")
+                .defaultByName("3")
         }
         shouldThrow<IllegalArgumentException> { C() }
     }
@@ -474,15 +477,15 @@ class OptionGroupsTest {
     @Test
     @JsName("groupChoice_with_defaultByName_and_default_options")
     fun `groupChoice with defaultByName and default options`() = forAll(
-            row("", "Group5", 1, ""),
-            row("--g=a", "Group5", 1, ""),
-            row("--opt1=2 --opt2=foo", "Group5", 2, ""),
-            row("--g=a --opt1=2", "Group5", 2, ""),
-            row("--g=b --opt2=foo", "Group6", 0, "foo")
+        row("", "Group5", 1, ""),
+        row("--g=a", "Group5", 1, ""),
+        row("--opt1=2 --opt2=foo", "Group5", 2, ""),
+        row("--g=a --opt1=2", "Group5", 2, ""),
+        row("--g=b --opt2=foo", "Group6", 0, "foo")
     ) { argv, eg, e1, e2 ->
         class C : TestCommand() {
             val g by option().groupChoice("a" to Group5(), "b" to Group6())
-                    .defaultByName("a")
+                .defaultByName("a")
 
             override fun run_() {
                 g::class.simpleName shouldBe eg
@@ -499,15 +502,15 @@ class OptionGroupsTest {
     @Test
     @JsName("groupSwitch_with_defaultByName_and_default_options")
     fun `groupSwitch with defaultByName and default options`() = forAll(
-            row("", "Group5", 1, ""),
-            row("--x", "Group5", 1, ""),
-            row("--opt1=2 --opt2=foo", "Group5", 2, ""),
-            row("--x --opt1=2", "Group5", 2, ""),
-            row("--y --opt2=foo", "Group6", 0, "foo")
+        row("", "Group5", 1, ""),
+        row("--x", "Group5", 1, ""),
+        row("--opt1=2 --opt2=foo", "Group5", 2, ""),
+        row("--x --opt1=2", "Group5", 2, ""),
+        row("--y --opt2=foo", "Group6", 0, "foo")
     ) { argv, eg, e1, e2 ->
         class C : TestCommand() {
             val g by option().groupSwitch("--x" to Group5(), "--y" to Group6())
-                    .defaultByName("--x")
+                .defaultByName("--x")
 
             override fun run_() {
                 g::class.simpleName shouldBe eg
@@ -534,7 +537,7 @@ class OptionGroupsTest {
 
         class C(private val ea: Int) : TestCommand() {
             val g by option().groupChoice("a" to GroupA(), "b" to GroupB())
-                    .defaultByName("a")
+                .defaultByName("a")
 
             override fun run_() {
                 when (val it = g) {

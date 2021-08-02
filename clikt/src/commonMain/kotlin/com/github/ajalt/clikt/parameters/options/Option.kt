@@ -49,9 +49,14 @@ interface Option {
     /** Information about this option for the help output. */
     fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Option? = when {
         hidden -> null
-        else -> HelpFormatter.ParameterHelp.Option(names, secondaryNames, metavar(context), optionHelp, nvalues, helpTags,
-                groupName = (this as? StaticallyGroupedOption)?.groupName
-                        ?: (this as? GroupableOption)?.parameterGroup?.groupName
+        else -> HelpFormatter.ParameterHelp.Option(names,
+            secondaryNames,
+            metavar(context),
+            optionHelp,
+            nvalues,
+            helpTags,
+            groupName = (this as? StaticallyGroupedOption)?.groupName
+                ?: (this as? GroupableOption)?.parameterGroup?.groupName
         )
     }
 
@@ -109,16 +114,16 @@ internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: 
 
 /** Split an option token into a pair of prefix to simple name. */
 internal fun splitOptionPrefix(name: String): Pair<String, String> =
-        when {
-            name.length < 2 || isLetterOrDigit(name[0]) -> "" to name
-            name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
-            else -> name.substring(0, 1) to name.substring(1)
-        }
+    when {
+        name.length < 2 || isLetterOrDigit(name[0]) -> "" to name
+        name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
+        else -> name.substring(0, 1) to name.substring(1)
+    }
 
 internal fun <EachT, AllT> deprecationTransformer(
-        message: String? = "",
-        error: Boolean = false,
-        transformAll: CallsTransformer<EachT, AllT>
+    message: String? = "",
+    error: Boolean = false,
+    transformAll: CallsTransformer<EachT, AllT>,
 ): CallsTransformer<EachT, AllT> = {
     if (it.isNotEmpty()) {
         val msg = when (message) {
@@ -144,9 +149,9 @@ internal sealed class FinalValue {
 }
 
 internal fun Option.getFinalValue(
-        context: Context,
-        invocations: List<OptionParser.Invocation>,
-        envvar: String?
+    context: Context,
+    invocations: List<OptionParser.Invocation>,
+    envvar: String?,
 ): FinalValue {
     return when {
         invocations.isNotEmpty() -> FinalValue.Parsed(invocations)
@@ -161,7 +166,7 @@ internal fun Option.getFinalValue(
 
 private fun Option.readValueSource(context: Context): FinalValue? {
     return context.valueSource?.getValues(context, this)?.ifEmpty { null }
-            ?.let { FinalValue.Sourced(it) }
+        ?.let { FinalValue.Sourced(it) }
 }
 
 private fun Option.readEnvVar(context: Context, envvar: String?): FinalValue? {

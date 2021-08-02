@@ -34,13 +34,13 @@ interface HelpFormatter {
          * @param groupName The name of the group this option belongs to, if there is one and its name should be shown in the help message
          */
         data class Option(
-                val names: Set<String>,
-                val secondaryNames: Set<String>,
-                val metavar: String?,
-                val help: String,
-                val nvalues: Int,
-                val tags: Map<String, String>,
-                val groupName: String?
+            val names: Set<String>,
+            val secondaryNames: Set<String>,
+            val metavar: String?,
+            val help: String,
+            val nvalues: Int,
+            val tags: Map<String, String>,
+            val groupName: String?,
         ) : ParameterHelp()
 
         /**
@@ -50,11 +50,11 @@ interface HelpFormatter {
          * @param repeatable True if this argument takes an unlimited number of values
          */
         data class Argument(
-                val name: String,
-                val help: String,
-                val required: Boolean,
-                val repeatable: Boolean,
-                val tags: Map<String, String>
+            val name: String,
+            val help: String,
+            val required: Boolean,
+            val repeatable: Boolean,
+            val tags: Map<String, String>,
         ) : ParameterHelp()
 
         /**
@@ -62,9 +62,9 @@ interface HelpFormatter {
          * @param help The command's description
          */
         data class Subcommand(
-                val name: String,
-                val help: String,
-                val tags: Map<String, String>
+            val name: String,
+            val help: String,
+            val tags: Map<String, String>,
         ) : ParameterHelp()
 
         /**
@@ -75,8 +75,8 @@ interface HelpFormatter {
          * @property help The help text for this group
          */
         data class Group(
-                val name: String,
-                val help: String
+            val name: String,
+            val help: String,
         ) : ParameterHelp()
     }
 

@@ -12,8 +12,8 @@ import kotlin.reflect.KProperty
 typealias CoOccurringOptionGroupTransform<GroupT, OutT> = (occurred: Boolean?, group: GroupT, context: Context) -> OutT
 
 class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
-        internal val group: GroupT,
-        private val transform: CoOccurringOptionGroupTransform<GroupT, OutT>
+    internal val group: GroupT,
+    private val transform: CoOccurringOptionGroupTransform<GroupT, OutT>,
 ) : ParameterGroupDelegate<OutT> {
     override val groupName: String? get() = group.groupName
     override val groupHelp: String? get() = group.groupHelp

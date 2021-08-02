@@ -396,6 +396,17 @@ class SubcommandTest {
     }
 
     @Test
+    @JsName("multiple_subcommands_with_excess_arguments")
+    fun `multiple subcommands with excess arguments`() {
+        val sub = TestCommand(name = "sub", called = true)
+        val c = TestCommand(allowMultipleSubcommands = true).subcommands(sub)
+        shouldThrow<UsageError> {
+            c.parse("sub foo")
+        }.message shouldBe "Got unexpected extra argument (foo)"
+    }
+
+
+    @Test
     @JsName("accessing_options_of_uninvoked_subcommand")
     fun `accessing options of uninvoked subcommand`() {
         class Sub(name: String, called: Boolean) : TestCommand(called, name = name) {

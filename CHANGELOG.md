@@ -5,6 +5,9 @@
 ### Changed
 - Updated kotlin to 1.5.10
 
+### Fixed
+- Report error when excess arguments are given to a command with `allowMultipleSubcommands=true`
+
 ## 3.2.0
 _2021-05-14_
 

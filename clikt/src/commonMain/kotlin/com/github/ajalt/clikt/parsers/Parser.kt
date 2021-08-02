@@ -94,9 +94,11 @@ internal object Parser {
                     canParseOptions = false
                     canExpandAtFiles = false
                 }
-                canParseOptions && (prefix.length > 1 && prefix in prefixes || normTok in longNames || isLongOptionWithEquals(
-                    prefix,
-                    tok)) -> {
+                canParseOptions && (
+                        prefix.length > 1 && prefix in prefixes
+                                || normTok in longNames
+                                || isLongOptionWithEquals(prefix, tok)
+                        ) -> {
                     consumeParse(parseLongOpt(command.treatUnknownOptionsAsArgs,
                         context,
                         tokens,
@@ -170,16 +172,9 @@ internal object Parser {
                         val actual = positionalArgs.last()
                         throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
                     } else {
-                        val actual =
-                            positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
-                        val message =
-                            if (excess == 1) context.localization.extraArgumentOne(actual) else context.localization.extraArgumentMany(
-                                actual,
-                                excess)
-                        throw UsageError(message)
+                        throwExcessArgsError(positionalArgs, excess, context)
                     }
                 }
-
 
                 // Now that all parameters have been finalized, we can validate everything
                 command._options.forEach { o ->
@@ -202,6 +197,10 @@ internal object Parser {
                 }
 
                 command.run()
+            } else if (subcommand == null && positionalArgs.isNotEmpty()) {
+                // If we're resuming a parse with multiple subcommands, there can't be any args after the last
+                // subcommand is parsed
+                throwExcessArgsError(positionalArgs, positionalArgs.size, context)
             }
         } catch (e: UsageError) {
             // Augment usage errors with the current context if they don't have one
@@ -375,6 +374,16 @@ internal object Parser {
         }
 
         return toks
+    }
+
+    fun throwExcessArgsError(positionalArgs: List<String>, excess: Int, context: Context): Nothing {
+        val actual =
+            positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
+        val message =
+            if (excess == 1) context.localization.extraArgumentOne(actual) else context.localization.extraArgumentMany(
+                actual,
+                excess)
+        throw UsageError(message)
     }
 }
 

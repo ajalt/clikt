@@ -1,10 +1,7 @@
 package com.github.ajalt.clikt.parameters.arguments
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
@@ -309,9 +306,16 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.optional(): ProcessedAr
  * ```
  * val arg: List<Int> by argument().int().multiple()
  * ```
+ *
+ * @param required If true, [default] is ignored and [MissingArgument] will be thrown if no
+ *   instances of the argument are present on the command line.
+ * @param default The value to use if the argument is not supplied. Defaults to an empty list.
  */
-fun <T : Any> ProcessedArgument<T, T>.multiple(required: Boolean = false): ProcessedArgument<List<T>, T> {
-    return transformAll(nvalues = -1, required = required) { it }
+fun <T : Any> ProcessedArgument<T, T>.multiple(
+    required: Boolean = false,
+    default: List<T> = emptyList(),
+): ProcessedArgument<List<T>, T> {
+    return transformAll(nvalues = -1, required = required) { it.ifEmpty { default } }
 }
 
 /**

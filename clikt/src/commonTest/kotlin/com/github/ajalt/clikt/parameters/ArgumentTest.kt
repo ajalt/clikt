@@ -431,6 +431,17 @@ class ArgumentTest {
     }
 
     @Test
+    @JsName("argument_with_default")
+    fun `argument with default`() {
+        val default = listOf("def")
+        class C : TestCommand() {
+            val foo by argument().multiple(default = default)
+        }
+        C().parse("").foo shouldBe listOf("def")
+        C().parse("a b").foo shouldBe listOf("a", "b")
+    }
+
+    @Test
     @JsName("punctuation_in_arg_prefix_unix_style")
     fun `punctuation in arg prefix unix style`() = forAll(
         row("/foo")

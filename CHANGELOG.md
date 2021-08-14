@@ -2,11 +2,14 @@
 
 ## Unreleased
 
+### Added
+- Added `default` parameter to `argument().multiple()` ([#305](https://github.com/ajalt/clikt/issues/305))
+
 ### Changed
 - Updated kotlin to 1.5.10
 
 ### Fixed
-- Report error when excess arguments are given to a command with `allowMultipleSubcommands=true`
+- Report error when excess arguments are given to a command with `allowMultipleSubcommands=true` ([#303](https://github.com/ajalt/clikt/issues/303))
 
 ## 3.2.0
 _2021-05-14_

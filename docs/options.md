@@ -135,10 +135,10 @@ on the command line. You can instead return a default value with [`default`][def
     2 ^ 1.0 = 2.0
     ```
 
-If the default value is expensive to compute, you can use
-[`defaultLazy`][defaultLazy] instead of [`default`][default].
-It has the same effect, but you give it a lambda returning the default value,
-and the lambda will only be called if the default value is used.
+If the default value is expensive to compute, or you want to use another parameter as the default,
+you can use [`defaultLazy`][defaultLazy] instead of [`default`][default]. It has the same effect,
+but you give it a lambda returning the default value, and the lambda will only be called if the
+option isn't present on the command line.
 
 ## Multi Value Options
 

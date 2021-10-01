@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.counted
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -65,21 +66,47 @@ class ArgumentTest {
 
     @Test
     @JsName("defaultLazy_argument")
-    fun `defaultLazy argument`() = forAll(
-        row("", "default", true)
-    ) { argv, expected, ec ->
+    fun `defaultLazy argument`() {
         var called = false
 
         class C : TestCommand() {
             val x by argument().defaultLazy { called = true; "default" }
             override fun run_() {
-                x shouldBe expected
-                called shouldBe ec
+                x shouldBe "default"
+                called shouldBe true
             }
         }
 
         called shouldBe false
-        C().parse(argv)
+        C().parse("")
+    }
+
+    @Test
+    @JsName("defaultLazy_referencing_other_argument")
+    fun `defaultLazy referencing other argument`() {
+        class C : TestCommand() {
+            val y by argument().defaultLazy { x }
+            val x by argument().default("def")
+            override fun run_() {
+                y shouldBe "def"
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
+    @JsName("defaultLazy_referencing_option")
+    fun `defaultLazy referencing option`() {
+        class C : TestCommand() {
+            val y by argument().defaultLazy { x }
+            val x by option().default("def")
+            override fun run_() {
+                y shouldBe "def"
+            }
+        }
+
+        C().parse("")
     }
 
     @Test
@@ -434,6 +461,7 @@ class ArgumentTest {
     @JsName("argument_with_default")
     fun `argument with default`() {
         val default = listOf("def")
+
         class C : TestCommand() {
             val foo by argument().multiple(default = default)
         }

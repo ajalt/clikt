@@ -45,9 +45,9 @@ class FlagOption<T> internal constructor(
 
     override operator fun provideDelegate(
         thisRef: ParameterHolder,
-        prop: KProperty<*>,
+        property: KProperty<*>,
     ): ReadOnlyProperty<ParameterHolder, T> {
-        names = inferOptionNames(names, prop.name)
+        names = inferOptionNames(names, property.name)
         thisRef.registerOption(this)
         return this
     }

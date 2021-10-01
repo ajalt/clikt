@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.GroupableOption
 import com.github.ajalt.clikt.core.ParameterHolder
+import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.OptionParser
@@ -82,13 +83,7 @@ open class OptionGroup(
     }
 
     override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
-        for ((option, invocations) in invocationsByOption) {
-            check(option in options) { "Internal Clikt Error: finalizing unregistered option [${option.names}]" }
-            option.finalize(context, invocations)
-        }
-
-        // Finalize options not provided on the command line so that they can apply default values etc.
-        options.forEach { o -> if (o !in invocationsByOption) o.finalize(context, emptyList()) }
+        finalizeOptions(context, options, invocationsByOption)
     }
 
     override fun postValidate(context: Context) = options.forEach { it.postValidate(context) }

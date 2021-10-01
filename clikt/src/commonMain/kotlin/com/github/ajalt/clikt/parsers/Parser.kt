@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.completion.CompletionOption
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
@@ -145,24 +146,20 @@ internal object Parser {
                 // Finalize eager options
                 invocationsByOption.forEach { (o, inv) -> if (o.isEager) o.finalize(context, inv) }
 
-                // Finalize un-grouped options that occurred on the command line
-                invocationsByOptionByGroup[null]?.forEach { (o, inv) -> o.finalize(context, inv) }
+                // Finalize un-grouped options
+                finalizeOptions(
+                    context,
+                    command._options.filter { !it.isEager && (it as? GroupableOption)?.parameterGroup == null },
+                    invocationsByOptionByGroup[null] ?: emptyMap()
+                )
 
-                // Finalize un-grouped options not provided on the command line so that they can apply default values etc.
-                command._options.forEach { o ->
-                    if (!o.isEager && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
-                        o.finalize(context, emptyList())
-                    }
-                }
-
-                // Finalize option groups after other options so that the groups can use their values
-                invocationsByOptionByGroup.forEach { (group, invocations) ->
-                    group?.finalize(context, invocations)
-                }
+                // Finalize groups after ungrouped options so that the groups can use their values
+                invocationsByOptionByGroup.forEach { (group, invocations) -> group?.finalize(context, invocations) }
 
                 // Finalize groups with no invocations
                 command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
 
+                // Finalize arguments
                 val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
                 parsedArgs.forEach { (it, v) -> it.finalize(context, v) }
                 if (excess > 0) {

@@ -419,6 +419,20 @@ class OptionTest {
     }
 
     @Test
+    @JsName("defaultLazy_option_referencing_other_option")
+    fun `defaultLazy option referencing other option`() {
+        class C : TestCommand() {
+            val y by option().defaultLazy { x }
+            val x by option().default("def")
+            override fun run_() {
+                y shouldBe "def"
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
     @JsName("required_option")
     fun `required option`() {
         class C : TestCommand() {

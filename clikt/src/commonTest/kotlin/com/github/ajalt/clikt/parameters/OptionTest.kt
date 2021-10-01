@@ -435,7 +435,7 @@ class OptionTest {
     }
 
     @Test
-    @JsName("defaultLazy_option_referencing_other_option")
+    @JsName("defaultLazy_option_referencing_argument")
     fun `defaultLazy option referencing argument`() {
         class C : TestCommand() {
             val y by option().defaultLazy { x }

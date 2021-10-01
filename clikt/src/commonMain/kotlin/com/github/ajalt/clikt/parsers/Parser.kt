@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.completion.CompletionOption
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.EagerOption
@@ -145,36 +146,34 @@ internal object Parser {
                 // Finalize eager options
                 invocationsByOption.forEach { (o, inv) -> if (o.isEager) o.finalize(context, inv) }
 
-                // Finalize un-grouped options that occurred on the command line
-                invocationsByOptionByGroup[null]?.forEach { (o, inv) -> o.finalize(context, inv) }
+                // Finalize arguments before options, so that options can reference them
+                val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
+                val retries = finalizeArguments(parsedArgs, context)
+                i = handleExcessArguments(
+                    excess,
+                    hasMultipleSubAncestor,
+                    i,
+                    tokens,
+                    subcommands,
+                    positionalArgs,
+                    context
+                )
 
-                // Finalize un-grouped options not provided on the command line so that they can apply default values etc.
-                command._options.forEach { o ->
-                    if (!o.isEager && o !in invocationsByOption && (o as? GroupableOption)?.parameterGroup == null) {
-                        o.finalize(context, emptyList())
-                    }
-                }
+                // Finalize un-grouped options
+                finalizeOptions(
+                    context,
+                    command._options.filter { !it.isEager && (it as? GroupableOption)?.parameterGroup == null },
+                    invocationsByOptionByGroup[null] ?: emptyMap()
+                )
 
-                // Finalize option groups after other options so that the groups can use their values
-                invocationsByOptionByGroup.forEach { (group, invocations) ->
-                    group?.finalize(context, invocations)
-                }
+                // Finalize groups after ungrouped options so that the groups can use their values
+                invocationsByOptionByGroup.forEach { (group, invocations) -> group?.finalize(context, invocations) }
 
                 // Finalize groups with no invocations
                 command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
 
-                val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
-                parsedArgs.forEach { (it, v) -> it.finalize(context, v) }
-                if (excess > 0) {
-                    if (hasMultipleSubAncestor) {
-                        i = tokens.size - excess
-                    } else if (excess == 1 && subcommands.isNotEmpty()) {
-                        val actual = positionalArgs.last()
-                        throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
-                    } else {
-                        throwExcessArgsError(positionalArgs, excess, context)
-                    }
-                }
+                // Retry any failed args now that they can reference option values
+                retries.forEach { (arg, v) -> arg.finalize(context, v) }
 
                 // Now that all parameters have been finalized, we can validate everything
                 command._options.forEach { o ->
@@ -217,6 +216,28 @@ internal object Parser {
         }
 
         return tokens to i
+    }
+
+    private fun handleExcessArguments(
+        excess: Int,
+        hasMultipleSubAncestor: Boolean,
+        i: Int,
+        tokens: List<String>,
+        subcommands: Map<String, CliktCommand>,
+        positionalArgs: ArrayList<String>,
+        context: Context,
+    ): Int {
+        if (excess > 0) {
+            if (hasMultipleSubAncestor) {
+                return tokens.size - excess
+            } else if (excess == 1 && subcommands.isNotEmpty()) {
+                val actual = positionalArgs.last()
+                throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()))
+            } else {
+                throwExcessArgsError(positionalArgs, excess, context)
+            }
+        }
+        return i
     }
 
     private fun parseLongOpt(
@@ -281,7 +302,7 @@ internal object Parser {
     private fun parseArguments(
         positionalArgs: List<String>,
         arguments: List<Argument>,
-    ): Pair<Int, MutableMap<Argument, List<String>>> {
+    ): Pair<Int, Map<Argument, List<String>>> {
         val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
@@ -309,6 +330,22 @@ internal object Parser {
         val excess = positionalArgs.size - i
         return excess to out
     }
+
+    private fun finalizeArguments(
+        parsedArgs: Map<Argument, List<String>>,
+        context: Context,
+    ): Map<Argument, List<String>> {
+        val retries = mutableMapOf<Argument, List<String>>()
+        for ((it, v) in parsedArgs) {
+            try {
+                it.finalize(context, v)
+            } catch (e: IllegalStateException) {
+                retries[it] = v
+            }
+        }
+        return retries
+    }
+
 
     private fun loadArgFile(filename: String, context: Context): List<String> {
         val text = readFileIfExists(filename) ?: throw FileNotFound(filename, context)

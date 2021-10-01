@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.groups
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parsers.OptionParser
@@ -41,17 +42,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
 
     override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
-        for ((option, invocations) in invocationsByOption) {
-            check(option in options) { "Internal Clikt Error: finalizing unregistered option [${option.names}]" }
-            option.finalize(context, invocations)
-        }
-
-        for (option in options) {
-            if (option !in invocationsByOption) {
-                option.finalize(context, emptyList())
-            }
-        }
-
+        finalizeOptions(context, options, invocationsByOption)
         val values = options.mapNotNull { it.value }
         value = MutuallyExclusiveOptionTransformContext(context).transformAll(values)
     }

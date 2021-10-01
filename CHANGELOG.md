@@ -6,6 +6,7 @@
 - Added `default` parameter to `argument().multiple()` ([#305](https://github.com/ajalt/clikt/issues/305))
 
 ### Changed
+- `defaultLazy` values can now reference other parameters, as long the referenced parameters do not also reference other parameters.
 - Updated kotlin to 1.5.10
 
 ### Fixed

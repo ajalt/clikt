@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.default
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -416,6 +418,34 @@ class OptionTest {
 
         called shouldBe false
         C().parse(argv)
+    }
+
+    @Test
+    @JsName("defaultLazy_option_referencing_other_option")
+    fun `defaultLazy option referencing other option`() {
+        class C : TestCommand() {
+            val y by option().defaultLazy { x }
+            val x by option().default("def")
+            override fun run_() {
+                y shouldBe "def"
+            }
+        }
+
+        C().parse("")
+    }
+
+    @Test
+    @JsName("defaultLazy_option_referencing_argument")
+    fun `defaultLazy option referencing argument`() {
+        class C : TestCommand() {
+            val y by option().defaultLazy { x }
+            val x by argument().default("def")
+            override fun run_() {
+                y shouldBe "def"
+            }
+        }
+
+        C().parse("")
     }
 
     @Test

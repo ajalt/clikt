@@ -3,7 +3,7 @@ import java.io.ByteArrayOutputStream
 val VERSION_NAME: String by project
 
 plugins {
-    kotlin("jvm").version("1.5.30")
+    kotlin("jvm").version("1.5.31")
 }
 
 allprojects {
@@ -12,7 +12,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-        jcenter()
     }
 }
 

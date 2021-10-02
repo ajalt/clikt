@@ -91,8 +91,8 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
-    private fun createContext(parent: Context? = null, ancestors: List<CliktCommand> = emptyList()) {
-        _context = Context.build(this, parent, _contextConfig)
+    private fun createContext(argv: List<String>, parent: Context?, ancestors: List<CliktCommand>) {
+        _context = Context.build(this, parent, argv, _contextConfig)
 
         if (allowMultipleSubcommands) {
             require(currentContext.ancestors().drop(1).none { it.command.allowMultipleSubcommands }) {
@@ -109,7 +109,7 @@ abstract class CliktCommand(
         for (command in _subcommands) {
             val a = (ancestors + parent?.command).filterNotNull()
             check(command !in a) { "Command ${command.commandName} already registered" }
-            command.createContext(currentContext, a)
+            command.createContext(argv, currentContext, a)
         }
     }
 
@@ -121,7 +121,7 @@ abstract class CliktCommand(
     }
 
     private fun getCommandNameWithParents(): String {
-        if (_context == null) createContext()
+        if (_context == null) createContext(emptyList(), null, emptyList())
         return currentContext.commandNameWithParents().joinToString(" ")
     }
 
@@ -239,8 +239,8 @@ abstract class CliktCommand(
     /**
      * A list of command aliases.
      *
-     * If the user enters a command that matches the a key in this map, the command is replaced with the
-     * corresponding value in in map. The aliases aren't recursive, so aliases won't be looked up again while
+     * If the user enters a command that matches a key in this map, the command is replaced with the
+     * corresponding value in the map. The aliases aren't recursive, so aliases won't be looked up again while
      * tokens from an existing alias are being parsed.
      */
     open fun aliases(): Map<String, List<String>> = emptyMap()
@@ -391,7 +391,7 @@ abstract class CliktCommand(
      * You should use [main] instead unless you want to handle output yourself.
      */
     fun parse(argv: List<String>, parentContext: Context? = null) {
-        createContext(parentContext)
+        createContext(argv, parentContext, emptyList())
         generateCompletion()
         Parser.parse(argv, this.currentContext)
     }

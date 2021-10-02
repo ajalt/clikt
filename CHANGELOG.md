@@ -4,10 +4,11 @@
 
 ### Added
 - Added `default` parameter to `argument().multiple()` ([#305](https://github.com/ajalt/clikt/issues/305))
+- `Context.originalArgv` that allows you to read the command line arguments from within a command's `run`. ([#290](https://github.com/ajalt/clikt/issues/290))
 
 ### Changed
 - `defaultLazy` values can now reference other parameters, as long the referenced parameters do not also reference other parameters.
-- Updated kotlin to 1.5.10
+- Updated kotlin to 1.5.31
 
 ### Fixed
 - Report error when excess arguments are given to a command with `allowMultipleSubcommands=true` ([#303](https://github.com/ajalt/clikt/issues/303))

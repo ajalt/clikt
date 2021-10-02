@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
+import kotlin.jvm.JvmOverloads
 import kotlin.properties.ReadOnlyProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
@@ -34,7 +35,8 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
  *   names and filters the list down to values to suggest to the user.
  */
-class Context(
+
+class Context @JvmOverloads constructor(
     val parent: Context?,
     val command: CliktCommand,
     val allowInterspersedArgs: Boolean,
@@ -49,6 +51,7 @@ class Context(
     val valueSource: ValueSource?,
     val correctionSuggestor: TypoSuggestor,
     val localization: Localization,
+    val originalArgv: List<String> = emptyList(),
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -181,6 +184,15 @@ class Context(
 
     companion object {
         fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
+            return build(command, parent, emptyList(), block)
+        }
+
+        internal fun build(
+            command: CliktCommand,
+            parent: Context?,
+            argv: List<String>,
+            block: Builder.() -> Unit,
+        ): Context {
             with(Builder(command, parent)) {
                 block()
                 val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
@@ -189,7 +201,8 @@ class Context(
                 return Context(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
                     helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
-                    readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization
+                    readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
+                    argv
                 )
             }
         }

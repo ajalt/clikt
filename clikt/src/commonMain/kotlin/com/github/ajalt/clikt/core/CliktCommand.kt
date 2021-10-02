@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.mpp.exitProcessMpp
-import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
@@ -132,7 +131,7 @@ abstract class CliktCommand(
             else -> autoCompleteEnvvar
         }
 
-        val envval = readEnvvar(envvar) ?: return
+        val envval = currentContext.readEnvvar(envvar) ?: return
 
         CompletionGenerator.throwCompletionMessage(this, envval)
     }
@@ -511,7 +510,12 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
  * here.
  */
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
-    _contextConfig = block
+    // save the old config to allow multiple context calls
+    val c = _contextConfig
+    _contextConfig = {
+        c()
+        block()
+    }
 }
 
 private fun Any.classSimpleName(): String = this::class.simpleName.orEmpty().split("$").last()

@@ -4,10 +4,12 @@
 
 ### Added
 - Added `default` parameter to `argument().multiple()` ([#305](https://github.com/ajalt/clikt/issues/305))
-- `Context.originalArgv` that allows you to read the command line arguments from within a command's `run`. ([#290](https://github.com/ajalt/clikt/issues/290))
+- `Context.originalArgv` that allows you to read the command line arguments from within a command's `run` ([#290](https://github.com/ajalt/clikt/issues/290))
+- `context { envarReader = {...} }` to set a custom function to read from environment variables ([#299](https://github.com/ajalt/clikt/issues/299))
 
 ### Changed
 - `defaultLazy` values can now reference other parameters, as long the referenced parameters do not also reference other parameters.
+- You can now call `CliktCommand.context` multiple times on the same command, and all builder block will be applied 
 - Updated kotlin to 1.5.31
 
 ### Fixed

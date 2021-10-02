@@ -217,6 +217,9 @@ line. In unit tests, you should instead call [`CliktCommand.parse`][parse], whic
 with error details rather than printing the details and exiting the process. See the documentation
 on [exceptions](exceptions.md) for more information.
 
+If your command uses environment variables, you can set a [function on the context][override-envvar]
+that returns test values.
+
 ## Custom exit status codes
 
 Clikt will normally exit your program with a status code of 0 for a normal execution, or 1 if
@@ -260,9 +263,9 @@ if you define your own CliktConsole.
 [editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
 [expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
 [main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
+[override-envvar]:     options.md#overriding-system-environment-variables
 [parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
 [ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
 [prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
 [TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html
-

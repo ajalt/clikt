@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
@@ -51,6 +52,7 @@ class Context @JvmOverloads constructor(
     val valueSource: ValueSource?,
     val correctionSuggestor: TypoSuggestor,
     val localization: Localization,
+    val readEnvvar: (String) -> String? = ::readEnvvar,
     val originalArgv: List<String> = emptyList(),
 ) {
     var invokedSubcommand: CliktCommand? = null
@@ -180,6 +182,15 @@ class Context @JvmOverloads constructor(
          * Localized strings to use for help output and error reporting.
          */
         var localization: Localization = defaultLocalization
+
+        /**
+         * A function called by Clikt to get a parameter value from a given environment variable
+         *
+         * The function returns `null` if the envvar is not defined.
+         *
+         * You can set this to read from a map or other source during tests.
+         */
+        var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: ::readEnvvar
     }
 
     companion object {
@@ -202,7 +213,7 @@ class Context @JvmOverloads constructor(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
                     helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
                     readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
-                    argv
+                    envvarReader, argv
                 )
             }
         }

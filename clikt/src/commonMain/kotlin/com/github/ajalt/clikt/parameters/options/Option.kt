@@ -171,5 +171,5 @@ private fun Option.readValueSource(context: Context): FinalValue? {
 
 private fun Option.readEnvVar(context: Context, envvar: String?): FinalValue? {
     val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix) ?: return null
-    return readEnvvar(env)?.let { FinalValue.Envvar(env, it) }
+    return context.readEnvvar(env)?.let { FinalValue.Envvar(env, it) }
 }

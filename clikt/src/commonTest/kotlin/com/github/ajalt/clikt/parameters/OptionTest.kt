@@ -603,7 +603,7 @@ class OptionTest {
     fun `option check`() = forAll(
         row("--x=bar --y=foo --w=foo", "Invalid value for \"--x\": bar"),
         row("--y=bar --w=foo", "Invalid value for \"--y\": bar"),
-        row("--y=foo --z=bar --w=foo", "Invalid value for \"--z\": fail bar"),
+        row("--y=foo --z=bar --w=foo", "Invalid value for \"--z\": fail"),
         row("--y=foo --w=bar", "Invalid value for \"--w\": fail bar")
     ) { argv, message ->
         if (skipDueToKT33294) return@forAll
@@ -612,7 +612,7 @@ class OptionTest {
             val x by option().check { it == "foo" }
             val y by option().required().check { it == "foo" }
 
-            val z by option().check(lazyMessage = { "fail $it" }) { it == "foo" }
+            val z by option().check("fail") { it == "foo" }
             val w by option().required().check(lazyMessage = { "fail $it" }) { it == "foo" }
         }
 

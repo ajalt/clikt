@@ -5,8 +5,10 @@ import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.TermUi
+import com.github.ajalt.clikt.parameters.options.check
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
+import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.matchers.collections.beEmpty
@@ -84,6 +86,21 @@ class PromptOptionsTest {
         C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
     }
+
+    @Test
+    fun `prompt option validate`() {
+        stdin.provideLines("f", "foo")
+
+        class C : TestCommand() {
+            val foo by option().prompt().check { it.length > 1 }
+            override fun run_() {
+                foo shouldBe "foo"
+            }
+        }
+        C().parse("")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Error: Invalid value for \"--foo\": f\nFoo: "
+    }
+
 
     @Test
     fun `custom console`() {
@@ -192,22 +209,6 @@ class PromptOptionsTest {
         }
         C().parse("")
         stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: Some thing: "
-    }
-
-    @Test
-    fun `two options`() {
-        stdin.provideLines("foo", "bar")
-
-        class C : TestCommand() {
-            val foo by option().prompt()
-            val bar by option().prompt()
-            override fun run_() {
-                foo shouldBe "foo"
-                bar shouldBe "bar"
-            }
-        }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
     }
 
     @Test

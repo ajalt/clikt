@@ -8,8 +8,9 @@
 - `context { envarReader = {...} }` to set a custom function to read from environment variables ([#299](https://github.com/ajalt/clikt/issues/299))
 
 ### Changed
-- `defaultLazy` values can now reference other parameters, as long the referenced parameters do not also reference other parameters.
-- You can now call `CliktCommand.context` multiple times on the same command, and all builder block will be applied 
+- `defaultLazy` values can now reference other parameters, as long the referenced parameters do not also reference other parameters
+- You can now call `CliktCommand.context` multiple times on the same command, and all builder blocks will be applied 
+- Validate values entered to a `prompt` option, and show another prompt if the validation fails ([#288](https://github.com/ajalt/clikt/issues/288))
 - Updated kotlin to 1.5.31
 
 ### Fixed

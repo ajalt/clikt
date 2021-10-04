@@ -173,6 +173,10 @@ fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, S
 /**
  * If the option isn't given on the command line, prompt the user for manual input.
  *
+ * Note that if the option is defined with a [validate] or [check], that validation will be run each
+ * time the user enters a value. This means that, unlike normal options, the validation for prompt
+ * options cannot reference other parameters.
+ *
  * @param text The text to prompt the user with
  * @param default The default value to use if no input is given. If null, the prompt will be repeated until
  *   input is given.
@@ -200,7 +204,10 @@ fun <T : Any> NullableOption<T, T>.prompt(
         null -> TermUi.prompt(promptText, default, hideInput, requireConfirmation,
             confirmationPrompt, promptSuffix, showDefault, context.console) {
             val ctx = OptionCallTransformContext("", this, context)
-            transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))
+            transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))?.also { v ->
+                @Suppress("UNCHECKED_CAST")
+                (option as? OptionWithValues<T, T, T>)?.transformValidator?.invoke(this, v)
+            }
         }
         else -> provided
     } ?: throw Abort()

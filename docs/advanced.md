@@ -1,7 +1,144 @@
 # Advanced Patterns
 
-Clikt has reasonable behavior by default, but is also very customizable
-for advanced use cases.
+## Common Options With Subcommands
+
+In some cases, you will have multiple subcommands that all share a common set of options. For
+example, you may have an option for a config file, or an output directory, or some API credentials.
+There are several ways to structure your commands to avoid repeating the option declarations in each
+subcommand.
+
+### Defining Common Options on the Root Command
+
+You can define your options on the root command and pass down the information via the context. With
+this design, you'll have to specify the common options before the subcommand name on the command
+line.
+
+=== "Example"
+    ```kotlin
+    class Config(val token: String, val hostname: String)
+
+    class MyApi : CliktCommand() {
+        private val token by option(help="api token to use for requests").default("...")
+        private val hostname by option(help="base url for requests").default("example.com")
+
+        override fun run() {
+            currentContext.obj = Config(token, hostname)
+        }
+    }
+
+    class Store : CliktCommand() {
+        private val file by option(help="file to store").file(canBeDir = false)
+        private val config by requireObject<Config>()
+        override fun run() {
+            myApiStoreFile(config.token, config.hostname, file)
+        }
+    }
+
+    class Fetch : CliktCommand() {
+        private val outdir by option(help="directory to store file in").file(canBeFile = false)
+        private val config by requireObject<Config>()
+        override fun run() {
+            myApiFetchFile(config.token, config.hostname, outdir)
+        }
+    }
+
+    fun main(args: Array<String>) = MyApi().subcommands(Store(), Fetch()).main(args)
+    ```
+
+=== "Usage 1"
+    ```text
+    $ ./myapi --hostname=https://example.com store file.txt
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./myapi --hostname=https://example.com fetch --outdir=./out
+    ```
+
+### Defining Common Options in a Group
+
+Instead of defining your common options on the root command, you can instead define them in an
+[OptionGroup][grouping-options] which you include in each subcommand. This allows you to specify all
+options after the subcommand name.
+
+=== "Example"
+    ```kotlin
+    class CommonOptions: OptionGroup("Standard Options:") {
+        val token by option(help="api token to use for requests").default("...")
+        val hostname by option(help="base url for requests").default("example.com")
+    }
+
+    class MyApi : NoOpCliktCommand()
+
+    class Store : CliktCommand() {
+        private val commonOptions by CommonOptions()
+        private val file by option(help="file to store").file(canBeDir = false)
+        override fun run() {
+            myApiStoreFile(commonOptions.token, commonOptions.hostname, file)
+        }
+    }
+
+    class Fetch : CliktCommand() {
+        private val commonOptions by CommonOptions()
+        private val outdir by option(help="directory to store file in").file(canBeFile = false)
+        override fun run() {
+            myApiFetchFile(commonOptions.token, commonOptions.hostname, outdir)
+        }
+    }
+
+    fun main(args: Array<String>) = MyApi().subcommands(Store(), Fetch()).main(args)
+    ```
+
+=== "Usage 1"
+    ```text
+    $ ./myapi store --hostname=https://example.com file.txt
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./myapi fetch --hostname=https://example.com --outdir=./out
+    ```
+
+### Defining Common Options in a Base Class
+
+A third design to share options is to define the common options in a base class that all the
+subcommands inherit from.
+
+=== "Example"
+    ```kotlin
+    abstract class MyApiSubcommand : CliktCommand() {
+        val token by option(help = "api token to use for requests").default("...")
+        val hostname by option(help = "base url for requests").default("example.com")
+    }
+
+    class MyApi : NoOpCliktCommand()
+
+    class Store : MyApiSubcommand() {
+        private val file by option(help = "file to store").file(canBeDir = false)
+        override fun run() {
+            myApiStoreFile(token, hostname, file)
+        }
+    }
+
+    class Fetch : MyApiSubcommand() {
+        private val outdir by option(help = "directory to store file in").file(canBeFile = false)
+        override fun run() {
+            myApiFetchFile(token, hostname, outdir)
+        }
+    }
+
+    fun main(args: Array<String>) = MyApi().subcommands(Store(), Fetch()).main(args)
+    ```
+
+=== "Usage 1"
+    ```text
+    $ ./myapi store --hostname=https://example.com file.txt
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./myapi fetch --hostname=https://example.com --outdir=./out
+    ```
 
 ## Command Aliases
 
@@ -257,11 +394,13 @@ if you define your own CliktConsole.
 
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
 [CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.html
+[context-obj]:         commands.md#nested-handling-and-contexts
 [customizing-context]: commands.md#customizing-contexts
 [dash-dash]:           arguments.md#option-like-arguments-using-
 [editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
 [editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
 [expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
+[grouping-options]:    documenting.md#grouping-options-in-help
 [main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
 [override-envvar]:     options.md#overriding-system-environment-variables
 [parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html

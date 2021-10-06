@@ -104,7 +104,8 @@ nav:
       - 'Suggesting Corrections for Mistyped Parameters': documenting/#suggesting-corrections-for-mistyped-parameters
       - 'Localization': documenting/#localization
   - 'Advanced Patterns':
-      - 'Command Aliases': advanced.md
+      - 'Common Options With Subcommands': advanced.md
+      - 'Command Aliases': advanced/#command-aliases
       - 'Token Normalization': advanced/#token-normalization
       - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
       - 'Argument Files ("@-files")': advanced/#command-line-argument-files-files

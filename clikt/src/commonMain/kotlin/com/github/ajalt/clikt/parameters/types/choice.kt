@@ -22,7 +22,7 @@ private fun errorMessage(context: Context, choice: String, choices: Map<String, 
 /**
  * Convert the argument based on a fixed set of values.
  *
- * If [ignoreCase] is `true`, the argument will accept values is any mix of upper and lower case.
+ * If [ignoreCase] is `true`, the argument will accept values as any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -41,7 +41,7 @@ fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = 
 /**
  * Convert the argument based on a fixed set of values.
  *
- * If [ignoreCase] is `true`, the argument will accept values is any mix of upper and lower case.
+ * If [ignoreCase] is `true`, the argument will accept values as any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -59,7 +59,7 @@ fun <T : Any> RawArgument.choice(
 /**
  * Restrict the argument to a fixed set of values.
  *
- * If [ignoreCase] is `true`, the argument will accept values is any mix of upper and lower case.
+ * If [ignoreCase] is `true`, the argument will accept values as any mix of upper and lower case.
  * The argument's final value will always match the case of the corresponding value in [choices].
  *
  * ### Example:
@@ -99,7 +99,7 @@ inline fun <reified T : Enum<T>> RawArgument.enum(
 /**
  * Convert the option based on a fixed set of values.
  *
- * If [ignoreCase] is `true`, the option will accept values is any mix of upper and lower case.
+ * If [ignoreCase] is `true`, the option will accept values as any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -124,7 +124,7 @@ fun <T : Any> RawOption.choice(
 /**
  * Convert the option based on a fixed set of values.
  *
- * If [ignoreCase] is `true`, the option will accept values is any mix of upper and lower case.
+ * If [ignoreCase] is `true`, the option will accept values as any mix of upper and lower case.
  *
  * ### Example:
  *
@@ -145,7 +145,7 @@ fun <T : Any> RawOption.choice(
 /**
  * Restrict the option to a fixed set of values.
  *
- * If [ignoreCase] is `true`, the option will accept values is any mix of upper and lower case.
+ * If [ignoreCase] is `true`, the option will accept values as any mix of upper and lower case.
  * The option's final value will always match the case of the corresponding value in [choices].
  *
  * ### Example:

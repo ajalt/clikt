@@ -85,10 +85,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 /**
  * An [Option] that takes one or more values.
  *
- * @property metavarWithDefault The metavar to use. Specified at option creation.
  * @property envvar The environment variable name to use.
- * @property valueSplit The pattern to split values from the command line on. By default, values are
- *   split on whitespace.
  * @property transformValue Called in [finalize] to transform each value provided to each invocation.
  * @property transformEach Called in [finalize] to transform each invocation.
  * @property transformAll Called in [finalize] to transform all invocations into the final value.
@@ -97,18 +94,12 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
 interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, GroupableOption {
-    val metavarWithDefault: ValueWithDefault<Context.() -> String?>
     val envvar: String?
-    val valueSplit: Regex?
-    val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>
     val transformValue: ValueTransformer<ValueT>
     val transformEach: ArgsTransformer<ValueT, EachT>
     val transformAll: CallsTransformer<EachT, AllT>
     val transformValidator: OptionValidator<AllT>
-    override val parser: OptionWithValuesParser
-    override fun metavar(context: Context): String?
-    override fun finalize(context: Context, invocations: List<Invocation>)
-    override fun postValidate(context: Context)
+    override fun metavar(context: Context): String
 
     /** Create a new option that is a copy of this one with different transforms. */
     fun <AllT, EachT, ValueT> copy(
@@ -117,48 +108,45 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
         transformAll: CallsTransformer<EachT, AllT>,
         validator: OptionValidator<AllT>,
         names: Set<String> = this.names,
-        metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
+        metavarGetter: (Context.() -> String)? = null,
         nvalues: Int = this.nvalues,
         help: String = this.optionHelp,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
         valueSourceKey: String? = this.valueSourceKey,
         envvar: String? = this.envvar,
-        valueSplit: Regex? = this.valueSplit,
-        parser: OptionWithValuesParser = this.parser,
-        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
+        valueSplit: Regex? = null,
+        completionCandidates: CompletionCandidates? = null,
     ): OptionWithValues<AllT, EachT, ValueT>
 
     /** Create a new option that is a copy of this one with the same transforms. */
     fun copy(
         validator: OptionValidator<AllT> = this.transformValidator,
         names: Set<String> = this.names,
-        metavarWithDefault: ValueWithDefault<Context.() -> String?> = this.metavarWithDefault,
+        metavarGetter: (Context.() -> String)? = null,
         nvalues: Int = this.nvalues,
         help: String = this.optionHelp,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
         envvar: String? = this.envvar,
         valueSourceKey: String? = this.valueSourceKey,
-        valueSplit: Regex? = this.valueSplit,
-        parser: OptionWithValuesParser = this.parser,
-        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
+        valueSplit: Regex? = null,
+        completionCandidates: CompletionCandidates? = null,
     ): OptionWithValues<AllT, EachT, ValueT>
 }
 
 
 internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
     names: Set<String>,
-    override val metavarWithDefault: ValueWithDefault<Context.() -> String?>,
+    val metavarGetter: (Context.() -> String)?,
     override val nvalues: Int,
     override val optionHelp: String,
     override val hidden: Boolean,
     override val helpTags: Map<String, String>,
     override val valueSourceKey: String?,
     override val envvar: String?,
-    override val valueSplit: Regex?,
-    override val parser: OptionWithValuesParser,
-    override val completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
+    val valueSplit: Regex?,
+    val explicitCompletionCandidates: CompletionCandidates?,
     override val transformValue: ValueTransformer<ValueT>,
     override val transformEach: ArgsTransformer<ValueT, EachT>,
     override val transformAll: CallsTransformer<EachT, AllT>,
@@ -166,13 +154,15 @@ internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
 ) : OptionWithValues<AllT, EachT, ValueT> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
-    override fun metavar(context: Context): String? = metavarWithDefault.value.invoke(context)
+    override fun metavar(context: Context): String = (metavarGetter ?: { localization.stringMetavar() }).invoke(context)
     override var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override val secondaryNames: Set<String> get() = emptySet()
     override var names: Set<String> = names
         private set
     override val completionCandidates: CompletionCandidates
-        get() = completionCandidatesWithDefault.value
+        get() = explicitCompletionCandidates ?: CompletionCandidates.None
+    override val parser: OptionWithValuesParser
+        get() = OptionWithValuesParser
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
         val inv = when (val v = getFinalValue(context, invocations, envvar)) {
@@ -223,7 +213,7 @@ internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
         transformAll: CallsTransformer<EachT, AllT>,
         validator: OptionValidator<AllT>,
         names: Set<String>,
-        metavarWithDefault: ValueWithDefault<Context.() -> String?>,
+        metavarGetter: (Context.() -> String)?,
         nvalues: Int,
         help: String,
         hidden: Boolean,
@@ -231,21 +221,19 @@ internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
         valueSourceKey: String?,
         envvar: String?,
         valueSplit: Regex?,
-        parser: OptionWithValuesParser,
-        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
+        completionCandidates: CompletionCandidates?,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
-            metavarWithDefault = metavarWithDefault,
+            metavarGetter = this.metavarGetter ?: metavarGetter,
             nvalues = nvalues,
             optionHelp = help,
             hidden = hidden,
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
             envvar = envvar,
-            valueSplit = valueSplit,
-            parser = parser,
-            completionCandidatesWithDefault = completionCandidatesWithDefault,
+            valueSplit = this.valueSplit ?: valueSplit,
+            explicitCompletionCandidates = explicitCompletionCandidates ?: completionCandidates,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -257,7 +245,7 @@ internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
     override fun copy(
         validator: OptionValidator<AllT>,
         names: Set<String>,
-        metavarWithDefault: ValueWithDefault<Context.() -> String?>,
+        metavarGetter: (Context.() -> String)?,
         nvalues: Int,
         help: String,
         hidden: Boolean,
@@ -265,21 +253,19 @@ internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
         envvar: String?,
         valueSourceKey: String?,
         valueSplit: Regex?,
-        parser: OptionWithValuesParser,
-        completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates>,
+        completionCandidates: CompletionCandidates?,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
-            metavarWithDefault = metavarWithDefault,
+            metavarGetter = metavarGetter ?: this.metavarGetter,
             nvalues = nvalues,
             optionHelp = help,
             hidden = hidden,
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
             envvar = envvar,
-            valueSplit = valueSplit,
-            parser = parser,
-            completionCandidatesWithDefault = completionCandidatesWithDefault,
+            valueSplit = valueSplit ?: this.valueSplit,
+            explicitCompletionCandidates = completionCandidates ?: explicitCompletionCandidates,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -329,7 +315,7 @@ fun ParameterHolder.option(
     valueSourceKey: String? = null,
 ): RawOption = OptionWithValuesImpl(
     names = names.toSet(),
-    metavarWithDefault = ValueWithDefault(metavar?.let { { it } }) { localization.stringMetavar() },
+    metavarGetter = metavar?.let { { it } },
     nvalues = 1,
     optionHelp = help,
     hidden = hidden,
@@ -337,8 +323,7 @@ fun ParameterHolder.option(
     valueSourceKey = valueSourceKey,
     envvar = envvar,
     valueSplit = null,
-    parser = OptionWithValuesParser,
-    completionCandidatesWithDefault = ValueWithDefault(completionCandidates, CompletionCandidates.None),
+    explicitCompletionCandidates = completionCandidates,
     transformValue = { it },
     transformEach = defaultEachProcessor(),
     transformAll = defaultAllProcessor(),

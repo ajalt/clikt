@@ -34,7 +34,7 @@ import kotlin.jvm.JvmName
  */
 inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
     metavar: String,
-    completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
+    completionCandidates: CompletionCandidates? = null,
     crossinline conversion: ValueConverter<InT, ValueT>,
 ): NullableOption<ValueT, ValueT> {
     return convert({ metavar }, completionCandidates, conversion)
@@ -64,10 +64,10 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
  */
 inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
     noinline metavar: Context.() -> String = { localization.defaultMetavar() },
-    completionCandidates: CompletionCandidates = completionCandidatesWithDefault.default,
+    completionCandidates: CompletionCandidates? = null,
     crossinline conversion: ValueConverter<InT, ValueT>,
 ): NullableOption<ValueT, ValueT> {
-    val proc: ValueTransformer<ValueT> = {
+    val valueTransform: ValueTransformer<ValueT> = {
         try {
             conversion(transformValue(it))
         } catch (err: UsageError) {
@@ -77,9 +77,10 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
             fail(err.message ?: "")
         }
     }
-    return copy(proc, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
-        metavarWithDefault = metavarWithDefault.copy(default = metavar),
-        completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
+
+    return copy(valueTransform, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
+        metavarGetter = metavar,
+        completionCandidates = completionCandidates
     )
 }
 

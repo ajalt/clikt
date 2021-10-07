@@ -16,7 +16,6 @@ import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
-import kotlin.test.assertTrue
 
 @Suppress("unused", "BooleanLiteralArgument")
 class OptionTest {
@@ -593,25 +592,25 @@ class OptionTest {
 
     @Test
     @JsName("option_metavars")
-    fun `option metavars`() {
+    fun `option metavars`() = forAll(
+        row("--x", "TEXT"),
+        row("--y", "FOO"),
+        row("--z", "FOO"),
+        row("--w", "BAR"),
+        row("--t", "VALUE"),
+        row("--u", null),
+        row("--help", null),
+    ) { opt, metavar ->
         class C : TestCommand() {
             val x by option()
             val y by option(metavar = "FOO").default("")
             val z by option(metavar = "FOO").convert("BAR") { it }
-            val w by option().convert("BAR") { it }
+            val w by option().convert("BAR") { it }.convert("BAZ") { it }
+            val t by option().convert { it }
             val u by option().flag()
             override fun run_() {
-                registeredOptions().forEach {
-                    assertTrue(
-                        it is EagerOption || // skip help option
-                                "--x" in it.names && it.metavar(currentContext) == "TEXT" ||
-                                "--y" in it.names && it.metavar(currentContext) == "FOO" ||
-                                "--z" in it.names && it.metavar(currentContext) == "FOO" ||
-                                "--w" in it.names && it.metavar(currentContext) == "BAR" ||
-                                "--u" in it.names && it.metavar(currentContext) == null,
-                        message = "bad option $it"
-                    )
-                }
+                registeredOptions().first { opt in it.names }
+                    .metavar(currentContext) shouldBe metavar
             }
         }
 

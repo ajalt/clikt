@@ -14,10 +14,10 @@ Clikt has:
 
  * arbitrary nesting of commands
  * composable, type safe parameter values
- * support for a wide variety of command line interface styles
+ * generation of help output and shell autocomplete scripts
  * multiplatform packages for JVM, NodeJS, and native Linux, Windows and MacOS 
 
- What does it look like? Here's a complete example of a simple Clikt program:
+What does it look like? Here's a complete example of a simple Clikt program:
 
 ```kotlin
 class Hello : CliktCommand() {
@@ -78,7 +78,7 @@ Clikt is distributed through [Maven Central](https://search.maven.org/artifact/c
 
 ```groovy
 dependencies {
-   implementation("com.github.ajalt.clikt:clikt:3.2.0")
+   implementation("com.github.ajalt.clikt:clikt:3.3.0")
 }
 ```
 

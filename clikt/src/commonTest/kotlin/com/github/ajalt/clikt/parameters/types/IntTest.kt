@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.NoSuchOption
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.optional
@@ -23,15 +24,29 @@ class IntTypeTest {
     fun `int option`() = forAll(
         row("", null),
         row("--xx=4", 4),
-        row("-x5", 5)) { argv, expected ->
+        row("-x5", 5),
+        row("-5", 5),
+        row("-0", 0),
+    ) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").int()
+            val x by option("-x", "--xx").int(acceptsValueWithoutName = true)
             override fun run_() {
                 x shouldBe expected
             }
         }
 
         C().parse(argv)
+    }
+
+    @Test
+    @JsName("multiple_number_options")
+    fun `multiple number options`() {
+        class C : TestCommand(called = false) {
+            val foo by option().int(acceptsValueWithoutName = true)
+            val bar by option().int(acceptsValueWithoutName = true)
+        }
+
+        shouldThrow<IllegalArgumentException> { C() }
     }
 
     @Test
@@ -44,6 +59,8 @@ class IntTypeTest {
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
             .message shouldBe "Invalid value for \"--foo\": bar is not a valid integer"
+
+        shouldThrow<NoSuchOption> { C().parse("-2") }
     }
 
     @Test

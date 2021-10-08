@@ -199,6 +199,11 @@ abstract class CliktCommand(
         for (name in option.names) {
             require(name !in names) { "Duplicate option name $name" }
         }
+        if (option.acceptsNumberValueWithoutName) {
+            require(_options.none { it.acceptsNumberValueWithoutName }) {
+                "Multiple options with acceptsNumberValueWithoutName"
+            }
+        }
         _options += option
     }
 

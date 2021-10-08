@@ -29,8 +29,9 @@ private fun opt(
     secondaryNames: List<String> = emptyList(),
     tags: Map<String, String> = emptyMap(),
     group: String? = null,
+    number: Boolean = false,
 ): ParameterHelp.Option {
-    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, group)
+    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, number, group)
 }
 
 private fun opt(
@@ -131,6 +132,20 @@ class CliktHelpFormatterTest {
                 |
                 |Options:
                 |  -a, --aa INT  some thing to live by
+                """.trimMargin()
+    }
+
+    @Test
+    @JsName("formatHelp_number_opt")
+    fun `formatHelp number opt`() {
+        val f = CliktHelpFormatter(width = 54)
+        f.formatHelp("", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by", number = true)),
+            programName = "prog") shouldBe
+                """
+                |Usage: prog [OPTIONS]
+                |
+                |Options:
+                |  -INT, -a, --aa INT  some thing to live by
                 """.trimMargin()
     }
 

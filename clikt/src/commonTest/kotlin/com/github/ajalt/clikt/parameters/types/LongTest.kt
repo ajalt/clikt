@@ -22,11 +22,14 @@ class LongTypeTest {
     fun `int option`() = forAll(
         row("", null),
         row("--xx=4", 4L),
-        row("-x5", 5L)) { argv, expected ->
+        row("-x5", 5L),
+        row("-5", 5L),
+        row("-0", 0L),
+    ) { argv, ex ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").long()
+            val x by option("-x", "--xx").long(acceptsValueWithoutName = true)
             override fun run_() {
-                x shouldBe expected
+                x shouldBe ex
             }
         }
 

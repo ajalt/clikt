@@ -13,26 +13,60 @@ import kotlin.reflect.KProperty
 /** A block that converts a flag value from one type to another */
 typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
 
-/**
- * An [Option] that has no values.
- *
- * @property envvar The name of the environment variable for this option. Overrides automatic names.
- * @property transformEnvvar Called to transform string values from envvars and value sources into the option type.
- * @property transformAll Called to transform all invocations of this option into the final option type.
- */
 // `T` is deliberately not an out parameter.
-class FlagOption<T> internal constructor(
+interface FlagOption<T> : OptionDelegate<T> {
+    /** The name of the environment variable for this option. Overrides automatic names. */
+    val envvar: String?
+
+    /** Called to transform string values from envvars and value sources into the option type. */
+    val transformEnvvar: OptionTransformContext.(String) -> T
+
+    /** Called to transform all invocations of this option into the final option type. */
+    val transformAll: CallsTransformer<String, T>
+
+    /** Called to validate the value after after it has been finalized */
+    val validator: OptionValidator<T>
+
+    /** Create a new option that is a copy of this one with different transforms. */
+    fun <T> copy(
+        transformEnvvar: OptionTransformContext.(String) -> T,
+        transformAll: CallsTransformer<String, T>,
+        validator: OptionValidator<T>,
+        names: Set<String> = this.names,
+        secondaryNames: Set<String> = this.secondaryNames,
+        help: String = this.optionHelp,
+        hidden: Boolean = this.hidden,
+        helpTags: Map<String, String> = this.helpTags,
+        valueSourceKey: String? = this.valueSourceKey,
+        envvar: String? = this.envvar,
+    ): FlagOption<T>
+
+    /** Create a new option that is a copy of this one with the same transforms. */
+    fun copy(
+        validator: OptionValidator<T> = this.validator,
+        names: Set<String> = this.names,
+        secondaryNames: Set<String> = this.secondaryNames,
+        help: String = this.optionHelp,
+        hidden: Boolean = this.hidden,
+        helpTags: Map<String, String> = this.helpTags,
+        valueSourceKey: String? = this.valueSourceKey,
+        envvar: String? = this.envvar,
+    ): FlagOption<T>
+}
+
+
+private class FlagOptionImpl<T>(
     names: Set<String>,
     override val secondaryNames: Set<String>,
     override val optionHelp: String,
     override val hidden: Boolean,
     override val helpTags: Map<String, String>,
     override val valueSourceKey: String?,
-    val envvar: String?,
-    val transformEnvvar: OptionTransformContext.(String) -> T,
-    val transformAll: CallsTransformer<String, T>,
-    val validator: OptionValidator<T>,
-) : OptionDelegate<T> {
+    override val envvar: String?,
+    override val transformEnvvar: OptionTransformContext.(String) -> T,
+    override val transformAll: CallsTransformer<String, T>,
+    override val validator: OptionValidator<T>,
+) : FlagOption<T> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
     override fun metavar(context: Context): String? = null
@@ -72,19 +106,19 @@ class FlagOption<T> internal constructor(
     }
 
     /** Create a new option that is a copy of this one with different transforms. */
-    fun <T> copy(
+    override fun <T> copy(
         transformEnvvar: OptionTransformContext.(String) -> T,
         transformAll: CallsTransformer<String, T>,
         validator: OptionValidator<T>,
-        names: Set<String> = this.names,
-        secondaryNames: Set<String> = this.secondaryNames,
-        help: String = this.optionHelp,
-        hidden: Boolean = this.hidden,
-        helpTags: Map<String, String> = this.helpTags,
-        valueSourceKey: String? = this.valueSourceKey,
-        envvar: String? = this.envvar,
+        names: Set<String>,
+        secondaryNames: Set<String>,
+        help: String,
+        hidden: Boolean,
+        helpTags: Map<String, String>,
+        valueSourceKey: String?,
+        envvar: String?,
     ): FlagOption<T> {
-        return FlagOption(
+        return FlagOptionImpl(
             names = names,
             secondaryNames = secondaryNames,
             optionHelp = help,
@@ -99,17 +133,17 @@ class FlagOption<T> internal constructor(
     }
 
     /** Create a new option that is a copy of this one with the same transforms. */
-    fun copy(
-        validator: OptionValidator<T> = this.validator,
-        names: Set<String> = this.names,
-        secondaryNames: Set<String> = this.secondaryNames,
-        help: String = this.optionHelp,
-        hidden: Boolean = this.hidden,
-        helpTags: Map<String, String> = this.helpTags,
-        valueSourceKey: String? = this.valueSourceKey,
-        envvar: String? = this.envvar,
+    override fun copy(
+        validator: OptionValidator<T>,
+        names: Set<String>,
+        secondaryNames: Set<String>,
+        help: String,
+        hidden: Boolean,
+        helpTags: Map<String, String>,
+        valueSourceKey: String?,
+        envvar: String?,
     ): FlagOption<T> {
-        return FlagOption(
+        return FlagOptionImpl(
             names = names,
             secondaryNames = secondaryNames,
             optionHelp = help,
@@ -147,7 +181,7 @@ fun RawOption.flag(
     defaultForHelp: String = "",
 ): FlagOption<Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
-    return FlagOption(
+    return FlagOptionImpl(
         names = names,
         secondaryNames = secondaryNames.toSet(),
         optionHelp = optionHelp,
@@ -232,7 +266,7 @@ inline fun <InT, OutT> FlagOption<InT>.convert(crossinline conversion: FlagConve
  * Turn an option into a flag that counts the number of times the option occurs on the command line.
  */
 fun RawOption.counted(): FlagOption<Int> {
-    return FlagOption(
+    return FlagOptionImpl(
         names = names,
         secondaryNames = emptySet(),
         optionHelp = optionHelp,
@@ -257,7 +291,7 @@ fun RawOption.counted(): FlagOption<Int> {
  */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): FlagOption<T?> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return FlagOption(
+    return FlagOptionImpl(
         names = choices.keys,
         secondaryNames = emptySet(),
         optionHelp = optionHelp,

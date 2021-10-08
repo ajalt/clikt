@@ -84,21 +84,25 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
 
 /**
  * An [Option] that takes one or more values.
- *
- * @property envvar The environment variable name to use.
- * @property transformValue Called in [finalize] to transform each value provided to each invocation.
- * @property transformEach Called in [finalize] to transform each invocation.
- * @property transformAll Called in [finalize] to transform all invocations into the final value.
- * @property transformValidator Called after all parameters have been [finalized][finalize] to validate the output of [transformAll]
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
 interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, GroupableOption {
+    /** The environment variable name to use. */
     val envvar: String?
+
+    /** Called in [finalize] to transform each value provided to each invocation. */
     val transformValue: ValueTransformer<ValueT>
+
+    /** Called in [finalize] to transform each invocation. */
     val transformEach: ArgsTransformer<ValueT, EachT>
+
+    /** Called in [finalize] to transform all invocations into the final value. */
     val transformAll: CallsTransformer<EachT, AllT>
+
+    /** Called after all parameters have been [finalized][finalize] to validate the output of [transformAll] */
     val transformValidator: OptionValidator<AllT>
+
     override fun metavar(context: Context): String
 
     /** Create a new option that is a copy of this one with different transforms. */
@@ -136,7 +140,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
 }
 
 
-internal class OptionWithValuesImpl<AllT, EachT, ValueT>(
+private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     names: Set<String>,
     val metavarGetter: (Context.() -> String)?,
     override val nvalues: Int,

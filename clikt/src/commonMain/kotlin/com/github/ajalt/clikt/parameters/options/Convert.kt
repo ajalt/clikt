@@ -79,8 +79,8 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
     }
 
     return copy(valueTransform, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
-        metavarGetter = metavar,
-        completionCandidates = completionCandidates
+        metavarGetter = metavarGetter ?: metavar,
+        completionCandidates = explicitCompletionCandidates ?: completionCandidates
     )
 }
 

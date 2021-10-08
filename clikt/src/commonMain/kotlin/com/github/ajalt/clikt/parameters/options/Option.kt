@@ -79,12 +79,14 @@ interface Option {
 }
 
 /** An option that functions as a property delegate */
-interface OptionDelegate<T> : GroupableOption, ReadOnlyProperty<ParameterHolder, T>,
+interface OptionDelegate<T> :
+    GroupableOption,
+    ReadOnlyProperty<ParameterHolder, T>,
     PropertyDelegateProvider<ParameterHolder, ReadOnlyProperty<ParameterHolder, T>> {
     /**
      * The value for this option.
      *
-     * An exception should be thrown if this property is accessed before [finalize] is called.
+     * @throws IllegalStateException if this property is accessed before [finalize] is called.
      */
     val value: T
 

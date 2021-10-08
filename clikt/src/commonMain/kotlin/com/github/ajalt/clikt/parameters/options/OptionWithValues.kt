@@ -103,6 +103,15 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
     /** Called after all parameters have been [finalized][finalize] to validate the output of [transformAll] */
     val transformValidator: OptionValidator<AllT>
 
+    /** The completion candidates set on this option, or `null` if no candidates have been set */
+    val explicitCompletionCandidates: CompletionCandidates?
+
+    /** A block that will return the metavar for this option, or `null` if no getter has been specified */
+    val metavarGetter: (Context.() -> String)?
+
+    /** A regex to split option values on before conversion, or `null` to leave them unsplit */
+    val valueSplit: Regex?
+
     override fun metavar(context: Context): String
 
     /** Create a new option that is a copy of this one with different transforms. */
@@ -112,45 +121,45 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
         transformAll: CallsTransformer<EachT, AllT>,
         validator: OptionValidator<AllT>,
         names: Set<String> = this.names,
-        metavarGetter: (Context.() -> String)? = null,
+        metavarGetter: (Context.() -> String)? = this.metavarGetter,
         nvalues: Int = this.nvalues,
         help: String = this.optionHelp,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
         valueSourceKey: String? = this.valueSourceKey,
         envvar: String? = this.envvar,
-        valueSplit: Regex? = null,
-        completionCandidates: CompletionCandidates? = null,
+        valueSplit: Regex? = this.valueSplit,
+        completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
     ): OptionWithValues<AllT, EachT, ValueT>
 
     /** Create a new option that is a copy of this one with the same transforms. */
     fun copy(
         validator: OptionValidator<AllT> = this.transformValidator,
         names: Set<String> = this.names,
-        metavarGetter: (Context.() -> String)? = null,
+        metavarGetter: (Context.() -> String)? = this.metavarGetter,
         nvalues: Int = this.nvalues,
         help: String = this.optionHelp,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
         envvar: String? = this.envvar,
         valueSourceKey: String? = this.valueSourceKey,
-        valueSplit: Regex? = null,
-        completionCandidates: CompletionCandidates? = null,
+        valueSplit: Regex? = this.valueSplit,
+        completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
     ): OptionWithValues<AllT, EachT, ValueT>
 }
 
 
 private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     names: Set<String>,
-    val metavarGetter: (Context.() -> String)?,
+    override val metavarGetter: (Context.() -> String)?,
     override val nvalues: Int,
     override val optionHelp: String,
     override val hidden: Boolean,
     override val helpTags: Map<String, String>,
     override val valueSourceKey: String?,
     override val envvar: String?,
-    val valueSplit: Regex?,
-    val explicitCompletionCandidates: CompletionCandidates?,
+    override val valueSplit: Regex?,
+    override val explicitCompletionCandidates: CompletionCandidates?,
     override val transformValue: ValueTransformer<ValueT>,
     override val transformEach: ArgsTransformer<ValueT, EachT>,
     override val transformAll: CallsTransformer<EachT, AllT>,
@@ -229,15 +238,15 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
-            metavarGetter = this.metavarGetter ?: metavarGetter,
+            metavarGetter = metavarGetter,
             nvalues = nvalues,
             optionHelp = help,
             hidden = hidden,
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
             envvar = envvar,
-            valueSplit = this.valueSplit ?: valueSplit,
-            explicitCompletionCandidates = explicitCompletionCandidates ?: completionCandidates,
+            valueSplit = valueSplit,
+            explicitCompletionCandidates = completionCandidates,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -261,15 +270,15 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
-            metavarGetter = metavarGetter ?: this.metavarGetter,
+            metavarGetter = metavarGetter,
             nvalues = nvalues,
             optionHelp = help,
             hidden = hidden,
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
             envvar = envvar,
-            valueSplit = valueSplit ?: this.valueSplit,
-            explicitCompletionCandidates = completionCandidates ?: explicitCompletionCandidates,
+            valueSplit = valueSplit,
+            explicitCompletionCandidates = completionCandidates,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,

@@ -101,9 +101,14 @@ open class CliktHelpFormatter(
     ) {
         val options = parameters.map {
             val names = mutableListOf(joinNamesForOption(it.names))
+            val prefix = if (it.acceptsNumberValueWithoutName) {
+                "${it.names.first().first()}${it.metavar ?: localization.intMetavar()}, "
+            } else {
+                ""
+            }
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(it.secondaryNames)
             DefinitionRow(
-                col1 = names.joinToString(" / ", postfix = optionMetavar(it)),
+                col1 = names.joinToString(" / ", prefix = prefix, postfix = optionMetavar(it)),
                 col2 = renderHelpText(it.help, it.tags),
                 marker = if (HelpFormatter.Tags.REQUIRED in it.tags) requiredOptionMarker else null
             )

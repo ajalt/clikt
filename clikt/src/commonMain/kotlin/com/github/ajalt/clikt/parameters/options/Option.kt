@@ -46,6 +46,9 @@ interface Option {
     /** Optional explicit key to use when looking this option up from a [ValueSource] */
     val valueSourceKey: String?
 
+    /** If true, this option can be specified without a name e.g. `-1` instead of `-o1` */
+    val acceptsNumberValueWithoutName: Boolean get() = false
+
     /** Information about this option for the help output. */
     fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Option? = when {
         hidden -> null
@@ -56,8 +59,9 @@ interface Option {
             optionHelp,
             nvalues,
             helpTags,
+            acceptsNumberValueWithoutName,
             groupName = (this as? StaticallyGroupedOption)?.groupName
-                ?: (this as? GroupableOption)?.parameterGroup?.groupName
+                ?: (this as? GroupableOption)?.parameterGroup?.groupName,
         )
     }
 

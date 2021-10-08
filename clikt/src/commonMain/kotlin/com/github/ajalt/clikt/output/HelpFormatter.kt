@@ -40,6 +40,7 @@ interface HelpFormatter {
             val help: String,
             val nvalues: Int,
             val tags: Map<String, String>,
+            val acceptsNumberValueWithoutName: Boolean,
             val groupName: String?,
         ) : ParameterHelp()
 

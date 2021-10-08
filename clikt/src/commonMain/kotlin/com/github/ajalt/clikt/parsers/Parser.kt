@@ -29,6 +29,7 @@ internal object Parser {
         val aliases = command.aliases()
         val subcommands = command._subcommands.associateBy { it.commandName }
         val optionsByName = HashMap<String, Option>()
+        val numberOption = command._options.find { it.acceptsNumberValueWithoutName }
         val arguments = command._arguments
         val prefixes = mutableSetOf<String>()
         val longNames = mutableSetOf<String>()
@@ -113,7 +114,8 @@ internal object Parser {
                         tokens,
                         tok,
                         i,
-                        optionsByName))
+                        optionsByName,
+                        numberOption))
                 }
                 i >= minAliasI && tok in aliases -> {
                     tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
@@ -277,9 +279,20 @@ internal object Parser {
         tok: String,
         index: Int,
         optionsByName: Map<String, Option>,
+        numberOption: Option?,
     ): OptParseResult {
         val prefix = tok[0].toString()
+
+        if (numberOption != null && tok.drop(1).all { it.isDigit() }) {
+            return OptParseResult(
+                consumed = 1,
+                unknown = emptyList(),
+                known = listOf(OptInvocation(numberOption, Invocation("", listOf(tok.drop(1)))))
+            )
+        }
+
         val invocations = mutableListOf<OptInvocation>()
+
         for ((i, opt) in tok.withIndex()) {
             if (i == 0) continue // skip the dash
 

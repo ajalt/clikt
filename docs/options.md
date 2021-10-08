@@ -640,6 +640,49 @@ options][choice-options].
     Error: Invalid value for "--load": invalid choice: whoops. (choose from disk, network)
     ```
 
+## Number Options Without a Name
+
+If you have an [int] or [long] option, you might want to allow it to be specified without need the
+option name. For example, `git log -2` and `git log -n 2` are equivalent. You can add an option like
+this by passing `acceptsValueWithoutName=true` to `int()` or `long()`.
+
+=== "Example"
+    ```kotlin
+    class Tool : CliktCommand() {
+        val level by option("-l", "--level", metavar = "<number>")
+            .int(acceptsValueWithoutName = true)
+    
+        override fun run() {
+            echo("Level: $level")
+        }
+    }
+    ```
+
+=== "Usage 1"
+    ```text
+    $ ./tool -20
+    Level: 20
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./tool --level=3
+    Level: 3
+    ```
+
+=== "Help Output"
+    ```text
+    $ ./tool --help
+    Usage: tool [OPTIONS]
+    
+    Options:
+    -<number>, -l, --level <number>
+    -h, --help             Show this message and exit
+    ```
+
+!!! caution
+    You may only have one option with `acceptsValueWithoutName=true` per command
+
 ## Prompting For Input
 
 In some cases, you might want to create an option that uses the value
@@ -1111,6 +1154,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [groupSwitch]:                 api/clikt/com.github.ajalt.clikt.parameters.groups/group-switch.html
 [int]:                         api/clikt/com.github.ajalt.clikt.parameters.types/int.html
 [json sample]:                 https://github.com/ajalt/clikt/tree/master/samples/json
+[long]:                        api/clikt/com.github.ajalt.clikt.parameters.types/long.html
 [MapValueSource]:              api/clikt/com.github.ajalt.clikt.sources/-map-value-source/index.html
 [multiple]:                    api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html
 [mutuallyExclusiveOptions]:    api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options.html

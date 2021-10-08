@@ -130,6 +130,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
         envvar: String? = this.envvar,
         valueSplit: Regex? = this.valueSplit,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
+        acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
     ): OptionWithValues<AllT, EachT, ValueT>
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -145,6 +146,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
         valueSourceKey: String? = this.valueSourceKey,
         valueSplit: Regex? = this.valueSplit,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
+        acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
     ): OptionWithValues<AllT, EachT, ValueT>
 }
 
@@ -160,6 +162,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     override val envvar: String?,
     override val valueSplit: Regex?,
     override val explicitCompletionCandidates: CompletionCandidates?,
+    override val acceptsNumberValueWithoutName: Boolean,
     override val transformValue: ValueTransformer<ValueT>,
     override val transformEach: ArgsTransformer<ValueT, EachT>,
     override val transformAll: CallsTransformer<EachT, AllT>,
@@ -235,6 +238,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         envvar: String?,
         valueSplit: Regex?,
         completionCandidates: CompletionCandidates?,
+        acceptsNumberValueWithoutName: Boolean,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
@@ -247,6 +251,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             envvar = envvar,
             valueSplit = valueSplit,
             explicitCompletionCandidates = completionCandidates,
+            acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -267,6 +272,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         valueSourceKey: String?,
         valueSplit: Regex?,
         completionCandidates: CompletionCandidates?,
+        acceptsNumberValueWithoutName: Boolean,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
@@ -279,6 +285,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             envvar = envvar,
             valueSplit = valueSplit,
             explicitCompletionCandidates = completionCandidates,
+            acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -337,6 +344,7 @@ fun ParameterHolder.option(
     envvar = envvar,
     valueSplit = null,
     explicitCompletionCandidates = completionCandidates,
+    acceptsNumberValueWithoutName = false,
     transformValue = { it },
     transformEach = defaultEachProcessor(),
     transformAll = defaultAllProcessor(),

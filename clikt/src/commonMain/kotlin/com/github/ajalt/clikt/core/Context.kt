@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
-import kotlin.jvm.JvmOverloads
 import kotlin.properties.ReadOnlyProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
@@ -37,7 +36,7 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  *   names and filters the list down to values to suggest to the user.
  */
 
-class Context @JvmOverloads constructor(
+class Context private constructor(
     val parent: Context?,
     val command: CliktCommand,
     val allowInterspersedArgs: Boolean,
@@ -52,8 +51,8 @@ class Context @JvmOverloads constructor(
     val valueSource: ValueSource?,
     val correctionSuggestor: TypoSuggestor,
     val localization: Localization,
-    val readEnvvar: (String) -> String? = ::readEnvvar,
-    val originalArgv: List<String> = emptyList(),
+    val readEnvvar: (String) -> String?,
+    val originalArgv: List<String>,
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
@@ -194,10 +193,6 @@ class Context @JvmOverloads constructor(
     }
 
     companion object {
-        fun build(command: CliktCommand, parent: Context? = null, block: Builder.() -> Unit): Context {
-            return build(command, parent, emptyList(), block)
-        }
-
         internal fun build(
             command: CliktCommand,
             parent: Context?,

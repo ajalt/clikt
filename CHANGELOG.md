@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added `obj` to `Context.Builder` which allows to initialize a context with an arbitrary `obj`
+
 ## 3.3.0
 ### Added
 - Added `default` parameter to `argument().multiple()` ([#305](https://github.com/ajalt/clikt/issues/305))

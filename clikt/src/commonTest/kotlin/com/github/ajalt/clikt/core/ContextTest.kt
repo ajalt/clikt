@@ -87,6 +87,20 @@ class ContextTest {
     }
 
     @Test
+    @JsName("assign_obj_through_context_builder")
+    fun `assign obj through context builder`() {
+        val foo = Foo()
+        val c = TestCommand()
+            .context {
+                obj = foo
+            }
+
+        c.parse("")
+
+        foo shouldBeSameInstanceAs c.currentContext.obj
+    }
+
+    @Test
     @JsName("default_help_option_names")
     fun `default help option names`() {
         class C : TestCommand()

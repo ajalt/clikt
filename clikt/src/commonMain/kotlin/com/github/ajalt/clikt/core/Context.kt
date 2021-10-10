@@ -191,6 +191,15 @@ class Context @JvmOverloads constructor(
          * You can set this to read from a map or other source during tests.
          */
         var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: ::readEnvvar
+
+        /**
+         * Initialize the context with an arbitrary `obj`.
+         *
+         * This is a convenient way to assign an arbitrary `obj` without needing to instantiate/configure multiple
+         * nested commands. This can help to isolate tests of subcommands which expect an ancestor command to have
+         * assigned an `obj`.
+         */
+        var obj: Any? = parent?.obj
     }
 
     companion object {
@@ -214,7 +223,7 @@ class Context @JvmOverloads constructor(
                     helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
                     readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
                     envvarReader, argv
-                )
+                ).also { it.obj = obj }
             }
         }
     }

@@ -189,7 +189,7 @@ open class CliktHelpFormatter(
     protected open fun optionMetavar(option: HelpFormatter.ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         val metavar = " " + option.metavar
-        if (option.nvalues > 1) return "$metavar..."
+        if (option.nvalues.last > 1) return "$metavar..."
         return metavar
     }
 

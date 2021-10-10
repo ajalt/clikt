@@ -70,7 +70,7 @@ private class FlagOptionImpl<T>(
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
     override fun metavar(context: Context): String? = null
-    override val nvalues: Int get() = 0
+    override val nvalues: IntRange get() = 0..0
     override val parser = FlagOptionParser
     override var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
         private set

@@ -122,7 +122,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
         validator: OptionValidator<AllT>,
         names: Set<String> = this.names,
         metavarGetter: (Context.() -> String)? = this.metavarGetter,
-        nvalues: Int = this.nvalues,
+        nvalues: IntRange = this.nvalues,
         help: String = this.optionHelp,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
@@ -138,7 +138,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
         validator: OptionValidator<AllT> = this.transformValidator,
         names: Set<String> = this.names,
         metavarGetter: (Context.() -> String)? = this.metavarGetter,
-        nvalues: Int = this.nvalues,
+        nvalues: IntRange = this.nvalues,
         help: String = this.optionHelp,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
@@ -154,7 +154,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, Groupabl
 private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     names: Set<String>,
     override val metavarGetter: (Context.() -> String)?,
-    override val nvalues: Int,
+    override val nvalues: IntRange,
     override val optionHelp: String,
     override val hidden: Boolean,
     override val helpTags: Map<String, String>,
@@ -189,7 +189,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
                 }
             }
             is FinalValue.Sourced -> {
-                if (v.values.any { it.values.size != nvalues }) throw IncorrectOptionValueCount(this, longestName()!!)
+                if (v.values.any { it.values.size !in nvalues }) throw IncorrectOptionValueCount(this, longestName()!!)
                 v.values.map { Invocation("", it.values) }
             }
             is FinalValue.Envvar -> {
@@ -230,7 +230,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         validator: OptionValidator<AllT>,
         names: Set<String>,
         metavarGetter: (Context.() -> String)?,
-        nvalues: Int,
+        nvalues: IntRange,
         help: String,
         hidden: Boolean,
         helpTags: Map<String, String>,
@@ -264,7 +264,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         validator: OptionValidator<AllT>,
         names: Set<String>,
         metavarGetter: (Context.() -> String)?,
-        nvalues: Int,
+        nvalues: IntRange,
         help: String,
         hidden: Boolean,
         helpTags: Map<String, String>,
@@ -336,7 +336,7 @@ fun ParameterHolder.option(
 ): RawOption = OptionWithValuesImpl(
     names = names.toSet(),
     metavarGetter = metavar?.let { { it } },
-    nvalues = 1,
+    nvalues = 1..1,
     optionHelp = help,
     hidden = hidden,
     helpTags = helpTags,

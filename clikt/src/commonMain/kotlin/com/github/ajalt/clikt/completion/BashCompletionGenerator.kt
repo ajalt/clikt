@@ -93,8 +93,8 @@ internal object BashCompletionGenerator {
                 append("        ")
                 names.joinTo(this, "|", postfix = ")\n")
                 append("          __skip_opt_eq\n")
-                if (nargs > 0) {
-                    append("          (( i = i + $nargs ))\n")
+                if (nargs.first > 0) {
+                    append("          (( i = i + ${nargs.first} ))\n")
                     append("          [[ \${i} -gt COMP_CWORD ]] && in_param='${names.maxByOrNull { it.length }}' || in_param=''\n")
                 } else {
                     append("          in_param=''\n")
@@ -215,7 +215,7 @@ internal object BashCompletionGenerator {
                         if (completion.generator(ShellType.BASH) != null) {
                             // redirect stderr to /dev/null, because bash prints a warning that
                             // "compgen -F might not do what you expect"
-                            val fname = customParamCompletionName(funcName,name)
+                            val fname = customParamCompletionName(funcName, name)
                             append("       COMPREPLY=(\$(compgen -F $fname 2>/dev/null))\n")
                         }
                     }

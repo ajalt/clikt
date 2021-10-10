@@ -1,11 +1,9 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.completion.CompletionOption
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
-import com.github.ajalt.clikt.parameters.options.EagerOption
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
@@ -146,14 +144,14 @@ internal object Parser {
         val invocationsByOptionByGroup = invocationsByGroup
             .mapValues { (_, invs) ->
                 invs.groupBy({ it.opt }, { it.inv })
-                    .filterKeys { !it.isEager }
+                    .filterKeys { !it.eager }
             }
 
         try {
             // Finalize and validate everything as long as we aren't resuming a parse for multiple subcommands
             if (canRun) {
                 // Finalize eager options
-                invocationsByOption.forEach { (o, inv) -> if (o.isEager) o.finalize(context, inv) }
+                invocationsByOption.forEach { (o, inv) -> if (o.eager) o.finalize(context, inv) }
 
                 // Finalize arguments before options, so that options can reference them
                 val (excess, parsedArgs) = parseArguments(context, positionalArgs, arguments)
@@ -171,7 +169,7 @@ internal object Parser {
                 // Finalize un-grouped options
                 finalizeOptions(
                     context,
-                    command._options.filter { !it.isEager && (it as? GroupableOption)?.parameterGroup == null },
+                    command._options.filter { !it.eager && (it as? GroupableOption)?.parameterGroup == null },
                     invocationsByOptionByGroup[null] ?: emptyMap()
                 )
 
@@ -488,5 +486,3 @@ internal object Parser {
     }
 }
 
-// It would be better to have eagerness be a property on Option rather than needing these custom subclasses.
-private val Option.isEager get() = this is EagerOption || this is CompletionOption

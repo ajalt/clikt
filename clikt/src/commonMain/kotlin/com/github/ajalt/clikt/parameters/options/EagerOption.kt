@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 
 /**
@@ -13,7 +12,7 @@ import com.github.ajalt.clikt.parsers.OptionParser
  *   [`Abort(error=false)`][Abort]. The callback is passed the current execution context as a
  *   parameter.
  */
-class EagerOption(
+private class EagerOption(
     override val names: Set<String>,
     override val optionHelp: String,
     override val hidden: Boolean,
@@ -21,14 +20,12 @@ class EagerOption(
     override val groupName: String?,
     private val callback: OptionTransformContext.() -> Unit,
 ) : StaticallyGroupedOption {
-    constructor(
-        vararg names: String, help: String = "", hidden: Boolean = false,
-        helpTags: Map<String, String> = emptyMap(), groupName: String? = null,
-        callback: OptionTransformContext.() -> Unit,
-    ) : this(names.toSet(), help, hidden, helpTags, groupName, callback)
+    init {
+        require(names.isNotEmpty()) { "Must specify at least one option name" }
+    }
 
+    override val eager: Boolean get() = true
     override val secondaryNames: Set<String> get() = emptySet()
-    override val parser: OptionParser = FlagOptionParser
     override val nvalues: IntRange get() = 0..0
     override fun metavar(context: Context): String? = null
     override val valueSourceKey: String? get() = null
@@ -38,14 +35,14 @@ class EagerOption(
     }
 }
 
-internal fun helpOption(names: Set<String>, message: String): EagerOption {
+internal fun helpOption(names: Set<String>, message: String): Option {
     return EagerOption(names, message, false, emptyMap(), null) { throw PrintHelpMessage(context.command) }
 }
 
 /**
  * Add an eager option to this command that, when invoked, runs [action].
  *
- * @param name The names that can be used to invoke this option. They must start with a punctuation character.
+ * @param names The names that can be used to invoke this option. They must start with a punctuation character.
  * @param help The description of this option, usually a single line.
  * @param hidden Hide this option from help outputs.
  * @param helpTags Extra information about this option to pass to the help formatter
@@ -57,14 +54,13 @@ internal fun helpOption(names: Set<String>, message: String): EagerOption {
  *   parameter.
  */
 fun <T : CliktCommand> T.eagerOption(
-    name: String,
-    vararg additionalNames: String,
+    vararg names: String,
     help: String = "",
     hidden: Boolean = false,
     helpTags: Map<String, String> = emptyMap(),
     groupName: String? = null,
     action: OptionTransformContext.() -> Unit,
-): T = eagerOption(listOf(name) + additionalNames, help, hidden, helpTags, groupName, action)
+): T = eagerOption(names.asList(), help, hidden, helpTags, groupName, action)
 
 /**
  * Add an eager option to this command that, when invoked, runs [action].

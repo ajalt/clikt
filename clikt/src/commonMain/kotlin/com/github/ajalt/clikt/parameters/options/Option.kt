@@ -22,9 +22,6 @@ interface Option {
     /** The description of this option, usually a single line. */
     val optionHelp: String
 
-    /** The parser for this option's values. */
-    val parser: OptionParser
-
     /** The names that can be used to invoke this option. They must start with a punctuation character. */
     val names: Set<String>
 
@@ -46,8 +43,11 @@ interface Option {
     /** Optional explicit key to use when looking this option up from a [ValueSource] */
     val valueSourceKey: String?
 
-    /** If true, this option can be specified without a name e.g. `-1` instead of `-o1` */
+    /** If true, this option can be specified without a name e.g. `-2` instead of `-o2` */
     val acceptsNumberValueWithoutName: Boolean get() = false
+
+    /** If true, the presence of this option on the command line will halt parsing immediately */
+    val eager: Boolean get() = false
 
     /** Information about this option for the help output. */
     fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Option? = when {

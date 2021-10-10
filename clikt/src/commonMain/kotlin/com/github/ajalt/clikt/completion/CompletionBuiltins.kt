@@ -6,17 +6,16 @@ import com.github.ajalt.clikt.core.StaticallyGroupedOption
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parsers.OptionParser
-import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 
 private val choices = arrayOf("bash", "zsh", "fish")
 
-internal class CompletionOption(
+private class CompletionOption(
     override val names: Set<String>,
     override val optionHelp: String,
     override val hidden: Boolean,
 ) : StaticallyGroupedOption {
+    override val eager: Boolean get() = true
     override val secondaryNames: Set<String> get() = emptySet()
-    override val parser: OptionParser = OptionWithValuesParser
     override fun metavar(context: Context): String = choices.joinToString("|", prefix = "[", postfix = "]")
     override val valueSourceKey: String? get() = null
     override val groupName: String? get() = null

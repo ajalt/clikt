@@ -10,7 +10,6 @@ import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionParser.Invocation
-import com.github.ajalt.clikt.parsers.OptionWithValuesParser
 import kotlin.js.JsName
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
@@ -177,8 +176,6 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         private set
     override val completionCandidates: CompletionCandidates
         get() = explicitCompletionCandidates ?: CompletionCandidates.None
-    override val parser: OptionWithValuesParser
-        get() = OptionWithValuesParser
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
         val inv = when (val v = getFinalValue(context, invocations, envvar)) {

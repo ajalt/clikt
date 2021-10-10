@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.valueToInt
-import com.github.ajalt.clikt.parsers.FlagOptionParser
 import com.github.ajalt.clikt.parsers.OptionParser
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -71,7 +70,6 @@ private class FlagOptionImpl<T>(
     override var groupName: String? = null
     override fun metavar(context: Context): String? = null
     override val nvalues: IntRange get() = 0..0
-    override val parser = FlagOptionParser
     override var value: T by NullableLateinit("Cannot read from option delegate before parsing command line")
         private set
     override var names: Set<String> = names

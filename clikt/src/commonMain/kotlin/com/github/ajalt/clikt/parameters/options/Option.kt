@@ -31,8 +31,8 @@ interface Option {
     /** Names that can be used for a secondary purpose, like disabling flag options. */
     val secondaryNames: Set<String>
 
-    /** The number of values that must be given to this option. */
-    val nvalues: Int
+    /** The min and max number of values that must be given to this option. */
+    val nvalues: IntRange
 
     /** If true, this option should not appear in help output. */
     val hidden: Boolean

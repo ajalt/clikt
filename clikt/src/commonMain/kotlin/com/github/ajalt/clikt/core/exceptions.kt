@@ -171,7 +171,7 @@ class IncorrectOptionValueCount(
     context: Context? = null,
 ) : UsageError("", option, context) {
     override fun formatMessage(): String {
-        return localization.incorrectOptionValueCount(givenName, option!!.nvalues)
+        return localization.incorrectOptionValueCount(givenName, option!!.nvalues.first)
     }
 }
 

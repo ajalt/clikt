@@ -28,6 +28,7 @@ internal object Parser {
         val command = context.command
         val aliases = command.aliases()
         val subcommands = command._subcommands.associateBy { it.commandName }
+        val subcommandNames = subcommands.keys
         val optionsByName = HashMap<String, Option>()
         val numberOption = command._options.find { it.acceptsNumberValueWithoutName }
         val arguments = command._arguments
@@ -101,21 +102,27 @@ internal object Parser {
                                 || normTok in longNames
                                 || isLongOptionWithEquals(prefix, tok)
                         ) -> {
-                    consumeParse(parseLongOpt(command.treatUnknownOptionsAsArgs,
-                        context,
-                        tokens,
-                        tok,
-                        i,
-                        optionsByName))
-                }
-                canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
-                    consumeParse(parseShortOpt(command.treatUnknownOptionsAsArgs,
+                    consumeParse(parseLongOpt(
+                        command.treatUnknownOptionsAsArgs,
                         context,
                         tokens,
                         tok,
                         i,
                         optionsByName,
-                        numberOption))
+                        subcommandNames
+                    ))
+                }
+                canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
+                    consumeParse(parseShortOpt(
+                        command.treatUnknownOptionsAsArgs,
+                        context,
+                        tokens,
+                        tok,
+                        i,
+                        optionsByName,
+                        numberOption,
+                        subcommandNames
+                    ))
                 }
                 i >= minAliasI && tok in aliases -> {
                     tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
@@ -249,9 +256,10 @@ internal object Parser {
         tok: String,
         index: Int,
         optionsByName: Map<String, Option>,
+        subcommandNames: Set<String>,
     ): OptParseResult {
         val equalsIndex = tok.indexOf('=')
-        var (name, value) = if (equalsIndex >= 0) {
+        var (name, attachedValue) = if (equalsIndex >= 0) {
             tok.substring(0, equalsIndex) to tok.substring(equalsIndex + 1)
         } else {
             tok to null
@@ -268,8 +276,42 @@ internal object Parser {
             )
         }
 
-        val result = option.parser.parseLongOpt(option, name, tokens, index, value)
-        return OptParseResult(result.consumedCount, emptyList(), listOf(OptInvocation(option, result.invocation)))
+        return parseOptValues(option, name, ignoreUnknown, tokens, index, attachedValue, optionsByName, subcommandNames)
+    }
+
+    private fun parseOptValues(
+        option: Option,
+        name: String,
+        ignoreUnknown: Boolean,
+        tokens: List<String>,
+        index: Int,
+        attachedValue: String?,
+        optionsByName: Map<String, Option>,
+        subcommandNames: Set<String>,
+    ): OptParseResult {
+        val values = mutableListOf<String>()
+        if (attachedValue != null) values += attachedValue
+
+        for (i in (index + 1)..tokens.lastIndex) {
+            val tok = tokens[i]
+            if (values.size >= option.nvalues.last) break
+            if (values.size >= option.nvalues.first && (tok == "--"
+                        || tok in optionsByName
+                        || tok in subcommandNames
+                        || !ignoreUnknown && splitOptionPrefix(tok).first.isNotEmpty())
+            ) {
+                break
+            }
+
+            values += tok
+        }
+
+        if (values.size !in option.nvalues) {
+            throw IncorrectOptionValueCount(option, name)
+        }
+
+        val consumed = values.size + if (attachedValue == null) 1 else 0
+        return OptParseResult(consumed, emptyList(), listOf(OptInvocation(option, Invocation(name, values))))
     }
 
     private fun parseShortOpt(
@@ -280,6 +322,7 @@ internal object Parser {
         index: Int,
         optionsByName: Map<String, Option>,
         numberOption: Option?,
+        subcommandNames: Set<String>,
     ): OptParseResult {
         val prefix = tok[0].toString()
 
@@ -306,11 +349,17 @@ internal object Parser {
                 }
                 throw NoSuchOption(name, possibilities, context = context)
             }
-            val result = option.parser.parseShortOpt(option, name, tokens, index, i)
-            invocations += OptInvocation(option, result.invocation)
-            if (result.consumedCount > 0) return OptParseResult(result.consumedCount, emptyList(), invocations)
+            if (option.nvalues.last > 0) {
+                val value = if (i < tok.lastIndex) tok.drop(i + 1) else null
+                val result = parseOptValues(
+                    option, name, ignoreUnknown, tokens, index, value, optionsByName, subcommandNames
+                )
+                return result.copy(known = invocations + result.known)
+            } else {
+                invocations += OptInvocation(option, Invocation(name, emptyList()))
+            }
         }
-        throw IllegalStateException("Error parsing short option ${tokens[index]}: no parser consumed value.")
+        return OptParseResult(1, emptyList(), invocations)
     }
 
     private fun parseArguments(

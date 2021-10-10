@@ -31,7 +31,7 @@ private fun opt(
     group: String? = null,
     number: Boolean = false,
 ): ParameterHelp.Option {
-    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, number, group)
+    return ParameterHelp.Option(names.toSet(), secondaryNames.toSet(), metavar, help, nvalues..nvalues, tags, number, group)
 }
 
 private fun opt(

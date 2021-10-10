@@ -20,7 +20,7 @@ internal class CompletionOption(
     override fun metavar(context: Context): String = choices.joinToString("|", prefix = "[", postfix = "]")
     override val valueSourceKey: String? get() = null
     override val groupName: String? get() = null
-    override val nvalues: Int get() = 1
+    override val nvalues: IntRange get() = 1..1
     override val helpTags: Map<String, String> get() = emptyMap()
     override fun postValidate(context: Context) {}
     override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {

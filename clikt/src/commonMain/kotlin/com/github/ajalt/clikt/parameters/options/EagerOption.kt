@@ -15,7 +15,6 @@ import com.github.ajalt.clikt.parsers.OptionParser
  */
 class EagerOption(
     override val names: Set<String>,
-    override val nvalues: Int,
     override val optionHelp: String,
     override val hidden: Boolean,
     override val helpTags: Map<String, String>,
@@ -23,14 +22,14 @@ class EagerOption(
     private val callback: OptionTransformContext.() -> Unit,
 ) : StaticallyGroupedOption {
     constructor(
-        vararg names: String, nvalues: Int = 0, help: String = "", hidden: Boolean = false,
+        vararg names: String, help: String = "", hidden: Boolean = false,
         helpTags: Map<String, String> = emptyMap(), groupName: String? = null,
         callback: OptionTransformContext.() -> Unit,
-    )
-            : this(names.toSet(), nvalues, help, hidden, helpTags, groupName, callback)
+    ) : this(names.toSet(), help, hidden, helpTags, groupName, callback)
 
     override val secondaryNames: Set<String> get() = emptySet()
     override val parser: OptionParser = FlagOptionParser
+    override val nvalues: IntRange get() = 0..0
     override fun metavar(context: Context): String? = null
     override val valueSourceKey: String? get() = null
     override fun postValidate(context: Context) {}
@@ -40,7 +39,7 @@ class EagerOption(
 }
 
 internal fun helpOption(names: Set<String>, message: String): EagerOption {
-    return EagerOption(names, 0, message, false, emptyMap(), null) { throw PrintHelpMessage(context.command) }
+    return EagerOption(names, message, false, emptyMap(), null) { throw PrintHelpMessage(context.command) }
 }
 
 /**
@@ -88,7 +87,7 @@ fun <T : CliktCommand> T.eagerOption(
     helpTags: Map<String, String> = emptyMap(),
     groupName: String? = null,
     action: OptionTransformContext.() -> Unit,
-): T = apply { registerOption(EagerOption(names.toSet(), 0, help, hidden, helpTags, groupName, action)) }
+): T = apply { registerOption(EagerOption(names.toSet(), help, hidden, helpTags, groupName, action)) }
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(

@@ -38,7 +38,7 @@ interface HelpFormatter {
             val secondaryNames: Set<String>,
             val metavar: String?,
             val help: String,
-            val nvalues: Int,
+            val nvalues: IntRange,
             val tags: Map<String, String>,
             val acceptsNumberValueWithoutName: Boolean,
             val groupName: String?,

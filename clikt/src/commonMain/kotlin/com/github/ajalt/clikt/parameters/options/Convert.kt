@@ -107,7 +107,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
         transformEach = { it },
         transformAll = defaultAllProcessor(),
         validator = defaultValidator(),
-        nvalues = 1,
+        nvalues = 1..1,
         valueSplit = regex
     )
 }

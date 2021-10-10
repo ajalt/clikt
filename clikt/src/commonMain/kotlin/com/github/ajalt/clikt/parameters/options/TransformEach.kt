@@ -9,6 +9,23 @@ import kotlin.jvm.JvmName
 /**
  * Change the number of values that this option takes.
  *
+ * This overload changes the option to take a variable number of values, with the number of values
+ * falling within the [nvalues] range.
+ */
+fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
+    nvalues: IntRange,
+    transform: ArgsTransformer<ValueT, EachOutT>,
+): NullableOption<EachOutT, ValueT> {
+    require(nvalues != 0..0) { "Cannot set nvalues = 0. Use flag() instead." }
+    require(!nvalues.isEmpty()) { "Cannot set nvalues to empty range." }
+    require(nvalues.first >= 0) { "Options cannot have nvalues < 0" }
+    require(nvalues != 1..1) { "Cannot set nvalues = 1. Use convert() instead." }
+    return copy(transformValue, transform, defaultAllProcessor(), defaultValidator(), nvalues = nvalues)
+}
+
+/**
+ * Change the number of values that this option takes.
+ *
  * The input will be a list of size [nvalues], with each item in the list being the output of a call to
  * [convert]. [nvalues] must be 2 or greater, since options cannot take a variable number of values, and
  * [option] has [nvalues] = 1 by default. If you want to change the type of an option with one value, use
@@ -27,12 +44,7 @@ import kotlin.jvm.JvmName
 fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
     nvalues: Int,
     transform: ArgsTransformer<ValueT, EachOutT>,
-): NullableOption<EachOutT, ValueT> {
-    require(nvalues != 0) { "Cannot set nvalues = 0. Use flag() instead." }
-    require(nvalues > 0) { "Options cannot have nvalues < 0" }
-    require(nvalues > 1) { "Cannot set nvalues = 1. Use convert() instead." }
-    return copy(transformValue, transform, defaultAllProcessor(), defaultValidator(), nvalues = nvalues)
-}
+): NullableOption<EachOutT, ValueT> = transformValues(nvalues..nvalues, transform)
 
 /**
  * Change this option to take two values, held in a [Pair].
@@ -64,4 +76,18 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
         : NullableOption<Triple<ValueT, ValueT, ValueT>, ValueT> {
     return transformValues(nvalues = 3) { Triple(it[0], it[1], it[2]) }
+}
+
+
+/**
+ * Change this option to take a variable number of values.
+ *
+ * You can set the [min] and [max] number of values this option requires. By default, [min] is 1 and
+ * [max] is unlimited.
+ */
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.varargValues(
+    min: Int = 1,
+    max: Int = Int.MAX_VALUE,
+): NullableOption<List<ValueT>, ValueT> {
+    return transformValues(nvalues = min..max) { it }
 }

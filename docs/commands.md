@@ -200,7 +200,7 @@ to store and set that as your `obj`.
 Note that the [`findOrSetObject`][findOrSetObject] property is lazy and won't set the Context's
 `obj` until its value is accessed. If you need to set an object for subcommands without accessing
 the property, you should use [`currentContext.findOrSetObject`][Context.findOrSetObject], or set
-[`currentContext.obj`][Context.obj] directly, instead.
+[`currentContext.obj`][Context.obj] or [`Context.Builder.obj`][builder.obj] directly, instead.
 
 === "Eager initialization with findOrSetObject"
     ```kotlin
@@ -219,6 +219,14 @@ the property, you should use [`currentContext.findOrSetObject`][Context.findOrSe
             // runs eagerly, won't look for parent contexts
             currentContext.obj = MyConfig()
         }
+    }
+    ```
+
+=== "Eager initialization with context builder"
+    ```kotlin
+    Tool().context {
+        // runs eagerly, won't look for parent contexts
+        obj = MyConfig()
     }
     ```
 
@@ -450,6 +458,7 @@ cannot have `allowMultipleSubcommands=true`.
 
 
 [argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html
+[builder.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/-builder/obj.html
 [CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
 [Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/find-or-set-object.html
 [Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/obj.html

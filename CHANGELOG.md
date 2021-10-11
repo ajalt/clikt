@@ -44,7 +44,8 @@
 
 ## 3.4.1
 ### Added
-- Publish JS artifacts with new IR compiler, in addition to the legacy format 
+
+- Added `obj` setter to context builder as an alternative to `currentContext.obj`
 
 ### Changed
 - Updated Kotlin to 1.6.20

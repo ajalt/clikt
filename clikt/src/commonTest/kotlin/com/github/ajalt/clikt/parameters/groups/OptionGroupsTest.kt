@@ -235,13 +235,16 @@ class OptionGroupsTest {
     @Test
     @JsName("co_occurring_option_group")
     fun `co-occurring option group`() = forAll(
-        row("", false, null, null),
-        row("--x=1", true, "1", null),
-        row("--x=1 --y=2", true, "1", "2")
-    ) { argv, eg, ex, ey ->
+        row("", false, null, null, false),
+        row("--x=1", true, "1", null, false),
+        row("--x=1 --y=2", true, "1", "2", false),
+        row("--x=1 --f", true, "1", null, true),
+        row("--x=1 --y=2 --f", true, "1", "2", true),
+    ) { argv, eg, ex, ey, ef ->
         class G : OptionGroup() {
             val x by option().required()
             val y by option()
+            val f by option().flag()
         }
 
         class C : TestCommand() {
@@ -251,6 +254,7 @@ class OptionGroupsTest {
                 if (eg) {
                     g?.x shouldBe ex
                     g?.y shouldBe ey
+                    g?.f shouldBe ef
                 } else {
                     g shouldBe null
                 }

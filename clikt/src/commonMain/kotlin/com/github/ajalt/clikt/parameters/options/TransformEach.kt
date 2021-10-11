@@ -12,10 +12,10 @@ import kotlin.jvm.JvmName
  * This overload changes the option to take a variable number of values, with the number of values
  * falling within the [nvalues] range.
  */
-fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
+fun <EachT : Any, ValueT> NullableOption<ValueT, ValueT>.transformValues(
     nvalues: IntRange,
-    transform: ArgsTransformer<ValueT, EachOutT>,
-): NullableOption<EachOutT, ValueT> {
+    transform: ArgsTransformer<ValueT, EachT>,
+): NullableOption<EachT, ValueT> {
     require(nvalues != 0..0) { "Cannot set nvalues = 0. Use flag() instead." }
     require(!nvalues.isEmpty()) { "Cannot set nvalues to empty range." }
     require(nvalues.first >= 0) { "Options cannot have nvalues < 0" }
@@ -41,10 +41,10 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
  * val square by option().int().transformValues(4) { Square(it[0], it[1], it[2], it[3]) }
  * ```
  */
-fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.transformValues(
+fun <EachT : Any, ValueT> NullableOption<ValueT, ValueT>.transformValues(
     nvalues: Int,
-    transform: ArgsTransformer<ValueT, EachOutT>,
-): NullableOption<EachOutT, ValueT> = transformValues(nvalues..nvalues, transform)
+    transform: ArgsTransformer<ValueT, EachT>,
+): NullableOption<EachT, ValueT> = transformValues(nvalues..nvalues, transform)
 
 /**
  * Change this option to take two values, held in a [Pair].
@@ -57,7 +57,7 @@ fun <EachInT : Any, EachOutT : Any, ValueT> NullableOption<EachInT, ValueT>.tran
  * val opt: Pair<Int, Int>? by option().int().pair()
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
+fun <ValueT> NullableOption<ValueT, ValueT>.pair()
         : NullableOption<Pair<ValueT, ValueT>, ValueT> {
     return transformValues(nvalues = 2) { it[0] to it[1] }
 }
@@ -73,7 +73,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.pair()
  * val opt: Triple<Int, Int, Int>? by option().int().triple()
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
+fun <ValueT> NullableOption<ValueT, ValueT>.triple()
         : NullableOption<Triple<ValueT, ValueT, ValueT>, ValueT> {
     return transformValues(nvalues = 3) { Triple(it[0], it[1], it[2]) }
 }
@@ -85,7 +85,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.triple()
  * You can set the [min] and [max] number of values this option requires. By default, [min] is 1 and
  * [max] is unlimited.
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.varargValues(
+fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
     min: Int = 1,
     max: Int = Int.MAX_VALUE,
 ): NullableOption<List<ValueT>, ValueT> {

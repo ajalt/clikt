@@ -52,11 +52,11 @@ class Context private constructor(
     val correctionSuggestor: TypoSuggestor,
     val localization: Localization,
     val readEnvvar: (String) -> String?,
+    var obj: Any?,
     val originalArgv: List<String>,
 ) {
     var invokedSubcommand: CliktCommand? = null
         internal set
-    var obj: Any? = null
 
     /** Find the closest object of type [T] */
     inline fun <reified T : Any> findObject(): T? {
@@ -190,6 +190,14 @@ class Context private constructor(
          * You can set this to read from a map or other source during tests.
          */
         var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: ::readEnvvar
+
+        /**
+         * Set an arbitrary object on the context.
+         *
+         * This object can be retrieved with functions [findOrSetObject] and [requireObject]. You
+         * can also set the object on the context itself after it's been constructed.
+         */
+        var obj: Any? = parent?.obj
     }
 
     companion object {
@@ -208,7 +216,7 @@ class Context private constructor(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
                     helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
                     readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
-                    envvarReader, argv
+                    envvarReader, obj, argv
                 )
             }
         }

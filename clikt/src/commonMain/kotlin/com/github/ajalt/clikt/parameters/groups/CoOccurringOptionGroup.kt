@@ -52,7 +52,7 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
 /**
  * Make this group a co-occurring group.
  *
- * The group becomes nullable. At least one option in the group must be [required]. Of none of the
+ * The group becomes nullable. At least one option in the group must be [required]. If none of the
  * options in the group are given on the command line, the group is null and none of the `required`
  * constraints are enforced. If any option in the group is given, all `required` options in the
  * group must be given as well.

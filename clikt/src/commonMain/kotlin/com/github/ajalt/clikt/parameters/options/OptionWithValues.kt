@@ -86,7 +86,7 @@ typealias OptionValidator<AllT> = OptionTransformContext.(AllT) -> Unit
  */
 // `AllT` is deliberately not an out parameter. If it was, it would allow undesirable combinations such as
 // default("").int()
-interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT>, GroupableOption {
+interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
     /** The environment variable name to use. */
     val envvar: String?
 

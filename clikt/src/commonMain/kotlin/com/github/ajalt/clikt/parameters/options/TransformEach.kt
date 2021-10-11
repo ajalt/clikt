@@ -91,3 +91,27 @@ fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
 ): NullableOption<List<ValueT>, ValueT> {
     return transformValues(nvalues = min..max) { it }
 }
+
+/**
+ * Allow this option to be specified with or without an explicit value.
+ *
+ * If the option is specified on the command line without a value, [default] will be used.
+ *
+ * ## Example
+ *
+ * ```
+ * val log by option().optionalValue("verbose").default("none")
+ *
+ * > ./tool --log=debug
+ * log level == debug
+ *
+ * > ./tool --log
+ * log level == verbose
+ *
+ * > ./tool
+ * log level == none
+ * ```
+ */
+fun <ValueT: Any> NullableOption<ValueT, ValueT>.optionalValue(default: ValueT) : NullableOption<ValueT, ValueT> {
+    return transformValues(0..1) { it.firstOrNull() ?: default }
+}

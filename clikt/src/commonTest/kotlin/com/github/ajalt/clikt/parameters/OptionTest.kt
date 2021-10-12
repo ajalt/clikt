@@ -342,40 +342,6 @@ class OptionTest {
     }
 
     @Test
-    @JsName("switch_options")
-    fun `switch options`() = forAll(
-        row("", null, -1, -2),
-        row("-xyz", 1, 3, 5),
-        row("--xx -yy -zz", 2, 4, 6),
-    ) { argv, ex, ey, ez ->
-        class C : TestCommand() {
-            val x by option().switch("-x" to 1, "--xx" to 2)
-            val y by option().switch("-y" to 3, "-yy" to 4).default(-1)
-            val z by option().switch("-z" to 5, "-zz" to 6).defaultLazy { -2 }
-            override fun run_() {
-                x shouldBe ex
-                y shouldBe ey
-                z shouldBe ez
-            }
-        }
-
-        C().parse(argv)
-    }
-
-    @Test
-    @JsName("required_switch_options")
-    fun `required switch options`() {
-        class C : TestCommand() {
-            val x by option().switch("-x" to 1, "-xx" to 2).required()
-        }
-
-        C().parse("-x").x shouldBe 1
-        C().parse("-xx").x shouldBe 2
-        if (skipDueToKT43490) return
-        shouldThrow<MissingOption> { C().parse("") }
-    }
-
-    @Test
     @JsName("counted_options")
     fun `counted options`() = forAll(
         row("", 0, false, null),

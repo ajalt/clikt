@@ -91,6 +91,14 @@ or fail with an error if the input is outside the range.
 
 As with integers, you can restrict the input to a range with [`restrictTo()`][restrictTo].
 
+### Boolean
+
+- [`option().flag()`][flag]
+- [`option().boolean()` and `argument().boolean()`][boolean]
+
+You will normally want to use [flag] options for boolean parameters. Explicit [boolean] value
+conversion is also available if you need, for example, a tri-state `Boolean?` parameter.
+
 ### Choice
 
 - [`option().choice()` and `argument().choice()`][choice]
@@ -328,6 +336,7 @@ been set, so (unlike in transforms) you can reference other parameters:
     ```
 
 
+[boolean]:        api/clikt/com.github.ajalt.clikt.parameters.types/boolean.html
 [checkArg]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.html
 [checkKotlin]:    https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html
 [checkOpt]:       api/clikt/com.github.ajalt.clikt.parameters.options/check.html
@@ -338,6 +347,7 @@ been set, so (unlike in transforms) you can reference other parameters:
 [double]:         api/clikt/com.github.ajalt.clikt.parameters.types/double.html
 [enum]:           api/clikt/com.github.ajalt.clikt.parameters.types/enum.html
 [file]:           api/clikt/com.github.ajalt.clikt.parameters.types/file.html
+[flag]:           options.md#boolean-flag-options
 [float]:          api/clikt/com.github.ajalt.clikt.parameters.types/float.html
 [inputStream]:    api/clikt/com.github.ajalt.clikt.parameters.types/input-stream.html
 [int]:            api/clikt/com.github.ajalt.clikt.parameters.types/int.html

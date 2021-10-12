@@ -1100,16 +1100,15 @@ option names manually.
 
 ## Option Transformation Order
 
-Clikt has a large number of extension functions that can modify options.
-When applying multiple functions to the same option,
-there's only one valid order for the functions to be applied.
-For example, `option().default(3).int()` will not compile,
-because [`default`][default] must be applied after the value type conversion.
-Similarly, you can only apply one transform of each type.
-So `option().int().float()` is invalid since [`int`][int] and [`float`][float]
-both change the value type, as is `option().default("").multiple()`
-since [`default`][default] and [`multiple`][multiple] both transform the
-call list (if you need a custom default value for `multiple`, you can pass it one as an argument).
+Clikt has a large number of extension functions that can modify options. When applying multiple
+functions to the same option, there's only one valid order for the functions to be applied. For
+example, `option().default(3).int()` will not compile, because [`default`][default] must be applied
+after the value type conversion. 
+
+You can call [`convert`][convert] multiple times, but you can only apply one transform of each other
+type. So `option().default("").multiple()` is invalid, since [`default`][default] and
+[`multiple`][multiple] both transform the call list (if you need a custom default value for
+`multiple`, you can pass it one as an argument).
 
 Here's an integer option with one of each available transform in a valid order:
 

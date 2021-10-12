@@ -31,10 +31,10 @@ import kotlin.jvm.JvmName
  * @param showAsRequired Tell the help formatter that this option should be marked as required. This
  *   does not affect behavior outside of help formatting.
  */
-fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
+fun <AllT, EachT, ValueT> NullableOption<EachT, ValueT>.transformAll(
     defaultForHelp: String? = this.helpTags[HelpFormatter.Tags.DEFAULT],
     showAsRequired: Boolean = HelpFormatter.Tags.REQUIRED in this.helpTags,
-    transform: CallsTransformer<EachT, AllT>,
+    transform: AllTransformer<EachT, AllT>,
 ): OptionWithValues<AllT, EachT, ValueT> {
     val tags = this.helpTags.toMutableMap()
 
@@ -60,7 +60,7 @@ fun <AllT, EachT : Any, ValueT> NullableOption<EachT, ValueT>.transformAll(
  * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
+fun <EachT, ValueT> NullableOption<EachT, ValueT>.default(
     value: EachT,
     defaultForHelp: String = value.toString(),
 ): OptionWithValues<EachT, EachT, ValueT> {
@@ -84,7 +84,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
  * val opt: Pair<Int, Int> by option().int().pair().defaultLazy { expensiveOperation() }
  * ```
  */
-inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
+inline fun <EachT, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
     defaultForHelp: String = "",
     crossinline value: () -> EachT,
 ): OptionWithValues<EachT, EachT, ValueT> {
@@ -102,7 +102,7 @@ inline fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.defaultLazy(
  * val opt: Pair<Int, Int> by option().int().pair().required()
  * ```
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithValues<EachT, EachT, ValueT> {
+fun <EachT, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithValues<EachT, EachT, ValueT> {
     return transformAll(showAsRequired = true) { it.lastOrNull() ?: throw MissingOption(option) }
 }
 
@@ -121,7 +121,7 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.required(): OptionWithVa
  * @param required If true, [default] is ignored and [MissingOption] will be thrown if no
  *   instances of the option are present on the command line.
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
+fun <EachT, ValueT> NullableOption<EachT, ValueT>.multiple(
     default: List<EachT> = emptyList(),
     required: Boolean = false,
 ): OptionWithValues<List<EachT>, EachT, ValueT> {

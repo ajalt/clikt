@@ -84,7 +84,7 @@ internal object FishCompletionGenerator {
                 append(name.trimStart('-'))
             }
 
-            if (option is OptionWithValues<*, *, *>) {
+            if (option.nvalues.first > 0) {
                 append(" -r")
             }
 

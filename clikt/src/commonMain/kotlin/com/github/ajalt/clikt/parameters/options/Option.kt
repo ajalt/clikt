@@ -134,8 +134,8 @@ internal fun splitOptionPrefix(name: String): Pair<String, String> =
 internal fun <EachT, AllT> deprecationTransformer(
     message: String? = "",
     error: Boolean = false,
-    transformAll: CallsTransformer<EachT, AllT>,
-): CallsTransformer<EachT, AllT> = {
+    transformAll: AllTransformer<EachT, AllT>,
+): AllTransformer<EachT, AllT> = {
     if (it.isNotEmpty()) {
         val msg = when (message) {
             null -> ""

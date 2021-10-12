@@ -70,7 +70,6 @@ interface ValueSource {
         fun envvarKey(): (Context, Option) -> String = { context, option ->
             val env = when (option) {
                 is OptionWithValues<*, *, *> -> option.envvar
-                is FlagOption<*> -> option.envvar
                 else -> null
             }
             inferEnvvar(option.names, env, context.autoEnvvarPrefix) ?: ""

@@ -12,15 +12,21 @@ import kotlin.jvm.JvmName
  * This overload changes the option to take a variable number of values, with the number of values
  * falling within the [nvalues] range.
  */
-fun <EachT : Any, ValueT> NullableOption<ValueT, ValueT>.transformValues(
+fun <EachT, ValueT> NullableOption<ValueT, ValueT>.transformValues(
     nvalues: IntRange,
-    transform: ArgsTransformer<ValueT, EachT>,
+    transform: ValuesTransformer<ValueT, EachT>,
 ): NullableOption<EachT, ValueT> {
     require(nvalues != 0..0) { "Cannot set nvalues = 0. Use flag() instead." }
     require(!nvalues.isEmpty()) { "Cannot set nvalues to empty range." }
     require(nvalues.first >= 0) { "Options cannot have nvalues < 0" }
     require(nvalues != 1..1) { "Cannot set nvalues = 1. Use convert() instead." }
-    return copy(transformValue, transform, defaultAllProcessor(), defaultValidator(), nvalues = nvalues)
+    return copy(
+        transformValue = transformValue,
+        transformEach = transform,
+        transformAll = defaultAllProcessor(),
+        validator = defaultValidator(),
+        nvalues = nvalues
+    )
 }
 
 /**
@@ -43,7 +49,7 @@ fun <EachT : Any, ValueT> NullableOption<ValueT, ValueT>.transformValues(
  */
 fun <EachT : Any, ValueT> NullableOption<ValueT, ValueT>.transformValues(
     nvalues: Int,
-    transform: ArgsTransformer<ValueT, EachT>,
+    transform: ValuesTransformer<ValueT, EachT>,
 ): NullableOption<EachT, ValueT> = transformValues(nvalues..nvalues, transform)
 
 /**
@@ -112,6 +118,6 @@ fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
  * log level == none
  * ```
  */
-fun <ValueT: Any> NullableOption<ValueT, ValueT>.optionalValue(default: ValueT) : NullableOption<ValueT, ValueT> {
+fun <ValueT : Any> NullableOption<ValueT, ValueT>.optionalValue(default: ValueT): NullableOption<ValueT, ValueT> {
     return transformValues(0..1) { it.firstOrNull() ?: default }
 }

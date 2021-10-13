@@ -31,7 +31,8 @@ fun RawOption.flag(
     defaultForHelp: String = "",
 ): OptionWithValues<Boolean, Boolean, Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
-    return boolean().toFlag { it.lastOrNull() ?: (name !in secondaryNames) }
+    return boolean()
+        .transformValues(0..0) { it.lastOrNull() ?: (name !in secondaryNames) }
         .default(default)
         .copy(secondaryNames = secondaryNames.toSet(), helpTags = helpTags + tags)
 }
@@ -65,7 +66,7 @@ inline fun <OutT> OptionWithValues<Boolean, Boolean, Boolean>.convert(
  * Turn an option into a flag that counts the number of times it occurs on the command line.
  */
 fun RawOption.counted(): OptionWithValues<Int, Int, Int> {
-    return int().toFlag { it.lastOrNull() ?: 1 }.transformAll { it.sum() }
+    return int().transformValues(0..0) { it.lastOrNull() ?: 1 }.transformAll { it.sum() }
 }
 
 /**
@@ -79,7 +80,7 @@ fun RawOption.counted(): OptionWithValues<Int, Int, Int> {
  */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): OptionWithValues<T?, T?, String> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return toFlag { choices[name] }.copy(names = choices.keys)
+    return transformValues(0..0) { choices[name] }.copy(names = choices.keys)
 }
 
 /**
@@ -94,14 +95,3 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): OptionWithValues<T?, T?
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): OptionWithValues<T?, T?, String> {
     return switch(mapOf(*choices))
 }
-
-private fun <EachT, ValueT> NullableOption<ValueT, ValueT>.toFlag(
-    transform: ValuesTransformer<ValueT, EachT>,
-): OptionWithValues<EachT?, EachT, ValueT> = copy(
-    transformValue = transformValue,
-    transformEach = transform,
-    metavarGetter = { null },
-    transformAll = defaultAllProcessor(),
-    validator = defaultValidator(),
-    nvalues = 0..0
-)

@@ -16,7 +16,6 @@ fun <EachT, ValueT> NullableOption<ValueT, ValueT>.transformValues(
     nvalues: IntRange,
     transform: ValuesTransformer<ValueT, EachT>,
 ): NullableOption<EachT, ValueT> {
-    require(nvalues != 0..0) { "Cannot set nvalues = 0. Use flag() instead." }
     require(!nvalues.isEmpty()) { "Cannot set nvalues to empty range." }
     require(nvalues.first >= 0) { "Options cannot have nvalues < 0" }
     require(nvalues != 1..1) { "Cannot set nvalues = 1. Use convert() instead." }
@@ -25,6 +24,11 @@ fun <EachT, ValueT> NullableOption<ValueT, ValueT>.transformValues(
         transformEach = transform,
         transformAll = defaultAllProcessor(),
         validator = defaultValidator(),
+        metavarGetter = if (nvalues == 0..0) {
+            { null }
+        } else {
+            metavarGetter
+        },
         nvalues = nvalues
     )
 }

@@ -22,14 +22,13 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class EnvvarOptionsTest {
-    private val env: MutableMap<String, String?> = mutableMapOf()
-    private fun <T : CliktCommand> T.withEnv(): T = context { envvarReader = env::get }
+    private fun <T : CliktCommand> T.withEnv(vararg entries: Pair<String, String?>): T {
+        return context { envvarReader = { entries.toMap()[it] } }
+    }
 
     @Test
     @JsName("explicit_envvar")
     fun `explicit envvar`() {
-        env["FO"] = "foo"
-
         class C : TestCommand() {
             val foo by option(envvar = "FO")
             val bar by option()
@@ -39,15 +38,12 @@ class EnvvarOptionsTest {
             }
         }
 
-        C().withEnv().parse("")
+        C().withEnv("FO" to "foo").parse("")
     }
 
     @Test
     @JsName("auto_envvar")
     fun `auto envvar`() {
-        env["FO"] = "foo"
-        env["C_BAR"] = "11"
-
         class C : TestCommand() {
             val foo by option(envvar = "FO")
             val bar by option().int()
@@ -59,18 +55,15 @@ class EnvvarOptionsTest {
             }
         }
 
-        C().context { autoEnvvarPrefix = "C" }.withEnv().parse("")
+        C().context { autoEnvvarPrefix = "C" }.withEnv(
+            "FO" to "foo",
+            "C_BAR" to "11",
+        ).parse("")
     }
 
     @Test
     @JsName("auto_envvar_subcommand")
     fun `auto envvar subcommand`() {
-        env["FOO"] = "foo"
-        env["C_CMD1_BAR"] = "bar"
-        env["BAZ"] = "baz"
-        env["CMD2_QUX"] = "qux"
-        env["CMD2_SUB3_QUZ"] = "quz"
-
         class C : TestCommand() {
             init {
                 context { autoEnvvarPrefix = "C" }
@@ -107,13 +100,18 @@ class EnvvarOptionsTest {
         }
 
         C().subcommands(Sub().subcommands(Sub2().subcommands(Sub3())))
-            .withEnv().parse("cmd1 sub2 sub3")
+            .withEnv(
+                "FOO" to "foo",
+                "C_CMD1_BAR" to "bar",
+                "BAZ" to "baz",
+                "CMD2_QUX" to "qux",
+                "CMD2_SUB3_QUZ" to "quz",
+            ).parse("cmd1 sub2 sub3")
     }
 
     @Test
     @JsName("split_envvar")
     fun `split envvar`() {
-        env["FOO"] = "/home"
 
         class C : TestCommand() {
             val foo by option(envvar = "FOO")
@@ -124,8 +122,10 @@ class EnvvarOptionsTest {
             }
         }
 
-        env["BAR"] = "/bar;/baz"
-        C().withEnv().parse("")
+        C().withEnv(
+            "FOO" to "/home",
+            "BAR" to "/bar;/baz",
+        ).parse("")
     }
 
     @Test
@@ -135,10 +135,6 @@ class EnvvarOptionsTest {
         row("YES", "3", true, 3),
         row("false", "5", false, 5)
     ) { fv, bv, ef, eb ->
-
-        env["FOO"] = fv
-        env["BAR"] = bv
-
         var called1 = false
         var called2 = false
 
@@ -151,9 +147,33 @@ class EnvvarOptionsTest {
             }
         }
 
-        C().withEnv().parse("")
+        C().withEnv(
+            "FOO" to fv,
+            "BAR" to bv,
+        ).parse("")
         called1 shouldBe true
         called2 shouldBe true
+    }
+
+    @Test
+    @JsName("vararg_option_envvars")
+    fun `vararg option envvars`() = forAll(
+        row(null, null, null, null),
+        row("f", "b", listOf("f"), "b"),
+    ) { fv, bv, ef, eb ->
+        class C : TestCommand() {
+            val foo: List<String>? by option(envvar = "FOO").varargValues()
+            val bar: String? by option(envvar = "BAR").optionalValue("")
+            override fun run_() {
+                foo shouldBe ef
+                bar shouldBe eb
+            }
+        }
+
+        C().withEnv(
+            "FOO" to fv,
+            "BAR" to bv,
+        ).parse("")
     }
 
     @Test
@@ -162,7 +182,6 @@ class EnvvarOptionsTest {
         row(true, "bar"),
         row(false, "baz")
     ) { envvarFirst, expected ->
-        env["FOO"] = "bar"
         val source = TestSource("foo" to "baz")
 
         class C : TestCommand() {
@@ -180,7 +199,9 @@ class EnvvarOptionsTest {
             }
         }
 
-        C().withEnv().parse("")
+        C().withEnv(
+            "FOO" to "bar",
+        ).parse("")
         source.assert(read = !envvarFirst)
     }
 

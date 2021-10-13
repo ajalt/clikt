@@ -57,6 +57,7 @@ class VarargOptionsTest {
     @Test
     @JsName("varargValues_NoSuchOption")
     fun `varargValues NoSuchOption`() {
+        @Suppress("unused")
         class C : TestCommand(false) {
             val o by option("-o", "--o").varargValues(min = 0)
         }

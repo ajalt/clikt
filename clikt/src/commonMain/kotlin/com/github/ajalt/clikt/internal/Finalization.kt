@@ -2,12 +2,12 @@ package com.github.ajalt.clikt.internal
 
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.options.Option
-import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.parsers.Invocation
 
 internal fun finalizeOptions(
     context: Context,
     options: List<Option>,
-    invocationsByOption: Map<Option, List<OptionParser.Invocation>>
+    invocationsByOption: Map<Option, List<Invocation>>
 ) {
     // Finalize invoked options
     for ((option, invocations) in invocationsByOption) {

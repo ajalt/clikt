@@ -6,10 +6,16 @@ import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
-import com.github.ajalt.clikt.parsers.OptionParser.Invocation
 
-private data class OptInvocation(val opt: Option, val inv: Invocation)
-private data class OptParseResult(val consumed: Int, val unknown: List<String>, val known: List<OptInvocation>)
+private data class OptInvocation(val opt: Option, val name: String, val values: List<String>) {
+    val inv get() = Invocation(name, values)
+}
+
+private data class OptParseResult(val consumed: Int, val unknown: List<String>, val known: List<OptInvocation>) {
+    constructor(consumed: Int, invocations: List<OptInvocation>) : this(consumed, emptyList(), invocations)
+    constructor(consumed: Int, opt: Option, name: String, values: List<String>)
+            : this(consumed, emptyList(), listOf(OptInvocation(opt, name, values)))
+}
 
 internal object Parser {
     fun parse(argv: List<String>, context: Context) {
@@ -309,7 +315,7 @@ internal object Parser {
         }
 
         val consumed = values.size + if (attachedValue == null) 1 else 0
-        return OptParseResult(consumed, emptyList(), listOf(OptInvocation(option, Invocation(name, values))))
+        return OptParseResult(consumed, option, name, values)
     }
 
     private fun parseShortOpt(
@@ -325,11 +331,7 @@ internal object Parser {
         val prefix = tok[0].toString()
 
         if (numberOption != null && tok.drop(1).all { it.isDigit() }) {
-            return OptParseResult(
-                consumed = 1,
-                unknown = emptyList(),
-                known = listOf(OptInvocation(numberOption, Invocation("", listOf(tok.drop(1)))))
-            )
+            return OptParseResult(1, numberOption, "", listOf(tok.drop(1)))
         }
 
         val invocations = mutableListOf<OptInvocation>()
@@ -354,10 +356,10 @@ internal object Parser {
                 )
                 return result.copy(known = invocations + result.known)
             } else {
-                invocations += OptInvocation(option, Invocation(name, emptyList()))
+                invocations += OptInvocation(option, name, emptyList())
             }
         }
-        return OptParseResult(1, emptyList(), invocations)
+        return OptParseResult(1, invocations)
     }
 
     private fun parseArguments(

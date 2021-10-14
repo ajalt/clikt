@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.StaticallyGroupedOption
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.types.choice
-import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.parsers.Invocation
 
 private val choices = arrayOf("bash", "zsh", "fish")
 
@@ -22,7 +22,7 @@ private class CompletionOption(
     override val nvalues: IntRange get() = 1..1
     override val helpTags: Map<String, String> get() = emptyMap()
     override fun postValidate(context: Context) {}
-    override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
+    override fun finalize(context: Context, invocations: List<Invocation>) {
         val shell = invocations.lastOrNull()?.values?.single() ?: return
         CompletionGenerator.throwCompletionMessage(context.command, shell)
     }

@@ -581,7 +581,7 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
  * Check the final argument value and raise an error if it's not valid.
  *
  * The [validator] is called with the final argument type (the output of [transformAll]), and should
- * return `false` if the value is not valid. You can specify a [lazyMessage] the returns a message
+ * return `false` if the value is not valid. You can specify a [lazyMessage] that returns a message
  * to include in the error output.
  *
  * You can use [validate] for more complex checks.
@@ -627,7 +627,7 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
  * Check the final argument value and raise an error if it's not valid.
  *
  * The [validator] is called with the final argument type (the output of [transformAll]), and should
- * return `false` if the value is not valid. You can specify a [lazyMessage] the returns a message
+ * return `false` if the value is not valid. You can specify a [lazyMessage] that returns a message
  * to include in the error output. The [validator] is not called if the delegate value is null.
  *
  * You can use [validate] for more complex checks.

@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parsers.OptionParser
+import com.github.ajalt.clikt.parsers.Invocation
 
 /**
  * An [Option] with no values that is [finalize]d before other types of options.
@@ -30,7 +30,7 @@ private class EagerOption(
     override fun metavar(context: Context): String? = null
     override val valueSourceKey: String? get() = null
     override fun postValidate(context: Context) {}
-    override fun finalize(context: Context, invocations: List<OptionParser.Invocation>) {
+    override fun finalize(context: Context, invocations: List<Invocation>) {
         this.callback(OptionTransformContext(this, context))
     }
 }

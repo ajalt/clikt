@@ -9,7 +9,7 @@ import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.parsers.OptionParser.Invocation
+import com.github.ajalt.clikt.parsers.Invocation
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty

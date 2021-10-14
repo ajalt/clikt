@@ -46,6 +46,10 @@ internal object Parser {
                 "options must have at least one name"
             }
 
+            require(option.acceptsUnattachedValue || option.nvalues.last <= 1) {
+                "acceptsUnattachedValue must be true if the option accepts more than one value"
+            }
+
             for (name in option.names + option.secondaryNames) {
                 optionsByName[name] = option
                 if (name.length > 2) longNames += name
@@ -294,7 +298,11 @@ internal object Parser {
         subcommandNames: Set<String>,
     ): OptParseResult {
         val values = mutableListOf<String>()
-        if (attachedValue != null) values += attachedValue
+        if (attachedValue != null) {
+            values += attachedValue
+        } else if (!option.acceptsUnattachedValue) {
+            return OptParseResult(1, option, name, emptyList())
+        }
 
         for (i in (index + 1)..tokens.lastIndex) {
             val tok = tokens[i]

@@ -35,6 +35,24 @@ class VarargOptionsTest {
     }
 
     @Test
+    @JsName("optionalValue_argument")
+    fun `optionalValue acceptsUnattachedValue`() = forAll(
+        row("a", 0),
+        row("--o a", 1),
+        row("--o=2 a", 2),
+    ) { argv, ex ->
+        class C : TestCommand() {
+            val o by option().int().optionalValue(1, acceptsUnattachedValue = false).default(0)
+            val a by argument()
+            override fun run_() {
+                o shouldBe ex
+                a shouldBe "a"
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
     fun varargValues() = forAll(
         row("", null),
         row("--o", listOf()),

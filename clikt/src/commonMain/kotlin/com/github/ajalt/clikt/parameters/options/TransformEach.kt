@@ -3,6 +3,7 @@
 
 package com.github.ajalt.clikt.parameters.options
 
+import com.github.ajalt.clikt.parameters.arguments.argument
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 
@@ -107,6 +108,9 @@ fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
  *
  * If the option is specified on the command line without a value, [default] will be used.
  *
+ * To avoid ambiguity when combined with [arguments][argument], you can set [acceptsUnattachedValue]
+ * to false to require that the options' value be specified like `--foo=bar` rather than `--foo bar`.
+ *
  * ## Example
  *
  * ```
@@ -122,6 +126,9 @@ fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
  * log level == none
  * ```
  */
-fun <ValueT : Any> NullableOption<ValueT, ValueT>.optionalValue(default: ValueT): NullableOption<ValueT, ValueT> {
-    return transformValues(0..1) { it.firstOrNull() ?: default }
+fun <ValueT : Any> NullableOption<ValueT, ValueT>.optionalValue(
+    default: ValueT,
+    acceptsUnattachedValue: Boolean = true,
+): NullableOption<ValueT, ValueT> {
+    return transformValues(0..1) { it.firstOrNull() ?: default }.copy(acceptsUnattachedValue = acceptsUnattachedValue)
 }

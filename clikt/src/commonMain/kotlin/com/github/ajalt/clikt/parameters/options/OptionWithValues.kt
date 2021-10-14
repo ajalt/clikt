@@ -4,7 +4,10 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CliktError
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.ParameterHolder
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
@@ -128,6 +131,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
+        acceptsUnattachedValue: Boolean = this.acceptsUnattachedValue,
     ): OptionWithValues<AllT, EachT, ValueT>
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -145,6 +149,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
+        acceptsUnattachedValue: Boolean = this.acceptsUnattachedValue,
     ): OptionWithValues<AllT, EachT, ValueT>
 }
 
@@ -162,6 +167,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     override val explicitCompletionCandidates: CompletionCandidates?,
     override val secondaryNames: Set<String>,
     override val acceptsNumberValueWithoutName: Boolean,
+    override val acceptsUnattachedValue: Boolean,
     override val transformValue: ValueTransformer<ValueT>,
     override val transformEach: ValuesTransformer<ValueT, EachT>,
     override val transformAll: AllTransformer<EachT, AllT>,
@@ -232,6 +238,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         completionCandidates: CompletionCandidates?,
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
+        acceptsUnattachedValue: Boolean,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
@@ -246,6 +253,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             explicitCompletionCandidates = completionCandidates,
             secondaryNames = secondaryNames,
             acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
+            acceptsUnattachedValue = acceptsUnattachedValue,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -268,6 +276,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         completionCandidates: CompletionCandidates?,
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
+        acceptsUnattachedValue: Boolean,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
@@ -282,6 +291,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             explicitCompletionCandidates = completionCandidates,
             secondaryNames = secondaryNames,
             acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
+            acceptsUnattachedValue = acceptsUnattachedValue,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -342,6 +352,7 @@ fun ParameterHolder.option(
     explicitCompletionCandidates = completionCandidates,
     secondaryNames = emptySet(),
     acceptsNumberValueWithoutName = false,
+    acceptsUnattachedValue = true,
     transformValue = { it },
     transformEach = defaultEachProcessor(),
     transformAll = defaultAllProcessor(),

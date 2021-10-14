@@ -49,6 +49,9 @@ interface Option {
     /** If true, the presence of this option on the command line will halt parsing immediately */
     val eager: Boolean get() = false
 
+    /** If false, invocations must be of the form `--foo=1` or `-f1`. If true, the forms `--foo 1` and `-f 1` are also accepted. */
+    val acceptsUnattachedValue: Boolean get() = true
+
     /** Information about this option for the help output. */
     fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Option? = when {
         hidden -> null

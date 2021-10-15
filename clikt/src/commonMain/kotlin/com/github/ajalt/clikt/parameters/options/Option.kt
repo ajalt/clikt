@@ -63,6 +63,7 @@ interface Option {
             nvalues,
             helpTags,
             acceptsNumberValueWithoutName,
+            acceptsUnattachedValue,
             groupName = (this as? StaticallyGroupedOption)?.groupName
                 ?: (this as? GroupableOption)?.parameterGroup?.groupName,
         )

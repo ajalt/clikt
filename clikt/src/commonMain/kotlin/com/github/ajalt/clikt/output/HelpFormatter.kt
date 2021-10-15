@@ -41,6 +41,7 @@ interface HelpFormatter {
             val nvalues: IntRange,
             val tags: Map<String, String>,
             val acceptsNumberValueWithoutName: Boolean,
+            val acceptsUnattachedValue: Boolean,
             val groupName: String?,
         ) : ParameterHelp()
 

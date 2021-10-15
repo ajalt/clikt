@@ -48,6 +48,6 @@ fun RawArgument.boolean(): ProcessedArgument<Boolean, Boolean> = convert {
  *
  * All other values are an error.
  */
-fun RawOption.boolean(): NullableOption<Boolean, Boolean> = convert {
+fun RawOption.boolean(): NullableOption<Boolean, Boolean> = convert("[true|false]") {
     valueToBool(it) ?: throw BadParameterValue(context.localization.boolConversionError(it), this)
 }

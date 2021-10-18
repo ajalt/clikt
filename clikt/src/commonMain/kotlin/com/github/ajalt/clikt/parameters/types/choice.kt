@@ -72,28 +72,6 @@ fun RawArgument.choice(vararg choices: String, ignoreCase: Boolean = false): Pro
     return choice(choices.associateBy { it }, ignoreCase)
 }
 
-/**
- * Convert the argument to the values of an enum.
- *
- * If [ignoreCase] is `false`, the argument will only accept values that match the case of the enum values.
- *
- * ### Example:
- *
- * ```
- * enum class Size { SMALL, LARGE }
- * argument().enum<Size>()
- * ```
- *
- * @param key A block that returns the command line value to use for an enum value. The default is
- *   the enum name.
- */
-inline fun <reified T : Enum<T>> RawArgument.enum(
-    ignoreCase: Boolean = true,
-    key: (T) -> String = { it.name },
-): ProcessedArgument<T, T> {
-    return choice(enumValues<T>().associateBy { key(it) }, ignoreCase)
-}
-
 // options
 
 /**
@@ -160,26 +138,4 @@ fun RawOption.choice(
     ignoreCase: Boolean = false,
 ): NullableOption<String, String> {
     return choice(choices.associateBy { it }, metavar, ignoreCase)
-}
-
-/**
- * Convert the option to the values of an enum.
- *
- * If [ignoreCase] is `false`, the option will only accept values that match the case of the enum values.
- *
- * ### Example:
- *
- * ```
- * enum class Size { SMALL, LARGE }
- * option().enum<Size>()
- * ```
- *
- * @param key A block that returns the command line value to use for an enum value. The default is
- *   the enum name.
- */
-inline fun <reified T : Enum<T>> RawOption.enum(
-    ignoreCase: Boolean = true,
-    key: (T) -> String = { it.name },
-): NullableOption<T, T> {
-    return choice(enumValues<T>().associateBy { key(it) }, ignoreCase = ignoreCase)
 }

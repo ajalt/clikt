@@ -78,6 +78,8 @@ arguments.
 
 - [`option().int()` and `argument().int()`][int]
 - [`option().long()` and `argument().long()`][long]
+- [`option().uint()` and `argument().uint()`][uint]
+- [`option().ulong()` and `argument().ulong()`][ulong]
 
 By default, any value that fits in the integer type is accepted.
 You can restrict the values to a range with [`restrictTo()`][restrictTo],
@@ -96,7 +98,7 @@ As with integers, you can restrict the input to a range with [`restrictTo()`][re
 - [`option().flag()`][flag]
 - [`option().boolean()` and `argument().boolean()`][boolean]
 
-You will normally want to use [flag] options for boolean parameters. Explicit [boolean] value
+You will normally want to use [flags][flag] for boolean options. Explicit [boolean] value
 conversion is also available if you need, for example, a tri-state `Boolean?` parameter.
 
 ### Choice
@@ -357,5 +359,7 @@ been set, so (unlike in transforms) you can reference other parameters:
 [outputStream]:   api/clikt/com.github.ajalt.clikt.parameters.types/output-stream.html
 [path]:           api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [restrictTo]:     api/clikt/com.github.ajalt.clikt.parameters.types/restrict-to.html
+[uint]:            api/clikt/com.github.ajalt.clikt.parameters.types/uint.html
+[ulong]:           api/clikt/com.github.ajalt.clikt.parameters.types/ulong.html
 [validateArg]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.html
 [validateOpt]:    api/clikt/com.github.ajalt.clikt.parameters.options/validate.html

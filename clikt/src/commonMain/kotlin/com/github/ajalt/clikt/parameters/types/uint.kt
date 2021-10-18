@@ -9,20 +9,21 @@ import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 
-private fun valueToInt(context: Context, it: String): Int {
-    return it.toIntOrNull() ?: throw BadParameterValue(context.localization.intConversionError(it))
+
+private fun valueToUInt(context: Context, it: String): UInt {
+    return it.toUIntOrNull() ?: throw BadParameterValue(context.localization.intConversionError(it))
 }
 
-/** Convert the argument values to an `Int` */
-fun RawArgument.int(): ProcessedArgument<Int, Int> = convert { valueToInt(context, it) }
+/** Convert the argument values to an `UInt` */
+fun RawArgument.uint(): ProcessedArgument<UInt, UInt> = convert { valueToUInt(context, it) }
 
 /**
- * Convert the option values to an `Int`
+ * Convert the option values to a `UInt`
  *
  * @param acceptsValueWithoutName If `true`, this option can be specified like `-2` or `-3` in
  *   addition to `--opt=2` or `-o3`
  */
-fun RawOption.int(acceptsValueWithoutName: Boolean = false): NullableOption<Int, Int> {
-    return convert({ localization.intMetavar() }) { valueToInt(context, it) }
+fun RawOption.uint(acceptsValueWithoutName: Boolean = false): NullableOption<UInt, UInt> {
+    return convert({ localization.intMetavar() }) { valueToUInt(context, it) }
         .copy(acceptsNumberValueWithoutName = acceptsValueWithoutName)
 }

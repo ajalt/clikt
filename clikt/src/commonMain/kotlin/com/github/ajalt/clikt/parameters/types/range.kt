@@ -2,7 +2,9 @@ package com.github.ajalt.clikt.parameters.types
 
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
+import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
+import com.github.ajalt.clikt.parameters.options.convert
 
 private inline fun <T : Comparable<T>> checkRange(
     it: T,
@@ -43,14 +45,11 @@ private inline fun <T : Comparable<T>> checkRange(
  * argument().int().restrictTo(max=10, clamp=true).default(10)
  * ```
  */
-fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: T? = null, clamp: Boolean = false)
-        : ProcessedArgument<T, T> {
-    return copy(
-        { checkRange(transformValue(it), min, max, clamp, context, ::fail) },
-        transformAll,
-        transformValidator
-    )
-}
+fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(
+    min: T? = null,
+    max: T? = null,
+    clamp: Boolean = false,
+): ProcessedArgument<T, T> = convert { checkRange(it, min, max, clamp, context, ::fail) }
 
 /**
  * Restrict the argument values to fit into a range.
@@ -70,9 +69,7 @@ fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(min: T? = null, max: 
 fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(
     range: ClosedRange<T>,
     clamp: Boolean = false,
-): ProcessedArgument<T, T> {
-    return restrictTo(range.start, range.endInclusive, clamp)
-}
+): ProcessedArgument<T, T> = restrictTo(range.start, range.endInclusive, clamp)
 
 // Options
 
@@ -95,14 +92,7 @@ fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(
     min: T? = null,
     max: T? = null,
     clamp: Boolean = false,
-): OptionWithValues<T?, T, T> {
-    return copy(
-        { checkRange(transformValue(it), min, max, clamp, context, ::fail) },
-        transformEach,
-        transformAll,
-        transformValidator
-    )
-}
+): OptionWithValues<T?, T, T> = convert { checkRange(it, min, max, clamp, context, ::fail) }
 
 
 /**
@@ -123,6 +113,4 @@ fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(
 fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(
     range: ClosedRange<T>,
     clamp: Boolean = false,
-): OptionWithValues<T?, T, T> {
-    return restrictTo(range.start, range.endInclusive, clamp)
-}
+): OptionWithValues<T?, T, T> = restrictTo(range.start, range.endInclusive, clamp)

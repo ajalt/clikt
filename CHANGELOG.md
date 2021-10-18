@@ -47,6 +47,7 @@
 
 - Added `obj` setter to context builder as an alternative to `currentContext.obj`
 - Added `option().boolean()` and `argument().boolean()`
+- `uint()` and `ulong()` parameter type conversions.
 
 ### Changed
 - Updated Kotlin to 1.6.20

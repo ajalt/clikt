@@ -23,7 +23,11 @@ kotlin {
             languageSettings.optIn("kotlin.RequiresOptIn")
         }
 
-        val commonMain by getting {}
+        val commonMain by getting {
+            dependencies {
+                api("com.github.ajalt.mordant:mordant:2.0.0-beta3")
+            }
+        }
 
         val commonTest by getting {
             dependencies {

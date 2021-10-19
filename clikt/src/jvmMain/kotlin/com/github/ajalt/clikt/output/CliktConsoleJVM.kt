@@ -41,5 +41,5 @@ class NonInteractiveCliktConsole : CliktConsole {
 
 actual fun defaultCliktConsole(): CliktConsole {
     return System.console()?.let { InteractiveCliktConsole(it) }
-        ?: NonInteractiveCliktConsole()
+            ?: NonInteractiveCliktConsole()
 }

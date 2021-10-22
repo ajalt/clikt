@@ -209,7 +209,7 @@ If you don't want a help option to be added, you can set
 ## Default Values in Help
 
 You can configure the help formatter to show default values in the help output by passing
-`showRequiredTag = true` to the `CliktHelpFormatter`. By default, the string value of the
+`showDefaultValues = true` to the `CliktHelpFormatter`. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the `defaultForHelp` parameter of [`default`][default].
 

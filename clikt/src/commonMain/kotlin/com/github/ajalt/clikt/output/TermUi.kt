@@ -85,6 +85,7 @@ object TermUi {
      * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
      * @param promptSuffix A delimiter printed between the [text] and the user's input.
      * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @param console The console to use for input and output.
      * @param convert A callback that will convert the text that the user enters to the return value of the
      *   function. If the callback raises a [UsageError], its message will be printed and the user will be
      *   asked to enter a new value. If [default] is not null and the user does not input a value, the value
@@ -118,7 +119,7 @@ object TermUi {
                 val result = try {
                     convert.invoke(value)
                 } catch (err: UsageError) {
-                    echo(err.helpMessage(), console = console)
+                    echo(err.formatMessage(), console = console)
                     continue
                 }
 
@@ -154,7 +155,6 @@ object TermUi {
      * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
      * @param promptSuffix A delimiter printed between the [text] and the user's input.
      * @param showDefault If true, the [default] value will be shown as part of the prompt.
-     * @param console The console to prompt to
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     @Deprecated("Use CliktCommand.prompt instead")

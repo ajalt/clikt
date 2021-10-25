@@ -498,7 +498,7 @@ inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
         try {
             conversion(transformValue(it))
         } catch (err: UsageError) {
-            err.argument = argument
+            err.paramName = err.paramName ?: argument.name
             throw err
         } catch (err: Exception) {
             fail(err.message ?: "")

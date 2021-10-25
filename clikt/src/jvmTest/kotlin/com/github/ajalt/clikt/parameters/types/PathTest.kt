@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import com.google.common.jimfs.Configuration
 import com.google.common.jimfs.Jimfs
@@ -98,7 +99,7 @@ class PathTest {
 
         shouldThrow<BadParameterValue> {
             C().parse("-f/var/foo")
-        }.message shouldBe """Invalid value for "-f": Directory "/var/foo" is a file."""
+        }.formattedMessage shouldBe """Invalid value for "-f": Directory "/var/foo" is a file."""
     }
 
     @Test
@@ -111,7 +112,7 @@ class PathTest {
 
         shouldThrow<BadParameterValue> {
             C().parse("-f/var/foo")
-        }.message shouldBe """Invalid value for "-f": File "/var/foo" is a directory."""
+        }.formattedMessage shouldBe """Invalid value for "-f": File "/var/foo" is a directory."""
     }
 
     @Test
@@ -122,6 +123,6 @@ class PathTest {
 
         shouldThrow<BadParameterValue> {
             C().parse("-h /home/cli")
-        }.message shouldBe """Invalid value for "-h": Path "/home/cli" does not exist."""
+        }.formattedMessage shouldBe """Invalid value for "-h": Path "/home/cli" does not exist."""
     }
 }

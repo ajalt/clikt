@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -66,10 +67,10 @@ class EnumTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .message shouldBe "Invalid value for \"--foo\": invalid choice: bar. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for \"--foo\": invalid choice: bar. (choose from A, B)"
 
         shouldThrow<BadParameterValue> { C().parse("--foo a") }
-            .message shouldBe "Invalid value for \"--foo\": invalid choice: a. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for \"--foo\": invalid choice: a. (choose from A, B)"
     }
 
     @Test
@@ -136,9 +137,9 @@ class EnumTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("bar") }
-            .message shouldBe "Invalid value for \"FOO\": invalid choice: bar. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for \"FOO\": invalid choice: bar. (choose from A, B)"
 
         shouldThrow<BadParameterValue> { C().parse("a") }
-            .message shouldBe "Invalid value for \"FOO\": invalid choice: a. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for \"FOO\": invalid choice: a. (choose from A, B)"
     }
 }

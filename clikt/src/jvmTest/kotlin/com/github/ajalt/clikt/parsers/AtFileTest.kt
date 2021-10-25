@@ -91,7 +91,7 @@ class AtFileTest {
         """.trimMargin())
 
         shouldThrow<UsageError> { C().parse("@${file.path}") }
-            .text shouldContain "unclosed quote"
+            .message shouldContain "unclosed quote"
     }
 
     @Test

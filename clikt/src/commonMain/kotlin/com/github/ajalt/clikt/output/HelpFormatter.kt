@@ -1,5 +1,7 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.UsageError
+
 /**
  * Creates help and usage strings for a command.
  *
@@ -22,6 +24,8 @@ interface HelpFormatter {
      * @param programName The name of the currently executing program
      */
     fun formatHelp(prolog: String, epilog: String, parameters: List<ParameterHelp>, programName: String = ""): String
+
+    fun formatUsageError(error: UsageError, parameters: List<ParameterHelp>, programName: String = ""): String
 
     sealed class ParameterHelp {
         /**

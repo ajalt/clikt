@@ -71,7 +71,7 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
         try {
             conversion(transformValue(it))
         } catch (err: UsageError) {
-            err.paramName = name
+            err.paramName = err.paramName ?: name.takeUnless { n -> n.isEmpty() } ?: option.longestName()
             throw err
         } catch (err: Exception) {
             fail(err.message ?: "")

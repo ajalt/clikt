@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT33294
 import com.github.ajalt.clikt.testing.skipDueToKT43490
@@ -31,7 +32,7 @@ class ArgumentTest {
         }
 
         shouldThrow<MissingArgument> { C().parse("") }
-            .message shouldBe "Missing argument \"FOO\""
+            .formattedMessage shouldBe "Missing argument \"FOO\""
     }
 
     @Test
@@ -125,7 +126,7 @@ class ArgumentTest {
         C().parse("1 2")
 
         shouldThrow<MissingArgument> { C().parse("") }
-            .message shouldBe "Missing argument \"X\""
+            .formattedMessage shouldBe "Missing argument \"X\""
     }
 
     @Test
@@ -166,11 +167,11 @@ class ArgumentTest {
             val x by argument().pair()
         }
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo") }
-            .message shouldBe "argument X requires 2 values"
+            .formattedMessage shouldBe "argument X requires 2 values"
         shouldThrow<UsageError> { C().parse("foo bar baz") }
-            .message shouldBe "Got unexpected extra argument (baz)"
+            .formattedMessage shouldBe "Got unexpected extra argument (baz)"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
-            .message shouldBe "Got unexpected extra arguments (baz qux)"
+            .formattedMessage shouldBe "Got unexpected extra arguments (baz qux)"
     }
 
     @Test
@@ -182,9 +183,9 @@ class ArgumentTest {
         }
 
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo bar") }
-            .message shouldBe "argument X requires 3 values"
+            .formattedMessage shouldBe "argument X requires 3 values"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
-            .message shouldBe "Got unexpected extra argument (qux)"
+            .formattedMessage shouldBe "Got unexpected extra argument (qux)"
 
     }
 
@@ -278,7 +279,7 @@ class ArgumentTest {
         }
         shouldThrow<MissingArgument> {
             C().parse("")
-        }.message!! should contain("BAR")
+        }.formattedMessage should contain("BAR")
     }
 
     @Test
@@ -310,7 +311,7 @@ class ArgumentTest {
         }
 
         val ex = shouldThrow<MissingArgument> { C().parse("") }
-        ex.message!! should contain("Missing argument \"FOO\"")
+        ex.formattedMessage should contain("Missing argument \"FOO\"")
     }
 
     @Test
@@ -387,7 +388,7 @@ class ArgumentTest {
             val w by argument().optional().check(lazyMessage = { "fail $it" }) { it == "foo" }
         }
 
-        shouldThrow<BadParameterValue> { C().parse(argv) }.message shouldBe message
+        shouldThrow<BadParameterValue> { C().parse(argv) }.formattedMessage shouldBe message
     }
 
     @Test
@@ -449,12 +450,10 @@ class ArgumentTest {
         }
 
         var ex = shouldThrow<BadParameterValue> { C().parse("uerr") }
-        ex.argument shouldNotBe null
-        ex.argument?.name shouldBe "X"
+        ex.paramName shouldBe "X"
 
         ex = shouldThrow { C().parse("err") }
-        ex.argument shouldNotBe null
-        ex.argument?.name shouldBe "X"
+        ex.paramName shouldBe "X"
     }
 
     @Test

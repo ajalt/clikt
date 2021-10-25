@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
@@ -33,10 +34,10 @@ class OptionChoiceTest {
 
         if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx baz") }
-            .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("--xx FOO") }
-            .message shouldBe "Invalid value for \"--xx\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -59,13 +60,13 @@ class OptionChoiceTest {
 
         if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("-x baz") }
-            .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("--xx=baz") }
-            .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("-x FOO") }
-            .message shouldBe "Invalid value for \"-x\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -90,7 +91,7 @@ class OptionChoiceTest {
 
         if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("-xbaz") }
-            .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -115,10 +116,10 @@ class OptionChoiceTest {
 
         if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz") }
-            .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
-            .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -143,10 +144,10 @@ class OptionChoiceTest {
 
         if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz") }
-            .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
-            .message shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -171,6 +172,6 @@ class OptionChoiceTest {
 
         if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz qux") }
-            .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
     }
 }

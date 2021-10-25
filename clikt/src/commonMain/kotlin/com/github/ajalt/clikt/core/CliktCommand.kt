@@ -236,15 +236,33 @@ abstract class CliktCommand(
 
     /** Return the usage string for this command. */
     open fun getFormattedUsage(): String {
-        val programName = getCommandNameWithParents()
-        return currentContext.helpFormatter.formatUsage(allHelpParams(), programName = programName)
+        return currentContext.helpFormatter.formatUsage(allHelpParams(), getCommandNameWithParents())
     }
 
     /** Return the full help string for this command. */
     open fun getFormattedHelp(): String {
-        val programName = getCommandNameWithParents()
         return currentContext.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
-            allHelpParams(), programName = programName)
+            allHelpParams(), getCommandNameWithParents())
+    }
+
+    open fun getFormattedError(error: CliktError): String? {
+        return when (error) {
+            is PrintHelpMessage -> getFormattedHelp()
+            is UsageError -> {
+                val ctx = error.context ?: currentContext
+                val cmd = ctx.command
+                ctx.helpFormatter.formatUsageError(error, cmd.allHelpParams(), cmd.getCommandNameWithParents())
+            }
+            else -> error.message
+        }
+    }
+
+    fun echoFormattedError(error: CliktError) {
+        val msg = getFormattedError(error)
+        if (msg != null) {
+            val s = if (error.forceUnixLineEndings) "\n" else currentContext.console.lineSeparator
+            echo(msg, err = error.printError, lineSeparator = s)
+        }
     }
 
     /**
@@ -412,33 +430,15 @@ abstract class CliktCommand(
     /**
      * Parse the command line and print helpful output if any errors occur.
      *
-     * This function calls [parse] and catches and [CliktError]s that are thrown. Other errors are allowed to
+     * This function calls [parse] and catches any [CliktError]s that are thrown. Other errors are allowed to
      * pass through.
      */
     fun main(argv: List<String>) {
         try {
             parse(argv)
-        } catch (e: ProgramResult) {
-            exitProcessMpp(e.statusCode)
-        } catch (e: PrintHelpMessage) {
-            echo(e.command.getFormattedHelp())
-            exitProcessMpp(if (e.error) 1 else 0)
-        } catch (e: PrintCompletionMessage) {
-            val s = if (e.forceUnixLineEndings) "\n" else currentContext.console.lineSeparator
-            echo(e.message, lineSeparator = s)
-            exitProcessMpp(0)
-        } catch (e: PrintMessage) {
-            echo(e.message)
-            exitProcessMpp(if (e.error) 1 else 0)
-        } catch (e: UsageError) {
-            echo(e.helpMessage(), err = true)
-            exitProcessMpp(e.statusCode)
         } catch (e: CliktError) {
-            echo(e.message, err = true)
-            exitProcessMpp(1)
-        } catch (e: Abort) {
-            echo(currentContext.localization.aborted(), err = true)
-            exitProcessMpp(if (e.error) 1 else 0)
+            echoFormattedError(e)
+            exitProcessMpp(e.statusCode)
         }
     }
 

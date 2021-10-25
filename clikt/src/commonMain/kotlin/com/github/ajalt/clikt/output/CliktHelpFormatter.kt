@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.mpp.graphemeLengthMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
 
@@ -38,6 +39,17 @@ open class CliktHelpFormatter(
         addArguments(parameters)
         addCommands(parameters)
         addEpilog(epilog)
+    }
+
+    override fun formatUsageError(
+        error: UsageError,
+        parameters: List<HelpFormatter.ParameterHelp>,
+        programName: String,
+    ): String = buildString {
+        append(formatUsage(parameters, programName))
+        append("\n\n")
+        append(localization.usageError()).append(" ")
+        append(error.formatMessage())
     }
 
     protected open fun StringBuilder.addUsage(

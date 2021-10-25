@@ -12,7 +12,7 @@ interface Localization {
     fun aborted() = "Aborted!"
 
     /** Prefix for any [UsageError] */
-    fun usageError(message: String) = "Error: $message"
+    fun usageError() = "Error:"
 
     /** Message for [BadParameterValue] */
     fun badParameter() = "Invalid value"

@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
@@ -44,7 +45,7 @@ class DoubleTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .message shouldBe "Invalid value for \"--foo\": bar is not a valid floating point value"
+            .formattedMessage shouldBe "Invalid value for \"--foo\": bar is not a valid floating point value"
     }
 
     @Test

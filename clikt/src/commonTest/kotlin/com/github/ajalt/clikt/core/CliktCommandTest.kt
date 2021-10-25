@@ -11,6 +11,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
@@ -132,9 +133,10 @@ class CliktCommandTest {
             val arg by argument()
         }
 
+        val p = Parent()
         shouldThrow<UsageError> {
-            Parent().parse("")
-        }.helpMessage() shouldBe """
+            p.parse("")
+        }.let { p.getFormattedError(it) } shouldBe """
             |Usage: parent [OPTIONS] ARG
             |
             |Error: Missing argument "ARG"
@@ -267,6 +269,6 @@ class CliktCommandTest {
         if (skipDueToKT43490) return
         shouldThrow<NoSuchOption> {
             C(false).parse("-fgi")
-        }.message shouldBe "no such option: \"-g\""
+        }.formattedMessage shouldBe "no such option: \"-g\""
     }
 }

@@ -234,29 +234,32 @@ abstract class CliktCommand(
         _groups += group
     }
 
-    /** Return the usage string for this command. */
-    open fun getFormattedUsage(): String {
-        return currentContext.helpFormatter.formatUsage(allHelpParams(), getCommandNameWithParents())
-    }
-
     /** Return the full help string for this command. */
-    open fun getFormattedHelp(): String {
+    fun getFormattedHelp(): String {
+        val programName = getCommandNameWithParents()
         return currentContext.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
-            allHelpParams(), getCommandNameWithParents())
+            allHelpParams(), programName)
     }
 
-    open fun getFormattedError(error: CliktError): String? {
+    /**
+     * Return a help string for a given [error]
+     */
+    fun getFormattedError(error: CliktError): String? {
         return when (error) {
             is PrintHelpMessage -> getFormattedHelp()
             is UsageError -> {
                 val ctx = error.context ?: currentContext
                 val cmd = ctx.command
-                ctx.helpFormatter.formatUsageError(error, cmd.allHelpParams(), cmd.getCommandNameWithParents())
+                val programName = cmd.getCommandNameWithParents()
+                ctx.helpFormatter.formatUsageError(error, cmd.allHelpParams(), programName)
             }
             else -> error.message
         }
     }
 
+    /**
+     * Echo the string returned by [getFormattedError].
+     */
     fun echoFormattedError(error: CliktError) {
         val msg = getFormattedError(error)
         if (msg != null) {

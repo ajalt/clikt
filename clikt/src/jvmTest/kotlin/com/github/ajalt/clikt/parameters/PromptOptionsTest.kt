@@ -40,7 +40,7 @@ class PromptOptionsTest {
     fun `manual prompt conversion`() {
         stdin.provideLines("bar", "11")
         val input = TermUi.prompt("Foo") { it.toIntOrNull() ?: throw UsageError("boo") }
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Error: boo\nFoo: "
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: boo\nFoo: "
         input shouldBe 11
     }
 
@@ -97,7 +97,7 @@ class PromptOptionsTest {
             }
         }
         C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Error: Invalid value for \"--foo\": f\nFoo: "
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Invalid value for \"--foo\": f\nFoo: "
     }
 
 

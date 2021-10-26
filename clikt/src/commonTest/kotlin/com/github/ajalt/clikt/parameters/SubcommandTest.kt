@@ -250,6 +250,7 @@ class SubcommandTest {
         class Parent : TestCommand()
         class Child : TestCommand()
         class Grandchild : TestCommand(called = false) {
+            @Suppress("unused")
             val arg by argument()
         }
 

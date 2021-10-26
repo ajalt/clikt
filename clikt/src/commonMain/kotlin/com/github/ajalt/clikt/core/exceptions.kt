@@ -70,15 +70,12 @@ class PrintCompletionMessage(
 /**
  * An internal exception that signals a usage error.
  *
- * The [option] and [argument] properties are used in message formatting, and can be set after the exception
- * is created. If this is thrown inside a call to [convert], the [argument] or [option] value will be set
- * automatically
- *
- * @property text Extra text to add to the message. Not all subclasses uses this.
- * @property paramName The name of the parameter that caused the error. If possible, this should be set to the
- *   actual name used. If not set, it will be inferred from [argument] or [option] if either is set.
- * @property option The option that caused this error. This may be set after the error is thrown.
- * @property argument The argument that caused this error. This may be set after the error is thrown.
+ * @property message The error message. Subclasses can leave this null and use [formatMessage] instead.
+ * @property paramName The name of the parameter that caused the error. If possible, this should be
+ *   set to the actual name used. Will be set automatically if thrown from a `convert` lambda.
+ * @property context The context of the command that raised this error. Will be set automatically if
+ *   thrown during command line processing.
+ * @property statusCode The process status code to use if exiting the process as a result of this error.
  */
 open class UsageError(
     message: String?,

@@ -522,6 +522,7 @@ private fun Any.classSimpleName(): String = this::class.simpleName.orEmpty().spl
 
 private fun CliktCommand.inferCommandName(): String {
     val name = classSimpleName()
+    if (name == "Command") return "command"
     return name.removeSuffix("Command").replace(Regex("([a-z])([A-Z])")) {
         "${it.groupValues[1]}-${it.groupValues[2]}"
     }.lowercase()

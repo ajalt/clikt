@@ -7,14 +7,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka") version "1.4.32"
+    id("org.jetbrains.dokka") version "1.6.10"
     id("maven-publish")
     id("signing")
 }
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka:dokka-base:1.4.32")
+        classpath("org.jetbrains.dokka:dokka-base:1.6.10")
     }
 }
 
@@ -48,7 +48,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 api(kotlin("test"))
-                api("io.kotest:kotest-assertions-core:4.5.0")
+                api("io.kotest:kotest-assertions-core:5.0.3")
             }
         }
 

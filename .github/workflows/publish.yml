@@ -23,9 +23,8 @@ jobs:
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
-      - uses: eskatos/gradle-command-action@v1
+      - uses: eskatos/gradle-command-action@v2
         with:
-          dependencies-cache-enabled: true
           arguments: ${{matrix.TEST_TASK}} --stacktrace
       - name: Bundle the build report
         if: failure()
@@ -37,24 +36,15 @@ jobs:
           name: error-report
           path: build-reports.zip
   deploy:
-    strategy:
-      matrix:
-        os: [ macos-latest, windows-latest ]
-        include:
-          - os: macos-latest
-            DEPLOY_TASK: :clikt:publish
-          - os: windows-latest
-            DEPLOY_TASK: :clikt:publishMingwX64PublicationToMavenRepository
     needs: test
-    runs-on: ${{matrix.os}}
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Fetch git tags
         run: git fetch origin +refs/tags/*:refs/tags/*
-      - uses: eskatos/gradle-command-action@v1
+      - uses: eskatos/gradle-command-action@v2
         with:
-          dependencies-cache-enabled: true
-          arguments: ${{matrix.DEPLOY_TASK}} --stacktrace -PinferVersion=true
+          arguments: publish --stacktrace -PinferVersion=true
 
 env:
   GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx5g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"

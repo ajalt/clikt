@@ -385,6 +385,24 @@ abstract class CliktCommand(
     }
 
     /**
+     * Parsing exception hook.
+     *
+     * @param e An exception.
+     */
+    protected open fun onUsageError(e: UsageError) {
+        // nothing to do here, but this can be overridden
+    }
+
+    /**
+     * Parsing exception hook.
+     *
+     * @param e An exception.
+     */
+    protected open fun onCliktError(e: CliktError) {
+        // nothing to do here, but this can be overridden
+    }
+
+    /**
      * Parse the command line and throw an exception if parsing fails.
      *
      * You should use [main] instead unless you want to handle output yourself.
@@ -422,9 +440,11 @@ abstract class CliktCommand(
             exitProcessMpp(if (e.error) 1 else 0)
         } catch (e: UsageError) {
             echo(e.helpMessage(), err = true)
+            onUsageError(e)
             exitProcessMpp(e.statusCode)
         } catch (e: CliktError) {
             echo(e.message, err = true)
+            onCliktError(e)
             exitProcessMpp(1)
         } catch (e: Abort) {
             echo(currentContext.localization.aborted(), err = true)

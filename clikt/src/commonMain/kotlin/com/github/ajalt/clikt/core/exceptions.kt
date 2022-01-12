@@ -104,10 +104,10 @@ open class UsageError(
  * A parameter was given the correct number of values, but of invalid format or type.
  */
 class BadParameterValue : UsageError {
-    constructor(message: String) : super(message, null)
-    constructor(message: String, paramName: String) : super(message, paramName)
-    constructor(message: String, argument: Argument) : super(message, argument)
-    constructor(message: String, option: Option) : super(message, option)
+    constructor(message: String, context: Context? = null) : super(message, null, context)
+    constructor(message: String, paramName: String, context: Context? = null) : super(message, paramName, context)
+    constructor(message: String, argument: Argument, context: Context? = null) : super(message, argument, context)
+    constructor(message: String, option: Option, context: Context? = null) : super(message, option, context)
 
     override fun formatMessage(): String {
         val m = message.takeUnless { it.isNullOrBlank() }
@@ -124,12 +124,12 @@ class BadParameterValue : UsageError {
 }
 
 /** A required option was not provided */
-class MissingOption(option: Option) : UsageError(option) {
+class MissingOption(option: Option, context: Context? = null) : UsageError(option, context = context) {
     override fun formatMessage() = localization.missingOption(paramName ?: "")
 }
 
 /** A required argument was not provided */
-class MissingArgument(argument: Argument) : UsageError(argument) {
+class MissingArgument(argument: Argument, context: Context? = null) : UsageError(argument, context = context) {
     override fun formatMessage() = localization.missingArgument(paramName ?: "")
 }
 
@@ -137,7 +137,8 @@ class MissingArgument(argument: Argument) : UsageError(argument) {
 class NoSuchSubcommand(
     paramName: String,
     private val possibilities: List<String> = emptyList(),
-) : UsageError(null, paramName = paramName) {
+    context: Context? = null,
+) : UsageError(null, paramName = paramName, context = context) {
     override fun formatMessage(): String {
         return localization.noSuchSubcommand(paramName ?: "", possibilities)
     }
@@ -148,7 +149,8 @@ class NoSuchSubcommand(
 class NoSuchOption(
     paramName: String,
     private val possibilities: List<String> = emptyList(),
-) : UsageError(null, paramName = paramName) {
+    context: Context? = null,
+) : UsageError(null, paramName = paramName, context = context) {
     override fun formatMessage(): String {
         return localization.noSuchOption(paramName ?: "", possibilities)
     }
@@ -156,8 +158,13 @@ class NoSuchOption(
 
 
 /** An option was supplied but the number of values supplied to the option was incorrect. */
-class IncorrectOptionValueCount(private val minValues: Int, paramName: String) : UsageError(null, paramName) {
-    constructor(option: Option, paramName: String) : this(option.nvalues.first, paramName)
+class IncorrectOptionValueCount(
+    private val minValues: Int,
+    paramName: String,
+    context: Context? = null,
+) : UsageError(null, paramName, context = context) {
+    constructor(option: Option, paramName: String, context: Context? = null)
+            : this(option.nvalues.first, paramName, context = context)
 
     override fun formatMessage(): String {
         return localization.incorrectOptionValueCount(paramName ?: "", minValues)
@@ -165,15 +172,24 @@ class IncorrectOptionValueCount(private val minValues: Int, paramName: String) :
 }
 
 /** An argument was supplied but the number of values supplied was incorrect. */
-class IncorrectArgumentValueCount(val nvalues: Int, argument: Argument) : UsageError(argument) {
-    constructor(argument: Argument) : this(argument.nvalues, argument)
+class IncorrectArgumentValueCount(
+    val nvalues: Int,
+    argument: Argument,
+    context: Context? = null,
+
+    ) : UsageError(argument, context = context) {
+    constructor(argument: Argument, context: Context? = null)
+            : this(argument.nvalues, argument, context = context)
 
     override fun formatMessage(): String {
         return localization.incorrectArgumentValueCount(paramName ?: "", nvalues)
     }
 }
 
-class MutuallyExclusiveGroupException(val names: List<String>) : UsageError(null) {
+class MutuallyExclusiveGroupException(
+    val names: List<String>,
+    context: Context? = null,
+) : UsageError(null, context = context) {
     init {
         require(names.size > 1) { "must provide at least two names" }
     }
@@ -184,7 +200,10 @@ class MutuallyExclusiveGroupException(val names: List<String>) : UsageError(null
 }
 
 /** A required configuration file was not found. */
-class FileNotFound(val filename: String) : UsageError(null) {
+class FileNotFound(
+    val filename: String,
+    context: Context? = null,
+) : UsageError(null, context = context) {
     override fun formatMessage(): String {
         return localization.fileNotFound(filename)
     }
@@ -195,7 +214,8 @@ class InvalidFileFormat(
     private val filename: String,
     message: String,
     private val lineno: Int? = null,
-) : UsageError(message) {
+    context: Context? = null,
+) : UsageError(message, context = context) {
     override fun formatMessage(): String {
         return when (lineno) {
             null -> localization.invalidFileFormat(filename, message!!)

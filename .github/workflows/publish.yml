@@ -46,17 +46,7 @@ jobs:
           path: build-reports.zip
   deploy:
     needs: test
-    strategy:
-      matrix:
-        os: [ macos-latest,  windows-latest, ubuntu-latest ]
-        include:
-          - os: macos-latest
-            PUBLISH_TASK: :clikt:publishMacosX64PublicationToMavenRepository
-          - os: windows-latest
-            PUBLISH_TASK: :clikt:publishMingwX64PublicationToMavenRepository
-          - os: ubuntu-latest
-            PUBLISH_TASK: :clikt:publish
-    runs-on: ${{matrix.os}}
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Fetch git tags
@@ -72,7 +62,7 @@ jobs:
           java-version: 11
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: ${{matrix.PUBLISH_TASK}} --stacktrace -PinferVersion=true
+          arguments: publish --stacktrace -PinferVersion=true
 
 env:
   GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx5g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"

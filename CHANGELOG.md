@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+### Changed
+- `unique()` now works with any option with a list type, not just `multiple()` options.
+- Update got Kotlin 1.6.10
+
 ## 3.3.0
 ### Added
 - Added `default` parameter to `argument().multiple()` ([#305](https://github.com/ajalt/clikt/issues/305))

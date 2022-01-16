@@ -23,7 +23,13 @@ jobs:
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
-      - uses: eskatos/gradle-command-action@v2
+      - name: Cache Kotlin Native Compiler
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-konan-
+      - uses: gradle/gradle-build-action@v2
         with:
           arguments: ${{matrix.TEST_TASK}} --stacktrace
       - name: Bundle the build report
@@ -42,7 +48,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch git tags
         run: git fetch origin +refs/tags/*:refs/tags/*
-      - uses: eskatos/gradle-command-action@v2
+      - name: Cache Kotlin Native Compiler
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-konan-
+      - uses: gradle/gradle-build-action@v2
         with:
           arguments: publish --stacktrace -PinferVersion=true
 

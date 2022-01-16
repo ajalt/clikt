@@ -135,15 +135,16 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.multiple(
 }
 
 /**
- * Make the [multiple] option return a unique set of calls
+ * Make a [multiple] option return a unique set of values
  *
  * ### Example:
  *
  * ```
  * val opt: Set<Int> by option().int().multiple().unique()
+ * val opt2: Set<Int> by option().int().split(",").default(emptyList()).unique()
  * ```
  */
-fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique(): OptionWithValues<Set<EachT>, EachT, ValueT> {
+fun <T, EachT, ValueT> OptionWithValues<List<T>, EachT, ValueT>.unique(): OptionWithValues<Set<T>, EachT, ValueT> {
     return copy(transformValue, transformEach, { transformAll(it).toSet() }, defaultValidator())
 }
 
@@ -152,13 +153,8 @@ fun <EachT : Any, ValueT> OptionWithValues<List<EachT>, EachT, ValueT>.unique():
  *
  * If the same key appears more than once, the last one will be added to the map.
  */
-fun <A, B> OptionWithValues<List<Pair<A, B>>, Pair<A, B>, Pair<A, B>>.toMap(): OptionWithValues<Map<A, B>, Pair<A, B>, Pair<A, B>> {
-    return copy(
-        transformValue = transformValue,
-        transformEach = transformEach,
-        transformAll = { transformAll(it).toMap() },
-        validator = defaultValidator()
-    )
+fun <A, B, EachT, ValueT> OptionWithValues<List<Pair<A, B>>, EachT, ValueT>.toMap(): OptionWithValues<Map<A, B>, EachT, ValueT> {
+    return copy(transformValue, transformEach, { transformAll(it).toMap() }, defaultValidator())
 }
 
 /**

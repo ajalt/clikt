@@ -2,8 +2,11 @@
 
 ## Unreleased
 ### Changed
-- `unique()` now works with any option with a list type, not just `multiple()` options.
-- Update got Kotlin 1.6.10
+- `unique()` now works with any option with a list type, not just `multiple()` options ([#332](https://github.com/ajalt/clikt/issues/332))
+- Updated Kotlin to 1.6.10
+
+### Fixed
+- Fixed co-occurring option groups returning null when all options in the group are defined in environment variables ([#330](https://github.com/ajalt/clikt/issues/330))
 
 ## 3.3.0
 ### Added

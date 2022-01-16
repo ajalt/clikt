@@ -3,6 +3,9 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
+import com.github.ajalt.clikt.parameters.groups.cooccurring
+import com.github.ajalt.clikt.parameters.groups.provideDelegate
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -176,5 +179,32 @@ class EnvvarOptionsTest {
 
         C().withEnv().parse("")
         source.assert(read = !envvarFirst)
+    }
+
+    @Test
+    @JsName("option_group_envvar")
+    fun `cooccurring option group envvar`() = forAll(
+        row("", "xx", "yy"),
+        row("--x=z", "z", "yy"),
+        row("--y=z", "xx", "z"),
+    ) { argv, ex, ey ->
+        env["X"] = "xx"
+        env["Y"] = "yy"
+
+        class G : OptionGroup() {
+            val x by option(envvar="X").required()
+            val y by option(envvar="Y")
+        }
+
+        class C : TestCommand() {
+            val g by G().cooccurring()
+
+            override fun run_() {
+                g?.x shouldBe ex
+                g?.y shouldBe ey
+            }
+        }
+
+        C().withEnv().parse(argv)
     }
 }

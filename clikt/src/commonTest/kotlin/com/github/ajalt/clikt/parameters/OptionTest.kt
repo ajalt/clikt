@@ -534,6 +534,19 @@ class OptionTest {
     }
 
     @Test
+    @JsName("split_with_unique_option_default")
+    fun `split with unique option default`() {
+        val command = object : TestCommand() {
+            val x: Set<String> by option().split(",").default(emptyList()).unique()
+            override fun run_() {
+                x shouldBe setOf("1", "2")
+            }
+        }
+
+        command.parse("--x=1,2,1")
+    }
+
+    @Test
     @JsName("multiple_required_option")
     fun `multiple required option`() {
         class C(called: Boolean) : TestCommand(called) {

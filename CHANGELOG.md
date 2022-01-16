@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.4.0
 ### Changed
 - `unique()` now works with any option with a list type, not just `multiple()` options ([#332](https://github.com/ajalt/clikt/issues/332))
 - Updated Kotlin to 1.6.10

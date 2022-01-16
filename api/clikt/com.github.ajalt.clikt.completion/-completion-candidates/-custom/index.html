@@ -2,28 +2,35 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>Custom</title>
-<link href="../../../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script><script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../../styles/style.css" rel="Stylesheet"><link href="../../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../../scripts/main.js" async="async"></script><link href="../../../../images/wordmark_small_dark.svg"><link href="../../../../styles/logo-styles.css" rel="Stylesheet">  </head>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../../styles/style.css" rel="Stylesheet"><link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../../styles/main.css" rel="Stylesheet"><link href="../../../../styles/prism.css" rel="Stylesheet"><link href="../../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script><link href="../../../../images/wordmark_small_dark.svg"><link href="../../../../styles/logo-styles.css" rel="Stylesheet">  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../../index.html">clikt</a></div>
+      <div>3.4.0</div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="clikt::com.github.ajalt.clikt.completion/CompletionCandidates.Custom///PointingToDeclaration//-71441751">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../../index.html">clikt</a>/<a href="../../index.html">com.github.ajalt.clikt.completion</a>/<a href="../index.html">CompletionCandidates</a>/<a href="index.html">Custom</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="clikt::com.github.ajalt.clikt.completion/CompletionCandidates.Custom///PointingToDeclaration//-71441751">
+          <div class="breadcrumbs"><a href="../../../../index.html">clikt</a>/<a href="../../index.html">com.github.ajalt.clikt.completion</a>/<a href="../index.html">CompletionCandidates</a>/<a href="index.html">Custom</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Custom</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="index.html">Custom</a>(generator: (<a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?) : <a href="../index.html">CompletionCandidates</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Complete the parameter with words emitted from a custom script.</p><p class="paragraph">The <a href="generator.html">generator</a> takes the type of shell to generate a script for and returns code to add to the generated completion script. If you just want to call another script or binary that prints all possible completion words to stdout, you can use <a href="-companion/from-stdout.html">fromStdout</a>.</p><h2 class=""> Bash/ZSH</h2><p class="paragraph">Both Bash and ZSH scripts use Bash's Programmable Completion system (ZSH via a comparability layer). The string returned from <a href="generator.html">generator</a> should be the body of a function that will be passed to <code>compgen -F</code>.</p><p class="paragraph">Specifically, you should set the variable <code>COMPREPLY</code> to the completion(s) for the current word being typed. The word being typed can be retrieved from the <code>COMP_WORDS</code> array at index <code>COMP_CWORD</code>.</p><h2 class=""> Fish</h2><p class="paragraph">The string returned from <a href="generator.html">generator</a> should be a Fish string with each completion suggestion separated by a newline. Each completion can optionally end with a tab, followed by a description of the suggestion.</p><div class="sample-container"><code class="" theme="idea"><pre>&quot;&quot;&quot;'<br>start<br>stop<br>help\\t&quot;show the help for this command&quot;<br>test\\t&quot;run test suite&quot;<br>'&quot;&quot;&quot;</pre></code></div><p class="paragraph">You can also construct the string from a fish command or function call, e.g.</p><div class="sample-container"><code class="" theme="idea"><pre>&quot;\&quot;(__fish_print_hostnames)\&quot;&quot;</pre></code></div><p class="paragraph">or</p><div class="sample-container"><code class="" theme="idea"><pre>&quot;\&quot;(ls -1)\&quot;&quot;</pre></code></div></div></div>
+            <h1 class="cover"><span><span>Custom</span></span></h1>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Custom</a><span class="token punctuation">(</span>generator<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">)</span> : <a href="../index.html">CompletionCandidates</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Complete the parameter with words emitted from a custom script.</p><p class="paragraph">The <a href="generator.html">generator</a> takes the type of shell to generate a script for and returns code to add to the generated completion script. If you just want to call another script or binary that prints all possible completion words to stdout, you can use <a href="-companion/from-stdout.html">fromStdout</a>.</p><h2 class=""> Bash/ZSH</h2><p class="paragraph">Both Bash and ZSH scripts use Bash's Programmable Completion system (ZSH via a comparability layer). The string returned from <a href="generator.html">generator</a> should be the body of a function that will be passed to <code class="lang-kotlin">compgen -F</code>.</p><p class="paragraph">Specifically, you should set the variable <code class="lang-kotlin">COMPREPLY</code> to the completion(s) for the current word being typed. The word being typed can be retrieved from the <code class="lang-kotlin">COMP_WORDS</code> array at index <code class="lang-kotlin">COMP_CWORD</code>.</p><h2 class=""> Fish</h2><p class="paragraph">The string returned from <a href="generator.html">generator</a> should be a Fish string with each completion suggestion separated by a newline. Each completion can optionally end with a tab, followed by a description of the suggestion.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">&quot;&quot;&quot;'<br>start<br>stop<br>help\\t&quot;show the help for this command&quot;<br>test\\t&quot;run test suite&quot;<br>'&quot;&quot;&quot;</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">You can also construct the string from a fish command or function call, e.g.</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">&quot;\&quot;(__fish_print_hostnames)\&quot;&quot;</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">or</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">&quot;\&quot;(ls -1)\&quot;&quot;</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
@@ -32,15 +39,16 @@
               <div class="table" data-togglable="Constructors"><a data-name="-1530580513%2FConstructors%2F-71441751" anchor-label="Custom" id="-1530580513%2FConstructors%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-custom.html">Custom</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1530580513%2FConstructors%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-custom.html"><span><span>Custom</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1530580513%2FConstructors%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-custom.html">Custom</a>(generator: (<a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-custom.html"><span class="token function">Custom</span></a><span class="token punctuation">(</span>generator<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -50,40 +58,34 @@
               <div class="table" data-togglable="Types"><a data-name="1842689314%2FClasslikes%2F-71441751" anchor-label="Companion" id="1842689314%2FClasslikes%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-companion/index.html">Companion</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1842689314%2FClasslikes%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1842689314%2FClasslikes%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">object <a href="-companion/index.html">Companion</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1154611300%2FClasslikes%2F-71441751" anchor-label="ShellType" id="1154611300%2FClasslikes%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-shell-type/index.html">ShellType</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1154611300%2FClasslikes%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-shell-type/index.html"><span>Shell</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1154611300%2FClasslikes%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-shell-type/index.html">ShellType</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a><span class="token operator">&gt; </span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">enum <a href="-shell-type/index.html">ShellType</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a>&lt;<a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -92,15 +94,16 @@
               <div class="table" data-togglable="Properties"><a data-name="-1482781592%2FProperties%2F-71441751" anchor-label="generator" id="-1482781592%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="generator.html">generator</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1482781592%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="generator.html">generator</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1482781592%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1482781592%2FProperties%2F-71441751" anchor-label="generator" id="-1482781592%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="generator.html">generator</a>: (<a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a>) -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1482781592%2FProperties%2F-71441751" anchor-label="generator" id="-1482781592%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="generator.html">generator</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="-shell-type/index.html">CompletionCandidates.Custom.ShellType</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -109,7 +112,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

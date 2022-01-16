@@ -2,28 +2,35 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>IncorrectOptionValueCount</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script><link href="../../../images/wordmark_small_dark.svg"><link href="../../../styles/logo-styles.css" rel="Stylesheet">  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script><link href="../../../images/wordmark_small_dark.svg"><link href="../../../styles/logo-styles.css" rel="Stylesheet">  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">clikt</a></div>
+      <div>3.4.0</div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="clikt::com.github.ajalt.clikt.core/IncorrectOptionValueCount///PointingToDeclaration//-71441751">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">clikt</a>/<a href="../index.html">com.github.ajalt.clikt.core</a>/<a href="index.html">IncorrectOptionValueCount</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="clikt::com.github.ajalt.clikt.core/IncorrectOptionValueCount///PointingToDeclaration//-71441751">
+          <div class="breadcrumbs"><a href="../../../index.html">clikt</a>/<a href="../index.html">com.github.ajalt.clikt.core</a>/<a href="index.html">IncorrectOptionValueCount</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Incorrect</span><wbr></wbr><span>Option</span><wbr></wbr><span>Value</span><wbr></wbr><span>Count</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">class <a href="index.html">IncorrectOptionValueCount</a>(option: <a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a>, givenName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, context: <a href="../-context/index.html">Context</a>?) : <a href="../-usage-error/index.html">UsageError</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">An option was supplied but the number of values supplied to the option was incorrect.</p></div></div>
+            <h1 class="cover"><span>Incorrect</span><wbr></wbr><span>Option</span><wbr></wbr><span>Value</span><wbr></wbr><span><span>Count</span></span></h1>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">IncorrectOptionValueCount</a><span class="token punctuation">(</span>option<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a><span class="token punctuation">, </span>givenName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>context<span class="token operator">: </span><a href="../-context/index.html">Context</a><span class="token operator">?</span><span class="token punctuation">)</span> : <a href="../-usage-error/index.html">UsageError</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">An option was supplied but the number of values supplied to the option was incorrect.</p></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
@@ -32,15 +39,16 @@
               <div class="table" data-togglable="Constructors"><a data-name="-1819497655%2FConstructors%2F-71441751" anchor-label="IncorrectOptionValueCount" id="-1819497655%2FConstructors%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-incorrect-option-value-count.html">IncorrectOptionValueCount</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1819497655%2FConstructors%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-incorrect-option-value-count.html"><span>Incorrect</span><wbr></wbr><span>Option</span><wbr></wbr><span>Value</span><wbr></wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1819497655%2FConstructors%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-incorrect-option-value-count.html">IncorrectOptionValueCount</a>(option: <a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a>, givenName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, context: <a href="../-context/index.html">Context</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-incorrect-option-value-count.html"><span class="token function">IncorrectOptionValueCount</span></a><span class="token punctuation">(</span>option<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a><span class="token punctuation">, </span>givenName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>context<span class="token operator">: </span><a href="../-context/index.html">Context</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -50,149 +58,154 @@
               <div class="table" data-togglable="Functions"><a data-name="1778640864%2FFunctions%2F-71441751" anchor-label="helpMessage" id="1778640864%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-usage-error/help-message.html">helpMessage</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1778640864%2FFunctions%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/help-message.html"><span>help</span><wbr></wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1778640864%2FFunctions%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-usage-error/help-message.html"><span class="token function">helpMessage</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="../-usage-error/help-message.html">helpMessage</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
               </div>
               <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="765967050%2FProperties%2F-71441751" anchor-label="argument" id="765967050%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+              <div class="table" data-togglable="Properties"><a data-name="-1873705641%2FProperties%2F-71441751" anchor-label="argument" id="-1873705641%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#765967050%2FProperties%2F-71441751">argument</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="765967050%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/argument.html">argument</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1873705641%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="765967050%2FProperties%2F-71441751" anchor-label="argument" id="765967050%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="index.html#765967050%2FProperties%2F-71441751">argument</a>: <a href="../../com.github.ajalt.clikt.parameters.arguments/-argument/index.html">Argument</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="765967050%2FProperties%2F-71441751" anchor-label="argument" id="765967050%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The argument that caused this error.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1873705641%2FProperties%2F-71441751" anchor-label="argument" id="-1873705641%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../-usage-error/argument.html">argument</a><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.arguments/-argument/index.html">Argument</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1873705641%2FProperties%2F-71441751" anchor-label="argument" id="-1873705641%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><p class="paragraph">The argument that caused this error. This may be set after the error is thrown.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="1396592778%2FProperties%2F-71441751" anchor-label="cause" id="1396592778%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="-654012527%2FProperties%2F-71441751" anchor-label="cause" id="-654012527%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1396592778%2FProperties%2F-71441751">cause</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1396592778%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-invalid-file-format/index.html#-654012527%2FProperties%2F-71441751">cause</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-654012527%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1396592778%2FProperties%2F-71441751" anchor-label="cause" id="1396592778%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open val <a href="index.html#1396592778%2FProperties%2F-71441751">cause</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-654012527%2FProperties%2F-71441751" anchor-label="cause" id="-654012527%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">val </span><a href="../-invalid-file-format/index.html#-654012527%2FProperties%2F-71441751">cause</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="-1844315004%2FProperties%2F-71441751" anchor-label="context" id="-1844315004%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="1257122903%2FProperties%2F-71441751" anchor-label="context" id="1257122903%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1844315004%2FProperties%2F-71441751">context</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1844315004%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/context.html">context</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1257122903%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1844315004%2FProperties%2F-71441751" anchor-label="context" id="-1844315004%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="index.html#-1844315004%2FProperties%2F-71441751">context</a>: <a href="../-context/index.html">Context</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1257122903%2FProperties%2F-71441751" anchor-label="context" id="1257122903%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../-usage-error/context.html">context</a><span class="token operator">: </span><a href="../-context/index.html">Context</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="1066009900%2FProperties%2F-71441751" anchor-label="message" id="1066009900%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="-127519489%2FProperties%2F-71441751" anchor-label="message" id="-127519489%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1066009900%2FProperties%2F-71441751">message</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1066009900%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/message.html">message</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-127519489%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1066009900%2FProperties%2F-71441751" anchor-label="message" id="1066009900%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="index.html#1066009900%2FProperties%2F-71441751">message</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-127519489%2FProperties%2F-71441751" anchor-label="message" id="-127519489%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="../-usage-error/message.html">message</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="425734802%2FProperties%2F-71441751" anchor-label="option" id="425734802%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="1495612511%2FProperties%2F-71441751" anchor-label="option" id="1495612511%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#425734802%2FProperties%2F-71441751">option</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="425734802%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/option.html">option</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1495612511%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="425734802%2FProperties%2F-71441751" anchor-label="option" id="425734802%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="index.html#425734802%2FProperties%2F-71441751">option</a>: <a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="425734802%2FProperties%2F-71441751" anchor-label="option" id="425734802%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The option that caused this error.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1495612511%2FProperties%2F-71441751" anchor-label="option" id="1495612511%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../-usage-error/option.html">option</a><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1495612511%2FProperties%2F-71441751" anchor-label="option" id="1495612511%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><p class="paragraph">The option that caused this error. This may be set after the error is thrown.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="-1171130341%2FProperties%2F-71441751" anchor-label="paramName" id="-1171130341%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="-1396605138%2FProperties%2F-71441751" anchor-label="paramName" id="-1396605138%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1171130341%2FProperties%2F-71441751">paramName</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1171130341%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/param-name.html">paramName</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1396605138%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1171130341%2FProperties%2F-71441751" anchor-label="paramName" id="-1171130341%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="index.html#-1171130341%2FProperties%2F-71441751">paramName</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1171130341%2FProperties%2F-71441751" anchor-label="paramName" id="-1171130341%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The name of the parameter that caused the error.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1396605138%2FProperties%2F-71441751" anchor-label="paramName" id="-1396605138%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../-usage-error/param-name.html">paramName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1396605138%2FProperties%2F-71441751" anchor-label="paramName" id="-1396605138%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><p class="paragraph">The name of the parameter that caused the error. If possible, this should be set to the actual name used. If not set, it will be inferred from <a href="../-usage-error/argument.html">argument</a> or <a href="../-usage-error/option.html">option</a> if either is set.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="-556008376%2FProperties%2F-71441751" anchor-label="statusCode" id="-556008376%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="1044207509%2FProperties%2F-71441751" anchor-label="statusCode" id="1044207509%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-556008376%2FProperties%2F-71441751">statusCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-556008376%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/status-code.html">statusCode</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1044207509%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-556008376%2FProperties%2F-71441751" anchor-label="statusCode" id="-556008376%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="index.html#-556008376%2FProperties%2F-71441751">statusCode</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = 1<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-556008376%2FProperties%2F-71441751" anchor-label="statusCode" id="-556008376%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>The value to use as the exit code for the process.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="1044207509%2FProperties%2F-71441751" anchor-label="statusCode" id="1044207509%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../-usage-error/status-code.html">statusCode</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1044207509%2FProperties%2F-71441751" anchor-label="statusCode" id="1044207509%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><p class="paragraph">The value to use as the exit code for the process. If you use <a href="../-clikt-command/main.html">CliktCommand.main</a>, it will pass this value to <code class="lang-kotlin">exitProcess</code> after printing <a href="../-usage-error/message.html">message</a>. Defaults to 1.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="-1274931366%2FProperties%2F-71441751" anchor-label="text" id="-1274931366%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+<a data-name="-1591136153%2FProperties%2F-71441751" anchor-label="text" id="-1591136153%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1274931366%2FProperties%2F-71441751">text</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1274931366%2FProperties%2F-71441751"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../-usage-error/text.html">text</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1591136153%2FProperties%2F-71441751"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1274931366%2FProperties%2F-71441751" anchor-label="text" id="-1274931366%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="index.html#-1274931366%2FProperties%2F-71441751">text</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1274931366%2FProperties%2F-71441751" anchor-label="text" id="-1274931366%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>Extra text to add to the message.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain" data-active="" data-toggle=":clikt:dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><a data-name="-1591136153%2FProperties%2F-71441751" anchor-label="text" id="-1591136153%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../-usage-error/text.html">text</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1591136153%2FProperties%2F-71441751" anchor-label="text" id="-1591136153%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a><p class="paragraph">Extra text to add to the message. Not all subclasses uses this.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -201,7 +214,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

@@ -9,23 +9,22 @@
         <meta name="description" content="Clikt: Multiplatform command line parser for Kotlin">
       
       
-      
         <meta name="author" content="AJ Alt">
       
       
       <link rel="icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.0">
     
     
       
-        <title>Command Aliases - Clikt</title>
+        <title>Common Options With Subcommands - Clikt</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.9299cb39.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.82f3c0b9.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.9204c3b2.min.css">
         
           
           
@@ -39,15 +38,16 @@
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
+
     
     
   </head>
@@ -61,7 +61,6 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -78,7 +77,10 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+    
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Clikt" class="md-header__button md-logo" aria-label="Clikt" data-md-component="logo">
       
@@ -98,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Command Aliases
+              Common Options With Subcommands
             
           </span>
         </div>
@@ -110,19 +112,22 @@
       <label class="md-header__button md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -139,8 +144,7 @@
     
     
       <div class="md-header__source">
-        
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
@@ -152,11 +156,14 @@
       </div>
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -181,8 +188,7 @@
   </label>
   
     <div class="md-nav__source">
-      
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
@@ -208,10 +214,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
       
-      <label class="md-nav__link" for="__nav_1">
-        Quickstart
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Quickstart
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
@@ -220,6 +230,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -230,8 +241,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -242,8 +255,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -254,8 +269,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -266,8 +283,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -278,6 +297,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -298,10 +318,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
-      <label class="md-nav__link" for="__nav_2">
-        Why Clikt?
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Why Clikt?
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
@@ -310,6 +334,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -320,8 +345,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -332,6 +359,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -352,10 +380,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
-      <label class="md-nav__link" for="__nav_3">
-        Parameters
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Parameters
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Parameters" data-md-level="1">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
@@ -364,6 +396,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -374,8 +407,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -386,8 +421,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -398,8 +435,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -410,8 +449,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -422,8 +463,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -434,6 +477,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -454,10 +498,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
-      <label class="md-nav__link" for="__nav_4">
-        Options
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Options
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Options" data-md-level="1">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
@@ -466,6 +514,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -476,8 +525,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -488,8 +539,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -500,8 +553,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -512,8 +567,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -524,8 +581,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -536,8 +595,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -548,8 +609,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -560,8 +623,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -572,8 +637,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -584,8 +651,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -596,8 +665,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -608,8 +679,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -620,8 +693,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -632,8 +707,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -644,8 +721,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -656,8 +735,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -668,8 +749,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -680,8 +763,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -692,8 +777,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -704,8 +791,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -716,8 +805,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -728,6 +819,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -748,10 +840,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
-      <label class="md-nav__link" for="__nav_5">
-        Arguments
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Arguments
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Arguments" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
@@ -760,6 +856,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -770,8 +867,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -782,8 +881,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -794,6 +895,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -814,10 +916,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
-      <label class="md-nav__link" for="__nav_6">
-        Commands
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Commands
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Commands" data-md-level="1">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
@@ -826,6 +932,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -836,8 +943,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -848,8 +957,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -860,8 +971,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -872,8 +985,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -884,8 +999,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -896,8 +1013,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -908,8 +1027,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -920,8 +1041,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -932,6 +1055,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -952,10 +1076,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
-      <label class="md-nav__link" for="__nav_7">
-        Documenting Scripts
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Documenting Scripts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
         <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
@@ -964,6 +1092,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -974,8 +1103,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -986,8 +1117,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -998,8 +1131,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1010,8 +1145,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1022,8 +1159,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1034,8 +1173,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1046,8 +1187,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1058,8 +1201,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1070,8 +1215,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1082,6 +1229,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1104,10 +1252,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" checked>
       
-      <label class="md-nav__link" for="__nav_8">
-        Advanced Patterns
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Advanced Patterns
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
         <label class="md-nav__title" for="__nav_8">
           <span class="md-nav__icon md-icon"></span>
@@ -1116,6 +1268,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
     
@@ -1125,20 +1278,23 @@
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+      
         
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Command Aliases
+          Common Options With Subcommands
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Command Aliases
+        Common Options With Subcommands
       </a>
       
         
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -1149,6 +1305,40 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-options-with-subcommands" class="md-nav__link">
+    Common Options With Subcommands
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Options With Subcommands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defining-common-options-on-the-root-command" class="md-nav__link">
+    Defining Common Options on the Root Command
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-common-options-in-a-group" class="md-nav__link">
+    Defining Common Options in a Group
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-common-options-in-a-base-class" class="md-nav__link">
+    Defining Common Options in a Base Class
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#command-aliases" class="md-nav__link">
@@ -1253,8 +1443,24 @@
     </li>
   
 
+            
           
             
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#command-aliases" class="md-nav__link">
+        Command Aliases
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
   
   
   
@@ -1265,8 +1471,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1277,8 +1485,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1289,8 +1499,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1301,8 +1513,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1313,6 +1527,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1333,10 +1548,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
       
-      <label class="md-nav__link" for="__nav_9">
-        Utilities
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Utilities
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Utilities" data-md-level="1">
         <label class="md-nav__title" for="__nav_9">
           <span class="md-nav__icon md-icon"></span>
@@ -1345,6 +1564,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1355,8 +1575,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1367,8 +1589,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1379,6 +1603,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1399,10 +1624,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
       
-      <label class="md-nav__link" for="__nav_10">
-        Bash Autocomplete
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Bash Autocomplete
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
         <label class="md-nav__title" for="__nav_10">
           <span class="md-nav__icon md-icon"></span>
@@ -1411,6 +1640,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1421,8 +1651,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1433,8 +1665,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1445,8 +1679,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1457,6 +1693,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1477,10 +1714,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
       
-      <label class="md-nav__link" for="__nav_11">
-        Exception Handling
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Exception Handling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
         <label class="md-nav__title" for="__nav_11">
           <span class="md-nav__icon md-icon"></span>
@@ -1489,6 +1730,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1499,8 +1741,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1511,8 +1755,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1523,6 +1769,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1543,10 +1790,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
       
-      <label class="md-nav__link" for="__nav_12">
-        API reference
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12">
+          API reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="API reference" data-md-level="1">
         <label class="md-nav__title" for="__nav_12">
           <span class="md-nav__icon md-icon"></span>
@@ -1555,6 +1806,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1565,8 +1817,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1577,8 +1831,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1589,8 +1845,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1601,8 +1859,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1613,6 +1873,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1633,10 +1894,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" >
       
-      <label class="md-nav__link" for="__nav_13">
-        Releases
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13">
+          Releases
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Releases" data-md-level="1">
         <label class="md-nav__title" for="__nav_13">
           <span class="md-nav__icon md-icon"></span>
@@ -1645,6 +1910,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1655,8 +1921,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1667,6 +1935,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1686,7 +1955,9 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -1697,6 +1968,40 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-options-with-subcommands" class="md-nav__link">
+    Common Options With Subcommands
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Options With Subcommands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#defining-common-options-on-the-root-command" class="md-nav__link">
+    Defining Common Options on the Root Command
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-common-options-in-a-group" class="md-nav__link">
+    Defining Common Options in a Group
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-common-options-in-a-base-class" class="md-nav__link">
+    Defining Common Options in a Base Class
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#command-aliases" class="md-nav__link">
@@ -1806,14 +2111,138 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajalt/clikt/edit/master/docs/advanced.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <h1 id="advanced-patterns">Advanced Patterns<a class="headerlink" href="#advanced-patterns" title="Permanent link">&para;</a></h1>
-<p>Clikt has reasonable behavior by default, but is also very customizable
-for advanced use cases.</p>
+<a href="https://github.com/ajalt/clikt/edit/master/docs/advanced.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="advanced-patterns">Advanced Patterns<a class="headerlink" href="#advanced-patterns" title="Permanent link">&para;</a></h1>
+<h2 id="common-options-with-subcommands">Common Options With Subcommands<a class="headerlink" href="#common-options-with-subcommands" title="Permanent link">&para;</a></h2>
+<p>In some cases, you will have multiple subcommands that all share a common set of options. For
+example, you may have an option for a config file, or an output directory, or some API credentials.
+There are several ways to structure your commands to avoid repeating the option declarations in each
+subcommand.</p>
+<h3 id="defining-common-options-on-the-root-command">Defining Common Options on the Root Command<a class="headerlink" href="#defining-common-options-on-the-root-command" title="Permanent link">&para;</a></h3>
+<p>You can define your options on the root command and pass down the information via the context. With
+this design, you&rsquo;ll have to specify the common options before the subcommand name on the command
+line.</p>
+<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Config</span><span class="p">(</span><span class="kd">val</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kd">val</span> <span class="nv">hostname</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span>
+
+<span class="kd">class</span> <span class="nc">MyApi</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">token</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;api token to use for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">hostname</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;base url for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">)</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">currentContext</span><span class="p">.</span><span class="na">obj</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">hostname</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Store</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">file</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;file to store&quot;</span><span class="p">).</span><span class="na">file</span><span class="p">(</span><span class="n">canBeDir</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">config</span> <span class="k">by</span> <span class="n">requireObject</span><span class="o">&lt;</span><span class="n">Config</span><span class="o">&gt;</span><span class="p">()</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">myApiStoreFile</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="na">token</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="na">hostname</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Fetch</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">outdir</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;directory to store file in&quot;</span><span class="p">).</span><span class="na">file</span><span class="p">(</span><span class="n">canBeFile</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">config</span> <span class="k">by</span> <span class="n">requireObject</span><span class="o">&lt;</span><span class="n">Config</span><span class="o">&gt;</span><span class="p">()</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">myApiFetchFile</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="na">token</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="na">hostname</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=</span> <span class="n">MyApi</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Store</span><span class="p">(),</span> <span class="n">Fetch</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Usage 1</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./myapi --hostname=https://example.com store file.txt
+</code></pre></div>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Usage 2</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./myapi --hostname=https://example.com fetch --outdir=./out
+</code></pre></div>
+</div>
+</div>
+<h3 id="defining-common-options-in-a-group">Defining Common Options in a Group<a class="headerlink" href="#defining-common-options-in-a-group" title="Permanent link">&para;</a></h3>
+<p>Instead of defining your common options on the root command, you can instead define them in an
+<a href="../documenting/#grouping-options-in-help">OptionGroup</a> which you include in each subcommand. This allows you to specify all
+options after the subcommand name.</p>
+<div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">CommonOptions</span><span class="p">:</span> <span class="n">OptionGroup</span><span class="p">(</span><span class="s">&quot;Standard Options:&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">token</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;api token to use for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">hostname</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;base url for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">MyApi</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span>
+
+<span class="kd">class</span> <span class="nc">Store</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">commonOptions</span> <span class="k">by</span> <span class="n">CommonOptions</span><span class="p">()</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">file</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;file to store&quot;</span><span class="p">).</span><span class="na">file</span><span class="p">(</span><span class="n">canBeDir</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">myApiStoreFile</span><span class="p">(</span><span class="n">commonOptions</span><span class="p">.</span><span class="na">token</span><span class="p">,</span> <span class="n">commonOptions</span><span class="p">.</span><span class="na">hostname</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Fetch</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">commonOptions</span> <span class="k">by</span> <span class="n">CommonOptions</span><span class="p">()</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">outdir</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;directory to store file in&quot;</span><span class="p">).</span><span class="na">file</span><span class="p">(</span><span class="n">canBeFile</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">myApiFetchFile</span><span class="p">(</span><span class="n">commonOptions</span><span class="p">.</span><span class="na">token</span><span class="p">,</span> <span class="n">commonOptions</span><span class="p">.</span><span class="na">hostname</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=</span> <span class="n">MyApi</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Store</span><span class="p">(),</span> <span class="n">Fetch</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Usage 1</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./myapi store --hostname=https://example.com file.txt
+</code></pre></div>
+</div>
+<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Usage 2</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./myapi fetch --hostname=https://example.com --outdir=./out
+</code></pre></div>
+</div>
+</div>
+<h3 id="defining-common-options-in-a-base-class">Defining Common Options in a Base Class<a class="headerlink" href="#defining-common-options-in-a-base-class" title="Permanent link">&para;</a></h3>
+<p>A third design to share options is to define the common options in a base class that all the
+subcommands inherit from.</p>
+<div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">MyApiSubcommand</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">token</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="o">=</span> <span class="s">&quot;api token to use for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">hostname</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="o">=</span> <span class="s">&quot;base url for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">MyApi</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span>
+
+<span class="kd">class</span> <span class="nc">Store</span> <span class="p">:</span> <span class="n">MyApiSubcommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">file</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="o">=</span> <span class="s">&quot;file to store&quot;</span><span class="p">).</span><span class="na">file</span><span class="p">(</span><span class="n">canBeDir</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">myApiStoreFile</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Fetch</span> <span class="p">:</span> <span class="n">MyApiSubcommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">outdir</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="o">=</span> <span class="s">&quot;directory to store file in&quot;</span><span class="p">).</span><span class="na">file</span><span class="p">(</span><span class="n">canBeFile</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">myApiFetchFile</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=</span> <span class="n">MyApi</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Store</span><span class="p">(),</span> <span class="n">Fetch</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Usage 1</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./myapi store --hostname=https://example.com file.txt
+</code></pre></div>
+</div>
+<input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">Usage 2</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>$ ./myapi fetch --hostname=https://example.com --outdir=./out
+</code></pre></div>
+</div>
+</div>
 <h2 id="command-aliases">Command Aliases<a class="headerlink" href="#command-aliases" title="Permanent link">&para;</a></h2>
 <p>Clikt allows commands to alias command names to sequences of tokens.
 This allows you to implement common patterns like allowing the user to
@@ -1824,81 +2253,76 @@ like the way you can configure git to accept <code>git ci</code> as an alias for
 This function is called once at the start of parsing,
 and returns a map of aliases to the tokens that they alias to.</p>
 <p>To implement git-style aliases:</p>
-<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Repo</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+<div class="tabbed-set" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Repo</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// You could load the aliases from a config file etc.</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">aliases</span><span class="p">():</span> <span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;&gt;</span> <span class="p">=</span> <span class="n">mapOf</span><span class="p">(</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">aliases</span><span class="p">():</span> <span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;&gt;</span> <span class="o">=</span> <span class="n">mapOf</span><span class="p">(</span>
             <span class="s">&quot;ci&quot;</span> <span class="n">to</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;commit&quot;</span><span class="p">),</span>
             <span class="s">&quot;cm&quot;</span> <span class="n">to</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;commit&quot;</span><span class="p">,</span> <span class="s">&quot;-m&quot;</span><span class="p">)</span>
     <span class="p">)</span>
 <span class="p">}</span>
 
-<span class="k">class</span> <span class="nc">Commit</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">message</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-m&quot;</span><span class="p">).</span><span class="n">default</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Committing with message: $message&quot;</span><span class="p">)</span>
+<span class="kd">class</span> <span class="nc">Commit</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">message</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-m&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Committing with message: </span><span class="si">$</span><span class="n">message</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Repo</span><span class="p">().</span><span class="n">subcommands</span><span class="p">(</span><span class="n">Commit</span><span class="p">()).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Commit</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </code></pre></div>
-
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Usage 1</label><div class="tabbed-content">
+<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Usage 1</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./repo ci -m &#39;my message&#39;
 Committing with message: my message
 </code></pre></div>
-
 </div>
-<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Usage 2</label><div class="tabbed-content">
+<input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><label for="__tabbed_4_3">Usage 2</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./repo cm &#39;my message&#39;
 Committing with message: my message
 </code></pre></div>
-
 </div>
 </div>
 <p>Note that aliases are not expanded recursively: none of the tokens that
 an alias expands to will be expanded again, even if they match another
 alias.</p>
 <p>You also use this functionality to implement command prefixes:</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">aliases</span><span class="p">():</span> <span class="n">Map</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;&gt;</span> <span class="p">{</span>
-        <span class="k">val</span> <span class="py">prefixCounts</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Int</span><span class="p">&gt;().</span><span class="n">withDefault</span> <span class="p">{</span> <span class="m">0</span> <span class="p">}</span>
-        <span class="k">val</span> <span class="py">prefixes</span> <span class="p">=</span> <span class="n">mutableMapOf</span><span class="p">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;&gt;()</span>
+<div class="tabbed-set" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">aliases</span><span class="p">():</span> <span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
+        <span class="kd">val</span> <span class="nv">prefixCounts</span> <span class="o">=</span> <span class="n">mutableMapOf</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="o">&gt;</span><span class="p">().</span><span class="na">withDefault</span> <span class="p">{</span> <span class="m">0</span> <span class="p">}</span>
+        <span class="kd">val</span> <span class="nv">prefixes</span> <span class="o">=</span> <span class="n">mutableMapOf</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;&gt;</span><span class="p">()</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">name</span> <span class="k">in</span> <span class="n">registeredSubcommandNames</span><span class="p">())</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="n">length</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">)</span> <span class="k">continue</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1.</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">lastIndex</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">val</span> <span class="py">prefix</span> <span class="p">=</span> <span class="n">name</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="m">0.</span><span class="p">.</span><span class="n">i</span><span class="p">)</span>
-                <span class="n">prefixCounts</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="p">=</span> <span class="n">prefixCounts</span><span class="p">.</span><span class="n">getValue</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="p">+</span> <span class="m">1</span>
-                <span class="n">prefixes</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="m">3</span><span class="p">)</span> <span class="k">continue</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1.</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">lastIndex</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">val</span> <span class="nv">prefix</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="na">substring</span><span class="p">(</span><span class="m">0.</span><span class="p">.</span><span class="na">i</span><span class="p">)</span>
+                <span class="n">prefixCounts</span><span class="o">[</span><span class="n">prefix</span><span class="o">]</span> <span class="o">=</span> <span class="n">prefixCounts</span><span class="p">.</span><span class="na">getValue</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">+</span> <span class="m">1</span>
+                <span class="n">prefixes</span><span class="o">[</span><span class="n">prefix</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">prefixes</span><span class="p">.</span><span class="n">filterKeys</span> <span class="p">{</span> <span class="n">prefixCounts</span><span class="p">.</span><span class="n">getValue</span><span class="p">(</span><span class="n">it</span><span class="p">)</span> <span class="p">==</span> <span class="m">1</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="n">prefixes</span><span class="p">.</span><span class="na">filterKeys</span> <span class="p">{</span> <span class="n">prefixCounts</span><span class="p">.</span><span class="na">getValue</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span> <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">Foo</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Running Foo&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">class</span> <span class="nc">Bar</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">Bar</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Running Bar&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;)</span> <span class="p">=</span> <span class="n">Tool</span><span class="p">().</span><span class="n">subcommands</span><span class="p">(</span><span class="n">Foo</span><span class="p">(),</span> <span class="n">Bar</span><span class="p">()).</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">=</span> <span class="n">Tool</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Foo</span><span class="p">(),</span> <span class="n">Bar</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </code></pre></div>
-
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Usage</label><div class="tabbed-content">
+<input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Usage</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./tool ba
 Running Bar
 </code></pre></div>
-
 </div>
 </div>
 <h2 id="token-normalization">Token Normalization<a class="headerlink" href="#token-normalization" title="Permanent link">&para;</a></h2>
@@ -1908,23 +2332,21 @@ works on more types of tokens. You can set a <a href="../api/clikt/com.github.aj
 <a href="../commands/#customizing-contexts">command&rsquo;s context</a> that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:</p>
-<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">init</span> <span class="p">{</span>
-        <span class="n">context</span> <span class="p">{</span> <span class="n">tokenTransformer</span> <span class="p">=</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">lowercase</span><span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
+<div class="tabbed-set" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Hello</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">init</span> <span class="p">{</span>
+        <span class="n">context</span> <span class="p">{</span> <span class="n">tokenTransformer</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">it</span><span class="p">.</span><span class="na">lowercase</span><span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="k">val</span> <span class="py">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello $name!&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">name</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="o">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Usage</label><div class="tabbed-content">
+<input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Usage</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./hello --NAME=Foo
 Hello Foo!
 </code></pre></div>
-
 </div>
 </div>
 <h2 id="replacing-stdin-and-stdout">Replacing stdin and stdout<a class="headerlink" href="#replacing-stdin-and-stdout" title="Permanent link">&para;</a></h2>
@@ -1933,26 +2355,25 @@ read from <code>System.in</code> and write to <code>System.out</code>. If you wa
 clikt in an environment where the standard streams aren&rsquo;t available, you
 can set your own implementation of <a href="../api/clikt/com.github.ajalt.clikt.output/-clikt-console/"><code>CliktConsole</code></a>
 when <a href="../commands/#customizing-contexts">customizing the command context</a>.</p>
-<div class="highlight"><pre><span></span><code><span class="k">object</span> <span class="nc">MyConsole</span> <span class="p">:</span> <span class="n">CliktConsole</span> <span class="p">{</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">promptForLine</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">hideInput</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">):</span> <span class="n">String</span><span class="p">?</span> <span class="p">{</span>
-        <span class="n">MyOutputStream</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
-        <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">hideInput</span><span class="p">)</span> <span class="n">MyInputStream</span><span class="p">.</span><span class="n">readPassword</span><span class="p">()</span>
-        <span class="k">else</span> <span class="n">MyInputStream</span><span class="p">.</span><span class="n">readLine</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span> <span class="nc">MyConsole</span> <span class="p">:</span> <span class="n">CliktConsole</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">promptForLine</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">hideInput</span><span class="p">:</span> <span class="kt">Boolean</span><span class="p">):</span> <span class="kt">String?</span> <span class="p">{</span>
+        <span class="n">MyOutputStream</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">if</span> <span class="p">(</span><span class="n">hideInput</span><span class="p">)</span> <span class="n">MyInputStream</span><span class="p">.</span><span class="na">readPassword</span><span class="p">()</span>
+        <span class="k">else</span> <span class="n">MyInputStream</span><span class="p">.</span><span class="na">readLine</span><span class="p">()</span>
     <span class="p">}</span>
 
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">print</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Boolean</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="n">MyOutputStream</span><span class="p">.</span><span class="n">writeError</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
-        <span class="k">else</span> <span class="n">MyOutputStream</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">print</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="kt">Boolean</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="n">MyOutputStream</span><span class="p">.</span><span class="na">writeError</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">else</span> <span class="n">MyOutputStream</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="k">override</span> <span class="k">val</span> <span class="py">lineSeparator</span><span class="p">:</span> <span class="n">String</span> <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="s">&quot;\n&quot;</span>
+    <span class="kd">override</span> <span class="kd">val</span> <span class="nv">lineSeparator</span><span class="p">:</span> <span class="kt">String</span> <span class="k">get</span><span class="p">()</span> <span class="o">=</span> <span class="s">&quot;\n&quot;</span>
 <span class="p">}</span>
 
-<span class="k">class</span> <span class="nc">CustomCLI</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">init</span> <span class="p">{</span> <span class="n">context</span> <span class="p">{</span> <span class="n">console</span> <span class="p">=</span> <span class="n">MyConsole</span> <span class="p">}</span> <span class="p">}</span>
+<span class="kd">class</span> <span class="nc">CustomCLI</span> <span class="p">:</span> <span class="n">NoOpCliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">init</span> <span class="p">{</span> <span class="n">context</span> <span class="p">{</span> <span class="n">console</span> <span class="o">=</span> <span class="n">MyConsole</span> <span class="p">}</span> <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>If you are using <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/"><code>TermUI</code></a> directly,
 you can also pass your custom console as an argument.</p>
 <h2 id="command-line-argument-files-argfiles">Command Line Argument Files (&ldquo;@argfiles&rdquo;)<a class="headerlink" href="#command-line-argument-files-argfiles" title="Permanent link">&para;</a></h2>
@@ -1965,19 +2386,15 @@ command line length limits.</p>
 --name=&#39;jane doe&#39; --age=30
 ./file.txt
 </code></pre></div>
-
 <p>You can call your command with the contents of the file like this:</p>
 <div class="highlight"><pre><span></span><code>$ ./tool @cliargs
 </code></pre></div>
-
 <p>Which is equivalent to calling it like this:</p>
 <div class="highlight"><pre><span></span><code>$ ./tool --number 1 --name=&#39;jane doe&#39; --age=30 ./file.txt
 </code></pre></div>
-
 <p>You can use any file path after the <code>@</code>, and can specify multiple @argfiles:</p>
 <div class="highlight"><pre><span></span><code>$ ./tool @../config/args @C:\\Program\ Files\\Tool\\argfile
 </code></pre></div>
-
 <p>If you have any options with names that start with <code>@</code>, you can still use <code>@argfiles</code>, but values on
 the command line that match an option will be parsed as that option, rather than an <code>@argfile</code>, so
 you&rsquo;ll have to give your files a different name.</p>
@@ -2005,6 +2422,8 @@ you&rsquo;ll have to give your files a different name.</p>
 line. In unit tests, you should instead call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html"><code>CliktCommand.parse</code></a>, which throws exceptions
 with error details rather than printing the details and exiting the process. See the documentation
 on <a href="../exceptions/">exceptions</a> for more information.</p>
+<p>If your command uses environment variables, you can set a <a href="../options/#overriding-system-environment-variables">function on the context</a>
+that returns test values.</p>
 <h2 id="custom-exit-status-codes">Custom exit status codes<a class="headerlink" href="#custom-exit-status-codes" title="Permanent link">&para;</a></h2>
 <p>Clikt will normally exit your program with a status code of 0 for a normal execution, or 1 if
 there&rsquo;s an error. If you want to use a different value, you can <code>throw ProgramResult(statusCode)</code>.
@@ -2029,11 +2448,6 @@ probably not what you want. You can <a href="#replacing-stdin-and-stdout">define
 you can call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html">parse</a> instead of <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html">main</a> and handle output yourself.</p>
 <p><a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html">editText</a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html">editFile</a> are not supported. <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is only supported
 if you define your own CliktConsole.</p>
-                
-              
-              
-                
-
 
               
             </article>
@@ -2042,12 +2456,12 @@ if you define your own CliktConsole.</p>
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../documenting/" class="md-footer__link md-footer__link--prev" rel="prev">
+        
+        <a href="../documenting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Help Texts" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -2062,7 +2476,8 @@ if you define your own CliktConsole.</p>
         </a>
       
       
-        <a href="../utilities/" class="md-footer__link md-footer__link--next" rel="next">
+        
+        <a href="../utilities/" class="md-footer__link md-footer__link--next" aria-label="Next: Launching Editors" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
@@ -2080,18 +2495,19 @@ if you define your own CliktConsole.</p>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2021 AJ Alt
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 AJ Alt
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -2101,10 +2517,10 @@ if you define your own CliktConsole.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.cefbb252.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.7353b375.min.js"></script>
+      <script src="../assets/javascripts/bundle.17f42bbf.min.js"></script>
       
     
   </body>

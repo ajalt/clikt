@@ -9,12 +9,11 @@
         <meta name="description" content="Clikt: Multiplatform command line parser for Kotlin">
       
       
-      
         <meta name="author" content="AJ Alt">
       
       
       <link rel="icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.0">
     
     
       
@@ -22,10 +21,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.9299cb39.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.82f3c0b9.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.9204c3b2.min.css">
         
           
           
@@ -39,15 +38,16 @@
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
-    
     
     
       <link rel="stylesheet" href="../css/extra.css">
     
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
+
     
     
   </head>
@@ -61,7 +61,6 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -78,7 +77,10 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+    
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Clikt" class="md-header__button md-logo" aria-label="Clikt" data-md-component="logo">
       
@@ -110,19 +112,22 @@
       <label class="md-header__button md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -139,8 +144,7 @@
     
     
       <div class="md-header__source">
-        
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
@@ -152,11 +156,14 @@
       </div>
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -181,8 +188,7 @@
   </label>
   
     <div class="md-nav__source">
-      
-<a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/ajalt/clikt/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
@@ -208,10 +214,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
       
-      <label class="md-nav__link" for="__nav_1">
-        Quickstart
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Quickstart
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
@@ -220,6 +230,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -230,8 +241,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -242,8 +255,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -254,8 +269,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -266,8 +283,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -278,6 +297,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -298,10 +318,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
-      <label class="md-nav__link" for="__nav_2">
-        Why Clikt?
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Why Clikt?
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
@@ -310,6 +334,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -320,8 +345,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -332,6 +359,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -354,10 +382,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
-      <label class="md-nav__link" for="__nav_3">
-        Parameters
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Parameters
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Parameters" data-md-level="1">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
@@ -366,6 +398,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
     
@@ -374,6 +407,7 @@
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
       
         
       
@@ -388,7 +422,9 @@
       </a>
       
         
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -537,8 +573,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -549,8 +587,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -561,8 +601,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -573,8 +615,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -585,8 +629,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -597,6 +643,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -617,10 +664,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
-      <label class="md-nav__link" for="__nav_4">
-        Options
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Options
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Options" data-md-level="1">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
@@ -629,6 +680,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -639,8 +691,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -651,8 +705,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -663,8 +719,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -675,8 +733,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -687,8 +747,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -699,8 +761,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -711,8 +775,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -723,8 +789,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -735,8 +803,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -747,8 +817,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -759,8 +831,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -771,8 +845,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -783,8 +859,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -795,8 +873,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -807,8 +887,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -819,8 +901,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -831,8 +915,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -843,8 +929,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -855,8 +943,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -867,8 +957,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -879,8 +971,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -891,6 +985,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -911,10 +1006,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
-      <label class="md-nav__link" for="__nav_5">
-        Arguments
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Arguments
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Arguments" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
@@ -923,6 +1022,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -933,8 +1033,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -945,8 +1047,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -957,6 +1061,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -977,10 +1082,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
-      <label class="md-nav__link" for="__nav_6">
-        Commands
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Commands
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Commands" data-md-level="1">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
@@ -989,6 +1098,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -999,8 +1109,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1011,8 +1123,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1023,8 +1137,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1035,8 +1151,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1047,8 +1165,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1059,8 +1179,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1071,8 +1193,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1083,8 +1207,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1095,6 +1221,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1115,10 +1242,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
-      <label class="md-nav__link" for="__nav_7">
-        Documenting Scripts
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Documenting Scripts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
         <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
@@ -1127,6 +1258,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1137,8 +1269,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1149,8 +1283,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1161,8 +1297,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1173,8 +1311,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1185,8 +1325,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1197,8 +1339,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1209,8 +1353,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1221,8 +1367,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1233,8 +1381,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1245,6 +1395,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1265,10 +1416,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
       
-      <label class="md-nav__link" for="__nav_8">
-        Advanced Patterns
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Advanced Patterns
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
         <label class="md-nav__title" for="__nav_8">
           <span class="md-nav__icon md-icon"></span>
@@ -1277,18 +1432,35 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
     <li class="md-nav__item">
       <a href="../advanced/" class="md-nav__link">
+        Common Options With Subcommands
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/#command-aliases" class="md-nav__link">
         Command Aliases
       </a>
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1299,8 +1471,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1311,8 +1485,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1323,8 +1499,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1335,8 +1513,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1347,6 +1527,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1367,10 +1548,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
       
-      <label class="md-nav__link" for="__nav_9">
-        Utilities
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Utilities
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Utilities" data-md-level="1">
         <label class="md-nav__title" for="__nav_9">
           <span class="md-nav__icon md-icon"></span>
@@ -1379,6 +1564,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1389,8 +1575,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1401,8 +1589,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1413,6 +1603,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1433,10 +1624,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
       
-      <label class="md-nav__link" for="__nav_10">
-        Bash Autocomplete
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Bash Autocomplete
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
         <label class="md-nav__title" for="__nav_10">
           <span class="md-nav__icon md-icon"></span>
@@ -1445,6 +1640,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1455,8 +1651,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1467,8 +1665,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1479,8 +1679,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1491,6 +1693,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1511,10 +1714,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
       
-      <label class="md-nav__link" for="__nav_11">
-        Exception Handling
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          Exception Handling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
         <label class="md-nav__title" for="__nav_11">
           <span class="md-nav__icon md-icon"></span>
@@ -1523,6 +1730,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1533,8 +1741,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1545,8 +1755,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1557,6 +1769,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1577,10 +1790,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
       
-      <label class="md-nav__link" for="__nav_12">
-        API reference
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12">
+          API reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="API reference" data-md-level="1">
         <label class="md-nav__title" for="__nav_12">
           <span class="md-nav__icon md-icon"></span>
@@ -1589,6 +1806,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1599,8 +1817,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1611,8 +1831,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1623,8 +1845,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1635,8 +1859,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1647,6 +1873,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1667,10 +1894,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" >
       
-      <label class="md-nav__link" for="__nav_13">
-        Releases
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13">
+          Releases
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Releases" data-md-level="1">
         <label class="md-nav__title" for="__nav_13">
           <span class="md-nav__icon md-icon"></span>
@@ -1679,6 +1910,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -1689,8 +1921,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -1701,6 +1935,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -1720,7 +1955,9 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
   
   
     
@@ -1874,12 +2111,12 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajalt/clikt/edit/master/docs/parameters.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <h1 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h1>
+<a href="https://github.com/ajalt/clikt/edit/master/docs/parameters.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h1>
 <p>Clikt supports two types of parameters: options and positional
 arguments. If you&rsquo;re following Unix conventions with your interface, you
 should use options for most parameters. Options are usually optional,
@@ -1902,15 +2139,14 @@ case of arguments) from the name of the property. You can also specify
 the names manually. Options can have any number of names, where
 arguments only have a single metavar.</p>
 <div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">inferredOpt</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
-    <span class="k">val</span> <span class="py">inferred</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
-    <span class="k">val</span> <span class="py">explicitOpt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--explicit&quot;</span><span class="p">)</span>
-    <span class="k">val</span> <span class="py">explicitArg</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="s">&quot;&lt;explicit&gt;&quot;</span><span class="p">)</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">Unit</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Cli</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">inferredOpt</span> <span class="k">by</span> <span class="n">option</span><span class="p">()</span>
+    <span class="kd">val</span> <span class="nv">inferred</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
+    <span class="kd">val</span> <span class="nv">explicitOpt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="s">&quot;-e&quot;</span><span class="p">,</span> <span class="s">&quot;--explicit&quot;</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">explicitArg</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="s">&quot;&lt;explicit&gt;&quot;</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="o">=</span> <span class="kt">Unit</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Help Output</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>Usage: cli [OPTIONS] INFERRED &lt;explicit&gt;
@@ -1920,7 +2156,6 @@ Options:
   -e, --explicit TEXT
   -h, --help           Show this message and exit
 </code></pre></div>
-
 </div>
 </div>
 <h2 id="parameter-types">Parameter Types<a class="headerlink" href="#parameter-types" title="Permanent link">&para;</a></h2>
@@ -1928,16 +2163,14 @@ Options:
 to other types.</p>
 <p>Types work by transforming the return value of the property delegate. By
 default parameters have a string type:</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an option&quot;</span><span class="p">)</span>
-<span class="k">val</span> <span class="py">arg</span><span class="p">:</span> <span class="n">String</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an argument&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">opt</span><span class="p">:</span> <span class="kt">String?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;an option&quot;</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">arg</span><span class="p">:</span> <span class="kt">String</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;an argument&quot;</span><span class="p">)</span>
 </code></pre></div>
-
 <p>To convert the input to an integer, for example, use the <code>int()</code>
 extension function:</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an option&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
-<span class="k">val</span> <span class="py">arg</span><span class="p">:</span> <span class="n">Int</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;an argument&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">opt</span><span class="p">:</span> <span class="kt">Int?</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;an option&quot;</span><span class="p">).</span><span class="na">int</span><span class="p">()</span>
+<span class="kd">val</span> <span class="nv">arg</span><span class="p">:</span> <span class="kt">Int</span> <span class="k">by</span> <span class="n">argument</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;an argument&quot;</span><span class="p">).</span><span class="na">int</span><span class="p">()</span>
 </code></pre></div>
-
 <h2 id="built-in-types">Built-In Types<a class="headerlink" href="#built-in-types" title="Permanent link">&para;</a></h2>
 <p>There are a number of built in types that can be applied to options and
 arguments.</p>
@@ -1963,13 +2196,11 @@ or fail with an error if the input is outside the range.</p>
 <p>You can restrict the values to a set of values, and optionally map the
 input to a new value. For example, to create an option that only
 accepts the value &ldquo;A&rdquo; or &ldquo;B&rdquo;:</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">opt</span><span class="p">:</span> <span class="n">String</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">opt</span><span class="p">:</span> <span class="kt">String?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="na">choice</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">)</span>
 </code></pre></div>
-
 <p>You can also convert the restricted set of values to a new type:</p>
-<div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Int</span><span class="p">?</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="n">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">color</span><span class="p">:</span> <span class="kt">Int?</span> <span class="k">by</span> <span class="n">argument</span><span class="p">().</span><span class="na">choice</span><span class="p">(</span><span class="s">&quot;red&quot;</span> <span class="n">to</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="n">to</span> <span class="m">2</span><span class="p">)</span>
 </code></pre></div>
-
 <p>Choice parameters accept values that are case-sensitive by default. This can be configured by
 passing <code>ignoreCase = true</code>.</p>
 <h3 id="enum">Enum<a class="headerlink" href="#enum" title="Permanent link">&para;</a></h3>
@@ -1977,10 +2208,9 @@ passing <code>ignoreCase = true</code>.</p>
 <li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/enum.html"><code>option().enum()</code> and <code>argument().enum()</code></a></li>
 </ul>
 <p>Like <code>choice</code>, but uses the values of an enum type.</p>
-<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="k">class</span> <span class="nc">Color</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span> <span class="p">}</span>
-<span class="k">val</span> <span class="py">color</span><span class="p">:</span> <span class="n">Color</span><span class="p">?</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="k">enum</span><span class="p">&lt;</span><span class="n">Color</span><span class="p">&gt;()</span>
+<div class="highlight"><pre><span></span><code><span class="kd">enum</span> <span class="kd">class</span> <span class="nc">Color</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span> <span class="p">}</span>
+<span class="kd">val</span> <span class="nv">color</span><span class="p">:</span> <span class="n">Color? </span><span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="na">enum</span><span class="o">&lt;</span><span class="n">Color</span><span class="o">&gt;</span><span class="p">()</span>
 </code></pre></div>
-
 <p>Enum parameters accept case-insensitive values by default. This can be configured by passing
 <code>ignoreCase = false</code>.</p>
 <h3 id="file-paths">File paths<a class="headerlink" href="#file-paths" title="Permanent link">&para;</a></h3>
@@ -2014,18 +2244,16 @@ conversion failure, you can use <code>fail("error message")</code> instead of
 raising an exception.</p>
 <p>For example, you can create an option of type <code>BigDecimal</code> like this:</p>
 <div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">convert</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">toBigDecimal</span><span class="p">()</span> <span class="p">}</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=$opt&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="na">convert</span> <span class="p">{</span> <span class="nb">it</span><span class="p">.</span><span class="na">toBigDecimal</span><span class="p">()</span> <span class="p">}</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="o">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=</span><span class="si">$</span><span class="n">opt</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
 <input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Usage 1</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./cli --opt=1.5
 opt=1.5
 </code></pre></div>
-
 </div>
 <input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Usage 2</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./cli --opt=foo
@@ -2033,7 +2261,6 @@ Usage: cli [OPTIONS]
 
 Error: Invalid value for &quot;--opt&quot;: For input string: &quot;foo&quot;
 </code></pre></div>
-
 </div>
 </div>
 <h3 id="metavars">Metavars<a class="headerlink" href="#metavars" title="Permanent link">&para;</a></h3>
@@ -2041,14 +2268,13 @@ Error: Invalid value for &quot;--opt&quot;: For input string: &quot;foo&quot;
 that will be printed in the help page instead of the default of <code>VALUE</code>.
 We can modify the above example to use a metavar and an explicit error message:</p>
 <div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="p">=</span><span class="s">&quot;a real number&quot;</span><span class="p">).</span><span class="n">convert</span><span class="p">(</span><span class="s">&quot;FLOAT&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">it</span><span class="p">.</span><span class="n">toBigDecimalOrNull</span><span class="p">()</span> <span class="o">?:</span> <span class="n">fail</span><span class="p">(</span><span class="s">&quot;A real number is required&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Cli</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">opt</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;a real number&quot;</span><span class="p">).</span><span class="na">convert</span><span class="p">(</span><span class="s">&quot;FLOAT&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">it</span><span class="p">.</span><span class="na">toBigDecimalOrNull</span><span class="p">()</span> <span class="o">?:</span> <span class="n">fail</span><span class="p">(</span><span class="s">&quot;A real number is required&quot;</span><span class="p">)</span>
     <span class="p">}</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=$opt&quot;</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="o">=</span> <span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=</span><span class="si">$</span><span class="n">opt</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
 <input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Usage 1</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./cli --opt=foo
@@ -2056,7 +2282,6 @@ Usage: cli [OPTIONS]
 
 Error: Invalid value for &quot;--opt&quot;: A real number is required
 </code></pre></div>
-
 </div>
 <input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">Usage 2</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./cli --help
@@ -2066,30 +2291,27 @@ Options:
   --opt FLOAT  a real number
   -h, --help   Show this message and exit
 </code></pre></div>
-
 </div>
 </div>
 <h3 id="chaining">Chaining<a class="headerlink" href="#chaining" title="Permanent link">&para;</a></h3>
 <p>You can call <code>convert</code> more than once on the same parameter. This allows you to reuse existing
 conversion functions. For example, you could automatically read the text of a file parameter.</p>
 <div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FileReader</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">file</span><span class="p">:</span> <span class="n">String</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">file</span><span class="p">(</span><span class="n">mustExist</span><span class="p">=</span><span class="k">true</span><span class="p">,</span> <span class="n">canBeDir</span><span class="p">=</span><span class="k">false</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">convert</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">readText</span><span class="p">()</span> <span class="p">}</span>
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your file contents: $file&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">FileReader</span><span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span> <span class="k">by</span> <span class="n">argument</span><span class="p">()</span>
+        <span class="p">.</span><span class="na">file</span><span class="p">(</span><span class="n">mustExist</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span> <span class="n">canBeDir</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">.</span><span class="na">convert</span> <span class="p">{</span> <span class="nb">it</span><span class="p">.</span><span class="na">readText</span><span class="p">()</span> <span class="p">}</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Your file contents: </span><span class="si">$</span><span class="n">file</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
 <input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Usage</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ echo &#39;some text&#39; &gt; myfile.txt
 $ ./filereader ./myfile.txt
 Your file contents: some text
 </code></pre></div>
-
 </div>
 </div>
 <h2 id="parameter-validation">Parameter Validation<a class="headerlink" href="#parameter-validation" title="Permanent link">&para;</a></h2>
@@ -2101,28 +2323,25 @@ with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/check.html"
 lambda that returns a boolean to indicate if the parameter value is valid or not, and reports an
 error if it returns false. The lambda is only called if the parameter value is non-null.</p>
 <div class="tabbed-set" data-tabs="5:4"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="p">=</span> <span class="s">&quot;An even number&quot;</span><span class="p">).</span><span class="n">int</span><span class="p">()</span>
-            <span class="p">.</span><span class="n">check</span><span class="p">(</span><span class="s">&quot;value must be even&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span> <span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">(</span><span class="n">help</span> <span class="o">=</span> <span class="s">&quot;An even number&quot;</span><span class="p">).</span><span class="na">int</span><span class="p">()</span>
+            <span class="p">.</span><span class="na">check</span><span class="p">(</span><span class="s">&quot;value must be even&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="nb">it</span> <span class="o">%</span> <span class="m">2</span> <span class="o">==</span> <span class="m">0</span> <span class="p">}</span>
 
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;number=$number&quot;</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;number=</span><span class="si">$</span><span class="n">number</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
 <input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Usage 1</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=2
 number=2
 </code></pre></div>
-
 </div>
 <input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><label for="__tabbed_5_3">Usage 2</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./tool
 number=null
 </code></pre></div>
-
 </div>
 <input id="__tabbed_5_4" name="__tabbed_5" type="radio" /><label for="__tabbed_5_4">Usage 3</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=1
@@ -2130,7 +2349,6 @@ Usage: tool [OPTIONS]
 
 Error: invalid value for --number: value must be even
 </code></pre></div>
-
 </div>
 </div>
 <h3 id="validate"><code>validate()</code><a class="headerlink" href="#validate" title="Permanent link">&para;</a></h3>
@@ -2141,26 +2359,24 @@ only called if the value is non-null.</p>
 <p>The lambdas you pass to <code>validate</code> are called after the values for all options and arguments have
 been set, so (unlike in transforms) you can reference other parameters:</p>
 <div class="tabbed-set" data-tabs="6:3"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">val</span> <span class="py">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
-    <span class="k">val</span> <span class="py">biggerNumber</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="n">int</span><span class="p">().</span><span class="n">validate</span> <span class="p">{</span>
-        <span class="n">require</span><span class="p">(</span><span class="n">it</span> <span class="p">&gt;</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Tool</span> <span class="p">:</span> <span class="n">CliktCommand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">number</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="na">int</span><span class="p">().</span><span class="na">default</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+    <span class="kd">val</span> <span class="nv">biggerNumber</span> <span class="k">by</span> <span class="n">option</span><span class="p">().</span><span class="na">int</span><span class="p">().</span><span class="na">validate</span> <span class="p">{</span>
+        <span class="n">require</span><span class="p">(</span><span class="nb">it</span> <span class="o">&gt;</span> <span class="n">number</span><span class="p">)</span> <span class="p">{</span>
             <span class="s">&quot;--bigger-number must be bigger than --number&quot;</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
-    <span class="k">override</span> <span class="k">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;number=$number, biggerNumber=$biggerNumber&quot;</span><span class="p">)</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">echo</span><span class="p">(</span><span class="s">&quot;number=</span><span class="si">$</span><span class="n">number</span><span class="s">, biggerNumber=</span><span class="si">$</span><span class="n">biggerNumber</span><span class="s">&quot;</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 </div>
 <input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Usage 1</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=1
 number=1, biggerNumber=null
 </code></pre></div>
-
 </div>
 <input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><label for="__tabbed_6_3">Usage 2</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=1 --bigger-number=0
@@ -2168,14 +2384,8 @@ Usage: tool [OPTIONS]
 
 Error: --bigger-number must be bigger than --number
 </code></pre></div>
-
 </div>
 </div>
-                
-              
-              
-                
-
 
               
             </article>
@@ -2184,12 +2394,12 @@ Error: --bigger-number must be bigger than --number
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../whyclikt/" class="md-footer__link md-footer__link--prev" rel="prev">
+        
+        <a href="../whyclikt/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Why not a Kotlin library like kotlin-argparser or kotlinx.cli?" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -2204,7 +2414,8 @@ Error: --bigger-number must be bigger than --number
         </a>
       
       
-        <a href="../options/" class="md-footer__link md-footer__link--next" rel="next">
+        
+        <a href="../options/" class="md-footer__link md-footer__link--next" aria-label="Next: Basic Options" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
@@ -2222,18 +2433,19 @@ Error: --bigger-number must be bigger than --number
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2021 AJ Alt
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 AJ Alt
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -2243,10 +2455,10 @@ Error: --bigger-number must be bigger than --number
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.cefbb252.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.7353b375.min.js"></script>
+      <script src="../assets/javascripts/bundle.17f42bbf.min.js"></script>
       
     
   </body>

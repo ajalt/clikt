@@ -119,7 +119,7 @@ delegates:
 === "Help Output"
     ```text
     $ ./hello --help
-    Usage: hello [OPTIONS] USERNAME
+    Usage: hello [OPTIONS] NAME
 
     Options:
       --count INT  Number of greetings

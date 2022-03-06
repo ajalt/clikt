@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+### Added
+- Publish JS artifacts with new IR compiler, in addition to the legacy format 
+
+### Changed
+- Updated Kotlin to 1.6.10-RC
+
 ## 3.4.0
 ### Changed
 - `unique()` now works with any option with a list type, not just `multiple()` options ([#332](https://github.com/ajalt/clikt/issues/332))

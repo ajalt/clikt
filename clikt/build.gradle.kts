@@ -21,15 +21,7 @@ buildscript {
 
 kotlin {
     jvm()
-
-    /*
-     * We would like to use
-     *     js(BOTH)
-     * to enable consumers to use IR JS backend
-     * https://kotlinlang.org/docs/js-ir-compiler.html
-     * However this is currently blocked by https://youtrack.jetbrains.com/issue/KT-43490
-     */
-    js {
+    js(BOTH) {
         nodejs()
         browser()
     }

@@ -61,7 +61,7 @@ class LongTypeTest {
     @Test
     @JsName("int_argument")
     fun `int argument`() = forAll(
-        row("", null, emptyList<Long>()),
+        row("", null, emptyList()),
         row("1 2", 1L, listOf(2L)),
         row("1 2 3", 1L, listOf(2L, 3L))) { argv, ex, ey ->
         class C : TestCommand() {

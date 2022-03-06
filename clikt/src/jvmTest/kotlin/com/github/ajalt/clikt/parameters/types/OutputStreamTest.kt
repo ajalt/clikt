@@ -26,7 +26,7 @@ import kotlin.test.Test
 @OptIn(ExperimentalStdlibApi::class)
 class OutputStreamTest {
     @get:Rule
-    val stdout = SystemOutRule().enableLog()
+    val stdout: SystemOutRule = SystemOutRule().enableLog()
     val fs: FileSystem = Jimfs.newFileSystem(Configuration.unix())
 
     private fun OutputStream?.writeText(text: String) = this!!.bufferedWriter().use { it.write(text) }

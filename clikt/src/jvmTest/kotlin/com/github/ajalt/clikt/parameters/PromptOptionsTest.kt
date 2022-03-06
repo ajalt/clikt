@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.check
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.matchers.collections.beEmpty
@@ -23,11 +22,11 @@ import kotlin.test.Test
 class PromptOptionsTest {
     @Rule
     @JvmField
-    val stdout = SystemOutRule().enableLog().muteForSuccessfulTests()
+    val stdout: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
 
     @Rule
     @JvmField
-    val stdin = TextFromStandardInputStream.emptyStandardInputStream()
+    val stdin: TextFromStandardInputStream = TextFromStandardInputStream.emptyStandardInputStream()
 
     @Test
     fun `manual prompt`() {
@@ -108,7 +107,7 @@ class PromptOptionsTest {
             val prompts = mutableListOf<String>()
             val prints = mutableListOf<String>()
 
-            override fun promptForLine(prompt: String, hideInput: Boolean): String? {
+            override fun promptForLine(prompt: String, hideInput: Boolean): String {
                 prompts += prompt
                 return "bar"
             }

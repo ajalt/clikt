@@ -91,7 +91,7 @@ class OptionTest {
 
     @Test
     @JsName("two_options_one_name_each")
-    fun `two options, one name each`() {
+    fun `two options one name each`() {
         class C : TestCommand() {
             val x by option("-x")
             val y by option("--yy")

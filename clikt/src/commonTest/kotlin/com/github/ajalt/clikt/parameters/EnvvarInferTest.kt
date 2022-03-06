@@ -1,4 +1,4 @@
-package com.github.ajalt.parameters
+package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.parameters.options.inferEnvvar
 import io.kotest.data.blocking.forAll

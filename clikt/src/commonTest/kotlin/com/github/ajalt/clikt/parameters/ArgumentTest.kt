@@ -236,7 +236,7 @@ class ArgumentTest {
 
     @Test
     @JsName("one_required_argument_nvalues_minus_1_empty_argv")
-    fun `one required argument nvalues=-1, empty argv`() {
+    fun `one required argument nvalues=-1 empty argv`() {
         class C : TestCommand() {
             val x by argument().multiple(required = true)
         }
@@ -246,7 +246,7 @@ class ArgumentTest {
 
     @Test
     @JsName("two_arguments_nvalues_minus_1_1")
-    fun `two arguments nvalues=-1,1`() = forAll(
+    fun `two arguments nvalues=-1_1`() = forAll(
         row("foo", emptyList(), "foo"),
         row("foo bar baz", listOf("foo", "bar"), "baz")
     ) { argv, ex, ey ->
@@ -264,7 +264,7 @@ class ArgumentTest {
 
     @Test
     @JsName("two_arguments_nvalues_minus_1_1_empty_argv")
-    fun `two arguments nvalues=-1,1 empty argv`() {
+    fun `two arguments nvalues=-1_1 empty argv`() {
         class C : TestCommand(called = false) {
             val foo by argument().multiple()
             val bar by argument()
@@ -276,7 +276,7 @@ class ArgumentTest {
 
     @Test
     @JsName("two_arguments_nvalues_1_minus_1")
-    fun `two arguments nvalues=1,-1`() = forAll(
+    fun `two arguments nvalues=1_-1`() = forAll(
         row("", null, emptyList()),
         row("foo bar", "foo", listOf("bar")),
         row("foo bar baz", "foo", listOf("bar", "baz"))
@@ -295,7 +295,7 @@ class ArgumentTest {
 
     @Test
     @JsName("two_arguments_nvalues_1_minus_1_empty_argv")
-    fun `two arguments nvalues=1,-1 empty argv`() {
+    fun `two arguments nvalues=1_-1 empty argv`() {
         class C : TestCommand(called = false) {
             val foo by argument()
             val bar by argument().multiple()

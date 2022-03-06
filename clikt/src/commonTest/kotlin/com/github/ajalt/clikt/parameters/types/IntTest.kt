@@ -62,7 +62,7 @@ class IntTypeTest {
     @Test
     @JsName("int_argument")
     fun `int argument`() = forAll(
-        row("", null, emptyList<Int>()),
+        row("", null, emptyList()),
         row("1 2", 1, listOf(2)),
         row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->
         class C : TestCommand() {

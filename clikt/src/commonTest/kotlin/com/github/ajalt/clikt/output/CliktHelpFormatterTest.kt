@@ -360,7 +360,7 @@ class CliktHelpFormatterTest {
 
     @Test
     @JsName("formatHelp_option_wrapping_long_help_issue_10")
-    fun `formatHelp option wrapping long help issue #10`() {
+    fun `formatHelp option wrapping long help issue 10`() {
         val f = CliktHelpFormatter(width = 62)
         f.formatHelp("", "", l(
             opt(l("-L", "--lorem-ipsum"),

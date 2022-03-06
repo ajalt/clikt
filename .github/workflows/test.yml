@@ -10,7 +10,7 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [ macos-latest,  windows-latest, ubuntu-latest ]
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
         include:
           - os: macos-latest
             TEST_TASK: macosX64Test

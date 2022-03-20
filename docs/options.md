@@ -825,13 +825,13 @@ property to collect the options, otherwise an error will still be reported.
     class Wrapper : CliktCommand(treatUnknownOptionsAsArgs = true) {
         init { context { allowInterspersedArgs = false } }
 
-        val command by option(help = "?").required()
+        val command by option().required()
         val arguments by argument().multiple()
 
         override fun run() {
             val cmd = (listOf(command) + arguments).joinToString(" ")
             val proc = Runtime.getRuntime().exec(cmd)
-            println(proc.inputStream.bufferedReader().readText())
+            echo(proc.inputStream.bufferedReader().readText())
             proc.waitFor()
         }
     }
@@ -846,9 +846,11 @@ property to collect the options, otherwise an error will still be reported.
            git-tag - Create, list, delete or verify a tag object signed with GPG
     ```
 
-Note that flag options in a single token (e.g. using `-abc` to specify `-a`, `-b`, and `-c` in a
-single token) will still report an error if they are unknown. Each option should be specified
-separately in this mode.
+!!! warning
+
+    Multiple short options in a single token (e.g. using `-abc` to specify `-a`, `-b`, and `-c` in a single token) will
+    still report an error if it contains a mixture of known and unknown options. To avoid this, don't declare single-letter
+    names for options in commands that use `treatUnknownOptionsAsArgs`.
 
 You'll often want to set [`allowInterspersedArgs = false`][allowInterspersedArgs] on your Context when
 using `treatUnknownOptionsAsArgs`. You may also find that subcommands are a better fit than

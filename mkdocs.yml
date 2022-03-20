@@ -28,8 +28,10 @@ markdown_extensions:
   - meta
   - toc:
       permalink: true
+  - admonition
   - pymdownx.betterem:
       smart_enable: all
+  - pymdownx.details
   - pymdownx.caret
   - pymdownx.inlinehilite
   - pymdownx.magiclink

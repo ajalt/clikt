@@ -258,10 +258,16 @@ class CliktCommandTest {
             val args by argument().multiple()
         }
 
-        val c = C(true)
-        c.parse("-f -g -i")
-        c.foo shouldBe true
-        c.args shouldBe listOf("-g", "-i")
+        with(C(true)) {
+            parse("-f -g -i")
+            foo shouldBe true
+            args shouldBe listOf("-g", "-i")
+        }
+        with(C(true)) {
+            parse("-f -gi")
+            foo shouldBe true
+            args shouldBe listOf("-gi")
+        }
         shouldThrow<NoSuchOption> {
             C(false).parse("-fgi")
         }.message shouldBe "no such option: \"-g\""

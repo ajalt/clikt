@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+## Changed
+- When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340))
 ## 3.4.2
 ### Deprecated
 - `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on `CliktCommand` instead. ([#344](https://github.com/ajalt/clikt/issues/344))

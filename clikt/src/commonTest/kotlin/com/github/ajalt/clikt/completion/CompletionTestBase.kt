@@ -22,12 +22,7 @@ abstract class CompletionTestBase(private val shell: String) {
         val message = shouldThrow<PrintCompletionMessage> {
             command.parse("--generate-completion=$shell")
         }.message
-        try {
-            assertEquals(expected.trimMargin(), message)
-        } catch (e: Throwable) {
-            println(message)
-            throw e
-        }
+        assertEquals(expected.trimMargin(), message)
     }
 
     @JsName("custom_completions_expected")

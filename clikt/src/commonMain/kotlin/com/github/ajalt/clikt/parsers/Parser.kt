@@ -283,7 +283,7 @@ internal object Parser {
             if (i == 0) continue // skip the dash
 
             val name = context.tokenTransformer(context, prefix + opt)
-            val option = optionsByName[name] ?: if (ignoreUnknown && tok.length == 2) {
+            val option = optionsByName[name] ?: if (ignoreUnknown && i == 1) {
                 return OptParseResult(1, listOf(tok), emptyList())
             } else {
                 val possibilities = when {

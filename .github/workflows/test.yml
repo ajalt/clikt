@@ -13,11 +13,11 @@ jobs:
         os: [ macos-latest, windows-latest, ubuntu-latest ]
         include:
           - os: macos-latest
-            TEST_TASK: macosX64Test
+            TEST_TASK: :clikt:compileNativeMainKotlinMetadata macosX64Test
           - os: windows-latest
-            TEST_TASK: mingwX64Test
+            TEST_TASK: :clikt:compileNativeMainKotlinMetadata mingwX64Test
           - os: ubuntu-latest
-            TEST_TASK: check
+            TEST_TASK: :clikt:compileNativeMainKotlinMetadata check
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2

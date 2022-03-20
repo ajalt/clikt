@@ -262,7 +262,7 @@ class CliktCommandTest {
             val args by argument().multiple()
         }
 
-        with(C()) {
+        val c = C(true)
             parse("-f -g -i")
             foo shouldBe true
             args shouldBe listOf("-g", "-i")

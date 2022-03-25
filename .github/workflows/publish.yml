@@ -22,16 +22,17 @@ jobs:
             TEST_TASK: check
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Cache Kotlin Native Compiler
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.konan
           key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-konan-
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: 17
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: ${{matrix.TEST_TASK}} --stacktrace
@@ -48,21 +49,22 @@ jobs:
     needs: test
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Fetch git tags
         run: git fetch origin +refs/tags/*:refs/tags/*
       - name: Cache Kotlin Native Compiler
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.konan
           key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-konan-
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: 17
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: publish --stacktrace -PinferVersion=true
+          arguments: :clikt:assemble publish --stacktrace -PinferVersion=true
 
 env:
   GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx5g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"

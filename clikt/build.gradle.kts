@@ -6,16 +6,17 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka") version "1.6.10"
+    alias(libs.plugins.dokka)
     id("maven-publish")
     id("signing")
 }
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka:dokka-base:1.6.10")
+        classpath(libs.dokka.base)
     }
 }
 
@@ -45,14 +46,14 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 api(kotlin("test"))
-                api("io.kotest:kotest-assertions-core:5.0.3")
+                api(libs.kotest)
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                api("com.github.stefanbirkner:system-rules:1.18.0")
-                api("com.google.jimfs:jimfs:1.1")
+                api(libs.systemrules)
+                api(libs.jimfs)
             }
         }
 

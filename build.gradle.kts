@@ -2,8 +2,9 @@ import java.io.ByteArrayOutputStream
 
 val VERSION_NAME: String by project
 
+@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
-    kotlin("multiplatform").version("1.6.20-RC").apply(false)
+    kotlin("multiplatform").version(libs.versions.kotlin).apply(false)
 }
 
 allprojects {

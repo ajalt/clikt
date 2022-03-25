@@ -3,6 +3,6 @@ application {
 }
 
 dependencies {
-    implementation("com.github.ajalt:mordant:1.2.1")
+    implementation(libs.mordant)
 }
 

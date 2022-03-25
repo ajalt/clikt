@@ -7,5 +7,5 @@ application {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+    implementation(libs.kotlinx.serialization)
 }

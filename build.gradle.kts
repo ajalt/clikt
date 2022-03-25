@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import java.io.ByteArrayOutputStream
 
 val VERSION_NAME: String by project
 
 plugins {
-    kotlin("jvm").version("1.6.20-RC")
+    kotlin("multiplatform").version("1.6.20-RC").apply(false)
 }
 
 allprojects {
@@ -13,11 +12,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-    }
-
-    // Disable npm install scripts
-    tasks.withType<KotlinNpmInstallTask> {
-        args += "--ignore-scripts"
     }
 }
 

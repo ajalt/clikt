@@ -2,6 +2,7 @@
 
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -18,6 +19,10 @@ buildscript {
     }
 }
 
+// Disable npm install scripts
+tasks.withType<KotlinNpmInstallTask> {
+    args += "--ignore-scripts"
+}
 
 kotlin {
     jvm()

@@ -17,7 +17,7 @@ theme:
     - scheme: default
       media: "(prefers-color-scheme: light)"
       primary: 'deep purple'
-      accent: 'deep orange'
+      accent: 'deep purple'
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
@@ -127,8 +127,11 @@ nav:
       - 'Token Normalization': advanced/#token-normalization
       - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
       - 'Argument Files ("@-files")': advanced/#command-line-argument-files-files
-      - 'Testing your Clikt CLI': advanced/#testing-your-clikt-cli
       - 'Multiplatform Support': advanced/#multiplatform-support
+  - 'Testing':
+      - 'Testing Your Commands': testing/
+      - 'Testing Environment Variables': testing/#testing-environment-variables
+      - 'Custom Testing': testing/#custom-testing
   - 'Utilities':
       - 'Launching Editors': utilities.md
       - 'Input Prompts': utilities/#input-prompts

@@ -153,8 +153,8 @@ internal object Parser {
         val invocationsByOption = invocations.groupBy({ it.opt }, { it.inv })
         val invocationsByGroup = invocations.groupBy { (it.opt as? GroupableOption)?.parameterGroup }
         val invocationsByOptionByGroup = invocationsByGroup
-            .mapValues { (_, invs) ->
-                invs.groupBy({ it.opt }, { it.inv })
+            .mapValues { (_, invocations) ->
+                invocations.groupBy({ it.opt }, { it.inv })
                     .filterKeys { !it.eager }
             }
 
@@ -422,68 +422,7 @@ internal object Parser {
 
     private fun loadArgFile(filename: String, context: Context): List<String> {
         val text = readFileIfExists(filename) ?: throw FileNotFound(filename)
-        val toks = mutableListOf<String>()
-        var inQuote: Char? = null
-        val sb = StringBuilder()
-        var i = 0
-        fun err(msg: String): Nothing {
-            throw InvalidFileFormat(filename, msg, text.take(i).count { it == '\n' }, context)
-        }
-        loop@ while (i < text.length) {
-            val c = text[i]
-            when {
-                c in "\r\n" && inQuote != null -> {
-                    sb.append(c)
-                    i += 1
-                }
-                c == '\\' -> {
-                    if (i >= text.lastIndex) err(context.localization.fileEndsWithSlash())
-                    if (text[i + 1] in "\r\n") {
-                        do {
-                            i += 1
-                        } while (i <= text.lastIndex && text[i].isWhitespace())
-                    } else {
-                        sb.append(text[i + 1])
-                        i += 2
-                    }
-                }
-                c == inQuote -> {
-                    toks += sb.toString()
-                    sb.clear()
-                    inQuote = null
-                    i += 1
-                }
-                c == '#' && inQuote == null -> {
-                    i = text.indexOf('\n', i)
-                    if (i < 0) break@loop
-                }
-                c in "\"'" && inQuote == null -> {
-                    inQuote = c
-                    i += 1
-                }
-                c.isWhitespace() && inQuote == null -> {
-                    if (sb.isNotEmpty()) {
-                        toks += sb.toString()
-                        sb.clear()
-                    }
-                    i += 1
-                }
-                else -> {
-                    sb.append(c)
-                    i += 1
-                }
-            }
-        }
-
-        if (inQuote != null) {
-            err(context.localization.unclosedQuote())
-        }
-
-        if (sb.isNotEmpty()) {
-            toks += sb.toString()
-        }
-
-        return toks
+        return shlex(filename, text, context)
     }
 
     private fun throwExcessArgsError(positionalArgs: List<String>, excess: Int, context: Context): Nothing {

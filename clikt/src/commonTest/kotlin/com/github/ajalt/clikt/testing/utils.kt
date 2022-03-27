@@ -2,10 +2,6 @@ package com.github.ajalt.clikt.testing
 
 import com.github.ajalt.clikt.core.UsageError
 
-fun splitArgv(argv: String): Array<String> {
-    return if (argv.isBlank()) emptyArray() else argv.split(" ").toTypedArray()
-}
-
 val Throwable.formattedMessage: String? get() = (this as? UsageError)?.formatMessage() ?: message
 
 /**

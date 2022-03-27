@@ -403,7 +403,7 @@ Some command line interfaces allow you to call more than one subcommand at a tim
 might do something like `gradle clean build publish` to run the `clean` task, then the `build` task,
 then the `publish` task, which are all subcommands of `gradle`.
 
-To do this with Clikt, pass `allowMultipleSubcommands = true` to your [CliktCommand][CliktCommand]
+To do this with Clikt, pass `allowMultipleSubcommands = true` to your [`CliktCommand`][CliktCommand]
 constructor.
 
 === "Example"

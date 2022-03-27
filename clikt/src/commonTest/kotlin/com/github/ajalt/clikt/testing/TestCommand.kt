@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.testing
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parsers.shlex
 import io.kotest.matchers.shouldBe
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -57,7 +58,7 @@ open class TestCommand(
 }
 
 fun <T : TestCommand> T.parse(argv: String): T {
-    parse(splitArgv(argv))
+    parse(shlex("test", argv, null))
     TestCommand.assertCalled(this)
     return this
 }

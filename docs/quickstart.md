@@ -6,8 +6,8 @@ Installation instructions can be found in the [README][README].
 ## Basic Concepts
 
 Clikt command line interfaces are created by using property delegates
-inside of a [CliktCommand][CliktCommand]. The normal way to use Clikt is to forward
-`argv` from your `main` function to [CliktCommand.main][main].
+inside a [`CliktCommand`][CliktCommand]. The normal way to use Clikt is to forward
+`argv` from your `main` function to [`CliktCommand.main`][main].
 
 The simplest command with no parameters would look like this:
 
@@ -40,13 +40,16 @@ Options:
 
 ## Printing to Stdout and Stderr
 
-Why does this example use [echo][echo] instead of [println][println]?
+Why does this example use [`echo`][echo] instead of [`println`][println]?
 Although `println` works, it can cause problems with multi-platform
-support. [echo][echo] automatically translates line breaks into the line
-separator for the current platform. So you don't have to worry that some
+support. `echo` automatically translates line breaks into the line
+separator for the current platform, so you don't have to worry that some
 of your users will see mangled output because you didn't test on
 Windows. You can also pass `err=true` to `echo` to print to stderr
 instead of stdout.
+
+Additionally, if you use Clikt's [testing utilities][test], output sent 
+to `echo` will be captured for testing, but output sent to `println` will not.
 
 ## Nesting Commands
 
@@ -56,7 +59,7 @@ manage a database:
 
 === "Example"
     ```kotlin
-    class Database: CliktCommand() {
+    class Database(name="db"): CliktCommand() {
         override fun run() = Unit
     }
 
@@ -81,6 +84,9 @@ manage a database:
     ```text
     $ ./db init
     Initialized the database.
+
+    $ ./db drop
+    Dropped the database.
     ```
 
 === "Help Output"
@@ -99,7 +105,7 @@ manage a database:
 
 ## Adding Parameters
 
-To add parameters, use the [option][option] and [argument][argument] property
+To add parameters, use the [`option`][option] and [`argument`][argument] property
 delegates:
 
 === "Example"
@@ -160,3 +166,4 @@ build folder, which you can then execute normally. See Clikt's
 [println]:            https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html
 [README]:             https://github.com/ajalt/clikt
 [runsample]:          https://github.com/ajalt/clikt/blob/master/runsample
+[test]:               testing.md

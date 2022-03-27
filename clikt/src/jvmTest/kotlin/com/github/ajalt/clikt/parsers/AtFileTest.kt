@@ -56,7 +56,7 @@ class AtFileTest {
         |f'
         """.trimMargin())
 
-        C().parse("@${file.path}")
+        C().parse("@${file.path.replace("\\", "/")}")
     }
 
     @Test
@@ -75,12 +75,13 @@ class AtFileTest {
         file1.writeText("--foo 123 456")
         val file2 = testFolder.newFile()
         file2.writeText("@${file1.path.replace("\\", "\\\\")}")
-        C().parse("@${file2.path}")
+        C().parse("@${file2.path.replace("\\", "/")}")
     }
 
     @Test
     fun `parsing @file unclosed quotes`() {
         class C : TestCommand(called = false) {
+            @Suppress("unused")
             val arg by argument()
         }
 
@@ -90,7 +91,7 @@ class AtFileTest {
         |
         """.trimMargin())
 
-        shouldThrow<UsageError> { C().parse("@${file.path}") }
+        shouldThrow<UsageError> { C().parse("@${file.path.replace("\\", "/")}") }
             .message shouldContain "unclosed quote"
     }
 
@@ -139,7 +140,7 @@ class AtFileTest {
         val file = testFolder.newFile()
         file.writeText("bar")
 
-        val argv = "foo @${file.path}"
+        val argv = "foo @${file.path.replace("\\", "/")}"
         C(true).parse(argv)
         C(false).parse(argv)
     }

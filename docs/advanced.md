@@ -344,16 +344,6 @@ If you want to use a value starting with `@` as an argument without expanding it
 - If a `\` occurs at the end of a line, the next line is trimmed of leading whitespace and the two
   lines are concatenated.
 
-## Testing your Clikt CLI
-
-[`CliktCommand.main`][main] calls `exitProcess` when invalid values are provided on the command
-line. In unit tests, you should instead call [`CliktCommand.parse`][parse], which throws exceptions
-with error details rather than printing the details and exiting the process. See the documentation
-on [exceptions](exceptions.md) for more information.
-
-If your command uses environment variables, you can set a [function on the context][override-envvar]
-that returns test values.
-
 ## Custom exit status codes
 
 Clikt will normally exit your program with a status code of 0 for a normal execution, or 1 if
@@ -408,7 +398,6 @@ you can call [parse][parse] instead of [main][main] and handle output yourself.
 [file]:                api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [grouping-options]:    documenting.md#grouping-options-in-help
 [main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
-[override-envvar]:     options.md#overriding-system-environment-variables
 [parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
 [path]:                api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html

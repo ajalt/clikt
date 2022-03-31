@@ -152,6 +152,7 @@ object TermUi {
      * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
      * @param promptSuffix A delimiter printed between the [text] and the user's input.
      * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @param console The console to prompt to
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
     fun prompt(
@@ -162,9 +163,10 @@ object TermUi {
         confirmationPrompt: String = "Repeat for confirmation: ",
         promptSuffix: String = ": ",
         showDefault: Boolean = true,
+        console: CliktConsole = defaultCliktConsole(),
     ): String? {
         return prompt(text, default, hideInput, requireConfirmation,
-            confirmationPrompt, promptSuffix, showDefault) { it }
+            confirmationPrompt, promptSuffix, showDefault, console) { it }
     }
 
     /**

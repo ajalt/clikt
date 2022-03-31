@@ -95,7 +95,7 @@ tasks.dokkaHtml.configure {
     pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
         customStyleSheets = listOf(rootDir.resolve("docs/css/logo-styles.css"))
         customAssets = listOf(rootDir.resolve("docs/img/wordmark_small_dark.svg"))
-        footerMessage = "Copyright &copy; 2021 AJ Alt"
+        footerMessage = "Copyright &copy; 2022 AJ Alt"
     }
     dokkaSourceSets {
         configureEach {

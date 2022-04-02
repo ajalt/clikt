@@ -5,7 +5,7 @@ import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.mpp.isWindowsMpp
 
-object TermUi {
+internal object TermUi {
     /**
      * Print the [message] to the screen.
      *

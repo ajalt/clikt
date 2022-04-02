@@ -287,9 +287,6 @@ class CustomCLI : NoOpCliktCommand() {
 }
 ```
 
-If you are using [`TermUI`][TermUI] directly,
-you can also pass your custom console as an argument.
-
 ## Command Line Argument Files ("@argfiles")
 
 Similar to `javac`, Clikt supports loading command line parameters from a file using the "@argfile"

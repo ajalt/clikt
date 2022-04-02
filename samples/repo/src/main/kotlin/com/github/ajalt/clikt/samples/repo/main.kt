@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.samples.repo
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.optional
@@ -130,7 +129,7 @@ class Commit : CliktCommand(
                 }
             }
 
-            val message = TermUi.editText(text)
+            val message = editText(text)
             if (message == null) {
                 echo("Aborted!")
                 return

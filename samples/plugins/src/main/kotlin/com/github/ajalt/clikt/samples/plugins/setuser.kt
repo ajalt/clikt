@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import org.kodein.di.Kodein
@@ -27,7 +26,7 @@ class SetUser : CliktCommand(
         repo.config["username"] = username
         repo.config["email"] = email
         repo.config["password"] = "*".repeat(password.length)
-        TermUi.echo("Changed credentials.")
+        echo("Changed credentials.")
     }
 }
 

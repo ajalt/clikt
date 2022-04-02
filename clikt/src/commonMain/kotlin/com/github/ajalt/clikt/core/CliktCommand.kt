@@ -263,8 +263,6 @@ abstract class CliktCommand(
      *
      * This is similar to [print] or [println], but converts newlines to the system line separator.
      *
-     * This is equivalent to calling [TermUi.echo] with the console from the current context.
-     *
      * @param message The message to print.
      * @param trailingNewline If true, behave like [println], otherwise behave like [print]
      * @param err If true, print to stderr instead of stdout
@@ -276,6 +274,46 @@ abstract class CliktCommand(
         lineSeparator: String = currentContext.console.lineSeparator,
     ) {
         TermUi.echo(message, trailingNewline, err, currentContext.console, lineSeparator)
+    }
+
+    /**
+     * Edit [text] in the [editor].
+     *
+     * This blocks until the editor is closed.
+     *
+     * @param text The text to edit.
+     * @param editor The path to the editor to use. Defaults to automatic detection.
+     * @param env Environment variables to forward to the editor.
+     * @param requireSave If the editor is closed without saving, null will be returned if true, otherwise
+     *   [text] will be returned.
+     * @param extension The extension of the temporary file that the editor will open. This can affect syntax
+     *   coloring etc.
+     * @return The edited text, or null if [requireSave] is true and the editor was closed without saving.
+     * @throws CliktError if the editor cannot be opened.
+     */
+    protected fun editText(
+        text: String,
+        editor: String? = null,
+        env: Map<String, String> = emptyMap(),
+        requireSave: Boolean = false,
+        extension: String = ".txt",
+    ): String? {
+        return TermUi.editText(text, editor, env, requireSave, extension)
+    }
+
+    /**
+     * Edit the file with [filename] in the [editor].
+     *
+     * @see editText for usage and parameter descriptions.
+     */
+    protected fun editFile(
+        filename: String,
+        editor: String? = null,
+        env: Map<String, String> = emptyMap(),
+        requireSave: Boolean = false,
+        extension: String = ".txt",
+    ) {
+        TermUi.editFile(filename, editor, env, requireSave, extension)
     }
 
     /**

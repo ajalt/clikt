@@ -1,7 +1,7 @@
 # File copy sample
 
 This example works like the `cp` command, copying files or directories.
-It shows how to use `TermUi` to prompt the user for input.
+It shows how to use `prompt` to get an input from user.
 
 ```
 $ touch src.txt dest.txt

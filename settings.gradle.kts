@@ -8,10 +8,17 @@ include("samples:ansicolors")
 include("samples:plugins")
 include("samples:json")
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+    }
+}
+
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.6.20-RC2")
+            version("kotlin", "1.6.20-265")
 
             plugin("dokka", "org.jetbrains.dokka").version("1.6.10")
 

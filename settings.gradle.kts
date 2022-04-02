@@ -18,7 +18,7 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.6.20-265")
+            version("kotlin", "1.6.20-274")
 
             plugin("dokka", "org.jetbrains.dokka").version("1.6.10")
 

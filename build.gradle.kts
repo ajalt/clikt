@@ -11,8 +11,10 @@ allprojects {
     group = "com.github.ajalt.clikt"
     version = getPublishVersion()
 
+
     repositories {
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }
 }
 

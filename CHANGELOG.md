@@ -5,7 +5,7 @@
 - Publish JS artifacts with new IR compiler, in addition to the legacy format 
 
 ### Changed
-- Updated Kotlin to 1.6.10-RC
+- Updated Kotlin to 1.6.20
 
 ## 3.4.0
 ### Changed

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.4.1
 ### Added
 - Publish JS artifacts with new IR compiler, in addition to the legacy format 
 

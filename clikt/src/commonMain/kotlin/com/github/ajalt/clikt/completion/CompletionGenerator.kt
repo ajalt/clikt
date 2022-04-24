@@ -10,6 +10,6 @@ internal object CompletionGenerator {
             "zsh" -> BashCompletionGenerator.generateBashOrZshCompletion(command = command, zsh = true)
             else -> BashCompletionGenerator.generateBashOrZshCompletion(command = command, zsh = false)
         }
-        throw PrintCompletionMessage(message, forceUnixLineEndings = true)
+        throw PrintCompletionMessage(message)
     }
 }

@@ -21,6 +21,9 @@ dependencyResolutionManagement {
             plugin("dokka", "org.jetbrains.dokka").version("1.8.10")
             plugin("publish", "com.vanniktech.maven.publish").version("0.25.2")
 
+            // TODO: switch to published mordant
+            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-local")
+
             // used in tests
             library("kotest", "io.kotest:kotest-assertions-core:5.5.4")
             library("systemrules", "com.github.stefanbirkner:system-rules:1.19.0")
@@ -29,7 +32,6 @@ dependencyResolutionManagement {
             // used in samples
             library("kodein", "org.kodein.di:kodein-di-generic-jvm:5.2.0")
             library("kotlinx-serialization", "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-            library("mordant", "com.github.ajalt:mordant:1.2.1")
         }
     }
 }

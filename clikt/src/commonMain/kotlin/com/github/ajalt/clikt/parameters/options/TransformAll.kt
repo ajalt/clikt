@@ -5,8 +5,10 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.MissingOption
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.output.TermUi
+import com.github.ajalt.mordant.terminal.ConversionResult
+import com.github.ajalt.mordant.terminal.Prompt
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 
@@ -178,18 +180,13 @@ fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, S
  *   input is given.
  * @param hideInput If true, user input will not be shown on the screen. Useful for passwords and sensitive
  *   input.
- * @param requireConfirmation If true, the user will be required to enter the same value twice before it is
- *   accepted.
- * @param confirmationPrompt If [requireConfirmation] is true, this will be used to ask for input again.
  * @param promptSuffix Text to display directly after [text]. Defaults to ": ".
  * @param showDefault Show [default] to the user in the prompt.
  */
 fun <T : Any> NullableOption<T, T>.prompt(
     text: String? = null,
-    default: String? = null,
+    default: T? = null,
     hideInput: Boolean = false,
-    requireConfirmation: Boolean = false,
-    confirmationPrompt: String = "Repeat for confirmation: ",
     promptSuffix: String = ": ",
     showDefault: Boolean = true,
 ): OptionWithValues<T, T, T> = transformAll { invocations ->
@@ -197,12 +194,26 @@ fun <T : Any> NullableOption<T, T>.prompt(
         ?.replace(Regex("\\W"), " ")?.capitalize2() ?: "Value"
 
     when (val provided = invocations.lastOrNull()) {
-        null -> TermUi.prompt(promptText, default, hideInput, requireConfirmation,
-            confirmationPrompt, promptSuffix, showDefault, context.console) {
-            val ctx = OptionCallTransformContext("", this, context)
-            transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, it)))))?.also { v ->
-                @Suppress("UNCHECKED_CAST")
-                (option as? OptionWithValues<T, T, T>)?.transformValidator?.invoke(this, v)
+        null -> {
+            context.terminal.prompt(
+                prompt = promptText,
+                default = default,
+                showDefault = showDefault,
+                hideInput = hideInput,
+                promptSuffix = promptSuffix,
+            ) { input ->
+                val ctx = OptionCallTransformContext("", this@transformAll, context)
+                try {
+                    val v = transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, input)))))
+                    if (v != null) {
+                        @Suppress("UNCHECKED_CAST")
+                        (option as? OptionWithValues<T, T, T>)?.transformValidator?.invoke(this@transformAll, v)
+                    }
+                    ConversionResult.Valid(v)
+                } catch (e: UsageError) {
+                    e.context = e.context ?: context
+                    ConversionResult.Invalid(e.formatMessage())
+                }
             }
         }
         else -> provided

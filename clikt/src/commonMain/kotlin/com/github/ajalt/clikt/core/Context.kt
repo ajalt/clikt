@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
+import com.github.ajalt.mordant.terminal.Terminal
 import kotlin.properties.ReadOnlyProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
@@ -28,7 +29,7 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  * @property tokenTransformer An optional transformation function that is called to transform command line
  *   tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive
  *   behavior.
- * @property console The console to use to print messages.
+ * @property terminal The terminal to used to read and write messages.
  * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
  *   files. If false, they will be treated as normal arguments.
  * @property correctionSuggestor A callback called when the command line contains an invalid option or
@@ -45,7 +46,7 @@ class Context private constructor(
     val helpOptionNames: Set<String>,
     val helpFormatter: HelpFormatter,
     val tokenTransformer: Context.(String) -> String,
-    val console: CliktConsole,
+    val terminal: Terminal,
     val expandArgumentFiles: Boolean,
     val readEnvvarBeforeValueSource: Boolean,
     val valueSource: ValueSource?,
@@ -95,7 +96,7 @@ class Context private constructor(
     @PublishedApi
     internal fun ancestors() = generateSequence(this) { it.parent }
 
-    class Builder(command: CliktCommand, parent: Context? = null) {
+    class Builder(command: CliktCommand, val parent: Context? = null) {
         /**
          * If false, options and arguments cannot be mixed; the first time an argument is encountered, all
          * remaining tokens are parsed as arguments.
@@ -134,11 +135,12 @@ class Context private constructor(
         }
 
         /**
-         * The console that will handle reading and writing text.
-         *
-         * The default uses stdin and stdout.
+         * The terminal that will handle reading and writing text.
          */
-        var console: CliktConsole = parent?.console ?: defaultCliktConsole()
+        var terminal: Terminal = run {
+            val terminal1 = parent?.terminal
+            terminal1 ?: Terminal()
+        }
 
         /**
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
@@ -214,7 +216,7 @@ class Context private constructor(
                 val formatter = helpFormatter ?: CliktHelpFormatter(localization)
                 return Context(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                    helpOptionNames, formatter, tokenTransformer, console, expandArgumentFiles,
+                    helpOptionNames, formatter, tokenTransformer, terminal, expandArgumentFiles,
                     readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
                     envvarReader, obj, argv
                 )

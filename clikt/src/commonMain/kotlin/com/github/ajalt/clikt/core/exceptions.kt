@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.output.defaultLocalization
 import com.github.ajalt.clikt.parameters.arguments.Argument
-import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
 
@@ -20,7 +19,6 @@ open class CliktError(
     cause: Exception? = null,
     val statusCode: Int = 0,
     val printError: Boolean = true,
-    val forceUnixLineEndings: Boolean = false, // TODO: docs
 ) : RuntimeException(message, cause)
 
 /**
@@ -41,8 +39,7 @@ open class PrintMessage(
     message: String,
     statusCode: Int = 0,
     printError: Boolean = false,
-    forceUnixLineEndings: Boolean = false,
-) : CliktError(message, statusCode = statusCode, printError = printError, forceUnixLineEndings = forceUnixLineEndings)
+) : CliktError(message, statusCode = statusCode, printError = printError)
 
 /**
  * Indicate that the program finished in a controlled manner, and should complete with the given [statusCode]
@@ -62,10 +59,7 @@ class Abort : CliktError(statusCode = 1)
  * @param forceUnixLineEndings if true, all line endings in the message should be `\n`, regardless
  *   of the current operating system.
  */
-class PrintCompletionMessage(
-    message: String,
-    forceUnixLineEndings: Boolean,
-) : PrintMessage(message, forceUnixLineEndings = forceUnixLineEndings)
+class PrintCompletionMessage(message: String) : PrintMessage(message)
 
 /**
  * An internal exception that signals a usage error.

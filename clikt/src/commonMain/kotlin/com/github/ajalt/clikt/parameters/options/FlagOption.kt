@@ -1,9 +1,14 @@
 package com.github.ajalt.clikt.parameters.options
 
+import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.mordant.terminal.ConversionResult
+import com.github.ajalt.mordant.terminal.Terminal
+import com.github.ajalt.mordant.terminal.YesNoPrompt
 
 /** A block that converts a flag value from one type to another */
 typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
@@ -94,4 +99,49 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): OptionWithValues<T?, T?
  */
 fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): OptionWithValues<T?, T?, String> {
     return switch(mapOf(*choices))
+}
+
+
+/**
+ * If the option isn't given on the command line, prompt the user for manual input.
+ *
+ * @param text The message asking for input to show the user
+ * @param default The value to return if the user enters an empty line, or `null` to require a value
+ * @param uppercaseDefault If true and [default] is not `null`, the default choice will be shown in uppercase.
+ * @param showChoices If true, the choices will be added to the [prompt]
+ * @param choiceStrings The strings to accept for `true` and `false` inputs
+ * @param promptSuffix A string to append after [prompt] when showing the user the prompt
+ * @param invalidChoiceMessage The message to show the user if they enter a value that isn't one of the [choiceStrings].
+ */
+fun OptionWithValues<Boolean, Boolean, Boolean>.prompt(
+    text: String,
+    default: Boolean? = null,
+    uppercaseDefault: Boolean = true,
+    showChoices: Boolean = true,
+    choiceStrings: List<String> = listOf("y", "n"),
+    promptSuffix: String = ": ",
+    invalidChoiceMessage: String = "Invalid value, choose from ",
+): OptionWithValues<Boolean, Boolean, Boolean> {
+    return copy(
+        transformValue = transformValue,
+        transformEach = transformEach,
+        transformAll = { invocations ->
+            when (val provided = invocations.lastOrNull()) {
+                null -> {
+                    YesNoPrompt(
+                        prompt = text,
+                        terminal = context.terminal,
+                        default = default,
+                        uppercaseDefault = uppercaseDefault,
+                        showChoices = showChoices,
+                        choiceStrings = choiceStrings,
+                        promptSuffix = promptSuffix,
+                        invalidChoiceMessage = invalidChoiceMessage,
+                    ).ask()
+                }
+                else -> provided
+            } ?: throw Abort()
+        },
+        validator = defaultValidator(),
+    )
 }

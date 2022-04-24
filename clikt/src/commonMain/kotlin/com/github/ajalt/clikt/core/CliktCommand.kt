@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.mpp.exitProcessMpp
-import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
@@ -12,6 +11,9 @@ import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parsers.Parser
+import com.github.ajalt.mordant.terminal.ConversionResult
+import com.github.ajalt.mordant.terminal.Terminal
+import com.github.ajalt.mordant.terminal.YesNoPrompt
 
 /**
  * The [CliktCommand] is the core of command line interfaces in Clikt.
@@ -263,8 +265,7 @@ abstract class CliktCommand(
     fun echoFormattedError(error: CliktError) {
         val msg = getFormattedError(error)
         if (msg != null) {
-            val s = if (error.forceUnixLineEndings) "\n" else currentContext.console.lineSeparator
-            echo(msg, err = error.printError, lineSeparator = s)
+            echo(msg, err = error.printError)
         }
     }
 
@@ -277,18 +278,9 @@ abstract class CliktCommand(
      */
     open fun aliases(): Map<String, List<String>> = emptyMap()
 
-    /** Print the default [line separator][CliktConsole.lineSeparator] to `stdout` */
+    /** Print a line break to `stdout` */
     protected fun echo() {
         echo("")
-    }
-
-    @Deprecated(
-        message = "Specify message explicitly with `err` or `lineSeparator`",
-        replaceWith = ReplaceWith("echo(\"\", err=err, lineSeparator=lineSeparator)")
-    )
-    /** @suppress */
-    protected fun echo(err: Boolean, lineSeparator: String) {
-        echo("", err = err, lineSeparator = lineSeparator)
     }
 
     /**
@@ -304,115 +296,126 @@ abstract class CliktCommand(
         message: Any?,
         trailingNewline: Boolean = true,
         err: Boolean = false,
-        lineSeparator: String = currentContext.console.lineSeparator,
     ) {
-        TermUi.echo(message, trailingNewline, err, currentContext.console, lineSeparator)
+        val t = if (err) currentContext.terminal.forStdErr() else currentContext.terminal
+        if (trailingNewline) {
+            t.println(message)
+        } else {
+            t.print(message)
+        }
     }
 
     /**
-     * Prompt a user for text input.
+     * Print [text] to the user and return the value they enter.
      *
-     * If the user sends a terminate signal (e.g. ctrl-c) while the prompt is active, null will be returned.
+     * @param text The message asking for input to show the user
+     * @param default The value to return if the user enters an empty line, or `null` to require a value
+     * @param showDefault If true and a [default] is specified, add the default value to the prompt
+     * @param hideInput If true, the user's input will be treated like a password and hidden from
+     *   the screen. This value will be ignored on platforms where it is not supported.
+     * @param choices The set of values that the user must choose from.
+     * @param promptSuffix A string to append after [text] when showing the user the prompt
+     * @param invalidChoiceMessage The message to show the user if [choices] is specified,
+     *   and they enter a value that isn't one of the choices.
      *
-     * @param text The text to display for the prompt.
-     * @param default The default value to use for the input. If the user enters a newline without any other
-     *   value, [default] will be returned.
-     * @param hideInput If true, the user's input will not be echoed back to the screen. This is commonly used
-     *   for password inputs.
-     * @param requireConfirmation If true, the user will be required to enter the same value twice before it
-     *   is accepted.
-     * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
-     * @param promptSuffix A delimiter printed between the [text] and the user's input.
-     * @param showDefault If true, the [default] value will be shown as part of the prompt.
-     * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
+     * @return The user input, or `null` if EOF was reached before this function was called.
+     *
+     * @see Terminal.prompt
      */
-    protected fun prompt(
+    fun prompt(
         text: String,
         default: String? = null,
-        hideInput: Boolean = false,
-        requireConfirmation: Boolean = false,
-        confirmationPrompt: String = "Repeat for confirmation: ",
-        promptSuffix: String = ": ",
         showDefault: Boolean = true,
-    ): String? {
-        return TermUi.prompt(
-            text = text,
-            default = default,
-            hideInput = hideInput,
-            requireConfirmation = requireConfirmation,
-            confirmationPrompt = confirmationPrompt,
-            promptSuffix = promptSuffix,
-            showDefault = showDefault,
-            console = currentContext.console,
-            convert = { it }
-        )
-    }
+        showChoices: Boolean = true,
+        hideInput: Boolean = false,
+        choices: Collection<String> = emptyList(),
+        promptSuffix: String = ": ",
+        invalidChoiceMessage: String = "Invalid value, choose from ",
+    ): String? = currentContext.terminal.prompt(
+        text,
+        default,
+        showDefault,
+        showChoices,
+        hideInput,
+        choices,
+        promptSuffix,
+        invalidChoiceMessage
+    )
 
     /**
-     * Prompt a user for text input and convert the result.
+     * Print [text] to the user and return the value they enter.
      *
-     * If the user sends a terminate signal (e.g. ctrl-c) while the prompt is active, null will be returned.
+     * @param text The message asking for input to show the user
+     * @param default The value to return if the user enters an empty line, or `null` to require a value
+     * @param showDefault If true and a [default] is specified, add the default value to the prompt
+     * @param hideInput If true, the user's input will be treated like a password and hidden from
+     *   the screen. This value will be ignored on platforms where it is not supported.
+     * @param choices The set of values that the user must choose from.
+     * @param promptSuffix A string to append after [text] when showing the user the prompt
+     * @param invalidChoiceMessage The message to show the user if [choices] is specified,
+     *   and they enter a value that isn't one of the choices.
+     * @param convert A function that converts the user input to the final value
      *
-     * @param text The text to display for the prompt.
-     * @param default The default value to use for the input. If the user enters a newline without any other
-     *   value, [default] will be returned. This parameter is a String instead of [T], since it will be
-     *   displayed to the user.
-     * @param hideInput If true, the user's input will not be echoed back to the screen. This is commonly used
-     *   for password inputs.
-     * @param requireConfirmation If true, the user will be required to enter the same value twice before it
-     *   is accepted.
-     * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
-     * @param promptSuffix A delimiter printed between the [text] and the user's input.
-     * @param showDefault If true, the [default] value will be shown as part of the prompt.
-     * @param convert A callback that will convert the text that the user enters to the return value of the
-     *   function. If the callback raises a [UsageError], its message will be printed and the user will be
-     *   asked to enter a new value. If [default] is not null and the user does not input a value, the value
-     *   of [default] will be passed to this callback.
-     * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
+     * @return The converted user input, or `null` if EOF was reached before this function was called.
+     *
+     * @see Terminal.prompt
      */
     protected fun <T> prompt(
         text: String,
-        default: String? = null,
-        hideInput: Boolean = false,
-        requireConfirmation: Boolean = false,
-        confirmationPrompt: String = "Repeat for confirmation: ",
-        promptSuffix: String = ": ",
+        default: T? = null,
         showDefault: Boolean = true,
-        convert: ((String) -> T),
-    ): T? {
-        return TermUi.prompt(
-            text = text,
-            default = default,
-            hideInput = hideInput,
-            requireConfirmation = requireConfirmation,
-            confirmationPrompt = confirmationPrompt,
-            promptSuffix = promptSuffix,
-            showDefault = showDefault,
-            console = currentContext.console,
-            convert = convert
-        )
-    }
+        showChoices: Boolean = true,
+        hideInput: Boolean = false,
+        choices: Collection<T> = emptyList(),
+        promptSuffix: String = ": ",
+        invalidChoiceMessage: String = "Invalid value, choose from ",
+        convert: (String) -> ConversionResult<T>,
+    ): T? = currentContext.terminal.prompt(
+        text,
+        default,
+        showDefault,
+        showChoices,
+        hideInput,
+        choices,
+        promptSuffix,
+        invalidChoiceMessage,
+        convert
+    )
 
     /**
      * Prompt for user confirmation.
      *
-     * Responses will be read from stdin, even if it's redirected to a file.
+     * @param text The message asking for input to show the user
+     * @param default The value to return if the user enters an empty line, or `null` to require a value
+     * @param uppercaseDefault If true and [default] is not `null`, the default choice will be shown in uppercase.
+     * @param showChoices If true, the choices will be added to the [prompt]
+     * @param choiceStrings The strings to accept for `true` and `false` inputs
+     * @param promptSuffix A string to append after [prompt] when showing the user the prompt
+     * @param invalidChoiceMessage The message to show the user if they enter a value that isn't one of the [choiceStrings].
      *
-     * @param text the question to ask
-     * @param default the default, used if stdin is empty
-     * @param abort if `true`, a negative answer aborts the program by raising [Abort]
-     * @param promptSuffix a string added after the question and choices
-     * @param showDefault if false, the choices will not be shown in the prompt.
-     * @return the user's response, or null if stdin is not interactive and EOF was encountered.
+     * @return The converted user input, or `null` if EOF was reached before this function was called.
+     *
+     * @see Terminal.prompt
      */
     protected fun confirm(
         text: String,
-        default: Boolean = false,
-        abort: Boolean = false,
+        default: Boolean? = null,
+        uppercaseDefault: Boolean = true,
+        showChoices: Boolean = true,
+        choiceStrings: List<String> = listOf("y", "n"),
         promptSuffix: String = ": ",
-        showDefault: Boolean = true,
+        invalidChoiceMessage: String = "Invalid value, choose from ",
     ): Boolean? {
-        return TermUi.confirm(text, default, abort, promptSuffix, showDefault, currentContext.console)
+        return YesNoPrompt(
+            text,
+            currentContext.terminal,
+            default,
+            uppercaseDefault,
+            showChoices,
+            choiceStrings,
+            promptSuffix,
+            invalidChoiceMessage,
+        ).ask()
     }
 
     /**

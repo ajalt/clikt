@@ -1,18 +1,12 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.output.CliktConsole
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.check
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
-import io.kotest.matchers.collections.beEmpty
-import io.kotest.matchers.collections.containExactly
-import io.kotest.matchers.should
+import com.github.ajalt.clikt.testing.test
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.SystemOutRule
@@ -27,22 +21,6 @@ class PromptOptionsTest {
     @Rule
     @JvmField
     val stdin: TextFromStandardInputStream = TextFromStandardInputStream.emptyStandardInputStream()
-
-    @Test
-    fun `manual prompt`() {
-        stdin.provideLines("bar")
-        val input = TermUi.prompt("Foo")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: "
-        input shouldBe "bar"
-    }
-
-    @Test
-    fun `manual prompt conversion`() {
-        stdin.provideLines("bar", "11")
-        val input = TermUi.prompt("Foo") { it.toIntOrNull() ?: throw UsageError("boo") }
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: boo\nFoo: "
-        input shouldBe 11
-    }
 
     @Test
     fun `command prompt`() {
@@ -63,7 +41,7 @@ class PromptOptionsTest {
 
         class C : TestCommand() {
             override fun run_() {
-                confirm("Foo") shouldBe true
+                confirm("Foo", default=false) shouldBe true
             }
         }
         C().parse("")
@@ -103,67 +81,19 @@ class PromptOptionsTest {
 
     @Test
     fun `custom console`() {
-        val console = object : CliktConsole {
-            val prompts = mutableListOf<String>()
-            val prints = mutableListOf<String>()
-
-            override fun promptForLine(prompt: String, hideInput: Boolean): String {
-                prompts += prompt
-                return "bar"
-            }
-
-            override fun print(text: String, error: Boolean) {
-                prints += text
-            }
-
-            override val lineSeparator: String get() = "\n"
-        }
-
         class C : TestCommand() {
-            init {
-                context {
-                    this.console = console
-                }
-            }
-
             val foo by option().prompt()
             override fun run_() {
                 foo shouldBe "bar"
             }
         }
-        C().parse("")
-        console.prompts should containExactly("Foo: ")
-        console.prints should beEmpty()
-        stdout.logWithNormalizedLineSeparator shouldBe ""
+        val r = C().test("", stdin="bar")
+        r.output shouldBe "Foo: "
     }
 
     @Test
     fun `custom console inherited by subcommand`() {
-        val console = object : CliktConsole {
-            val prompts = mutableListOf<String>()
-            val prints = mutableListOf<String>()
-
-            override fun promptForLine(prompt: String, hideInput: Boolean): String? {
-                prompts += prompt
-                return "bar"
-            }
-
-            override fun print(text: String, error: Boolean) {
-                prints += text
-            }
-
-            override val lineSeparator: String get() = "\n"
-        }
-
-        class C : TestCommand() {
-            init {
-                context {
-                    this.console = console
-                }
-            }
-
-            override fun run_() {}
-        }
+        class C : TestCommand()
 
         class S : TestCommand() {
             val foo by option().prompt()
@@ -172,10 +102,8 @@ class PromptOptionsTest {
             }
         }
 
-        C().subcommands(S()).parse(listOf("s"))
-        console.prompts should containExactly("Foo: ")
-        console.prints should beEmpty()
-        stdout.logWithNormalizedLineSeparator shouldBe ""
+        val r= C().subcommands(S()).test("s", stdin="bar")
+        r.output shouldBe "Foo: "
     }
 
     @Test
@@ -222,7 +150,7 @@ class PromptOptionsTest {
         }
 
         C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo [baz]: "
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo (baz): "
     }
 
     @Test

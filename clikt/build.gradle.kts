@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
-@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
+@Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.dokka)
@@ -44,7 +44,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                api("com.github.ajalt.mordant:mordant:2.0.0-beta6")
+                api(libs.mordant)
             }
         }
 

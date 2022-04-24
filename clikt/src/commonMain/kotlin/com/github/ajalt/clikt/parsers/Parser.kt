@@ -208,10 +208,9 @@ internal object Parser {
 
                 command.currentContext.invokedSubcommand = subcommand
                 if (command.currentContext.printExtraMessages) {
-                    val console = command.currentContext.console
+                    val t = command.currentContext.terminal.forStdErr()
                     for (warning in command.messages) {
-                        console.print(warning, error = true)
-                        console.print(console.lineSeparator, error = true)
+                        t.warning(warning)
                     }
                 }
 

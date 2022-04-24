@@ -2,7 +2,7 @@ import java.io.ByteArrayOutputStream
 
 val VERSION_NAME: String by project
 
-@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
+@Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     kotlin("multiplatform").version(libs.versions.kotlin).apply(false)
 }
@@ -13,6 +13,7 @@ allprojects {
 
 
     repositories {
+        mavenLocal() // TODO: remove
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
     }

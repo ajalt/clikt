@@ -263,8 +263,6 @@ abstract class CliktCommand(
      *
      * This is similar to [print] or [println], but converts newlines to the system line separator.
      *
-     * This is equivalent to calling [TermUi.echo] with the console from the current context.
-     *
      * @param message The message to print.
      * @param trailingNewline If true, behave like [println], otherwise behave like [print]
      * @param err If true, print to stderr instead of stdout

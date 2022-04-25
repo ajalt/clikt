@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Deprecated
+- `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on `CliktCommand` instead. ([#344](https://github.com/ajalt/clikt/issues/344))
+
 ## 3.4.1
 ### Added
 - Publish JS artifacts with new IR compiler, in addition to the legacy format 

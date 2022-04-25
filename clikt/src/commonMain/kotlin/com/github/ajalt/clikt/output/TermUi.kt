@@ -17,6 +17,7 @@ object TermUi {
      * @param console The console to echo to
      * @param lineSeparator The line separator to use, defaults to the [console]'s `lineSeparator`
      */
+    @Deprecated("Use ClickCommand.echo instead")
     fun echo(
         message: Any?,
         trailingNewline: Boolean = true,
@@ -90,6 +91,7 @@ object TermUi {
      *   of [default] will be passed to this callback.
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
+    @Deprecated("Use ClickCommand.prompt instead")
     fun <T> prompt(
         text: String,
         default: String? = null,
@@ -152,8 +154,10 @@ object TermUi {
      * @param confirmationPrompt The text to show the user when [requireConfirmation] is true.
      * @param promptSuffix A delimiter printed between the [text] and the user's input.
      * @param showDefault If true, the [default] value will be shown as part of the prompt.
+     * @param console The console to prompt to
      * @return the user's input, or null if the stdin is not interactive and EOF was encountered.
      */
+    @Deprecated("Use ClickCommand.prompt instead")
     fun prompt(
         text: String,
         default: String? = null,
@@ -162,9 +166,10 @@ object TermUi {
         confirmationPrompt: String = "Repeat for confirmation: ",
         promptSuffix: String = ": ",
         showDefault: Boolean = true,
+        console: CliktConsole = defaultCliktConsole(),
     ): String? {
         return prompt(text, default, hideInput, requireConfirmation,
-            confirmationPrompt, promptSuffix, showDefault) { it }
+            confirmationPrompt, promptSuffix, showDefault, console) { it }
     }
 
     /**
@@ -179,6 +184,7 @@ object TermUi {
      * @param showDefault if false, the choices will not be shown in the prompt.
      * @return the user's response, or null if stdin is not interactive and EOF was encountered.
      */
+    @Deprecated("Use ClickCommand.confirm instead")
     fun confirm(
         text: String,
         default: Boolean = false,

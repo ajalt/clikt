@@ -24,7 +24,7 @@ fun getPublishVersion(): String {
 
     val stdout = ByteArrayOutputStream()
     project.exec {
-        commandLine = listOf("git", "tag", "--points-at", "master")
+        commandLine = listOf("git", "tag", "--points-at", "HEAD")
         standardOutput = stdout
     }
     val tag = String(stdout.toByteArray()).trim()

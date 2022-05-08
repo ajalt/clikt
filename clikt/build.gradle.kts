@@ -25,7 +25,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                api("com.github.ajalt.mordant:mordant:2.0.0-beta3")
+                api("com.github.ajalt.mordant:mordant:2.0.0-beta6")
             }
         }
 

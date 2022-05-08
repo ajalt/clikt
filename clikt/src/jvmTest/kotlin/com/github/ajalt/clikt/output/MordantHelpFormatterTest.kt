@@ -16,6 +16,7 @@ import com.github.ajalt.mordant.terminal.Terminal
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import org.junit.Test
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 
 private fun <T> l(vararg t: T) = listOf(*t)
@@ -57,6 +58,7 @@ private fun sub(
         tags: Map<String, String> = emptyMap()
 ) = ParameterHelp.Subcommand(name, help, tags)
 
+@Ignore
 class MordantHelpFormatterTest {
     @Test
     fun formatUsage() = forAll(

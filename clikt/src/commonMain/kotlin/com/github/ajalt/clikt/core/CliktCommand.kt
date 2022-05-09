@@ -436,8 +436,10 @@ abstract class CliktCommand(
     /**
      * Parse the command line and print helpful output if any errors occur.
      *
-     * This function calls [parse] and catches any [CliktError]s that are thrown. Other errors are allowed to
-     * pass through.
+     * This function calls [parse] and catches any [CliktError]s that are thrown, exiting the process with the specified
+     * [status code][CliktError.statusCode]. Other errors are allowed to pass through.
+     *
+     * If you don't want Clikt to exit your process, call [parse] instead.
      */
     fun main(argv: List<String>) {
         try {

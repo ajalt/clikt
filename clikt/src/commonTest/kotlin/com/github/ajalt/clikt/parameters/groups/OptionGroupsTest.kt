@@ -209,6 +209,26 @@ class OptionGroupsTest {
     }
 
     @Test
+    @JsName("mutually_exclusive_group_default_flag_single")
+    fun `mutually exclusive group flag single`() = forAll(
+//        row("", false),
+//        row("--x", true),
+        row("--y", true)
+    ) { argv, eg ->
+        class C : TestCommand() {
+            val g by mutuallyExclusiveOptions(
+                option("--x").flag(),
+                option("--y").flag()
+            ).single()
+
+            override fun run_() {
+                g shouldBe eg
+            }
+        }
+        C().parse(argv)
+    }
+
+    @Test
     @JsName("co_occurring_option_group")
     fun `co-occurring option group`() = forAll(
         row("", false, null, null),

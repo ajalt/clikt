@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fix flags and other options with defaults not being usable in `mutuallyExclusiveOptions` ([#349](https://github.com/ajalt/clikt/issues/349))
+
 ## 3.4.2
 ### Deprecated
 - `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on `CliktCommand` instead. ([#344](https://github.com/ajalt/clikt/issues/344))

@@ -43,7 +43,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
 
     override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
         finalizeOptions(context, options, invocationsByOption)
-        val values = options.mapNotNull { it.value }
+        val values = options.filter { it in invocationsByOption }.mapNotNull { it.value }
         value = MutuallyExclusiveOptionTransformContext(context).transformAll(values)
     }
 

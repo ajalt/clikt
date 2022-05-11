@@ -248,7 +248,7 @@ abstract class CliktCommand(
      */
     fun getFormattedError(error: CliktError): String? {
         return when (error) {
-            is PrintHelpMessage -> getFormattedHelp()
+            is PrintHelpMessage -> error.command.getFormattedHelp()
             is UsageError -> {
                 val ctx = error.context ?: currentContext
                 val cmd = ctx.command

@@ -90,7 +90,7 @@ class SetUser : CliktCommand(
     val email: String by option(help = "The developer's email address.")
         .prompt(text = "E-Mail")
     val password: String by option(help = "The login password.")
-        .prompt(hideInput = true, requireConfirmation = true)
+        .prompt(hideInput = true)
 
     override fun run() {
         repo.config["username"] = username

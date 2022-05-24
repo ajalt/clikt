@@ -35,6 +35,7 @@ kotlin {
     linuxX64()
     mingwX64()
     macosX64()
+    macosArm64()
 
     sourceSets {
         all {
@@ -66,8 +67,14 @@ kotlin {
         val mingwX64Main by getting {
             dependsOn(nativeMain)
         }
-        val macosX64Main by getting {
+        val nativeDarwinMain by creating {
             dependsOn(nativeMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(nativeDarwinMain)
+        }
+        val macosArm64Main by getting {
+            dependsOn(nativeDarwinMain)
         }
 
         val nativeTest by creating {
@@ -79,8 +86,14 @@ kotlin {
         val mingwX64Test by getting {
             dependsOn(nativeTest)
         }
-        val macosX64Test by getting {
+        val nativeDarwinTest by creating {
             dependsOn(nativeTest)
+        }
+        val macosX64Test by getting {
+            dependsOn(nativeDarwinTest)
+        }
+        val macosArm64Test by getting {
+            dependsOn(nativeDarwinTest)
         }
     }
 }

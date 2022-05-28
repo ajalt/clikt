@@ -3,6 +3,7 @@
 ## Unreleased
 ### Added
 - Added `hidden` parameter to `CliktCommand`, which will prevent the command from being displayed as a subcommand in help output  ([#353](https://github.com/ajalt/clikt/issues/353))
+- Publish artifacts for the `macosArm64` target. Note that this target is not tested on CI. ([#352](https://github.com/ajalt/clikt/issues/352))
 
 ### Fixed
 - Fix flags and other options with defaults not being usable in `mutuallyExclusiveOptions` ([#349](https://github.com/ajalt/clikt/issues/349))

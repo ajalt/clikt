@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `hidden` parameter to `CliktCommand`, which will prevent the command from being displayed as a subcommand in help output  ([#353](https://github.com/ajalt/clikt/issues/353))
+
 ### Fixed
 - Fix flags and other options with defaults not being usable in `mutuallyExclusiveOptions` ([#349](https://github.com/ajalt/clikt/issues/349))
 

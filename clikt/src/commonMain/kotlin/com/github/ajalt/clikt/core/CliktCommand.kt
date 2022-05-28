@@ -43,6 +43,7 @@ import com.github.ajalt.clikt.parsers.Parser
  * `argument().multiple()` to collect these options, or an error will still be reported. Unknown
  * short option flags grouped with other flags on the command line will always be reported as
  * errors.
+ * @param hidden If true, don't display this command in help output when used as a subcommand.
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
@@ -56,6 +57,7 @@ abstract class CliktCommand(
     private val autoCompleteEnvvar: String? = "",
     internal val allowMultipleSubcommands: Boolean = false,
     internal val treatUnknownOptionsAsArgs: Boolean = false,
+    private val hidden: Boolean = false,
 ) : ParameterHolder {
     /**
      * The name of this command, used in help output.
@@ -116,7 +118,12 @@ abstract class CliktCommand(
         return _options.mapNotNull { it.parameterHelp(currentContext) } +
                 _arguments.mapNotNull { it.parameterHelp(currentContext) } +
                 _groups.mapNotNull { it.parameterHelp(currentContext) } +
-                _subcommands.map { ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags) }
+                _subcommands.mapNotNull {
+                    when {
+                        it.hidden -> null
+                        else -> ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags)
+                    }
+                }
     }
 
     private fun getCommandNameWithParents(): String {

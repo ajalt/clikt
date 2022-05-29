@@ -12,6 +12,7 @@ open class NoOpCliktCommand(
     helpTags: Map<String, String> = emptyMap(),
     autoCompleteEnvvar: String? = "",
     allowMultipleSubcommands: Boolean = false,
+    hidden: Boolean = false,
 ) : CliktCommand(
     help,
     epilog,
@@ -20,7 +21,8 @@ open class NoOpCliktCommand(
     printHelpOnEmptyArgs,
     helpTags,
     autoCompleteEnvvar,
-    allowMultipleSubcommands
+    allowMultipleSubcommands,
+    hidden
 ) {
     override fun run() = Unit
 }

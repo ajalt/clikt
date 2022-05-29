@@ -462,6 +462,26 @@ class CliktHelpFormatterTest {
 
     @Test
     @Suppress("unused")
+    @JsName("integration_test_with_hidden_subcommand")
+    fun `integration test with hidden subcommand`() {
+        class C : TestCommand()
+        class Sub : TestCommand()
+        class Hidden: TestCommand(hidden = true)
+        val c = C().subcommands(Sub(), Hidden())
+
+        c.getFormattedHelp() shouldBe """
+                |Usage: c [OPTIONS] COMMAND [ARGS]...
+                |
+                |Options:
+                |  -h, --help  Show this message and exit
+                |
+                |Commands:
+                |  sub
+                """.trimMargin()
+    }
+
+    @Test
+    @Suppress("unused")
     @JsName("integration_test_with_choice_group")
     fun `integration test with choice group`() {
         class G1 : OptionGroup("G1") {

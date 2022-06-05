@@ -50,6 +50,7 @@ class CompletionCommand(
 ) : CliktCommand(help, epilog, name) {
     private val shell by argument("SHELL").choice(*choices)
     override fun run() {
-        CompletionGenerator.throwCompletionMessage(this, shell)
+        val cmd = currentContext.parent?.command ?: this
+        CompletionGenerator.throwCompletionMessage(cmd, shell)
     }
 }

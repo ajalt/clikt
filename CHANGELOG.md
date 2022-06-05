@@ -7,6 +7,7 @@
 
 ### Fixed
 - Fix flags and other options with defaults not being usable in `mutuallyExclusiveOptions` ([#349](https://github.com/ajalt/clikt/issues/349))
+- Fix `CompletionCommand` generating completion for itself ([#355](https://github.com/ajalt/clikt/issues/355))
 
 ## 3.4.2
 ### Deprecated

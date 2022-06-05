@@ -121,8 +121,12 @@ abstract class CompletionTestBase(private val shell: String) {
     @Test
     @JsName("completion_command")
     fun `completion command`() {
-        shouldThrow<PrintCompletionMessage> {
-            TestCommand().subcommands(CompletionCommand()).parse("generate-completion $shell")
-        }.message shouldContain shell
+        val message = shouldThrow<PrintCompletionMessage> {
+            TestCommand()
+                .subcommands(CompletionCommand(), TestCommand(name="foo"))
+                .parse("generate-completion $shell")
+        }.message
+        message shouldContain shell
+        message shouldContain "foo"
     }
 }

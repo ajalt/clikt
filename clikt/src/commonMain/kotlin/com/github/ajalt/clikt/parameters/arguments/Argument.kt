@@ -2,12 +2,14 @@ package com.github.ajalt.clikt.parameters.arguments
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -161,7 +163,8 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
         helpTags: Map<String, String> = this.helpTags,
         completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name,
+        return ProcessedArgument(
+            name,
             nvalues,
             required,
             help,
@@ -169,7 +172,8 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
             completionCandidatesWithDefault,
             transformValue,
             transformAll,
-            validator)
+            validator
+        )
     }
 
     /** Create a new argument that is a copy of this one with the same transforms. */
@@ -182,7 +186,8 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
         helpTags: Map<String, String> = this.helpTags,
         completionCandidatesWithDefault: ValueWithDefault<CompletionCandidates> = this.completionCandidatesWithDefault,
     ): ProcessedArgument<AllT, ValueT> {
-        return ProcessedArgument(name,
+        return ProcessedArgument(
+            name,
             nvalues,
             required,
             help,
@@ -190,7 +195,8 @@ class ProcessedArgument<AllT, ValueT> internal constructor(
             completionCandidatesWithDefault,
             transformValue,
             transformAll,
-            validator)
+            validator
+        )
     }
 }
 
@@ -275,9 +281,23 @@ fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
     required: Boolean? = null,
     transform: ArgCallsTransformer<AllOutT, ValueT>,
 ): ProcessedArgument<AllOutT, ValueT> {
-    return copy(transformValue, transform, defaultValidator(),
+    return transformAll(nvalues, required, null, transform)
+}
+
+fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
+    nvalues: Int?,
+    required: Boolean?,
+    defaultForHelp: String?,
+    transform: ArgCallsTransformer<AllOutT, ValueT>,
+): ProcessedArgument<AllOutT, ValueT> {
+    val tags = this.helpTags.toMutableMap()
+    if (defaultForHelp != null) tags[HelpFormatter.Tags.DEFAULT] = defaultForHelp
+    else tags.remove(HelpFormatter.Tags.DEFAULT)
+    return copy(
+        transformValue, transform, defaultValidator(),
         nvalues = nvalues ?: this.nvalues,
-        required = required ?: this.required)
+        required = required ?: this.required, helpTags = tags
+    )
 }
 
 /**
@@ -366,14 +386,20 @@ fun <T : Any> ProcessedArgument<T, T>.triple(): ProcessedArgument<Triple<T, T, T
  *
  * This must be applied after all other transforms.
  *
+ * You can customize how the default is shown to the user with [defaultForHelp].
+ *
  * ### Example:
  *
  * ```
  * val arg: Pair<Int, Int> by argument().int().pair().default(1 to 2)
  * ```
  */
-fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
-    return transformAll(required = false) { it.firstOrNull() ?: value }
+@JvmOverloads
+fun <T : Any> ProcessedArgument<T, T>.default(
+    value: T,
+    defaultForHelp: String = value.toString(),
+): ArgumentDelegate<T> {
+    return transformAll(null, false, defaultForHelp) { it.firstOrNull() ?: value }
 }
 
 /**
@@ -382,14 +408,26 @@ fun <T : Any> ProcessedArgument<T, T>.default(value: T): ArgumentDelegate<T> {
  * This must be applied after all other transforms. If the argument is given on the command line, [value] will
  * not be called.
  *
+ * You can customize how the default is shown to the user with [defaultForHelp]. The default value
+ * is an empty string, so if you have the help formatter configured to show values, you should set
+ * this value manually.
+ *
  * ### Example:
  *
  * ```
  * val arg: Pair<Int, Int> by argument().int().pair().defaultLazy { expensiveOperation() }
  * ```
  */
+inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(
+    defaultForHelp: String,
+    crossinline value: () -> T,
+): ArgumentDelegate<T> {
+    return transformAll(null, false, defaultForHelp) { it.firstOrNull() ?: value() }
+}
+
+
 inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -> T): ArgumentDelegate<T> {
-    return transformAll(required = false) { it.firstOrNull() ?: value() }
+    return defaultLazy("", value)
 }
 
 /**
@@ -426,7 +464,8 @@ inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
             fail(err.message ?: "")
         }
     }
-    return copy(conv, defaultAllProcessor(), defaultValidator(),
+    return copy(
+        conv, defaultAllProcessor(), defaultValidator(),
         completionCandidatesWithDefault = completionCandidatesWithDefault.copy(default = completionCandidates)
     )
 }

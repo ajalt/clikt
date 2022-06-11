@@ -5,6 +5,9 @@
 - Added `hidden` parameter to `CliktCommand`, which will prevent the command from being displayed as a subcommand in help output  ([#353](https://github.com/ajalt/clikt/issues/353))
 - Publish artifacts for the `macosArm64` target. Note that this target is not tested on CI. ([#352](https://github.com/ajalt/clikt/issues/352))
 
+### Changed
+- Default values for arguments will now be included in help output when `showDefaultValues=true` is set on your help formatter ([#357](https://github.com/ajalt/clikt/issues/357))
+
 ### Fixed
 - Fix flags and other options with defaults not being usable in `mutuallyExclusiveOptions` ([#349](https://github.com/ajalt/clikt/issues/349))
 - Fix `CompletionCommand` generating completion for itself ([#355](https://github.com/ajalt/clikt/issues/355))

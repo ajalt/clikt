@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.default
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
@@ -591,6 +592,7 @@ class CliktHelpFormatterTest {
             val multiOpt by option(help = "multiple").multiple(required = true)
             val arg by argument()
             val multi by argument().multiple(required = true)
+            val defArg by argument(help="has default").default("def")
 
             init {
                 context {
@@ -621,7 +623,7 @@ class CliktHelpFormatterTest {
             .subcommands(Sub(), Sub2())
 
         c.getFormattedHelp() shouldBe """
-                |Usage: program [OPTIONS] ARG MULTI... COMMAND [ARGS]...
+                |Usage: program [OPTIONS] ARG MULTI... [DEFARG] COMMAND [ARGS]...
                 |
                 |  This is a program.
                 |
@@ -660,6 +662,11 @@ class CliktHelpFormatterTest {
                 |  -E, --eager2      this is an eager option
                 |  --version         Show the version and exit
                 |  -h, --help        Show this message and exit
+                |
+                |Arguments:
+                |  ARG
+                |  MULTI
+                |  DEFARG  has default (default: def)
                 |
                 |Commands:
                 |  sub   a subcommand (deprecated)

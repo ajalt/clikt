@@ -10,6 +10,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
+import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -319,15 +320,7 @@ fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.help(help: String): Processed
 fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
     nvalues: Int? = null,
     required: Boolean? = null,
-    transform: ArgCallsTransformer<AllOutT, ValueT>,
-): ProcessedArgument<AllOutT, ValueT> {
-    return transformAll(nvalues, required, null, transform)
-}
-
-fun <AllInT, ValueT, AllOutT> ProcessedArgument<AllInT, ValueT>.transformAll(
-    nvalues: Int?,
-    required: Boolean?,
-    defaultForHelp: String?,
+    defaultForHelp: String? = null,
     transform: ArgCallsTransformer<AllOutT, ValueT>,
 ): ProcessedArgument<AllOutT, ValueT> {
     val tags = this.helpTags.toMutableMap()
@@ -459,15 +452,10 @@ fun <T : Any> ProcessedArgument<T, T>.default(
  * ```
  */
 inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(
-    defaultForHelp: String,
+    defaultForHelp: String = "",
     crossinline value: () -> T,
 ): ArgumentDelegate<T> {
     return transformAll(null, false, defaultForHelp) { it.firstOrNull() ?: value() }
-}
-
-
-inline fun <T : Any> ProcessedArgument<T, T>.defaultLazy(crossinline value: () -> T): ArgumentDelegate<T> {
-    return defaultLazy("", value)
 }
 
 /**
@@ -504,7 +492,8 @@ inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
             fail(err.message ?: "")
         }
     }
-    return copy(conv, defaultAllProcessor(), defaultValidator(),
+    return copy(
+        conv, defaultAllProcessor(), defaultValidator(),
         completionCandidates = explicitCompletionCandidates ?: completionCandidates
     )
 }

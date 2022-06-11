@@ -8,7 +8,7 @@ import com.github.ajalt.clikt.parsers.shlex
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.ExperimentalTerminalApi
 import com.github.ajalt.mordant.terminal.Terminal
-import com.github.ajalt.mordant.terminal.VirtualTerminalInterface
+import com.github.ajalt.mordant.terminal.TerminalRecorder
 
 /**
  * @property stdout Standard output captured from the command
@@ -66,7 +66,7 @@ fun CliktCommand.test(
     height: Int = 24,
 ): CliktCommandTestResult {
     var exitCode = 0
-    val iface = VirtualTerminalInterface(ansiLevel, width, height)
+    val iface = TerminalRecorder(ansiLevel, width, height)
     iface.inputLines = stdin.split("\n").toMutableList()
     context {
         envvarReader = { envvars[it] ?: (if (includeSystemEnvvars) readEnvvar(it) else null) }

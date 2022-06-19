@@ -21,8 +21,7 @@ dependencyResolutionManagement {
             plugin("dokka", "org.jetbrains.dokka").version("1.8.10")
             plugin("publish", "com.vanniktech.maven.publish").version("0.25.2")
 
-            // TODO: switch to published mordant
-            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-local")
+            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-beta7")
 
             // used in tests
             library("kotest", "io.kotest:kotest-assertions-core:5.5.4")

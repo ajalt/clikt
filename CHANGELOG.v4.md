@@ -10,6 +10,7 @@
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
 - When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340)) 
+- Update kotlin to 1.7.0
 
 ### Removed
 - `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.

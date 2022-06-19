@@ -10,13 +10,6 @@ plugins {
 allprojects {
     group = "com.github.ajalt.clikt"
     version = getPublishVersion()
-
-
-    repositories {
-        mavenLocal() // TODO: remove
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
-    }
 }
 
 fun getPublishVersion(): String {

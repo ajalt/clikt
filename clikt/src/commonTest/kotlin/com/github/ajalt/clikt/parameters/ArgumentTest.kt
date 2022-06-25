@@ -9,14 +9,12 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT33294
 import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.contain
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -375,16 +373,14 @@ class ArgumentTest {
     fun `argument check`() = forAll(
         row("bar foo", "Invalid value for \"X\": bar"),
         row("foo bar", "Invalid value for \"Y\": fail bar"),
-        row("foo foo bar", "Invalid value for \"Z\": bar"),
+        row("foo foo bar", "Invalid value for \"Z\": fail!"),
         row("foo foo foo bar", "Invalid value for \"W\": fail bar")
     ) { argv, message ->
-        if (skipDueToKT33294) return@forAll
-
         class C : TestCommand() {
             val x by argument().check { it == "foo" }
             val y by argument().check(lazyMessage = { "fail $it" }) { it == "foo" }
 
-            val z by argument().optional().check { it == "foo" }
+            val z by argument().optional().check("fail!") { it == "foo" }
             val w by argument().optional().check(lazyMessage = { "fail $it" }) { it == "foo" }
         }
 

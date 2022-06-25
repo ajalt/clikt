@@ -19,15 +19,14 @@ private data class OptParseResult(val consumed: Int, val unknown: List<String>, 
 
 internal object Parser {
     fun parse(argv: List<String>, context: Context) {
-        parse(argv, context, 0, true)
+        parse(argv, context, true)
     }
 
     private fun parse(
         argv: List<String>,
         context: Context,
-        startingArgI: Int,
         canRun: Boolean,
-    ): Pair<List<String>, Int> {
+    ): List<String> {
         var tokens = argv
         val command = context.command
         val aliases = command.aliases()
@@ -38,8 +37,7 @@ internal object Parser {
         val arguments = command._arguments
         val prefixes = mutableSetOf<String>()
         val longNames = mutableSetOf<String>()
-        val hasMultipleSubAncestor =
-            generateSequence(context.parent) { it.parent }.any { it.command.allowMultipleSubcommands }
+        val hasMultipleSubAncestor = context.ancestors().any { it.command.allowMultipleSubcommands }
 
         for (option in command._options) {
             require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
@@ -58,12 +56,12 @@ internal object Parser {
         }
         prefixes.remove("")
 
-        if (startingArgI > tokens.lastIndex && command.printHelpOnEmptyArgs) {
+        if (tokens.isEmpty() && command.printHelpOnEmptyArgs) {
             throw PrintHelpMessage(command, error = true)
         }
 
         val positionalArgs = ArrayList<String>()
-        var i = startingArgI
+        var i = 0
         var subcommand: CliktCommand? = null
         var canParseOptions = true
         var canExpandAtFiles = context.expandArgumentFiles
@@ -110,27 +108,31 @@ internal object Parser {
                                 || normTok in longNames
                                 || isLongOptionWithEquals(prefix, tok)
                         ) -> {
-                    consumeParse(parseLongOpt(
-                        command.treatUnknownOptionsAsArgs,
-                        context,
-                        tokens,
-                        tok,
-                        i,
-                        optionsByName,
-                        subcommandNames
-                    ))
+                    consumeParse(
+                        parseLongOpt(
+                            command.treatUnknownOptionsAsArgs,
+                            context,
+                            tokens,
+                            tok,
+                            i,
+                            optionsByName,
+                            subcommandNames
+                        )
+                    )
                 }
                 canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
-                    consumeParse(parseShortOpt(
-                        command.treatUnknownOptionsAsArgs,
-                        context,
-                        tokens,
-                        tok,
-                        i,
-                        optionsByName,
-                        numberOption,
-                        subcommandNames
-                    ))
+                    consumeParse(
+                        parseShortOpt(
+                            command.treatUnknownOptionsAsArgs,
+                            context,
+                            tokens,
+                            tok,
+                            i,
+                            optionsByName,
+                            numberOption,
+                            subcommandNames
+                        )
+                    )
                 }
                 i >= minAliasI && tok in aliases -> {
                     tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
@@ -139,6 +141,7 @@ internal object Parser {
                 }
                 normTok in subcommands -> {
                     subcommand = subcommands.getValue(normTok)
+                    i += 1
                     break@loop
                 }
                 else -> {
@@ -227,14 +230,14 @@ internal object Parser {
         }
 
         if (subcommand != null) {
-            val (nextTokens, nextArgI) = parse(tokens, subcommand.currentContext, i + 1, true)
-            if (command.allowMultipleSubcommands && nextTokens.size - nextArgI > 0) {
-                parse(nextTokens, context, nextArgI, false)
+            val nextTokens = parse(tokens.drop(i), subcommand.currentContext, true)
+            if (command.allowMultipleSubcommands && nextTokens.isNotEmpty()) {
+                parse(nextTokens, context, false)
             }
-            return nextTokens to nextArgI
+            return nextTokens
         }
 
-        return tokens to i
+        return tokens.drop(i)
     }
 
     private fun handleExcessArguments(
@@ -278,8 +281,10 @@ internal object Parser {
         val option = optionsByName[name] ?: if (ignoreUnknown) {
             return OptParseResult(1, listOf(tok), emptyList())
         } else {
-            val possibilities = context.correctionSuggestor(name,
-                optionsByName.filterNot { it.value.hidden }.keys.toList())
+            val possibilities = context.correctionSuggestor(
+                name,
+                optionsByName.filterNot { it.value.hidden }.keys.toList()
+            )
             throw NoSuchOption(name, possibilities).also { it.context = context }
         }
 

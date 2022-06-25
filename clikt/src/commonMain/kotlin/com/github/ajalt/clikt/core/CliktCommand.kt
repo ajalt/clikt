@@ -98,7 +98,7 @@ abstract class CliktCommand(
         _context = Context.build(this, parent, argv, _contextConfig)
 
         if (allowMultipleSubcommands) {
-            require(currentContext.ancestors().drop(1).none { it.command.allowMultipleSubcommands }) {
+            require(currentContext.ancestors().none { it.command.allowMultipleSubcommands }) {
                 "Commands with allowMultipleSubcommands=true cannot be nested in " +
                         "commands that also have allowMultipleSubcommands=true"
             }

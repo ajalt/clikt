@@ -61,7 +61,7 @@ class Context private constructor(
 
     /** Find the closest object of type [T] */
     inline fun <reified T : Any> findObject(): T? {
-        return ancestors().mapNotNull { it.obj as? T }.firstOrNull()
+        return selfAndAncestors().mapNotNull { it.obj as? T }.firstOrNull()
     }
 
     /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
@@ -80,7 +80,7 @@ class Context private constructor(
 
     /** Return a list of command names, starting with the topmost command and ending with this Context's parent. */
     fun parentNames(): List<String> {
-        return ancestors().drop(1)
+        return ancestors()
             .map { it.command.commandName }
             .toList().asReversed()
     }
@@ -94,7 +94,10 @@ class Context private constructor(
     fun fail(message: String = ""): Nothing = throw UsageError(message, context = this)
 
     @PublishedApi
-    internal fun ancestors() = generateSequence(this) { it.parent }
+    internal fun ancestors() = generateSequence(parent) { it.parent }
+
+    @PublishedApi
+    internal fun selfAndAncestors() = generateSequence(this) { it.parent }
 
     class Builder(command: CliktCommand, val parent: Context? = null) {
         /**
@@ -212,7 +215,7 @@ class Context private constructor(
             with(Builder(command, parent)) {
                 block()
                 val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
-                        parent?.let { p -> p.ancestors().any { it.command.allowMultipleSubcommands } } != true
+                        parent?.let { p -> p.selfAndAncestors().any { it.command.allowMultipleSubcommands } } != true
                 val formatter = helpFormatter ?: CliktHelpFormatter(localization)
                 return Context(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,

@@ -7,8 +7,6 @@ import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
-import kotlin.js.JsName
-import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
@@ -502,28 +500,6 @@ inline fun <InT : Any, ValueT : Any> ProcessedArgument<InT, InT>.convert(
  * Check the final argument value and raise an error if it's not valid.
  *
  * The [validator] is called with the final argument type (the output of [transformAll]), and should
- * call [fail][ArgumentTransformContext.fail] if the value is not valid.
- *
- * Your [validator] can also call [require][ArgumentTransformContext.require] to fail automatically
- * if an expression is false, or [message][ArgumentTransformContext.message] to show the user a
- * warning message without aborting.
- *
- * ### Example:
- *
- * ```
- * val arg by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
- * ```
- */
-fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(
-    validator: ArgValidator<AllT>,
-): ArgumentDelegate<AllT> {
-    return copy(validator)
-}
-
-/**
- * Check the final argument value and raise an error if it's not valid.
- *
- * The [validator] is called with the final argument type (the output of [transformAll]), and should
  * call [fail][ArgumentTransformContext.fail] if the value is not valid. The [validator] is not
  * called if the delegate value is null.
  *
@@ -537,55 +513,10 @@ fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.validate(
  * val arg by argument().int().validate { require(it % 2 == 0) { "value must be even" } }
  * ```
  */
-@JvmName("nullableValidate")
-@JsName("nullableValidate")
-fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.validate(validator: ArgValidator<AllT>)
-        : ArgumentDelegate<AllT?> {
+fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.validate(
+    validator: ArgValidator<AllT & Any>,
+): ArgumentDelegate<AllT> {
     return copy({ if (it != null) validator(it) })
-}
-
-/**
- * Check the final argument value and raise an error if it's not valid.
- *
- * The [validator] is called with the final argument type (the output of [transformAll]), and should
- * return `false` if the value is not valid. You can specify a [message] to include in the error
- * output.
- *
- * You can use [validate] for more complex checks.
- *
- * ### Example:
- *
- * ```
- * val arg by argument().int().check("value must be even") { it % 2 == 0 }
- * ```
- */
-inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
-    message: String,
-    crossinline validator: (AllT) -> Boolean,
-): ArgumentDelegate<AllT> {
-    return check({ message }, validator)
-}
-
-/**
- * Check the final argument value and raise an error if it's not valid.
- *
- * The [validator] is called with the final argument type (the output of [transformAll]), and should
- * return `false` if the value is not valid. You can specify a [lazyMessage] that returns a message
- * to include in the error output.
- *
- * You can use [validate] for more complex checks.
- *
- * ### Example:
- *
- * ```
- * val arg by argument().int().check(lazyMessage={"$it is not even"}) { it % 2 == 0 }
- * ```
- */
-inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
-    crossinline lazyMessage: (AllT) -> String = { it.toString() },
-    crossinline validator: (AllT) -> Boolean,
-): ArgumentDelegate<AllT> {
-    return validate { require(validator(it)) { lazyMessage(it) } }
 }
 
 /**
@@ -603,12 +534,10 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT, ValueT>.check(
  * val arg by argument().int().check("value must be even") { it % 2 == 0 }
  * ```
  */
-@JvmName("nullableCheck")
-@JsName("nullableCheck")
-inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
+inline fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.check(
     message: String,
-    crossinline validator: (AllT) -> Boolean,
-): ArgumentDelegate<AllT?> {
+    crossinline validator: (AllT & Any) -> Boolean,
+): ArgumentDelegate<AllT> {
     return check({ message }, validator)
 }
 
@@ -627,11 +556,9 @@ inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
  * val arg by argument().int().check(lazyMessage={"$it is not even"}) { it % 2 == 0 }
  * ```
  */
-@JvmName("nullableLazyCheck")
-@JsName("nullableLazyCheck")
-inline fun <AllT : Any, ValueT> ProcessedArgument<AllT?, ValueT>.check(
-    crossinline lazyMessage: (AllT) -> String = { it.toString() },
-    crossinline validator: (AllT) -> Boolean,
-): ArgumentDelegate<AllT?> {
+inline fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.check(
+    crossinline lazyMessage: (AllT & Any) -> String = { it.toString() },
+    crossinline validator: (AllT & Any) -> Boolean,
+): ArgumentDelegate<AllT> {
     return validate { require(validator(it)) { lazyMessage(it) } }
 }

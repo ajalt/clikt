@@ -11,7 +11,6 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT33294
 import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -378,9 +377,6 @@ class OptionGroupsTest {
         row("--x=1", 1, true),
         row("--x=2", null, false)
     ) { argv, ex, ec ->
-        if (skipDueToKT33294) return@forAll
-        if (skipDueToKT43490) return@forAll
-
         class G : OptionGroup() {
             val x by option().int().validate {
                 require(it == 1) { "fail" }
@@ -407,9 +403,6 @@ class OptionGroupsTest {
         row("--x=2", null, false, "Missing option \"--y\""),
         row("--x=2 --y=1", null, false, "Invalid value for \"--x\": fail")
     ) { argv, ex, ec, em ->
-        if (skipDueToKT33294) return@forAll
-        if (skipDueToKT43490) return@forAll
-
         class G : OptionGroup() {
             val x by option().int().check("fail") { it == 1 }
             val y by option().required()
@@ -436,9 +429,6 @@ class OptionGroupsTest {
         row("--x=2", 2, true),
         row("--y=2", 2, false)
     ) { argv, eg, ec ->
-        if (skipDueToKT33294) return@forAll
-        if (skipDueToKT43490) return@forAll
-
         class C : TestCommand(called = ec) {
             val g by mutuallyExclusiveOptions(
                 option("--x").int(),
@@ -564,8 +554,6 @@ class OptionGroupsTest {
     @Test
     @JsName("groupChoice_with_defaultByName_and_validate")
     fun `groupChoice with defaultByName and validate`() {
-        if (skipDueToKT33294) return
-
         class GroupA : OptionGroup() {
             val opt by option().int().default(1).validate { require(it < 2) }
         }

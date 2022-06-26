@@ -60,7 +60,7 @@ internal object Parser {
             throw PrintHelpMessage(command, error = true)
         }
 
-        val positionalArgs = ArrayList<String>()
+        val positionalArgs = mutableListOf<String>()
         var i = 0
         var subcommand: CliktCommand? = null
         var canParseOptions = true
@@ -246,7 +246,7 @@ internal object Parser {
         i: Int,
         tokens: List<String>,
         subcommands: Map<String, CliktCommand>,
-        positionalArgs: ArrayList<String>,
+        positionalArgs: List<String>,
         context: Context,
     ): Int {
         if (excess > 0) {
@@ -407,7 +407,7 @@ internal object Parser {
         return excess to out
     }
 
-    /** Returns map of argument that need retries to their values */
+    /** Returns map of arguments that need retries to their values */
     private fun finalizeArguments(
         parsedArgs: Map<Argument, List<String>>,
         context: Context,

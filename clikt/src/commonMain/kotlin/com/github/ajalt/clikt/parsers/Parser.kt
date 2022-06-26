@@ -7,11 +7,21 @@ import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
+/** [i] is the argv index fo the token that caused the error */
+private data class Err(val e: CliktError, val i: Int)
+
+private data class ArgsParseResult(val excessCount: Int, val args: Map<Argument, List<String>>, val err: Err?)
+
 private data class OptInvocation(val opt: Option, val name: String, val values: List<String>) {
     val inv get() = Invocation(name, values)
 }
 
-private data class OptParseResult(val consumed: Int, val unknown: List<String>, val known: List<OptInvocation>) {
+private data class OptParseResult(
+    val consumed: Int,
+    val unknown: List<String> = emptyList(),
+    val known: List<OptInvocation> = emptyList(),
+    val err: Err? = null,
+) {
     constructor(consumed: Int, invocations: List<OptInvocation>) : this(consumed, emptyList(), invocations)
     constructor(consumed: Int, opt: Option, name: String, values: List<String>)
             : this(consumed, emptyList(), listOf(OptInvocation(opt, name, values)))
@@ -32,12 +42,20 @@ internal object Parser {
         val aliases = command.aliases()
         val subcommands = command._subcommands.associateBy { it.commandName }
         val subcommandNames = subcommands.keys
-        val optionsByName = HashMap<String, Option>()
+        val optionsByName = mutableMapOf<String, Option>()
         val numberOption = command._options.find { it.acceptsNumberValueWithoutName }
         val arguments = command._arguments
         val prefixes = mutableSetOf<String>()
         val longNames = mutableSetOf<String>()
         val hasMultipleSubAncestor = context.ancestors().any { it.command.allowMultipleSubcommands }
+        val positionalArgs = mutableListOf<Pair<Int, String>>()
+        var subcommand: CliktCommand? = null
+        var canParseOptions = true
+        var canExpandAtFiles = context.expandArgumentFiles
+        val invocations = mutableListOf<OptInvocation>()
+        val errors = mutableListOf<Err>()
+        var i = 0
+        var minAliasI = 0
 
         for (option in command._options) {
             require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
@@ -60,14 +78,6 @@ internal object Parser {
             throw PrintHelpMessage(command, error = true)
         }
 
-        val positionalArgs = mutableListOf<String>()
-        var i = 0
-        var subcommand: CliktCommand? = null
-        var canParseOptions = true
-        var canExpandAtFiles = context.expandArgumentFiles
-        val invocations = mutableListOf<OptInvocation>()
-        var minAliasI = 0
-
         fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
             if ("=" !in token) return false
             if (prefix.isEmpty()) return false
@@ -77,9 +87,10 @@ internal object Parser {
             return true
         }
 
-        fun consumeParse(result: OptParseResult) {
-            positionalArgs += result.unknown
+        fun consumeParse(tokenIndex: Int, result: OptParseResult) {
+            positionalArgs += result.unknown.map { tokenIndex to it }
             invocations += result.known
+            result.err?.let { errors += it }
             i += result.consumed
         }
 
@@ -90,7 +101,7 @@ internal object Parser {
             when {
                 canExpandAtFiles && tok.startsWith("@") && normTok !in optionsByName -> {
                     if (tok.startsWith("@@")) {
-                        positionalArgs += tok.drop(1)
+                        positionalArgs += i to tok.drop(1)
                         i += 1
                     } else {
                         tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
@@ -109,6 +120,7 @@ internal object Parser {
                                 || isLongOptionWithEquals(prefix, tok)
                         ) -> {
                     consumeParse(
+                        i,
                         parseLongOpt(
                             command.treatUnknownOptionsAsArgs,
                             context,
@@ -122,6 +134,7 @@ internal object Parser {
                 }
                 canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
                     consumeParse(
+                        i,
                         parseShortOpt(
                             command.treatUnknownOptionsAsArgs,
                             context,
@@ -146,7 +159,7 @@ internal object Parser {
                 }
                 else -> {
                     if (!context.allowInterspersedArgs) canParseOptions = false
-                    positionalArgs += tokens[i] // arguments aren't transformed
+                    positionalArgs += i to tokens[i] // arguments aren't transformed
                     i += 1
                 }
             }
@@ -168,12 +181,11 @@ internal object Parser {
                 invocationsByOption.forEach { (o, inv) -> if (o.eager) o.finalize(context, inv) }
 
                 // Parse arguments
-                val (excess, parsedArgs) = parseArguments(positionalArgs, arguments, context)
+                val argsParseResult = parseArguments(i, positionalArgs, arguments, context)
+                argsParseResult.err?.let { errors += it }
 
-                // Finalize arguments before options, so that options can reference them
-                val retries = finalizeArguments(parsedArgs, context)
-                i = handleExcessArguments(
-                    excess,
+                val excessResult = handleExcessArguments(
+                    argsParseResult.excessCount,
                     hasMultipleSubAncestor,
                     i,
                     tokens,
@@ -181,6 +193,17 @@ internal object Parser {
                     positionalArgs,
                     context
                 )
+                excessResult.second?.let { errors += it }
+
+                // We want to throw the error that corresponds to the earliest token
+                errors.minByOrNull { it.i }?.let {
+                    throw it.e
+                }
+
+                i = excessResult.first
+
+                // Finalize arguments before options, so that options can reference them
+                val retries = finalizeArguments(argsParseResult.args, context)
 
                 // Finalize un-grouped options
                 finalizeOptions(
@@ -221,7 +244,7 @@ internal object Parser {
             } else if (subcommand == null && positionalArgs.isNotEmpty()) {
                 // If we're resuming a parse with multiple subcommands, there can't be any args after the last
                 // subcommand is parsed
-                throwExcessArgsError(positionalArgs, positionalArgs.size, context)
+                throw excessArgsError(positionalArgs, positionalArgs.size, context)
             }
         } catch (e: UsageError) {
             // Augment usage errors with the current context if they don't have one
@@ -240,26 +263,30 @@ internal object Parser {
         return tokens.drop(i)
     }
 
+    /** Returns either the new argv index, or an error */
     private fun handleExcessArguments(
         excess: Int,
         hasMultipleSubAncestor: Boolean,
         i: Int,
         tokens: List<String>,
         subcommands: Map<String, CliktCommand>,
-        positionalArgs: List<String>,
+        positionalArgs: List<Pair<Int, String>>,
         context: Context,
-    ): Int {
+    ): Pair<Int, Err?> {
         if (excess > 0) {
-            if (hasMultipleSubAncestor) {
-                return tokens.size - excess
-            } else if (excess == 1 && subcommands.isNotEmpty()) {
-                val actual = positionalArgs.last()
-                throw NoSuchSubcommand(actual, context.correctionSuggestor(actual, subcommands.keys.toList()), context)
-            } else {
-                throwExcessArgsError(positionalArgs, excess, context)
+            return when {
+                hasMultipleSubAncestor -> tokens.size - excess to null
+                excess == 1 && subcommands.isNotEmpty() -> {
+                    val (tokI, actual) = positionalArgs.last()
+                    val e = NoSuchSubcommand(
+                        actual, context.correctionSuggestor(actual, subcommands.keys.toList()), context
+                    )
+                    -1 to Err(e, tokI)
+                }
+                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i)
             }
         }
-        return i
+        return i to null
     }
 
     private fun parseLongOpt(
@@ -279,7 +306,7 @@ internal object Parser {
         }
         name = context.tokenTransformer(context, name)
         val option = optionsByName[name] ?: if (ignoreUnknown) {
-            return OptParseResult(1, listOf(tok), emptyList())
+            return OptParseResult(1, listOf(tok))
         } else {
             val possibilities = context.correctionSuggestor(
                 name,
@@ -322,11 +349,11 @@ internal object Parser {
             values += tok
         }
 
+        val consumed = values.size + if (attachedValue == null) 1 else 0
         if (values.size !in option.nvalues) {
-            throw IncorrectOptionValueCount(option, name)
+            return OptParseResult(consumed, err = Err(IncorrectOptionValueCount(option, name), index))
         }
 
-        val consumed = values.size + if (attachedValue == null) 1 else 0
         return OptParseResult(consumed, option, name, values)
     }
 
@@ -353,7 +380,7 @@ internal object Parser {
 
             val name = context.tokenTransformer(context, prefix + opt)
             val option = optionsByName[name] ?: if (ignoreUnknown) {
-                return OptParseResult(1, listOf(tok), emptyList())
+                return OptParseResult(1, unknown = listOf(tok))
             } else {
                 val possibilities = when {
                     prefix == "-" && "-$tok" in optionsByName -> listOf("-$tok")
@@ -375,10 +402,11 @@ internal object Parser {
     }
 
     private fun parseArguments(
-        positionalArgs: List<String>,
+        argvIndex: Int,
+        positionalArgs: List<Pair<Int, String>>,
         arguments: List<Argument>,
         context: Context,
-    ): Pair<Int, Map<Argument, List<String>>> {
+    ): ArgsParseResult {
         val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
         // includes optional single value args, so it might be bigger than the number of provided
@@ -395,16 +423,20 @@ internal object Parser {
                 argument.nvalues > 0 && !argument.required && remaining == 0 -> 0
                 else -> argument.nvalues
             }
+
             if (consumed > remaining) {
-                if (remaining == 0) throw MissingArgument(argument).also { it.context = context }
-                else throw IncorrectArgumentValueCount(argument).also { it.context = context }
+                val e = when (remaining) {
+                    0 -> MissingArgument(argument).also { it.context = context }
+                    else -> IncorrectArgumentValueCount(argument).also { it.context = context }
+                }
+                return ArgsParseResult(0, out, Err(e, positionalArgs.getOrNull(i)?.first ?: argvIndex))
             }
-            out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed)
+            out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed).map { it.second }
             i += consumed
         }
 
         val excess = positionalArgs.size - i
-        return excess to out
+        return ArgsParseResult(excess, out, null)
     }
 
     /** Returns map of arguments that need retries to their values */
@@ -429,13 +461,14 @@ internal object Parser {
         return shlex(filename, text, context)
     }
 
-    private fun throwExcessArgsError(positionalArgs: List<String>, excess: Int, context: Context): Nothing {
-        val actual = positionalArgs.takeLast(excess).joinToString(" ", limit = 3, prefix = "(", postfix = ")")
+    private fun excessArgsError(positionalArgs: List<Pair<Int, String>>, excess: Int, context: Context): UsageError {
+        val actual = positionalArgs.takeLast(excess)
+            .joinToString(" ", limit = 3, prefix = "(", postfix = ")") { it.second }
         val message = when (excess) {
             1 -> context.localization.extraArgumentOne(actual)
             else -> context.localization.extraArgumentMany(actual, excess)
         }
-        throw UsageError(message, context = context)
+        return UsageError(message, context = context)
     }
 }
 

@@ -12,7 +12,9 @@
 - When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340)) 
 - Update kotlin to 1.7.0
 
+### Fixed
+- When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest ([#361](https://github.com/ajalt/clikt/issues/361))
+
 ### Removed
 - `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.
 - `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.
-

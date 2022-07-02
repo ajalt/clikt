@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Support unicode in environment variable values on Native Windows. ([#362](https://github.com/ajalt/clikt/issues/362))
+
 ## 3.5.0
 ### Added
 - Added `hidden` parameter to `CliktCommand`, which will prevent the command from being displayed as a subcommand in help output  ([#353](https://github.com/ajalt/clikt/issues/353))

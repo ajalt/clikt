@@ -49,7 +49,7 @@ open class CliktHelpFormatter(
         append(formatUsage(parameters, programName))
         append("\n\n")
         append(localization.usageError()).append(" ")
-        append(error.formatMessage())
+        append(error.formatMessage(localization))
     }
 
     protected open fun StringBuilder.addUsage(

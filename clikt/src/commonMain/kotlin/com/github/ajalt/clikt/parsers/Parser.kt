@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
-/** [i] is the argv index fo the token that caused the error */
+/** [i] is the argv index of the token that caused the error */
 private data class Err(val e: CliktError, val i: Int)
 
 private data class ArgsParseResult(val excessCount: Int, val args: Map<Argument, List<String>>, val err: Err?)

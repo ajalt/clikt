@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.core.MissingOption
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.mordant.terminal.ConversionResult
-import com.github.ajalt.mordant.terminal.Prompt
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 
@@ -212,7 +211,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
                     ConversionResult.Valid(v)
                 } catch (e: UsageError) {
                     e.context = e.context ?: context
-                    ConversionResult.Invalid(e.formatMessage())
+                    ConversionResult.Invalid(e.formatMessage(context.localization))
                 }
             }
         }

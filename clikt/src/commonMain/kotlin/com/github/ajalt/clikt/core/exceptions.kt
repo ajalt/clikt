@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.output.defaultLocalization
+import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
@@ -89,9 +89,7 @@ open class UsageError(
     constructor(option: Option, context: Context? = null, statusCode: Int = 1)
             : this(null, option.longestName(), context, statusCode)
 
-    open fun formatMessage(): String = message ?: ""
-
-    protected val localization get() = context?.localization ?: defaultLocalization
+    open fun formatMessage(localization: Localization): String = message ?: ""
 }
 
 /**
@@ -103,7 +101,7 @@ class BadParameterValue : UsageError {
     constructor(message: String, argument: Argument, context: Context? = null) : super(message, argument, context)
     constructor(message: String, option: Option, context: Context? = null) : super(message, option, context)
 
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         val m = message.takeUnless { it.isNullOrBlank() }
         val p = paramName?.takeIf { it.isNotBlank() }
 
@@ -119,12 +117,12 @@ class BadParameterValue : UsageError {
 
 /** A required option was not provided */
 class MissingOption(option: Option, context: Context? = null) : UsageError(option, context = context) {
-    override fun formatMessage() = localization.missingOption(paramName ?: "")
+    override fun formatMessage(localization: Localization) = localization.missingOption(paramName ?: "")
 }
 
 /** A required argument was not provided */
 class MissingArgument(argument: Argument, context: Context? = null) : UsageError(argument, context = context) {
-    override fun formatMessage() = localization.missingArgument(paramName ?: "")
+    override fun formatMessage(localization: Localization) = localization.missingArgument(paramName ?: "")
 }
 
 /** A subcommand was provided that does not exist. */
@@ -133,7 +131,7 @@ class NoSuchSubcommand(
     private val possibilities: List<String> = emptyList(),
     context: Context? = null,
 ) : UsageError(null, paramName = paramName, context = context) {
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return localization.noSuchSubcommand(paramName ?: "", possibilities)
     }
 }
@@ -145,7 +143,7 @@ class NoSuchOption(
     private val possibilities: List<String> = emptyList(),
     context: Context? = null,
 ) : UsageError(null, paramName = paramName, context = context) {
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return localization.noSuchOption(paramName ?: "", possibilities)
     }
 }
@@ -160,7 +158,7 @@ class IncorrectOptionValueCount(
     constructor(option: Option, paramName: String, context: Context? = null)
             : this(option.nvalues.first, paramName, context = context)
 
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return localization.incorrectOptionValueCount(paramName ?: "", minValues)
     }
 }
@@ -175,7 +173,7 @@ class IncorrectArgumentValueCount(
     constructor(argument: Argument, context: Context? = null)
             : this(argument.nvalues, argument, context = context)
 
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return localization.incorrectArgumentValueCount(paramName ?: "", nvalues)
     }
 }
@@ -188,7 +186,7 @@ class MutuallyExclusiveGroupException(
         require(names.size > 1) { "must provide at least two names" }
     }
 
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return localization.mutexGroupException(names.first(), names.drop(1))
     }
 }
@@ -198,7 +196,7 @@ class FileNotFound(
     val filename: String,
     context: Context? = null,
 ) : UsageError(null, context = context) {
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return localization.fileNotFound(filename)
     }
 }
@@ -210,7 +208,7 @@ class InvalidFileFormat(
     private val lineno: Int? = null,
     context: Context? = null,
 ) : UsageError(message, context = context) {
-    override fun formatMessage(): String {
+    override fun formatMessage(localization: Localization): String {
         return when (lineno) {
             null -> localization.invalidFileFormat(filename, message!!)
             else -> localization.invalidFileFormat(filename, lineno, message!!)

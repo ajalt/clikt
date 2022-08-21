@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
+import kotlin.time.measureTime
 
 /**
  * An exception during command line processing that should be shown to the user.
@@ -90,6 +91,29 @@ open class UsageError(
             : this(null, option.longestName(), context, statusCode)
 
     open fun formatMessage(localization: Localization): String = message ?: ""
+}
+
+/**
+ * Multiple usage [errors] occurred.
+ */
+class MultiUsageError(
+    val errors: List<UsageError>,
+) : UsageError(null, context = errors.first().context, statusCode = errors.first().statusCode) {
+    companion object {
+        /**
+         * Given a list of UsageErrors, return `null` if it's empty, the error if there's only one, and a
+         * [MultiUsageError] containing all the errors otherwise.
+         */
+        fun buildOrNull(errors: List<UsageError>): UsageError? = when (errors.size) {
+            0 -> null
+            1 -> errors[0]
+            else -> MultiUsageError(errors.flatMap { (it as? MultiUsageError)?.errors ?: listOf(it) })
+        }
+    }
+
+    override fun formatMessage(localization: Localization): String {
+        return errors.joinToString("\n") { it.formatMessage(localization) }
+    }
 }
 
 /**

@@ -16,6 +16,7 @@ import io.kotest.data.row
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.contain
+import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -476,17 +477,15 @@ class ArgumentTest {
 
     @Test
     @JsName("punctuation_in_arg_prefix_unix_style")
-    fun `punctuation in arg prefix unix style`() = forAll(
-        row("/foo")
-    ) { argv ->
+    fun `punctuation in arg prefix unix style`() {
         class C : TestCommand() {
             val x by argument()
             override fun run_() {
-                x shouldBe argv
+                x shouldBe "/foo"
             }
         }
 
-        C().parse(argv)
+        C().parse("/foo")
     }
 
     @Test
@@ -496,7 +495,10 @@ class ArgumentTest {
         class C : TestCommand(called = false) {
             val x by argument()
         }
-        shouldThrow<NoSuchOption> { C().parse("-foo") }
+        shouldThrow<MultiUsageError> { C().parse("-foo") }.errors.let {
+            it[0].shouldBeInstanceOf<NoSuchOption>()
+            it[1].shouldBeInstanceOf<MissingArgument>()
+        }
     }
 
     @Test
@@ -530,7 +532,10 @@ class ArgumentTest {
 
             val x by argument()
         }
-        shouldThrow<NoSuchOption> { C().parse("/foo") }
+        shouldThrow<MultiUsageError> { C().parse("/foo") }.errors.let {
+            it[0].shouldBeInstanceOf<NoSuchOption>()
+            it[1].shouldBeInstanceOf<MissingArgument>()
+        }
     }
 
     @Test

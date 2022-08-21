@@ -105,7 +105,7 @@ fun <OptT : Any, OutT> MutuallyExclusiveOptions<OptT, OutT>.help(
  * @see com.github.ajalt.clikt.parameters.options.switch
  * @see com.github.ajalt.clikt.parameters.types.choice
  */
-@Suppress("unused")
+@Suppress("UnusedReceiverParameter")
 fun <T : Any> ParameterHolder.mutuallyExclusiveOptions(
     option1: OptionDelegate<out T?>,
     option2: OptionDelegate<out T?>,

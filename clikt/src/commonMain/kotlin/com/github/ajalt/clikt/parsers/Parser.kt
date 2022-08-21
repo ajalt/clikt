@@ -8,7 +8,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
 /** [i] is the argv index of the token that caused the error */
-private data class Err(val e: CliktError, val i: Int)
+private data class Err(val e: UsageError, val i: Int, val includeInMulti: Boolean = true)
 
 private data class ArgsParseResult(val excessCount: Int, val args: Map<Argument, List<String>>, val err: Err?)
 
@@ -109,11 +109,13 @@ internal object Parser {
                         minAliasI = 0
                     }
                 }
+
                 canParseOptions && tok == "--" -> {
                     i += 1
                     canParseOptions = false
                     canExpandAtFiles = false
                 }
+
                 canParseOptions && (
                         prefix.length > 1 && prefix in prefixes
                                 || normTok in longNames
@@ -132,6 +134,7 @@ internal object Parser {
                         )
                     )
                 }
+
                 canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
                     consumeParse(
                         i,
@@ -147,16 +150,19 @@ internal object Parser {
                         )
                     )
                 }
+
                 i >= minAliasI && tok in aliases -> {
                     tokens = aliases.getValue(tok) + tokens.slice(i + 1..tokens.lastIndex)
                     i = 0
                     minAliasI = aliases.getValue(tok).size
                 }
+
                 normTok in subcommands -> {
                     subcommand = subcommands.getValue(normTok)
                     i += 1
                     break@loop
                 }
+
                 else -> {
                     if (!context.allowInterspersedArgs) canParseOptions = false
                     positionalArgs += i to tokens[i] // arguments aren't transformed
@@ -195,38 +201,60 @@ internal object Parser {
                 )
                 excessResult.second?.let { errors += it }
 
-                // We want to throw the error that corresponds to the earliest token
-                errors.minByOrNull { it.i }?.let {
-                    throw it.e
-                }
+                val usageErrors = errors
+                    .filter { it.includeInMulti }.ifEmpty { errors }
+                    .sortedBy { it.i }.mapTo(mutableListOf()) { it.e }
 
                 i = excessResult.first
 
                 // Finalize arguments before options, so that options can reference them
-                val retries = finalizeArguments(argsParseResult.args, context)
+                val (retries, argErrs) = finalizeArguments(argsParseResult.args, context)
+                usageErrors += argErrs
 
                 // Finalize un-grouped options
-                finalizeOptions(
-                    context,
-                    command._options.filter { !it.eager && (it as? GroupableOption)?.parameterGroup == null },
-                    invocationsByOptionByGroup[null] ?: emptyMap()
-                )
+                gatherErrors(usageErrors) {
+                    finalizeOptions(
+                        context,
+                        command._options.filter { !it.eager && (it as? GroupableOption)?.parameterGroup == null },
+                        invocationsByOptionByGroup[null] ?: emptyMap()
+                    )
+                }
+
+                // Since groups like ChoiceGroup may depend on an ungrouped option's value, we can't finalize groups if
+                // any options failed to validate, so throw errors now
+                MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
+                usageErrors.clear()
 
                 // Finalize groups after ungrouped options so that the groups can use their values
-                invocationsByOptionByGroup.forEach { (group, invocations) -> group?.finalize(context, invocations) }
+                for ((group, invs) in invocationsByOptionByGroup) {
+                    gatherErrors(usageErrors) { group?.finalize(context, invs) }
+                }
 
                 // Finalize groups with no invocations
-                command._groups.forEach { if (it !in invocationsByGroup) it.finalize(context, emptyMap()) }
+                for (g in command._groups) {
+                    if (g !in invocationsByGroup) gatherErrors(usageErrors) {
+                        g.finalize(context, emptyMap())
+                    }
+                }
+
+                // We can't validate a param that didn't finalize successfully, and we don't keep track of which
+                // ones are finalized, so throw any errors now
+                MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
+                usageErrors.clear()
 
                 // Retry any failed args now that they can reference option values
-                retries.forEach { (arg, v) -> arg.finalize(context, v) }
+                retries.forEach { (arg, v) -> gatherErrors(usageErrors) { arg.finalize(context, v) } }
 
                 // Now that all parameters have been finalized, we can validate everything
                 command._options.forEach { o ->
-                    if ((o as? GroupableOption)?.parameterGroup == null) o.postValidate(context)
+                    if ((o as? GroupableOption)?.parameterGroup == null) gatherErrors(usageErrors) {
+                        o.postValidate(context)
+                    }
                 }
-                command._groups.forEach { it.postValidate(context) }
-                command._arguments.forEach { it.postValidate(context) }
+                command._groups.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
+                command._arguments.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
+
+                MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
 
                 if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
                     throw PrintHelpMessage(command, error = true)
@@ -277,13 +305,13 @@ internal object Parser {
             return when {
                 hasMultipleSubAncestor -> tokens.size - excess to null
                 excess == 1 && subcommands.isNotEmpty() -> {
-                    val (tokI, actual) = positionalArgs.last()
-                    val e = NoSuchSubcommand(
+                    val actual = positionalArgs.last().second
+                    throw NoSuchSubcommand(
                         actual, context.correctionSuggestor(actual, subcommands.keys.toList()), context
                     )
-                    -1 to Err(e, tokI)
                 }
-                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i)
+
+                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i, includeInMulti = false)
             }
         }
         return i to null
@@ -443,16 +471,19 @@ internal object Parser {
     private fun finalizeArguments(
         parsedArgs: Map<Argument, List<String>>,
         context: Context,
-    ): Map<Argument, List<String>> {
+    ): Pair<Map<Argument, List<String>>, List<UsageError>> {
         val retries = mutableMapOf<Argument, List<String>>()
+        val usageErrors = mutableListOf<UsageError>()
         for ((it, v) in parsedArgs) {
             try {
                 it.finalize(context, v)
             } catch (e: IllegalStateException) {
                 retries[it] = v
+            } catch (e: UsageError) {
+                usageErrors += e
             }
         }
-        return retries
+        return retries to usageErrors
     }
 
 
@@ -472,3 +503,10 @@ internal object Parser {
     }
 }
 
+private inline fun gatherErrors(errors: MutableList<UsageError>, block: () -> Unit) {
+    try {
+        block()
+    } catch (e: UsageError) {
+        errors += e
+    }
+}

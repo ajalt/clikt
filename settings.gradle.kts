@@ -4,7 +4,6 @@ include("samples:repo")
 include("samples:validation")
 include("samples:aliases")
 include("samples:helpformat")
-include("samples:ansicolors")
 include("samples:plugins")
 include("samples:json")
 

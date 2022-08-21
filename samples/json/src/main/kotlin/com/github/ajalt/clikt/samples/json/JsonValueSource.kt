@@ -20,7 +20,7 @@ class JsonValueSource(
     override fun getValues(context: Context, option: Option): List<ValueSource.Invocation> {
         var cursor: JsonElement? = root
         val parts = option.valueSourceKey?.split(".")
-            ?: context.commandNameWithParents().drop(1) + ValueSource.name(option)
+            ?: (context.commandNameWithParents().drop(1) + ValueSource.name(option))
         for (part in parts) {
             if (cursor !is JsonObject) return emptyList()
             cursor = cursor[part]

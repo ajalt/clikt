@@ -300,71 +300,77 @@ class OptionGroupsTest {
 
     @Test
     @JsName("choice_group")
-    fun `choice group`() {
+    fun `choice group`() = forAll(
+        row("", 0, null, null),
+        row("--g11=1 --g21=1", 0, null, null),
+        row("--g=1 --g11=2", 1, 2, null),
+        row("--g=1 --g11=2 --g12=3", 1, 2, 3),
+        row("--g=1 --g11=2 --g12=3", 1, 2, 3),
+        row("--g=2 --g21=2 --g22=3", 2, 2, 3),
+        row("--g=2 --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
+    ) { argv, eg, eg1, eg2 ->
         class C : TestCommand() {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
         }
-        forAll(
-            row("", 0, null, null),
-            row("--g11=1 --g21=1", 0, null, null),
-            row("--g=1 --g11=2", 1, 2, null),
-            row("--g=1 --g11=2 --g12=3", 1, 2, 3),
-            row("--g=1 --g11=2 --g12=3", 1, 2, 3),
-            row("--g=2 --g21=2 --g22=3", 2, 2, 3),
-            row("--g=2 --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
-        ) { argv, eg, eg1, eg2 ->
-            with(C()) {
-                parse(argv)
-                when (eg) {
-                    0 -> {
-                        g shouldBe null
-                    }
-                    1 -> {
-                        (g as Group1).g11 shouldBe eg1
-                        (g as Group1).g12 shouldBe eg2
-                    }
-                    2 -> {
-                        (g as Group2).g21 shouldBe eg1
-                        (g as Group2).g22 shouldBe eg2
-                    }
+        with(C()) {
+            parse(argv)
+            when (eg) {
+                0 -> {
+                    g shouldBe null
+                }
+
+                1 -> {
+                    (g as Group1).g11 shouldBe eg1
+                    (g as Group1).g12 shouldBe eg2
+                }
+
+                2 -> {
+                    (g as Group2).g21 shouldBe eg1
+                    (g as Group2).g22 shouldBe eg2
                 }
             }
         }
+    }
 
-        if (skipDueToKT43490) return
+    @Test
+    @JsName("choice_group_error")
+    fun `choice group error`() {
+        class C : TestCommand() {
+            val g by option().groupChoice("1" to Group1(), "2" to Group2())
+        }
         shouldThrow<BadParameterValue> { C().parse("--g=3") }
             .formattedMessage shouldBe "Invalid value for \"--g\": invalid choice: 3. (choose from 1, 2)"
     }
 
     @Test
     @JsName("switch_group")
-    fun `switch group`() {
+    fun `switch group`() = forAll(
+        row("", 0, null, null),
+        row("--g11=1 --g21=1", 0, null, null),
+        row("--a --g11=2", 1, 2, null),
+        row("--a --g11=2 --g12=3", 1, 2, 3),
+        row("--a --g11=2 --g12=3", 1, 2, 3),
+        row("--b --g21=2 --g22=3", 2, 2, 3),
+        row("--b --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
+    ) { argv, eg, eg1, eg2 ->
         class C : TestCommand() {
             val g by option().groupSwitch("--a" to Group1(), "--b" to Group2())
         }
-        forAll(
-            row("", 0, null, null),
-            row("--g11=1 --g21=1", 0, null, null),
-            row("--a --g11=2", 1, 2, null),
-            row("--a --g11=2 --g12=3", 1, 2, 3),
-            row("--a --g11=2 --g12=3", 1, 2, 3),
-            row("--b --g21=2 --g22=3", 2, 2, 3),
-            row("--b --g11=2 --g12=3 --g21=2 --g22=3", 2, 2, 3)
-        ) { argv, eg, eg1, eg2 ->
-            with(C()) {
-                parse(argv)
-                when (eg) {
-                    0 -> {
-                        g shouldBe null
-                    }
-                    1 -> {
-                        (g as Group1).g11 shouldBe eg1
-                        (g as Group1).g12 shouldBe eg2
-                    }
-                    2 -> {
-                        (g as Group2).g21 shouldBe eg1
-                        (g as Group2).g22 shouldBe eg2
-                    }
+        with(C()) {
+            parse(argv)
+            when (eg) {
+                0 -> {
+                    g shouldBe null
+                }
+
+                1 -> {
+                    (g as Group1).g11 shouldBe eg1
+                    (g as Group1).g12 shouldBe eg2
+                }
+
+                2 -> {
+                    (g as Group2).g21 shouldBe eg1
+                    (g as Group2).g22 shouldBe eg2
                 }
             }
         }
@@ -569,6 +575,7 @@ class OptionGroupsTest {
                     is GroupA -> it.opt shouldBe ea
                     is GroupB -> {
                     }
+
                     else -> fail("unknown type $g")
                 }
             }

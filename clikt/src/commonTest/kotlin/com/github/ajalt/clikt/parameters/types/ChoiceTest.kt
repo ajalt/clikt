@@ -170,8 +170,7 @@ class OptionChoiceTest {
             y shouldBe 2
         }
 
-        if (skipDueToKT43490) return
-        shouldThrow<BadParameterValue> { C().parse("baz qux") }
+        shouldThrow<BadParameterValue> { C().parse("baz foo") }
             .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
     }
 }

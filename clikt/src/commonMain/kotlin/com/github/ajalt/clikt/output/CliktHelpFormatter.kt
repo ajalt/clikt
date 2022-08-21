@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.mpp.graphemeLengthMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
@@ -48,8 +49,12 @@ open class CliktHelpFormatter(
     ): String = buildString {
         append(formatUsage(parameters, programName))
         append("\n\n")
-        append(localization.usageError()).append(" ")
-        append(error.formatMessage(localization))
+        val errors = (error as? MultiUsageError)?.errors ?: listOf(error)
+        for ((i, e) in errors.withIndex()) {
+            if (i > 0) appendLine()
+            append(localization.usageError()).append(" ")
+            append(e.formatMessage(localization))
+        }
     }
 
     protected open fun StringBuilder.addUsage(

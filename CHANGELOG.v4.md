@@ -6,6 +6,7 @@
 - Added `option().boolean()` and `argument().boolean()`
 - `uint()` and `ulong()` parameter type conversions.
 - `CliktCommand.test` extension for testing your commands and their output
+- Clikt will now report multiple errors if they occur, rather than just the first. ([#367](https://github.com/ajalt/clikt/issues/367))
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's

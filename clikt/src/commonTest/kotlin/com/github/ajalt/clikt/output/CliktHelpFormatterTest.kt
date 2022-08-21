@@ -2,9 +2,7 @@
 
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.NoOpCliktCommand
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.default
@@ -790,6 +788,21 @@ class CliktHelpFormatterTest {
                 |Commands:
                 |  sub1  sub 1 help
                 |  sub2  sub 2 help (deprecated)
+                """.trimMargin()
+    }
+
+    @Test
+    @JsName("multi_error")
+    fun `multi error`() {
+        val f = CliktHelpFormatter(width = 54)
+        f.formatUsageError(MultiUsageError(
+            listOf(UsageError("foo"), UsageError("bar"))
+        ), emptyList(), "cmd") shouldBe
+                """
+                |Usage: cmd
+                |
+                |Error: foo
+                |Error: bar
                 """.trimMargin()
     }
 }

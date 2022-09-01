@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.mpp.graphemeLengthMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
 
 @Suppress("MemberVisibilityCanBePrivate")
+@Deprecated("CliktHelpFormatter is deprecated. Use MordantHelpFormatter instead.")
 open class CliktHelpFormatter(
     protected val localization: Localization = defaultLocalization,
     protected val indent: String = "  ",
@@ -32,11 +33,9 @@ open class CliktHelpFormatter(
         epilog: String,
         parameters: List<HelpFormatter.ParameterHelp>,
         programName: String,
-    ): String = buildString {
-        append(formatUsage(parameters, programName))
-        append("\n\n")
-        if (error != null) {
-            append(formatUsageError(error, parameters, programName))
+    ): String {
+        return if (error != null) {
+            formatUsageError(error, parameters, programName)
         } else {
             formatHelp(prolog, epilog, parameters, programName)
         }

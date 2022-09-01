@@ -64,29 +64,33 @@ class PrintCompletionMessage(message: String) : PrintMessage(message)
  * @property message The error message. Subclasses can leave this null and use [formatMessage] instead.
  * @property paramName The name of the parameter that caused the error. If possible, this should be
  *   set to the actual name used. Will be set automatically if thrown from a `convert` lambda.
- * @property context The context of the command that raised this error. Will be set automatically if
- *   thrown during command line processing.
  * @property statusCode The process status code to use if exiting the process as a result of this error.
  */
 open class UsageError(
     message: String?,
     var paramName: String? = null,
-    var context: Context? = null,
     statusCode: Int = 1,
 ) : CliktError(message, statusCode = statusCode) {
-    constructor(message: String, argument: Argument, context: Context? = null, statusCode: Int = 1)
-            : this(message, argument.name, context, statusCode)
+    constructor(message: String, argument: Argument, statusCode: Int = 1)
+            : this(message, argument.name, statusCode)
 
-    constructor(message: String, option: Option, context: Context? = null, statusCode: Int = 1)
-            : this(message, option.longestName(), context, statusCode)
+    constructor(message: String, option: Option, statusCode: Int = 1)
+            : this(message, option.longestName(), statusCode)
 
-    constructor(argument: Argument, context: Context? = null, statusCode: Int = 1)
-            : this(null, argument.name, context, statusCode)
+    constructor(argument: Argument, statusCode: Int = 1)
+            : this(null, argument.name, statusCode)
 
-    constructor(option: Option, context: Context? = null, statusCode: Int = 1)
-            : this(null, option.longestName(), context, statusCode)
+    constructor(option: Option, statusCode: Int = 1)
+            : this(null, option.longestName(), statusCode)
 
     open fun formatMessage(localization: Localization): String = message ?: ""
+
+    /**
+     *  The context of the command that raised this error.
+     *
+     *  Will be set automatically if thrown during command line processing.
+     */
+    var context: Context? = null
 }
 
 /**
@@ -94,7 +98,7 @@ open class UsageError(
  */
 class MultiUsageError(
     val errors: List<UsageError>,
-) : UsageError(null, context = errors.first().context, statusCode = errors.first().statusCode) {
+) : UsageError(null, statusCode = errors.first().statusCode) {
     companion object {
         /**
          * Given a list of UsageErrors, return `null` if it's empty, the error if there's only one, and a
@@ -116,10 +120,10 @@ class MultiUsageError(
  * A parameter was given the correct number of values, but of invalid format or type.
  */
 class BadParameterValue : UsageError {
-    constructor(message: String, context: Context? = null) : super(message, null, context)
-    constructor(message: String, paramName: String, context: Context? = null) : super(message, paramName, context)
-    constructor(message: String, argument: Argument, context: Context? = null) : super(message, argument, context)
-    constructor(message: String, option: Option, context: Context? = null) : super(message, option, context)
+    constructor(message: String) : super(message, null)
+    constructor(message: String, paramName: String) : super(message, paramName)
+    constructor(message: String, argument: Argument) : super(message, argument)
+    constructor(message: String, option: Option) : super(message, option)
 
     override fun formatMessage(localization: Localization): String {
         val m = message.takeUnless { it.isNullOrBlank() }
@@ -136,12 +140,12 @@ class BadParameterValue : UsageError {
 }
 
 /** A required option was not provided */
-class MissingOption(option: Option, context: Context? = null) : UsageError(option, context = context) {
+class MissingOption(option: Option) : UsageError(option) {
     override fun formatMessage(localization: Localization) = localization.missingOption(paramName ?: "")
 }
 
 /** A required argument was not provided */
-class MissingArgument(argument: Argument, context: Context? = null) : UsageError(argument, context = context) {
+class MissingArgument(argument: Argument) : UsageError(argument) {
     override fun formatMessage(localization: Localization) = localization.missingArgument(paramName ?: "")
 }
 
@@ -149,8 +153,7 @@ class MissingArgument(argument: Argument, context: Context? = null) : UsageError
 class NoSuchSubcommand(
     paramName: String,
     private val possibilities: List<String> = emptyList(),
-    context: Context? = null,
-) : UsageError(null, paramName = paramName, context = context) {
+) : UsageError(null, paramName) {
     override fun formatMessage(localization: Localization): String {
         return localization.noSuchSubcommand(paramName ?: "", possibilities)
     }
@@ -161,8 +164,7 @@ class NoSuchSubcommand(
 class NoSuchOption(
     paramName: String,
     private val possibilities: List<String> = emptyList(),
-    context: Context? = null,
-) : UsageError(null, paramName = paramName, context = context) {
+) : UsageError(null, paramName) {
     override fun formatMessage(localization: Localization): String {
         return localization.noSuchOption(paramName ?: "", possibilities)
     }
@@ -173,10 +175,8 @@ class NoSuchOption(
 class IncorrectOptionValueCount(
     private val minValues: Int,
     paramName: String,
-    context: Context? = null,
-) : UsageError(null, paramName, context = context) {
-    constructor(option: Option, paramName: String, context: Context? = null)
-            : this(option.nvalues.first, paramName, context = context)
+) : UsageError(null, paramName) {
+    constructor(option: Option, paramName: String) : this(option.nvalues.first, paramName)
 
     override fun formatMessage(localization: Localization): String {
         return localization.incorrectOptionValueCount(paramName ?: "", minValues)
@@ -187,11 +187,8 @@ class IncorrectOptionValueCount(
 class IncorrectArgumentValueCount(
     val nvalues: Int,
     argument: Argument,
-    context: Context? = null,
-
-    ) : UsageError(argument, context = context) {
-    constructor(argument: Argument, context: Context? = null)
-            : this(argument.nvalues, argument, context = context)
+) : UsageError(argument) {
+    constructor(argument: Argument) : this(argument.nvalues, argument)
 
     override fun formatMessage(localization: Localization): String {
         return localization.incorrectArgumentValueCount(paramName ?: "", nvalues)
@@ -200,8 +197,7 @@ class IncorrectArgumentValueCount(
 
 class MutuallyExclusiveGroupException(
     val names: List<String>,
-    context: Context? = null,
-) : UsageError(null, context = context) {
+) : UsageError(null) {
     init {
         require(names.size > 1) { "must provide at least two names" }
     }
@@ -214,8 +210,7 @@ class MutuallyExclusiveGroupException(
 /** A required configuration file was not found. */
 class FileNotFound(
     val filename: String,
-    context: Context? = null,
-) : UsageError(null, context = context) {
+) : UsageError(null) {
     override fun formatMessage(localization: Localization): String {
         return localization.fileNotFound(filename)
     }
@@ -226,8 +221,7 @@ class InvalidFileFormat(
     private val filename: String,
     message: String,
     private val lineno: Int? = null,
-    context: Context? = null,
-) : UsageError(message, context = context) {
+) : UsageError(message) {
     override fun formatMessage(localization: Localization): String {
         return when (lineno) {
             null -> localization.invalidFileFormat(filename, message!!)

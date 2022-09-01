@@ -187,7 +187,7 @@ internal object Parser {
                 invocationsByOption.forEach { (o, inv) -> if (o.eager) o.finalize(context, inv) }
 
                 // Parse arguments
-                val argsParseResult = parseArguments(i, positionalArgs, arguments, context)
+                val argsParseResult = parseArguments(i, positionalArgs, arguments)
                 argsParseResult.err?.let { errors += it }
 
                 val excessResult = handleExcessArguments(
@@ -307,7 +307,7 @@ internal object Parser {
                 excess == 1 && subcommands.isNotEmpty() -> {
                     val actual = positionalArgs.last().second
                     throw NoSuchSubcommand(
-                        actual, context.correctionSuggestor(actual, subcommands.keys.toList()), context
+                        actual, context.correctionSuggestor(actual, subcommands.keys.toList())
                     )
                 }
 
@@ -340,7 +340,7 @@ internal object Parser {
                 name,
                 optionsByName.filterNot { it.value.hidden }.keys.toList()
             )
-            throw NoSuchOption(name, possibilities).also { it.context = context }
+            return OptParseResult(1, err = Err(NoSuchOption(name, possibilities).also { it.context = context }, index))
         }
 
         return parseOptValues(option, name, ignoreUnknown, tokens, index, attachedValue, optionsByName, subcommandNames)
@@ -414,7 +414,7 @@ internal object Parser {
                     prefix == "-" && "-$tok" in optionsByName -> listOf("-$tok")
                     else -> emptyList()
                 }
-                throw NoSuchOption(name, possibilities).also { it.context = context }
+                return OptParseResult(1, err = Err(NoSuchOption(name, possibilities).also { it.context = context }, index))
             }
             if (option.nvalues.last > 0) {
                 val value = if (i < tok.lastIndex) tok.drop(i + 1) else null
@@ -433,7 +433,6 @@ internal object Parser {
         argvIndex: Int,
         positionalArgs: List<Pair<Int, String>>,
         arguments: List<Argument>,
-        context: Context,
     ): ArgsParseResult {
         val out = linkedMapOf<Argument, List<String>>().withDefault { listOf() }
         // The number of fixed size arguments that occur after an unlimited size argument. This
@@ -499,7 +498,7 @@ internal object Parser {
             1 -> context.localization.extraArgumentOne(actual)
             else -> context.localization.extraArgumentMany(actual, excess)
         }
-        return UsageError(message, context = context)
+        return UsageError(message)
     }
 }
 

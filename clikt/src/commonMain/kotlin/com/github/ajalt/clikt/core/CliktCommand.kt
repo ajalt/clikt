@@ -252,7 +252,7 @@ abstract class CliktCommand(
         }
 
         val err = error as? UsageError // null for PrintHelpMessage
-        val ctx = (error as? UsageError)?.context ?: _context ?: createContext(emptyList(), null, emptyList())
+        val ctx = err?.context ?: _context ?: createContext(emptyList(), null, emptyList())
         val cmd = ctx.command
         val programName = cmd.getCommandNameWithParents()
         return ctx.helpFormatter.formatHelp(

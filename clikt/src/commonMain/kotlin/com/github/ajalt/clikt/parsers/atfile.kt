@@ -11,7 +11,7 @@ internal fun shlex(filename:String, text: String, context:Context?): List<String
     val sb = StringBuilder()
     var i = 0
     fun err(msg: String): Nothing {
-        throw InvalidFileFormat(filename, msg, text.take(i).count { it == '\n' }, context)
+        throw InvalidFileFormat(filename, msg, text.take(i).count { it == '\n' })
     }
     loop@ while (i < text.length) {
         val c = text[i]

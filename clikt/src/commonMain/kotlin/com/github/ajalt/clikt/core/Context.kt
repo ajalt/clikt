@@ -91,7 +91,7 @@ class Context private constructor(
     }
 
     /** Throw a [UsageError] with the given message */
-    fun fail(message: String = ""): Nothing = throw UsageError(message, context = this)
+    fun fail(message: String = ""): Nothing = throw UsageError(message)
 
     @PublishedApi
     internal fun ancestors() = generateSequence(parent) { it.parent }

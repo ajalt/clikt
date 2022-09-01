@@ -142,9 +142,8 @@ option isn't present on the command line.
 
 ## Multi Value Options
 
-Options can take any fixed number of values separated by whitespace,
-or a variable number of values separated by a non-whitespace delimiter you specify.
-If you want a variable number of values separated by whitespace, you need to use an argument instead.
+Options can take a fixed number of values separated by whitespace, a variable number of values separated by a delimiter,
+or a variable number of values separated by a whitespace.
 
 ### Options With Fixed Number of Values
 
@@ -183,7 +182,7 @@ inform the user and your lambda won't be called.
     Tesseract has dimensions 6x7x8x9
     ```
 
-### Options With a Variable Number of Values
+### Splitting an Option Value on a Delimiter
 
 You can use [`split`][split] to allow a variable number of values to a single option invocation by
 separating the values with non-whitespace delimiters. This will also split [values from environment
@@ -215,6 +214,70 @@ variables](#values-from-environment-variables).
     profile-1
     profile-2
     ```
+
+### Options with an Optional Value
+
+You can create options that take zero or one values with [`optionalValue`][optionalValue].
+
+=== "Example"
+    ```kotlin
+    class C : CliktCommand() {
+        val log by option().optionalValue("debug").default("none")
+        override fun run() {
+            echo("log level: $log")
+        }
+    }
+    ```
+
+=== "Usage with no option value"
+    ```text
+    $ ./command --log
+    log level: debug
+    ```
+
+=== "Usage with option value"
+    ```text
+    $ ./command --log=verbose
+    log level: verbose
+    ```
+
+=== "Usage with no option"
+    ```text
+    $ ./command
+    log level: none
+    ```
+
+!!! warning
+
+    If a user specifies the value without an `=`, as in `--log debug`, the `debug` will always be interpreted as a
+    value for the option, even if the command accepts arguments. This might be confusing to your users, so you
+    can require that the option value always be specified with `=` by passing
+    `optionalValue(acceptsUnattachedValue=false)`.
+
+### Options With a Variable Number of Values
+
+If you want your option to take a variable number of values, but want to split the value on whitespace 
+[rather than a delimiter][#splitting-an-option-value-on-a-delimiter], you can use [`varargValues`][varargValues].
+
+=== "Example"
+
+    ```kotlin
+    class Order : CliktCommand() {
+        val sizes: List<String> by option().varargValues()
+        override fun run() {
+            echo("You ordered: $sizes")
+        }
+    }
+    ```
+=== "Usage"
+
+    ```text
+    $ ./order --sizes small medium
+    You ordered: ["small", "medium"]
+    ```
+
+By default, `varargValues` requires at least one value, and has no maximum limit. You can configure the limits by
+passing `min` and `max` arguments to `varargValues`.
 
 ## Multiple Options
 
@@ -1160,6 +1223,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [multiple]:                    api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html
 [mutuallyExclusiveOptions]:    api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options.html
 [option]:                      api/clikt/com.github.ajalt.clikt.parameters.options/option.html
+[optionalValue]:               api/clikt/com.github.ajalt.clikt.parameters.options/optional-value.html
 [pair]:                        api/clikt/com.github.ajalt.clikt.parameters.options/pair.html
 [parameter-types]:             parameters.md#parameter-types
 [PrintMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-message/index.html
@@ -1180,4 +1244,5 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [ValueSource]:                 api/clikt/com.github.ajalt.clikt.sources/-value-source/index.html
 [ValueSource.envvarKey]:       api/clikt/com.github.ajalt.clikt.sources/-value-source/-companion/envvar-key.html
 [ValueSource.getKey]:          api/clikt/com.github.ajalt.clikt.sources/-value-source/-companion/get-key.html
+[varargValues]:                api/clikt/com.github.ajalt.clikt.parameters.options/vararg-values.html
 [versionOption]:               api/clikt/com.github.ajalt.clikt.parameters.options/version-option.html

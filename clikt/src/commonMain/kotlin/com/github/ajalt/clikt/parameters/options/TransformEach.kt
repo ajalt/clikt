@@ -109,7 +109,7 @@ fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
  * If the option is specified on the command line without a value, [default] will be used.
  *
  * To avoid ambiguity when combined with [arguments][argument], you can set [acceptsUnattachedValue]
- * to false to require that the options' value be specified like `--foo=bar` rather than `--foo bar`.
+ * to `false` to require that the option's value be specified like `--foo=bar` rather than `--foo bar`.
  *
  * ## Example
  *

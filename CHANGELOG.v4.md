@@ -2,22 +2,28 @@
 
 ## 4.0 (Unreleased)
 ### Added
+- You can now use markdown in your help strings, including tables and lists. Clikt uses the Mordant library for rendering.
+- Help output and error messages now include colors by default. You can disable this or customize the styling be configuring the `context.terminal`
+- Added`Option.varargValues()` to create an option that accepts a variable number of values, and `Option.optionalValue()` to create an option whose value is optional.
 - Added `obj` setter to context builder as an alternative to `currentContext.obj`
-- Added `option().boolean()` and `argument().boolean()`
-- `uint()` and `ulong()` parameter type conversions.
-- `CliktCommand.test` extension for testing your commands and their output
+- Added `boolean()` parameter type conversions.
+- Added `uint()` and `ulong()` parameter type conversions.
+- Added`CliktCommand.test` extension for testing your commands and their output
 - Clikt will now report multiple errors if they occur, rather than just the first. ([#367](https://github.com/ajalt/clikt/issues/367))
-- `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
+- Added`CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
 - When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340)) 
 - Update kotlin to 1.7.0
-- Clikt no longer automatically calls `trimIndent` on strings passed to `help`. Call `trimIndent` of `trimMargin` yourself if necessary.
+- Clikt no longer automatically calls `trimIndent` on strings passed to `help`. Call `trimIndent` or `trimMargin` yourself if necessary.
 - The constructor of `UsageError` and its subclasses no longer takes a `context` parameter. The context is now inferred automatically.
 
 ### Fixed
 - When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest ([#361](https://github.com/ajalt/clikt/issues/361))
+
+### Deprecated
+- Deprecated `CliktHelpFormatter`. Use `MordantHelpFormatter` instead.
 
 ### Removed
 - `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.

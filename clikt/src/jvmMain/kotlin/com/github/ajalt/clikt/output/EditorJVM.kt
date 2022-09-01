@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.output
 import com.github.ajalt.clikt.core.CliktError
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import kotlin.io.path.*
 
 internal actual fun createEditor(
         editorPath: String?,
@@ -63,10 +64,10 @@ private class JvmEditor(
         val file = createTempFile(suffix = extension)
         try {
             file.writeText(textToEdit)
-            val ts = file.lastModified()
-            editFileWithEditor(editorCmd, file.canonicalPath)
+            val ts = file.getLastModifiedTime()
+            editFileWithEditor(editorCmd, file.absolutePathString())
 
-            if (requireSave && file.lastModified() == ts) {
+            if (requireSave && file.getLastModifiedTime() == ts) {
                 return null
             }
 
@@ -74,7 +75,7 @@ private class JvmEditor(
         } catch (err: Exception) {
             throw CliktError("Error staring editor", err)
         } finally {
-            file.delete()
+            file.deleteIfExists()
         }
     }
 }

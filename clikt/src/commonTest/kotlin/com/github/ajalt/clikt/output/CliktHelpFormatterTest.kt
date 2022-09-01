@@ -1,4 +1,4 @@
-@file:Suppress("SpellCheckingInspection")
+@file:Suppress("SpellCheckingInspection", "DEPRECATION")
 
 package com.github.ajalt.clikt.output
 

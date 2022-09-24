@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.samples.helpformat
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.CliktHelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter
@@ -18,6 +19,8 @@ class ArgparseLocalization : Localization {
 
 class ArgparseHelpFormatter : CliktHelpFormatter(ArgparseLocalization()) {
     override fun formatHelp(
+        localization: Localization,
+        error: UsageError?,
         prolog: String,
         epilog: String,
         parameters: List<HelpFormatter.ParameterHelp>,

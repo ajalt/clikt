@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.mpp.graphemeLengthMpp
@@ -24,11 +25,28 @@ open class CliktHelpFormatter(
 
     protected val maxColWidth: Int = maxColWidth ?: (this.width / 2.5).toInt()
 
-    override fun formatUsage(parameters: List<HelpFormatter.ParameterHelp>, programName: String): String {
+    override fun formatHelp(
+        context: Context,
+        error: UsageError?,
+        prolog: String,
+        epilog: String,
+        parameters: List<HelpFormatter.ParameterHelp>,
+        programName: String,
+    ): String = buildString {
+        append(formatUsage(parameters, programName))
+        append("\n\n")
+        if (error != null) {
+            append(formatUsageError(error, parameters, programName))
+        } else {
+            formatHelp(prolog, epilog, parameters, programName)
+        }
+    }
+
+    open fun formatUsage(parameters: List<HelpFormatter.ParameterHelp>, programName: String): String {
         return buildString { this.addUsage(parameters, programName) }
     }
 
-    override fun formatHelp(
+    open fun formatHelp(
         prolog: String,
         epilog: String,
         parameters: List<HelpFormatter.ParameterHelp>,
@@ -42,7 +60,7 @@ open class CliktHelpFormatter(
         addEpilog(epilog)
     }
 
-    override fun formatUsageError(
+    private fun formatUsageError(
         error: UsageError,
         parameters: List<HelpFormatter.ParameterHelp>,
         programName: String,

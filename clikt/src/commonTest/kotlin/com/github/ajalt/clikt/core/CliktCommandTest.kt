@@ -136,7 +136,7 @@ class CliktCommandTest {
         val p = Parent()
         shouldThrow<UsageError> {
             p.parse("")
-        }.let { p.getFormattedError(it) } shouldBe """
+        }.let { p.getFormattedHelp(it) } shouldBe """
             |Usage: parent [OPTIONS] ARG
             |
             |Error: Missing argument "ARG"

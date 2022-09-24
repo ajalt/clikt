@@ -258,7 +258,7 @@ class SubcommandTest {
         shouldThrow<UsageError> {
             p.subcommands(Child().subcommands(Grandchild()))
                 .parse("child grandchild")
-        }.let { p.getFormattedError(it) } shouldBe """
+        }.let { p.getFormattedHelp(it) } shouldBe """
             |Usage: parent child grandchild [OPTIONS] ARG
             |
             |Error: Missing argument "ARG"

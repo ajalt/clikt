@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -94,7 +93,7 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
-    private fun createContext(argv: List<String>, parent: Context?, ancestors: List<CliktCommand>) {
+    private fun createContext(argv: List<String>, parent: Context?, ancestors: List<CliktCommand>): Context {
         _context = Context.build(this, parent, argv, _contextConfig)
 
         if (allowMultipleSubcommands) {
@@ -114,9 +113,14 @@ abstract class CliktCommand(
             check(command !in a) { "Command ${command.commandName} already registered" }
             command.createContext(argv, currentContext, a)
         }
+        return _context!!
     }
 
-    private fun allHelpParams(): List<ParameterHelp> {
+    /**
+     * Return the parameters that should be sent to the help formatter when this command's [getFormattedHelp] is
+     * called.
+     */
+    open fun allHelpParams(): List<ParameterHelp> {
         return _options.mapNotNull { it.parameterHelp(currentContext) } +
                 _arguments.mapNotNull { it.parameterHelp(currentContext) } +
                 _groups.mapNotNull { it.parameterHelp(currentContext) } +
@@ -227,7 +231,7 @@ abstract class CliktCommand(
     /**
      * Register a group with this command.
      *
-     * This is called automatically for built in groups, but you need to call this if you want to
+     * This is called automatically for built-in groups, but you need to call this if you want to
      * add a custom group.
      */
     fun registerOptionGroup(group: ParameterGroup) {
@@ -236,36 +240,38 @@ abstract class CliktCommand(
         _groups += group
     }
 
-    /** Return the full help string for this command. */
-    fun getFormattedHelp(): String {
-        val programName = getCommandNameWithParents()
-        return currentContext.helpFormatter.formatHelp(commandHelp, commandHelpEpilog,
-            allHelpParams(), programName)
-    }
 
     /**
-     * Return a help string for a given [error]
+     * Return the help string for this command, optionally with an [error].
+     *
+     * Return `null` if the error does not have a message (e.g. [ProgramResult])
      */
-    fun getFormattedError(error: CliktError): String? {
-        return when (error) {
-            is PrintHelpMessage -> error.command.getFormattedHelp()
-            is UsageError -> {
-                val ctx = error.context ?: currentContext
-                val cmd = ctx.command
-                val programName = cmd.getCommandNameWithParents()
-                ctx.helpFormatter.formatUsageError(error, cmd.allHelpParams(), programName)
-            }
-            else -> error.message
+    fun getFormattedHelp(error: CliktError? = null): String? {
+        if (error != null && error !is UsageError && error !is PrintHelpMessage) {
+            return error.message
         }
+
+        val err = error as? UsageError // null for PrintHelpMessage
+        val ctx = (error as? UsageError)?.context ?: _context ?: createContext(emptyList(), null, emptyList())
+        val cmd = ctx.command
+        val programName = cmd.getCommandNameWithParents()
+        return ctx.helpFormatter.formatHelp(
+            ctx,
+            err,
+            commandHelp,
+            commandHelpEpilog,
+            cmd.allHelpParams(),
+            programName
+        )
     }
 
     /**
-     * Echo the string returned by [getFormattedError].
+     * Echo the string returned by [getFormattedHelp].
      */
-    fun echoFormattedError(error: CliktError) {
-        val msg = getFormattedError(error)
+    fun echoFormattedHelp(error: CliktError? = null) {
+        val msg = getFormattedHelp(error)
         if (msg != null) {
-            echo(msg, err = error.printError)
+            echo(msg, err = error?.printError ?: false)
         }
     }
 
@@ -445,7 +451,7 @@ abstract class CliktCommand(
         try {
             parse(argv)
         } catch (e: CliktError) {
-            echoFormattedError(e)
+            echoFormattedHelp(e)
             exitProcessMpp(e.statusCode)
         }
     }

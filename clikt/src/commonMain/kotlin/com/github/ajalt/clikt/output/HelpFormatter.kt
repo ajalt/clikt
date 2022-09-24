@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.output
 
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 
 /**
@@ -9,23 +10,24 @@ import com.github.ajalt.clikt.core.UsageError
  */
 interface HelpFormatter {
     /**
-     * Create the one-line usage information for a command.
+     * Return a help string to show the user.
      *
-     * This is usually displayed when incorrect input is encountered, and as the first line of the full help.
-     */
-    fun formatUsage(parameters: List<ParameterHelp>, programName: String = ""): String
-
-    /**
-     * Create the full help string.
-     *
+     * @param context The context for the command to format help for, which includes the
+     *   [localization][Context.localization] and [terminal][Context.terminal] to use
+     * @param error The error encountered, if there was one
      * @param prolog Text to display before any parameter information
      * @param epilog Text to display after any parameter information
      * @param parameters Information about the command's parameters
      * @param programName The name of the currently executing program
      */
-    fun formatHelp(prolog: String, epilog: String, parameters: List<ParameterHelp>, programName: String = ""): String
-
-    fun formatUsageError(error: UsageError, parameters: List<ParameterHelp>, programName: String = ""): String
+    fun formatHelp(
+        context: Context,
+        error: UsageError?,
+        prolog: String,
+        epilog: String,
+        parameters: List<ParameterHelp>,
+        programName: String = "",
+    ): String
 
     sealed class ParameterHelp {
         /**

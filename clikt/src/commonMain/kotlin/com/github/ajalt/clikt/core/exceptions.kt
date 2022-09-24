@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
-import kotlin.time.measureTime
 
 /**
  * An exception during command line processing that should be shown to the user.
@@ -56,9 +55,6 @@ class Abort : CliktError(statusCode = 1)
  * An exception that indicates that shell completion code should be printed.
  *
  * Execution should be immediately halted without an error.
- *
- * @param forceUnixLineEndings if true, all line endings in the message should be `\n`, regardless
- *   of the current operating system.
  */
 class PrintCompletionMessage(message: String) : PrintMessage(message)
 

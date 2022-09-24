@@ -216,7 +216,7 @@ class Context private constructor(
                 block()
                 val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
                         parent?.let { p -> p.selfAndAncestors().any { it.command.allowMultipleSubcommands } } != true
-                val formatter = helpFormatter ?: CliktHelpFormatter(localization)
+                val formatter = helpFormatter ?: MordantHelpFormatter()
                 return Context(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
                     helpOptionNames, formatter, tokenTransformer, terminal, expandArgumentFiles,

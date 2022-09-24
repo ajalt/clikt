@@ -7,11 +7,13 @@
 - `uint()` and `ulong()` parameter type conversions.
 - `CliktCommand.test` extension for testing your commands and their output
 - Clikt will now report multiple errors if they occur, rather than just the first. ([#367](https://github.com/ajalt/clikt/issues/367))
+- `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
 - When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340)) 
 - Update kotlin to 1.7.0
+- Clikt no longer automatically calls `trimIndent` on strings passed to `help`. Call `trimIndent` of `trimMargin` yourself if necessary.
 
 ### Fixed
 - When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest ([#361](https://github.com/ajalt/clikt/issues/361))

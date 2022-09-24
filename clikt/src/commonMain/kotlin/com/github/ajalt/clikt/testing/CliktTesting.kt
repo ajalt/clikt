@@ -76,7 +76,7 @@ fun CliktCommand.test(
     try {
         parse(argv)
     } catch (e: CliktError) {
-        echoFormattedError(e)
+        echoFormattedHelp(e)
         exitCode = e.statusCode
     }
     return CliktCommandTestResult(iface.stdout(), iface.stderr(), iface.output(), exitCode)

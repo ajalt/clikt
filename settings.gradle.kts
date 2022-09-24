@@ -12,6 +12,8 @@ include("samples:json")
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
+        // TODO: remove once the next version of mordant is published
+        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
     }
     versionCatalogs {
         create("libs") {
@@ -20,7 +22,7 @@ dependencyResolutionManagement {
             plugin("dokka", "org.jetbrains.dokka").version("1.7.20")
             library("dokka-base", "org.jetbrains.dokka:dokka-base:1.7.20")
 
-            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-beta7")
+            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-beta7.56-SNAPSHOT")
 
             // used in tests
             library("kotest", "io.kotest:kotest-assertions-core:5.5.4")

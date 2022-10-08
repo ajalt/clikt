@@ -24,21 +24,11 @@ private fun opt(
     secondaryNames: List<String> = emptyList(),
     tags: Map<String, String> = emptyMap(),
     group: String? = null,
+    number: Boolean = false,
 ): HelpFormatter.ParameterHelp.Option {
     return HelpFormatter.ParameterHelp.Option(
-        names.toSet(), secondaryNames.toSet(), metavar, help, nvalues..nvalues, tags, false, false, group
+        names.toSet(), secondaryNames.toSet(), metavar, help, nvalues..nvalues, tags, number, false, group
     )
-}
-
-private fun opt(
-    name: String,
-    metavar: String? = null,
-    help: String = "",
-    nvalues: Int = 1,
-    secondaryNames: List<String> = emptyList(),
-    tags: Map<String, String> = emptyMap(),
-): HelpFormatter.ParameterHelp.Option {
-    return opt(l(name), metavar, help, nvalues, secondaryNames, tags)
 }
 
 private fun arg(
@@ -111,11 +101,25 @@ class MordantHelpFormatterTest {
         f.formatHelp(
             ctx(width = 54), null, "", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")), programName = "prog"
         ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  some thing to live by
-                """.trimMargin()
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa INT  some thing to live by
+            """.trimMargin()
+    }
+
+    @Test
+    @JsName("formatHelp_number_opt")
+    fun `formatHelp number opt`() {
+        f.formatHelp(
+            ctx(width = 54), null, "", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by", number = true)),
+            programName = "prog"
+        ) shouldBe """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -INT, -a, --aa INT  some thing to live by
+            """.trimMargin()
     }
 
     @Test
@@ -393,6 +397,27 @@ class MordantHelpFormatterTest {
                 |
                 |Options:
                 |  --opt
+                |  -h, --help  Show this message and exit
+                |
+                |Commands:
+                |  sub
+                """.trimMargin()
+    }
+
+    @Test
+    @Suppress("unused")
+    @JsName("integration_test_with_hidden_subcommand")
+    fun `integration test with hidden subcommand`() {
+        class C : TestCommand()
+        class Sub : TestCommand()
+        class Hidden : TestCommand(hidden = true)
+
+        val c = C().subcommands(Sub(), Hidden())
+
+        c.getFormattedHelp() shouldBe """
+                |Usage: c [OPTIONS] COMMAND [ARGS]...
+                |
+                |Options:
                 |  -h, --help  Show this message and exit
                 |
                 |Commands:

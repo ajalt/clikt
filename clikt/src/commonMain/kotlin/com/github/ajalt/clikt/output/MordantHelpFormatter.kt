@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.mpp.graphemeLengthMpp
+import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.mordant.markdown.Markdown
 import com.github.ajalt.mordant.rendering.*
 import com.github.ajalt.mordant.rendering.TextColors.*
@@ -36,7 +37,7 @@ open class MordantHelpFormatter(
         error: UsageError?,
         prolog: String,
         epilog: String,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
         programName: String,
     ): String {
         val widget = verticalLayout {
@@ -51,7 +52,7 @@ open class MordantHelpFormatter(
         error: UsageError?,
         prolog: String,
         epilog: String,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
         programName: String,
     ): List<Widget> = buildList {
         add(renderUsage(context, parameters, programName))
@@ -77,23 +78,23 @@ open class MordantHelpFormatter(
 
     protected open fun renderUsage(
         context: Context,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
         programName: String,
     ): Widget {
         val optionalStyle = context.terminal.theme.style("clikt.usage.optional")
         val prog = "${styleSectionTitle(context, context.localization.usageTitle())} $programName"
         val usageParts = buildList {
-            if (parameters.any { it is HelpFormatter.ParameterHelp.Option }) {
+            if (parameters.any { it is ParameterHelp.Option }) {
                 add(optionalStyle(context.localization.optionsMetavar()))
             }
 
-            parameters.filterIsInstance<HelpFormatter.ParameterHelp.Argument>().mapTo(this) {
+            parameters.filterIsInstance<ParameterHelp.Argument>().mapTo(this) {
                 val t = (if (it.required) it.name else "[${it.name}]") + if (it.repeatable) "..." else ""
                 val style = if (it.required) TextStyle() else optionalStyle
                 style(t)
             }
 
-            if (parameters.any { it is HelpFormatter.ParameterHelp.Subcommand }) {
+            if (parameters.any { it is ParameterHelp.Subcommand }) {
                 add(optionalStyle(context.localization.commandMetavar()))
             }
         }
@@ -119,13 +120,13 @@ open class MordantHelpFormatter(
 
     protected open fun renderOptions(
         context: Context,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
         val groupsByName = parameters
-            .filterIsInstance<HelpFormatter.ParameterHelp.Group>()
+            .filterIsInstance<ParameterHelp.Group>()
             .associateBy { it.name }
         return parameters
-            .filterIsInstance<HelpFormatter.ParameterHelp.Option>()
+            .filterIsInstance<ParameterHelp.Option>()
             .groupBy { it.groupName }
             .toList().sortedBy { it.first == null } // Put the ungrouped options last
             .filter { it.second.isNotEmpty() }
@@ -139,7 +140,7 @@ open class MordantHelpFormatter(
 
     protected open fun renderParameters(
         context: Context,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
     ): Widget = definitionList {
         for (section in collectParameterSections(context, parameters)) {
             entry(section.title, section.content)
@@ -148,7 +149,7 @@ open class MordantHelpFormatter(
 
     protected open fun collectParameterSections(
         context: Context,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
     ): List<RenderedSection> = buildList {
         addAll(renderOptions(context, parameters))
         addAll(renderArguments(context, parameters))
@@ -158,17 +159,24 @@ open class MordantHelpFormatter(
     protected open fun renderOptionGroup(
         context: Context,
         help: String?,
-        parameters: List<HelpFormatter.ParameterHelp.Option>,
+        parameters: List<ParameterHelp.Option>,
     ): Widget {
         val options = parameters.map {
-            val names = mutableListOf(joinNamesForOption(context, it.names))
+            val unjoinedNames = if (it.acceptsNumberValueWithoutName) {
+                listOf(numberOptionName(context, it)) + it.names
+            } else {
+                it.names
+            }
+            val names = mutableListOf(joinNamesForOption(context, unjoinedNames))
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(context, it.secondaryNames)
-            DefinitionRow(col1 = names.joinToString(" / ", postfix = optionMetavar(context, it)),
+            DefinitionRow(
+                col1 = names.joinToString(" / ", postfix = optionMetavar(context, it)),
                 col2 = renderParameterHelpText(context, it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m -> context.terminal.theme.style("clikt.tag")(m) }
                     else -> null
-                })
+                }
+            )
         }
         if (help == null) return buildParameterList(options)
         val markdown = Markdown(help, showHtml = true)
@@ -185,9 +193,9 @@ open class MordantHelpFormatter(
 
     protected open fun renderArguments(
         context: Context,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
-        val arguments = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Argument>().map {
+        val arguments = parameters.filterIsInstance<ParameterHelp.Argument>().map {
             DefinitionRow(styleArgumentName(context, it.name), renderParameterHelpText(context, it.help, it.tags))
         }
         if (arguments.isEmpty() || arguments.all { it.col2.isEmpty() }) return emptyList()
@@ -200,9 +208,9 @@ open class MordantHelpFormatter(
 
     protected open fun renderCommands(
         context: Context,
-        parameters: List<HelpFormatter.ParameterHelp>,
+        parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
-        val commands = parameters.filterIsInstance<HelpFormatter.ParameterHelp.Subcommand>().map {
+        val commands = parameters.filterIsInstance<ParameterHelp.Subcommand>().map {
             DefinitionRow(styleSubcommandName(context, it.name), renderParameterHelpText(context, it.help, it.tags))
         }
         if (commands.isEmpty()) return emptyList()
@@ -229,7 +237,7 @@ open class MordantHelpFormatter(
         }
     }
 
-    protected open fun joinNamesForOption(context: Context, names: Set<String>): String {
+    protected open fun joinNamesForOption(context: Context, names: Iterable<String>): String {
         return names
             .sortedBy { it.startsWith("--") }
             .joinToString(", ") { styleOptionName(context, it) }
@@ -242,6 +250,10 @@ open class MordantHelpFormatter(
             else -> tag
         }
         return context.terminal.theme.style("clikt.tag")(if (value.isBlank()) "($t)" else "($t: $value)")
+    }
+
+    protected open fun numberOptionName(context: Context, option: ParameterHelp.Option): String {
+        return "${option.names.first().first()}${option.metavar ?: context.localization.intMetavar()}"
     }
 
     protected open fun styleOptionName(context: Context, name: String): String =
@@ -259,7 +271,7 @@ open class MordantHelpFormatter(
     protected open fun styleMetavar(context: Context, metavar: String): String =
         context.terminal.theme.style("clikt.meta")(metavar)
 
-    protected open fun optionMetavar(context: Context, option: HelpFormatter.ParameterHelp.Option): String {
+    protected open fun optionMetavar(context: Context, option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         val metavar = " " + styleMetavar(context, option.metavar)
         if (option.nvalues.first > 1) return "$metavar..."

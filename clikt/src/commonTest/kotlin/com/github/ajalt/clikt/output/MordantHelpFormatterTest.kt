@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
@@ -18,6 +19,21 @@ private fun <T> l(vararg t: T) = listOf(*t)
 
 private fun opt(
     names: List<String>,
+    metavar: String?,
+    help: String ,
+    nvalues: IntRange,
+    secondaryNames: List<String> = emptyList(),
+    tags: Map<String, String> = emptyMap(),
+    group: String? = null,
+    number: Boolean = false,
+): HelpFormatter.ParameterHelp.Option {
+    return HelpFormatter.ParameterHelp.Option(
+        names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, number, false, group
+    )
+}
+
+private fun opt(
+    names: List<String>,
     metavar: String? = null,
     help: String = "",
     nvalues: Int = 1,
@@ -26,9 +42,7 @@ private fun opt(
     group: String? = null,
     number: Boolean = false,
 ): HelpFormatter.ParameterHelp.Option {
-    return HelpFormatter.ParameterHelp.Option(
-        names.toSet(), secondaryNames.toSet(), metavar, help, nvalues..nvalues, tags, number, false, group
-    )
+    return opt(names, metavar, help, nvalues..nvalues, secondaryNames, tags, group, number)
 }
 
 private fun arg(
@@ -422,6 +436,27 @@ class MordantHelpFormatterTest {
                 |
                 |Commands:
                 |  sub
+                """.trimMargin()
+    }
+
+    @Test
+    @Suppress("unused")
+    @JsName("integration_test_with_optional_values")
+    fun `integration test with optional values`() {
+        class C : TestCommand() {
+            val foo by option("--foo", "-f", help="option one").optionalValue("d1")
+            val bar by option(help="option two").choice("c1", "c2").optionalValue("d2")
+            val baz by option(help="option three").int().varargValues(min = 0)
+        }
+
+        C().getFormattedHelp() shouldBe """
+                |Usage: c [OPTIONS]
+                |
+                |Options:
+                |  -f, --foo[=TEXT]  option one
+                |  --bar[=c1|c2]     option two
+                |  --baz[=INT]...    option three
+                |  -h, --help        Show this message and exit
                 """.trimMargin()
     }
 

@@ -233,10 +233,14 @@ abstract class CliktCommand(
      *
      * This is called automatically for built-in groups, but you need to call this if you want to
      * add a custom group.
+     *
+     * If you call this manually, you also need to call [registerOption] for any options within the group.
      */
     fun registerOptionGroup(group: ParameterGroup) {
         require(group !in _groups) { "Cannot register the same group twice" }
-        require(group.groupName == null || _groups.none { it.groupName == group.groupName }) { "Cannot register the same group name twice" }
+        require(group.groupName == null || _groups.none { it.groupName == group.groupName }) {
+            "Cannot register the same group name twice"
+        }
         _groups += group
     }
 

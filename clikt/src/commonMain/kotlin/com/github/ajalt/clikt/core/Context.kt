@@ -119,7 +119,7 @@ class Context private constructor(
          * If any names in the set conflict with other options, the conflicting name will not be used for the
          * help option. If the set is empty, or contains no unique names, no help option will be added.
          */
-        var helpOptionNames: Set<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
+        var helpOptionNames: Iterable<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
 
         /** The help formatter for this command, or null to use the default */
         var helpFormatter: HelpFormatter? = parent?.helpFormatter
@@ -219,7 +219,7 @@ class Context private constructor(
                 val formatter = helpFormatter ?: MordantHelpFormatter()
                 return Context(
                     parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                    helpOptionNames, formatter, tokenTransformer, terminal, expandArgumentFiles,
+                    helpOptionNames.toSet(), formatter, tokenTransformer, terminal, expandArgumentFiles,
                     readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
                     envvarReader, obj, argv
                 )

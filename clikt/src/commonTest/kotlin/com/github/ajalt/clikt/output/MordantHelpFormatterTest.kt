@@ -1,469 +1,446 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
-import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.test
+import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
 
 
-private fun <T> l(vararg t: T) = listOf(*t)
-
-private fun opt(
-    names: List<String>,
-    metavar: String?,
-    help: String ,
-    nvalues: IntRange,
-    secondaryNames: List<String> = emptyList(),
-    tags: Map<String, String> = emptyMap(),
-    group: String? = null,
-    number: Boolean = false,
-): HelpFormatter.ParameterHelp.Option {
-    return HelpFormatter.ParameterHelp.Option(
-        names.toSet(), secondaryNames.toSet(), metavar, help, nvalues, tags, number, false, group
-    )
-}
-
-private fun opt(
-    names: List<String>,
-    metavar: String? = null,
-    help: String = "",
-    nvalues: Int = 1,
-    secondaryNames: List<String> = emptyList(),
-    tags: Map<String, String> = emptyMap(),
-    group: String? = null,
-    number: Boolean = false,
-): HelpFormatter.ParameterHelp.Option {
-    return opt(names, metavar, help, nvalues..nvalues, secondaryNames, tags, group, number)
-}
-
-private fun arg(
-    name: String,
-    help: String = "",
-    required: Boolean = false,
-    repeatable: Boolean = false,
-    tags: Map<String, String> = emptyMap(),
-) = HelpFormatter.ParameterHelp.Argument(name, help, required, repeatable, tags)
-
-private fun sub(
-    name: String,
-    help: String = "",
-    tags: Map<String, String> = emptyMap(),
-) = HelpFormatter.ParameterHelp.Subcommand(name, help, tags)
-
-
 class MordantHelpFormatterTest {
-//    @Test
-//    fun formatUsage() = forAll(
-//            row(l(), "Usage: prog"),
-//            row(l(opt("-x")), "Usage: prog [OPTIONS]"),
-//            row(l(arg("FOO")), "Usage: prog [FOO]"),
-//            row(l(arg("FOO", required = true)), "Usage: prog FOO"),
-//            row(l(arg("FOO", repeatable = true)), "Usage: prog [FOO]..."),
-//            row(l(arg("FOO", required = true, repeatable = true)), "Usage: prog FOO..."),
-//            row(l(arg("FOO", required = true, repeatable = true), opt("-x"), arg("BAR")), "Usage: prog [OPTIONS] FOO... [BAR]"),
-//            row(l(opt("-x"), arg("FOO"), sub("bar")), "Usage: prog [OPTIONS] [FOO] COMMAND [ARGS]...")
-//    ) { params, expected ->
-//        MordantHelpFormatter().formatHelp(params, "prog") shouldBe expected
-//    }
-//
-//    @Test
-//    @JsName("formatUsage_wrapping_command_name")
-//    fun `formatUsage wrapping command name`() {
-//        val f = MordantHelpFormatter(terminal = Terminal(width = 46))
-//        f.renderUsage(l(
-//                opt("-x"),
-//                arg("FIRST", required = true),
-//                arg("SECOND", required = true),
-//                arg("THIRD", required = true),
-//                arg("FOURTH", required = true),
-//                arg("FIFTH", required = true),
-//                arg("SIXTH", required = true)
-//        ), programName = "cli a_very_very_very_long command") shouldBe
-//                """
-//                |Usage: cli a_very_very_very_long command
-//                |    [OPTIONS] FIRST SECOND THIRD FOURTH FIFTH
-//                |    SIXTH
-//                """.trimMargin()
-//    }
-
-//    @Test
-//    @JsName("formatUsage_narrow_width")
-//    fun `formatUsage narrow width`() {
-//        MordantHelpFormatter(terminal = Terminal(width = 22)).renderUsage(l(opt("-x")), "prog") shouldBe "Usage: prog [OPTIONS]"
-//    }
-
-    private fun ctx(width: Int = 79): Context {
-        return TestCommand().context {
-            terminal = Terminal(width = width)
-        }.parse("").currentContext
+    private val c = TestCommand(name = "prog")
+    private fun doTest(
+        expected: String,
+        width: Int = 79,
+        command: CliktCommand = c,
+        helpNames: Set<String> = emptySet(),
+    ) {
+        command.context {
+            terminal = Terminal(width = width, ansiLevel = AnsiLevel.NONE)
+            helpOptionNames = helpNames
+        }.getFormattedHelp() shouldBe expected.trimMargin()
     }
 
-    private val f = MordantHelpFormatter()
+    @Test
+    fun formatUsage() = forAll(
+        row(listOf(), "Usage: prog"),
+        row(listOf(c.option("-x")), "Usage: prog [OPTIONS]"),
+        row(listOf(c.argument("FOO").optional()), "Usage: prog [FOO]"),
+        row(listOf(c.argument("FOO")), "Usage: prog FOO"),
+        row(listOf(c.argument("FOO").multiple()), "Usage: prog [FOO]..."),
+        row(listOf(c.argument("FOO").multiple(required = true)), "Usage: prog FOO..."),
+        row(
+            listOf<Any>(c.argument("FOO").multiple(required = true), c.option("-x"), c.argument("BAR").optional()),
+            "Usage: prog [OPTIONS] FOO... [BAR]"
+        ),
+        row(
+            listOf(c.option("-x"), c.argument("FOO").optional(), TestCommand(name = "bar")),
+            "Usage: prog [OPTIONS] [FOO] COMMAND [ARGS]..."
+        )
+    ) { params, expected ->
+        val c = TestCommand(name = "prog").context {
+            helpOptionNames = emptySet()
+        }
+        for (p in params) {
+            when (p) {
+                is Argument -> c.registerArgument(p)
+                is Option -> c.registerOption(p)
+                is CliktCommand -> c.subcommands(p)
+            }
+        }
+        c.getFormattedHelp()?.lines()?.first() shouldBe expected
+    }
 
     @Test
-    @JsName("formatHelp_one_opt")
-    fun `formatHelp one opt`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by")), programName = "prog"
-        ) shouldBe """
+    @Suppress("unused")
+    @JsName("formatUsage_wrapping_command_name")
+    fun `formatUsage wrapping command name`() {
+        class C : TestCommand(name = "cli a_very_very_very_long command") {
+            val x by option("-x")
+            val a1 by argument("FIRST")
+            val a2 by argument("SECOND")
+            val a3 by argument("THIRD")
+            val a4 by argument("FOURTH")
+            val a5 by argument("FIFTH")
+            val a6 by argument("SIXTH")
+        }
+        c.registerOption(c.option("--aa", "-a", help = "some thing to live by"))
+        doTest(
+            """
+            |Usage: cli a_very_very_very_long command
+            |    [OPTIONS] FIRST SECOND THIRD FOURTH FIFTH
+            |    SIXTH
+            |    
+            |Options:
+            |  -x=TEXT
+            """,
+            width = 46,
+            command = C()
+        )
+    }
+
+    @Test
+    @JsName("formatUsage_narrow_width")
+    fun `formatUsage narrow width`() {
+        c.registerOption(c.option("-x"))
+        doTest(
+            """
             |Usage: prog [OPTIONS]
             |
             |Options:
-            |  -a, --aa INT  some thing to live by
-            """.trimMargin()
+            |  -x=TEXT
+            """,
+            width = 21,
+        )
     }
 
+
     @Test
-    @JsName("formatHelp_number_opt")
-    fun `formatHelp number opt`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(opt(l("--aa", "-a"), "INT", "some thing to live by", number = true)),
-            programName = "prog"
-        ) shouldBe """
+    @JsName("help_output_one_opt")
+    fun `one opt`() {
+        c.registerOption(c.option("--aa", "-a", help = "some thing to live by"))
+        doTest(
+            """
             |Usage: prog [OPTIONS]
             |
             |Options:
-            |  -INT, -a, --aa INT  some thing to live by
-            """.trimMargin()
+            |  -a, --aa=TEXT  some thing to live by
+            """
+        )
     }
 
     @Test
-    @JsName("formatHelp_one_opt_secondary_name")
-    fun `formatHelp one opt secondary name`() {
-        f.formatHelp(
-            ctx(width = 60), null, "", "", l(
-                opt(l("--aa", "-a"), null, "some thing to know", secondaryNames = listOf("--no-aa", "-A"))
-            ), programName = "prog"
-        ) shouldBe """
+    @JsName("help_output_number_opt")
+    fun `number opt`() {
+        c.registerOption(c.option("--aa", "-a", help = "some thing to live by").int(acceptsValueWithoutName = true))
+        doTest(
+            """
             |Usage: prog [OPTIONS]
             |
             |Options:
-            |  -a, --aa / -A, --no-aa  some thing to know
-            """.trimMargin()
+            |  -INT, -a, --aa=INT  some thing to live by
+            """
+        )
     }
 
     @Test
-    @JsName("formatHelp_one_opt_prolog")
-    fun `formatHelp one opt prolog`() {
-        f.formatHelp(
-            ctx(),
-            null,
-            prolog = "Lorem Ipsum.",
-            epilog = "Dolor Sit Amet.",
-            parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-            programName = "prog"
-        ) shouldBe """
+    @JsName("help_output_one_opt_secondary_name")
+    fun `one opt secondary name`() {
+        c.registerOption(c.option("--aa", "-a", help = "some thing to live by").flag("--no-aa", "-A"))
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa / -A, --no-aa  some thing to live by
+            """
+        )
+    }
+
+    @Test
+    @JsName("help_output_one_opt_prolog")
+    fun `one opt prolog`() {
+        val c = TestCommand(
+            name = "prog",
+            help = "Lorem Ipsum.",
+            epilog = "Dolor Sit Amet."
+        )
+        c.registerOption(c.option("--aa", "-a", help = "some thing to live by").int())
+        doTest(
+            """
             |Usage: prog [OPTIONS]
             |
             |  Lorem Ipsum.
             |
             |Options:
-            |  -a, --aa INT  some thing to live by
+            |  -a, --aa=INT  some thing to live by
             |
             |Dolor Sit Amet.
-            """.trimMargin()
+            """,
+            command = c
+        )
     }
 
     @Test
-    @JsName("formatHelp_one_opt_prolog_multi_paragraph")
-    fun `formatHelp one opt prolog multi paragraph`() {
-        f.formatHelp(
-            ctx(width = 54),
-            null,
-            prolog = """
-                |Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                |
-                |Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
-                |turpis bibendum egestas.
-                |
-                |Morbi id libero purus. Praesent sit amet neque tellus. Vestibulum in condimentum turpis, in
-                |consectetur ex.
-                """.trimMargin(),
-            epilog = "",
-            parameters = l(opt(l("--aa", "-a"), "INT", "some thing to live by")),
-            programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |  Lorem ipsum dolor sit amet, consectetur adipiscing
-                |  elit.
-                |
-                |  Vivamus dictum varius massa, at euismod turpis
-                |  maximus eu. Suspendisse molestie mauris at turpis
-                |  bibendum egestas.
-                |
-                |  Morbi id libero purus. Praesent sit amet neque
-                |  tellus. Vestibulum in condimentum turpis, in
-                |  consectetur ex.
-                |
-                |Options:
-                |  -a, --aa INT  some thing to live by
-                """.trimMargin()
+    @JsName("help_output_one_opt_prolog_multi_paragraph")
+    fun `one opt prolog multi paragraph`() {
+        val c = TestCommand(
+            name = "prog",
+            help = """
+            |Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            |
+            |Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
+            |turpis bibendum egestas.
+            |
+            |Morbi id libero purus. Praesent sit amet neque tellus. Vestibulum in condimentum turpis, in
+            |consectetur ex.
+            """.trimMargin(),
+        )
+        c.registerOption(c.option("--aa", "-a", help = "some thing to live by").int())
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |  Lorem ipsum dolor sit amet, consectetur adipiscing
+            |  elit.
+            |
+            |  Vivamus dictum varius massa, at euismod turpis
+            |  maximus eu. Suspendisse molestie mauris at turpis
+            |  bibendum egestas.
+            |
+            |  Morbi id libero purus. Praesent sit amet neque
+            |  tellus. Vestibulum in condimentum turpis, in
+            |  consectetur ex.
+            |
+            |Options:
+            |  -a, --aa=INT  some thing to live by
+            """,
+            width = 54,
+            command = c
+        )
     }
 
     @Test
-    @JsName("formatHelp_prolog_preformat")
-    fun `formatHelp prolog list`() {
-        f.formatHelp(
-            ctx(width = 54), null, prolog = """
-                |Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                |
-                |- Morbi id libero purus.
-                |- Praesent sit amet neque tellus.
-                |
-                |Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
-                |turpis bibendum egestas.
-                """.trimMargin(), epilog = "", parameters = l(), programName = "prog"
-        ) shouldBe """
-                |Usage: prog
-                |
-                |  Lorem ipsum dolor sit amet, consectetur adipiscing
-                |  elit.
-                |
-                |   • Morbi id libero purus.
-                |   • Praesent sit amet neque tellus.
-                |
-                |  Vivamus dictum varius massa, at euismod turpis
-                |  maximus eu. Suspendisse molestie mauris at turpis
-                |  bibendum egestas.
-                """.trimMargin()
+    @JsName("help_output_prolog_list")
+    fun `prolog list`() {
+        val c = TestCommand(
+            name = "prog",
+            help = """
+            |Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            |
+            |- Morbi id libero purus.
+            |- Praesent sit amet neque tellus.
+            |
+            |Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
+            |turpis bibendum egestas.
+            """.trimMargin(),
+        )
+        doTest(
+            """
+            |Usage: prog
+            |
+            |  Lorem ipsum dolor sit amet, consectetur adipiscing
+            |  elit.
+            |
+            |   • Morbi id libero purus.
+            |   • Praesent sit amet neque tellus.
+            |
+            |  Vivamus dictum varius massa, at euismod turpis
+            |  maximus eu. Suspendisse molestie mauris at turpis
+            |  bibendum egestas.
+            """,
+            width = 54,
+            command = c
+        )
     }
 
     @Test
-    @JsName("formatHelp_one_opt_manual_line_break_narrow")
-    fun `formatHelp one opt manual line break narrow`() {
-        f.formatHelp(
-            ctx(width = 35),
-            null,
-            "",
-            "",
-            l(opt(l("--aa", "-a"), "INT", "Lorem ipsum dolor\u0085(sit amet, consectetur)")),
-            programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  Lorem ipsum dolor
-                |                (sit amet,
-                |                consectetur)
-                """.trimMargin()
+    @JsName("help_output_one_opt_manual_line_break_narrow")
+    fun `one opt manual line break narrow`() {
+        c.registerOption(c.option("--aa", "-a", help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"))
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT
+            |    Lorem ipsum dolor
+            |    (sit amet, consectetur)
+            """,
+            width = 35
+        )
     }
 
     @Test
-    @JsName("formatHelp_one_opt_manual_line_break_wide")
-    fun `formatHelp one opt manual line break wide`() {
-        f.formatHelp(
-            ctx(width = 78),
-            null,
-            "",
-            "",
-            l(opt(l("--aa", "-a"), "INT", "Lorem ipsum dolor\u0085(sit amet, consectetur)")),
-            programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  Lorem ipsum dolor
-                |                (sit amet, consectetur)
-                """.trimMargin()
+    @JsName("help_output_one_opt_manual_line_break_wide")
+    fun `one opt manual line break wide`() {
+        c.registerOption(c.option("--aa", "-a", help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"))
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT  Lorem ipsum dolor
+            |                 (sit amet, consectetur)
+            """
+        )
     }
 
+    @Test
+    @JsName("help_output_option_wrapping")
+    fun `option wrapping`() {
+        c.registerOption(
+            c.option("-x", metavar = "X", help = "one very very very very very very long option").pair()
+        )
+        c.registerOption(c.option("-y", "--yy", metavar = "Y", help = "a shorter but still long option"))
+        c.registerOption(c.option("-z", "--zzzzzzzzzzzzz", metavar = "ZZZZZZZZ", help = "a short option"))
+        c.registerOption(
+            c.option(
+                "-t", "--entirely-too-long-option", metavar = "WOWSOLONG",
+                help = "this option has a long name and a long description"
+            )
+        )
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -x=X...     one very very very very very very long
+            |              option
+            |  -y, --yy=Y  a shorter but still long option
+            |  -z, --zzzzzzzzzzzzz=ZZZZZZZZ
+            |              a short option
+            |  -t, --entirely-too-long-option=WOWSOLONG
+            |              this option has a long name and a long
+            |              description
+            """,
+            width = 54
+        )
+    }
 
     @Test
-    @JsName("formatHelp_option_wrapping")
-    fun `formatHelp option wrapping`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                opt(l("-x"), "X", nvalues = 2, help = "one very very very very very very long option"),
-                opt(l("-y", "--yy"), "Y", help = "a shorter but still long option"),
-                opt(l("-z", "--zzzzzzzzzzzzz"), "ZZZZZZZZ", help = "a short option"),
-                opt(
-                    l("-t", "--entirely-too-long-option"),
-                    "WOWSOLONG",
-                    help = "this option has a long name and a long descrption"
+    @JsName("help_output_option_wrapping_long_help_issue_10")
+    fun `option wrapping long help issue 10`() {
+        c.registerOption(
+            c.option("-L", "--lorem-ipsum")
+                .flag()
+                .help(
+                    "Lorem ipsum dolor sit amet, consectetur e  adipiscing elit. Nulla vitae porta nisi." +
+                            " Interdum et malesuada fames ac ante ipsum"
                 )
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -x X...     one very very very very very very long
-                |              option
-                |  -y, --yy Y  a shorter but still long option
-                |  -z, --zzzzzzzzzzzzz ZZZZZZZZ
-                |              a short option
-                |  -t, --entirely-too-long-option WOWSOLONG
-                |              this option has a long name and a long
-                |              descrption
-                """.trimMargin()
-    }
-
-    @Test
-    @JsName("formatHelp_option_wrapping_long_help_issue_10")
-    fun `formatHelp option wrapping long help issue 10`() {
-        f.formatHelp(
-            ctx(width = 62), null, "", "", l(
-                opt(
-                    l("-L", "--lorem-ipsum"),
-                    help = "Lorem ipsum dolor sit amet, consectetur e  adipiscing elit. Nulla vitae " + "porta nisi.  Interdum et malesuada fames ac ante ipsum"
-                )
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -L, --lorem-ipsum  Lorem ipsum dolor sit amet, consectetur e
-                |                     adipiscing elit. Nulla vitae porta nisi.
-                |                     Interdum et malesuada fames ac ante ipsum
-                """.trimMargin()
-    }
-
-    @Test
-    @JsName("formatHelp_option_groups")
-    fun `formatHelp option groups`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                opt(l("--aa", "-a"), "INT", "some thing to live by aa", group = "Grouped"),
-                opt(l("--bb", "-b"), "INT", "some thing to live by bb", group = "Singleton"),
-                opt(l("--cc", "-c"), "INT", "some thing to live by cc", group = "Grouped"),
-                opt(l("--dd", "-d"), "INT", "some thing to live by dd"),
-                HelpFormatter.ParameterHelp.Group(
-                    "Grouped",
-                    "This is the help text for the option group named Grouped. " +
-                            "This text should wrap onto exactly three lines."
-                )
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Grouped:
-                |
-                |  This is the help text for the option group named
-                |  Grouped. This text should wrap onto exactly three
-                |  lines.
-                |
-                |  -a, --aa INT  some thing to live by aa
-                |  -c, --cc INT  some thing to live by cc
-                |
-                |Singleton:
-                |  -b, --bb INT  some thing to live by bb
-                |
-                |Options:
-                |  -d, --dd INT  some thing to live by dd
-                """.trimMargin()
-    }
-
-    @Test
-    @JsName("formatHelp_arguments")
-    fun `formatHelp arguments`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                arg("FOO", "some thing to live by", required = true), arg("BAR", "another argument")
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog FOO [BAR]
-                |
-                |Arguments:
-                |  FOO  some thing to live by
-                |  BAR  another argument
-                """.trimMargin()
-    }
-
-    @Test
-    @JsName("formatHelp_subcommands")
-    fun `formatHelp subcommands`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                sub("foo", "some thing to live by"), sub("bar", "another argument")
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog COMMAND [ARGS]...
-                |
-                |Commands:
-                |  foo  some thing to live by
-                |  bar  another argument
-                """.trimMargin()
+        )
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -L, --lorem-ipsum  Lorem ipsum dolor sit amet, consectetur e
+            |                     adipiscing elit. Nulla vitae porta nisi.
+            |                     Interdum et malesuada fames ac ante ipsum
+            """,
+            width = 62
+        )
     }
 
     @Test
     @Suppress("unused")
-    @JsName("integration_test_with_subcommand_without_help")
-    fun `integration test with subcommand without help`() {
-        class C : TestCommand() {
-            val opt by option().flag()
+    @JsName("help_output_option_groups")
+    fun `option groups`() {
+        class G : OptionGroup("Grouped") {
+            override val groupHelp: String =
+                "This is the help text for the option group named Grouped. " +
+                        "This text should wrap onto exactly three lines."
+            val a by option("--aa", "-a", help = "some thing to live by aa")
+            val c by option("--cc", "-c", help = "some thing to live by cc")
         }
 
-        class Sub : TestCommand()
-
-        val c = C().subcommands(Sub())
-
-        c.getFormattedHelp() shouldBe """
-                |Usage: c [OPTIONS] COMMAND [ARGS]...
-                |
-                |Options:
-                |  --opt
-                |  -h, --help  Show this message and exit
-                |
-                |Commands:
-                |  sub
-                """.trimMargin()
-    }
-
-    @Test
-    @Suppress("unused")
-    @JsName("integration_test_with_hidden_subcommand")
-    fun `integration test with hidden subcommand`() {
-        class C : TestCommand()
-        class Sub : TestCommand()
-        class Hidden : TestCommand(hidden = true)
-
-        val c = C().subcommands(Sub(), Hidden())
-
-        c.getFormattedHelp() shouldBe """
-                |Usage: c [OPTIONS] COMMAND [ARGS]...
-                |
-                |Options:
-                |  -h, --help  Show this message and exit
-                |
-                |Commands:
-                |  sub
-                """.trimMargin()
-    }
-
-    @Test
-    @Suppress("unused")
-    @JsName("integration_test_with_optional_values")
-    fun `integration test with optional values`() {
-        class C : TestCommand() {
-            val foo by option("--foo", "-f", help="option one").optionalValue("d1")
-            val bar by option(help="option two").choice("c1", "c2").optionalValue("d2")
-            val baz by option(help="option three").int().varargValues(min = 0)
+        class G2 : OptionGroup("Singleton") {
+            val b by option("--bb", "-b", help = "some thing to live by bb")
         }
 
-        C().getFormattedHelp() shouldBe """
-                |Usage: c [OPTIONS]
-                |
-                |Options:
-                |  -f, --foo[=TEXT]  option one
-                |  --bar[=c1|c2]     option two
-                |  --baz[=INT]...    option three
-                |  -h, --help        Show this message and exit
-                """.trimMargin()
+        class C : TestCommand(name = "prog") {
+            val g by G()
+            val g2 by G2()
+            val o by option("--dd", "-d", help = "some thing to live by dd")
+        }
+
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Grouped:
+            |
+            |  This is the help text for the option group named
+            |  Grouped. This text should wrap onto exactly three
+            |  lines.
+            |
+            |  -a, --aa=TEXT  some thing to live by aa
+            |  -c, --cc=TEXT  some thing to live by cc
+            |
+            |Singleton:
+            |  -b, --bb=TEXT  some thing to live by bb
+            |
+            |Options:
+            |  -d, --dd=TEXT  some thing to live by dd
+            """,
+            width = 54,
+            command = C()
+        )
     }
 
     @Test
     @Suppress("unused")
-    @JsName("integration_test_with_choice_group")
-    fun `integration test with choice group`() {
+    @JsName("help_output_arguments")
+    fun arguments() {
+        class C : TestCommand(name = "prog") {
+            val foo by argument(help = "some thing to live by")
+            val bar by argument(help = "another argument").optional()
+        }
+        doTest(
+            """
+            |Usage: prog FOO [BAR]
+            |
+            |Arguments:
+            |  FOO  some thing to live by
+            |  BAR  another argument
+            """,
+            command = C()
+        )
+    }
+
+    @Test
+    @JsName("subcommands")
+    fun subcommands() {
+        c.subcommands(
+            TestCommand(name = "foo", help = "some thing to live by"),
+            TestCommand(name = "bar", help = "another argument"),
+            TestCommand(name = "baz"),
+            TestCommand(name = "qux", hidden = true),
+        )
+        doTest(
+            """
+            |Usage: prog COMMAND [ARGS]...
+            |
+            |Commands:
+            |  foo  some thing to live by
+            |  bar  another argument
+            |  baz
+            """
+        )
+    }
+
+    @Test
+    @JsName("help_output_optional_values")
+    fun `optional values`() {
+        c.registerOption(c.option("--foo", "-f", help = "option one").optionalValue("d1"))
+        c.registerOption(c.option("--bar", help = "option two").choice("c1", "c2").optionalValue("d2"))
+        c.registerOption(c.option("--baz", help = "option three").int().varargValues(min = 0))
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -f, --foo[=TEXT]  option one
+            |  --bar[=c1|c2]     option two
+            |  --baz[=INT...]    option three
+            """
+        )
+    }
+
+    @Test
+    @Suppress("unused")
+    @JsName("choice_group")
+    fun `choice group`() {
         class G1 : OptionGroup("G1") {
             val opt1 by option()
         }
@@ -475,28 +452,27 @@ class MordantHelpFormatterTest {
         class C : TestCommand() {
             val opt by option(help = "select group").groupChoice("g1" to G1(), "g2" to G2())
         }
-
-        val c = C()
-
-        c.getFormattedHelp() shouldBe """
-                |Usage: c [OPTIONS]
-                |
-                |G1:
-                |  --opt1 TEXT
-                |
-                |G2:
-                |  --opt2 TEXT
-                |
-                |Options:
-                |  --opt [g1|g2]  select group
-                |  -h, --help     Show this message and exit
-                """.trimMargin()
+        doTest(
+            """
+            |Usage: c [OPTIONS]
+            |
+            |G1:
+            |  --opt1=TEXT
+            |
+            |G2:
+            |  --opt2=TEXT
+            |
+            |Options:
+            |  --opt=[g1|g2]  select group
+            """,
+            command = C()
+        )
     }
 
     @Test
     @Suppress("unused")
-    @JsName("integration_test_with_switch_group")
-    fun `integration test with switch group`() {
+    @JsName("switch_group")
+    fun `switch group`() {
         class G1 : OptionGroup("G1") {
             val opt1 by option()
         }
@@ -509,47 +485,31 @@ class MordantHelpFormatterTest {
             val opt by option(help = "select group").groupSwitch("--g1" to G1(), "--g2" to G2())
         }
 
-        val c = C().parse("")
-
-        c.getFormattedHelp() shouldBe """
-                |Usage: c [OPTIONS]
-                |
-                |G1:
-                |  --opt1 TEXT
-                |
-                |G2:
-                |  --opt2 TEXT
-                |
-                |Options:
-                |  --g1, --g2  select group
-                |  -h, --help  Show this message and exit
-                """.trimMargin()
+        doTest(
+            """
+            |Usage: c [OPTIONS]
+            |
+            |G1:
+            |  --opt1=TEXT
+            |
+            |G2:
+            |  --opt2=TEXT
+            |
+            |Options:
+            |  --g1, --g2  select group
+            """,
+            command = C()
+        )
     }
 
     @Test
     @Suppress("unused")
-    @JsName("integration_test")
-    fun `integration test`() {
-        class G : OptionGroup("My Group", help = "this is my group") {
-            val groupFoo by option(help = "foo for group").required()
-            val bar by option("-g", "--group-bar", help = "bar for group")
-        }
-
-        class G2 : OptionGroup("Another group") {
-            val groupBaz by option(help = "this group doesn't have help").required()
-        }
-
-        class C : NoOpCliktCommand(
-            name = "program", help = """
-                This is a program.
-
-                This is the prolog.
-                """.trimIndent(), epilog = "This is the epilog"
-        ) {
-            val g by G().cooccurring()
-            val g2 by G2().cooccurring()
+    @JsName("mutually_exclusive_options")
+    fun `mutually exclusive options`() {
+        class C : TestCommand(name = "prog") {
             val ex by mutuallyExclusiveOptions(
-                option("--ex-foo", help = "exclusive foo"), option("--ex-bar", help = "exclusive bar")
+                option("--ex-foo", help = "exclusive foo"),
+                option("--ex-bar", help = "exclusive bar")
             ).help(
                 name = "Exclusive", help = "These options are exclusive"
             )
@@ -559,208 +519,188 @@ class MordantHelpFormatterTest {
                 option("--ex-quz", help = "exclusive quz"),
                 name = "Exclusive without help"
             )
-            val foo by option(help = "foo option help").int().required()
-            val bar by option("-b", "--bar", help = "bar option help", metavar = "META").default("optdef")
-            val baz by option(help = "baz option help").flag("--no-baz")
-            val good by option().flag("--bad", default = true, defaultForHelp = "good").help("good option help")
-            val feature by option().switch("--one" to 1, "--two" to 2).default(0, defaultForHelp = "zero")
-                .help("feature switch")
-            val hidden by option(help = "hidden", hidden = true)
-            val multiOpt by option(help = "multiple").multiple(required = true)
-            val arg by argument()
-            val multi by argument().multiple(required = true)
-
-            init {
-                context {
-                    helpFormatter = MordantHelpFormatter(
-                        showDefaultValues = true, showRequiredTag = true, requiredOptionMarker = "*"
-                    )
-                }
-
-                eagerOption("--eager", "-e", help = "this is an eager option with a group", groupName = "My Group") {}
-                eagerOption("--eager2", "-E", help = "this is an eager option") {}
-            }
         }
-
-        class Sub : NoOpCliktCommand(helpTags = mapOf("deprecated" to "")) {
-            override val commandHelp: String = """
-            a subcommand
-
-            with extra help
+        doTest(
             """
-        }
+            |Usage: prog [OPTIONS]
+            |
+            |Exclusive:
+            |
+            |  These options are exclusive
+            |
+            |  --ex-foo=TEXT  exclusive foo
+            |  --ex-bar=TEXT  exclusive bar
+            |
+            |Exclusive without help:
+            |  --ex-baz=TEXT  exclusive baz
+            |  --ex-qux=TEXT  exclusive qux
+            |  --ex-quz=TEXT  exclusive quz
+            """,
+            command = C()
+        )
+    }
 
-        class Sub2 : NoOpCliktCommand(help = "another command")
-
-        val c = C().versionOption("1.0").subcommands(Sub(), Sub2())
-
-        c.getFormattedHelp() shouldBe """
-                |Usage: program [OPTIONS] ARG MULTI... COMMAND [ARGS]...
-                |
-                |  This is a program.
-                |
-                |  This is the prolog.
-                |
-                |My Group:
-                |
-                |  this is my group
-                |
-                |* --group-foo TEXT      foo for group (required)
-                |  -g, --group-bar TEXT  bar for group
-                |  -e, --eager           this is an eager option with a group
-                |
-                |Another group:
-                |* --group-baz TEXT  this group doesn't have help (required)
-                |
-                |Exclusive:
-                |
-                |  These options are exclusive
-                |
-                |  --ex-foo TEXT  exclusive foo
-                |  --ex-bar TEXT  exclusive bar
-                |
-                |Exclusive without help:
-                |  --ex-baz TEXT  exclusive baz
-                |  --ex-qux TEXT  exclusive qux
-                |  --ex-quz TEXT  exclusive quz
-                |
-                |Options:
-                |* --foo INT         foo option help (required)
-                |  -b, --bar META    bar option help (default: optdef)
-                |  --baz / --no-baz  baz option help
-                |  --good / --bad    good option help (default: good)
-                |  --one, --two      feature switch (default: zero)
-                |* --multi-opt TEXT  multiple (required)
-                |  -E, --eager2      this is an eager option
-                |  --version         Show the version and exit
-                |  -h, --help        Show this message and exit
-                |
-                |Commands:
-                |  sub   a subcommand (deprecated)
-                |  sub2  another command
-                |
-                |This is the epilog
-                """.trimMargin()
+    @Test
+    @JsName("eager_options")
+    fun `eager options`() {
+        c.versionOption("1.0")
+        c.eagerOption("--eager", "-e", help = "this is an eager option with a group", groupName = "My Group") {}
+        c.eagerOption("--eager2", "-E", help = "this is an eager option") {}
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |My Group:
+            |  -e, --eager  this is an eager option with a group
+            |
+            |Options:
+            |  --version     Show the version and exit
+            |  -E, --eager2  this is an eager option
+            |  -h, --help    Show this message and exit
+            """,
+            helpNames = setOf("-h", "--help")
+        )
     }
 
     @Test
     @JsName("required_option_marker")
     fun `required option marker`() {
-        val f = MordantHelpFormatter(requiredOptionMarker = "*")
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  aa option help
-                |* -b, --bb INT  bb option help
-                """.trimMargin()
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
+        c.context { helpFormatter = MordantHelpFormatter(requiredOptionMarker = "*") }
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT  aa option help
+            |* -b, --bb=TEXT  bb option help
+            """
+        )
     }
 
     @Test
     @JsName("required_option_tag")
     fun `required option tag`() {
-        val f = MordantHelpFormatter(showRequiredTag = true)
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.REQUIRED to ""))
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  aa option help
-                |  -b, --bb INT  bb option help (required)
-                """.trimMargin()
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
+        c.context { helpFormatter = MordantHelpFormatter(showRequiredTag = true) }
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT  aa option help
+            |  -b, --bb=TEXT  bb option help (required)
+            """
+        )
     }
 
     @Test
     @JsName("default_option_tag")
     fun `default option tag`() {
-        val f = MordantHelpFormatter(showDefaultValues = true)
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf(HelpFormatter.Tags.DEFAULT to "123"))
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  aa option help
-                |  -b, --bb INT  bb option help (default: 123)
-                """.trimMargin()
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help").default("123"))
+        c.context { helpFormatter = MordantHelpFormatter(showDefaultValues = true) }
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT  aa option help
+            |  -b, --bb=TEXT  bb option help (default: 123)
+            """
+        )
     }
 
     @Test
     @JsName("custom_tag")
     fun `custom tag`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                opt(l("--aa", "-a"), "INT", "aa option help"),
-                opt(l("--bb", "-b"), "INT", "bb option help", tags = mapOf("deprecated" to ""))
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [OPTIONS]
-                |
-                |Options:
-                |  -a, --aa INT  aa option help
-                |  -b, --bb INT  bb option help (deprecated)
-                """.trimMargin()
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help", helpTags = mapOf("deprecated" to "")))
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT  aa option help
+            |  -b, --bb=TEXT  bb option help (deprecated)
+            """
+        )
+    }
+
+    @Test
+    @JsName("option_tag_and_markers")
+    fun `option tag and markers`() {
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(
+            c.option(
+                "--bb", "-b", help = "bb option help",
+                helpTags = mapOf("t1" to "", "t2" to "v2")
+            ).required()
+        )
+        c.context {
+            helpFormatter = MordantHelpFormatter(
+                showDefaultValues = true,
+                requiredOptionMarker = "*",
+                showRequiredTag = true
+            )
+        }
+        doTest(
+            """
+            |Usage: prog [OPTIONS]
+            |
+            |Options:
+            |  -a, --aa=TEXT  aa option help
+            |* -b, --bb=TEXT  bb option help (t1) (t2: v2) (required)
+            """
+        )
     }
 
     @Test
     @JsName("argument_tag")
     fun `argument tag`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                arg("ARG1", "arg 1 help"), arg("ARG2", "arg 2 help", tags = mapOf("deprecated" to ""))
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog [ARG1] [ARG2]
-                |
-                |Arguments:
-                |  ARG1  arg 1 help
-                |  ARG2  arg 2 help (deprecated)
-                """.trimMargin()
+        c.registerArgument(c.argument("ARG1", help = "arg 1 help"))
+        c.registerArgument(c.argument("ARG2", help = "arg 2 help", helpTags = mapOf("deprecated" to "")))
+        doTest(
+            """
+            |Usage: prog ARG1 ARG2
+            |
+            |Arguments:
+            |  ARG1  arg 1 help
+            |  ARG2  arg 2 help (deprecated)
+            """
+        )
     }
 
     @Test
     @JsName("subcommand_tag")
     fun `subcommand tag`() {
-        f.formatHelp(
-            ctx(width = 54), null, "", "", l(
-                sub("sub1", "sub 1 help"), sub("sub2", "sub 2 help", tags = mapOf("deprecated" to ""))
-            ), programName = "prog"
-        ) shouldBe """
-                |Usage: prog COMMAND [ARGS]...
-                |
-                |Commands:
-                |  sub1  sub 1 help
-                |  sub2  sub 2 help (deprecated)
-                """.trimMargin()
+        c.subcommands(
+            TestCommand(name = "sub1", help = "sub 1 help"),
+            TestCommand(name = "sub2", help = "sub 2 help", helpTags = mapOf("deprecated" to "")),
+        )
+        doTest(
+            """
+            |Usage: prog COMMAND [ARGS]...
+            |
+            |Commands:
+            |  sub1  sub 1 help
+            |  sub2  sub 2 help (deprecated)
+            """
+        )
     }
 
 
     @Test
     @JsName("multi_error")
     fun `multi error`() {
-        val error = MultiUsageError(
-            listOf(UsageError("foo"), UsageError("bar"))
-        )
-        f.formatHelp(
-            ctx(), error, "", "", emptyList(), "cmd"
-        ) shouldBe
-                """
-                |Usage: cmd
-                |
-                |Error: foo
-                |Error: bar
-                """.trimMargin()
+        TestCommand().test("--foo --bar").stderr shouldBe """
+            |Usage: test [OPTIONS]
+            |
+            |Error: no such option: "--foo"
+            |Error: no such option: "--bar"
+            |
+            """.trimMargin()
     }
 }

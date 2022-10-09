@@ -273,14 +273,11 @@ open class MordantHelpFormatter(
 
     protected open fun optionMetavar(context: Context, option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""
-        val prefix = when (option.nvalues.first) {
-            0 -> "[="
-            else -> "="
-        }
-        val suffix = when {
-            option.nvalues.first == 0 && option.nvalues.last > 1 -> "]..."
-            option.nvalues.first == 0 -> "]"
-            else -> ""
+        var prefix = "="
+        var suffix = if (option.nvalues.last > 1) "..." else ""
+        if (option.nvalues.first == 0) {
+            prefix = "[$prefix"
+            suffix = "$suffix]"
         }
         val metavar = when (option.nvalues.first) {
             0 -> option.metavar.trim { it in "[]<>" }

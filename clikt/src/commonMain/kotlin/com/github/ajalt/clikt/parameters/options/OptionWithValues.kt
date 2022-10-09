@@ -329,7 +329,7 @@ internal fun <T> defaultValidator(): OptionValidator<T> = { }
  *   line.
  * @param helpTags Extra information about this option to pass to the help formatter
  */
-@Suppress("unused")
+@Suppress("UnusedReceiverParameter")
 fun ParameterHolder.option(
     vararg names: String,
     help: String = "",

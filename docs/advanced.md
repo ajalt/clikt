@@ -373,21 +373,26 @@ Clikt supports the following platforms in addition to JVM:
 
 ### Desktop native (Linux, Windows, and MacOS)
 
-All functionality is supported, except the `env` parameter of [editText][editText] and
-[editFile][editFile], and the `hideInput` parameter of [prompt][prompt] are ignored.
+All functionality is supported, except:
+* `env` parameter of [editText][editText] and [editFile][editFile] is ignored.
+* `hideInput` parameter of [prompt][prompt] is ignored.
+* [file][file] and [path][path] parameter types are not supported.
 
 ### NodeJS
 
-All functionality is supported, except the `hideInput` parameter of [prompt][prompt] is ignored.
+All functionality is supported, except:
+* `hideInput` parameter of [prompt][prompt] is ignored.
+* [file][file] and [path][path] parameter types are not supported.
 
 ### Browser JavaScript
 
-The default [CliktConsole][CliktConsole] only outputs to the browser's developer console, which is
+All functionality is supported, except:
+* The default [CliktConsole][CliktConsole] only outputs to the browser's developer console, which is
 probably not what you want. You can [define your own CliktConsole](#replacing-stdin-and-stdout), or
 you can call [parse][parse] instead of [main][main] and handle output yourself.
-
-[editText][editText] and [editFile][editFile] are not supported. [prompt][prompt] is only supported
-if you define your own CliktConsole.
+* [editText][editText] and [editFile][editFile] are not supported.
+* [prompt][prompt] is only supported if you define your own CliktConsole.
+* [file][file] and [path][path] parameter types are not supported.
 
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
 [CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.html
@@ -397,10 +402,12 @@ if you define your own CliktConsole.
 [editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
 [editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
 [expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
+[file]:                api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [grouping-options]:    documenting.md#grouping-options-in-help
 [main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
 [override-envvar]:     options.md#overriding-system-environment-variables
 [parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
+[path]:                api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
 [prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
 [TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html

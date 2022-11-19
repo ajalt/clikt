@@ -11,11 +11,23 @@ theme:
   name: 'material'
   logo: img/wordmark_small.svg
   favicon: img/favicon.ico
-  palette:
-    primary: 'deep purple'
-    accent: 'deep orange'
   icon:
     repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: 'deep purple'
+      accent: 'deep orange'
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: 'deep purple'
+      accent: 'deep orange'
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
 
 extra_css:
   - 'css/extra.css'

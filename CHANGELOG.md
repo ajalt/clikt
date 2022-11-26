@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+### Changed
+- Updated Kotlin to 1.6.20
+
 ### Fixed
 - Support unicode in environment variable values on Native Windows. ([#362](https://github.com/ajalt/clikt/issues/362))
 

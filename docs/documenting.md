@@ -136,9 +136,10 @@ break in the output, and the paragraph will still be wrapped to the terminal wid
       -h, --help  Show this message and exit
     ```
 
-In multiline strings (which do not parse escape sequences) you'll need to insert the literal
-in a different way, such as with `${"\u0085"}`.
+!!! tip
 
+    In multiline strings (which do not parse escape sequences) you'll need to insert the literal
+    in a different way, such as with `${"\u0085"}`.
 ## Subcommand Short Help
 
 Subcommands are listed in the help page based on their [name][customizing-command-name].

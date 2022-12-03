@@ -40,15 +40,20 @@ markdown_extensions:
   - meta
   - toc:
       permalink: true
+  - admonition
   - pymdownx.betterem:
       smart_enable: all
+  - pymdownx.details
   - pymdownx.caret
+  - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.magiclink
   - pymdownx.smartsymbols
   - pymdownx.superfences
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - tables
+  - admonition
 
 nav:
   - 'Quickstart':

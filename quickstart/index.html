@@ -1990,7 +1990,9 @@ instead of stdout.</p>
 <p>Instances of any command can be attached to other commands, allowing
 arbitrary nesting of commands. For example, you could write a script to
 manage a database:</p>
-<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label><label for="__tabbed_1_2">Usage</label><label for="__tabbed_1_3">Help Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Database</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Unit</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -2012,12 +2014,12 @@ manage a database:</p>
 <span class="w">        </span><span class="p">.</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./db init
 Initialized the database.
 </code></pre></div>
 </div>
-<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Help Output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./db --help
 Usage: database [OPTIONS] COMMAND [ARGS]...
 
@@ -2030,10 +2032,13 @@ Commands:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="adding-parameters">Adding Parameters<a class="headerlink" href="#adding-parameters" title="Permanent link">&para;</a></h2>
 <p>To add parameters, use the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html">option</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html">argument</a> property
 delegates:</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Help Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;Number of greetings&quot;</span><span class="p">).</span><span class="na">int</span><span class="p">().</span><span class="na">default</span><span class="p">(</span><span class="m">1</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">()</span><span class="w"></span>
@@ -2046,7 +2051,7 @@ delegates:</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Help Output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./hello --help
 Usage: hello [OPTIONS] NAME
 
@@ -2054,6 +2059,7 @@ Options:
   --count INT  Number of greetings
   -h, --help   Show this message and exit
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="developing-command-line-applications-with-gradle">Developing Command Line Applications With Gradle<a class="headerlink" href="#developing-command-line-applications-with-gradle" title="Permanent link">&para;</a></h2>

@@ -2151,7 +2151,9 @@ subcommand.</p>
 <p>You can define your options on the root command and pass down the information via the context. With
 this design, you&rsquo;ll have to specify the common options before the subcommand name on the command
 line.</p>
-<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label><label for="__tabbed_1_2">Usage 1</label><label for="__tabbed_1_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">token</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">hostname</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"></span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">MyApi</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -2182,20 +2184,23 @@ line.</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyApi</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Store</span><span class="p">(),</span><span class="w"> </span><span class="n">Fetch</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./myapi --hostname=https://example.com store file.txt
 </code></pre></div>
 </div>
-<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./myapi --hostname=https://example.com fetch --outdir=./out
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="defining-common-options-in-a-group">Defining Common Options in a Group<a class="headerlink" href="#defining-common-options-in-a-group" title="Permanent link">&para;</a></h3>
 <p>Instead of defining your common options on the root command, you can instead define them in an
 <a href="../documenting/#grouping-options-in-help">OptionGroup</a> which you include in each subcommand. This allows you to specify all
 options after the subcommand name.</p>
-<div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Usage 1</label><label for="__tabbed_2_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">CommonOptions</span><span class="p">:</span><span class="w"> </span><span class="n">OptionGroup</span><span class="p">(</span><span class="s">&quot;Standard Options:&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">token</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;api token to use for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">hostname</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;base url for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">)</span><span class="w"></span>
@@ -2222,19 +2227,22 @@ options after the subcommand name.</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyApi</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Store</span><span class="p">(),</span><span class="w"> </span><span class="n">Fetch</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./myapi store --hostname=https://example.com file.txt
 </code></pre></div>
 </div>
-<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./myapi fetch --hostname=https://example.com --outdir=./out
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="defining-common-options-in-a-base-class">Defining Common Options in a Base Class<a class="headerlink" href="#defining-common-options-in-a-base-class" title="Permanent link">&para;</a></h3>
 <p>A third design to share options is to define the common options in a base class that all the
 subcommands inherit from.</p>
-<div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Example</label><label for="__tabbed_3_2">Usage 1</label><label for="__tabbed_3_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MyApiSubcommand</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">token</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;api token to use for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">hostname</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;base url for requests&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">)</span><span class="w"></span>
@@ -2259,13 +2267,14 @@ subcommands inherit from.</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyApi</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Store</span><span class="p">(),</span><span class="w"> </span><span class="n">Fetch</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./myapi store --hostname=https://example.com file.txt
 </code></pre></div>
 </div>
-<input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./myapi fetch --hostname=https://example.com --outdir=./out
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="command-aliases">Command Aliases<a class="headerlink" href="#command-aliases" title="Permanent link">&para;</a></h2>
@@ -2278,7 +2287,9 @@ like the way you can configure git to accept <code>git ci</code> as an alias for
 This function is called once at the start of parsing,
 and returns a map of aliases to the tokens that they alias to.</p>
 <p>To implement git-style aliases:</p>
-<div class="tabbed-set" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Example</label><label for="__tabbed_4_2">Usage 1</label><label for="__tabbed_4_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Repo</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// You could load the aliases from a config file etc.</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">aliases</span><span class="p">():</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapOf</span><span class="p">(</span><span class="w"></span>
@@ -2297,22 +2308,25 @@ and returns a map of aliases to the tokens that they alias to.</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Repo</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Commit</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./repo ci -m &#39;my message&#39;
 Committing with message: my message
 </code></pre></div>
 </div>
-<input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><label for="__tabbed_4_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./repo cm &#39;my message&#39;
 Committing with message: my message
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>Note that aliases are not expanded recursively: none of the tokens that
 an alias expands to will be expanded again, even if they match another
 alias.</p>
 <p>You also use this functionality to implement command prefixes:</p>
-<div class="tabbed-set" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Example</label><label for="__tabbed_5_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">aliases</span><span class="p">():</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">prefixCounts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableMapOf</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">().</span><span class="na">withDefault</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
@@ -2344,10 +2358,11 @@ alias.</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Tool</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">Foo</span><span class="p">(),</span><span class="w"> </span><span class="n">Bar</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool ba
 Running Bar
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="token-normalization">Token Normalization<a class="headerlink" href="#token-normalization" title="Permanent link">&para;</a></h2>
@@ -2357,7 +2372,9 @@ works on more types of tokens. You can set a <a href="../api/clikt/com.github.aj
 <a href="../commands/#customizing-contexts">command&rsquo;s context</a> that will be
 called for each option and command name that is input. This can be used
 to implement case-insensitive parsing, for example:</p>
-<div class="tabbed-set" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Example</label><label for="__tabbed_6_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">context</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">tokenTransformer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">lowercase</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
@@ -2368,10 +2385,11 @@ to implement case-insensitive parsing, for example:</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./hello --NAME=Foo
 Hello Foo!
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="replacing-stdin-and-stdout">Replacing stdin and stdout<a class="headerlink" href="#replacing-stdin-and-stdout" title="Permanent link">&para;</a></h2>

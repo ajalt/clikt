@@ -2073,7 +2073,9 @@
 
 <h1 id="shell-autocomplete">Shell Autocomplete<a class="headerlink" href="#shell-autocomplete" title="Permanent link">&para;</a></h1>
 <p>Clikt includes built-in support for generating autocomplete scripts for bash, zsh and fish shells.</p>
-<div class="tabbed-set" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./repo &lt;TAB&gt;&lt;TAB&gt;
 commit clone pull
 
@@ -2083,6 +2085,7 @@ $ ./repo -&lt;TAB&gt;
 $./repo --repo-home ./g&lt;TAB&gt;
 ./git ./got ./good
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="enabling-completion">Enabling Completion<a class="headerlink" href="#enabling-completion" title="Permanent link">&para;</a></h2>
@@ -2107,7 +2110,9 @@ So if your command name is <code>my-command</code>, the variable would be <code>
 <p>If you&rsquo;d prefer not to use environment variables, you can add a special option to your command with
 the <a href="../api/clikt/com.github.ajalt.clikt.completion/completion-option.html"><code>completionOption</code></a> function. Invoking your program with this option will
 generate the completion script:</p>
-<div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example 1</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example 1</label><label for="__tabbed_2_2">Example 2</label><label for="__tabbed_2_3">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MyCommand</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">completionOption</span><span class="p">()</span><span class="w"></span>
@@ -2116,7 +2121,7 @@ generate the completion script:</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Example 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MyCommand</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//..</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -2124,14 +2129,17 @@ generate the completion script:</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyCommand</span><span class="p">().</span><span class="na">completionOption</span><span class="p">().</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./my-command --generate-completion=bash &gt; ~/my-program-completion.sh
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="with-a-subcommand">With a subcommand<a class="headerlink" href="#with-a-subcommand" title="Permanent link">&para;</a></h3>
 <p>A third option is to add a subcommand that will generate the completion when invoked.</p>
-<div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example 1</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Example 1</label><label for="__tabbed_3_2">Example 2</label><label for="__tabbed_3_3">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MyCommand</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">subcommands</span><span class="p">(</span><span class="n">CompletionCommand</span><span class="p">())</span><span class="w"></span>
@@ -2140,7 +2148,7 @@ generate the completion script:</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Example 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MyCommand</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//..</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -2148,9 +2156,10 @@ generate the completion script:</p>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyCommand</span><span class="p">().</span><span class="na">subcommands</span><span class="p">(</span><span class="n">CompletionCommand</span><span class="p">()).</span><span class="na">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./my-command generate-completion bash &gt; ~/my-program-completion.sh
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="using-the-generated-script">Using the generated script<a class="headerlink" href="#using-the-generated-script" title="Permanent link">&para;</a></h3>
@@ -2196,7 +2205,9 @@ The string returned from [generator] should be the body of a function that will 
 <p>Specifically, you should set the variable <code>COMPREPLY</code> to the completion(s) for the current word
 being typed. The word being typed can be retrieved from the <code>COMP_WORDS</code> array at index
 <code>COMP_CWORD</code>.</p>
-<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example with fromStdout</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Example with fromStdout</label><label for="__tabbed_4_2">Example with full script</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// This example uses `echo`, but you would use your own binary</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// or script that prints the completions.</span><span class="w"></span>
@@ -2209,7 +2220,7 @@ being typed. The word being typed can be retrieved from the <code>COMP_WORDS</co
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Example with full script</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// This is identical to the previous example</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">completionCandidates</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CompletionCandidates</span><span class="p">.</span><span class="na">Custom</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -2223,6 +2234,7 @@ being typed. The word being typed can be retrieved from the <code>COMP_WORDS</co
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>

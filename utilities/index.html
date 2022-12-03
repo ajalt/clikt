@@ -1932,7 +1932,9 @@ commonly used in command line programs.</p>
 through <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html"><code>editText</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html"><code>editFile</code></a>. These functions open the
 program defined in the <code>VISUAL</code> or <code>EDITOR</code> environment variables, or a sensible default if neither
 are defined. The functions return the edited text if the user saved their changes.</p>
-<div class="tabbed-set" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">getCommitMessage</span><span class="p">():</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
 <span class="s">    # Enter your message.</span>
@@ -1944,25 +1946,29 @@ are defined. The functions return the edited text if the user saved their change
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="input-prompts">Input Prompts<a class="headerlink" href="#input-prompts" title="Permanent link">&para;</a></h2>
 <p>Options can <a href="../options/#prompting-for-input">prompt for values automatically</a>, but you can also do
 so manually with <a href="api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt.html"><code>prompt</code></a>. By
 default, it accepts any input string, but you can also pass in a conversion function. If the
 conversion raises a <a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>,
 the prompt will ask the user to enter a different value.</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Interactive Session</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prompt</span><span class="p">(</span><span class="s">&quot;Enter a number&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nb">it</span><span class="p">.</span><span class="na">toIntOrNull</span><span class="p">()</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="n">UsageError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$</span><span class="n">it</span><span class="s"> is not a valid integer&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 <span class="n">echo</span><span class="p">(</span><span class="s">&quot;Twice your number is </span><span class="si">${</span><span class="n">input</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Interactive Session</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Enter a number: foo
 Error: foo is not a valid integer
 Enter a number: 11
 Twice your number is 22
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="confirmation-prompts">Confirmation Prompts<a class="headerlink" href="#confirmation-prompts" title="Permanent link">&para;</a></h2>

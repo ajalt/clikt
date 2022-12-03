@@ -2163,7 +2163,9 @@ URLs, or for required values, and options are used for everything else.</p>
 case of arguments) from the name of the property. You can also specify
 the names manually. Options can have any number of names, where
 arguments only have a single metavar.</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label><label for="__tabbed_1_2">Help Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">inferredOpt</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">inferred</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">()</span><span class="w"></span>
@@ -2173,7 +2175,7 @@ arguments only have a single metavar.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Help Output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Usage: cli [OPTIONS] INFERRED &lt;explicit&gt;
 
 Options:
@@ -2181,6 +2183,7 @@ Options:
   -e, --explicit TEXT
   -h, --help           Show this message and exit
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="parameter-types">Parameter Types<a class="headerlink" href="#parameter-types" title="Permanent link">&para;</a></h2>
@@ -2268,19 +2271,21 @@ a usage message is printed to the user. If you need to trigger
 conversion failure, you can use <code>fail("error message")</code> instead of
 raising an exception.</p>
 <p>For example, you can create an option of type <code>BigDecimal</code> like this:</p>
-<div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Usage 1</label><label for="__tabbed_2_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">opt</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">convert</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">toBigDecimal</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;opt=</span><span class="si">$</span><span class="n">opt</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli --opt=1.5
 opt=1.5
 </code></pre></div>
 </div>
-<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli --opt=foo
 Usage: cli [OPTIONS]
 
@@ -2288,11 +2293,14 @@ Error: Invalid value for &quot;--opt&quot;: For input string: &quot;foo&quot;
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="metavars">Metavars<a class="headerlink" href="#metavars" title="Permanent link">&para;</a></h3>
 <p>You can also pass <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert.html"><code>option().convert()</code></a> a metavar
 that will be printed in the help page instead of the default of <code>VALUE</code>.
 We can modify the above example to use a metavar and an explicit error message:</p>
-<div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Example</label><label for="__tabbed_3_2">Usage 1</label><label for="__tabbed_3_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">opt</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;a real number&quot;</span><span class="p">).</span><span class="na">convert</span><span class="p">(</span><span class="s">&quot;FLOAT&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nb">it</span><span class="p">.</span><span class="na">toBigDecimalOrNull</span><span class="p">()</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">fail</span><span class="p">(</span><span class="s">&quot;A real number is required&quot;</span><span class="p">)</span><span class="w"></span>
@@ -2301,14 +2309,14 @@ We can modify the above example to use a metavar and an explicit error message:<
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli --opt=foo
 Usage: cli [OPTIONS]
 
 Error: Invalid value for &quot;--opt&quot;: A real number is required
 </code></pre></div>
 </div>
-<input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli --help
 Usage: cli [OPTIONS]
 
@@ -2318,10 +2326,13 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="chaining">Chaining<a class="headerlink" href="#chaining" title="Permanent link">&para;</a></h3>
 <p>You can call <code>convert</code> more than once on the same parameter. This allows you to reuse existing
 conversion functions. For example, you could automatically read the text of a file parameter.</p>
-<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Example</label><label for="__tabbed_4_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">FileReader</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">file</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="p">.</span><span class="na">file</span><span class="p">(</span><span class="n">mustExist</span><span class="o">=</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">canBeDir</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
@@ -2332,11 +2343,12 @@ conversion functions. For example, you could automatically read the text of a fi
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ echo &#39;some text&#39; &gt; myfile.txt
 $ ./filereader ./myfile.txt
 Your file contents: some text
 </code></pre></div>
+</div>
 </div>
 </div>
 <h2 id="parameter-validation">Parameter Validation<a class="headerlink" href="#parameter-validation" title="Permanent link">&para;</a></h2>
@@ -2347,7 +2359,9 @@ with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/check.html"
 <p><a href="../api/clikt/com.github.ajalt.clikt.parameters.options/check.html"><code>check()</code></a> is similar the stdlib function of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html">same name</a>: it takes
 lambda that returns a boolean to indicate if the parameter value is valid or not, and reports an
 error if it returns false. The lambda is only called if the parameter value is non-null.</p>
-<div class="tabbed-set" data-tabs="5:4"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="5:4"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><input id="__tabbed_5_4" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Example</label><label for="__tabbed_5_2">Usage 1</label><label for="__tabbed_5_3">Usage 2</label><label for="__tabbed_5_4">Usage 3</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;An even number&quot;</span><span class="p">).</span><span class="na">int</span><span class="p">()</span><span class="w"></span>
 <span class="w">            </span><span class="p">.</span><span class="na">check</span><span class="p">(</span><span class="s">&quot;value must be even&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
@@ -2358,22 +2372,23 @@ error if it returns false. The lambda is only called if the parameter value is n
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=2
 number=2
 </code></pre></div>
 </div>
-<input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><label for="__tabbed_5_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool
 number=null
 </code></pre></div>
 </div>
-<input id="__tabbed_5_4" name="__tabbed_5" type="radio" /><label for="__tabbed_5_4">Usage 3</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=1
 Usage: tool [OPTIONS]
 
 Error: invalid value for --number: value must be even
 </code></pre></div>
+</div>
 </div>
 </div>
 <h3 id="validate"><code>validate()</code><a class="headerlink" href="#validate" title="Permanent link">&para;</a></h3>
@@ -2383,7 +2398,9 @@ call <code>require()</code>, which will fail if the provided expression is false
 only called if the value is non-null.</p>
 <p>The lambdas you pass to <code>validate</code> are called after the values for all options and arguments have
 been set, so (unlike in transforms) you can reference other parameters:</p>
-<div class="tabbed-set" data-tabs="6:3"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="6:3"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Example</label><label for="__tabbed_6_2">Usage 1</label><label for="__tabbed_6_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">int</span><span class="p">().</span><span class="na">default</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">biggerNumber</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">int</span><span class="p">().</span><span class="na">validate</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -2398,17 +2415,18 @@ been set, so (unlike in transforms) you can reference other parameters:</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=1
 number=1, biggerNumber=null
 </code></pre></div>
 </div>
-<input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><label for="__tabbed_6_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --number=1 --bigger-number=0
 Usage: tool [OPTIONS]
 
 Error: --bigger-number must be bigger than --number
 </code></pre></div>
+</div>
 </div>
 </div>
 

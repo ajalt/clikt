@@ -2072,7 +2072,9 @@ argument, which is printed after the parameters and commands on the help page. A
 automatically trimmed of leading indentation and re-wrapped to the terminal width.</p>
 <p>As an alternative to passing your help strings as function arguments, you can also use the <code>help()</code>
 extensions for your options, and override <code>commandHelp</code> and <code>commandHelpEpilog</code> on your commands.</p>
-<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label><label for="__tabbed_1_2">Alternate style</label><label for="__tabbed_1_3">Help output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
 <span class="s">    This script prints NAME COUNT times.</span>
 
@@ -2085,7 +2087,7 @@ extensions for your options, and override <code>commandHelp</code> and <code>com
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Alternate style</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">commandHelp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
 <span class="s">        This script prints NAME COUNT times.</span>
@@ -2099,7 +2101,7 @@ extensions for your options, and override <code>commandHelp</code> and <code>com
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Help output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./hello --help
 Usage: hello [OPTIONS] NAME
 
@@ -2113,6 +2115,7 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>Option names and metavars will appear in help output even if no help
 string is specified for them. On the other hand, arguments only appear
 in the usage string. It is possible to add a help string to arguments
@@ -2124,7 +2127,9 @@ undesirable if you have some preformatted text, such as source code or a bullete
 <p>You can preformat a paragraph by surrounding it with markdown-style triple backticks. The backticks
 will be removed from the output, and if the backticks are on a line by themselves, the line will be
 removed. All whitespace and newlines in the paragraph will be preserved, and will be be rewrapped.</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Help output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;This is my command.</span>
 
 <span class="s">      This paragraph will be wrapped, but the following list will not:</span>
@@ -2138,7 +2143,7 @@ removed. All whitespace and newlines in the paragraph will be preserved, and wil
 <span class="s">      &quot;&quot;&quot;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Help output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Usage: tool
 
   This is my command.
@@ -2157,12 +2162,15 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="manual-line-breaks">Manual Line Breaks<a class="headerlink" href="#manual-line-breaks" title="Permanent link">&para;</a></h2>
 <p>If you want to insert a line break manually without preformmating the entire paragraph, you can use
 the <a href="https://www.fileformat.info/info/unicode/char/0085/index.htm">Unicode Next Line (NEL) character</a>. You can type a NEL with the unicode literal <code>\u0085</code>.</p>
 <p>Clikt will treat NEL similarly to how <code>&lt;br&gt;</code> behaves in HTML: The NEL will be replaced with a line
 break in the output, and the paragraph will still be wrapped to the terminal width.</p>
-<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Example</label><label for="__tabbed_3_2">Help output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">option</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="w"></span>
 <span class="w">        </span><span class="n">help</span><span class="o">=</span><span class="s">&quot;This help will be at least two lines.\u0085(this will start a new line)&quot;</span><span class="w"></span>
@@ -2170,7 +2178,7 @@ break in the output, and the paragraph will still be wrapped to the terminal wid
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Help output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Usage: tool
 
 Options:
@@ -2182,10 +2190,18 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In raw multiline strings (which do not parse escape sequences),
+you&rsquo;ll need to insert the NEL with a string template such as <code>${"\u0085"}</code>.</p>
+</div>
 <h2 id="subcommand-short-help">Subcommand Short Help<a class="headerlink" href="#subcommand-short-help" title="Permanent link">&para;</a></h2>
 <p>Subcommands are listed in the help page based on their <a href="../commands/#customizing-command-name">name</a>.
 They have a short help string which is the first line of their help.</p>
-<div class="tabbed-set" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Example</label><label for="__tabbed_4_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"></span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">Execute</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
@@ -2197,7 +2213,7 @@ They have a short help string which is the first line of their help.</p>
 <span class="kd">class</span><span class="w"> </span><span class="nc">Abort</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;Kill any running commands.&quot;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS] COMMAND [ARGS]...
 
@@ -2210,6 +2226,7 @@ Commands:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="help-option-customization">Help Option Customization<a class="headerlink" href="#help-option-customization" title="Permanent link">&para;</a></h2>
 <p>Clikt handles the help option is specially. It is added automatically to
 every command. Any help option name that conflicts with another option is
@@ -2217,7 +2234,9 @@ not used for the help option. If the help option has no unique names, it
 is not added.</p>
 <p>You can change the help option&rsquo;s name and help message on the
 <a href="../commands/#customizing-contexts">command&rsquo;s context</a>:</p>
-<div class="tabbed-set" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><label for="__tabbed_5_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Example</label><label for="__tabbed_5_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HelpLocalization</span><span class="p">:</span><span class="w"> </span><span class="n">Localization</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">helpOptionMessage</span><span class="p">():</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;show the help&quot;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -2232,13 +2251,14 @@ is not added.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><label for="__tabbed_5_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool /help
 Usage: tool [OPTIONS]
 
 Options:
   /help  show the help
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>If you don&rsquo;t want a help option to be added, you can set
@@ -2248,7 +2268,9 @@ Options:
 <code>showDefaultValues = true</code> to the <code>CliktHelpFormatter</code>. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a>.</p>
-<div class="tabbed-set" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><label for="__tabbed_6_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Example</label><label for="__tabbed_6_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">context</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">helpFormatter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">showDefaultValues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
@@ -2259,7 +2281,7 @@ the <code>defaultForHelp</code> parameter of <a href="../api/clikt/com.github.aj
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><label for="__tabbed_6_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -2269,12 +2291,15 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="required-options-in-help">Required Options in Help<a class="headerlink" href="#required-options-in-help" title="Permanent link">&para;</a></h2>
 <p>By default, <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required.html"><code>required</code></a> options are displayed the same way as other options. The help
 formatter includes two different ways to show that an option is required.</p>
 <h3 id="required-option-marker">Required Option Marker<a class="headerlink" href="#required-option-marker" title="Permanent link">&para;</a></h3>
 <p>You can pass a character to the <code>requiredOptionMarker</code> argument of the <code>CliktHelpFormatter</code>.</p>
-<div class="tabbed-set" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><label for="__tabbed_7_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Example</label><label for="__tabbed_7_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">context</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">helpFormatter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">requiredOptionMarker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;*&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
@@ -2285,7 +2310,7 @@ formatter includes two different ways to show that an option is required.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><label for="__tabbed_7_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -2296,9 +2321,12 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h3 id="required-option-tag">Required Option Tag<a class="headerlink" href="#required-option-tag" title="Permanent link">&para;</a></h3>
 <p>You can also show a tag for required options by passing <code>showRequiredTag = true</code> to the <code>CliktHelpFormatter</code>.</p>
-<div class="tabbed-set" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><label for="__tabbed_8_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Example</label><label for="__tabbed_8_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">context</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">helpFormatter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CliktHelpFormatter</span><span class="p">(</span><span class="n">showRequiredTag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
@@ -2309,7 +2337,7 @@ Options:
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><label for="__tabbed_8_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: tool [OPTIONS]
 
@@ -2320,12 +2348,15 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="grouping-options-in-help">Grouping Options in Help<a class="headerlink" href="#grouping-options-in-help" title="Permanent link">&para;</a></h2>
 <p>You can group options into separate help sections by using <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/">OptionGroup</a>
 and importing <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html">groups.provideDelegate</a>. The name of
 the group will be shown in the output. You can also add an extra help message to be shown with the
 group. Groups can&rsquo;t be nested.</p>
-<div class="tabbed-set" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><label for="__tabbed_9_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Example</label><label for="__tabbed_9_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">com.github.ajalt.clikt.parameters.groups.provideDelegate</span><span class="w"></span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">UserOptions</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">OptionGroup</span><span class="p">(</span><span class="w"></span>
@@ -2341,7 +2372,7 @@ group. Groups can&rsquo;t be nested.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><label for="__tabbed_9_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --help
 Usage: cli [OPTIONS]
 
@@ -2357,19 +2388,23 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="suggesting-corrections-for-mistyped-parameters">Suggesting Corrections for Mistyped Parameters<a class="headerlink" href="#suggesting-corrections-for-mistyped-parameters" title="Permanent link">&para;</a></h2>
 <p>When an option or subcommand is mistyped, Clikt will suggest corrections that are similar to the typed value.</p>
-<div class="tabbed-set" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><label for="__tabbed_10_1">Mistyped Option</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Mistyped Option</label><label for="__tabbed_10_2">Mistyped Subcommand</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli --sise=5
 Error: no such option: &quot;--sise&quot;. Did you mean &quot;--size&quot;?
 </code></pre></div>
 </div>
-<input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><label for="__tabbed_10_2">Mistyped Subcommand</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli building
 Usage: cli [OPTIONS] COMMAND [ARGS]...
 
 Error: no such subcommand: &quot;building&quot;. Did you mean &quot;build&quot;?
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>By default, Clikt will suggest corrections of any similar option or subcommand name based on a
@@ -2389,7 +2424,9 @@ command&rsquo;s context.</p>
 <h2 id="localization">Localization<a class="headerlink" href="#localization" title="Permanent link">&para;</a></h2>
 <p>You can localize error messages by implementing <a href="../api/clikt/com.github.ajalt.clikt.output/-localization/"><code>Localization</code></a> and setting the
 <a href="../api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.html"><code>localization</code></a> property on your context.</p>
-<div class="tabbed-set" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><label for="__tabbed_11_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Example</label><label for="__tabbed_11_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">CursiveLocalization</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Localization</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">usageTitle</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;𝒰𝓈𝒶𝑔𝑒:&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">optionsTitle</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;𝒪𝓅𝓉𝒾𝑜𝓃𝓈:&quot;</span><span class="w"></span>
@@ -2406,7 +2443,7 @@ command&rsquo;s context.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><label for="__tabbed_11_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./i18ntool --help
 𝒰𝓈𝒶𝑔𝑒: i18ntool [𝒪𝒫𝒯𝐼𝒪𝒩𝒮]
 
@@ -2415,6 +2452,7 @@ command&rsquo;s context.</p>
 𝒪𝓅𝓉𝒾𝑜𝓃𝓈:
   -h, --help  𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉
 </code></pre></div>
+</div>
 </div>
 </div>
 

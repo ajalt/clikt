@@ -1932,7 +1932,9 @@ must be provided on the command line.</p>
 <h2 id="basic-arguments">Basic Arguments<a class="headerlink" href="#basic-arguments" title="Permanent link">&para;</a></h2>
 <p>By default, <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html"><code>argument</code></a> takes a single <code>String</code> value which is required to be
 provided on the command line.</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Example</label><label for="__tabbed_1_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1941,16 +1943,19 @@ provided on the command line.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./hello Foo
 Hello Foo!
 </code></pre></div>
 </div>
 </div>
+</div>
 <p>Arguments appear in the usage string, but normally aren&rsquo;t listed in the
 help page. It&rsquo;s usually more clear to document arguments in the command
 help.</p>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Help Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cp</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">source</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">().</span><span class="na">file</span><span class="p">(</span><span class="n">mustExist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">).</span><span class="na">multiple</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dest</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">().</span><span class="na">file</span><span class="p">()</span><span class="w"></span>
@@ -1960,7 +1965,7 @@ help.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Help Output</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>Usage: cp [OPTIONS] [SOURCE]... DEST
 
   Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.
@@ -1970,6 +1975,7 @@ Options:
 </code></pre></div>
 </div>
 </div>
+</div>
 <h2 id="variadic-arguments">Variadic Arguments<a class="headerlink" href="#variadic-arguments" title="Permanent link">&para;</a></h2>
 <p>Like <a href="../options/">options</a>, arguments can take any fixed number of values, which you can change with
 functions like <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/pair.html"><code>pair</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/triple.html"><code>triple</code></a>. Unlike options, arguments can also take a
@@ -1977,7 +1983,9 @@ variable (or unlimited) number of values. This is common with file path argument
 they are frequently expanded with a glob pattern on the command line.</p>
 <p>Variadic arguments are declared with <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html"><code>multiple</code></a>. You can declare any number of arguments
 with fixed numbers of values, but only one variadic argument in a command.</p>
-<div class="tabbed-set" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Example</label><label for="__tabbed_3_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Copy</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">source</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Path</span><span class="o">&gt;</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">().</span><span class="na">path</span><span class="p">(</span><span class="n">mustExist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">).</span><span class="na">multiple</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">dest</span><span class="p">:</span><span class="w"> </span><span class="n">Path</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">().</span><span class="na">path</span><span class="p">(</span><span class="n">canBeFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
@@ -1987,10 +1995,11 @@ with fixed numbers of values, but only one variadic argument in a command.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">Usage</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./copy file.* out/
 Copying files [file.txt, file.md] to out/
 </code></pre></div>
+</div>
 </div>
 </div>
 <p>You can also use <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/unique.html"><code>unique</code></a> to discard duplicates:</p>
@@ -2005,7 +2014,9 @@ want to use as an argument.</p>
 <p>Clikt supports the POSIX convention of using <code>--</code> to force all following
 values to be treated as arguments. Any values before the <code>--</code> will be
 parsed normally.</p>
-<div class="tabbed-set" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><label for="__tabbed_4_1">Example</label><div class="tabbed-content">
+<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Example</label><label for="__tabbed_4_2">Usage 1</label><label for="__tabbed_4_3">Usage 2</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Touch</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">verbose</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">flag</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">files</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">().</span><span class="na">multiple</span><span class="p">()</span><span class="w"></span>
@@ -2015,18 +2026,19 @@ parsed normally.</p>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </div>
-<input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><label for="__tabbed_4_2">Usage 1</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./touch --foo.txt
 Usage: touch [OPTIONS] [FILES]...
 
 Error: no such option: &quot;--foo.txt&quot;.
 </code></pre></div>
 </div>
-<input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><label for="__tabbed_4_3">Usage 2</label><div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./touch --verbose -- --foo.txt bar.txt
 --foo.txt
 bar.txt
 </code></pre></div>
+</div>
 </div>
 </div>
 

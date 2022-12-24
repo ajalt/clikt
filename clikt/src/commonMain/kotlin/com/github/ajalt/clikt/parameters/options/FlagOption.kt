@@ -85,7 +85,10 @@ fun RawOption.counted(): OptionWithValues<Int, Int, Int> {
  */
 fun <T : Any> RawOption.switch(choices: Map<String, T>): OptionWithValues<T?, T?, String> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
-    return transformValues(0..0) { choices[name] }.copy(names = choices.keys)
+    return transformValues(0..0) {
+        require(it.isEmpty()) { context.localization.switchOptionEnvvar() }
+        choices[name]
+    }.copy(names = choices.keys)
 }
 
 /**
@@ -139,6 +142,7 @@ fun OptionWithValues<Boolean, Boolean, Boolean>.prompt(
                         invalidChoiceMessage = invalidChoiceMessage,
                     ).ask()
                 }
+
                 else -> provided
             } ?: throw Abort()
         },

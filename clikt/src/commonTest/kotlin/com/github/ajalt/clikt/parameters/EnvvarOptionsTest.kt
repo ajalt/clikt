@@ -1,14 +1,17 @@
 package com.github.ajalt.clikt.parameters
 
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.output.defaultLocalization
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.groups.single
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.TestSource
@@ -244,9 +247,21 @@ class EnvvarOptionsTest {
         C().withEnv().parse("").opt shouldBe "y"
 
         env["BAR"] = "z"
-        if (skipDueToKT43490) return
         shouldThrow<MutuallyExclusiveGroupException> {
             C().withEnv().parse("")
         }
+    }
+
+    @Test
+    @Suppress("unused")
+    @JsName("switch_envvars")
+    fun `switch envvar`(){
+        class C : TestCommand() {
+            val opt by option(envvar = "FOO").switch("--x" to 1, "--y" to 2)
+        }
+
+        shouldThrow<BadParameterValue> {
+            C().withEnv("FOO" to "3").parse("")
+        }.message shouldBe defaultLocalization.switchOptionEnvvar()
     }
 }

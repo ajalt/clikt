@@ -11,7 +11,8 @@ import kotlin.jvm.JvmName
  * Change the number of values that this option takes.
  *
  * This overload changes the option to take a variable number of values, with the number of values
- * falling within the [nvalues] range.
+ * falling within the [nvalues] range. If this option is called via an envvar, the list will contain
+ * one item, even if [nvalues] = `0..0`.
  */
 fun <EachT, ValueT> NullableOption<ValueT, ValueT>.transformValues(
     nvalues: IntRange,
@@ -37,12 +38,14 @@ fun <EachT, ValueT> NullableOption<ValueT, ValueT>.transformValues(
 /**
  * Change the number of values that this option takes.
  *
- * The input will be a list of size [nvalues], with each item in the list being the output of a call to
- * [convert]. [nvalues] must be 2 or greater, since options cannot take a variable number of values, and
- * [option] has [nvalues] = 1 by default. If you want to change the type of an option with one value, use
- * [convert] instead.
+ * The input will be a list of size [nvalues], with each item in the list being the output of a call
+ * to [convert]. If this option is called via an envvar, the list will contain one item, even if
+ * [nvalues] = 0.
  *
- * Used to implement functions like [pair] and [triple]. This must be applied after value
+ * [nvalues] cannot be 1, since [option] has [nvalues] = 1 by default. If you want to
+ * change the type of an option with one value, use [convert] instead.
+ *
+ * This is used to implement functions like [pair] and [triple]. It must be applied after value
  * [conversions][convert] and before [transformAll].
  *
  * ## Example

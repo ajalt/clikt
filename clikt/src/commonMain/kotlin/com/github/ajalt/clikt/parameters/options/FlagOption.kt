@@ -37,7 +37,12 @@ fun RawOption.flag(
 ): OptionWithValues<Boolean, Boolean, Boolean> {
     val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
     return boolean()
-        .transformValues(0..0) { it.lastOrNull() ?: (name !in secondaryNames) }
+        .transformValues(0..0) {
+            if (it.size > 1) {
+                fail(context.localization.invalidFlagValueInFile(name))
+            }
+            it.lastOrNull() ?: (name !in secondaryNames)
+        }
         .default(default)
         .copy(secondaryNames = secondaryNames.toSet(), helpTags = helpTags + tags)
 }

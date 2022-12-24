@@ -1,10 +1,17 @@
 package com.github.ajalt.clikt.sources
 
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.output.defaultLocalization
+import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.sources.ValueSource.Invocation
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
@@ -24,11 +31,13 @@ class MapValueSourceTest {
         class Sub : TestCommand() {
             init {
                 context {
-                    valueSource = MapValueSource(mapOf(
-                        "other" to "other",
-                        "FX" to "fixed",
-                        k to "foo"
-                    ), getKey = ValueSource.getKey(p, j, c, r))
+                    valueSource = MapValueSource(
+                        mapOf(
+                            "other" to "other",
+                            "FX" to "fixed",
+                            k to "foo"
+                        ), getKey = ValueSource.getKey(p, j, c, r)
+                    )
                 }
             }
 
@@ -70,4 +79,25 @@ class MapValueSourceTest {
 
         C().parse("")
     }
+
+    @Test
+    fun flag() {
+        class C : TestCommand() {
+            val foo by option(valueSourceKey = "k").flag()
+            }
+
+            C().context {
+                valueSource = MapValueSource(mapOf("k" to "true"), getKey = ValueSource.envvarKey())
+            }.parse("").foo shouldBe true
+
+            class VS : ValueSource {
+                override fun getValues(context: Context, option: Option): List<Invocation> {
+                return listOf(Invocation(listOf("false", "true")))
+            }
+        }
+        shouldThrow<BadParameterValue> {
+            C().context { valueSource = VS() }.parse("")
+        }.message shouldBe defaultLocalization.invalidFlagValueInFile("")
+    }
+
 }

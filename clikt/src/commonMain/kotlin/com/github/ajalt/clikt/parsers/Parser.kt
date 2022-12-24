@@ -10,7 +10,11 @@ import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 /** [i] is the argv index of the token that caused the error */
 private data class Err(val e: UsageError, val i: Int, val includeInMulti: Boolean = true)
 
-private data class ArgsParseResult(val excessCount: Int, val args: Map<Argument, List<String>>, val err: Err?)
+private data class ArgsParseResult(
+    val excessCount: Int,
+    val args: Map<Argument, List<String>>,
+    val err: Err?,
+)
 
 private data class OptInvocation(val opt: Option, val name: String, val values: List<String>) {
     val inv get() = Invocation(name, values)
@@ -22,7 +26,12 @@ private data class OptParseResult(
     val known: List<OptInvocation> = emptyList(),
     val err: Err? = null,
 ) {
-    constructor(consumed: Int, invocations: List<OptInvocation>) : this(consumed, emptyList(), invocations)
+    constructor(consumed: Int, invocations: List<OptInvocation>) : this(
+        consumed,
+        emptyList(),
+        invocations
+    )
+
     constructor(consumed: Int, opt: Option, name: String, values: List<String>)
             : this(consumed, emptyList(), listOf(OptInvocation(opt, name, values)))
 }
@@ -82,7 +91,11 @@ internal object Parser {
             if ("=" !in token) return false
             if (prefix.isEmpty()) return false
             if (prefix.length > 1) return true
-            if (context.tokenTransformer(context, token.substringBefore("=")) in longNames) return true
+            if (context.tokenTransformer(
+                    context,
+                    token.substringBefore("=")
+                ) in longNames
+            ) return true
             if (context.tokenTransformer(context, token.take(2)) in optionsByName) return false
             return true
         }
@@ -104,7 +117,8 @@ internal object Parser {
                         positionalArgs += i to tok.drop(1)
                         i += 1
                     } else {
-                        tokens = loadArgFile(normTok.drop(1), context) + tokens.slice(i + 1..tokens.lastIndex)
+                        val fileToks = loadArgFile(normTok.drop(1), context)
+                        tokens = fileToks + tokens.slice(i + 1..tokens.lastIndex)
                         i = 0
                         minAliasI = 0
                     }
@@ -173,7 +187,9 @@ internal object Parser {
 
         // Group options for finalization
         val invocationsByOption = invocations.groupBy({ it.opt }, { it.inv })
-        val invocationsByGroup = invocations.groupBy { (it.opt as? GroupableOption)?.parameterGroup }
+        val invocationsByGroup = invocations.groupBy {
+            (it.opt as? GroupableOption)?.parameterGroup
+        }
         val invocationsByOptionByGroup = invocationsByGroup
             .mapValues { (_, invocations) ->
                 invocations.groupBy({ it.opt }, { it.inv })
@@ -243,7 +259,11 @@ internal object Parser {
                 usageErrors.clear()
 
                 // Retry any failed args now that they can reference option values
-                retries.forEach { (arg, v) -> gatherErrors(usageErrors) { arg.finalize(context, v) } }
+                retries.forEach { (arg, v) ->
+                    gatherErrors(usageErrors) {
+                        arg.finalize(context, v)
+                    }
+                }
 
                 // Now that all parameters have been finalized, we can validate everything
                 command._options.forEach { o ->
@@ -311,7 +331,7 @@ internal object Parser {
                     )
                 }
 
-                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i, includeInMulti = false)
+                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i, false)
             }
         }
         return i to null
@@ -343,7 +363,16 @@ internal object Parser {
             return OptParseResult(1, err = Err(NoSuchOption(name, possibilities).also { it.context = context }, index))
         }
 
-        return parseOptValues(option, name, ignoreUnknown, tokens, index, attachedValue, optionsByName, subcommandNames)
+        return parseOptValues(
+            option,
+            name,
+            ignoreUnknown,
+            tokens,
+            index,
+            attachedValue,
+            optionsByName,
+            subcommandNames
+        )
     }
 
     private fun parseOptValues(
@@ -379,7 +408,10 @@ internal object Parser {
 
         val consumed = values.size + if (attachedValue == null) 1 else 0
         if (values.size !in option.nvalues) {
-            return OptParseResult(consumed, err = Err(IncorrectOptionValueCount(option, name), index))
+            return OptParseResult(
+                consumed,
+                err = Err(IncorrectOptionValueCount(option, name), index)
+            )
         }
 
         return OptParseResult(consumed, option, name, values)
@@ -419,7 +451,14 @@ internal object Parser {
             if (option.nvalues.last > 0) {
                 val value = if (i < tok.lastIndex) tok.drop(i + 1) else null
                 val result = parseOptValues(
-                    option, name, ignoreUnknown, tokens, index, value, optionsByName, subcommandNames
+                    option,
+                    name,
+                    ignoreUnknown,
+                    tokens,
+                    index,
+                    value,
+                    optionsByName,
+                    subcommandNames
                 )
                 return result.copy(known = invocations + result.known)
             } else {
@@ -456,9 +495,14 @@ internal object Parser {
                     0 -> MissingArgument(argument).also { it.context = context }
                     else -> IncorrectArgumentValueCount(argument).also { it.context = context }
                 }
-                return ArgsParseResult(0, out, Err(e, positionalArgs.getOrNull(i)?.first ?: argvIndex))
+                return ArgsParseResult(
+                    0,
+                    out,
+                    Err(e, positionalArgs.getOrNull(i)?.first ?: argvIndex)
+                )
             }
-            out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed).map { it.second }
+            out[argument] = out.getValue(argument) +
+                    positionalArgs.subList(i, i + consumed).map { it.second }
             i += consumed
         }
 
@@ -487,11 +531,14 @@ internal object Parser {
 
 
     private fun loadArgFile(filename: String, context: Context): List<String> {
-        val text = readFileIfExists(filename) ?: throw FileNotFound(filename)
-        return shlex(filename, text, context)
+        return shlex(filename, context.argumentFileReader!!(filename), context)
     }
 
-    private fun excessArgsError(positionalArgs: List<Pair<Int, String>>, excess: Int, context: Context): UsageError {
+    private fun excessArgsError(
+        positionalArgs: List<Pair<Int, String>>,
+        excess: Int,
+        context: Context,
+    ): UsageError {
         val actual = positionalArgs.takeLast(excess)
             .joinToString(" ", limit = 3, prefix = "(", postfix = ")") { it.second }
         val message = when (excess) {

@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
+import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -10,17 +11,18 @@ import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+import kotlin.js.JsName
 import kotlin.test.Test
 
 
 class AtFileTest {
-    @get:Rule
-    var testFolder = TemporaryFolder()
+    private fun <T : CliktCommand> T.withAtFiles(vararg content: Pair<String, String>): T {
+        return context { argumentFileReader = { content.toMap().getValue(it).trimMargin() } }
+    }
 
     @Test
-    fun `parsing @file`() {
+    @JsName("parsing_atfile")
+    fun `parsing atfile`() {
         class C : TestCommand() {
             val foo by option()
             val bar by option()
@@ -43,8 +45,9 @@ class AtFileTest {
             }
         }
 
-        val file = testFolder.newFile()
-        file.writeText("""
+
+        C().withAtFiles(
+            "foo" to """
         |--foo 123 # comment
         |--bar='a b "\''
         |\\ "" \# #
@@ -54,13 +57,13 @@ class AtFileTest {
         |d
         |'e
         |f'
-        """.trimMargin())
-
-        C().parse("@${file.path.replace("\\", "/")}")
+        """
+        ).parse("@foo")
     }
 
     @Test
-    fun `parsing @file recursive`() {
+    @JsName("parsing_atfile_recursive")
+    fun `parsing atfile recursive`() {
         class C : TestCommand() {
             val foo by option()
             val arg by argument()
@@ -71,32 +74,33 @@ class AtFileTest {
             }
         }
 
-        val file1 = testFolder.newFile()
-        file1.writeText("--foo 123 456")
-        val file2 = testFolder.newFile()
-        file2.writeText("@${file1.path.replace("\\", "\\\\")}")
-        C().parse("@${file2.path.replace("\\", "/")}")
+        C().withAtFiles(
+            "foo" to "--foo 123 456",
+            "bar" to "@foo"
+        ).parse("@foo")
     }
 
     @Test
-    fun `parsing @file unclosed quotes`() {
+    @JsName("parsing_atfile_unclosed_quotes")
+    @Suppress("unused")
+    fun `parsing atfile unclosed quotes`() {
         class C : TestCommand(called = false) {
-            @Suppress("unused")
             val arg by argument()
         }
 
-        val file = testFolder.newFile()
-        file.writeText("""
-        |'a b "\'
-        |
-        """.trimMargin())
-
-        shouldThrow<UsageError> { C().parse("@${file.path.replace("\\", "/")}") }
-            .message shouldContain "unclosed quote"
+        shouldThrow<UsageError> {
+            C().withAtFiles(
+                "foo" to """
+                |'a b "\'
+                |
+                """
+            ).parse("@foo")
+        }.message shouldContain "unclosed quote"
     }
 
     @Test
-    fun `passing @file after --`() {
+    @JsName("parsing_atfile_after_dash")
+    fun `passing atfile after --`() {
         class C : TestCommand() {
             val arg by argument()
 
@@ -105,11 +109,12 @@ class AtFileTest {
             }
         }
 
-        C().parse("-- @file")
+        C().withAtFiles().parse("-- @file")
     }
 
     @Test
-    fun `escaping @file`() {
+    @JsName("escaping_atfile")
+    fun `escaping atfile`() {
         class C : TestCommand() {
             val arg by argument()
 
@@ -118,11 +123,12 @@ class AtFileTest {
             }
         }
 
-        C().parse("@@file")
+        C().withAtFiles().parse("@@file")
     }
 
     @Test
-    fun `@file after arg`() {
+    @JsName("atfile_after_arg")
+    fun `atfile after arg`() {
         class C(a: Boolean) : TestCommand() {
             init {
                 context {
@@ -137,16 +143,13 @@ class AtFileTest {
             }
         }
 
-        val file = testFolder.newFile()
-        file.writeText("bar")
-
-        val argv = "foo @${file.path.replace("\\", "/")}"
-        C(true).parse(argv)
-        C(false).parse(argv)
+        C(true).withAtFiles("baz" to "bar").parse("foo @baz")
+        C(false).withAtFiles("baz" to "bar").parse("foo @baz")
     }
 
     @Test
-    fun `disabling @file`() {
+    @JsName("disabling_atfile")
+    fun `disabling atfile`() {
         class C : TestCommand() {
             init {
                 context {

@@ -14,7 +14,6 @@ import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName
 import kotlin.test.Test
 
-
 class AtFileTest {
     private fun <T : CliktCommand> T.withAtFiles(vararg content: Pair<String, String>): T {
         return context { argumentFileReader = { content.toMap().getValue(it).trimMargin() } }

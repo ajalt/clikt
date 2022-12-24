@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.internal.defaultArgFileReader
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.*
 import com.github.ajalt.clikt.sources.ChainedValueSource
@@ -30,8 +31,7 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  *   tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive
  *   behavior.
  * @property terminal The terminal to used to read and write messages.
- * @property expandArgumentFiles If true, arguments starting with `@` will be expanded as argument
- *   files. If false, they will be treated as normal arguments.
+ * @property argumentFileReader A block that returns the content of an argument file for a given filename.
  * @property correctionSuggestor A callback called when the command line contains an invalid option or
  *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
  *   names and filters the list down to values to suggest to the user.
@@ -47,7 +47,7 @@ class Context private constructor(
     val helpFormatter: HelpFormatter,
     val tokenTransformer: Context.(String) -> String,
     val terminal: Terminal,
-    val expandArgumentFiles: Boolean,
+    var argumentFileReader: ((filename: String) -> String)?,
     val readEnvvarBeforeValueSource: Boolean,
     val valueSource: ValueSource?,
     val correctionSuggestor: TypoSuggestor,
@@ -99,6 +99,13 @@ class Context private constructor(
     @PublishedApi
     internal fun selfAndAncestors() = generateSequence(this) { it.parent }
 
+    /**
+     * If true, arguments starting with `@` will be expanded as argument files. If false, they
+     * will be treated as normal arguments.
+     */
+    val expandArgumentFiles: Boolean get() = argumentFileReader != null
+
+
     class Builder(command: CliktCommand, val parent: Context? = null) {
         /**
          * If false, options and arguments cannot be mixed; the first time an argument is encountered, all
@@ -140,33 +147,46 @@ class Context private constructor(
         /**
          * The terminal that will handle reading and writing text.
          */
-        var terminal: Terminal = run {
-            val terminal1 = parent?.terminal
-            terminal1 ?: Terminal()
-        }
+        var terminal: Terminal = parent?.terminal ?: Terminal()
 
         /**
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
-        var expandArgumentFiles: Boolean = parent?.expandArgumentFiles ?: true
+        var expandArgumentFiles: Boolean
+            get() = argumentFileReader == null
+            set(value) {
+                argumentFileReader = if (value) defaultArgFileReader else null
+            }
+
+        /**
+         * A block that returns the content of an argument file for a given filename.
+         *
+         * If set to null, arguments starting with `@` will be treated as normal arguments.
+         *
+         * The block should throw [FileNotFound] if the given `filename` cannot be read.
+         */
+        var argumentFileReader: ((filename: String) -> String)? = defaultArgFileReader
 
         /**
          * If `false`,the [valueSource] is searched before environment variables.
          *
-         * By default, environment variables will be searched for option values before the [valueSource].
+         * By default, environment variables will be searched for option values before the
+         * [valueSource].
          */
         var readEnvvarBeforeValueSource: Boolean = parent?.readEnvvarBeforeValueSource ?: true
 
         /**
-         * The source that will attempt to read values for options that aren't present on the command line.
+         * The source that will attempt to read values for options that aren't present on the
+         * command line.
          *
          * You can set multiple sources with [valueSources]
          */
         var valueSource: ValueSource? = parent?.valueSource
 
         /**
-         * Set multiple sources that will attempt to read values for options not present on the command line.
+         * Set multiple sources that will attempt to read values for options not present on the
+         * command line.
          *
          * Values are read from the first source, then if it doesn't return a value, later sources
          * are read successively until one returns a value or all sources have been read.
@@ -176,9 +196,9 @@ class Context private constructor(
         }
 
         /**
-         * A callback called when the command line contains an invalid option or
-         * subcommand name. It takes the entered name and a list of all registered names option/subcommand
-         * names and filters the list down to values to suggest to the user.
+         * A callback called when the command line contains an invalid option or subcommand name. It
+         * takes the entered name and a list of all registered names option/subcommand names and
+         * filters the list down to values to suggest to the user.
          */
         var correctionSuggestor: TypoSuggestor = DEFAULT_CORRECTION_SUGGESTOR
 
@@ -215,13 +235,28 @@ class Context private constructor(
             with(Builder(command, parent)) {
                 block()
                 val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
-                        parent?.let { p -> p.selfAndAncestors().any { it.command.allowMultipleSubcommands } } != true
+                        parent?.let { p ->
+                            p.selfAndAncestors().any { it.command.allowMultipleSubcommands }
+                        } != true
                 val formatter = helpFormatter ?: MordantHelpFormatter()
                 return Context(
-                    parent, command, interspersed, autoEnvvarPrefix, printExtraMessages,
-                    helpOptionNames.toSet(), formatter, tokenTransformer, terminal, expandArgumentFiles,
-                    readEnvvarBeforeValueSource, valueSource, correctionSuggestor, localization,
-                    envvarReader, obj, argv
+                    parent,
+                    command,
+                    interspersed,
+                    autoEnvvarPrefix,
+                    printExtraMessages,
+                    helpOptionNames.toSet(),
+                    formatter,
+                    tokenTransformer,
+                    terminal,
+                    argumentFileReader,
+                    readEnvvarBeforeValueSource,
+                    valueSource,
+                    correctionSuggestor,
+                    localization,
+                    envvarReader,
+                    obj,
+                    argv
                 )
             }
         }

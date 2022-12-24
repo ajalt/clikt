@@ -11,6 +11,7 @@
 - Added`CliktCommand.test` extension for testing your commands and their output
 - Clikt will now report multiple errors if they occur, rather than just the first. ([#367](https://github.com/ajalt/clikt/issues/367))
 - Added`CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
+- Added `Context.argumentFileReader` which allows custom loading of argument files 
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
@@ -27,5 +28,5 @@
 - Deprecated `CliktHelpFormatter`. Use `MordantHelpFormatter` instead.
 
 ### Removed
-- `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.
-- `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.
+- Removed `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.
+- Removed `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.

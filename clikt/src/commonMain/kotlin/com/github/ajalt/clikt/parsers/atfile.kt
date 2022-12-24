@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.output.defaultLocalization
 
-internal fun shlex(filename:String, text: String, context:Context?): List<String> {
+internal fun shlex(filename: String, text: String, context: Context?): List<String> {
     val localization = context?.localization ?: defaultLocalization
     val toks = mutableListOf<String>()
     var inQuote: Char? = null
@@ -20,6 +20,7 @@ internal fun shlex(filename:String, text: String, context:Context?): List<String
                 sb.append(c)
                 i += 1
             }
+
             c == '\\' -> {
                 if (i >= text.lastIndex) err(localization.fileEndsWithSlash())
                 if (text[i + 1] in "\r\n") {
@@ -31,20 +32,24 @@ internal fun shlex(filename:String, text: String, context:Context?): List<String
                     i += 2
                 }
             }
+
             c == inQuote -> {
                 toks += sb.toString()
                 sb.clear()
                 inQuote = null
                 i += 1
             }
+
             c == '#' && inQuote == null -> {
                 i = text.indexOf('\n', i)
                 if (i < 0) break@loop
             }
+
             c in "\"'" && inQuote == null -> {
                 inQuote = c
                 i += 1
             }
+
             c.isWhitespace() && inQuote == null -> {
                 if (sb.isNotEmpty()) {
                     toks += sb.toString()
@@ -52,6 +57,7 @@ internal fun shlex(filename:String, text: String, context:Context?): List<String
                 }
                 i += 1
             }
+
             else -> {
                 sb.append(c)
                 i += 1

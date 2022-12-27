@@ -41,9 +41,14 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
 
-    override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionParser.Invocation>>) {
+    override fun finalize(
+        context: Context,
+        invocationsByOption: Map<Option, List<OptionParser.Invocation>>,
+    ) {
         finalizeOptions(context, options, invocationsByOption)
-        val values = options.filter { it in invocationsByOption }.mapNotNull { it.value }
+        val values = options.filter {
+            it in invocationsByOption || it.hasEnvvarOrSourcedValue(context, emptyList())
+        }.mapNotNull { it.value }
         value = MutuallyExclusiveOptionTransformContext(context).transformAll(values)
     }
 
@@ -108,7 +113,11 @@ fun <T : Any> ParameterHolder.mutuallyExclusiveOptions(
     name: String? = null,
     help: String? = null,
 ): MutuallyExclusiveOptions<T, T?> {
-    return MutuallyExclusiveOptions(listOf(option1, option2) + options, name, help) { it.lastOrNull() }
+    return MutuallyExclusiveOptions(
+        listOf(option1, option2) + options,
+        name,
+        help
+    ) { it.lastOrNull() }
 }
 
 /**

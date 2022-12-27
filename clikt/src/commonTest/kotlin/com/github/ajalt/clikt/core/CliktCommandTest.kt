@@ -12,6 +12,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -126,6 +127,7 @@ class CliktCommandTest {
     @Test
     @JsName("command_usage")
     fun `command usage`() {
+        if (skipDueToKT43490) return
         class Parent : TestCommand(called = false) {
             val arg by argument()
         }
@@ -262,6 +264,7 @@ class CliktCommandTest {
         c.parse("-f -g -i")
         c.foo shouldBe true
         c.args shouldBe listOf("-g", "-i")
+        if (skipDueToKT43490) return
         shouldThrow<NoSuchOption> {
             C(false).parse("-fgi")
         }.message shouldBe "no such option: \"-g\""

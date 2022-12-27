@@ -15,10 +15,10 @@ dependencyResolutionManagement {
             version("kotlin", "1.7.21")
 
             plugin("dokka", "org.jetbrains.dokka").version("1.7.20")
+            library("dokka-base", "org.jetbrains.dokka:dokka-base:1.7.20")
 
             // used in tests
-            library("dokka-base", "org.jetbrains.dokka:dokka-base:1.7.20")
-            library("kotest", "io.kotest:kotest-assertions-core:5.2.1")
+            library("kotest", "io.kotest:kotest-assertions-core:5.5.4")
             library("systemrules", "com.github.stefanbirkner:system-rules:1.19.0")
             library("jimfs", "com.google.jimfs:jimfs:1.1")
 

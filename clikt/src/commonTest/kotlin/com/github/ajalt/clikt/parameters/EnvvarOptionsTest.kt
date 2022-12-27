@@ -1,15 +1,19 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
+import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
+import com.github.ajalt.clikt.parameters.groups.single
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.TestSource
 import com.github.ajalt.clikt.testing.parse
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
@@ -180,7 +184,7 @@ class EnvvarOptionsTest {
     }
 
     @Test
-    @JsName("option_group_envvar")
+    @JsName("cooccurring_option_group_envvar")
     fun `cooccurring option group envvar`() = forAll(
         row("", "xx", "yy"),
         row("--x=z", "z", "yy"),
@@ -204,5 +208,25 @@ class EnvvarOptionsTest {
         }
 
         C().withEnv().parse(argv)
+    }
+
+    @Test
+    @JsName("mutually_exclusive_option_group_envvar")
+    fun `mutually exclusive option group envvar`() {
+        class C: TestCommand() {
+            val opt by mutuallyExclusiveOptions(
+                option("--foo", envvar = "FOO"),
+                option("--bar", envvar = "BAR"),
+            ).single()
+        }
+        C().withEnv().parse("--bar=x").opt shouldBe "x"
+
+        env["FOO"] = "y"
+        C().withEnv().parse("").opt shouldBe "y"
+
+        env["BAR"] = "z"
+        shouldThrow<MutuallyExclusiveGroupException> {
+            C().withEnv().parse("")
+        }
     }
 }

@@ -48,7 +48,8 @@ interface Option {
     /** Information about this option for the help output. */
     fun parameterHelp(context: Context): HelpFormatter.ParameterHelp.Option? = when {
         hidden -> null
-        else -> HelpFormatter.ParameterHelp.Option(names,
+        else -> HelpFormatter.ParameterHelp.Option(
+            names,
             secondaryNames,
             metavar(context),
             optionHelp,
@@ -86,7 +87,10 @@ interface OptionDelegate<T> : GroupableOption, ReadOnlyProperty<ParameterHolder,
     val value: T
 
     /** Implementations must call [ParameterHolder.registerOption] */
-    operator fun provideDelegate(thisRef: ParameterHolder, prop: KProperty<*>): ReadOnlyProperty<ParameterHolder, T>
+    operator fun provideDelegate(
+        thisRef: ParameterHolder,
+        prop: KProperty<*>,
+    ): ReadOnlyProperty<ParameterHolder, T>
 
     override fun getValue(thisRef: ParameterHolder, property: KProperty<*>): T = value
 }
@@ -157,10 +161,28 @@ internal fun Option.getFinalValue(
         context.readEnvvarBeforeValueSource -> {
             readEnvVar(context, envvar) ?: readValueSource(context)
         }
+
         else -> {
             readValueSource(context) ?: readEnvVar(context, envvar)
         }
     } ?: FinalValue.Parsed(emptyList())
+}
+
+// This is a pretty ugly hack: option groups need to enforce their contraints, including on options
+// from envvars/value sources, but not including default values. Unfortunately, we don't know
+// whether an option's value is from a default or envvar. So we do some ugly casts and read the
+// final value again to check for values from other sources.
+internal fun Option.hasEnvvarOrSourcedValue(
+    context: Context,
+    invocations: List<OptionParser.Invocation>,
+): Boolean {
+    val envvar = when (this) {
+        is OptionWithValues<*, *, *> -> envvar
+        is FlagOption<*> -> envvar
+        else -> null
+    }
+    val final = this.getFinalValue(context, invocations, envvar)
+    return final !is FinalValue.Parsed
 }
 
 private fun Option.readValueSource(context: Context): FinalValue? {

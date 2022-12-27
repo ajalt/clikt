@@ -2,10 +2,11 @@
 
 ## Unreleased
 ### Changed
-- Updated Kotlin to 1.6.20
+- Updated Kotlin to 1.7.20
 
 ### Fixed
 - Support unicode in environment variable values on Native Windows. ([#362](https://github.com/ajalt/clikt/issues/362))
+- Support environment variables for options in a mutually exclusive options group. ([#384](https://github.com/ajalt/clikt/issues/384))
 
 ## 3.5.0
 ### Added

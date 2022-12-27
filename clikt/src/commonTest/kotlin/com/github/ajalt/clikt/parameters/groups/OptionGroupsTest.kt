@@ -211,8 +211,8 @@ class OptionGroupsTest {
     @Test
     @JsName("mutually_exclusive_group_default_flag_single")
     fun `mutually exclusive group flag single`() = forAll(
-//        row("", false),
-//        row("--x", true),
+        row("", null),
+        row("--x", true),
         row("--y", true)
     ) { argv, eg ->
         class C : TestCommand() {

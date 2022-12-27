@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT33294
+import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -24,6 +25,7 @@ class ArgumentTest {
     @Test
     @JsName("one_required_argument")
     fun `one required argument`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val foo by argument()
         }
@@ -112,6 +114,7 @@ class ArgumentTest {
     @Test
     @JsName("one_argument_nvalues_2")
     fun `one argument nvalues=2`() {
+        if (skipDueToKT43490) return
         class C : TestCommand() {
             val x by argument().pair()
             override fun run_() {
@@ -158,6 +161,7 @@ class ArgumentTest {
     @Test
     @JsName("misused_arguments_with_nvalues_2")
     fun `misused arguments with nvalues=2`() {
+        if (skipDueToKT43490) return
         class C : TestCommand() {
             val x by argument().pair()
         }
@@ -172,6 +176,7 @@ class ArgumentTest {
     @Test
     @JsName("misused_arguments_with_nvalues_3")
     fun `misused arguments with nvalues=3`() {
+        if (skipDueToKT43490) return
         class C : TestCommand() {
             val x by argument().triple()
         }
@@ -237,6 +242,7 @@ class ArgumentTest {
     @Test
     @JsName("one_required_argument_nvalues_minus_1_empty_argv")
     fun `one required argument nvalues=-1 empty argv`() {
+        if (skipDueToKT43490) return
         class C : TestCommand() {
             val x by argument().multiple(required = true)
         }
@@ -265,6 +271,7 @@ class ArgumentTest {
     @Test
     @JsName("two_arguments_nvalues_minus_1_1_empty_argv")
     fun `two arguments nvalues=-1_1 empty argv`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val foo by argument().multiple()
             val bar by argument()
@@ -296,6 +303,7 @@ class ArgumentTest {
     @Test
     @JsName("two_arguments_nvalues_1_minus_1_empty_argv")
     fun `two arguments nvalues=1_-1 empty argv`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val foo by argument()
             val bar by argument().multiple()
@@ -325,6 +333,7 @@ class ArgumentTest {
     @Test
     @JsName("argument_validator_non_minus_null")
     fun `argument validator non-null`() {
+        if (skipDueToKT43490) return
         var called = false
 
         class C : TestCommand() {
@@ -428,6 +437,7 @@ class ArgumentTest {
     @Test
     @JsName("convert_catches_exceptions")
     fun `convert catches exceptions`() {
+        if (skipDueToKT43490) return
         class C : TestCommand() {
             val x by argument().convert {
                 when (it) {
@@ -487,6 +497,7 @@ class ArgumentTest {
     @Test
     @JsName("punctuation_in_arg_prefix_unix_style_error")
     fun `punctuation in arg prefix unix style error`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val x by argument()
         }
@@ -516,6 +527,7 @@ class ArgumentTest {
     @Test
     @JsName("punctuation_in_arg_prefix_windows_style_error")
     fun `punctuation in arg prefix windows style error`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             init {
                 context { helpOptionNames = setOf("/help") }

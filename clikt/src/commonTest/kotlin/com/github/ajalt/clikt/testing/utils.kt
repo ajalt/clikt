@@ -12,3 +12,11 @@ fun splitArgv(argv: String): Array<String> {
  * those tests on JS for now.
  */
 expect val skipDueToKT33294: Boolean
+
+/**
+ * As of Kotlin 1.7.20, Kotlin/JS IR generates incorrect code for exception subclasses
+ * https://youtrack.jetbrains.com/issue/KT-43490
+ *
+ * This manifests as "TypeError: Cannot set property message of Error which has only a getter"
+ */
+expect val skipDueToKT43490: Boolean

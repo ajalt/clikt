@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.skipDueToKT33294
+import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -33,6 +34,7 @@ class OptionTest {
         row("--car", "no such option: \"--car\". Did you mean \"--bar\"?"),
         row("--ba", "no such option: \"--ba\". (Possible options: --bar, --baz)")
     ) { argv, message ->
+        if (skipDueToKT43490) return@forAll
         class C : TestCommand(called = false) {
             val foo by option()
             val bar by option()
@@ -52,6 +54,7 @@ class OptionTest {
         row("-foo", "no such option: \"-f\". Did you mean \"--foo\"?"),
         row("-oof", "no such option: \"-f\". Did you mean \"--oof\"?"),
     ) { argv, message ->
+        if (skipDueToKT43490) return@forAll
         class C : TestCommand(called = false) {
             val short by option("-o").flag()
             val long by option()
@@ -203,6 +206,7 @@ class OptionTest {
     @Test
     @JsName("two_options_nvalues_2_usage_errors")
     fun `two options nvalues=2 usage errors`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val x by option("-x", "--xx").pair()
             val y by option("-y", "--yy").pair()
@@ -313,6 +317,7 @@ class OptionTest {
         }
 
         C().parse("--x").x shouldBe E.A
+        if (skipDueToKT43490) return
         shouldThrow<UsageError> { C().parse("--no-x") }
     }
 
@@ -346,6 +351,7 @@ class OptionTest {
 
         C().parse("-x").x shouldBe 1
         C().parse("-xx").x shouldBe 2
+        if (skipDueToKT43490) return
         shouldThrow<MissingOption> { C().parse("") }
     }
 
@@ -460,6 +466,7 @@ class OptionTest {
 
         C().parse("--x=foo")
 
+        if (skipDueToKT43490) return
         shouldThrow<MissingOption> {
             C().parse("")
         }.message shouldBe "Missing option \"--x\""
@@ -556,6 +563,7 @@ class OptionTest {
         C(true).apply { parse("--x 1"); x shouldBe listOf("1") }
         C(true).apply { parse("--x 2 --x 3"); x shouldBe listOf("2", "3") }
 
+        if (skipDueToKT43490) return
         shouldThrow<MissingOption> { C(false).parse("") }
             .message shouldBe "Missing option \"--x\""
     }
@@ -620,6 +628,7 @@ class OptionTest {
         row("--y=foo --w=bar", "Invalid value for \"--w\": fail bar")
     ) { argv, message ->
         if (skipDueToKT33294) return@forAll
+        if (skipDueToKT43490) return@forAll
 
         class C : TestCommand() {
             val x by option().check { it == "foo" }
@@ -636,6 +645,7 @@ class OptionTest {
     @JsName("option_validator_required")
     fun `option validator required`() {
         if (skipDueToKT33294) return
+        if (skipDueToKT43490) return
 
         var called = false
 
@@ -681,6 +691,7 @@ class OptionTest {
     @Test
     @JsName("convert_catches_exceptions")
     fun `convert catches exceptions`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             init {
                 context { allowInterspersedArgs = false }
@@ -818,6 +829,7 @@ class OptionTest {
     @Test
     @JsName("deprecated_error_option")
     fun `deprecated error option`() {
+        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val x by option().flag().deprecated(error = true)
             val y by option().deprecated("err", error = true)

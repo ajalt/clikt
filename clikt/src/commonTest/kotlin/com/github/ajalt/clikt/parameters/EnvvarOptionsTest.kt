@@ -13,6 +13,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.TestSource
 import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -225,6 +226,7 @@ class EnvvarOptionsTest {
         C().withEnv().parse("").opt shouldBe "y"
 
         env["BAR"] = "z"
+        if (skipDueToKT43490) return
         shouldThrow<MutuallyExclusiveGroupException> {
             C().withEnv().parse("")
         }

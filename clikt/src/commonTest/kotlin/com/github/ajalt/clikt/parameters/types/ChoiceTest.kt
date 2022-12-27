@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -35,6 +36,7 @@ class ChoiceTypeTest {
             x shouldBe "bar"
         }
 
+        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx baz") }
             .message shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
 
@@ -60,6 +62,7 @@ class ChoiceTypeTest {
             x shouldBe 2
         }
 
+        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("-x baz") }
             .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
 
@@ -90,6 +93,7 @@ class ChoiceTypeTest {
             y shouldBe 2
         }
 
+        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("-xbaz") }
             .message shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
     }
@@ -114,6 +118,7 @@ class ChoiceTypeTest {
             x shouldBe "bar"
         }
 
+        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz") }
             .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
@@ -141,6 +146,7 @@ class ChoiceTypeTest {
             x shouldBe 2
         }
 
+        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz") }
             .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
@@ -168,6 +174,7 @@ class ChoiceTypeTest {
             y shouldBe 2
         }
 
+        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz qux") }
             .message shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
     }
@@ -214,6 +221,7 @@ class ChoiceTypeTest {
     @Test
     @JsName("enum_option_error")
     fun `enum option error`() {
+        if (skipDueToKT43490) return
         @Suppress("unused")
         class C : TestCommand() {
             val foo by option().enum<TestEnum>(ignoreCase = false)
@@ -284,6 +292,7 @@ class ChoiceTypeTest {
     @Test
     @JsName("enum_argument_error")
     fun `enum argument error`() {
+        if (skipDueToKT43490) return
         @Suppress("unused")
         class C : TestCommand() {
             val foo by argument().enum<TestEnum>(ignoreCase = false)

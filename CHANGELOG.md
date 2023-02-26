@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+### Changed
+- Updated Kotlin to 1.8.10
+- 
 ### Fixed
 - Fix `CliktCommand.prompt` on NodeJS targets that would hang due to KT-55817 ([#387](https://github.com/ajalt/clikt/issues/387))
 

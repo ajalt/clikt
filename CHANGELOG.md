@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.5.2
 ### Changed
 - Updated Kotlin to 1.8.10
 - 

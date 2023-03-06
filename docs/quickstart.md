@@ -144,7 +144,7 @@ your argv, this approach is limited. Additionally, stdin, stdout, and
 environment variables are all captured by gradle. All these limitations
 make the run task mostly useless for command line applications.
 
-An easier way to do development is to used the `installDist` task
+An easier way to do development is to use the `installDist` task
 provided by the plugin. This builds all the distribution scripts in your
 build folder, which you can then execute normally. See Clikt's
 [runsample][runsample] script for an example of this approach.

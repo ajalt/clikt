@@ -2479,22 +2479,28 @@ advantages:</p>
 <h2 id="multiplatform-support">Multiplatform Support<a class="headerlink" href="#multiplatform-support" title="Permanent link">&para;</a></h2>
 <p>Clikt supports the following platforms in addition to JVM:</p>
 <h3 id="desktop-native-linux-windows-and-macos">Desktop native (Linux, Windows, and MacOS)<a class="headerlink" href="#desktop-native-linux-windows-and-macos" title="Permanent link">&para;</a></h3>
-<p>All functionality is supported, except:
-* <code>env</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html">editText</a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html">editFile</a> is ignored.
-* <code>hideInput</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is ignored.
-* <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path.html">path</a> parameter types are not supported.</p>
+<p>All functionality is supported, except:</p>
+<ul>
+<li><code>env</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html">editText</a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html">editFile</a> is ignored.</li>
+<li><code>hideInput</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is ignored.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path.html">path</a> parameter types are not supported.</li>
+</ul>
 <h3 id="nodejs">NodeJS<a class="headerlink" href="#nodejs" title="Permanent link">&para;</a></h3>
-<p>All functionality is supported, except:
-* <code>hideInput</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is ignored.
-* <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path.html">path</a> parameter types are not supported.</p>
+<p>All functionality is supported, except:</p>
+<ul>
+<li><code>hideInput</code> parameter of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is ignored.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path.html">path</a> parameter types are not supported.</li>
+</ul>
 <h3 id="browser-javascript">Browser JavaScript<a class="headerlink" href="#browser-javascript" title="Permanent link">&para;</a></h3>
-<p>All functionality is supported, except:
-* The default <a href="../api/clikt/com.github.ajalt.clikt.output/-clikt-console/">CliktConsole</a> only outputs to the browser&rsquo;s developer console, which is
+<p>All functionality is supported, except:</p>
+<ul>
+<li>The default <a href="../api/clikt/com.github.ajalt.clikt.output/-clikt-console/">CliktConsole</a> only outputs to the browser&rsquo;s developer console, which is
 probably not what you want. You can <a href="#replacing-stdin-and-stdout">define your own CliktConsole</a>, or
-you can call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html">parse</a> instead of <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html">main</a> and handle output yourself.
-* <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html">editText</a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html">editFile</a> are not supported.
-* <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is only supported if you define your own CliktConsole.
-* <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path.html">path</a> parameter types are not supported.</p>
+you can call <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html">parse</a> instead of <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html">main</a> and handle output yourself.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html">editText</a> and <a href="../api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html">editFile</a> are not supported.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html">prompt</a> is only supported if you define your own CliktConsole.</li>
+<li><a href="../api/clikt/com.github.ajalt.clikt.parameters.types/file.html">file</a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/path.html">path</a> parameter types are not supported.</li>
+</ul>
 
 
 

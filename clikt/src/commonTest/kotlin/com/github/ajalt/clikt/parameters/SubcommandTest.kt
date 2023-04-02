@@ -13,7 +13,6 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -246,7 +245,6 @@ class SubcommandTest {
     @Test
     @JsName("subcommand_usage")
     fun `subcommand usage`() {
-        if (skipDueToKT43490) return
         class Parent : TestCommand()
         class Child : TestCommand()
         class Grandchild : TestCommand(called = false) {
@@ -274,7 +272,6 @@ class SubcommandTest {
         row("bart", "no such subcommand: \"bart\". Did you mean \"bar\"?"),
         row("ba", "no such subcommand: \"ba\". (Possible subcommands: bar, baz)")
     ) { argv, message ->
-        if (skipDueToKT43490) return@forAll
         shouldThrow<NoSuchSubcommand> {
             TestCommand()
                 .subcommands(TestCommand(name = "foo"), TestCommand(name = "bar"), TestCommand(name = "baz"))

@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
@@ -90,7 +89,6 @@ class ContextTest {
     @Test
     @JsName("default_help_option_names")
     fun `default help option names`() {
-        if (skipDueToKT43490) return
         class C : TestCommand()
 
         shouldThrow<PrintHelpMessage> { C().parse("--help") }

@@ -99,9 +99,9 @@ interface OptionDelegate<T> :
     val value: T
 
     /** Implementations must call [ParameterHolder.registerOption] */
-    operator fun provideDelegate(
+    override operator fun provideDelegate(
         thisRef: ParameterHolder,
-        prop: KProperty<*>,
+        property: KProperty<*>,
     ): ReadOnlyProperty<ParameterHolder, T>
 
     override fun getValue(thisRef: ParameterHolder, property: KProperty<*>): T = value
@@ -181,19 +181,16 @@ internal fun Option.getFinalValue(
     } ?: FinalValue.Parsed(emptyList())
 }
 
-// This is a pretty ugly hack: option groups need to enforce their contraints, including on options
+// This is a pretty ugly hack: option groups need to enforce their constraints, including on options
 // from envvars/value sources, but not including default values. Unfortunately, we don't know
 // whether an option's value is from a default or envvar. So we do some ugly casts and read the
 // final value again to check for values from other sources.
 internal fun Option.hasEnvvarOrSourcedValue(
     context: Context,
-    invocations: List<OptionParser.Invocation>,
+    invocations: List<Invocation>,
 ): Boolean {
-    val envvar = when (this) {
-        is OptionWithValues<*, *, *> -> envvar
-        is FlagOption<*> -> envvar
-        else -> null
-    }
+
+    val envvar = (this as? OptionWithValues<*, *, *>)?.envvar
     val final = this.getFinalValue(context, invocations, envvar)
     return final !is FinalValue.Parsed
 }

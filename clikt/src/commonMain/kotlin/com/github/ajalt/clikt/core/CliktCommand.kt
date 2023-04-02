@@ -121,15 +121,17 @@ abstract class CliktCommand(
      * called.
      */
     open fun allHelpParams(): List<ParameterHelp> {
-        return _options.mapNotNull { it.parameterHelp(currentContext) } +
-                _arguments.mapNotNull { it.parameterHelp(currentContext) } +
-                _groups.mapNotNull { it.parameterHelp(currentContext) } +
-                _subcommands.mapNotNull {
-                    when {
-                        it.hidden -> null
-                        else -> ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags)
-                    }
+        return listOf(
+            _options.mapNotNull { it.parameterHelp(currentContext) },
+            _arguments.mapNotNull { it.parameterHelp(currentContext) },
+            _groups.mapNotNull { it.parameterHelp(currentContext) },
+            _subcommands.mapNotNull {
+                when {
+                    it.hidden -> null
+                    else -> ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags)
                 }
+            }
+        ).flatten()
     }
 
     private fun getCommandNameWithParents(): String {

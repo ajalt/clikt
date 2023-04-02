@@ -15,7 +15,7 @@ import org.junit.rules.TemporaryFolder
 import kotlin.test.Test
 
 
-class ParserTest {
+class AtFileParserTest {
     @get:Rule
     var testFolder = TemporaryFolder()
 

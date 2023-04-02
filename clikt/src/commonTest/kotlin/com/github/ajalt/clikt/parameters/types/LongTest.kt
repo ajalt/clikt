@@ -9,7 +9,6 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -40,7 +39,6 @@ class LongTypeTest {
     @Test
     @JsName("int_option_error")
     fun `int option error`() {
-        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val foo by option().long()
         }

@@ -6,10 +6,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.blocking.forAll
-import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -32,7 +29,6 @@ class OptionChoiceTest {
             x shouldBe "bar"
         }
 
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx baz") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
 
@@ -58,7 +54,6 @@ class OptionChoiceTest {
             x shouldBe 2
         }
 
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("-x baz") }
             .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
 
@@ -89,7 +84,6 @@ class OptionChoiceTest {
             y shouldBe 2
         }
 
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("-xbaz") }
             .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
     }
@@ -114,7 +108,6 @@ class OptionChoiceTest {
             x shouldBe "bar"
         }
 
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz") }
             .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 
@@ -142,7 +135,6 @@ class OptionChoiceTest {
             x shouldBe 2
         }
 
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("baz") }
             .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
 

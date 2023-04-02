@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.finalizeOptions
-import com.github.ajalt.clikt.mpp.readFileIfExists
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
@@ -360,7 +359,7 @@ internal object Parser {
                 name,
                 optionsByName.filterNot { it.value.hidden }.keys.toList()
             )
-            return OptParseResult(1, err = Err(NoSuchOption(name, possibilities).also { it.context = context }, index))
+            return OptParseResult(1, err = Err(NoSuchOption(name, possibilities), index))
         }
 
         return parseOptValues(
@@ -446,7 +445,7 @@ internal object Parser {
                     prefix == "-" && "-$tok" in optionsByName -> listOf("-$tok")
                     else -> emptyList()
                 }
-                return OptParseResult(1, err = Err(NoSuchOption(name, possibilities).also { it.context = context }, index))
+                return OptParseResult(1, err = Err(NoSuchOption(name, possibilities), index))
             }
             if (option.nvalues.last > 0) {
                 val value = if (i < tok.lastIndex) tok.drop(i + 1) else null
@@ -492,8 +491,8 @@ internal object Parser {
 
             if (consumed > remaining) {
                 val e = when (remaining) {
-                    0 -> MissingArgument(argument).also { it.context = context }
-                    else -> IncorrectArgumentValueCount(argument).also { it.context = context }
+                    0 -> MissingArgument(argument)
+                    else -> IncorrectArgumentValueCount(argument)
                 }
                 return ArgsParseResult(
                     0,

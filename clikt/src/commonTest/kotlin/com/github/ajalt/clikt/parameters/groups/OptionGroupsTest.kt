@@ -11,7 +11,6 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -68,7 +67,6 @@ class OptionGroupsTest {
 
         C().parse("--x=foo")
 
-        if (skipDueToKT43490) return
         shouldThrow<MissingOption> {
             C().parse("")
         }.formattedMessage shouldBe "Missing option \"--x\""
@@ -125,7 +123,6 @@ class OptionGroupsTest {
         C(true).apply { parse("--x=1") }.g shouldBe "1"
         C(true).apply { parse("--y=1 --y=2") }.g shouldBe "2"
 
-        if (skipDueToKT43490) return
         shouldThrow<MutuallyExclusiveGroupException> { C(false).parse("--x=1 --y=2") }
             .formattedMessage shouldBe "option --x cannot be used with --y or --z"
 
@@ -145,7 +142,6 @@ class OptionGroupsTest {
 
         C(true).apply { parse("--x=1") }.g shouldBe Sealed.Sealed1
 
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C(false).parse("--y=1") }
             .formattedMessage should startWith("Invalid value for \"--y\"")
     }
@@ -267,7 +263,6 @@ class OptionGroupsTest {
     @Test
     @JsName("co_occurring_option_group_enforcement")
     fun `co-occurring option group enforcement`() {
-        if (skipDueToKT43490) return
         class GGG : OptionGroup() {
             val x by option().required()
             val y by option()
@@ -284,7 +279,6 @@ class OptionGroupsTest {
     @Test
     @JsName("co_occurring_option_group_with_no_required_options")
     fun `co-occurring option group with no required options`() {
-        if (skipDueToKT43490) return
         class GGG : OptionGroup() {
             val x by option()
             val y by option()
@@ -488,7 +482,6 @@ class OptionGroupsTest {
     @Test
     @JsName("groupSwitch_with_defaultByName_with_invalid_name")
     fun `groupSwitch with defaultByName with invalid name`() {
-        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val g by option().groupSwitch("--x" to Group1(), "--y" to Group2())
                 .defaultByName("--z")
@@ -499,7 +492,6 @@ class OptionGroupsTest {
     @Test
     @JsName("groupChoice_with_defaultByName_with_invalid_name")
     fun `groupChoice with defaultByName with invalid name`() {
-        if (skipDueToKT43490) return
         class C : TestCommand(called = false) {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
                 .defaultByName("3")
@@ -584,7 +576,6 @@ class OptionGroupsTest {
         C(0).parse("--opt=0")
         C(0).parse("--g=a --opt=0")
 
-        if (skipDueToKT43490) return
         shouldThrow<UsageError> { C(3).parse("--g=a --opt=3") }
         shouldThrow<UsageError> { C(3).parse("--opt=3") }
     }

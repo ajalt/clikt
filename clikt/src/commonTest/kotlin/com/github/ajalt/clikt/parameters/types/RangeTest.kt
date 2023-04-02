@@ -7,7 +7,6 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.skipDueToKT43490
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -37,7 +36,6 @@ class RangeTest {
             parse("-x3")
             x shouldBe 3
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx=0") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": 0 is smaller than the minimum valid value of 1."
     }
@@ -78,7 +76,6 @@ class RangeTest {
             parse("-x0")
             x shouldBe 0
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx=2") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": 2 is larger than the maximum valid value of 1."
     }
@@ -119,7 +116,6 @@ class RangeTest {
             parse("-x2")
             x shouldBe 2
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx=3") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
         shouldThrow<BadParameterValue> { C().parse("-x0") }
@@ -149,7 +145,6 @@ class RangeTest {
             x shouldBe 2
             y shouldBe 4
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx=3") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
         shouldThrow<BadParameterValue> { C().parse("-y10") }
@@ -179,7 +174,6 @@ class RangeTest {
             x should beEmpty()
             y shouldBe (3 to 4)
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx=3") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": 3 is not in the valid range of 1 to 2."
         shouldThrow<BadParameterValue> { C().parse("-y10 1") }
@@ -205,7 +199,6 @@ class RangeTest {
             parse("-xd")
             x shouldBe 'd'
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("--xx=a") }
             .formattedMessage shouldBe "Invalid value for \"--xx\": a is not in the valid range of b to d."
         shouldThrow<BadParameterValue> { C().parse("-xe") }
@@ -243,7 +236,6 @@ class RangeTest {
             z shouldBe 6
             w shouldBe 8
         }
-        if (skipDueToKT43490) return
         shouldThrow<BadParameterValue> { C().parse("0 4 6 8") }
             .formattedMessage shouldBe "Invalid value for \"X\": 0 is not in the valid range of 1 to 2."
         shouldThrow<BadParameterValue> { C().parse("1 4 6 10") }

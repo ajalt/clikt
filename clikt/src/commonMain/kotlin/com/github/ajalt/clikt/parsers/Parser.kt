@@ -147,7 +147,7 @@ internal object Parser {
                 invocationsByOption.forEach { (o, inv) -> if (o.isEager) o.finalize(context, inv) }
 
                 // Finalize arguments before options, so that options can reference them
-                val (excess, parsedArgs) = parseArguments(positionalArgs, arguments)
+                val (excess, parsedArgs) = parseArguments(context, positionalArgs, arguments)
                 val retries = finalizeArguments(parsedArgs, context)
                 i = handleExcessArguments(
                     excess,
@@ -261,7 +261,8 @@ internal object Parser {
             throw NoSuchOption(
                 givenName = name,
                 possibilities = context.correctionSuggestor(name,
-                    optionsByName.filterNot { it.value.hidden }.keys.toList())
+                    optionsByName.filterNot { it.value.hidden }.keys.toList()),
+                context = context,
             )
         }
 
@@ -290,7 +291,7 @@ internal object Parser {
                     prefix == "-" && "-$tok" in optionsByName -> listOf("-$tok")
                     else -> emptyList()
                 }
-                throw NoSuchOption(name, possibilities)
+                throw NoSuchOption(name, possibilities, context = context)
             }
             val result = option.parser.parseShortOpt(option, name, tokens, index, i)
             invocations += OptInvocation(option, result.invocation)
@@ -300,6 +301,7 @@ internal object Parser {
     }
 
     private fun parseArguments(
+        context: Context,
         positionalArgs: List<String>,
         arguments: List<Argument>,
     ): Pair<Int, Map<Argument, List<String>>> {
@@ -320,8 +322,8 @@ internal object Parser {
                 else -> argument.nvalues
             }
             if (consumed > remaining) {
-                if (remaining == 0) throw MissingArgument(argument)
-                else throw IncorrectArgumentValueCount(argument)
+                if (remaining == 0) throw MissingArgument(argument, context)
+                else throw IncorrectArgumentValueCount(argument, context)
             }
             out[argument] = out.getValue(argument) + positionalArgs.subList(i, i + consumed)
             i += consumed

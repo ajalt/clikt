@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.default
 import com.github.ajalt.clikt.parameters.options.*
@@ -65,6 +66,26 @@ class OptionTest {
         shouldThrow<NoSuchOption> {
             C().parse(argv)
         }.message shouldBe message
+    }
+
+    @Test
+    @JsName("no_such_option_custom_localization")
+    fun `no such option custom localization`() {
+        if (skipDueToKT43490) return
+        class L : Localization {
+            override fun noSuchOption(name: String, possibilities: List<String>) =
+                "custom message"
+        }
+
+        class C : TestCommand(called = false) {
+            init {
+                context { localization = L() }
+            }
+        }
+
+        shouldThrow<NoSuchOption> {
+            C().parse("-z")
+        }.message shouldBe "custom message"
     }
 
     @Test
@@ -396,7 +417,8 @@ class OptionTest {
     @JsName("default_option")
     fun `default option`() = forAll(
         row("", "def"),
-        row("-x4", "4")) { argv, expected ->
+        row("-x4", "4")
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").default("def")
             override fun run_() {
@@ -411,7 +433,8 @@ class OptionTest {
     @JsName("defaultLazy_option")
     fun `defaultLazy option`() = forAll(
         row("", "default", true),
-        row("-xbar", "bar", false)) { argv, expected, ec ->
+        row("-xbar", "bar", false)
+    ) { argv, expected, ec ->
         var called = false
 
         class C : TestCommand() {
@@ -579,12 +602,13 @@ class OptionTest {
             val u by option().flag()
             override fun run_() {
                 registeredOptions().forEach {
-                    assertTrue(it is EagerOption || // skip help option
-                            "--x" in it.names && it.metavar(currentContext) == "TEXT" ||
-                            "--y" in it.names && it.metavar(currentContext) == "FOO" ||
-                            "--z" in it.names && it.metavar(currentContext) == "FOO" ||
-                            "--w" in it.names && it.metavar(currentContext) == "BAR" ||
-                            "--u" in it.names && it.metavar(currentContext) == null,
+                    assertTrue(
+                        it is EagerOption || // skip help option
+                                "--x" in it.names && it.metavar(currentContext) == "TEXT" ||
+                                "--y" in it.names && it.metavar(currentContext) == "FOO" ||
+                                "--z" in it.names && it.metavar(currentContext) == "FOO" ||
+                                "--w" in it.names && it.metavar(currentContext) == "BAR" ||
+                                "--u" in it.names && it.metavar(currentContext) == null,
                         message = "bad option $it"
                     )
                 }
@@ -738,7 +762,8 @@ class OptionTest {
         row("-xx=asd", "asd"),
         row("-x 4", "4"),
         row("-x -xx -xx foo", "foo"),
-        row("-xfoo", "foo")) { argv, expected ->
+        row("-xfoo", "foo")
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "-xx")
             override fun run_() {
@@ -761,7 +786,8 @@ class OptionTest {
         row("-y +y", false, true),
         row("+y -y", false, false),
         row("-x -y", false, false),
-        row("-x -y +xy", true, true)) { argv, ex, ey ->
+        row("-x -y +xy", true, true)
+    ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by option("+x").flag("-x")
             val y by option("+y").flag("-y")
@@ -780,7 +806,8 @@ class OptionTest {
         row("", null),
         row("--XX=FOO", "FOO"),
         row("--xx=FOO", "FOO"),
-        row("-XX", "X")) { argv, expected ->
+        row("-XX", "X")
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx")
             override fun run_() {
@@ -795,7 +822,8 @@ class OptionTest {
     @JsName("aliased_tokens")
     fun `aliased tokens`() = forAll(
         row("", null),
-        row("--yy 3", "3")) { argv, expected ->
+        row("--yy 3", "3")
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx")
             override fun run_() {

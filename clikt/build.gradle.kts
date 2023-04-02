@@ -27,7 +27,7 @@ tasks.withType<KotlinNpmInstallTask> {
 
 kotlin {
     jvm()
-    js(BOTH) {
+    js(IR) {
         nodejs()
         browser()
     }

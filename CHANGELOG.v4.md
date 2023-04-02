@@ -30,3 +30,4 @@
 ### Removed
 - Removed `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.
 - Removed `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.
+- Removed legacy JS publications. Now only the JS/IR artifacts are published.  

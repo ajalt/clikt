@@ -14,11 +14,13 @@ import java.io.File
 data class RepoConfig(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
 class Repo : CliktCommand(
-    help = """Repo is a command line tool that showcases how to build complex
+    help = """
+        Repo is a command line tool that showcases how to build complex
         command line interfaces with Clikt.
 
         This tool is supposed to look like a distributed version control
-        system to show how something like this can be structured.""") {
+        system to show how something like this can be structured.
+        """.trimIndent()) {
     init {
         versionOption("1.0")
     }
@@ -42,11 +44,13 @@ class Repo : CliktCommand(
 
 
 class Clone : CliktCommand(
-    help = """Clones a repository.
+    help = """
+        Clones a repository.
 
         This will clone the repository at SRC into the folder DEST. If DEST
         is not provided this will automatically use the last path component
-        of SRC and create that folder.""") {
+        of SRC and create that folder.
+        """.trimIndent()) {
     val repo: RepoConfig by requireObject()
     val src: File by argument().file()
     val dest: File? by argument().file().optional()
@@ -68,9 +72,11 @@ class Clone : CliktCommand(
 }
 
 class Delete : CliktCommand(
-    help = """Deletes a repository.
+    help = """
+        Deletes a repository.
 
-        This will throw away the current repository.""") {
+        This will throw away the current repository.
+        """.trimIndent()) {
     val repo: RepoConfig by requireObject()
 
     override fun run() {
@@ -81,9 +87,11 @@ class Delete : CliktCommand(
 
 class SetUser : CliktCommand(
     name = "setuser",
-    help = """Sets the user credentials.
+    help = """
+        Sets the user credentials.
 
-        This will override the current user config.""") {
+        This will override the current user config.
+        """.trimIndent()) {
     val repo: RepoConfig by requireObject()
     val username: String by option(help = "The developer's shown username.")
         .prompt()
@@ -102,13 +110,15 @@ class SetUser : CliktCommand(
 
 
 class Commit : CliktCommand(
-    help = """Commits outstanding changes.
+    help = """
+        Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
         "repo push" to push up your changes to other repositories.
 
         If a list of files is omitted, all changes reported by "repo status"
-        will be committed.""") {
+        will be committed.
+        """.trimIndent()) {
     val repo: RepoConfig by requireObject()
     val message: List<String> by option("--message", "-m",
         help = "The commit message. If provided multiple times " +
@@ -142,7 +152,7 @@ class Commit : CliktCommand(
                 }
             }
         }
-        echo("Files to be commited: $files")
+        echo("Files to be committed: $files")
         echo("Commit message:")
         echo(msg)
     }

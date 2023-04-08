@@ -15,10 +15,10 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.8.10")
+            version("kotlin", "1.8.20")
 
-            plugin("dokka", "org.jetbrains.dokka").version("1.7.20")
-            library("dokka-base", "org.jetbrains.dokka:dokka-base:1.7.20")
+            plugin("dokka", "org.jetbrains.dokka").version("1.8.10")
+            library("dokka-base", "org.jetbrains.dokka:dokka-base:1.8.10")
 
             library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-beta12")
 

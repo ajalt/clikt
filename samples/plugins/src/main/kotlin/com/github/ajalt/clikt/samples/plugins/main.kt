@@ -11,11 +11,13 @@ import org.kodein.di.generic.setBinding
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
 class Cli : CliktCommand(
-    help = """Repo is a command line tool that showcases how to build complex
+    help = """
+        Repo is a command line tool that showcases how to build complex
         command line interfaces with Clikt.
 
         This tool is supposed to look like a distributed version control
-        system to show how something like this can be structured.""") {
+        system to show how something like this can be structured.
+        """.trimIndent()) {
     init {
         versionOption("1.0")
     }

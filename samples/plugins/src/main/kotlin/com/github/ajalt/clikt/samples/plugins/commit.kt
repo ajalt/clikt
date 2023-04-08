@@ -15,13 +15,15 @@ import org.kodein.di.generic.provider
 import java.io.File
 
 class Commit : CliktCommand(
-    help = """Commits outstanding changes.
+    help = """
+        Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
         "repo push" to push up your changes to other repositories.
 
         If a list of files is omitted, all changes reported by "repo status"
-        will be committed.""") {
+        will be committed.
+        """.trimIndent()) {
     val repo: Repo by requireObject()
     val message: List<String> by option("--message", "-m",
         help = "The commit message. If provided multiple times " +

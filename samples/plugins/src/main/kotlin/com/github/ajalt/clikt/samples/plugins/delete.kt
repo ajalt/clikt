@@ -8,9 +8,11 @@ import org.kodein.di.generic.inSet
 import org.kodein.di.generic.provider
 
 class Delete : CliktCommand(
-    help = """Deletes a repository.
+    help = """
+        Deletes a repository.
 
-        This will throw away the current repository.""") {
+        This will throw away the current repository.
+        """.trimIndent()) {
     val repo: Repo by requireObject()
 
     override fun run() {

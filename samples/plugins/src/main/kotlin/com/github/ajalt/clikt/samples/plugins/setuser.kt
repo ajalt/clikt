@@ -11,9 +11,11 @@ import org.kodein.di.generic.provider
 
 class SetUser : CliktCommand(
     name = "setuser",
-    help = """Sets the user credentials.
+    help = """
+        Sets the user credentials.
 
-        This will override the current user config.""") {
+        This will override the current user config.
+        """.trimIndent()) {
     val repo: Repo by requireObject()
     val username: String by option(help = "The developer's shown username.")
         .prompt()

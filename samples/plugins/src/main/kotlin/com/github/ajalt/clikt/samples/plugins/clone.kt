@@ -14,11 +14,13 @@ import org.kodein.di.generic.provider
 import java.io.File
 
 class Clone : CliktCommand(
-    help = """Clones a repository.
+    help = """
+        Clones a repository.
 
         This will clone the repository at SRC into the folder DEST. If DEST
         is not provided this will automatically use the last path component
-        of SRC and create that folder.""") {
+        of SRC and create that folder.
+        """.trimIndent()) {
     val repo: Repo by requireObject()
     val src: String by argument()
     val dest: String? by argument().optional()

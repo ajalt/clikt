@@ -11,9 +11,21 @@ import com.github.ajalt.mordant.rendering.TextColors.*
 import com.github.ajalt.mordant.table.verticalLayout
 import com.github.ajalt.mordant.widgets.*
 
+/**
+ * Clikt's default HelpFormatter which uses Mordant to render its output.
+ *
+ * To customize help text, you can create a subclass and set it as the `helpFormatter` on your
+ * command's context.
+ *
+ * @param requiredOptionMarker The string to show before the names of required options, or null to
+ *   not show a mark.
+ * @param showDefaultValues If true, the default values will be shown in the help text for
+ *   parameters that have them.
+ * @param showRequiredTag If true, a tag indicating the parameter is required will be shown after
+ * the description of required parameters.
+ */
 @Suppress("MemberVisibilityCanBePrivate")
 open class MordantHelpFormatter(
-    protected val indent: String = "  ",
     protected val requiredOptionMarker: String? = null,
     protected val showDefaultValues: Boolean = false,
     protected val showRequiredTag: Boolean = false,
@@ -68,7 +80,7 @@ open class MordantHelpFormatter(
         programName: String,
     ): Widget {
         val optionalStyle = context.terminal.theme.style("muted")
-        val title = styleSectionTitle(context, context.localization.usageTitle())
+        val title = styleUsageTitle(context, context.localization.usageTitle())
         val prog = "$title $programName"
         val usageParts = buildList {
             if (parameters.any { it is ParameterHelp.Option }) {
@@ -158,9 +170,7 @@ open class MordantHelpFormatter(
                 col2 = renderParameterHelpText(context, it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
-                        context.terminal.theme.style("danger")(
-                            m
-                        )
+                        styleRequiredMarker(context, m)
                     }
 
                     else -> null
@@ -238,11 +248,11 @@ open class MordantHelpFormatter(
             HelpFormatter.Tags.REQUIRED -> context.localization.helpTagRequired()
             else -> tag
         }
-        val style = when (tag) {
-            HelpFormatter.Tags.REQUIRED -> context.terminal.theme.style("danger")
-            else -> context.terminal.theme.style("muted")
+        val fullTag = if (value.isBlank()) "($t)" else "($t: $value)"
+        return when (tag) {
+            HelpFormatter.Tags.REQUIRED -> styleRequiredMarker(context, fullTag)
+            else -> styleHelpTag(context, fullTag)
         }
-        return style(if (value.isBlank()) "($t)" else "($t: $value)")
     }
 
     protected open fun numberOptionName(context: Context, option: ParameterHelp.Option): String {
@@ -250,6 +260,12 @@ open class MordantHelpFormatter(
             option.names.first().first()
         }${option.metavar ?: context.localization.intMetavar()}"
     }
+
+    protected open fun styleRequiredMarker(context: Context, name: String): String =
+        context.terminal.theme.style("danger")(name)
+
+    protected open fun styleHelpTag(context: Context, name: String): String =
+        context.terminal.theme.style("muted")(name)
 
     protected open fun styleOptionName(context: Context, name: String): String =
         context.terminal.theme.style("info")(name)
@@ -261,6 +277,9 @@ open class MordantHelpFormatter(
         context.terminal.theme.style("info")(name)
 
     protected open fun styleSectionTitle(context: Context, title: String): String =
+        context.terminal.theme.style("warning")(title)
+
+    protected open fun styleUsageTitle(context: Context, title: String): String =
         context.terminal.theme.style("warning")(title)
 
     protected open fun styleMetavar(context: Context, metavar: String): String {
@@ -288,8 +307,8 @@ open class MordantHelpFormatter(
             inline = true
             for ((col1, col2, marker) in rows) {
                 val termPrefix = when {
-                    marker.isNullOrEmpty() -> indent
-                    else -> marker + indent.drop(marker.graphemeLength).ifEmpty { " " }
+                    marker.isNullOrEmpty() -> "  "
+                    else -> marker + "  ".drop(marker.graphemeLength).ifEmpty { " " }
                 }
                 entry {
                     term(termPrefix + col1, whitespace = Whitespace.PRE_WRAP)

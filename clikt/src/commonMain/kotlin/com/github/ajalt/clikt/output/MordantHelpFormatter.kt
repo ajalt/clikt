@@ -18,20 +18,6 @@ open class MordantHelpFormatter(
     protected val showDefaultValues: Boolean = false,
     protected val showRequiredTag: Boolean = false,
 ) : HelpFormatter {
-    companion object {
-        // TODO
-        val DefaultTheme = Theme(Theme.Plain) {
-            flags["markdown.code.block.border"] = false
-        } // TODO: use theme = ColorTheme + terminal.theme
-        val ColorTheme = Theme(DefaultTheme) {
-            styles["clikt.title"] = brightYellow
-            styles["clikt.parameter"] = brightBlue
-            styles["clikt.meta"] = TextStyle(brightBlue, dim = true)
-            styles["clikt.tag"] = TextStyle(dim = true)
-            styles["clikt.usage.optional"] = TextStyle(dim = true)
-        }
-    }
-
     override fun formatHelp(
         context: Context,
         error: UsageError?,
@@ -81,8 +67,9 @@ open class MordantHelpFormatter(
         parameters: List<ParameterHelp>,
         programName: String,
     ): Widget {
-        val optionalStyle = context.terminal.theme.style("clikt.usage.optional")
-        val prog = "${styleSectionTitle(context, context.localization.usageTitle())} $programName"
+        val optionalStyle = context.terminal.theme.style("muted")
+        val title = styleSectionTitle(context, context.localization.usageTitle())
+        val prog = "$title $programName"
         val usageParts = buildList {
             if (parameters.any { it is ParameterHelp.Option }) {
                 add(optionalStyle(context.localization.optionsMetavar()))
@@ -130,7 +117,7 @@ open class MordantHelpFormatter(
             .filter { it.second.isNotEmpty() }.map { (title, params) ->
                 val renderedTitle = title?.let { "$it:" } ?: context.localization.optionsTitle()
                 val content = renderOptionGroup(context, groupsByName[title]?.help, params)
-                RenderedSection(renderedTitle, content)
+                RenderedSection(styleSectionTitle(context, renderedTitle), content)
             }.toList()
     }
 
@@ -171,7 +158,7 @@ open class MordantHelpFormatter(
                 col2 = renderParameterHelpText(context, it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
-                        context.terminal.theme.style("clikt.tag")(
+                        context.terminal.theme.style("danger")(
                             m
                         )
                     }
@@ -181,10 +168,10 @@ open class MordantHelpFormatter(
         }
         if (help == null) return buildParameterList(options)
         val markdown = Markdown(help, showHtml = true).withPadding(padEmptyLines = false) {
-                top = 1
-                left = 2
-                bottom = 1
-            }
+            top = 1
+            left = 2
+            bottom = 1
+        }
         return verticalLayout {
             cell(markdown)
             cell(buildParameterList(options))
@@ -202,11 +189,8 @@ open class MordantHelpFormatter(
             )
         }
         if (arguments.isEmpty() || arguments.all { it.col2.isEmpty() }) return emptyList()
-        return listOf(
-            RenderedSection(
-                context.localization.argumentsTitle(), buildParameterList(arguments)
-            )
-        )
+        val title = styleSectionTitle(context, context.localization.argumentsTitle())
+        return listOf(RenderedSection(title, buildParameterList(arguments)))
     }
 
     protected open fun renderCommands(
@@ -220,11 +204,8 @@ open class MordantHelpFormatter(
             )
         }
         if (commands.isEmpty()) return emptyList()
-        return listOf(
-            RenderedSection(
-                context.localization.commandsTitle(), buildParameterList(commands)
-            )
-        )
+        val title = styleSectionTitle(context, context.localization.commandsTitle())
+        return listOf(RenderedSection(title, buildParameterList(commands)))
     }
 
     protected open fun renderParameterHelpText(
@@ -232,7 +213,8 @@ open class MordantHelpFormatter(
         help: String,
         tags: Map<String, String>,
     ): String {
-        val renderedTags = tags.asSequence().filter { (k, v) -> shouldShowTag(k, v) }
+        val renderedTags = tags.asSequence()
+            .filter { (k, v) -> shouldShowTag(k, v) }
             .joinToString(" ") { (k, v) -> renderTag(context, k, v) }
         return if (renderedTags.isEmpty()) help else "$help $renderedTags"
     }
@@ -256,7 +238,11 @@ open class MordantHelpFormatter(
             HelpFormatter.Tags.REQUIRED -> context.localization.helpTagRequired()
             else -> tag
         }
-        return context.terminal.theme.style("clikt.tag")(if (value.isBlank()) "($t)" else "($t: $value)")
+        val style = when (tag) {
+            HelpFormatter.Tags.REQUIRED -> context.terminal.theme.style("danger")
+            else -> context.terminal.theme.style("muted")
+        }
+        return style(if (value.isBlank()) "($t)" else "($t: $value)")
     }
 
     protected open fun numberOptionName(context: Context, option: ParameterHelp.Option): String {
@@ -266,19 +252,21 @@ open class MordantHelpFormatter(
     }
 
     protected open fun styleOptionName(context: Context, name: String): String =
-        context.terminal.theme.style("clikt.parameter")(name)
+        context.terminal.theme.style("info")(name)
 
     protected open fun styleArgumentName(context: Context, name: String): String =
-        context.terminal.theme.style("clikt.parameter")(name)
+        context.terminal.theme.style("info")(name)
 
     protected open fun styleSubcommandName(context: Context, name: String): String =
-        context.terminal.theme.style("clikt.parameter")(name)
+        context.terminal.theme.style("info")(name)
 
     protected open fun styleSectionTitle(context: Context, title: String): String =
-        context.terminal.theme.style("clikt.title")(title)
+        context.terminal.theme.style("warning")(title)
 
-    protected open fun styleMetavar(context: Context, metavar: String): String =
-        context.terminal.theme.style("clikt.meta")(metavar)
+    protected open fun styleMetavar(context: Context, metavar: String): String {
+        val style = context.terminal.theme.style("warning") + context.terminal.theme.style("muted")
+        return style(metavar)
+    }
 
     protected open fun optionMetavar(context: Context, option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""

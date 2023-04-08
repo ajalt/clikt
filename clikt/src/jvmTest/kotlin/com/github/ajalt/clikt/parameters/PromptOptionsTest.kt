@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.check
+import com.github.ajalt.clikt.parameters.options.nullableFlag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.testing.TestCommand
@@ -58,6 +59,24 @@ class PromptOptionsTest {
             override fun run_() {
                 foo shouldBe "foo"
                 bar shouldBe "bar"
+            }
+        }
+        C().parse("")
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
+    }
+
+    @Test
+    fun `prompt flag`() {
+        stdin.provideLines("yes", "f")
+
+        class C : TestCommand() {
+            val foo by option().nullableFlag().prompt()
+            val bar by option().nullableFlag().prompt()
+            val baz by option().nullableFlag()
+            override fun run_() {
+                foo shouldBe true
+                bar shouldBe false
+                baz shouldBe null
             }
         }
         C().parse("")

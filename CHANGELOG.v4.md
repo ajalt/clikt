@@ -8,6 +8,7 @@
 - Added `obj` setter to context builder as an alternative to `currentContext.obj`
 - Added `boolean()` parameter type conversions.
 - Added `uint()` and `ulong()` parameter type conversions.
+- Added `nullableFlag()` parameter transformation.
 - Added `CliktCommand.test` extension for testing your commands and their output
 - Clikt will now report multiple errors if they occur, rather than just the first. ([#367](https://github.com/ajalt/clikt/issues/367))
 - Added `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output

@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.mordant.terminal.ConversionResult
@@ -35,7 +36,17 @@ fun RawOption.flag(
     default: Boolean = false,
     defaultForHelp: String = "",
 ): OptionWithValues<Boolean, Boolean, Boolean> {
-    val tags = helpTags + mapOf(HelpFormatter.Tags.DEFAULT to defaultForHelp)
+    return nullableFlag(*secondaryNames)
+        .default(default, defaultForHelp=defaultForHelp)
+}
+
+/**
+ * A [flag] that doesn't have a default value.
+ *
+ * You will usually want [flag] instead of this function, but this can be useful if you need to use
+ * a [transformAll] method like [required] or [prompt].
+ */
+fun RawOption.nullableFlag(vararg secondaryNames: String): NullableOption<Boolean, Boolean> {
     return boolean()
         .transformValues(0..0) {
             if (it.size > 1) {
@@ -43,10 +54,8 @@ fun RawOption.flag(
             }
             it.lastOrNull() ?: (name !in secondaryNames)
         }
-        .default(default)
-        .copy(secondaryNames = secondaryNames.toSet(), helpTags = helpTags + tags)
+        .copy(secondaryNames = secondaryNames.toSet())
 }
-
 
 /**
  * Convert this flag's value type.

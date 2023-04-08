@@ -74,13 +74,12 @@ class MordantHelpFormatterTest {
             val a5 by argument("FIFTH")
             val a6 by argument("SIXTH")
         }
-        c.registerOption(c.option("--aa", "-a", help = "some thing to live by"))
         doTest(
             """
             |Usage: cli a_very_very_very_long command
             |    [OPTIONS] FIRST SECOND THIRD FOURTH FIFTH
             |    SIXTH
-            |    
+            |
             |Options:
             |  -x=TEXT
             """,

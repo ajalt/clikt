@@ -89,7 +89,8 @@ open class MordantHelpFormatter(
             }
 
             parameters.filterIsInstance<ParameterHelp.Argument>().mapTo(this) {
-                val t = (if (it.required) it.name else "[${it.name}]") + if (it.repeatable) "..." else ""
+                val t =
+                    (if (it.required) it.name else "[${it.name}]") + if (it.repeatable) "..." else ""
                 val style = if (it.required) TextStyle() else optionalStyle
                 style(t)
             }
@@ -100,10 +101,10 @@ open class MordantHelpFormatter(
         }
 
         return if (usageParts.isEmpty()) {
-            Text(prog)
+            Text(prog, whitespace = Whitespace.NORMAL)
         } else {
             definitionList {
-                entry(prog, usageParts.joinToString(" "))
+                entry(prog, Text(usageParts.joinToString(" "), whitespace = Whitespace.NORMAL))
                 inline = true
                 descriptionSpacing = 1
             }
@@ -122,20 +123,15 @@ open class MordantHelpFormatter(
         context: Context,
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
-        val groupsByName = parameters
-            .filterIsInstance<ParameterHelp.Group>()
-            .associateBy { it.name }
-        return parameters
-            .filterIsInstance<ParameterHelp.Option>()
-            .groupBy { it.groupName }
-            .toList().sortedBy { it.first == null } // Put the ungrouped options last
-            .filter { it.second.isNotEmpty() }
-            .map { (title, params) ->
+        val groupsByName =
+            parameters.filterIsInstance<ParameterHelp.Group>().associateBy { it.name }
+        return parameters.filterIsInstance<ParameterHelp.Option>().groupBy { it.groupName }.toList()
+            .sortedBy { it.first == null } // Put the ungrouped options last
+            .filter { it.second.isNotEmpty() }.map { (title, params) ->
                 val renderedTitle = title?.let { "$it:" } ?: context.localization.optionsTitle()
                 val content = renderOptionGroup(context, groupsByName[title]?.help, params)
                 RenderedSection(renderedTitle, content)
-            }
-            .toList()
+            }.toList()
     }
 
     protected open fun renderParameters(
@@ -168,19 +164,23 @@ open class MordantHelpFormatter(
                 it.names
             }
             val names = mutableListOf(joinNamesForOption(context, unjoinedNames))
-            if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(context, it.secondaryNames)
-            DefinitionRow(
-                col1 = names.joinToString(" / ", postfix = optionMetavar(context, it)),
+            if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(
+                context, it.secondaryNames
+            )
+            DefinitionRow(col1 = names.joinToString(" / ", postfix = optionMetavar(context, it)),
                 col2 = renderParameterHelpText(context, it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
-                    in it.tags -> requiredOptionMarker?.let { m -> context.terminal.theme.style("clikt.tag")(m) }
+                    in it.tags -> requiredOptionMarker?.let { m ->
+                        context.terminal.theme.style("clikt.tag")(
+                            m
+                        )
+                    }
+
                     else -> null
-                }
-            )
+                })
         }
         if (help == null) return buildParameterList(options)
-        val markdown = Markdown(help, showHtml = true)
-            .withPadding(padEmptyLines = false) {
+        val markdown = Markdown(help, showHtml = true).withPadding(padEmptyLines = false) {
                 top = 1
                 left = 2
                 bottom = 1
@@ -196,7 +196,10 @@ open class MordantHelpFormatter(
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
         val arguments = parameters.filterIsInstance<ParameterHelp.Argument>().map {
-            DefinitionRow(styleArgumentName(context, it.name), renderParameterHelpText(context, it.help, it.tags))
+            DefinitionRow(
+                styleArgumentName(context, it.name),
+                renderParameterHelpText(context, it.help, it.tags)
+            )
         }
         if (arguments.isEmpty() || arguments.all { it.col2.isEmpty() }) return emptyList()
         return listOf(
@@ -211,20 +214,25 @@ open class MordantHelpFormatter(
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
         val commands = parameters.filterIsInstance<ParameterHelp.Subcommand>().map {
-            DefinitionRow(styleSubcommandName(context, it.name), renderParameterHelpText(context, it.help, it.tags))
+            DefinitionRow(
+                styleSubcommandName(context, it.name),
+                renderParameterHelpText(context, it.help, it.tags)
+            )
         }
         if (commands.isEmpty()) return emptyList()
         return listOf(
             RenderedSection(
-                context.localization.commandsTitle(),
-                buildParameterList(commands)
+                context.localization.commandsTitle(), buildParameterList(commands)
             )
         )
     }
 
-    protected open fun renderParameterHelpText(context: Context, help: String, tags: Map<String, String>): String {
-        val renderedTags = tags.asSequence()
-            .filter { (k, v) -> shouldShowTag(k, v) }
+    protected open fun renderParameterHelpText(
+        context: Context,
+        help: String,
+        tags: Map<String, String>,
+    ): String {
+        val renderedTags = tags.asSequence().filter { (k, v) -> shouldShowTag(k, v) }
             .joinToString(" ") { (k, v) -> renderTag(context, k, v) }
         return if (renderedTags.isEmpty()) help else "$help $renderedTags"
     }
@@ -238,8 +246,7 @@ open class MordantHelpFormatter(
     }
 
     protected open fun joinNamesForOption(context: Context, names: Iterable<String>): String {
-        return names
-            .sortedBy { it.startsWith("--") }
+        return names.sortedBy { it.startsWith("--") }
             .joinToString(", ") { styleOptionName(context, it) }
     }
 
@@ -253,7 +260,9 @@ open class MordantHelpFormatter(
     }
 
     protected open fun numberOptionName(context: Context, option: ParameterHelp.Option): String {
-        return "${option.names.first().first()}${option.metavar ?: context.localization.intMetavar()}"
+        return "${
+            option.names.first().first()
+        }${option.metavar ?: context.localization.intMetavar()}"
     }
 
     protected open fun styleOptionName(context: Context, name: String): String =
@@ -310,5 +319,9 @@ open class MordantHelpFormatter(
         constructor(title: String, content: Widget) : this(Text(title), content)
     }
 
-    protected data class DefinitionRow(val col1: String, val col2: String, val marker: String? = null)
+    protected data class DefinitionRow(
+        val col1: String,
+        val col2: String,
+        val marker: String? = null,
+    )
 }

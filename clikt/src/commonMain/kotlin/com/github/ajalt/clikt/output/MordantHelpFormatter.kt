@@ -7,7 +7,6 @@ import com.github.ajalt.clikt.mpp.graphemeLengthMpp
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.mordant.markdown.Markdown
 import com.github.ajalt.mordant.rendering.*
-import com.github.ajalt.mordant.rendering.TextColors.*
 import com.github.ajalt.mordant.table.verticalLayout
 import com.github.ajalt.mordant.widgets.*
 
@@ -166,7 +165,7 @@ open class MordantHelpFormatter(
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(
                 context, it.secondaryNames
             )
-            DefinitionRow(col1 = names.joinToString(" / ", postfix = optionMetavar(context, it)),
+            DefinitionRow(col1 = names.joinToString(" / ", postfix = renderOptionValue(context, it)),
                 col2 = renderParameterHelpText(context, it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
@@ -287,7 +286,7 @@ open class MordantHelpFormatter(
         return style(metavar)
     }
 
-    protected open fun optionMetavar(context: Context, option: ParameterHelp.Option): String {
+    protected open fun renderOptionValue(context: Context, option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         var prefix = "="
         var suffix = if (option.nvalues.last > 1) "..." else ""

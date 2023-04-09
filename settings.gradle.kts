@@ -20,7 +20,7 @@ dependencyResolutionManagement {
             plugin("dokka", "org.jetbrains.dokka").version("1.8.10")
             library("dokka-base", "org.jetbrains.dokka:dokka-base:1.8.10")
 
-            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-beta12")
+            library("mordant", "com.github.ajalt.mordant:mordant:2.0.0-beta13")
 
             // used in tests
             library("kotest", "io.kotest:kotest-assertions-core:5.5.4")

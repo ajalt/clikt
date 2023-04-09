@@ -225,7 +225,11 @@ open class MordantHelpFormatter(
         val renderedTags = tags.asSequence()
             .filter { (k, v) -> shouldShowTag(k, v) }
             .joinToString(" ") { (k, v) -> renderTag(context, k, v) }
-        return if (renderedTags.isEmpty()) help else "$help $renderedTags"
+        return when {
+            renderedTags.isEmpty() -> help
+            help.isEmpty() -> renderedTags
+            else -> "$help $renderedTags"
+        }
     }
 
     protected open fun shouldShowTag(tag: String, value: String): Boolean {
@@ -311,7 +315,8 @@ open class MordantHelpFormatter(
                 }
                 entry {
                     term(termPrefix + col1, whitespace = Whitespace.PRE_WRAP)
-                    description(Markdown(col2, showHtml = true))
+                    if (col2.isBlank()) description("")
+                    else description(Markdown(col2, showHtml = true))
                 }
             }
         }

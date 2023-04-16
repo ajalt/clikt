@@ -17,7 +17,7 @@ import com.github.ajalt.clikt.parameters.options.longestName
 open class CliktError(
     message: String? = null,
     cause: Exception? = null,
-    val statusCode: Int = 0,
+    val statusCode: Int = 1,
     val printError: Boolean = true,
 ) : RuntimeException(message, cause)
 
@@ -37,7 +37,7 @@ class PrintHelpMessage(val command: CliktCommand, val error: Boolean = false) : 
  */
 open class PrintMessage(
     message: String,
-    statusCode: Int = 0,
+    statusCode: Int = 1,
     printError: Boolean = false,
 ) : CliktError(message, statusCode = statusCode, printError = printError)
 

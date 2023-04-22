@@ -58,17 +58,22 @@ open class MordantHelpFormatter(
             if (parameters.isNotEmpty()) add(renderParameters(context, parameters))
             if (epilog.isNotEmpty()) add(renderEpilog(context, epilog))
         } else {
-            add(renderError(context, error))
+            add(renderError(context, parameters, error))
         }
     }
 
-    protected open fun renderError(context: Context, error: UsageError): Widget {
+    protected open fun renderError(
+        context: Context,
+        parameters: List<ParameterHelp>,
+        error: UsageError,
+    ): Widget {
         return Text(buildString {
             val errors = (error as? MultiUsageError)?.errors ?: listOf(error)
             for ((i, e) in errors.withIndex()) {
                 if (i > 0) appendLine()
-                append(context.localization.usageError()).append(" ")
-                append(e.formatMessage(context.localization))
+                append(styleError(context, context.localization.usageError()))
+                append(" ")
+                append(e.formatMessage(context.localization, parameterFormatter(context)))
             }
         })
     }
@@ -165,7 +170,10 @@ open class MordantHelpFormatter(
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(
                 context, it.secondaryNames
             )
-            DefinitionRow(col1 = names.joinToString(" / ", postfix = renderOptionValue(context, it)),
+            DefinitionRow(col1 = names.joinToString(
+                " / ",
+                postfix = renderOptionValue(context, it)
+            ),
                 col2 = renderParameterHelpText(context, it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
@@ -285,9 +293,16 @@ open class MordantHelpFormatter(
     protected open fun styleUsageTitle(context: Context, title: String): String =
         context.terminal.theme.style("warning")(title)
 
+    protected open fun styleError(context: Context, title: String): String =
+        context.terminal.theme.style("danger")(title)
+
     protected open fun styleMetavar(context: Context, metavar: String): String {
         val style = context.terminal.theme.style("warning") + context.terminal.theme.style("muted")
         return style(metavar)
+    }
+
+    protected open fun parameterFormatter(context: Context): ParameterFormatter {
+        return { styleOptionName(context, it) }
     }
 
     protected open fun renderOptionValue(context: Context, option: ParameterHelp.Option): String {

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.output.Localization
+import com.github.ajalt.clikt.output.ParameterFormatter
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
@@ -28,7 +29,8 @@ open class CliktError(
  *
  * @property error If true, execution should halt with an error. Otherwise, execution halt with no error code.
  */
-class PrintHelpMessage(val command: CliktCommand, val error: Boolean = false) : CliktError(printError = false)
+class PrintHelpMessage(val command: CliktCommand, val error: Boolean = false) :
+    CliktError(printError = false)
 
 /**
  * An exception that indicates that a message should be printed.
@@ -83,7 +85,9 @@ open class UsageError(
     constructor(option: Option, statusCode: Int = 1)
             : this(null, option.longestName(), statusCode)
 
-    open fun formatMessage(localization: Localization): String = message ?: ""
+    open fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return message ?: ""
+    }
 
     /**
      *  The context of the command that raised this error.
@@ -107,12 +111,14 @@ class MultiUsageError(
         fun buildOrNull(errors: List<UsageError>): UsageError? = when (errors.size) {
             0 -> null
             1 -> errors[0]
-            else -> MultiUsageError(errors.flatMap { (it as? MultiUsageError)?.errors ?: listOf(it) })
+            else -> MultiUsageError(errors.flatMap {
+                (it as? MultiUsageError)?.errors ?: listOf(it)
+            })
         }
     }
 
-    override fun formatMessage(localization: Localization): String {
-        return errors.joinToString("\n") { it.formatMessage(localization) }
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return errors.joinToString("\n") { it.formatMessage(localization, formatter) }
     }
 }
 
@@ -125,9 +131,9 @@ class BadParameterValue : UsageError {
     constructor(message: String, argument: Argument) : super(message, argument)
     constructor(message: String, option: Option) : super(message, option)
 
-    override fun formatMessage(localization: Localization): String {
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         val m = message.takeUnless { it.isNullOrBlank() }
-        val p = paramName?.takeIf { it.isNotBlank() }
+        val p = paramName?.takeIf { it.isNotBlank() }?.let(formatter)
 
         return when {
             m == null && p == null -> localization.badParameter()
@@ -141,12 +147,16 @@ class BadParameterValue : UsageError {
 
 /** A required option was not provided */
 class MissingOption(option: Option) : UsageError(option) {
-    override fun formatMessage(localization: Localization) = localization.missingOption(paramName ?: "")
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.missingOption(paramName?.let(formatter) ?: "")
+    }
 }
 
 /** A required argument was not provided */
 class MissingArgument(argument: Argument) : UsageError(argument) {
-    override fun formatMessage(localization: Localization) = localization.missingArgument(paramName ?: "")
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.missingArgument(paramName?.let(formatter) ?: "")
+    }
 }
 
 /** A subcommand was provided that does not exist. */
@@ -154,8 +164,11 @@ class NoSuchSubcommand(
     paramName: String,
     private val possibilities: List<String> = emptyList(),
 ) : UsageError(null, paramName) {
-    override fun formatMessage(localization: Localization): String {
-        return localization.noSuchSubcommand(paramName ?: "", possibilities)
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.noSuchSubcommand(
+            paramName?.let(formatter) ?: "",
+            possibilities.map(formatter)
+        )
     }
 }
 
@@ -165,8 +178,11 @@ class NoSuchOption(
     paramName: String,
     private val possibilities: List<String> = emptyList(),
 ) : UsageError(null, paramName) {
-    override fun formatMessage(localization: Localization): String {
-        return localization.noSuchOption(paramName ?: "", possibilities)
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.noSuchOption(
+            paramName?.let(formatter) ?: "",
+            possibilities.map(formatter)
+        )
     }
 }
 
@@ -178,8 +194,8 @@ class IncorrectOptionValueCount(
 ) : UsageError(null, paramName) {
     constructor(option: Option, paramName: String) : this(option.nvalues.first, paramName)
 
-    override fun formatMessage(localization: Localization): String {
-        return localization.incorrectOptionValueCount(paramName ?: "", minValues)
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.incorrectOptionValueCount(paramName?.let(formatter) ?: "", minValues)
     }
 }
 
@@ -190,8 +206,8 @@ class IncorrectArgumentValueCount(
 ) : UsageError(argument) {
     constructor(argument: Argument) : this(argument.nvalues, argument)
 
-    override fun formatMessage(localization: Localization): String {
-        return localization.incorrectArgumentValueCount(paramName ?: "", nvalues)
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.incorrectArgumentValueCount(paramName?.let(formatter) ?: "", nvalues)
     }
 }
 
@@ -202,8 +218,11 @@ class MutuallyExclusiveGroupException(
         require(names.size > 1) { "must provide at least two names" }
     }
 
-    override fun formatMessage(localization: Localization): String {
-        return localization.mutexGroupException(names.first(), names.drop(1))
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.mutexGroupException(
+            names.first().let(formatter),
+            names.drop(1).map(formatter)
+        )
     }
 }
 
@@ -211,8 +230,8 @@ class MutuallyExclusiveGroupException(
 class FileNotFound(
     val filename: String,
 ) : UsageError(null) {
-    override fun formatMessage(localization: Localization): String {
-        return localization.fileNotFound(filename)
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        return localization.fileNotFound(filename.let(formatter))
     }
 }
 
@@ -222,10 +241,10 @@ class InvalidFileFormat(
     message: String,
     private val lineno: Int? = null,
 ) : UsageError(message) {
-    override fun formatMessage(localization: Localization): String {
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         return when (lineno) {
-            null -> localization.invalidFileFormat(filename, message!!)
-            else -> localization.invalidFileFormat(filename, lineno, message!!)
+            null -> localization.invalidFileFormat(filename.let(formatter), message!!)
+            else -> localization.invalidFileFormat(filename.let(formatter), lineno, message!!)
         }
     }
 }

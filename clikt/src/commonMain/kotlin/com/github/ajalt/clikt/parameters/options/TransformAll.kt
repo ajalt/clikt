@@ -203,21 +203,27 @@ fun <T : Any> NullableOption<T, T>.prompt(
             ) { input ->
                 val ctx = OptionCallTransformContext("", this@transformAll, context)
                 try {
-                    val v = transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, input)))))
+                    val v =
+                        transformAll(listOf(transformEach(ctx, listOf(transformValue(ctx, input)))))
                     if (v != null) {
                         @Suppress("UNCHECKED_CAST")
-                        (option as? OptionWithValues<T, T, T>)?.transformValidator?.invoke(this@transformAll, v)
+                        (option as? OptionWithValues<T, T, T>)?.transformValidator?.invoke(
+                            this@transformAll,
+                            v
+                        )
                     }
                     ConversionResult.Valid(v)
                 } catch (e: UsageError) {
                     e.context = e.context ?: context
-                    ConversionResult.Invalid(e.formatMessage(context.localization))
+                    ConversionResult.Invalid(e.formatMessage(context.localization) { it })
                 }
             }
         }
+
         else -> provided
     } ?: throw Abort()
 }
 
 // the stdlib capitalize was deprecated without a replacement
-private fun String.capitalize2(): String = replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+private fun String.capitalize2(): String =
+    replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }

@@ -21,32 +21,32 @@ interface Localization {
     fun badParameterWithMessage(message: String) = "Invalid value: $message"
 
     /** Message for [BadParameterValue] */
-    fun badParameterWithParam(paramName: String) = "Invalid value for \"$paramName\""
+    fun badParameterWithParam(paramName: String) = "Invalid value for $paramName"
 
     /** Message for [BadParameterValue] */
     fun badParameterWithMessageAndParam(paramName: String, message: String) =
-        "Invalid value for \"$paramName\": $message"
+        "Invalid value for $paramName: $message"
 
     /** Message for [MissingOption] */
-    fun missingOption(paramName: String) = "Missing option \"$paramName\""
+    fun missingOption(paramName: String) = "Missing option $paramName"
 
     /** Message for [MissingArgument] */
-    fun missingArgument(paramName: String) = "Missing argument \"$paramName\""
+    fun missingArgument(paramName: String) = "Missing argument $paramName"
 
     /** Message for [NoSuchSubcommand] */
     fun noSuchSubcommand(name: String, possibilities: List<String>): String {
-        return "no such subcommand: \"$name\"" + when (possibilities.size) {
+        return "no such subcommand: $name" + when (possibilities.size) {
             0 -> ""
-            1 -> ". Did you mean \"${possibilities[0]}\"?"
+            1 -> ". Did you mean ${possibilities[0]}?"
             else -> possibilities.joinToString(prefix = ". (Possible subcommands: ", postfix = ")")
         }
     }
 
     /** Message for [NoSuchOption] */
     fun noSuchOption(name: String, possibilities: List<String>): String {
-        return "no such option: \"$name\"" + when (possibilities.size) {
+        return "no such option: $name" + when (possibilities.size) {
             0 -> ""
-            1 -> ". Did you mean \"${possibilities[0]}\"?"
+            1 -> ". Did you mean ${possibilities[0]}?"
             else -> possibilities.joinToString(prefix = ". (Possible options: ", postfix = ")")
         }
     }

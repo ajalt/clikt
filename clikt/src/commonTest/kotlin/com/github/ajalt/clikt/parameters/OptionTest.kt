@@ -28,11 +28,11 @@ class OptionTest {
     @Test
     @JsName("no_such_option")
     fun `no such option`() = forAll(
-        row("--qux", "no such option: \"--qux\""),
-        row("--fo", "no such option: \"--fo\". Did you mean \"--foo\"?"),
-        row("--fop", "no such option: \"--fop\". Did you mean \"--foo\"?"),
-        row("--car", "no such option: \"--car\". Did you mean \"--bar\"?"),
-        row("--ba", "no such option: \"--ba\". (Possible options: --bar, --baz)")
+        row("--qux", "no such option: --qux"),
+        row("--fo", "no such option: --fo. Did you mean --foo?"),
+        row("--fop", "no such option: --fop. Did you mean --foo?"),
+        row("--car", "no such option: --car. Did you mean --bar?"),
+        row("--ba", "no such option: --ba. (Possible options: --bar, --baz)")
     ) { argv, message ->
         class C : TestCommand(called = false) {
             val foo by option()
@@ -49,9 +49,9 @@ class OptionTest {
     @Test
     @JsName("no_such_short_option_with_long")
     fun `no such short option with long`() = forAll(
-        row("-long", "no such option: \"-l\". Did you mean \"--long\"?"),
-        row("-foo", "no such option: \"-f\". Did you mean \"--foo\"?"),
-        row("-oof", "no such option: \"-f\". Did you mean \"--oof\"?"),
+        row("-long", "no such option: -l. Did you mean --long?"),
+        row("-foo", "no such option: -f. Did you mean --foo?"),
+        row("-oof", "no such option: -f. Did you mean --oof?"),
     ) { argv, message ->
         class C : TestCommand(called = false) {
             val short by option("-o").flag()
@@ -453,7 +453,7 @@ class OptionTest {
 
         shouldThrow<MissingOption> {
             C().parse("")
-        }.formattedMessage shouldBe "Missing option \"--x\""
+        }.formattedMessage shouldBe "Missing option --x"
     }
 
     @Test
@@ -548,7 +548,7 @@ class OptionTest {
         C(true).apply { parse("--x 2 --x 3"); x shouldBe listOf("2", "3") }
 
         shouldThrow<MissingOption> { C(false).parse("") }
-            .formattedMessage shouldBe "Missing option \"--x\""
+            .formattedMessage shouldBe "Missing option --x"
     }
 
     @Test
@@ -604,10 +604,10 @@ class OptionTest {
     @Test
     @JsName("option_check")
     fun `option check`() = forAll(
-        row("--x=bar --y=foo --w=foo", "Invalid value for \"--x\": bar"),
-        row("--y=bar --w=foo", "Invalid value for \"--y\": bar"),
-        row("--y=foo --z=bar --w=foo", "Invalid value for \"--z\": fail"),
-        row("--y=foo --w=bar", "Invalid value for \"--w\": fail bar")
+        row("--x=bar --y=foo --w=foo", "Invalid value for --x: bar"),
+        row("--y=bar --w=foo", "Invalid value for --y: bar"),
+        row("--y=foo --z=bar --w=foo", "Invalid value for --z: fail"),
+        row("--y=foo --w=bar", "Invalid value for --w: fail bar")
     ) { argv, message ->
         class C : TestCommand() {
             val x by option().check { it == "foo" }

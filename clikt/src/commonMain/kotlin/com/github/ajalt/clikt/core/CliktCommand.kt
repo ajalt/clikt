@@ -264,8 +264,8 @@ abstract class CliktCommand(
         return ctx.helpFormatter.formatHelp(
             ctx,
             err,
-            commandHelp,
-            commandHelpEpilog,
+            cmd.commandHelp,
+            cmd.commandHelpEpilog,
             cmd.allHelpParams(),
             programName
         )

@@ -6,4 +6,4 @@ import com.github.ajalt.clikt.output.defaultLocalization
 val Throwable.formattedMessage: String?
     get() = (this as? UsageError)?.formatMessage(
         context?.localization ?: defaultLocalization
-    ) ?: message
+    ) { it } ?: message

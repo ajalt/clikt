@@ -69,7 +69,7 @@ class OptionGroupsTest {
 
         shouldThrow<MissingOption> {
             C().parse("")
-        }.formattedMessage shouldBe "Missing option \"--x\""
+        }.formattedMessage shouldBe "Missing option --x"
     }
 
     @Test
@@ -143,7 +143,7 @@ class OptionGroupsTest {
         C(true).apply { parse("--x=1") }.g shouldBe Sealed.Sealed1
 
         shouldThrow<BadParameterValue> { C(false).parse("--y=1") }
-            .formattedMessage should startWith("Invalid value for \"--y\"")
+            .formattedMessage should startWith("Invalid value for --y")
     }
 
     @Test
@@ -273,7 +273,7 @@ class OptionGroupsTest {
         }
 
         shouldThrow<UsageError> { C().parse("--y=2") }
-            .formattedMessage shouldBe "Missing option \"--x\""
+            .formattedMessage shouldBe "Missing option --x"
     }
 
     @Test
@@ -333,7 +333,7 @@ class OptionGroupsTest {
             val g by option().groupChoice("1" to Group1(), "2" to Group2())
         }
         shouldThrow<BadParameterValue> { C().parse("--g=3") }
-            .formattedMessage shouldBe "Invalid value for \"--g\": invalid choice: 3. (choose from 1, 2)"
+            .formattedMessage shouldBe "Invalid value for --g: invalid choice: 3. (choose from 1, 2)"
     }
 
     @Test
@@ -392,7 +392,7 @@ class OptionGroupsTest {
         }
 
         if (ec) C().parse(argv)
-        else shouldThrow<BadParameterValue> { C().parse(argv) }.formattedMessage shouldBe "Invalid value for \"--x\": fail"
+        else shouldThrow<BadParameterValue> { C().parse(argv) }.formattedMessage shouldBe "Invalid value for --x: fail"
     }
 
     @Test
@@ -400,8 +400,8 @@ class OptionGroupsTest {
     fun `cooccurring option group validation`() = forAll(
         row("", null, true, null),
         row("--x=1 --y=1", 1, true, null),
-        row("--x=2", null, false, "Missing option \"--y\""),
-        row("--x=2 --y=1", null, false, "Invalid value for \"--x\": fail")
+        row("--x=2", null, false, "Missing option --y"),
+        row("--x=2 --y=1", null, false, "Invalid value for --x: fail")
     ) { argv, ex, ec, em ->
         class G : OptionGroup() {
             val x by option().int().check("fail") { it == 1 }
@@ -442,7 +442,7 @@ class OptionGroupsTest {
             }
         }
         if (ec) C().parse(argv)
-        else shouldThrow<UsageError> { C().parse(argv) }.formattedMessage shouldBe "Invalid value for \"--y\": fail"
+        else shouldThrow<UsageError> { C().parse(argv) }.formattedMessage shouldBe "Invalid value for --y: fail"
     }
 
     @Test

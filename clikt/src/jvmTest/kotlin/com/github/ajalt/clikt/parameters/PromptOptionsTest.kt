@@ -94,7 +94,7 @@ class PromptOptionsTest {
             }
         }
         C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Invalid value for \"--foo\": f\nFoo: "
+        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Invalid value for --foo: f\nFoo: "
     }
 
 

@@ -19,11 +19,11 @@ import kotlin.test.Test
 class MultiUsageErrorTest {
     @Test
     fun optionalValue() = forAll(
-        row("", listOf("Missing argument \"A\"", "Missing option \"--x\"", "Missing option \"--y\"")),
-        row("--y=1", listOf("Missing argument \"A\"", "Missing option \"--x\"")),
-        row("--x=foo 1", listOf("Invalid value for \"--x\": foo is not a valid integer", "Missing option \"--y\"")),
-        row("--x=0 --y=0 1", listOf("Invalid value for \"A\": 1")),
-        row("--y=0 --x=0 --n 1 2 3", listOf("no such option: \"--n\". (Possible options: --x, --y)")), // don't report arg error after unknown opts
+        row("", listOf("Missing argument A", "Missing option --x", "Missing option --y")),
+        row("--y=1", listOf("Missing argument A", "Missing option --x")),
+        row("--x=foo 1", listOf("Invalid value for --x: foo is not a valid integer", "Missing option --y")),
+        row("--x=0 --y=0 1", listOf("Invalid value for A: 1")),
+        row("--y=0 --x=0 --n 1 2 3", listOf("no such option: --n. (Possible options: --x, --y)")), // don't report arg error after unknown opts
         ) { argv, ex ->
         class C : TestCommand(called = false) {
             val x by option().int().required().check { it == 0 }
@@ -35,7 +35,7 @@ class MultiUsageErrorTest {
             C().parse(argv)
         }
         ((e as? MultiUsageError)?.errors ?: listOf(e))
-            .map { it.formatMessage(defaultLocalization) }
+            .map { er -> er.formatMessage(defaultLocalization) { it } }
             .shouldBe(ex)
     }
 }

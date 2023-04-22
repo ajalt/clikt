@@ -56,7 +56,7 @@ class BooleanTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .formattedMessage shouldBe "Invalid value for \"--foo\": bar is not a valid boolean"
+            .formattedMessage shouldBe "Invalid value for --foo: bar is not a valid boolean"
     }
 
     @Test

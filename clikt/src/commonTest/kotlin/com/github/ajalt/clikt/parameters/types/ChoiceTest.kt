@@ -30,10 +30,10 @@ class OptionChoiceTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--xx baz") }
-            .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for --xx: invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("--xx FOO") }
-            .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for --xx: invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -55,13 +55,13 @@ class OptionChoiceTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("-x baz") }
-            .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for -x: invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("--xx=baz") }
-            .formattedMessage shouldBe "Invalid value for \"--xx\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for --xx: invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("-x FOO") }
-            .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for -x: invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -85,7 +85,7 @@ class OptionChoiceTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("-xbaz") }
-            .formattedMessage shouldBe "Invalid value for \"-x\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for -x: invalid choice: baz. (choose from foo, bar)"
     }
 
     @Test
@@ -109,10 +109,10 @@ class OptionChoiceTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("baz") }
-            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for X: invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
-            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for X: invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -136,10 +136,10 @@ class OptionChoiceTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("baz") }
-            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for X: invalid choice: baz. (choose from foo, bar)"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
-            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: FOO. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for X: invalid choice: FOO. (choose from foo, bar)"
     }
 
     @Test
@@ -163,6 +163,6 @@ class OptionChoiceTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("baz foo") }
-            .formattedMessage shouldBe "Invalid value for \"X\": invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "Invalid value for X: invalid choice: baz. (choose from foo, bar)"
     }
 }

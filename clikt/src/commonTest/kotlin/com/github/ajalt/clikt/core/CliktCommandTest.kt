@@ -56,7 +56,10 @@ class CliktCommandTest {
     @Test
     @JsName("invokeWithoutSubcommand_true")
     fun `invokeWithoutSubcommand=true`() {
-        TestCommand(called = true, invokeWithoutSubcommand = true).subcommands(TestCommand(called = false)).apply {
+        TestCommand(
+            called = true,
+            invokeWithoutSubcommand = true
+        ).subcommands(TestCommand(called = false)).apply {
             parse("")
             currentContext.invokedSubcommand shouldBe null
         }
@@ -137,8 +140,25 @@ class CliktCommandTest {
         }.let { p.getFormattedHelp(it) } shouldBe """
             |Usage: parent [OPTIONS] ARG
             |
-            |Error: Missing argument "ARG"
+            |Error: Missing argument ARG
             """.trimMargin()
+    }
+
+    @Test
+    @JsName("command_usage_exit_code")
+    fun `command usage exit code`() {
+        class C : TestCommand() {
+            override fun run_() {
+                throw ProgramResult(-1)
+            }
+        }
+
+        val p = C()
+        val e = shouldThrow<ProgramResult> {
+            p.parse("")
+        }
+        e.statusCode shouldBe -1
+        p.getFormattedHelp(e) shouldBe null
     }
 
     @Test

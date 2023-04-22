@@ -29,7 +29,7 @@ class ArgumentTest {
         }
 
         shouldThrow<MissingArgument> { C().parse("") }
-            .formattedMessage shouldBe "Missing argument \"FOO\""
+            .formattedMessage shouldBe "Missing argument FOO"
     }
 
     @Test
@@ -122,7 +122,7 @@ class ArgumentTest {
         C().parse("1 2")
 
         shouldThrow<MissingArgument> { C().parse("") }
-            .formattedMessage shouldBe "Missing argument \"X\""
+            .formattedMessage shouldBe "Missing argument X"
     }
 
     @Test
@@ -302,7 +302,7 @@ class ArgumentTest {
         }
 
         val ex = shouldThrow<MissingArgument> { C().parse("") }
-        ex.formattedMessage should contain("Missing argument \"FOO\"")
+        ex.formattedMessage should contain("Missing argument FOO")
     }
 
     @Test
@@ -363,10 +363,10 @@ class ArgumentTest {
     @Test
     @JsName("argument_check")
     fun `argument check`() = forAll(
-        row("bar foo", "Invalid value for \"X\": bar"),
-        row("foo bar", "Invalid value for \"Y\": fail bar"),
-        row("foo foo bar", "Invalid value for \"Z\": fail!"),
-        row("foo foo foo bar", "Invalid value for \"W\": fail bar")
+        row("bar foo", "Invalid value for X: bar"),
+        row("foo bar", "Invalid value for Y: fail bar"),
+        row("foo foo bar", "Invalid value for Z: fail!"),
+        row("foo foo foo bar", "Invalid value for W: fail bar")
     ) { argv, message ->
         class C : TestCommand() {
             val x by argument().check { it == "foo" }

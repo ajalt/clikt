@@ -67,10 +67,10 @@ class EnumTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .formattedMessage shouldBe "Invalid value for \"--foo\": invalid choice: bar. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for --foo: invalid choice: bar. (choose from A, B)"
 
         shouldThrow<BadParameterValue> { C().parse("--foo a") }
-            .formattedMessage shouldBe "Invalid value for \"--foo\": invalid choice: a. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for --foo: invalid choice: a. (choose from A, B)"
     }
 
     @Test
@@ -137,9 +137,9 @@ class EnumTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("bar") }
-            .formattedMessage shouldBe "Invalid value for \"FOO\": invalid choice: bar. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for FOO: invalid choice: bar. (choose from A, B)"
 
         shouldThrow<BadParameterValue> { C().parse("a") }
-            .formattedMessage shouldBe "Invalid value for \"FOO\": invalid choice: a. (choose from A, B)"
+            .formattedMessage shouldBe "Invalid value for FOO: invalid choice: a. (choose from A, B)"
     }
 }

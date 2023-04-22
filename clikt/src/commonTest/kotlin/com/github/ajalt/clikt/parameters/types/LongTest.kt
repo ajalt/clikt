@@ -44,7 +44,7 @@ class LongTypeTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .formattedMessage shouldBe "Invalid value for \"--foo\": bar is not a valid integer"
+            .formattedMessage shouldBe "Invalid value for --foo: bar is not a valid integer"
     }
 
     @Test

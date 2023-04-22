@@ -98,3 +98,5 @@ interface HelpFormatter {
     }
 }
 
+/** A function that formats a parameter name within an error message */
+typealias ParameterFormatter = (String) -> String

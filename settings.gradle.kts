@@ -12,7 +12,7 @@ include("samples:json")
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.8.10")
+            version("kotlin", "1.8.21")
 
             plugin("dokka", "org.jetbrains.dokka").version("1.7.20")
             library("dokka-base", "org.jetbrains.dokka:dokka-base:1.7.20")

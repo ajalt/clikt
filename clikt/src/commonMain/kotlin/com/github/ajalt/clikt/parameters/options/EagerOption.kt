@@ -36,7 +36,7 @@ private class EagerOption(
 }
 
 internal fun helpOption(names: Set<String>, message: String): Option {
-    return EagerOption(names, message, false, emptyMap(), null) { throw PrintHelpMessage(context.command) }
+    return EagerOption(names, message, false, emptyMap(), null) { throw PrintHelpMessage(context) }
 }
 
 /**

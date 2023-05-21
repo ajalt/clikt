@@ -22,6 +22,16 @@ open class CliktError(
     val printError: Boolean = true,
 ) : RuntimeException(message, cause)
 
+/** An interface for CliktErrors that have a context attached */
+interface ContextCliktError {
+    /**
+     *  The context of the command that raised this error.
+     *
+     *  Will be set automatically if thrown during command line processing.
+     */
+    var context: Context?
+}
+
 /**
  * An exception that indicates that the command's help should be printed.
  *
@@ -29,8 +39,8 @@ open class CliktError(
  *
  * @property error If true, execution should halt with an error. Otherwise, execution halt with no error code.
  */
-class PrintHelpMessage(val command: CliktCommand, val error: Boolean = false) :
-    CliktError(printError = false)
+class PrintHelpMessage(override var context: Context?, val error: Boolean = false) :
+    CliktError(printError = false), ContextCliktError
 
 /**
  * An exception that indicates that a message should be printed.
@@ -72,7 +82,7 @@ open class UsageError(
     message: String?,
     var paramName: String? = null,
     statusCode: Int = 1,
-) : CliktError(message, statusCode = statusCode) {
+) : CliktError(message, statusCode = statusCode), ContextCliktError {
     constructor(message: String, argument: Argument, statusCode: Int = 1)
             : this(message, argument.name, statusCode)
 
@@ -89,12 +99,7 @@ open class UsageError(
         return message ?: ""
     }
 
-    /**
-     *  The context of the command that raised this error.
-     *
-     *  Will be set automatically if thrown during command line processing.
-     */
-    var context: Context? = null
+    override var context: Context? = null
 }
 
 /**

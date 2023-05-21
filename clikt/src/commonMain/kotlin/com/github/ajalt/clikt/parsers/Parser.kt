@@ -83,7 +83,7 @@ internal object Parser {
         prefixes.remove("")
 
         if (tokens.isEmpty() && command.printHelpOnEmptyArgs) {
-            throw PrintHelpMessage(command, error = true)
+            throw PrintHelpMessage(context, error = true)
         }
 
         fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
@@ -95,8 +95,7 @@ internal object Parser {
                     token.substringBefore("=")
                 ) in longNames
             ) return true
-            if (context.tokenTransformer(context, token.take(2)) in optionsByName) return false
-            return true
+            return context.tokenTransformer(context, token.take(2)) !in optionsByName
         }
 
         fun consumeParse(tokenIndex: Int, result: OptParseResult) {
@@ -276,7 +275,7 @@ internal object Parser {
                 MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
 
                 if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
-                    throw PrintHelpMessage(command, error = true)
+                    throw PrintHelpMessage(context, error = true)
                 }
 
                 command.currentContext.invokedSubcommand = subcommand

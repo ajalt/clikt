@@ -253,17 +253,17 @@ abstract class CliktCommand(
      * Return `null` if the error does not have a message (e.g. [ProgramResult])
      */
     fun getFormattedHelp(error: CliktError? = null): String? {
-        if (error != null && error !is UsageError && error !is PrintHelpMessage) {
+        if (error != null && error !is ContextCliktError) {
             return error.message
         }
 
-        val err = error as? UsageError // null for PrintHelpMessage
-        val ctx = err?.context ?: _context ?: createContext(emptyList(), null, emptyList())
+        val ctx = (error as? ContextCliktError)?.context
+            ?: _context ?: createContext(emptyList(), null, emptyList())
         val cmd = ctx.command
         val programName = cmd.getCommandNameWithParents()
         return ctx.helpFormatter.formatHelp(
             ctx,
-            err,
+            error as? UsageError,
             cmd.commandHelp,
             cmd.commandHelpEpilog,
             cmd.allHelpParams(),

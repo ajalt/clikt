@@ -29,8 +29,7 @@ fun CliktCommand.test(
     stdin: String = "",
     envvars: Map<String, String> = emptyMap(),
 ): CliktCommandTestResult {
-    val toks = shlex("test", argv, null)
-    return test(toks, stdin, envvars)
+    return test(shlex("test", argv, null), stdin, envvars)
 }
 
 

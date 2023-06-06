@@ -1,26 +1,20 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.ByteArrayOutputStream
 
-val VERSION_NAME: String by project
 
-@Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     kotlin("multiplatform").version(libs.versions.kotlin).apply(false)
-}
-
-allprojects {
-    group = "com.github.ajalt.clikt"
-    version = getPublishVersion()
-
-
-    repositories {
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
-    }
+    alias(libs.plugins.dokka).apply(false)
+    alias(libs.plugins.publish).apply(false)
 }
 
 fun getPublishVersion(): String {
-    // Call gradle with -PinferVersion to set the dynamic version name. Otherwise we skip it to save time.
-    if (!project.hasProperty("inferVersion")) return VERSION_NAME
+    val versionName = project.property("VERSION_NAME") as String
+    // Call gradle with -PinferVersion to set the dynamic version name.
+    // Otherwise, we skip it to save time.
+    if (!project.hasProperty("inferVersion")) return versionName
 
     val stdout = ByteArrayOutputStream()
     project.exec {
@@ -31,5 +25,47 @@ fun getPublishVersion(): String {
     if (tag.isNotEmpty()) return tag
 
     val buildNumber = System.getenv("GITHUB_RUN_NUMBER") ?: "0"
-    return "$VERSION_NAME.$buildNumber-SNAPSHOT"
+    return "$versionName.$buildNumber-SNAPSHOT"
+}
+
+
+
+subprojects {
+    project.setProperty("VERSION_NAME", getPublishVersion())
+
+    tasks.withType<KotlinJvmCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
+
+    pluginManager.withPlugin("com.vanniktech.maven.publish") {
+        apply(plugin = "org.jetbrains.dokka")
+
+        tasks.named<DokkaTask>("dokkaHtml") {
+            val dir = if (project.name == "colormath") "" else "/${project.name}"
+            outputDirectory.set(rootProject.rootDir.resolve("docs/api$dir"))
+            val rootPath = rootProject.rootDir.toPath()
+            val logoCss = rootPath.resolve("docs/css/logo-styles.css").toString().replace('\\', '/')
+            val paletteSvg = rootPath.resolve("docs/img/wordmark_small_dark.svg").toString()
+                .replace('\\', '/')
+            pluginsMapConfiguration.set(
+                mapOf(
+                    "org.jetbrains.dokka.base.DokkaBase" to """{
+                "customStyleSheets": ["$logoCss"],
+                "customAssets": ["$paletteSvg"],
+                "footerMessage": "Copyright &copy; 2021 AJ Alt"
+            }"""
+                )
+            )
+            dokkaSourceSets.configureEach {
+                reportUndocumented.set(false)
+                skipDeprecated.set(true)
+            }
+        }
+    }
 }

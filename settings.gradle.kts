@@ -9,13 +9,17 @@ include("samples:plugins")
 include("samples:json")
 
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
     versionCatalogs {
         create("libs") {
             version("kotlin", "1.8.21")
 
-            plugin("dokka", "org.jetbrains.dokka").version("1.7.20")
-            library("dokka-base", "org.jetbrains.dokka:dokka-base:1.7.20")
+            plugin("dokka", "org.jetbrains.dokka").version("1.8.10")
+            plugin("publish", "com.vanniktech.maven.publish").version("0.25.2")
 
             // used in tests
             library("kotest", "io.kotest:kotest-assertions-core:5.5.4")

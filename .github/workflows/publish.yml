@@ -64,7 +64,10 @@ jobs:
           java-version: 17
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: :clikt:assemble publish --stacktrace -PinferVersion=true
+          arguments: |
+            :clikt:assemble
+            :clikt:publish
+            --stacktrace -PinferVersion=true
 
 env:
   # configureondemand=false to work around KT-51763

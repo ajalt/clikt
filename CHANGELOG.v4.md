@@ -24,6 +24,7 @@
 
 ### Fixed
 - When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest ([#361](https://github.com/ajalt/clikt/issues/361))
+- When `treatUnknownOptionsAsArgs` is true, grouped unknown short options will now be treated as arguments rather than reporting an error.
 
 ### Removed
 - Removed `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.

@@ -35,12 +35,14 @@ typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -
  * @property correctionSuggestor A callback called when the command line contains an invalid option or
  *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
  *   names and filters the list down to values to suggest to the user.
+ * @property allowGroupedShortOptions If true, short options can be grouped after a single `-` prefix.
  */
 
 class Context private constructor(
     val parent: Context?,
     val command: CliktCommand,
     val allowInterspersedArgs: Boolean,
+    val allowGroupedShortOptions: Boolean,
     val autoEnvvarPrefix: String?,
     val printExtraMessages: Boolean,
     val helpOptionNames: Set<String>,
@@ -112,6 +114,13 @@ class Context private constructor(
          * remaining tokens are parsed as arguments.
          */
         var allowInterspersedArgs: Boolean = parent?.allowInterspersedArgs ?: true
+
+        /**
+         * If true, short options can be grouped together after a single `-`.
+         *
+         * For example, `-abc` is equivalent to `-a -b -c`. Set to false to disable this behavior.
+         */
+        var allowGroupedShortOptions: Boolean = true
 
         /**
          * Set this to false to prevent extra messages from being printed automatically.
@@ -243,6 +252,7 @@ class Context private constructor(
                     parent,
                     command,
                     interspersed,
+                    allowGroupedShortOptions,
                     autoEnvvarPrefix,
                     printExtraMessages,
                     helpOptionNames.toSet(),

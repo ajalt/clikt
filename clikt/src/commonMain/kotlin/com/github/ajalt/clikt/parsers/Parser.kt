@@ -110,7 +110,9 @@ internal object Parser {
             val normTok = context.tokenTransformer(context, tok)
             val prefix = splitOptionPrefix(tok).first
             when {
-                canExpandAtFiles && tok.startsWith("@") && normTok !in optionsByName -> {
+                canExpandAtFiles
+                        && tok.startsWith("@")
+                        && normTok !in optionsByName -> {
                     if (tok.startsWith("@@")) {
                         positionalArgs += i to tok.drop(1)
                         i += 1
@@ -122,7 +124,8 @@ internal object Parser {
                     }
                 }
 
-                canParseOptions && tok == "--" -> {
+                canParseOptions
+                        && tok == "--" -> {
                     i += 1
                     canParseOptions = false
                     canExpandAtFiles = false
@@ -132,6 +135,7 @@ internal object Parser {
                         prefix.length > 1 && prefix in prefixes
                                 || normTok in longNames
                                 || isLongOptionWithEquals(prefix, tok)
+                                || !context.allowGroupedShortOptions
                         ) -> {
                     consumeParse(
                         i,
@@ -147,7 +151,10 @@ internal object Parser {
                     )
                 }
 
-                canParseOptions && tok.length >= 2 && prefix.isNotEmpty() && prefix in prefixes -> {
+                canParseOptions
+                        && tok.length >= 2
+                        && prefix.isNotEmpty()
+                        && prefix in prefixes -> {
                     consumeParse(
                         i,
                         parseShortOpt(

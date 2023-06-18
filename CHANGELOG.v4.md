@@ -13,6 +13,7 @@
 - Clikt will now report multiple errors if they occur, rather than just the first. ([#367](https://github.com/ajalt/clikt/issues/367))
 - Added `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
 - Added `Context.argumentFileReader` which allows custom loading of argument files 
+- Added `Context.allowGroupedShortOptions` which can disable parsing `-abc` as `-a -b -c`
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's

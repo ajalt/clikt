@@ -870,6 +870,27 @@ class OptionTest {
         }
         C().parse(argv)
     }
+
+    @Test
+    @JsName("disable_allowGroupedShortOptions")
+    fun `disable allowGroupedShortOptions`() {
+        class C(called: Boolean) : TestCommand(called) {
+            init {
+                context { allowGroupedShortOptions = false }
+            }
+            val x by option("-x").flag()
+            val y by option("-y")
+        }
+
+        with(C(true).parse("-x -y 1")) {
+            x shouldBe true
+            y shouldBe "1"
+        }
+
+        shouldThrow<NoSuchOption> {
+            C(false).parse("-xy")
+        }.formattedMessage shouldBe "no such option: -xy. Did you mean -x?"
+    }
 }
 
 

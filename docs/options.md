@@ -428,6 +428,11 @@ line:
     true true Foo
     ```
 
+!!! tip
+
+    You can diasable short option grouping by setting
+    [`Context.allowGroupedShortOptions`][allowGroupedShortOptions] to `false`.
+
 ## Counted Flag Options
 
 You might want a flag option that counts the number of times it occurs on the command line. You can
@@ -1189,6 +1194,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 
 [Abort]:                       api/clikt/com.github.ajalt.clikt.core/-abort/index.html
 [allowInterspersedArgs]:       api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.html
+[allowGroupedShortOptions]:    api/clikt/com.github.ajalt.clikt.core/-context/allow-grouped-short-options.html
 [argument.multiple]:           api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html
 [associate]:                   api/clikt/com.github.ajalt.clikt.parameters.options/associate.html
 [choice-options]:              #choice-options

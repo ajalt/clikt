@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.8.21")
+            version("kotlin", "1.8.22")
 
             plugin("dokka", "org.jetbrains.dokka").version("1.8.10")
             plugin("publish", "com.vanniktech.maven.publish").version("0.25.2")

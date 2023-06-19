@@ -255,18 +255,25 @@ class CliktCommandTest {
     @Test
     @JsName("treat_unknown_options_as_arguments_with_grouped_flag")
     fun `treat unknown options as arguments with grouped flag`() {
-        class C(called: Boolean) : TestCommand(called = called, treatUnknownOptionsAsArgs = true) {
+        class C : TestCommand(treatUnknownOptionsAsArgs = true) {
             val foo by option("-f").flag()
             val args by argument().multiple()
         }
 
-        val c = C(true)
-        c.parse("-f -g -i")
-        c.foo shouldBe true
-        c.args shouldBe listOf("-g", "-i")
-        if (skipDueToKT43490) return
-        shouldThrow<NoSuchOption> {
-            C(false).parse("-fgi")
-        }.message shouldBe "no such option: \"-g\""
+        with(C()) {
+            parse("-f -g -i")
+            foo shouldBe true
+            args shouldBe listOf("-g", "-i")
+        }
+        with(C()) {
+            parse("-f -gi")
+            foo shouldBe true
+            args shouldBe listOf("-gi")
+        }
+        with(C()) {
+            parse("-fgi")
+            foo shouldBe false
+            args shouldBe listOf("-fgi")
+        }
     }
 }

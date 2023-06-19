@@ -8,9 +8,6 @@ import com.github.ajalt.clikt.parameters.groups.MutuallyExclusiveOptions
  * Strings to use for help output and error messages
  */
 interface Localization {
-    /** [Abort] was thrown */
-    fun aborted() = "Aborted!"
-
     /** Prefix for any [UsageError] */
     fun usageError() = "Error:"
 
@@ -210,10 +207,10 @@ interface Localization {
     /** The title for the subcommands section of help output */
     fun commandsTitle(): String = "Commands:"
 
-    /** The that indicates where options may be present in the usage help output */
+    /** The placeholder that indicates where options may be present in the usage help output */
     fun optionsMetavar(): String = "[OPTIONS]"
 
-    /** The that indicates where subcommands may be present in the usage help output */
+    /** The placeholder that indicates where subcommands may be present in the usage help output */
     fun commandMetavar(): String = "COMMAND [ARGS]..."
 
     /** Text rendered for parameters tagged with [HelpFormatter.Tags.DEFAULT] */

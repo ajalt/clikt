@@ -35,12 +35,11 @@ subprojects {
 
     tasks.withType<KotlinJvmCompile>().configureEach {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
     tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = JavaVersion.VERSION_11.toString()
-        targetCompatibility = JavaVersion.VERSION_11.toString()
+        options.release.set(8)
     }
 
     pluginManager.withPlugin("com.vanniktech.maven.publish") {

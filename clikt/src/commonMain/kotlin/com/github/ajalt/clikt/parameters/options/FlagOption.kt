@@ -97,11 +97,11 @@ fun RawOption.counted(): OptionWithValues<Int, Int, Int> {
  * option().switch(mapOf("--foo" to Foo(), "--bar" to Bar()))
  * ```
  */
-fun <T : Any> RawOption.switch(choices: Map<String, T>): OptionWithValues<T?, T?, String> {
+fun <T : Any> RawOption.switch(choices: Map<String, T>): NullableOption<T, String> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     return transformValues(0..0) {
         require(it.isEmpty()) { context.localization.switchOptionEnvvar() }
-        choices[name]
+        choices.getValue(name)
     }.copy(names = choices.keys)
 }
 
@@ -114,7 +114,7 @@ fun <T : Any> RawOption.switch(choices: Map<String, T>): OptionWithValues<T?, T?
  * option().switch("--foo" to Foo(), "--bar" to Bar())
  * ```
  */
-fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): OptionWithValues<T?, T?, String> {
+fun <T : Any> RawOption.switch(vararg choices: Pair<String, T>): NullableOption<T, String> {
     return switch(mapOf(*choices))
 }
 

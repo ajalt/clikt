@@ -26,7 +26,7 @@ class DoubleTest {
         row("--xx=4.0", 4.0),
         row("-x5.5", 5.5)) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").double()
+            val x: Double? by option("-x", "--xx").double()
             override fun run_() {
                 x shouldBe expected
             }
@@ -53,7 +53,7 @@ class DoubleTest {
         row("--xx=4.0", 4.0),
         row("-x5.5", 5.5)) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").double().default(-1.0)
+            val x: Double by option("-x", "--xx").double().default(-1.0)
             override fun run_() {
                 x shouldBe expected
             }
@@ -68,8 +68,8 @@ class DoubleTest {
         row("1.1 2", 1.1, listOf(2.0)),
         row("1.1 2 3", 1.1, listOf(2.0, 3.0))) { argv, ex, ey ->
         class C : TestCommand() {
-            val x by argument().double().optional()
-            val y by argument().double().multiple()
+            val x: Double? by argument().double().optional()
+            val y: List<Double> by argument().double().multiple()
             override fun run_() {
                 x shouldBe ex
                 y shouldBe ey

@@ -21,7 +21,7 @@ class RangeTest {
     @JsName("restrictTo_option_min")
     fun `restrictTo option min`() {
         class C : TestCommand() {
-            val x by option("-x", "--xx").int().restrictTo(min = 1)
+            val x: Int? by option("-x", "--xx").int().restrictTo(min = 1)
         }
 
         C().apply {
@@ -126,8 +126,8 @@ class RangeTest {
     @JsName("restrictTo_option_default")
     fun `restrictTo option default`() {
         class C : TestCommand() {
-            val x by option("-x", "--xx").int().restrictTo(1..2).default(2)
-            val y by option("-y", "--yy").int().restrictTo(min = 3, max = 4).default(3)
+            val x: Int by option("-x", "--xx").int().restrictTo(1..2).default(2)
+            val y: Int by option("-y", "--yy").int().restrictTo(min = 3, max = 4).default(3)
         }
 
         C().apply {

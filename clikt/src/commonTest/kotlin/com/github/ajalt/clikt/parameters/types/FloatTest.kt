@@ -24,7 +24,7 @@ class FloatTest {
         row("--xx=4.0", 4f),
         row("-x5.5", 5.5f)) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").float()
+            val x: Float? by option("-x", "--xx").float()
             override fun run_() {
                 x shouldBe expected
             }
@@ -34,6 +34,7 @@ class FloatTest {
     }
 
     @Test
+    @Suppress("unused")
     @JsName("float_option_error")
     fun `float option error`() {
         class C : TestCommand(called = false) {
@@ -51,7 +52,7 @@ class FloatTest {
         row("--xx=4.0", 4f),
         row("-x5.5", 5.5f)) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").float().default(-1f)
+            val x: Float by option("-x", "--xx").float().default(-1f)
             override fun run_() {
                 x shouldBe expected
             }
@@ -66,8 +67,8 @@ class FloatTest {
         row("1.1 2", 1.1f, listOf(2f)),
         row("1.1 2 3", 1.1f, listOf(2f, 3f))) { argv, ex, ey ->
         class C : TestCommand() {
-            val x by argument().float().optional()
-            val y by argument().float().multiple()
+            val x: Float? by argument().float().optional()
+            val y: List<Float> by argument().float().multiple()
             override fun run_() {
                 x shouldBe ex
                 y shouldBe ey

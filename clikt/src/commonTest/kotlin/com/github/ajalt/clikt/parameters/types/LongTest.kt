@@ -18,8 +18,8 @@ import kotlin.test.Test
 
 class LongTypeTest {
     @Test
-    @JsName("int_option")
-    fun `int option`() = forAll(
+    @JsName("long_option")
+    fun `long option`() = forAll(
         row("", null),
         row("--xx=4", 4L),
         row("-x5", 5L),
@@ -27,7 +27,7 @@ class LongTypeTest {
         row("-0", 0L),
     ) { argv, ex ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").long(acceptsValueWithoutName = true)
+            val x: Long? by option("-x", "--xx").long(acceptsValueWithoutName = true)
             override fun run_() {
                 x shouldBe ex
             }
@@ -37,8 +37,9 @@ class LongTypeTest {
     }
 
     @Test
-    @JsName("int_option_error")
-    fun `int option error`() {
+    @Suppress("unused")
+    @JsName("long_option_error")
+    fun `long option error`() {
         class C : TestCommand(called = false) {
             val foo by option().long()
         }
@@ -48,13 +49,13 @@ class LongTypeTest {
     }
 
     @Test
-    @JsName("int_option_with_default")
-    fun `int option with default`() = forAll(
+    @JsName("long_option_with_default")
+    fun `long option with default`() = forAll(
         row("", 111L),
         row("--xx=4", 4L),
         row("-x5", 5L)) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").long().default(111L)
+            val x: Long by option("-x", "--xx").long().default(111L)
             override fun run_() {
                 x shouldBe expected
             }
@@ -63,8 +64,8 @@ class LongTypeTest {
     }
 
     @Test
-    @JsName("int_argument")
-    fun `int argument`() = forAll(
+    @JsName("long_argument")
+    fun `long argument`() = forAll(
         row("", null, emptyList()),
         row("1 2", 1L, listOf(2L)),
         row("1 2 3", 1L, listOf(2L, 3L))) { argv, ex, ey ->

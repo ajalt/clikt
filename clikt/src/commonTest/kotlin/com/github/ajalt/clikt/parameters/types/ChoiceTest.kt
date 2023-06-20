@@ -16,7 +16,7 @@ class OptionChoiceTest {
     @JsName("choice_option_strings")
     fun `choice option strings`() {
         class C : TestCommand() {
-            val x by option("-x", "--xx").choice("foo", "bar")
+            val x: String? by option("-x", "--xx").choice("foo", "bar")
         }
 
         C().apply {
@@ -92,7 +92,7 @@ class OptionChoiceTest {
     @JsName("choice_argument_strings")
     fun `choice argument strings`() {
         class C : TestCommand() {
-            val x by argument().choice("foo", "bar")
+            val x: String by argument().choice("foo", "bar")
             override fun run_() {
                 registeredArguments()[0].name shouldBe "X"
             }

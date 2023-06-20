@@ -38,7 +38,7 @@ class BooleanTest {
         row("--x=OFF", false),
     ) { argv, ex ->
         class C : TestCommand() {
-            val x by option().boolean()
+            val x: Boolean? by option().boolean()
             override fun run_() {
                 x shouldBe ex
             }
@@ -67,7 +67,7 @@ class BooleanTest {
         row("--x off", false),
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option().boolean().default(true)
+            val x: Boolean by option().boolean().default(true)
             override fun run_() {
                 x shouldBe expected
             }
@@ -82,7 +82,7 @@ class BooleanTest {
         row("1 0 ON off", listOf(true, false, true, false)),
     ) { argv, ex ->
         class C : TestCommand() {
-            val a by argument().boolean().multiple()
+            val a: List<Boolean> by argument().boolean().multiple()
             override fun run_() {
                 a shouldBe ex
             }

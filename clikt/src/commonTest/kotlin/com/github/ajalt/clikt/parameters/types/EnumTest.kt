@@ -30,7 +30,7 @@ class EnumTest {
         row("-xb", TestEnum.B)
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").enum<TestEnum>()
+            val x: TestEnum? by option("-x", "--xx").enum<TestEnum>()
             override fun run_() {
                 x shouldBe expected
             }
@@ -82,7 +82,7 @@ class EnumTest {
         row("-xA", TestEnum.A)
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").enum<TestEnum>().default(TestEnum.B)
+            val x: TestEnum by option("-x", "--xx").enum<TestEnum>().default(TestEnum.B)
             override fun run_() {
                 x shouldBe expected
             }
@@ -99,8 +99,8 @@ class EnumTest {
         row("A a B", TestEnum.A, listOf(TestEnum.A, TestEnum.B))
     ) { argv, ex, ey ->
         class C : TestCommand() {
-            val x by argument().enum<TestEnum>().optional()
-            val y by argument().enum<TestEnum>().multiple()
+            val x: TestEnum? by argument().enum<TestEnum>().optional()
+            val y: List<TestEnum> by argument().enum<TestEnum>().multiple()
             override fun run_() {
                 x shouldBe ex
                 y shouldBe ey

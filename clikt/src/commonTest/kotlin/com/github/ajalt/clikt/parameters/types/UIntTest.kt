@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters.types
 import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.NoSuchOption
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
@@ -23,12 +24,27 @@ class UIntTest {
         row("-${UInt.MAX_VALUE}", UInt.MAX_VALUE),
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x").uint(acceptsValueWithoutName = true)
+            val x: UInt? by option("-x").uint(acceptsValueWithoutName = true)
             override fun run_() {
                 x shouldBe expected
             }
         }
 
+        C().parse(argv)
+    }
+
+    @Test
+    @JsName("uint_option_with_default")
+    fun `uint option with default`() = forAll(
+        row("", 111u),
+        row("--xx=4", 4u),
+        row("-x5", 5u)) { argv, expected ->
+        class C : TestCommand() {
+            val x: UInt by option("-x", "--xx").uint().default(111u)
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
         C().parse(argv)
     }
 

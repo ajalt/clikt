@@ -279,9 +279,9 @@ class OptionTest {
         row("-xzfoo", true, false, "foo")
     ) { argv, ex, ey, ez ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").flag("-X", "--no-xx")
-            val y by option("-y", "--yy").flag()
-            val z by option("-z", "--zz")
+            val x: Boolean by option("-x", "--xx").flag("-X", "--no-xx")
+            val y: Boolean by option("-y", "--yy").flag()
+            val z: String? by option("-z", "--zz")
             override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
@@ -311,9 +311,9 @@ class OptionTest {
         row("--xx --yy", E.A, "true")
     ) { argv, ex, ey ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").flag("-X", "--no-xx")
+            val x: E by option("-x", "--xx").flag("-X", "--no-xx")
                 .convert { if (it) E.A else E.B }
-            val y by option("-y", "--yy").flag()
+            val y: String by option("-y", "--yy").flag()
                 .convert { it.toString() }
 
             override fun run_() {
@@ -460,7 +460,7 @@ class OptionTest {
     @JsName("multiple_option_default")
     fun `multiple option default`() {
         class C : TestCommand() {
-            val x by option().multiple()
+            val x: List<String> by option().multiple()
             override fun run_() {
                 x shouldBe listOf()
             }
@@ -516,7 +516,7 @@ class OptionTest {
         row("--arg foo --arg foo --arg foo", setOf("foo"))
     ) { argv, expected ->
         val command = object : TestCommand() {
-            val arg by option().multiple().unique()
+            val arg: Set<String> by option().multiple().unique()
             override fun run_() {
                 arg shouldBe expected
             }
@@ -541,7 +541,7 @@ class OptionTest {
     @JsName("multiple_required_option")
     fun `multiple required option`() {
         class C(called: Boolean) : TestCommand(called) {
-            val x by option().multiple(required = true)
+            val x: List<String> by option().multiple(required = true)
         }
 
         C(true).apply { parse("--x 1"); x shouldBe listOf("1") }

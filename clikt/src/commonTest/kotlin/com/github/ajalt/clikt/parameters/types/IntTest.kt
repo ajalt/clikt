@@ -29,7 +29,7 @@ class IntTypeTest {
         row("-0", 0),
     ) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").int(acceptsValueWithoutName = true)
+            val x: Int? by option("-x", "--xx").int(acceptsValueWithoutName = true)
             override fun run_() {
                 x shouldBe expected
             }
@@ -69,7 +69,7 @@ class IntTypeTest {
         row("--xx=4", 4),
         row("-x5", 5)) { argv, expected ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").int().default(111)
+            val x: Int by option("-x", "--xx").int().default(111)
             override fun run_() {
                 x shouldBe expected
             }
@@ -85,8 +85,8 @@ class IntTypeTest {
         row("-- -1 -2", -1, listOf(-2)),
         row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->
         class C : TestCommand() {
-            val x by argument().int().optional()
-            val y by argument().int().multiple()
+            val x: Int? by argument().int().optional()
+            val y: List<Int> by argument().int().multiple()
             override fun run_() {
                 x shouldBe ex
                 y shouldBe ey

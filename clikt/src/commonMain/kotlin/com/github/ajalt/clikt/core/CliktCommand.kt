@@ -291,7 +291,7 @@ abstract class CliktCommand(
     open fun aliases(): Map<String, List<String>> = emptyMap()
 
     /** Print a line break to `stdout` */
-    protected fun echo() {
+    fun echo() {
         echo("")
     }
 
@@ -304,7 +304,7 @@ abstract class CliktCommand(
      * @param trailingNewline If true, behave like [println], otherwise behave like [print]
      * @param err If true, print to stderr instead of stdout
      */
-    protected fun echo(
+    fun echo(
         message: Any?,
         trailingNewline: Boolean = true,
         err: Boolean = false,
@@ -372,7 +372,7 @@ abstract class CliktCommand(
      *
      * @see Terminal.prompt
      */
-    protected fun <T> prompt(
+    fun <T> prompt(
         text: String,
         default: T? = null,
         showDefault: Boolean = true,
@@ -409,7 +409,7 @@ abstract class CliktCommand(
      *
      * @see Terminal.prompt
      */
-    protected fun confirm(
+    fun confirm(
         text: String,
         default: Boolean? = null,
         uppercaseDefault: Boolean = true,

@@ -1,4 +1,7 @@
 # Changelog
+## Unreleased
+### Fixed
+- Revert jvm jars to target Java 8
 
 ## 3.5.3
 ### Changed

@@ -16,33 +16,30 @@ import com.github.ajalt.mordant.table.verticalLayout
 import com.github.ajalt.mordant.widgets.Panel
 
 
-class PanelHelpFormatter : MordantHelpFormatter() {
+class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
+    override fun styleSectionTitle(title: String): String = theme.style("muted")(title)
+
     override fun renderParameters(
-        context: Context,
         parameters: List<HelpFormatter.ParameterHelp>,
     ): Widget = verticalLayout {
         width = ColumnWidth.Expand()
-        for (section in collectParameterSections(context, parameters)) {
+        for (section in collectParameterSections(parameters)) {
             cell(
                 Panel(
                     section.content,
                     section.title,
                     expand = true,
                     titleAlign = TextAlign.LEFT,
-                    borderStyle = context.terminal.theme.style("muted")
+                    borderStyle = theme.style("muted")
                 )
             )
         }
-    }
-
-    override fun styleSectionTitle(context: Context, title: String): String {
-        return context.terminal.theme.style("muted")(title)
     }
 }
 
 class Echo : CliktCommand(help = "Echo the STRING(s) to standard output") {
     init {
-        context { helpFormatter = PanelHelpFormatter() }
+        context { helpFormatter = { PanelHelpFormatter(it) } }
     }
 
     val suppressNewline by option("-n", help = "do not output the trailing newline").flag()

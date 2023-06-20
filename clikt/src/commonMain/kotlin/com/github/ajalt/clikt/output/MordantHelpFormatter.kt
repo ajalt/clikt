@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.mordant.markdown.Markdown
 import com.github.ajalt.mordant.rendering.*
 import com.github.ajalt.mordant.table.verticalLayout
+import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.widgets.*
 
 /**
@@ -25,12 +26,15 @@ import com.github.ajalt.mordant.widgets.*
  */
 @Suppress("MemberVisibilityCanBePrivate")
 open class MordantHelpFormatter(
+    protected val context: Context,
     protected val requiredOptionMarker: String? = null,
     protected val showDefaultValues: Boolean = false,
     protected val showRequiredTag: Boolean = false,
 ) : HelpFormatter {
+    protected val localization: Localization get() = context.localization
+    protected val theme: Theme get() = context.terminal.theme
+
     override fun formatHelp(
-        context: Context,
         error: UsageError?,
         prolog: String,
         epilog: String,
@@ -39,31 +43,29 @@ open class MordantHelpFormatter(
     ): String {
         val widget = verticalLayout {
             spacing = 1
-            cellsFrom(collectHelpParts(context, error, prolog, epilog, parameters, programName))
+            cellsFrom(collectHelpParts(error, prolog, epilog, parameters, programName))
         }
         return context.terminal.render(widget)
     }
 
     protected open fun collectHelpParts(
-        context: Context,
         error: UsageError?,
         prolog: String,
         epilog: String,
         parameters: List<ParameterHelp>,
         programName: String,
     ): List<Widget> = buildList {
-        add(renderUsage(context, parameters, programName))
+        add(renderUsage(parameters, programName))
         if (error == null) {
-            if (prolog.isNotEmpty()) add(renderProlog(context, prolog))
-            if (parameters.isNotEmpty()) add(renderParameters(context, parameters))
-            if (epilog.isNotEmpty()) add(renderEpilog(context, epilog))
+            if (prolog.isNotEmpty()) add(renderProlog(prolog))
+            if (parameters.isNotEmpty()) add(renderParameters(parameters))
+            if (epilog.isNotEmpty()) add(renderEpilog(epilog))
         } else {
-            add(renderError(context, parameters, error))
+            add(renderError(parameters, error))
         }
     }
 
     protected open fun renderError(
-        context: Context,
         parameters: List<ParameterHelp>,
         error: UsageError,
     ): Widget {
@@ -71,24 +73,23 @@ open class MordantHelpFormatter(
             val errors = (error as? MultiUsageError)?.errors ?: listOf(error)
             for ((i, e) in errors.withIndex()) {
                 if (i > 0) appendLine()
-                append(styleError(context, context.localization.usageError()))
+                append(styleError(localization.usageError()))
                 append(" ")
-                append(e.formatMessage(context.localization, parameterFormatter(context)))
+                append(e.formatMessage(localization, parameterFormatter(context)))
             }
         })
     }
 
     protected open fun renderUsage(
-        context: Context,
         parameters: List<ParameterHelp>,
         programName: String,
     ): Widget {
-        val optionalStyle = context.terminal.theme.style("muted")
-        val title = styleUsageTitle(context, context.localization.usageTitle())
+        val optionalStyle = theme.style("muted")
+        val title = styleUsageTitle(localization.usageTitle())
         val prog = "$title $programName"
         val usageParts = buildList {
             if (parameters.any { it is ParameterHelp.Option }) {
-                add(optionalStyle(context.localization.optionsMetavar()))
+                add(optionalStyle(localization.optionsMetavar()))
             }
 
             parameters.filterIsInstance<ParameterHelp.Argument>().mapTo(this) {
@@ -100,7 +101,7 @@ open class MordantHelpFormatter(
             }
 
             if (parameters.any { it is ParameterHelp.Subcommand }) {
-                add(optionalStyle(context.localization.commandMetavar()))
+                add(optionalStyle(localization.commandMetavar()))
             }
         }
 
@@ -115,16 +116,15 @@ open class MordantHelpFormatter(
         }
     }
 
-    protected open fun renderProlog(context: Context, prolog: String): Widget {
+    protected open fun renderProlog(prolog: String): Widget {
         return Markdown(prolog, showHtml = true).withPadding(padEmptyLines = false) { left = 2 }
     }
 
-    protected open fun renderEpilog(context: Context, epilog: String): Widget {
+    protected open fun renderEpilog(epilog: String): Widget {
         return Markdown(epilog, showHtml = true)
     }
 
     protected open fun renderOptions(
-        context: Context,
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
         val groupsByName =
@@ -132,53 +132,48 @@ open class MordantHelpFormatter(
         return parameters.filterIsInstance<ParameterHelp.Option>().groupBy { it.groupName }.toList()
             .sortedBy { it.first == null } // Put the ungrouped options last
             .filter { it.second.isNotEmpty() }.map { (title, params) ->
-                val renderedTitle = title?.let { "$it:" } ?: context.localization.optionsTitle()
-                val content = renderOptionGroup(context, groupsByName[title]?.help, params)
-                RenderedSection(styleSectionTitle(context, renderedTitle), content)
+                val renderedTitle = title?.let { "$it:" } ?: localization.optionsTitle()
+                val content = renderOptionGroup(groupsByName[title]?.help, params)
+                RenderedSection(styleSectionTitle(renderedTitle), content)
             }.toList()
     }
 
     protected open fun renderParameters(
-        context: Context,
         parameters: List<ParameterHelp>,
     ): Widget = definitionList {
-        for (section in collectParameterSections(context, parameters)) {
+        for (section in collectParameterSections(parameters)) {
             entry(section.title, section.content)
         }
     }
 
     protected open fun collectParameterSections(
-        context: Context,
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> = buildList {
-        addAll(renderOptions(context, parameters))
-        addAll(renderArguments(context, parameters))
-        addAll(renderCommands(context, parameters))
+        addAll(renderOptions(parameters))
+        addAll(renderArguments(parameters))
+        addAll(renderCommands(parameters))
     }
 
     protected open fun renderOptionGroup(
-        context: Context,
         help: String?,
         parameters: List<ParameterHelp.Option>,
     ): Widget {
         val options = parameters.map {
             val unjoinedNames = if (it.acceptsNumberValueWithoutName) {
-                listOf(numberOptionName(context, it)) + it.names
+                listOf(numberOptionName(it)) + it.names
             } else {
                 it.names
             }
-            val names = mutableListOf(joinNamesForOption(context, unjoinedNames))
-            if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(
-                context, it.secondaryNames
-            )
+            val names = mutableListOf(joinNamesForOption(unjoinedNames))
+            if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(it.secondaryNames)
             DefinitionRow(col1 = names.joinToString(
                 " / ",
-                postfix = renderOptionValue(context, it)
+                postfix = renderOptionValue(it)
             ),
-                col2 = renderParameterHelpText(context, it.help, it.tags),
+                col2 = renderParameterHelpText(it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
-                        styleRequiredMarker(context, m)
+                        styleRequiredMarker(m)
                     }
 
                     else -> null
@@ -197,43 +192,40 @@ open class MordantHelpFormatter(
     }
 
     protected open fun renderArguments(
-        context: Context,
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
         val arguments = parameters.filterIsInstance<ParameterHelp.Argument>().map {
             DefinitionRow(
-                styleArgumentName(context, normalizeParameter(it.name)),
-                renderParameterHelpText(context, it.help, it.tags)
+                styleArgumentName(normalizeParameter(it.name)),
+                renderParameterHelpText(it.help, it.tags)
             )
         }
         if (arguments.isEmpty() || arguments.all { it.col2.isEmpty() }) return emptyList()
-        val title = styleSectionTitle(context, context.localization.argumentsTitle())
+        val title = styleSectionTitle(localization.argumentsTitle())
         return listOf(RenderedSection(title, buildParameterList(arguments)))
     }
 
     protected open fun renderCommands(
-        context: Context,
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
         val commands = parameters.filterIsInstance<ParameterHelp.Subcommand>().map {
             DefinitionRow(
-                styleSubcommandName(context, it.name),
-                renderParameterHelpText(context, it.help, it.tags)
+                styleSubcommandName(it.name),
+                renderParameterHelpText(it.help, it.tags)
             )
         }
         if (commands.isEmpty()) return emptyList()
-        val title = styleSectionTitle(context, context.localization.commandsTitle())
+        val title = styleSectionTitle(localization.commandsTitle())
         return listOf(RenderedSection(title, buildParameterList(commands)))
     }
 
     protected open fun renderParameterHelpText(
-        context: Context,
         help: String,
         tags: Map<String, String>,
     ): String {
         val renderedTags = tags.asSequence()
             .filter { (k, v) -> shouldShowTag(k, v) }
-            .joinToString(" ") { (k, v) -> renderTag(context, k, v) }
+            .joinToString(" ") { (k, v) -> renderTag(k, v) }
         return when {
             renderedTags.isEmpty() -> help
             help.isEmpty() -> renderedTags
@@ -249,79 +241,61 @@ open class MordantHelpFormatter(
         }
     }
 
-    protected open fun joinNamesForOption(context: Context, names: Iterable<String>): String {
+    protected open fun joinNamesForOption(names: Iterable<String>): String {
         return names.sortedBy { it.startsWith("--") }
-            .joinToString(", ") { styleOptionName(context, it) }
+            .joinToString(", ") { styleOptionName(it) }
     }
 
-    protected open fun renderTag(context: Context, tag: String, value: String): String {
+    protected open fun renderTag(tag: String, value: String): String {
         val t = when (tag) {
-            HelpFormatter.Tags.DEFAULT -> context.localization.helpTagDefault()
-            HelpFormatter.Tags.REQUIRED -> context.localization.helpTagRequired()
+            HelpFormatter.Tags.DEFAULT -> localization.helpTagDefault()
+            HelpFormatter.Tags.REQUIRED -> localization.helpTagRequired()
             else -> tag
         }
         val fullTag = if (value.isBlank()) "($t)" else "($t: $value)"
         return when (tag) {
-            HelpFormatter.Tags.REQUIRED -> styleRequiredMarker(context, fullTag)
-            else -> styleHelpTag(context, fullTag)
+            HelpFormatter.Tags.REQUIRED -> styleRequiredMarker(fullTag)
+            else -> styleHelpTag(fullTag)
         }
     }
 
-    protected open fun numberOptionName(context: Context, option: ParameterHelp.Option): String {
-        val metavar = normalizeParameter(option.metavar ?: context.localization.intMetavar())
+    protected open fun numberOptionName(option: ParameterHelp.Option): String {
+        val metavar = normalizeParameter(option.metavar ?: localization.intMetavar())
         return "${option.names.first().first()}$metavar"
     }
 
-    protected open fun normalizeParameter(name: String): String {
-        return "<${name.lowercase()}>"
-    }
+    protected open fun normalizeParameter(name: String): String = "<${name.lowercase()}>"
+    protected open fun styleRequiredMarker(name: String): String = theme.style("danger")(name)
+    protected open fun styleHelpTag(name: String): String = theme.style("muted")(name)
+    protected open fun styleOptionName(name: String): String = theme.style("info")(name)
+    protected open fun styleArgumentName(name: String): String = theme.style("info")(name)
+    protected open fun styleSubcommandName(name: String): String = theme.style("info")(name)
+    protected open fun styleSectionTitle(title: String): String = theme.style("warning")(title)
+    protected open fun styleUsageTitle(title: String): String = theme.style("warning")(title)
+    protected open fun styleError(title: String): String = theme.style("danger")(title)
 
-    protected open fun styleRequiredMarker(context: Context, name: String): String =
-        context.terminal.theme.style("danger")(name)
-
-    protected open fun styleHelpTag(context: Context, name: String): String =
-        context.terminal.theme.style("muted")(name)
-
-    protected open fun styleOptionName(context: Context, name: String): String =
-        context.terminal.theme.style("info")(name)
-
-    protected open fun styleArgumentName(context: Context, name: String): String =
-        context.terminal.theme.style("info")(name)
-
-    protected open fun styleSubcommandName(context: Context, name: String): String =
-        context.terminal.theme.style("info")(name)
-
-    protected open fun styleSectionTitle(context: Context, title: String): String =
-        context.terminal.theme.style("warning")(title)
-
-    protected open fun styleUsageTitle(context: Context, title: String): String =
-        context.terminal.theme.style("warning")(title)
-
-    protected open fun styleError(context: Context, title: String): String =
-        context.terminal.theme.style("danger")(title)
-
-    protected open fun styleMetavar(context: Context, metavar: String): String {
-        val style = context.terminal.theme.style("warning") + context.terminal.theme.style("muted")
+    protected open fun styleMetavar(metavar: String): String {
+        val style = theme.style("warning") + theme.style("muted")
         return style(metavar)
     }
 
     protected open fun parameterFormatter(context: Context): ParameterFormatter {
         return object : ParameterFormatter {
             override fun formatOption(name: String): String {
-                return styleOptionName(context, name)
+                return styleOptionName(name)
             }
 
             override fun formatArgument(name: String): String {
-                return styleArgumentName(context, normalizeParameter(name))
+                return styleArgumentName(normalizeParameter(name))
             }
 
             override fun formatSubcommand(name: String): String {
-                return styleSubcommandName(context, name)
+                return styleSubcommandName(name)
             }
         }
     }
 
-    protected open fun renderOptionValue(context: Context, option: ParameterHelp.Option): String {
+    protected open fun renderOptionValue(option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""
         var prefix = "="
         var suffix = if (option.nvalues.last > 1) "..." else ""
@@ -337,7 +311,7 @@ open class MordantHelpFormatter(
             '|' in metavar -> metavar
             else -> normalizeParameter(metavar)
         }
-        return "$prefix${styleMetavar(context, normedMetavar)}$suffix"
+        return "$prefix${styleMetavar(normedMetavar)}$suffix"
     }
 
     protected open fun buildParameterList(rows: List<DefinitionRow>): Widget {

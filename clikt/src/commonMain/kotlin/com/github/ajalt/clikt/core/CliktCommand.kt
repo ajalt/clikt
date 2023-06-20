@@ -261,8 +261,7 @@ abstract class CliktCommand(
             ?: _context ?: createContext(emptyList(), null, emptyList())
         val cmd = ctx.command
         val programName = cmd.getCommandNameWithParents()
-        return ctx.helpFormatter.formatHelp(
-            ctx,
+        return ctx.helpFormatter(ctx).formatHelp(
             error as? UsageError,
             cmd.commandHelp,
             cmd.commandHelpEpilog,

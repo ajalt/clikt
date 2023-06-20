@@ -46,7 +46,7 @@ class Context private constructor(
     val autoEnvvarPrefix: String?,
     val printExtraMessages: Boolean,
     val helpOptionNames: Set<String>,
-    val helpFormatter: HelpFormatter,
+    val helpFormatter: (Context) -> HelpFormatter,
     val tokenTransformer: Context.(String) -> String,
     val terminal: Terminal,
     var argumentFileReader: ((filename: String) -> String)?,
@@ -137,8 +137,8 @@ class Context private constructor(
          */
         var helpOptionNames: Iterable<String> = parent?.helpOptionNames ?: setOf("-h", "--help")
 
-        /** The help formatter for this command, or null to use the default */
-        var helpFormatter: HelpFormatter? = parent?.helpFormatter
+        /** A lambda returning the help formatter for this command, or null to use the default */
+        var helpFormatter: ((Context) -> HelpFormatter)? = parent?.helpFormatter
 
         /** An optional transformation function that is called to transform command line */
         var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
@@ -247,7 +247,8 @@ class Context private constructor(
                         parent?.let { p ->
                             p.selfAndAncestors().any { it.command.allowMultipleSubcommands }
                         } != true
-                val formatter = helpFormatter ?: MordantHelpFormatter()
+                val formatter: ((Context) -> HelpFormatter) =
+                    helpFormatter ?: { MordantHelpFormatter(it) }
                 return Context(
                     parent,
                     command,

@@ -569,7 +569,7 @@ class MordantHelpFormatterTest {
     fun `required option marker`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
-        c.context { helpFormatter = MordantHelpFormatter(requiredOptionMarker = "*") }
+        c.context { helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") } }
         doTest(
             """
             |Usage: prog [<options>]
@@ -586,7 +586,7 @@ class MordantHelpFormatterTest {
     fun `required option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
-        c.context { helpFormatter = MordantHelpFormatter(showRequiredTag = true) }
+        c.context { helpFormatter = { MordantHelpFormatter(it, showRequiredTag = true) } }
         doTest(
             """
             |Usage: prog [<options>]
@@ -603,7 +603,7 @@ class MordantHelpFormatterTest {
     fun `default option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").default("123"))
-        c.context { helpFormatter = MordantHelpFormatter(showDefaultValues = true) }
+        c.context { helpFormatter = { MordantHelpFormatter(it, showDefaultValues = true) }}
         doTest(
             """
             |Usage: prog [<options>]
@@ -642,11 +642,14 @@ class MordantHelpFormatterTest {
             ).required()
         )
         c.context {
-            helpFormatter = MordantHelpFormatter(
-                showDefaultValues = true,
-                requiredOptionMarker = "*",
-                showRequiredTag = true
-            )
+            helpFormatter = {
+                MordantHelpFormatter(
+                    it,
+                    showDefaultValues = true,
+                    requiredOptionMarker = "*",
+                    showRequiredTag = true
+                )
+            }
         }
         doTest(
             """

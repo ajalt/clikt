@@ -21,7 +21,6 @@ interface HelpFormatter {
      * @param programName The name of the currently executing program
      */
     fun formatHelp(
-        context: Context,
         error: UsageError?,
         prolog: String,
         epilog: String,

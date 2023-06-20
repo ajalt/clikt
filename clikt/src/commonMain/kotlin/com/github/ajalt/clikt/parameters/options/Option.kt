@@ -109,7 +109,7 @@ interface OptionDelegate<T> :
 
 internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<String> {
     if (names.isNotEmpty()) {
-        val invalidName = names.find { !it.matches(Regex("""[\-@/+]{1,2}[\w\-_]+""")) }
+        val invalidName = names.find { !it.matches(Regex("""[\-@/+]{1,2}(?:[\w\-_]+|\?)""")) }
         require(invalidName == null) { "Invalid option name \"$invalidName\"" }
         return names
     }

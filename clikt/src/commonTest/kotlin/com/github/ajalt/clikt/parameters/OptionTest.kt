@@ -752,6 +752,25 @@ class OptionTest {
     }
 
     @Test
+    @JsName("option_with_question_mark_name")
+    fun `option with question mark name`() = forAll(
+        row("", null),
+        row("-? 3", "3"),
+        row("-?foo", "foo"),
+        row("/? asd", "asd"),
+        row("-? -? -? foo", "foo"),
+    ) { argv, expected ->
+        class C : TestCommand() {
+            val x by option("-?", "/?")
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
+
+        C().parse(argv)
+    }
+
+    @Test
     @JsName("normalized_tokens")
     fun `normalized tokens`() = forAll(
         row("", null),

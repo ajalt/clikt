@@ -1,20 +1,19 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
+import com.github.ajalt.clikt.parameters.transform.TransformContext
 
-private fun valueToInt(context: Context, it: String): Int {
-    return it.toIntOrNull() ?: throw BadParameterValue(context.localization.intConversionError(it))
-}
+private val conversion: TransformContext.(String) -> Int =
+    { it.toIntOrNull() ?: fail(context.localization.intConversionError(it)) }
+
 
 /** Convert the argument values to an `Int` */
-fun RawArgument.int(): ProcessedArgument<Int, Int> = convert { valueToInt(context, it) }
+fun RawArgument.int(): ProcessedArgument<Int, Int> = convert(conversion = conversion)
 
 /**
  * Convert the option values to an `Int`
@@ -23,6 +22,6 @@ fun RawArgument.int(): ProcessedArgument<Int, Int> = convert { valueToInt(contex
  *   addition to `--opt=2` or `-o3`
  */
 fun RawOption.int(acceptsValueWithoutName: Boolean = false): NullableOption<Int, Int> {
-    return convert({ localization.intMetavar() }) { valueToInt(context, it) }
+    return convert({ localization.intMetavar() }, conversion = conversion)
         .copy(acceptsNumberValueWithoutName = acceptsValueWithoutName)
 }

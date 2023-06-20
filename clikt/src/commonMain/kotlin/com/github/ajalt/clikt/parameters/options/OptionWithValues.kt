@@ -11,6 +11,7 @@ import com.github.ajalt.clikt.core.ParameterHolder
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
+import com.github.ajalt.clikt.parameters.transform.TransformContext
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.Invocation
 import kotlin.jvm.JvmMultifileClass
@@ -27,13 +28,10 @@ import kotlin.reflect.KProperty
 class OptionCallTransformContext(
     val name: String,
     val option: Option,
-    val context: Context,
-) : Option by option {
-    /** Throw an exception indicating that an invalid value was provided. */
-    fun fail(message: String): Nothing = throw BadParameterValue(message, name)
-
-    /** Issue a message that can be shown to the user */
-    fun message(message: String) = context.command.issueMessage(message)
+    override val context: Context,
+) : Option by option, TransformContext {
+    override fun fail(message: String): Nothing = throw BadParameterValue(message, name)
+    override fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {

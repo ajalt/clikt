@@ -1,20 +1,20 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
+import com.github.ajalt.clikt.parameters.transform.TransformContext
 
-private fun valueToLong(context: Context, it: String): Long {
-    return it.toLongOrNull() ?: throw BadParameterValue(context.localization.intConversionError(it))
-}
+private val conversion: TransformContext.(String) -> Long =
+    { it.toLongOrNull() ?: fail(context.localization.intConversionError(it)) }
 
 /** Convert the argument values to a `Long` */
-fun RawArgument.long(): ProcessedArgument<Long, Long> = convert { valueToLong(context, it) }
+fun RawArgument.long(): ProcessedArgument<Long, Long> {
+    return convert(conversion = conversion)
+}
 
 /**
  * Convert the option values to an `Long`
@@ -23,6 +23,6 @@ fun RawArgument.long(): ProcessedArgument<Long, Long> = convert { valueToLong(co
  *   addition to `--opt=2` or `-o3`
  */
 fun RawOption.long(acceptsValueWithoutName: Boolean = false): NullableOption<Long, Long> {
-    return convert({ localization.intMetavar() }) { valueToLong(context, it) }
+    return convert({ localization.intMetavar() }, conversion = conversion)
         .copy(acceptsNumberValueWithoutName = acceptsValueWithoutName)
 }

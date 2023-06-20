@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.RawArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
@@ -8,12 +7,13 @@ import com.github.ajalt.clikt.parameters.options.NullableOption
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.transform.TransformContext
 
-private fun valueToBool(value: String): Boolean? {
+private fun TransformContext.valueToBool(value: String): Boolean {
     return when (value.lowercase()) {
         "true", "t", "1", "yes", "y", "on" -> true
         "false", "f", "0", "no", "n", "off" -> false
-        else -> null
+        else -> fail(context.localization.boolConversionError(value))
     }
 }
 
@@ -29,9 +29,7 @@ private fun valueToBool(value: String): Boolean? {
  *
  * All other values are an error.
  */
-fun RawArgument.boolean(): ProcessedArgument<Boolean, Boolean> = convert {
-    valueToBool(it) ?: throw BadParameterValue(context.localization.boolConversionError(it), this)
-}
+fun RawArgument.boolean(): ProcessedArgument<Boolean, Boolean> = convert { valueToBool(it) }
 
 /**
  * Convert the option values to `Boolean`
@@ -48,6 +46,5 @@ fun RawArgument.boolean(): ProcessedArgument<Boolean, Boolean> = convert {
  *
  * All other values are an error.
  */
-fun RawOption.boolean(): NullableOption<Boolean, Boolean> = convert("[true|false]") {
-    valueToBool(it) ?: throw BadParameterValue(context.localization.boolConversionError(it), this)
-}
+fun RawOption.boolean(): NullableOption<Boolean, Boolean> =
+    convert("[true|false]") { valueToBool(it) }

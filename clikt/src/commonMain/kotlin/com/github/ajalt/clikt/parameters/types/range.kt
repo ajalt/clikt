@@ -1,29 +1,27 @@
 package com.github.ajalt.clikt.parameters.types
 
-import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.OptionWithValues
 import com.github.ajalt.clikt.parameters.options.convert
+import com.github.ajalt.clikt.parameters.transform.TransformContext
 
-private inline fun <T : Comparable<T>> checkRange(
-    it: T,
-    min: T?,
-    max: T?,
-    clamp: Boolean,
-    context: Context,
-    fail: (String) -> Unit,
+private fun <T : Comparable<T>> TransformContext.checkRange(
+    it: T, min: T?, max: T?, clamp: Boolean,
 ): T {
     require(min == null || max == null || min < max) { "min must be less than max" }
     if (clamp) {
         if (min != null && it < min) return min
         if (max != null && it > max) return max
     } else if (min != null && it < min || max != null && it > max) {
-        fail(when {
+        val message = when {
             min == null -> context.localization.rangeExceededMax(it.toString(), max.toString())
             max == null -> context.localization.rangeExceededMin(it.toString(), min.toString())
-            else -> context.localization.rangeExceededBoth(it.toString(), min.toString(), max.toString())
-        })
+            else -> context.localization.rangeExceededBoth(
+                it.toString(), min.toString(), max.toString()
+            )
+        }
+        fail(message)
     }
     return it
 }
@@ -49,7 +47,7 @@ fun <T : Comparable<T>> ProcessedArgument<T, T>.restrictTo(
     min: T? = null,
     max: T? = null,
     clamp: Boolean = false,
-): ProcessedArgument<T, T> = convert { checkRange(it, min, max, clamp, context, ::fail) }
+): ProcessedArgument<T, T> = convert { checkRange(it, min, max, clamp) }
 
 /**
  * Restrict the argument values to fit into a range.
@@ -92,7 +90,7 @@ fun <T : Comparable<T>> OptionWithValues<T?, T, T>.restrictTo(
     min: T? = null,
     max: T? = null,
     clamp: Boolean = false,
-): OptionWithValues<T?, T, T> = convert { checkRange(it, min, max, clamp, context, ::fail) }
+): OptionWithValues<T?, T, T> = convert { checkRange(it, min, max, clamp) }
 
 
 /**

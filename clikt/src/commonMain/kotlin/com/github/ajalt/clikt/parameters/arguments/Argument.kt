@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.transform.TransformContext
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.jvm.JvmOverloads
 import kotlin.properties.PropertyDelegateProvider
@@ -84,12 +85,12 @@ interface ArgumentDelegate<out T> :
  *
  * @property argument The argument that was invoked
  */
-class ArgumentTransformContext(val argument: Argument, val context: Context) : Argument by argument {
-    /** Throw an exception indicating that usage was incorrect. */
-    fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
-
-    /** Issue a message that can be shown to the user */
-    fun message(message: String) = context.command.issueMessage(message)
+class ArgumentTransformContext(
+    val argument: Argument,
+    override val context: Context,
+) : Argument by argument, TransformContext {
+    override fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
+    override fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ProcessedArgument</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="../../../images/wordmark_small_dark.svg">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>clikt</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":clikt:dokkaHtml/jvmMain">jvm</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="clikt::com.github.ajalt.clikt.parameters.arguments/ProcessedArgument///PointingToDeclaration//-71441751">
+  <div class="breadcrumbs"><a href="../../../index.html">clikt</a><span class="delimiter">/</span><a href="../index.html">com.github.ajalt.clikt.parameters.arguments</a><span class="delimiter">/</span><span class="current">ProcessedArgument</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Processed</span><wbr></wbr><span><span>Argument</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">ValueT</a><span class="token operator">&gt;</span> : <a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token operator">&gt; </span></div><p class="paragraph">An <a href="../-argument/index.html">Argument</a> delegate implementation that transforms its values .</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-2087207794%2FFunctions%2F-71441751" anchor-label="check" id="-2087207794%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../check.html"><span><span>check</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2087207794%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../check.html"><span class="token function">check</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>lazyMessage<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>{ it.toString() }<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>validator<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../check.html"><span class="token function">check</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>validator<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;nullableLazyCheck&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator">?</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../check.html"><span class="token function">check</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>lazyMessage<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>{ it.toString() }<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>validator<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;nullableCheck&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator">?</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../check.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../check.html"><span class="token function">check</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>validator<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../check.html">AllT</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Check the final argument value and raise an error if it's not valid.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-305373181%2FFunctions%2F-71441751" anchor-label="choice" id="-305373181%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/choice.html"><span><span>choice</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-305373181%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html"><span class="token function">choice</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>choices<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">ignoreCase<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html"><span class="token function">choice</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">choices<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">ignoreCase<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument based on a fixed set of values.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/choice.html"><span class="token function">choice</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>choices<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">ignoreCase<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Restrict the argument to a fixed set of values.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1560084975%2FFunctions%2F-71441751" anchor-label="convert" id="1560084975%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../convert.html"><span><span>convert</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1560084975%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../convert.html">InT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../convert.html">ValueT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../convert.html">InT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../convert.html">InT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../convert.html"><span class="token function">convert</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">completionCandidates<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="token operator"> = </span>completionCandidatesWithDefault.default<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>conversion<span class="token operator">: </span><a href="../index.html#-400618312%2FClasslikes%2F-71441751">ArgValueConverter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../convert.html">InT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../convert.html">ValueT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../convert.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../convert.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument's values.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="64206404%2FFunctions%2F-71441751" anchor-label="copy" id="64206404%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="copy.html"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="64206404%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">validator<span class="token operator">: </span><a href="../index.html#-405822839%2FClasslikes%2F-71441751">ArgValidator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token operator">&gt;</span><span class="token operator"> = </span>this.transformValidator<span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.name<span class="token punctuation">, </span></span><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>this.nvalues<span class="token punctuation">, </span></span><span class="parameter ">required<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>this.required<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.argumentHelp<span class="token punctuation">, </span></span><span class="parameter ">helpTags<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>this.helpTags<span class="token punctuation">, </span></span><span class="parameter ">completionCandidatesWithDefault<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-value-with-default/index.html">ValueWithDefault</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="token operator">&gt;</span><span class="token operator"> = </span>this.completionCandidatesWithDefault</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Create a new argument that is a copy of this one with the same transforms.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="copy.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="copy.html">ValueT</a><span class="token operator">&gt; </span><a href="copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformValue<span class="token operator">: </span><a href="../index.html#1514440095%2FClasslikes%2F-71441751">ArgValueTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="copy.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">transformAll<span class="token operator">: </span><a href="../index.html#-1851300861%2FClasslikes%2F-71441751">ArgCallsTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="copy.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="copy.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">validator<span class="token operator">: </span><a href="../index.html#-405822839%2FClasslikes%2F-71441751">ArgValidator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="copy.html">AllT</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.name<span class="token punctuation">, </span></span><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>this.nvalues<span class="token punctuation">, </span></span><span class="parameter ">required<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>this.required<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.argumentHelp<span class="token punctuation">, </span></span><span class="parameter ">helpTags<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>this.helpTags<span class="token punctuation">, </span></span><span class="parameter ">completionCandidatesWithDefault<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-value-with-default/index.html">ValueWithDefault</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="token operator">&gt;</span><span class="token operator"> = </span>this.completionCandidatesWithDefault</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="copy.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="copy.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Create a new argument that is a copy of this one with different transforms.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1557355747%2FFunctions%2F-71441751" anchor-label="default" id="-1557355747%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../default.html"><span><span>default</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1557355747%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../default.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../default.html"><span class="token function">default</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="../default.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">defaultForHelp<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>value.toString()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">If the argument is not given, use <a href="../default.html">value</a> instead of throwing an error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="166070503%2FFunctions%2F-71441751" anchor-label="defaultLazy" id="166070503%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../default-lazy.html"><span>default</span><wbr></wbr><span><span>Lazy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="166070503%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../default-lazy.html"><span class="token function">defaultLazy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">crossinline </span>value<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../default-lazy.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token operator">&gt;</span></div><br><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../default-lazy.html"><span class="token function">defaultLazy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">defaultForHelp<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>value<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../default-lazy.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../default-lazy.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">If the argument is not given, call <a href="../default-lazy.html">value</a> and use its return value instead of throwing an error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-864626504%2FFunctions%2F-2027280851" anchor-label="defaultStdin" id="-864626504%2FFunctions%2F-2027280851" data-filterable-set=":clikt:dokkaHtml/jvmMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/default-stdin.html"><span>default</span><wbr></wbr><span><span>Stdin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-864626504%2FFunctions%2F-2027280851"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1100620174%2FMain%2F-2027280851">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/default-stdin.html"><span class="token function">defaultStdin</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.github.ajalt.clikt.parameters.arguments/ArgumentDelegate///PointingToDeclaration/">ArgumentDelegate</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Use <code class="lang-kotlin">-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/input-stream.html">inputStream</a> argument.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1267931427%2FFunctions%2F-2027280851" anchor-label="defaultStdout" id="1267931427%2FFunctions%2F-2027280851" data-filterable-set=":clikt:dokkaHtml/jvmMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/default-stdout.html"><span>default</span><wbr></wbr><span><span>Stdout</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1267931427%2FFunctions%2F-2027280851"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html#-1100620174%2FMain%2F-2027280851">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html">OutputStream</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html">OutputStream</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/default-stdout.html"><span class="token function">defaultStdout</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.github.ajalt.clikt.parameters.arguments/ArgumentDelegate///PointingToDeclaration/">ArgumentDelegate</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html">OutputStream</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Use <code class="lang-kotlin">-</code> as the default value for an <a href="../../com.github.ajalt.clikt.parameters.types/output-stream.html">outputStream</a> argument.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-572897266%2FFunctions%2F-71441751" anchor-label="double" id="-572897266%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/double.html"><span><span>double</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-572897266%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/double.html"><span class="token function">double</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument values to a <code class="lang-kotlin">Double</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-610469152%2FFunctions%2F-71441751" anchor-label="enum" id="-610469152%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/enum.html"><span><span>enum</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-610469152%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/enum.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/enum.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/enum.html"><span class="token function">enum</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ignoreCase<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">key<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/enum.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>{ it.name }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/enum.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/enum.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument to the values of an enum.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-334952836%2FFunctions%2F-2027280851" anchor-label="file" id="-334952836%2FFunctions%2F-2027280851" data-filterable-set=":clikt:dokkaHtml/jvmMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/file.html"><span><span>file</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-334952836%2FFunctions%2F-2027280851"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="com.github.ajalt.clikt.parameters.arguments/RawArgument///PointingToDeclaration/">RawArgument</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/file.html"><span class="token function">file</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mustExist<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">canBeFile<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">canBeDir<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">mustBeWritable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">mustBeReadable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">canBeSymlink<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#-1100620174%2FMain%2F-2027280851">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html">File</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html">File</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument to a <a href="https://docs.oracle.com/javase/8/docs/api/java/io/File.html">File</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2045443833%2FFunctions%2F-71441751" anchor-label="finalize" id="-2045443833%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="finalize.html"><span><span>finalize</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2045443833%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="finalize.html"><span class="token function">finalize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">values<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called after this command's argv is parsed to transform and store the argument's value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1480623663%2FFunctions%2F-71441751" anchor-label="float" id="1480623663%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/float.html"><span><span>float</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1480623663%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/float.html"><span class="token function">float</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument values to a <code class="lang-kotlin">Float</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2134282935%2FFunctions%2F-71441751" anchor-label="getValue" id="-2134282935%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-value.html"><span>get</span><wbr></wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2134282935%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="get-value.html"><span class="token function">getValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">thisRef<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-clikt-command/index.html">CliktCommand</a><span class="token punctuation">, </span></span><span class="parameter ">property<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html">KProperty</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">AllT</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1028658481%2FFunctions%2F-71441751" anchor-label="help" id="-1028658481%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../help.html"><span><span>help</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1028658481%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../help.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../help.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../help.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../help.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../help.html"><span class="token function">help</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../help.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../help.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Set the help for this argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1262103178%2FFunctions%2F-2027280851" anchor-label="inputStream" id="1262103178%2FFunctions%2F-2027280851" data-filterable-set=":clikt:dokkaHtml/jvmMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/input-stream.html"><span>input</span><wbr></wbr><span><span>Stream</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1262103178%2FFunctions%2F-2027280851"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="com.github.ajalt.clikt.parameters.arguments/RawArgument///PointingToDeclaration/">RawArgument</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/input-stream.html"><span class="token function">inputStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#-1100620174%2FMain%2F-2027280851">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument to an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-276799684%2FFunctions%2F-71441751" anchor-label="int" id="-276799684%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/int.html"><span><span>int</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-276799684%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/int.html"><span class="token function">int</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument values to an <code class="lang-kotlin">Int</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="629682691%2FFunctions%2F-71441751" anchor-label="long" id="629682691%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/long.html"><span><span>long</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="629682691%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../index.html#658468312%2FClasslikes%2F-71441751">RawArgument</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/long.html"><span class="token function">long</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument values to a <code class="lang-kotlin">Long</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1456644587%2FFunctions%2F-71441751" anchor-label="multiple" id="1456644587%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../multiple.html"><span><span>multiple</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1456644587%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../multiple.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../multiple.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../multiple.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../multiple.html"><span class="token function">multiple</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">required<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">default<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../multiple.html">T</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../multiple.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../multiple.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Accept any number of values to this argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1608134247%2FFunctions%2F-71441751" anchor-label="optional" id="-1608134247%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../optional.html"><span><span>optional</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1608134247%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../optional.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../optional.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../optional.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../optional.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../optional.html"><span class="token function">optional</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../optional.html">AllT</a><span class="token operator">?</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../optional.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Return null instead of throwing an error if no value is given.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1936584935%2FFunctions%2F-2027280851" anchor-label="outputStream" id="1936584935%2FFunctions%2F-2027280851" data-filterable-set=":clikt:dokkaHtml/jvmMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/output-stream.html"><span>output</span><wbr></wbr><span><span>Stream</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1936584935%2FFunctions%2F-2027280851"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="com.github.ajalt.clikt.parameters.arguments/RawArgument///PointingToDeclaration/">RawArgument</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/output-stream.html"><span class="token function">outputStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">createIfNotExist<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">truncateExisting<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#-1100620174%2FMain%2F-2027280851">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html">OutputStream</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html">OutputStream</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument to an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html">OutputStream</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1555145452%2FFunctions%2F-71441751" anchor-label="pair" id="1555145452%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../pair.html"><span><span>pair</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1555145452%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../pair.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../pair.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../pair.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../pair.html"><span class="token function">pair</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../pair.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../pair.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../pair.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Require exactly two values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1200158542%2FFunctions%2F-71441751" anchor-label="parameterHelp" id="1200158542%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="parameter-help.html"><span>parameter</span><wbr></wbr><span><span>Help</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1200158542%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="parameter-help.html"><span class="token function">parameterHelp</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-argument/index.html">HelpFormatter.ParameterHelp.Argument</a></div><div class="brief "><p class="paragraph">Information about this argument for the help output.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1036091811%2FFunctions%2F-2027280851" anchor-label="path" id="1036091811%2FFunctions%2F-2027280851" data-filterable-set=":clikt:dokkaHtml/jvmMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/path.html"><span><span>path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1036091811%2FFunctions%2F-2027280851"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="com.github.ajalt.clikt.parameters.arguments/RawArgument///PointingToDeclaration/">RawArgument</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/path.html"><span class="token function">path</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mustExist<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">canBeFile<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">canBeDir<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">mustBeWritable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">mustBeReadable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">canBeSymlink<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#-1100620174%2FMain%2F-2027280851">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html">Path</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html">Path</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert the argument to a <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html">Path</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="246366586%2FFunctions%2F-71441751" anchor-label="postValidate" id="246366586%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="post-validate.html"><span>post</span><wbr></wbr><span><span>Validate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="246366586%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="post-validate.html"><span class="token function">postValidate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called after all of a command's parameters have been <a href="finalize.html">finalize</a>d to perform validation of the final value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1760122494%2FFunctions%2F-71441751" anchor-label="provideDelegate" id="1760122494%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="provide-delegate.html"><span>provide</span><wbr></wbr><span><span>Delegate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1760122494%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="provide-delegate.html"><span class="token function">provideDelegate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">thisRef<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-clikt-command/index.html">CliktCommand</a><span class="token punctuation">, </span></span><span class="parameter ">prop<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html">KProperty</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-read-only-property/index.html">ReadOnlyProperty</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.core/-clikt-command/index.html">CliktCommand</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Implementations must call <a href="../../com.github.ajalt.clikt.core/-clikt-command/register-argument.html">CliktCommand.registerArgument</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1351848382%2FFunctions%2F-71441751" anchor-label="restrictTo" id="1351848382%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html"><span>restrict</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1351848382%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html"><span class="token function">restrictTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">range<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-closed-range/index.html">ClosedRange</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">clamp<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html">Comparable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html"><span class="token function">restrictTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">min<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">max<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">clamp<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.types/restrict-to.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Restrict the argument values to fit into a range.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="616392116%2FFunctions%2F-71441751" anchor-label="transformAll" id="616392116%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../transform-all.html"><span>transform</span><wbr></wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="616392116%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllInT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">AllOutT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllInT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../transform-all.html"><span class="token function">transformAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">required<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><a href="../index.html#-1851300861%2FClasslikes%2F-71441751">ArgCallsTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllOutT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllOutT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Transform all values to the final argument type.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllInT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">AllOutT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllInT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../transform-all.html"><span class="token function">transformAll</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">required<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">defaultForHelp<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><a href="../index.html#-1851300861%2FClasslikes%2F-71441751">ArgCallsTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllOutT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../transform-all.html">AllOutT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../transform-all.html">ValueT</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-440246104%2FFunctions%2F-71441751" anchor-label="triple" id="-440246104%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../triple.html"><span><span>triple</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-440246104%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../triple.html"><span class="token function">triple</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../triple.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Require exactly three values to this argument, and store them in a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-65276983%2FFunctions%2F-71441751" anchor-label="unique" id="-65276983%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../unique.html"><span><span>unique</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-65276983%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../unique.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../unique.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../unique.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../unique.html"><span class="token function">unique</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../unique.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../unique.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Only store unique values for this argument</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1526093283%2FFunctions%2F-71441751" anchor-label="validate" id="1526093283%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../validate.html"><span><span>validate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1526093283%2FFunctions%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../validate.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../validate.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../validate.html"><span class="token function">validate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">validator<span class="token operator">: </span><a href="../index.html#-405822839%2FClasslikes%2F-71441751">ArgValidator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;nullableValidate&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../validate.html">ValueT</a><span class="token operator">&gt; </span><a href="index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator">?</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="../validate.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../validate.html"><span class="token function">validate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">validator<span class="token operator">: </span><a href="../index.html#-405822839%2FClasslikes%2F-71441751">ArgValidator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-argument-delegate/index.html">ArgumentDelegate</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../validate.html">AllT</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Check the final argument value and raise an error if it's not valid.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-5521297%2FProperties%2F-71441751" anchor-label="argumentHelp" id="-5521297%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="argument-help.html"><span>argument</span><wbr></wbr><span><span>Help</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-5521297%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="argument-help.html">argumentHelp</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">The description of this argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-57576575%2FProperties%2F-71441751" anchor-label="completionCandidates" id="-57576575%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="completion-candidates.html"><span>completion</span><wbr></wbr><span><span>Candidates</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-57576575%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="completion-candidates.html">completionCandidates</a><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a></div><div class="brief "><p class="paragraph">Optional set of strings to use when the user invokes shell autocomplete on a value for this argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2120997026%2FProperties%2F-71441751" anchor-label="completionCandidatesWithDefault" id="-2120997026%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="completion-candidates-with-default.html"><span>completion</span><wbr></wbr><span>Candidates</span><wbr></wbr><span>With</span><wbr></wbr><span><span>Default</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2120997026%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="completion-candidates-with-default.html">completionCandidatesWithDefault</a><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-value-with-default/index.html">ValueWithDefault</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1654270829%2FProperties%2F-71441751" anchor-label="helpTags" id="-1654270829%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="help-tags.html"><span>help</span><wbr></wbr><span><span>Tags</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1654270829%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="help-tags.html">helpTags</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Extra information about this argument to pass to the help formatter.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="767133218%2FProperties%2F-71441751" anchor-label="name" id="767133218%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="767133218%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">var </span><a href="name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">The metavar for this argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1231790563%2FProperties%2F-71441751" anchor-label="nvalues" id="-1231790563%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="nvalues.html"><span><span>nvalues</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1231790563%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="nvalues.html">nvalues</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">The number of values that this argument takes.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-959468658%2FProperties%2F-71441751" anchor-label="required" id="-959468658%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="required.html"><span><span>required</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-959468658%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="required.html">required</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">If true, an error will be thrown if this argument is not given on the command line.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="45965656%2FProperties%2F-71441751" anchor-label="transformAll" id="45965656%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="transform-all.html"><span>transform</span><wbr></wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="45965656%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="transform-all.html">transformAll</a><span class="token operator">: </span><a href="../index.html#-1851300861%2FClasslikes%2F-71441751">ArgCallsTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="index.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Called in <a href="finalize.html">finalize</a> to transform the list of values to the final type.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-380705849%2FProperties%2F-71441751" anchor-label="transformValidator" id="-380705849%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="transform-validator.html"><span>transform</span><wbr></wbr><span><span>Validator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-380705849%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="transform-validator.html">transformValidator</a><span class="token operator">: </span><a href="../index.html#-405822839%2FClasslikes%2F-71441751">ArgValidator</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">AllT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Called after all parameters have been <a href="finalize.html">finalize</a>d to validate the result of <a href="../transform-all.html">transformAll</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1798693752%2FProperties%2F-71441751" anchor-label="transformValue" id="-1798693752%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="transform-value.html"><span>transform</span><wbr></wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1798693752%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="transform-value.html">transformValue</a><span class="token operator">: </span><a href="../index.html#1514440095%2FClasslikes%2F-71441751">ArgValueTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">ValueT</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Called in <a href="finalize.html">finalize</a> to transform each value provided to the argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

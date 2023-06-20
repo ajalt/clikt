@@ -12,8 +12,14 @@
         <meta name="author" content="AJ Alt">
       
       
+      
+        <link rel="prev" href="../exceptions/">
+      
+      
+        <link rel="next" href="../migration/">
+      
       <link rel="icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.0">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
     
     
       
@@ -21,13 +27,13 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.69437709.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
-        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
       
       
+
     
     
     
@@ -46,6 +52,7 @@
     
       
 
+    
     
     
   </head>
@@ -70,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#352" class="md-skip">
+        <a href="#354" class="md-skip">
           Skip to content
         </a>
       
@@ -82,7 +89,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Clikt" class="md-header__button md-logo" aria-label="Clikt" data-md-component="logo">
       
@@ -109,27 +118,31 @@
       </div>
     </div>
     
-      <form class="md-header__option" data-md-component="palette">
-        
+      
+        <form class="md-header__option" data-md-component="palette">
           
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+              </label>
+            
           
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+              </label>
+            
           
-            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-            </label>
-          
-        
-          
-          
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
-          
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
-            </label>
-          
-        
-      </form>
+        </form>
+      
     
     
     
@@ -147,7 +160,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -159,7 +172,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -171,7 +184,7 @@
         <a href="https://github.com/ajalt/clikt" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     Clikt
@@ -215,7 +228,7 @@
       <a href="https://github.com/ajalt/clikt" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     Clikt
@@ -236,17 +249,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_1">
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
           Quickstart
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Quickstart" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
           Quickstart
@@ -340,17 +354,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_2">
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
           Why Clikt?
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Why Clikt?" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Why Clikt?
@@ -402,17 +417,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_3">
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
           Parameters
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Parameters" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Parameters
@@ -520,17 +536,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_4">
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
           Options
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Options" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Options
@@ -862,17 +879,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
           Arguments
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Arguments" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Arguments
@@ -938,17 +956,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_6">
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
           Commands
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Commands" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Commands
@@ -1098,17 +1117,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_7">
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
           Documenting Scripts
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Documenting Scripts" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Documenting Scripts
@@ -1272,17 +1292,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_8">
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
           Advanced Patterns
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Advanced Patterns" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_8">
           <span class="md-nav__icon md-icon"></span>
           Advanced Patterns
@@ -1404,17 +1425,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_9">
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
           Utilities
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Utilities" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_9">
           <span class="md-nav__icon md-icon"></span>
           Utilities
@@ -1480,17 +1502,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_10">
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
           Bash Autocomplete
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Bash Autocomplete" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_10">
           <span class="md-nav__icon md-icon"></span>
           Bash Autocomplete
@@ -1570,17 +1593,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_11">
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
           Exception Handling
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Exception Handling" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_11">
           <span class="md-nav__icon md-icon"></span>
           Exception Handling
@@ -1646,17 +1670,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_12">
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
           API reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="API reference" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_12">
           <span class="md-nav__icon md-icon"></span>
           API reference
@@ -1752,17 +1777,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_13">
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
           Releases
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Releases" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_13">
           <span class="md-nav__icon md-icon"></span>
           Releases
@@ -1778,7 +1804,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
       
@@ -1805,16 +1831,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#352" class="md-nav__link">
-    3.5.2
+  <a href="#354" class="md-nav__link">
+    3.5.4
   </a>
   
-    <nav class="md-nav" aria-label="3.5.2">
+    <nav class="md-nav" aria-label="3.5.4">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
-    Changed
+  <a href="#fixed" class="md-nav__link">
+    Fixed
   </a>
   
 </li>
@@ -1825,15 +1851,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#-updated-kotlin-to-1810" class="md-nav__link">
-    - Updated Kotlin to 1.8.10
+  <a href="#353" class="md-nav__link">
+    3.5.3
   </a>
   
-    <nav class="md-nav" aria-label="- Updated Kotlin to 1.8.10">
+    <nav class="md-nav" aria-label="3.5.3">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#changed" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#352" class="md-nav__link">
+    3.5.2
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
     Fixed
   </a>
   
@@ -1853,14 +1913,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_1" class="md-nav__link">
+  <a href="#fixed_3" class="md-nav__link">
     Fixed
   </a>
   
@@ -1887,14 +1947,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_2" class="md-nav__link">
+  <a href="#changed_3" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_2" class="md-nav__link">
+  <a href="#fixed_4" class="md-nav__link">
     Fixed
   </a>
   
@@ -1941,7 +2001,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_3" class="md-nav__link">
+  <a href="#changed_4" class="md-nav__link">
     Changed
   </a>
   
@@ -1961,14 +2021,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_4" class="md-nav__link">
+  <a href="#changed_5" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_3" class="md-nav__link">
+  <a href="#fixed_5" class="md-nav__link">
     Fixed
   </a>
   
@@ -1995,14 +2055,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_5" class="md-nav__link">
+  <a href="#changed_6" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_4" class="md-nav__link">
+  <a href="#fixed_6" class="md-nav__link">
     Fixed
   </a>
   
@@ -2029,14 +2089,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_6" class="md-nav__link">
+  <a href="#changed_7" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_5" class="md-nav__link">
+  <a href="#fixed_7" class="md-nav__link">
     Fixed
   </a>
   
@@ -2063,7 +2123,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_7" class="md-nav__link">
+  <a href="#changed_8" class="md-nav__link">
     Changed
   </a>
   
@@ -2110,14 +2170,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_6" class="md-nav__link">
+  <a href="#fixed_8" class="md-nav__link">
     Fixed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_8" class="md-nav__link">
+  <a href="#changed_9" class="md-nav__link">
     Changed
   </a>
   
@@ -2158,14 +2218,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_9" class="md-nav__link">
+  <a href="#changed_10" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_7" class="md-nav__link">
+  <a href="#fixed_9" class="md-nav__link">
     Fixed
   </a>
   
@@ -2185,7 +2245,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed_8" class="md-nav__link">
+  <a href="#fixed_10" class="md-nav__link">
     Fixed
   </a>
   
@@ -2212,14 +2272,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_10" class="md-nav__link">
+  <a href="#changed_11" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_9" class="md-nav__link">
+  <a href="#fixed_11" class="md-nav__link">
     Fixed
   </a>
   
@@ -2246,7 +2306,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_11" class="md-nav__link">
+  <a href="#changed_12" class="md-nav__link">
     Changed
   </a>
   
@@ -2280,7 +2340,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_12" class="md-nav__link">
+  <a href="#changed_13" class="md-nav__link">
     Changed
   </a>
   
@@ -2294,7 +2354,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_10" class="md-nav__link">
+  <a href="#fixed_12" class="md-nav__link">
     Fixed
   </a>
   
@@ -2321,14 +2381,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_13" class="md-nav__link">
+  <a href="#changed_14" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_11" class="md-nav__link">
+  <a href="#fixed_13" class="md-nav__link">
     Fixed
   </a>
   
@@ -2355,7 +2415,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_14" class="md-nav__link">
+  <a href="#changed_15" class="md-nav__link">
     Changed
   </a>
   
@@ -2382,14 +2442,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_15" class="md-nav__link">
+  <a href="#changed_16" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_12" class="md-nav__link">
+  <a href="#fixed_14" class="md-nav__link">
     Fixed
   </a>
   
@@ -2416,14 +2476,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_16" class="md-nav__link">
+  <a href="#changed_17" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_13" class="md-nav__link">
+  <a href="#fixed_15" class="md-nav__link">
     Fixed
   </a>
   
@@ -2450,7 +2510,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_17" class="md-nav__link">
+  <a href="#changed_18" class="md-nav__link">
     Changed
   </a>
   
@@ -2477,7 +2537,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_14" class="md-nav__link">
+  <a href="#fixed_16" class="md-nav__link">
     Fixed
   </a>
   
@@ -2504,7 +2564,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_15" class="md-nav__link">
+  <a href="#fixed_17" class="md-nav__link">
     Fixed
   </a>
   
@@ -2551,7 +2611,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_18" class="md-nav__link">
+  <a href="#changed_19" class="md-nav__link">
     Changed
   </a>
   
@@ -2578,14 +2638,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_19" class="md-nav__link">
+  <a href="#changed_20" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_16" class="md-nav__link">
+  <a href="#fixed_18" class="md-nav__link">
     Fixed
   </a>
   
@@ -2612,7 +2672,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_20" class="md-nav__link">
+  <a href="#changed_21" class="md-nav__link">
     Changed
   </a>
   
@@ -2697,16 +2757,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#352" class="md-nav__link">
-    3.5.2
+  <a href="#354" class="md-nav__link">
+    3.5.4
   </a>
   
-    <nav class="md-nav" aria-label="3.5.2">
+    <nav class="md-nav" aria-label="3.5.4">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
-    Changed
+  <a href="#fixed" class="md-nav__link">
+    Fixed
   </a>
   
 </li>
@@ -2717,15 +2777,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#-updated-kotlin-to-1810" class="md-nav__link">
-    - Updated Kotlin to 1.8.10
+  <a href="#353" class="md-nav__link">
+    3.5.3
   </a>
   
-    <nav class="md-nav" aria-label="- Updated Kotlin to 1.8.10">
+    <nav class="md-nav" aria-label="3.5.3">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#changed" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#352" class="md-nav__link">
+    3.5.2
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
     Fixed
   </a>
   
@@ -2745,14 +2839,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_1" class="md-nav__link">
+  <a href="#changed_2" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_1" class="md-nav__link">
+  <a href="#fixed_3" class="md-nav__link">
     Fixed
   </a>
   
@@ -2779,14 +2873,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_2" class="md-nav__link">
+  <a href="#changed_3" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_2" class="md-nav__link">
+  <a href="#fixed_4" class="md-nav__link">
     Fixed
   </a>
   
@@ -2833,7 +2927,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_3" class="md-nav__link">
+  <a href="#changed_4" class="md-nav__link">
     Changed
   </a>
   
@@ -2853,14 +2947,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed_4" class="md-nav__link">
+  <a href="#changed_5" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_3" class="md-nav__link">
+  <a href="#fixed_5" class="md-nav__link">
     Fixed
   </a>
   
@@ -2887,14 +2981,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_5" class="md-nav__link">
+  <a href="#changed_6" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_4" class="md-nav__link">
+  <a href="#fixed_6" class="md-nav__link">
     Fixed
   </a>
   
@@ -2921,14 +3015,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_6" class="md-nav__link">
+  <a href="#changed_7" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_5" class="md-nav__link">
+  <a href="#fixed_7" class="md-nav__link">
     Fixed
   </a>
   
@@ -2955,7 +3049,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_7" class="md-nav__link">
+  <a href="#changed_8" class="md-nav__link">
     Changed
   </a>
   
@@ -3002,14 +3096,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_6" class="md-nav__link">
+  <a href="#fixed_8" class="md-nav__link">
     Fixed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_8" class="md-nav__link">
+  <a href="#changed_9" class="md-nav__link">
     Changed
   </a>
   
@@ -3050,14 +3144,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_9" class="md-nav__link">
+  <a href="#changed_10" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_7" class="md-nav__link">
+  <a href="#fixed_9" class="md-nav__link">
     Fixed
   </a>
   
@@ -3077,7 +3171,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed_8" class="md-nav__link">
+  <a href="#fixed_10" class="md-nav__link">
     Fixed
   </a>
   
@@ -3104,14 +3198,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_10" class="md-nav__link">
+  <a href="#changed_11" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_9" class="md-nav__link">
+  <a href="#fixed_11" class="md-nav__link">
     Fixed
   </a>
   
@@ -3138,7 +3232,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_11" class="md-nav__link">
+  <a href="#changed_12" class="md-nav__link">
     Changed
   </a>
   
@@ -3172,7 +3266,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_12" class="md-nav__link">
+  <a href="#changed_13" class="md-nav__link">
     Changed
   </a>
   
@@ -3186,7 +3280,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_10" class="md-nav__link">
+  <a href="#fixed_12" class="md-nav__link">
     Fixed
   </a>
   
@@ -3213,14 +3307,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_13" class="md-nav__link">
+  <a href="#changed_14" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_11" class="md-nav__link">
+  <a href="#fixed_13" class="md-nav__link">
     Fixed
   </a>
   
@@ -3247,7 +3341,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_14" class="md-nav__link">
+  <a href="#changed_15" class="md-nav__link">
     Changed
   </a>
   
@@ -3274,14 +3368,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_15" class="md-nav__link">
+  <a href="#changed_16" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_12" class="md-nav__link">
+  <a href="#fixed_14" class="md-nav__link">
     Fixed
   </a>
   
@@ -3308,14 +3402,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_16" class="md-nav__link">
+  <a href="#changed_17" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_13" class="md-nav__link">
+  <a href="#fixed_15" class="md-nav__link">
     Fixed
   </a>
   
@@ -3342,7 +3436,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_17" class="md-nav__link">
+  <a href="#changed_18" class="md-nav__link">
     Changed
   </a>
   
@@ -3369,7 +3463,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_14" class="md-nav__link">
+  <a href="#fixed_16" class="md-nav__link">
     Fixed
   </a>
   
@@ -3396,7 +3490,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_15" class="md-nav__link">
+  <a href="#fixed_17" class="md-nav__link">
     Fixed
   </a>
   
@@ -3443,7 +3537,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_18" class="md-nav__link">
+  <a href="#changed_19" class="md-nav__link">
     Changed
   </a>
   
@@ -3470,14 +3564,14 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_19" class="md-nav__link">
+  <a href="#changed_20" class="md-nav__link">
     Changed
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_16" class="md-nav__link">
+  <a href="#fixed_18" class="md-nav__link">
     Fixed
   </a>
   
@@ -3504,7 +3598,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#changed_20" class="md-nav__link">
+  <a href="#changed_21" class="md-nav__link">
     Changed
   </a>
   
@@ -3543,31 +3637,48 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-  <a href="https://github.com/ajalt/clikt/edit/master/docs/changelog.md" title="Edit this page" class="md-content__button md-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+                  
 
+  
+  
 
 
   <h1>Change Log</h1>
 
-<h2 id="352">3.5.2<a class="headerlink" href="#352" title="Permanent link">&para;</a></h2>
-<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
-<h2 id="-updated-kotlin-to-1810">- Updated Kotlin to 1.8.10<a class="headerlink" href="#-updated-kotlin-to-1810" title="Permanent link">&para;</a></h2>
+<h2 id="354">3.5.4<a class="headerlink" href="#354" title="Permanent link">&para;</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Revert jvm jars to target Java 8</li>
+</ul>
+<h2 id="353">3.5.3<a class="headerlink" href="#353" title="Permanent link">&para;</a></h2>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Updated Kotlin to 1.8.22</li>
+</ul>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Context is now set properly on NoSuchOption exceptions when thrown from subcommands. (<a href="https://github.com/ajalt/clikt/issues/399">#399</a>)</li>
+<li>When <code>treatUnknownOptionsAsArgs</code> is true, grouped unknown short options will now be treated as arguments rather than reporting an error.</li>
+</ul>
+<h2 id="352">3.5.2<a class="headerlink" href="#352" title="Permanent link">&para;</a></h2>
+<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Updated Kotlin to 1.8.10</li>
+</ul>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fix <code>CliktCommand.prompt</code> on NodeJS targets that would hang due to KT-55817 (<a href="https://github.com/ajalt/clikt/issues/387">#387</a>)</li>
 </ul>
 <h2 id="351">3.5.1<a class="headerlink" href="#351" title="Permanent link">&para;</a></h2>
-<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
+<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Updated Kotlin to 1.7.20</li>
 </ul>
-<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Support unicode in environment variable values on Native Windows. (<a href="https://github.com/ajalt/clikt/issues/362">#362</a>)</li>
 <li>Support environment variables for options in a mutually exclusive options group. (<a href="https://github.com/ajalt/clikt/issues/384">#384</a>)</li>
@@ -3578,11 +3689,11 @@
 <li>Added <code>hidden</code> parameter to <code>CliktCommand</code>, which will prevent the command from being displayed as a subcommand in help output  (<a href="https://github.com/ajalt/clikt/issues/353">#353</a>)</li>
 <li>Publish artifacts for the <code>macosArm64</code> target. Note that this target is not tested on CI. (<a href="https://github.com/ajalt/clikt/issues/352">#352</a>)</li>
 </ul>
-<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
+<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Default values for arguments will now be included in help output when <code>showDefaultValues=true</code> is set on your help formatter (<a href="https://github.com/ajalt/clikt/issues/357">#357</a>)</li>
 </ul>
-<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fix flags and other options with defaults not being usable in <code>mutuallyExclusiveOptions</code> (<a href="https://github.com/ajalt/clikt/issues/349">#349</a>)</li>
 <li>Fix <code>CompletionCommand</code> generating completion for itself (<a href="https://github.com/ajalt/clikt/issues/355">#355</a>)</li>
@@ -3597,17 +3708,17 @@
 <ul>
 <li>Publish JS artifacts with new IR compiler, in addition to the legacy format </li>
 </ul>
-<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">&para;</a></h3>
+<h3 id="changed_4">Changed<a class="headerlink" href="#changed_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Updated Kotlin to 1.6.20</li>
 </ul>
 <h2 id="340">3.4.0<a class="headerlink" href="#340" title="Permanent link">&para;</a></h2>
-<h3 id="changed_4">Changed<a class="headerlink" href="#changed_4" title="Permanent link">&para;</a></h3>
+<h3 id="changed_5">Changed<a class="headerlink" href="#changed_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>unique()</code> now works with any option with a list type, not just <code>multiple()</code> options (<a href="https://github.com/ajalt/clikt/issues/332">#332</a>)</li>
 <li>Updated Kotlin to 1.6.10</li>
 </ul>
-<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixed co-occurring option groups returning null when all options in the group are defined in environment variables (<a href="https://github.com/ajalt/clikt/issues/330">#330</a>)</li>
 </ul>
@@ -3618,14 +3729,14 @@
 <li><code>Context.originalArgv</code> that allows you to read the command line arguments from within a command&rsquo;s <code>run</code> (<a href="https://github.com/ajalt/clikt/issues/290">#290</a>)</li>
 <li><code>context { envarReader = {...} }</code> to set a custom function to read from environment variables (<a href="https://github.com/ajalt/clikt/issues/299">#299</a>)</li>
 </ul>
-<h3 id="changed_5">Changed<a class="headerlink" href="#changed_5" title="Permanent link">&para;</a></h3>
+<h3 id="changed_6">Changed<a class="headerlink" href="#changed_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>defaultLazy</code> values can now reference other parameters, as long the referenced parameters do not also reference other parameters</li>
 <li>You can now call <code>CliktCommand.context</code> multiple times on the same command, and all builder blocks will be applied </li>
 <li>Validate values entered to a <code>prompt</code> option, and show another prompt if the validation fails (<a href="https://github.com/ajalt/clikt/issues/288">#288</a>)</li>
 <li>Updated kotlin to 1.5.31</li>
 </ul>
-<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Report error when excess arguments are given to a command with <code>allowMultipleSubcommands=true</code> (<a href="https://github.com/ajalt/clikt/issues/303">#303</a>)</li>
 </ul>
@@ -3634,12 +3745,12 @@
 <ul>
 <li><code>InputStream.isCliktParameterDefaultStdin</code> and <code>OutputStream.isCliktParameterDefaultStdout</code> to check if the streams returned from <code>inputStream</code>/<code>outputStream</code> options are proxying stdin/stdout (<a href="https://github.com/ajalt/clikt/issues/272">#272</a>)</li>
 </ul>
-<h3 id="changed_6">Changed<a class="headerlink" href="#changed_6" title="Permanent link">&para;</a></h3>
+<h3 id="changed_7">Changed<a class="headerlink" href="#changed_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Make parameters of <code>mutuallyExclusiveOptions</code> covariant to allow validation without explicit type annotations. (<a href="https://github.com/ajalt/clikt/issues/265">#265</a>)</li>
 <li>Updated kotlin to 1.5.0</li>
 </ul>
-<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Reading from an option or argument property on a command that hasn&rsquo;t been invoked will now always throw an <code>IllegalStateException</code></li>
 </ul>
@@ -3650,7 +3761,7 @@
 <li>Added support for generating autocomplete scripts for Fish shells (<a href="https://github.com/ajalt/clikt/issues/189">#189</a>)</li>
 <li>Added <code>CompletionCommand</code> and <code>CliktCommand.completionOption()</code> that will print an autocomplete script when invoked, as an alternative to using environment variables.</li>
 </ul>
-<h3 id="changed_7">Changed<a class="headerlink" href="#changed_7" title="Permanent link">&para;</a></h3>
+<h3 id="changed_8">Changed<a class="headerlink" href="#changed_8" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Updated Kotlin to 1.4.21</li>
 <li><code>@argfiles</code> now allow line breaks in quoted values, which are included in the value verbatim. You can now end lines with <code>\</code> to concatenate them with the following line. (<a href="https://github.com/ajalt/clikt/issues/248">#248</a>)</li>
@@ -3674,13 +3785,13 @@
 <li>Added <code>echo()</code> overload with no parameters to CliktCommand that prints a newline by itself.</li>
 <li>Added localization support. You can set an implementation of the <code>Localization</code> interface on your context with your translations. (<a href="https://github.com/ajalt/clikt/issues/227">#227</a>)</li>
 </ul>
-<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_8">Fixed<a class="headerlink" href="#fixed_8" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Hidden options will no longer be suggested as possible typo corrections. (<a href="https://github.com/ajalt/clikt/issues/202">#202</a>)</li>
 <li>Options and Arguments with <code>multiple(required=true)</code> will now show as required in help output. (<a href="https://github.com/ajalt/clikt/issues/212">#212</a>)</li>
 <li>Multiple short lines in a help text paragraph no longer appear dedented (<a href="https://github.com/ajalt/clikt/issues/215">#215</a>)</li>
 </ul>
-<h3 id="changed_8">Changed<a class="headerlink" href="#changed_8" title="Permanent link">&para;</a></h3>
+<h3 id="changed_9">Changed<a class="headerlink" href="#changed_9" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Updated Kotlin to 1.4.0</li>
 <li><code>Argument.help</code> and <code>Option.help</code> properties have been renamed to <code>argumentHelp</code> and <code>optionHelp</code>, respectively. The <code>help</code> parameter names to <code>option()</code> and <code>argument()</code> are unchanged.</li>
@@ -3705,18 +3816,18 @@
 <ul>
 <li>Added <code>error</code> parameter to <code>PrintMessage</code> and <code>PrintHelpMessage</code>. When <code>true</code>, <code>CliktCommand.main</code> will exit with status code 1. (<a href="https://github.com/ajalt/clikt/issues/187">#187</a>)</li>
 </ul>
-<h3 id="changed_9">Changed<a class="headerlink" href="#changed_9" title="Permanent link">&para;</a></h3>
+<h3 id="changed_10">Changed<a class="headerlink" href="#changed_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li>When <code>printHelpOnEmptyArgs</code> is <code>true</code> and no arguments are present, or when <code>invokeWithoutSubcommand</code> is <code>false</code> and no subcommand is present, <code>CliktCommand.main</code> will now exit with status code 1 rather than 0. </li>
 <li><code>restrictTo</code> now works with any <code>Comparable</code> value, not just <code>Number</code>.</li>
 <li><code>CliktCommand.main</code> now accepts <code>Array&lt;out String&gt;</code>, not just <code>Array&lt;String&gt;</code>. (<a href="https://github.com/ajalt/clikt/issues/196">#196</a>)</li>
 </ul>
-<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_9">Fixed<a class="headerlink" href="#fixed_9" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixed option values being reset when calling multiple subcommands with <code>allowMultipleSubcommands=true</code> (<a href="https://github.com/ajalt/clikt/issues/190">#190</a>)</li>
 </ul>
 <h2 id="271">2.7.1<a class="headerlink" href="#271" title="Permanent link">&para;</a></h2>
-<h3 id="fixed_8">Fixed<a class="headerlink" href="#fixed_8" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_10">Fixed<a class="headerlink" href="#fixed_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixed NPE thrown in some cases when using <code>defaultByName</code> (<a href="https://github.com/ajalt/clikt/issues/179">#179</a>)</li>
 </ul>
@@ -3729,12 +3840,12 @@
 <li><code>treatUnknownOptionsAsArgs</code> parameter to <code>CliktCommand</code>. (<a href="https://github.com/ajalt/clikt/issues/152">#152</a>)</li>
 <li><code>defaultByName</code> function for <code>groupChoice</code> and <code>groupSwitch</code> options. (<a href="https://github.com/ajalt/clikt/issues/171">#171</a>)</li>
 </ul>
-<h3 id="changed_10">Changed<a class="headerlink" href="#changed_10" title="Permanent link">&para;</a></h3>
+<h3 id="changed_11">Changed<a class="headerlink" href="#changed_11" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Update Kotlin to 1.3.71</li>
 <li>Improved command name inference. Now, a class like <code>MyAppCommand</code> will infer its <code>commandName</code> as <code>my-app</code> rather than <code>myappcommand</code>. You can still specify the name manually as before. ([#168][<a href="https://github.com/ajalt/clikt/pull/168">https://github.com/ajalt/clikt/pull/168</a>])</li>
 </ul>
-<h3 id="fixed_9">Fixed<a class="headerlink" href="#fixed_9" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_11">Fixed<a class="headerlink" href="#fixed_11" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Correctly parse short options with attached values that contain <code>=</code></li>
 </ul>
@@ -3746,7 +3857,7 @@
 <li><code>allowMultipleSubcommands</code> parameter to <code>CliktCommand</code> that allows you to pass multiple subcommands in the same call. (<a href="https://ajalt.github.io/clikt/commands/#chaining-and-repeating-subcommands">docs</a>)</li>
 <li>Errors from typos in subcommand names will now include suggested corrections. Corrections for options and subcommands are now based on a Jaro-Winkler similarity metric, and can be customized with <code>Context.correctionSuggestor</code></li>
 </ul>
-<h3 id="changed_11">Changed<a class="headerlink" href="#changed_11" title="Permanent link">&para;</a></h3>
+<h3 id="changed_12">Changed<a class="headerlink" href="#changed_12" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Update Kotlin to 1.3.70</li>
 <li><code>convert</code> can be called more than once on the same option or argument, including after calls to conversion functions like <code>int</code> and <code>file</code>.</li>
@@ -3766,7 +3877,7 @@
 <li><code>canBeSymlink</code> parameter to <code>file()</code> and <code>path()</code> conversions that can be used to disallow symlinks</li>
 <li><code>CliktCommand.eagerOption</code> to simplify creating custom eager options</li>
 </ul>
-<h3 id="changed_12">Changed<a class="headerlink" href="#changed_12" title="Permanent link">&para;</a></h3>
+<h3 id="changed_13">Changed<a class="headerlink" href="#changed_13" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The parameter names of <code>file()</code> and <code>path()</code> conversions have changed. The existing names are deprecated, and can be converted to the new usages with an IntelliJ inspection. Note that if you are calling these functions with unnamed arguments (e.g. <code>file(true, false)</code>), you&rsquo;ll need to add argument names in order to remove the deprecation warning.</li>
 </ul>
@@ -3775,7 +3886,7 @@
 <li>The <code>CliktCommand.context</code> property has been deprecated in favor of the new name, <code>currentContext</code>, to avoid confusion with the <code>CliktCommand.context{}</code> method.</li>
 <li><code>NoRunCliktCommand</code> was renamed to <code>NoOpCliktCommand</code>. The existing class is deprecated. (<a href="https://github.com/ajalt/clikt/issues/130">#130</a>)</li>
 </ul>
-<h3 id="fixed_10">Fixed<a class="headerlink" href="#fixed_10" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_12">Fixed<a class="headerlink" href="#fixed_12" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>file()</code> and <code>path()</code> conversions will now properly expand leading <code>~</code> in paths to the home directory for <code>mustExist</code>, <code>canBeFile</code>, and <code>canBeDir</code> checks. The property value is unchanged, and can still begin with a <code>~</code>. (<a href="https://github.com/ajalt/clikt/issues/79">#131</a>)</li>
 </ul>
@@ -3787,13 +3898,13 @@
 <li><code>Option.wrapValue</code> and <code>Argument.wrapValue</code> to make it easier to reuse existing conversion functions.</li>
 <li><code>ignoreCase</code> parameter to <code>choice()</code> and <code>enum()</code> conversion functions.</li>
 </ul>
-<h3 id="changed_13">Changed<a class="headerlink" href="#changed_13" title="Permanent link">&para;</a></h3>
+<h3 id="changed_14">Changed<a class="headerlink" href="#changed_14" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>option()</code> and <code>argument()</code> now take optional <code>completionCandidates</code> parameters to override how completion is generated. The constructor and <code>copy</code> functions of <code>OptionsWithValues</code> and <code>ProcessedArgument</code> have changed to support default values.</li>
 <li>The overloads of <code>findObject</code> (<a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/-context/find-object/">1</a> <a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.core/find-object/">2</a>) that take a default value have been renamed <code>findOrSetObject</code>. The existing names are marked with <code>@Deprecated</code>, and IntelliJ can convert your callsites automatically. (<a href="https://github.com/ajalt/clikt/issues/110">#110</a>)</li>
 <li><code>enum()</code> parameters now accept case-insensitive values by default. You change this behavior by passing <code>ignoreCase = false</code> to <code>enum()</code> (<a href="https://github.com/ajalt/clikt/issues/115">#115</a>)</li>
 </ul>
-<h3 id="fixed_11">Fixed<a class="headerlink" href="#fixed_11" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_13">Fixed<a class="headerlink" href="#fixed_13" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>groupChoice</code> help output now includes the choices in the help output metavar</li>
 <li><code>TermUi.edit*</code> functions could freeze on certain editors (<a href="https://github.com/ajalt/clikt/issues/99">#99</a>, thanks @iampravikant and @sebokopter)</li>
@@ -3806,7 +3917,7 @@
 <li><code>option().groupSwitch()</code>, which works like <code>groupChoice()</code>, but uses a <code>switch()</code> option rather than a <code>choice()</code> option.</li>
 <li><code>UsageError</code> now has a <code>statusCode</code> parameter (which defaults to 1). If you&rsquo;re using <code>ClicktCommand.main</code>, the value of <code>statusCode</code> will be passed to <code>exitProcess</code>. </li>
 </ul>
-<h3 id="changed_14">Changed<a class="headerlink" href="#changed_14" title="Permanent link">&para;</a></h3>
+<h3 id="changed_15">Changed<a class="headerlink" href="#changed_15" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Shell completion code is now printed by throwing a <code>PrintCompletionMessage</code> (a subclass of <code>PrintMessage</code>) rather than calling <code>echo</code> directly.</li>
 </ul>
@@ -3815,11 +3926,11 @@
 <ul>
 <li>Added <a href="https://ajalt.github.io/clikt/api/clikt/com.github.ajalt.clikt.parameters.types/enum/"><code>enum()</code> conversion</a> for options and arguments. (<a href="https://github.com/ajalt/clikt/issues/84">#84</a>)</li>
 </ul>
-<h3 id="changed_15">Changed<a class="headerlink" href="#changed_15" title="Permanent link">&para;</a></h3>
+<h3 id="changed_16">Changed<a class="headerlink" href="#changed_16" title="Permanent link">&para;</a></h3>
 <ul>
 <li>There are now several ways of <a href="https://ajalt.github.io/clikt/advanced/#preventing-file-expansion">preventing @-file expansion</a></li>
 </ul>
-<h3 id="fixed_12">Fixed<a class="headerlink" href="#fixed_12" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_14">Fixed<a class="headerlink" href="#fixed_14" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Help output missing items when no help text is specified. (<a href="https://github.com/ajalt/clikt/issues/85">#85</a>)</li>
 <li>Help output not grouping options in groups passed to <code>groupChoice</code>. (<a href="https://github.com/ajalt/clikt/issues/88">#88</a>)</li>
@@ -3830,11 +3941,11 @@
 <li>Ability to prevent <a href="https://ajalt.github.io/clikt/documenting/#preventing-rewrapping">rewrapping individual paragraphs</a> in help output.</li>
 <li>Added parameter <code>required</code> to <code>Option.multiple()</code> to require at least one instance of the option on the command line.</li>
 </ul>
-<h3 id="changed_16">Changed<a class="headerlink" href="#changed_16" title="Permanent link">&para;</a></h3>
+<h3 id="changed_17">Changed<a class="headerlink" href="#changed_17" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>CliktCommand.toString()</code> now includes the names and values of all parameters and subcommands.</li>
 </ul>
-<h3 id="fixed_13">Fixed<a class="headerlink" href="#fixed_13" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_15">Fixed<a class="headerlink" href="#fixed_15" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Create subcommand context when <code>helpOptionNames</code> is empty. (<a href="https://github.com/ajalt/clikt/issues/64">#64</a>)</li>
 </ul>
@@ -3848,7 +3959,7 @@
 <li><a href="https://ajalt.github.io/clikt/documenting/#grouping-options-in-help">Option groups</a>, <a href="https://ajalt.github.io/clikt/options/#prompting-for-input">mutually exclusive groups</a>, <a href="https://ajalt.github.io/clikt/options/#co-occurring-option-groups">co-occurring groups</a>, and <a href="https://ajalt.github.io/clikt/options/#choice-options-with-groups">choice options with groups</a></li>
 <li>Support for <a href="https://ajalt.github.io/clikt/advanced/#command-line-argument-files-files">Command line argument files</a> a.k.a &ldquo;@-files&rdquo;</li>
 </ul>
-<h3 id="changed_17">Changed<a class="headerlink" href="#changed_17" title="Permanent link">&para;</a></h3>
+<h3 id="changed_18">Changed<a class="headerlink" href="#changed_18" title="Permanent link">&para;</a></h3>
 <ul>
 <li>If multiple <code>--</code> tokens are present on the command line, all subsequent occurrences after the first are now parsed as positional arguments. Previously, subsequent <code>--</code> tokens were skipped.  </li>
 <li>The <code>PlaintextHelpFormatter</code> has been replaced with <code>CliktHelpFormatter</code>, which is more customizable. See <a href="https://ajalt.github.io/clikt/documenting/">the docs</a> for more info, or the <a href="https://github.com/ajalt/clikt/tree/master/samples/ansicolors">new sample</a> for an example of customizing help output to use ANSI colors.</li>
@@ -3861,7 +3972,7 @@
 <ul>
 <li><code>printHelpOnEmptyArgs</code> parameter to <code>CliktCommand</code> constructor. (<a href="https://github.com/ajalt/clikt/issues/41">#41</a>)</li>
 </ul>
-<h3 id="fixed_14">Fixed<a class="headerlink" href="#fixed_14" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_16">Fixed<a class="headerlink" href="#fixed_16" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Usage errors now correctly print subcommand names. (<a href="https://github.com/ajalt/clikt/issues/47">#47</a>)</li>
 <li>Arguments with <code>multiple(required=true)</code> now report an error if no argument is given on the command line. (<a href="https://github.com/ajalt/clikt/issues/36">#36</a>)</li>
@@ -3871,7 +3982,7 @@
 <ul>
 <li><code>.multiple().unique()</code> modifier for options and arguments.</li>
 </ul>
-<h3 id="fixed_15">Fixed<a class="headerlink" href="#fixed_15" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_17">Fixed<a class="headerlink" href="#fixed_17" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Support multi-line input when redirecting stdin</li>
 </ul>
@@ -3885,7 +3996,7 @@
 <ul>
 <li><code>path()</code> type for parameter values</li>
 </ul>
-<h3 id="changed_18">Changed<a class="headerlink" href="#changed_18" title="Permanent link">&para;</a></h3>
+<h3 id="changed_19">Changed<a class="headerlink" href="#changed_19" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Clikt now targets JVM 8 bytecode</li>
 <li>Responses to <code>TermUi.confirm()</code> are now case-insensitive</li>
@@ -3895,11 +4006,11 @@
 <ul>
 <li><code>defaultLazy</code> extension for options and arguments</li>
 </ul>
-<h3 id="changed_19">Changed<a class="headerlink" href="#changed_19" title="Permanent link">&para;</a></h3>
+<h3 id="changed_20">Changed<a class="headerlink" href="#changed_20" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>main</code> now prints messages to stderr instead of stdout</li>
 </ul>
-<h3 id="fixed_16">Fixed<a class="headerlink" href="#fixed_16" title="Permanent link">&para;</a></h3>
+<h3 id="fixed_18">Fixed<a class="headerlink" href="#fixed_18" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Parameter help messages are now wrapped more consistently</li>
 </ul>
@@ -3908,7 +4019,7 @@
 <ul>
 <li>Default parameter to <code>option().default()</code></li>
 </ul>
-<h3 id="changed_20">Changed<a class="headerlink" href="#changed_20" title="Permanent link">&para;</a></h3>
+<h3 id="changed_21">Changed<a class="headerlink" href="#changed_21" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Treat tokens with unknown prefixes as arguments (this makes it easier
   to pass in file paths without using <code>--</code>).</li>
@@ -3924,51 +4035,17 @@
 
 
 
-              
-            </article>
-            
-          </div>
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../exceptions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Where are Exceptions Handled?" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Where are Exceptions Handled?
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../migration/" class="md-footer__link md-footer__link--next" aria-label="Next: Upgrading to Newer Releases" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Upgrading to Newer Releases
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -3995,10 +4072,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.9c69f0bc.min.js"></script>
+      <script src="../assets/javascripts/bundle.a51614de.min.js"></script>
       
     
   </body>

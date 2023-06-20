@@ -131,14 +131,36 @@ class MultiUsageError(
  * A parameter was given the correct number of values, but of invalid format or type.
  */
 class BadParameterValue : UsageError {
-    constructor(message: String) : super(message, null)
-    constructor(message: String, paramName: String) : super(message, paramName)
-    constructor(message: String, argument: Argument) : super(message, argument)
-    constructor(message: String, option: Option) : super(message, option)
+    private enum class Kind { Argument, Option }
+
+    private val kind: Kind?
+
+    constructor(message: String) : super(message, null) {
+        kind = null
+    }
+
+    constructor(message: String, argument: Argument) : super(message, argument) {
+        kind = Kind.Argument
+    }
+
+    constructor(message: String, option: Option) : super(message, option) {
+        kind = Kind.Option
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    constructor(message: String, option: Option, name: String) : super(message, name) {
+        kind = Kind.Option
+    }
 
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         val m = message.takeUnless { it.isNullOrBlank() }
-        val p = paramName?.takeIf { it.isNotBlank() }?.let(formatter)
+        val p = paramName?.takeIf { it.isNotBlank() }?.let {
+            when (kind) {
+                Kind.Argument -> formatter.formatArgument(it)
+                Kind.Option -> formatter.formatOption(it)
+                null -> it
+            }
+        }
 
         return when {
             m == null && p == null -> localization.badParameter()
@@ -153,14 +175,14 @@ class BadParameterValue : UsageError {
 /** A required option was not provided */
 class MissingOption(option: Option) : UsageError(option) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
-        return localization.missingOption(paramName?.let(formatter) ?: "")
+        return localization.missingOption(paramName?.let(formatter::formatOption) ?: "")
     }
 }
 
 /** A required argument was not provided */
 class MissingArgument(argument: Argument) : UsageError(argument) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
-        return localization.missingArgument(paramName?.let(formatter) ?: "")
+        return localization.missingArgument(paramName?.let(formatter::formatArgument) ?: "")
     }
 }
 
@@ -171,8 +193,8 @@ class NoSuchSubcommand(
 ) : UsageError(null, paramName) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         return localization.noSuchSubcommand(
-            paramName?.let(formatter) ?: "",
-            possibilities.map(formatter)
+            paramName?.let(formatter::formatSubcommand) ?: "",
+            possibilities.map(formatter::formatSubcommand)
         )
     }
 }
@@ -185,8 +207,8 @@ class NoSuchOption(
 ) : UsageError(null, paramName) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         return localization.noSuchOption(
-            paramName?.let(formatter) ?: "",
-            possibilities.map(formatter)
+            paramName?.let(formatter::formatOption) ?: "",
+            possibilities.map(formatter::formatOption)
         )
     }
 }
@@ -200,7 +222,10 @@ class IncorrectOptionValueCount(
     constructor(option: Option, paramName: String) : this(option.nvalues.first, paramName)
 
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
-        return localization.incorrectOptionValueCount(paramName?.let(formatter) ?: "", minValues)
+        return localization.incorrectOptionValueCount(
+            paramName?.let(formatter::formatOption) ?: "",
+            minValues
+        )
     }
 }
 
@@ -212,7 +237,9 @@ class IncorrectArgumentValueCount(
     constructor(argument: Argument) : this(argument.nvalues, argument)
 
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
-        return localization.incorrectArgumentValueCount(paramName?.let(formatter) ?: "", nvalues)
+        return localization.incorrectArgumentValueCount(
+            paramName?.let(formatter::formatArgument) ?: "", nvalues
+        )
     }
 }
 
@@ -225,8 +252,8 @@ class MutuallyExclusiveGroupException(
 
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         return localization.mutexGroupException(
-            names.first().let(formatter),
-            names.drop(1).map(formatter)
+            names.first().let(formatter::formatOption),
+            names.drop(1).map(formatter::formatOption)
         )
     }
 }
@@ -236,7 +263,7 @@ class FileNotFound(
     val filename: String,
 ) : UsageError(null) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
-        return localization.fileNotFound(filename.let(formatter))
+        return localization.fileNotFound(filename)
     }
 }
 
@@ -248,8 +275,8 @@ class InvalidFileFormat(
 ) : UsageError(message) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
         return when (lineno) {
-            null -> localization.invalidFileFormat(filename.let(formatter), message!!)
-            else -> localization.invalidFileFormat(filename.let(formatter), lineno, message!!)
+            null -> localization.invalidFileFormat(filename, message!!)
+            else -> localization.invalidFileFormat(filename, lineno, message!!)
         }
     }
 }

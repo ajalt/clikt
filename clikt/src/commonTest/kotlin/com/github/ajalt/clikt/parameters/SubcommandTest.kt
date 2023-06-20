@@ -257,9 +257,9 @@ class SubcommandTest {
             p.subcommands(Child().subcommands(Grandchild()))
                 .parse("child grandchild")
         }.let { p.getFormattedHelp(it) } shouldBe """
-            |Usage: parent child grandchild [OPTIONS] ARG
+            |Usage: parent child grandchild [<options>] <arg>
             |
-            |Error: Missing argument ARG
+            |Error: missing argument <arg>
             """.trimMargin()
     }
 
@@ -406,7 +406,7 @@ class SubcommandTest {
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(sub)
         shouldThrow<UsageError> {
             c.parse("sub foo")
-        }.formattedMessage shouldBe "Got unexpected extra argument (foo)"
+        }.formattedMessage shouldBe "got unexpected extra argument (foo)"
     }
 
 

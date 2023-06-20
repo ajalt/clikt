@@ -43,7 +43,7 @@ class DoubleTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .formattedMessage shouldBe "Invalid value for --foo: bar is not a valid floating point value"
+            .formattedMessage shouldBe "invalid value for --foo: bar is not a valid floating point value"
     }
 
     @Test

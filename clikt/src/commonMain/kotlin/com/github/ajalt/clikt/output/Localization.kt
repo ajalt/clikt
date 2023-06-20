@@ -12,23 +12,23 @@ interface Localization {
     fun usageError() = "Error:"
 
     /** Message for [BadParameterValue] */
-    fun badParameter() = "Invalid value"
+    fun badParameter() = "invalid value"
 
     /** Message for [BadParameterValue] */
-    fun badParameterWithMessage(message: String) = "Invalid value: $message"
+    fun badParameterWithMessage(message: String) = "invalid value: $message"
 
     /** Message for [BadParameterValue] */
-    fun badParameterWithParam(paramName: String) = "Invalid value for $paramName"
+    fun badParameterWithParam(paramName: String) = "invalid value for $paramName"
 
     /** Message for [BadParameterValue] */
     fun badParameterWithMessageAndParam(paramName: String, message: String) =
-        "Invalid value for $paramName: $message"
+        "invalid value for $paramName: $message"
 
     /** Message for [MissingOption] */
-    fun missingOption(paramName: String) = "Missing option $paramName"
+    fun missingOption(paramName: String) = "missing option $paramName"
 
     /** Message for [MissingArgument] */
-    fun missingArgument(paramName: String) = "Missing argument $paramName"
+    fun missingArgument(paramName: String) = "missing argument $paramName"
 
     /** Message for [NoSuchSubcommand] */
     fun noSuchSubcommand(name: String, possibilities: List<String>): String {
@@ -100,19 +100,19 @@ interface Localization {
     fun fileEndsWithSlash() = "file ends with \\"
 
     /** One extra argument is present */
-    fun extraArgumentOne(name: String) = "Got unexpected extra argument $name"
+    fun extraArgumentOne(name: String) = "got unexpected extra argument $name"
 
     /** More than one extra argument is present */
-    fun extraArgumentMany(name: String, count: Int) = "Got unexpected extra arguments $name"
+    fun extraArgumentMany(name: String, count: Int) = "got unexpected extra arguments $name"
 
     /** Error message when reading flag option from a file */
-    fun invalidFlagValueInFile(name: String) = "Invalid flag value in file for option $name"
+    fun invalidFlagValueInFile(name: String) = "invalid flag value in file for option $name"
 
     /** Error message when reading switch option from environment variable */
     fun switchOptionEnvvar() = "environment variables not supported for switch options"
 
     /** Required [MutuallyExclusiveOptions] was not provided */
-    fun requiredMutexOption(options: String) = "Must provide one of $options"
+    fun requiredMutexOption(options: String) = "must provide one of $options"
 
     /**
      * [ChoiceGroup] value was invalid
@@ -151,13 +151,13 @@ interface Localization {
     }
 
     /** The `pathType` parameter to [pathDoesNotExist] and other `path*` errors */
-    fun pathTypeFile() = "File"
+    fun pathTypeFile() = "file"
 
     /** The `pathType` parameter to [pathDoesNotExist] and other `path*` errors */
-    fun pathTypeDirectory() = "Directory"
+    fun pathTypeDirectory() = "directory"
 
     /** The `pathType` parameter to [pathDoesNotExist] and other `path*` errors */
-    fun pathTypeOther() = "Path"
+    fun pathTypeOther() = "path"
 
     /** Invalid path type */
     fun pathDoesNotExist(pathType: String, path: String) = "$pathType \"$path\" does not exist."
@@ -178,22 +178,22 @@ interface Localization {
     fun pathIsSymlink(pathType: String, path: String) = "$pathType \"$path\" is a symlink."
 
     /** Metavar used for options with unspecified value type */
-    fun defaultMetavar() = "VALUE"
+    fun defaultMetavar() = "value"
 
     /** Metavar used for options that take [String] values */
-    fun stringMetavar() = "TEXT"
+    fun stringMetavar() = "text"
 
     /** Metavar used for options that take [Float] or [Double] values */
-    fun floatMetavar() = "FLOAT"
+    fun floatMetavar() = "float"
 
     /** Metavar used for options that take [Int] or [Long] values */
-    fun intMetavar() = "INT"
+    fun intMetavar() = "int"
 
     /** Metavar used for options that take `File` or `Path` values */
-    fun pathMetavar() = "PATH"
+    fun pathMetavar() = "path"
 
     /** Metavar used for options that take `InputStream` or `OutputStream` values */
-    fun fileMetavar() = "FILE"
+    fun fileMetavar() = "file"
 
     /** The title for the usage section of help output */
     fun usageTitle(): String = "Usage:"
@@ -208,10 +208,10 @@ interface Localization {
     fun commandsTitle(): String = "Commands:"
 
     /** The placeholder that indicates where options may be present in the usage help output */
-    fun optionsMetavar(): String = "[OPTIONS]"
+    fun optionsMetavar(): String = "[<options>]"
 
     /** The placeholder that indicates where subcommands may be present in the usage help output */
-    fun commandMetavar(): String = "COMMAND [ARGS]..."
+    fun commandMetavar(): String = "<command> [<args>]..."
 
     /** Text rendered for parameters tagged with [HelpFormatter.Tags.DEFAULT] */
     fun helpTagDefault(): String = "default"

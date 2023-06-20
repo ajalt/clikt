@@ -232,7 +232,7 @@ class OptionTest {
         shouldThrow<IncorrectOptionValueCount> { C().parse("-x") }.formattedMessage shouldBe
                 "option -x requires 2 values"
         shouldThrow<UsageError> { C().parse("--yy foo bar baz") }.formattedMessage shouldBe
-                "Got unexpected extra argument (baz)"
+                "got unexpected extra argument (baz)"
     }
 
     @Test
@@ -453,7 +453,7 @@ class OptionTest {
 
         shouldThrow<MissingOption> {
             C().parse("")
-        }.formattedMessage shouldBe "Missing option --x"
+        }.formattedMessage shouldBe "missing option --x"
     }
 
     @Test
@@ -548,25 +548,25 @@ class OptionTest {
         C(true).apply { parse("--x 2 --x 3"); x shouldBe listOf("2", "3") }
 
         shouldThrow<MissingOption> { C(false).parse("") }
-            .formattedMessage shouldBe "Missing option --x"
+            .formattedMessage shouldBe "missing option --x"
     }
 
     @Test
     @JsName("option_metavars")
     fun `option metavars`() = forAll(
-        row("--x", "TEXT"),
+        row("--x", "text"),
         row("--y", "FOO"),
-        row("--z", "FOO"),
-        row("--w", "BAR"),
-        row("--t", "VALUE"),
+        row("--z", "foo"),
+        row("--w", "bar"),
+        row("--t", "value"),
         row("--u", null),
         row("--help", null),
     ) { opt, metavar ->
         class C : TestCommand() {
             val x by option()
             val y by option(metavar = "FOO").default("")
-            val z by option(metavar = "FOO").convert("BAR") { it }
-            val w by option().convert("BAR") { it }.convert("BAZ") { it }
+            val z by option(metavar = "foo").convert("BAR") { it }
+            val w by option().convert("bar") { it }.convert("bar") { it }
             val t by option().convert { it }
             val u by option().flag()
             override fun run_() {
@@ -604,10 +604,10 @@ class OptionTest {
     @Test
     @JsName("option_check")
     fun `option check`() = forAll(
-        row("--x=bar --y=foo --w=foo", "Invalid value for --x: bar"),
-        row("--y=bar --w=foo", "Invalid value for --y: bar"),
-        row("--y=foo --z=bar --w=foo", "Invalid value for --z: fail"),
-        row("--y=foo --w=bar", "Invalid value for --w: fail bar")
+        row("--x=bar --y=foo --w=foo", "invalid value for --x: bar"),
+        row("--y=bar --w=foo", "invalid value for --y: bar"),
+        row("--y=foo --z=bar --w=foo", "invalid value for --z: fail"),
+        row("--y=foo --w=bar", "invalid value for --w: fail bar")
     ) { argv, message ->
         class C : TestCommand() {
             val x by option().check { it == "foo" }

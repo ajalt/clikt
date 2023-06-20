@@ -140,9 +140,9 @@ class CliktCommandTest {
         shouldThrow<UsageError> {
             p.parse("")
         }.let { p.getFormattedHelp(it) } shouldBe """
-            |Usage: parent [OPTIONS] ARG
+            |Usage: parent [<options>] <arg>
             |
-            |Error: Missing argument ARG
+            |Error: missing argument <arg>
             """.trimMargin()
     }
 

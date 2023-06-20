@@ -138,7 +138,7 @@ class OutputStreamTest {
 
         shouldThrow<BadParameterValue> {
             C().parse("foo")
-        }.message shouldContain "File \"foo\" does not exist"
+        }.message shouldContain "file \"foo\" does not exist"
     }
 
     @Test

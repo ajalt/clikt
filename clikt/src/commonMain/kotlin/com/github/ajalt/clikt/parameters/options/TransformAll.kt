@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.MissingOption
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.output.ParameterFormatter
 import com.github.ajalt.mordant.terminal.ConversionResult
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
@@ -61,7 +62,7 @@ fun <AllT, EachT, ValueT> NullableOption<EachT, ValueT>.transformAll(
  * val opt: Pair<Int, Int> by option().int().pair().default(1 to 2)
  * ```
  */
-fun <EachT: Any, ValueT> NullableOption<EachT, ValueT>.default(
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
     value: EachT,
     defaultForHelp: String = value.toString(),
 ): OptionWithValues<EachT, EachT, ValueT> {
@@ -215,7 +216,12 @@ fun <T : Any> NullableOption<T, T>.prompt(
                     ConversionResult.Valid(v)
                 } catch (e: UsageError) {
                     e.context = e.context ?: context
-                    ConversionResult.Invalid(e.formatMessage(context.localization) { it })
+                    ConversionResult.Invalid(
+                        e.formatMessage(
+                            context.localization,
+                            ParameterFormatter.Plain
+                        )
+                    )
                 }
             }
         }

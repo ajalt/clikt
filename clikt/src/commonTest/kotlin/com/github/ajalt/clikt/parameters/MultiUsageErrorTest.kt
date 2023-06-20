@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.output.ParameterFormatter
 import com.github.ajalt.clikt.output.defaultLocalization
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.check
@@ -19,10 +20,10 @@ import kotlin.test.Test
 class MultiUsageErrorTest {
     @Test
     fun optionalValue() = forAll(
-        row("", listOf("Missing argument A", "Missing option --x", "Missing option --y")),
-        row("--y=1", listOf("Missing argument A", "Missing option --x")),
-        row("--x=foo 1", listOf("Invalid value for --x: foo is not a valid integer", "Missing option --y")),
-        row("--x=0 --y=0 1", listOf("Invalid value for A: 1")),
+        row("", listOf("missing argument A", "missing option --x", "missing option --y")),
+        row("--y=1", listOf("missing argument A", "missing option --x")),
+        row("--x=foo 1", listOf("invalid value for --x: foo is not a valid integer", "missing option --y")),
+        row("--x=0 --y=0 1", listOf("invalid value for A: 1")),
         row("--y=0 --x=0 --n 1 2 3", listOf("no such option: --n. (Possible options: --x, --y)")), // don't report arg error after unknown opts
         ) { argv, ex ->
         class C : TestCommand(called = false) {
@@ -35,7 +36,7 @@ class MultiUsageErrorTest {
             C().parse(argv)
         }
         ((e as? MultiUsageError)?.errors ?: listOf(e))
-            .map { er -> er.formatMessage(defaultLocalization) { it } }
+            .map { er -> er.formatMessage(defaultLocalization, ParameterFormatter.Plain) }
             .shouldBe(ex)
     }
 }

@@ -38,7 +38,7 @@ class TestingUtilsTest {
         }
 
         val ex = """
-            |Usage: c [OPTIONS]
+            |Usage: c [<options>]
             |
             |Error: no such option: --foo. Did you mean --o?
             |

@@ -92,8 +92,9 @@ open class MordantHelpFormatter(
             }
 
             parameters.filterIsInstance<ParameterHelp.Argument>().mapTo(this) {
+                val name = normalizeParameter(it.name)
                 val t =
-                    (if (it.required) it.name else "[${it.name}]") + if (it.repeatable) "..." else ""
+                    (if (it.required) name else "[${name}]") + if (it.repeatable) "..." else ""
                 val style = if (it.required) TextStyle() else optionalStyle
                 style(t)
             }
@@ -201,7 +202,7 @@ open class MordantHelpFormatter(
     ): List<RenderedSection> {
         val arguments = parameters.filterIsInstance<ParameterHelp.Argument>().map {
             DefinitionRow(
-                styleArgumentName(context, it.name),
+                styleArgumentName(context, normalizeParameter(it.name)),
                 renderParameterHelpText(context, it.help, it.tags)
             )
         }
@@ -267,9 +268,12 @@ open class MordantHelpFormatter(
     }
 
     protected open fun numberOptionName(context: Context, option: ParameterHelp.Option): String {
-        return "${
-            option.names.first().first()
-        }${option.metavar ?: context.localization.intMetavar()}"
+        val metavar = normalizeParameter(option.metavar ?: context.localization.intMetavar())
+        return "${option.names.first().first()}$metavar"
+    }
+
+    protected open fun normalizeParameter(name: String): String {
+        return "<${name.lowercase()}>"
     }
 
     protected open fun styleRequiredMarker(context: Context, name: String): String =
@@ -302,7 +306,19 @@ open class MordantHelpFormatter(
     }
 
     protected open fun parameterFormatter(context: Context): ParameterFormatter {
-        return { styleOptionName(context, it) }
+        return object : ParameterFormatter {
+            override fun formatOption(name: String): String {
+                return styleOptionName(context, name)
+            }
+
+            override fun formatArgument(name: String): String {
+                return styleArgumentName(context, normalizeParameter(name))
+            }
+
+            override fun formatSubcommand(name: String): String {
+                return styleSubcommandName(context, name)
+            }
+        }
     }
 
     protected open fun renderOptionValue(context: Context, option: ParameterHelp.Option): String {
@@ -317,7 +333,11 @@ open class MordantHelpFormatter(
             0 -> option.metavar.trim { it in "[]<>" }
             else -> option.metavar
         }
-        return "$prefix${styleMetavar(context, metavar)}$suffix"
+        val normedMetavar = when {
+            '|' in metavar -> metavar
+            else -> normalizeParameter(metavar)
+        }
+        return "$prefix${styleMetavar(context, normedMetavar)}$suffix"
     }
 
     protected open fun buildParameterList(rows: List<DefinitionRow>): Widget {

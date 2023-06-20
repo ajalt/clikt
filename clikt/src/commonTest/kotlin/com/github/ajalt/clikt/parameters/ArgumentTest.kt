@@ -29,7 +29,7 @@ class ArgumentTest {
         }
 
         shouldThrow<MissingArgument> { C().parse("") }
-            .formattedMessage shouldBe "Missing argument FOO"
+            .formattedMessage shouldBe "missing argument FOO"
     }
 
     @Test
@@ -122,7 +122,7 @@ class ArgumentTest {
         C().parse("1 2")
 
         shouldThrow<MissingArgument> { C().parse("") }
-            .formattedMessage shouldBe "Missing argument X"
+            .formattedMessage shouldBe "missing argument X"
     }
 
     @Test
@@ -164,9 +164,9 @@ class ArgumentTest {
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo") }
             .formattedMessage shouldBe "argument X requires 2 values"
         shouldThrow<UsageError> { C().parse("foo bar baz") }
-            .formattedMessage shouldBe "Got unexpected extra argument (baz)"
+            .formattedMessage shouldBe "got unexpected extra argument (baz)"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
-            .formattedMessage shouldBe "Got unexpected extra arguments (baz qux)"
+            .formattedMessage shouldBe "got unexpected extra arguments (baz qux)"
     }
 
     @Test
@@ -179,7 +179,7 @@ class ArgumentTest {
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo bar") }
             .formattedMessage shouldBe "argument X requires 3 values"
         shouldThrow<UsageError> { C().parse("foo bar baz qux") }
-            .formattedMessage shouldBe "Got unexpected extra argument (qux)"
+            .formattedMessage shouldBe "got unexpected extra argument (qux)"
 
     }
 
@@ -302,7 +302,7 @@ class ArgumentTest {
         }
 
         val ex = shouldThrow<MissingArgument> { C().parse("") }
-        ex.formattedMessage should contain("Missing argument FOO")
+        ex.formattedMessage should contain("missing argument FOO")
     }
 
     @Test
@@ -363,10 +363,10 @@ class ArgumentTest {
     @Test
     @JsName("argument_check")
     fun `argument check`() = forAll(
-        row("bar foo", "Invalid value for X: bar"),
-        row("foo bar", "Invalid value for Y: fail bar"),
-        row("foo foo bar", "Invalid value for Z: fail!"),
-        row("foo foo foo bar", "Invalid value for W: fail bar")
+        row("bar foo", "invalid value for X: bar"),
+        row("foo bar", "invalid value for Y: fail bar"),
+        row("foo foo bar", "invalid value for Z: fail!"),
+        row("foo foo foo bar", "invalid value for W: fail bar")
     ) { argv, message ->
         class C : TestCommand() {
             val x by argument().check { it == "foo" }

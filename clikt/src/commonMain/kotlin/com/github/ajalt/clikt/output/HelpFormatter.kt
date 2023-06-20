@@ -98,5 +98,21 @@ interface HelpFormatter {
     }
 }
 
-/** A function that formats a parameter name within an error message */
-typealias ParameterFormatter = (String) -> String
+/** A formatter for styling parts of a help message */
+interface ParameterFormatter {
+    /** Format an option name */
+    fun formatOption(name: String): String
+
+    /** Format an argument name */
+    fun formatArgument(name: String): String
+
+    /** Format a subcommand name */
+    fun formatSubcommand(name: String): String
+
+    /** A ParameterFormatter that does no formatting */
+    object Plain : ParameterFormatter {
+        override fun formatOption(name: String) = name
+        override fun formatArgument(name: String) = name
+        override fun formatSubcommand(name: String) = name
+    }
+}

@@ -42,7 +42,7 @@ class ULongTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .formattedMessage shouldBe "Invalid value for --foo: bar is not a valid integer"
+            .formattedMessage shouldBe "invalid value for --foo: bar is not a valid integer"
 
         shouldThrow<NoSuchOption> { C().parse("-2") }
         shouldThrow<BadParameterValue> { C().parse("--foo=-1") }

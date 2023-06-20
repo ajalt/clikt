@@ -30,7 +30,7 @@ class OptionCallTransformContext(
     val option: Option,
     override val context: Context,
 ) : Option by option, TransformContext {
-    override fun fail(message: String): Nothing = throw BadParameterValue(message, name)
+    override fun fail(message: String): Nothing = throw BadParameterValue(message, option, name)
     override fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */

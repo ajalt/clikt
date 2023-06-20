@@ -34,18 +34,18 @@ class MordantHelpFormatterTest {
     @Test
     fun formatUsage() = forAll(
         row(listOf(), "Usage: prog"),
-        row(listOf(c.option("-x")), "Usage: prog [OPTIONS]"),
-        row(listOf(c.argument("FOO").optional()), "Usage: prog [FOO]"),
-        row(listOf(c.argument("FOO")), "Usage: prog FOO"),
-        row(listOf(c.argument("FOO").multiple()), "Usage: prog [FOO]..."),
-        row(listOf(c.argument("FOO").multiple(required = true)), "Usage: prog FOO..."),
+        row(listOf(c.option("-x")), "Usage: prog [<options>]"),
+        row(listOf(c.argument("foo").optional()), "Usage: prog [<foo>]"),
+        row(listOf(c.argument("foo")), "Usage: prog <foo>"),
+        row(listOf(c.argument("foo").multiple()), "Usage: prog [<foo>]..."),
+        row(listOf(c.argument("foo").multiple(required = true)), "Usage: prog <foo>..."),
         row(
             listOf<Any>(c.argument("FOO").multiple(required = true), c.option("-x"), c.argument("BAR").optional()),
-            "Usage: prog [OPTIONS] FOO... [BAR]"
+            "Usage: prog [<options>] <foo>... [<bar>]"
         ),
         row(
             listOf(c.option("-x"), c.argument("FOO").optional(), TestCommand(name = "bar")),
-            "Usage: prog [OPTIONS] [FOO] COMMAND [ARGS]..."
+            "Usage: prog [<options>] [<foo>] <command> [<args>]..."
         )
     ) { params, expected ->
         val c = TestCommand(name = "prog").context {
@@ -77,13 +77,13 @@ class MordantHelpFormatterTest {
         doTest(
             """
             |Usage: cli a_very_very_very_long command
-            |    [OPTIONS] FIRST SECOND THIRD FOURTH FIFTH
-            |    SIXTH
+            |    [<options>] <first> <second> <third> <fourth> <fifth>
+            |    <sixth>
             |
             |Options:
-            |  -x=TEXT
+            |  -x=<text>
             """,
-            width = 46,
+            width = 57,
             command = C()
         )
     }
@@ -94,12 +94,12 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("-x"))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -x=TEXT
+            |  -x=<text>
             """,
-            width = 21,
+            width = 23,
         )
     }
 
@@ -110,10 +110,10 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--aa", "-a", help = "some thing to live by"))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  some thing to live by
+            |  -a, --aa=<text>  some thing to live by
             """
         )
     }
@@ -121,13 +121,16 @@ class MordantHelpFormatterTest {
     @Test
     @JsName("help_output_number_opt")
     fun `number opt`() {
-        c.registerOption(c.option("--aa", "-a", help = "some thing to live by").int(acceptsValueWithoutName = true))
+        c.registerOption(
+            c.option("--aa", "-a", help = "some thing to live by")
+                .int(acceptsValueWithoutName = true)
+        )
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -INT, -a, --aa=INT  some thing to live by
+            |  -<int>, -a, --aa=<int>  some thing to live by
             """
         )
     }
@@ -138,7 +141,7 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--aa", "-a", help = "some thing to live by").flag("--no-aa", "-A"))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
             |  -a, --aa / -A, --no-aa  some thing to live by
@@ -157,12 +160,12 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--aa", "-a", help = "some thing to live by").int())
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |  Lorem Ipsum.
             |
             |Options:
-            |  -a, --aa=INT  some thing to live by
+            |  -a, --aa=<int>  some thing to live by
             |
             |Dolor Sit Amet.
             """,
@@ -188,7 +191,7 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--aa", "-a", help = "some thing to live by").int())
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |  Lorem ipsum dolor sit amet, consectetur adipiscing
             |  elit.
@@ -202,7 +205,7 @@ class MordantHelpFormatterTest {
             |  consectetur ex.
             |
             |Options:
-            |  -a, --aa=INT  some thing to live by
+            |  -a, --aa=<int>  some thing to live by
             """,
             width = 54,
             command = c
@@ -249,10 +252,10 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--aa", "-a", help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT
+            |  -a, --aa=<text>
             |    Lorem ipsum dolor
             |    (sit amet, consectetur)
             """,
@@ -266,11 +269,11 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--aa", "-a", help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  Lorem ipsum dolor
-            |                 (sit amet, consectetur)
+            |  -a, --aa=<text>  Lorem ipsum dolor
+            |                   (sit amet, consectetur)
             """
         )
     }
@@ -291,17 +294,17 @@ class MordantHelpFormatterTest {
         )
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -x=X...     one very very very very very very long
-            |              option
-            |  -y, --yy=Y  a shorter but still long option
-            |  -z, --zzzzzzzzzzzzz=ZZZZZZZZ
-            |              a short option
-            |  -t, --entirely-too-long-option=WOWSOLONG
-            |              this option has a long name and a long
-            |              description
+            |  -x=<x>...     one very very very very very very long
+            |                option
+            |  -y, --yy=<y>  a shorter but still long option
+            |  -z, --zzzzzzzzzzzzz=<zzzzzzzz>
+            |                a short option
+            |  -t, --entirely-too-long-option=<wowsolong>
+            |                this option has a long name and a long
+            |                description
             """,
             width = 54
         )
@@ -320,7 +323,7 @@ class MordantHelpFormatterTest {
         )
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
             |  -L, --lorem-ipsum  Lorem ipsum dolor sit amet, consectetur e
@@ -355,7 +358,7 @@ class MordantHelpFormatterTest {
 
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Grouped:
             |
@@ -363,14 +366,14 @@ class MordantHelpFormatterTest {
             |  Grouped. This text should wrap onto exactly three
             |  lines.
             |
-            |  -a, --aa=TEXT  some thing to live by aa
-            |  -c, --cc=TEXT  some thing to live by cc
+            |  -a, --aa=<text>  some thing to live by aa
+            |  -c, --cc=<text>  some thing to live by cc
             |
             |Singleton:
-            |  -b, --bb=TEXT  some thing to live by bb
+            |  -b, --bb=<text>  some thing to live by bb
             |
             |Options:
-            |  -d, --dd=TEXT  some thing to live by dd
+            |  -d, --dd=<text>  some thing to live by dd
             """,
             width = 54,
             command = C()
@@ -387,11 +390,11 @@ class MordantHelpFormatterTest {
         }
         doTest(
             """
-            |Usage: prog FOO [BAR]
+            |Usage: prog <foo> [<bar>]
             |
             |Arguments:
-            |  FOO  some thing to live by
-            |  BAR  another argument
+            |  <foo>  some thing to live by
+            |  <bar>  another argument
             """,
             command = C()
         )
@@ -408,7 +411,7 @@ class MordantHelpFormatterTest {
         )
         doTest(
             """
-            |Usage: prog COMMAND [ARGS]...
+            |Usage: prog <command> [<args>]...
             |
             |Commands:
             |  foo  some thing to live by
@@ -426,12 +429,12 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--baz", help = "option three").int().varargValues(min = 0))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -f, --foo[=TEXT]  option one
-            |  --bar[=c1|c2]     option two
-            |  --baz[=INT...]    option three
+            |  -f, --foo[=<text>]  option one
+            |  --bar[=c1|c2]       option two
+            |  --baz[=<int>...]    option three
             """
         )
     }
@@ -453,13 +456,13 @@ class MordantHelpFormatterTest {
         }
         doTest(
             """
-            |Usage: c [OPTIONS]
+            |Usage: c [<options>]
             |
             |G1:
-            |  --opt1=TEXT
+            |  --opt1=<text>
             |
             |G2:
-            |  --opt2=TEXT
+            |  --opt2=<text>
             |
             |Options:
             |  --opt=[g1|g2]  select group
@@ -486,13 +489,13 @@ class MordantHelpFormatterTest {
 
         doTest(
             """
-            |Usage: c [OPTIONS]
+            |Usage: c [<options>]
             |
             |G1:
-            |  --opt1=TEXT
+            |  --opt1=<text>
             |
             |G2:
-            |  --opt2=TEXT
+            |  --opt2=<text>
             |
             |Options:
             |  --g1, --g2  select group
@@ -521,19 +524,19 @@ class MordantHelpFormatterTest {
         }
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Exclusive:
             |
             |  These options are exclusive
             |
-            |  --ex-foo=TEXT  exclusive foo
-            |  --ex-bar=TEXT  exclusive bar
+            |  --ex-foo=<text>  exclusive foo
+            |  --ex-bar=<text>  exclusive bar
             |
             |Exclusive without help:
-            |  --ex-baz=TEXT  exclusive baz
-            |  --ex-qux=TEXT  exclusive qux
-            |  --ex-quz=TEXT  exclusive quz
+            |  --ex-baz=<text>  exclusive baz
+            |  --ex-qux=<text>  exclusive qux
+            |  --ex-quz=<text>  exclusive quz
             """,
             command = C()
         )
@@ -547,7 +550,7 @@ class MordantHelpFormatterTest {
         c.eagerOption("--eager2", "-E", help = "this is an eager option") {}
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |My Group:
             |  -e, --eager  this is an eager option with a group
@@ -569,11 +572,11 @@ class MordantHelpFormatterTest {
         c.context { helpFormatter = MordantHelpFormatter(requiredOptionMarker = "*") }
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  aa option help
-            |* -b, --bb=TEXT  bb option help
+            |  -a, --aa=<text>  aa option help
+            |* -b, --bb=<text>  bb option help
             """
         )
     }
@@ -586,11 +589,11 @@ class MordantHelpFormatterTest {
         c.context { helpFormatter = MordantHelpFormatter(showRequiredTag = true) }
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  aa option help
-            |  -b, --bb=TEXT  bb option help (required)
+            |  -a, --aa=<text>  aa option help
+            |  -b, --bb=<text>  bb option help (required)
             """
         )
     }
@@ -603,11 +606,11 @@ class MordantHelpFormatterTest {
         c.context { helpFormatter = MordantHelpFormatter(showDefaultValues = true) }
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  aa option help
-            |  -b, --bb=TEXT  bb option help (default: 123)
+            |  -a, --aa=<text>  aa option help
+            |  -b, --bb=<text>  bb option help (default: 123)
             """
         )
     }
@@ -619,11 +622,11 @@ class MordantHelpFormatterTest {
         c.registerOption(c.option("--bb", "-b", help = "bb option help", helpTags = mapOf("deprecated" to "")))
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  aa option help
-            |  -b, --bb=TEXT  bb option help (deprecated)
+            |  -a, --aa=<text>  aa option help
+            |  -b, --bb=<text>  bb option help (deprecated)
             """
         )
     }
@@ -647,11 +650,11 @@ class MordantHelpFormatterTest {
         }
         doTest(
             """
-            |Usage: prog [OPTIONS]
+            |Usage: prog [<options>]
             |
             |Options:
-            |  -a, --aa=TEXT  aa option help
-            |* -b, --bb=TEXT  bb option help (t1) (t2: v2) (required)
+            |  -a, --aa=<text>  aa option help
+            |* -b, --bb=<text>  bb option help (t1) (t2: v2) (required)
             """
         )
     }
@@ -663,11 +666,11 @@ class MordantHelpFormatterTest {
         c.registerArgument(c.argument("ARG2", help = "arg 2 help", helpTags = mapOf("deprecated" to "")))
         doTest(
             """
-            |Usage: prog ARG1 ARG2
+            |Usage: prog <arg1> <arg2>
             |
             |Arguments:
-            |  ARG1  arg 1 help
-            |  ARG2  arg 2 help (deprecated)
+            |  <arg1>  arg 1 help
+            |  <arg2>  arg 2 help (deprecated)
             """
         )
     }
@@ -681,7 +684,7 @@ class MordantHelpFormatterTest {
         )
         doTest(
             """
-            |Usage: prog COMMAND [ARGS]...
+            |Usage: prog <command> [<args>]...
             |
             |Commands:
             |  sub1  sub 1 help
@@ -695,7 +698,7 @@ class MordantHelpFormatterTest {
     @JsName("multi_error")
     fun `multi error`() {
         TestCommand().test("--foo --bar").stderr shouldBe """
-            |Usage: test [OPTIONS]
+            |Usage: test [<options>]
             |
             |Error: no such option: --foo
             |Error: no such option: --bar

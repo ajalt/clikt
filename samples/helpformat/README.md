@@ -1,7 +1,7 @@
 # Custom help formatter
 
 This example shows how to use a custom help formatter in a command. This
-formatter changes the parameter sections to be drawn in panels. 
+formatter changes the parameter sections to be drawn in panels, and changes the colors used.
 
 ```
 $ ./runsample helpformat --help

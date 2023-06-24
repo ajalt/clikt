@@ -10,17 +10,18 @@ import com.github.ajalt.mordant.terminal.ExperimentalTerminalApi
 import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.terminal.TerminalRecorder
 
-/**
- * @property stdout Standard output captured from the command
- * @property stderr Error output captured form the command
- * @property output A string combining [stdout] and [stderr] in the order that they were printed
- * @property statusCode The exit status code of the command. By default, commands will return 0
- *   for success and 1 if an error occurs.
- */
 data class CliktCommandTestResult(
+    /** Standard output captured from the command */
     val stdout: String,
+    /** Error output captured form the command */
     val stderr: String,
+    /** A string combining [stdout] and [stderr] in the order that they were printed */
     val output: String,
+    /**
+     * The exit status code of the command.
+     *
+     * By default, commands will return 0 for success and 1 if an error occurs.
+     */
     val statusCode: Int,
 )
 

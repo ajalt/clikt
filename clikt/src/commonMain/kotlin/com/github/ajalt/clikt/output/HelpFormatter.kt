@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 
 /**
@@ -12,8 +11,6 @@ interface HelpFormatter {
     /**
      * Return a help string to show the user.
      *
-     * @param context The context for the command to format help for, which includes the
-     *   [localization][Context.localization] and [terminal][Context.terminal] to use
      * @param error The error encountered, if there was one
      * @param prolog Text to display before any parameter information
      * @param epilog Text to display after any parameter information
@@ -29,60 +26,57 @@ interface HelpFormatter {
     ): String
 
     sealed class ParameterHelp {
-        /**
-         * @param names The names that can be used to invoke this option
-         * @param secondaryNames Secondary names that can be used to e.g. disable the option
-         * @param metavar The metavar to display for the option if it takes values
-         * @param help The option's description
-         * @param nvalues The number of values that this option takes
-         * @param tags Any extra tags to display with the help message for this option
-         * @param groupName The name of the group this option belongs to, if there is one and its name should be shown in the help message
-         */
         data class Option(
+            /** The names that can be used to invoke this option */
             val names: Set<String>,
+            /** Secondary names that can be used to e.g. disable the option */
             val secondaryNames: Set<String>,
+            /** The metavar to display for the option if it takes values */
             val metavar: String?,
+            /** The option's description */
             val help: String,
+            /** The number of values that this option takes */
             val nvalues: IntRange,
+            /** Any extra tags to display with the help message for this option */
             val tags: Map<String, String>,
+            /** True if this option can be called like `-1`, `-2` etc. */
             val acceptsNumberValueWithoutName: Boolean,
+            /** True if this option can be called like `--option 1` in addition to `--option=1` */
             val acceptsUnattachedValue: Boolean,
+            /** The name of the group this option belongs to, if there is one and its name should be shown in the help message */
             val groupName: String?,
         ) : ParameterHelp()
 
-        /**
-         * @param name The name / metavar for this argument
-         * @param help The arguments's description
-         * @param required True if this argument must be specified
-         * @param repeatable True if this argument takes an unlimited number of values
-         */
         data class Argument(
+            /** The name / metavar for this argument */
             val name: String,
+            /** The argument's description */
             val help: String,
+            /** True if this argument must be specified */
             val required: Boolean,
+            /** True if this argument takes an unlimited number of values */
             val repeatable: Boolean,
+            /** Any extra tags to display with the help message for this argument */
             val tags: Map<String, String>,
         ) : ParameterHelp()
 
-        /**
-         * @param name The name for this command
-         * @param help The command's description
-         */
         data class Subcommand(
+            /** The name for this command */
             val name: String,
+            /** The command's description */
             val help: String,
+            /** Any extra tags to display with the help message for this command */
             val tags: Map<String, String>,
         ) : ParameterHelp()
 
         /**
          * Help for an option group. If the group doesn't have a name or help, you don't need to
          * create an instance of this class for it.
-         *
-         * @property name The group name
-         * @property help The help text for this group
          */
         data class Group(
+            /** The group name */
             val name: String,
+            /** The help text for this group */
             val help: String,
         ) : ParameterHelp()
     }

@@ -17,15 +17,13 @@ import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-/**
- * A receiver for options transformers.
- *
- * @property name The name that was used to invoke this option.
- * @property option The option that was invoked
- */
+/** A receiver for options transformers. */
 class OptionCallTransformContext(
+    /** The name that was used to invoke this option. */
     val name: String,
+    /** The option that was invoked */
     val option: Option,
+    /** The current command context */
     override val context: Context,
 ) : Option by option, TransformContext {
     override fun fail(message: String): Nothing = throw BadParameterValue(message, option, name)
@@ -37,12 +35,13 @@ class OptionCallTransformContext(
     }
 }
 
-/**
- * A receiver for options transformers.
- *
- * @property option The option that was invoked
- */
-class OptionTransformContext(val option: Option, val context: Context) : Option by option {
+/** A receiver for options transformers. */
+class OptionTransformContext(
+    /** The option that was invoked */
+    val option: Option,
+    /** The current command context */
+    val context: Context,
+) : Option by option {
     /** Throw an exception indicating that usage was incorrect. */
     fun fail(message: String): Nothing = throw BadParameterValue(message, option)
 

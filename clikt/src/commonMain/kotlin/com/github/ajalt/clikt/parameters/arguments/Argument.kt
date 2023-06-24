@@ -80,12 +80,9 @@ interface ArgumentDelegate<out T> :
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
 }
 
-/**
- * A receiver for argument transformers.
- *
- * @property argument The argument that was invoked
- */
+/** A receiver for argument transformers. */
 class ArgumentTransformContext(
+    /** The argument that was invoked */
     val argument: Argument,
     override val context: Context,
 ) : Argument by argument, TransformContext {

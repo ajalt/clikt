@@ -21,43 +21,61 @@ import com.github.ajalt.mordant.terminal.YesNoPrompt
  * [option] and [argument]. You can then parse `argv` by calling [main], which will take care of printing
  * errors and help to the user. If you want to handle output yourself, you can use [parse] instead.
  *
- * Once the command line has been parsed and all of the parameters are populated, [run] is called.
- *
- * @param help The help for this command. The first line is used in the usage string, and the entire string is
- *   used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
- * @param epilog Text to display at the end of the full help output. It is automatically re-wrapped to the
- *   terminal width.
- * @param name The name of the program to use in the help output. If not given, it is inferred from the class
- *   name.
- * @param invokeWithoutSubcommand Used when this command has subcommands, and this command is called
- *   without a subcommand. If true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
- * @param printHelpOnEmptyArgs If this command is called with no values on the command line, print a
- *   help message (by throwing [PrintHelpMessage]) if this is true, otherwise run normally.
- * @param helpTags Extra information about this option to pass to the help formatter.
- * @param autoCompleteEnvvar The envvar to use to enable shell autocomplete script generation. Set
- *   to null to disable generation.
- * @param allowMultipleSubcommands If true, allow multiple of this command's subcommands to be
- *   called sequentially. This will disable `allowInterspersedArgs` on the context of this command an
- *   its descendants. This functionality is experimental, and may change in a future release.
- * @param treatUnknownOptionsAsArgs If true, any options on the command line whose names aren't
- * valid will be parsed as an argument rather than reporting an error. You'll need to define an
- * `argument().multiple()` to collect these options, or an error will still be reported. Unknown
- * short option flags grouped with other flags on the command line will always be reported as
- * errors.
- * @param hidden If true, don't display this command in help output when used as a subcommand.
+ * Once the command line has been parsed and all the parameters are populated, [run] is called.
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
 abstract class CliktCommand(
+    /**
+     * The help for this command. The first line is used in the usage string, and the entire string
+     * is used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
+     */
     help: String = "",
+    /**
+     * Text to display at the end of the full help output. It is automatically re-wrapped to the
+     * terminal width.
+     */
     epilog: String = "",
+    /**
+     * The name of the program to use in the help output. If not given, it is inferred from the
+     * class name.
+     */
     name: String? = null,
+    /**
+     * Used when this command has subcommands, and this command is called without a subcommand. If
+     * true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
+     */
     val invokeWithoutSubcommand: Boolean = false,
+    /**
+     * If this command is called with no values on the command line, print a help message (by
+     * throwing [PrintHelpMessage]) if this is true, otherwise run normally.
+     */
     val printHelpOnEmptyArgs: Boolean = false,
+    /**
+     * Extra information about this option to pass to the help formatter.
+     */
     val helpTags: Map<String, String> = emptyMap(),
+    /**
+     * The envvar to use to enable shell autocomplete script generation. Set to null to disable
+     * generation.
+     */
     private val autoCompleteEnvvar: String? = "",
+    /**
+     * If true, allow multiple of this command's subcommands to be called sequentially. This will
+     * disable `allowInterspersedArgs` on the context of this command and its descendants. This
+     * functionality is experimental, and may change in a future release.
+     */
     internal val allowMultipleSubcommands: Boolean = false,
+    /**
+     * If true, any options on the command line whose names aren't valid will be parsed as an
+     * argument rather than reporting an error. You'll need to define an `argument().multiple()` to
+     * collect these options, or an error will still be reported. Unknown short option flags grouped
+     * with other flags on the command line will always be reported as errors.
+     */
     internal val treatUnknownOptionsAsArgs: Boolean = false,
+    /**
+     * If true, don't display this command in help output when used as a subcommand.
+     */
     private val hidden: Boolean = false,
 ) : ParameterHolder {
     /**
@@ -93,7 +111,11 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
-    private fun createContext(argv: List<String>, parent: Context?, ancestors: List<CliktCommand>): Context {
+    private fun createContext(
+        argv: List<String>,
+        parent: Context?,
+        ancestors: List<CliktCommand>,
+    ): Context {
         _context = Context.build(this, parent, argv, _contextConfig)
 
         if (allowMultipleSubcommands) {
@@ -175,7 +197,8 @@ abstract class CliktCommand(
     }
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
-    protected fun shortHelp(): String = Regex("""\s*(?:```)?\s*(.+)""").find(commandHelp)?.groups?.get(1)?.value ?: ""
+    protected fun shortHelp(): String =
+        Regex("""\s*(?:```)?\s*(.+)""").find(commandHelp)?.groups?.get(1)?.value ?: ""
 
     /** The names of all direct children of this command */
     fun registeredSubcommandNames(): List<String> = _subcommands.map { it.commandName }
@@ -543,7 +566,7 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
  * here.
  */
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
-    // save the old config to allow multiple context calls
+// save the old config to allow multiple context calls
     val c = _contextConfig
     _contextConfig = {
         c()

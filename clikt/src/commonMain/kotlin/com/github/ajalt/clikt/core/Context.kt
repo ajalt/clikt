@@ -11,51 +11,101 @@ import kotlin.properties.ReadOnlyProperty
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
 
 /**
- * A object used to control command line parsing and pass data between commands.
+ * An object used to control command line parsing and pass data between commands.
  *
  * A new Context instance is created for each command each time the command line is parsed.
- *
- * @property parent If this context is the child of another command, [parent] is the parent command's context.
- * @property command The command that this context associated with.
- * @property allowInterspersedArgs If false, options and arguments cannot be mixed; the first time an argument is
- *   encountered, all remaining tokens are parsed as arguments.
- * @property autoEnvvarPrefix The prefix to add to inferred envvar names. If null, the prefix is based on the
- *   parent's prefix, if there is one. If no command specifies, a prefix, envvar lookup is disabled.
- * @property printExtraMessages Set this to false to prevent extra messages from being printed automatically.
- *   You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
- * @property helpOptionNames The names to use for the help option. If any names in the set conflict with other
- *   options, the conflicting name will not be used for the help option. If the set is empty, or contains no
- *   unique names, no help option will be added.
- * @property helpFormatter The help formatter for this command.
- * @property tokenTransformer An optional transformation function that is called to transform command line
- *   tokens (options and commands) before parsing. This can be used to implement e.g. case insensitive
- *   behavior.
- * @property terminal The terminal to used to read and write messages.
- * @property argumentFileReader A block that returns the content of an argument file for a given filename.
- * @property correctionSuggestor A callback called when the command line contains an invalid option or
- *   subcommand name. It takes the entered name and a list of all registered names option/subcommand
- *   names and filters the list down to values to suggest to the user.
- * @property allowGroupedShortOptions If true, short options can be grouped after a single `-` prefix.
  */
-
 class Context private constructor(
+    /**
+     * If this context is the child of another command, [parent] is the parent command's context.
+     */
     val parent: Context?,
+    /**
+     * The command that this context associated with.
+     */
     val command: CliktCommand,
+    /**
+     * If false, options and arguments cannot be mixed; the first time an argument is
+     *   encountered, all remaining tokens are parsed as arguments.
+     */
     val allowInterspersedArgs: Boolean,
+    /**
+     * If true, short options can be grouped after a single `-` prefix.
+     */
     val allowGroupedShortOptions: Boolean,
+    /**
+     * The prefix to add to inferred envvar names. If null, the prefix is based on the
+     *   parent's prefix, if there is one. If no command specifies, a prefix, envvar lookup is disabled.
+     */
     val autoEnvvarPrefix: String?,
+    /**
+     * Set this to false to prevent extra messages from being printed automatically.
+     * You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
+     */
     val printExtraMessages: Boolean,
+    /**
+     * The names to use for the help option. If any names in the set conflict with other options,
+     * the conflicting name will not be used for the help option. If the set is empty, or contains
+     * no unique names, no help option will be added.
+     */
     val helpOptionNames: Set<String>,
+    /**
+     * The help formatter for this command.
+     */
     val helpFormatter: (Context) -> HelpFormatter,
+    /**
+     * An optional transformation function that is called to transform command line tokens (options
+     * and commands) before parsing. This can be used to implement e.g. case-insensitive behavior.
+     */
     val tokenTransformer: Context.(String) -> String,
+    /**
+     * The terminal to used to read and write messages.
+     */
     val terminal: Terminal,
+    /**
+     * A block that returns the content of an argument file for a given filename.
+     */
     var argumentFileReader: ((filename: String) -> String)?,
+    /**
+     * If `false`,the [valueSource] is searched before environment variables.
+     *
+     * By default, environment variables will be searched for option values before the
+     * [valueSource].
+     */
     val readEnvvarBeforeValueSource: Boolean,
+    /**
+     * The source that will attempt to read values for options that aren't present on the
+     * command line.
+     */
     val valueSource: ValueSource?,
+    /**
+     * A callback called when the command line contains an invalid option or subcommand name. It
+     * takes the entered name and a list of all registered names option/subcommand names and filters
+     * the list down to values to suggest to the user.
+     */
     val correctionSuggestor: TypoSuggestor,
+    /**
+     * Localized strings to use for help output and error reporting.
+     */
     val localization: Localization,
+    /**
+     * A function called by Clikt to get a parameter value from a given environment variable
+     *
+     * The function returns `null` if the envvar is not defined.
+     *
+     * You can set this to read from a map or other source during tests.
+     */
     val readEnvvar: (String) -> String?,
+    /**
+     * An arbitrary object on the context.
+     *
+     * This object can be retrieved with functions [findOrSetObject] and [requireObject]. You
+     * can also set the object on the context itself after it's been constructed.
+     */
     var obj: Any?,
+    /**
+     * The original command line arguments.
+     */
     val originalArgv: List<String>,
 ) {
     var invokedSubcommand: CliktCommand? = null
@@ -275,13 +325,13 @@ class Context private constructor(
 }
 
 /** Find the closest object of type [T], or throw a [NullPointerException] */
-@Suppress("unused") // these extensions don't use their receiver, but we want to limit where they can be called
+@Suppress("UnusedReceiverParameter") // these extensions don't use their receiver, but we want to limit where they can be called
 inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject()!! }
 }
 
 /** Find the closest object of type [T], or null */
-@Suppress("unused")
+@Suppress("UnusedReceiverParameter")
 inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCommand, T?> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject() }
 }
@@ -294,7 +344,7 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
  * without accessing the property, call [Context.findOrSetObject] in your [run][CliktCommand.run]
  * function instead.
  */
-@Suppress("unused")
+@Suppress("UnusedReceiverParameter")
 inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(default) }
 }

@@ -10,24 +10,29 @@ import com.github.ajalt.clikt.parameters.options.longestName
  * An exception during command line processing that should be shown to the user.
  *
  * If calling [CliktCommand.main], these exceptions will be caught and the appropriate info will be printed.
- *
- * @property statusCode The value to use as the exit code for the process. If you use
- *   [CliktCommand.main], it will pass this value to `exitProcess` after printing [message]. Defaults
- *   to 1.
  */
 open class CliktError(
     message: String? = null,
     cause: Exception? = null,
+    /**
+     * The value to use as the exit code for the process.
+     *
+     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * [message]. Defaults to 1.
+     */
     val statusCode: Int = 1,
+    /**
+     * If true, the error message should be printed to stderr.
+     */
     val printError: Boolean = true,
 ) : RuntimeException(message, cause)
 
 /** An interface for CliktErrors that have a context attached */
 interface ContextCliktError {
     /**
-     *  The context of the command that raised this error.
+     * The context of the command that raised this error.
      *
-     *  Will be set automatically if thrown during command line processing.
+     * Will be set automatically if thrown during command line processing.
      */
     var context: Context?
 }
@@ -36,11 +41,14 @@ interface ContextCliktError {
  * An exception that indicates that the command's help should be printed.
  *
  * Execution should be immediately halted.
- *
- * @property error If true, execution should halt with an error. Otherwise, execution halt with no error code.
  */
-class PrintHelpMessage(override var context: Context?, val error: Boolean = false) :
-    CliktError(printError = false), ContextCliktError
+class PrintHelpMessage(
+    override var context: Context?,
+    /**
+     * If true, the error message should be printed to stderr.
+     */
+    val error: Boolean = false,
+) : CliktError(printError = false), ContextCliktError
 
 /**
  * An exception that indicates that a message should be printed.
@@ -70,17 +78,23 @@ class Abort : ProgramResult(statusCode = 1)
  */
 class PrintCompletionMessage(message: String) : PrintMessage(message)
 
-/**
- * An internal exception that signals a usage error.
- *
- * @property message The error message. Subclasses can leave this null and use [formatMessage] instead.
- * @property paramName The name of the parameter that caused the error. If possible, this should be
- *   set to the actual name used. Will be set automatically if thrown from a `convert` lambda.
- * @property statusCode The process status code to use if exiting the process as a result of this error.
- */
+/** An exception that signals a usage error. */
 open class UsageError(
+    /** The error message. Subclasses can leave this null and use [formatMessage] instead. */
     message: String?,
+    /**
+     * The name of the parameter that caused the error.
+     *
+     * If possible, this should be set to the actual name used. Will be set automatically if thrown
+     * from a `convert` lambda.
+     */
     var paramName: String? = null,
+    /**
+     * The value to use as the exit code for the process.
+     *
+     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * [message]. Defaults to 1.
+     */
     statusCode: Int = 1,
 ) : CliktError(message, statusCode = statusCode), ContextCliktError {
     constructor(message: String, argument: Argument, statusCode: Int = 1)

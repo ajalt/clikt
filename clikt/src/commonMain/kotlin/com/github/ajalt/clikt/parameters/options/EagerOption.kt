@@ -1,43 +1,10 @@
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.core.Abort
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.PrintMessage
+import com.github.ajalt.clikt.core.ProgramResult
 
-/**
- * An [Option] with no values that is [finalize]d before other types of options.
- *
- * @param callback This callback is called when the option is encountered on the command line. If
- *   you want to print a message and halt execution normally, you should throw a [PrintMessage]
- *   exception. If you want to exit normally without printing a message, you should throw
- *   [`Abort(error=false)`][Abort]. The callback is passed the current execution context as a
- *   parameter.
- */
-private class EagerOption(
-    override val names: Set<String>,
-    override val optionHelp: String,
-    override val hidden: Boolean,
-    override val helpTags: Map<String, String>,
-    override val groupName: String?,
-    private val callback: OptionTransformContext.() -> Unit,
-) : StaticallyGroupedOption {
-    init {
-        require(names.isNotEmpty()) { "Must specify at least one option name" }
-    }
-
-    override val eager: Boolean get() = true
-    override val secondaryNames: Set<String> get() = emptySet()
-    override val nvalues: IntRange get() = 0..0
-    override fun metavar(context: Context): String? = null
-    override val valueSourceKey: String? get() = null
-    override fun postValidate(context: Context) {}
-    override fun finalize(context: Context, invocations: List<Invocation>) {
-        this.callback(OptionTransformContext(this, context))
-    }
-}
-
-internal fun helpOption(names: Set<String>, message: String): Option {
-    return EagerOption(names, message, false, emptyMap(), null) { throw PrintHelpMessage(context) }
-}
 
 /**
  * Add an eager option to this command that, when invoked, runs [action].
@@ -46,12 +13,11 @@ internal fun helpOption(names: Set<String>, message: String): Option {
  * @param help The description of this option, usually a single line.
  * @param hidden Hide this option from help outputs.
  * @param helpTags Extra information about this option to pass to the help formatter
- * @param groupName All options with that share a group name will be grouped together in help output.
+ * @param groupName All options that share a group name will be grouped together in help output.
  * @param action This callback is called when the option is encountered on the command line. If
  *   you want to print a message and halt execution normally, you should throw a [PrintMessage]
  *   exception. If you want to exit normally without printing a message, you should throw
- *   [`Abort(error=false)`][Abort]. The callback is passed the current execution context as a
- *   parameter.
+ *   [`Abort(error=false)`][Abort].
  */
 fun <T : CliktCommand> T.eagerOption(
     vararg names: String,
@@ -69,12 +35,11 @@ fun <T : CliktCommand> T.eagerOption(
  * @param help The description of this option, usually a single line.
  * @param hidden Hide this option from help outputs.
  * @param helpTags Extra information about this option to pass to the help formatter
- * @param groupName All options with that share a group name will be grouped together in help output.
+ * @param groupName All options that share a group name will be grouped together in help output.
  * @param action This callback is called when the option is encountered on the command line. If
  *   you want to print a message and halt execution normally, you should throw a [PrintMessage]
  *   exception. If you want to exit normally without printing a message, you should throw
- *   [`Abort(error=false)`][Abort]. The callback is passed the current execution context as a
- *   parameter.
+ *   [`ProgramResult(0)`][ProgramResult].
  */
 fun <T : CliktCommand> T.eagerOption(
     names: Collection<String>,
@@ -83,12 +48,27 @@ fun <T : CliktCommand> T.eagerOption(
     helpTags: Map<String, String> = emptyMap(),
     groupName: String? = null,
     action: OptionTransformContext.() -> Unit,
-): T = apply { registerOption(EagerOption(names.toSet(), help, hidden, helpTags, groupName, action)) }
+): T {
+    val o = option(
+        *names.toTypedArray(),
+        help = help,
+        hidden = hidden,
+        helpTags = helpTags,
+        eager = true,
+    ).flag().validate { if (it) action() }
+    o.groupName = groupName
+    registerOption(o)
+    return this
+}
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
 inline fun <T : CliktCommand> T.versionOption(
+    /** The version to print */
     version: String,
+    /** The help message for the option */
     help: String = "Show the version and exit",
+    /** The names of this option. Defaults to --version */
     names: Set<String> = setOf("--version"),
+    /** A block that returns the message to print. The [version] is passed as a parameter */
     crossinline message: (String) -> String = { "$commandName version $it" },
 ): T = eagerOption(names, help) { throw PrintMessage(message(version)) }

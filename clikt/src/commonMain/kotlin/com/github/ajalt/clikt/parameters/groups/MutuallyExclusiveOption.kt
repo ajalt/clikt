@@ -19,6 +19,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
 ) : ParameterGroupDelegate<OutT> {
     init {
         require(options.size > 1) { "must provide at least two options to a mutually exclusive group" }
+        require(options.none { it.eager }) { "eager options are not allowed in mutually exclusive groups" }
     }
 
     private var value: OutT by NullableLateinit("Cannot read from group delegate before parsing command line")

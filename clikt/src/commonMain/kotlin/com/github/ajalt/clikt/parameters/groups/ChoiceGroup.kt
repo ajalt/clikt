@@ -24,7 +24,16 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
     private var value: OutT by NullableLateinit("Cannot read from option delegate before parsing command line")
     private var chosenGroup: OptionGroup? = null
 
-    override fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
+    init {
+        require(groups.none { it.value.options.any { o -> o.eager } }) {
+            "eager options are not allowed in choice and switch option groups"
+        }
+    }
+
+    override fun provideDelegate(
+        thisRef: CliktCommand,
+        prop: KProperty<*>,
+    ): ReadOnlyProperty<CliktCommand, OutT> {
         option.provideDelegate(thisRef, prop) // infer the option name and register it
         thisRef.registerOptionGroup(this)
         for ((_, group) in groups) {
@@ -39,7 +48,10 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
 
-    override fun finalize(context: Context, invocationsByOption: Map<Option, List<Invocation>>) {
+    override fun finalize(
+        context: Context,
+        invocationsByOption: Map<Option, List<Invocation>>,
+    ) {
         val key = option.value
         if (key == null) {
             value = transform(null)

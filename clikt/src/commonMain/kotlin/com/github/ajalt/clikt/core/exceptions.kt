@@ -56,12 +56,12 @@ open class PrintMessage(
 /**
  * Indicate that the program finished in a controlled manner, and should complete with the given [statusCode]
  */
-class ProgramResult(statusCode: Int) : CliktError(statusCode = statusCode)
+open class ProgramResult(statusCode: Int) : CliktError(statusCode = statusCode)
 
 /**
  * An internal error that signals Clikt to abort.
  */
-class Abort : CliktError(statusCode = 1)
+class Abort : ProgramResult(statusCode = 1)
 
 /**
  * An exception that indicates that shell completion code should be printed.

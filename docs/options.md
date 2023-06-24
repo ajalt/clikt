@@ -812,14 +812,12 @@ passwords.
 
 Sometimes you want an option to halt execution immediately and print a
 message. For example, the built-on `--help` option, or the `--version`
-option that many programs have. Neither of these options have any value
-associated with them, and they stop command line parsing as soon as
-they're encountered.
+option that many programs have.
 
 The `--help` option is added automatically to commands, and `--version` can be added using
-[`versionOption`][versionOption]. Since
-the option doesn't have a value, you can't define it using a property delegate. Instead, call the
-function on a command directly, either in an `init` block, or on a command instance.
+[`versionOption`][versionOption]. Since the option doesn't have a value, you can't define it using a
+property delegate. Instead, call the function on a command directly, either in an `init` block, or
+on a command instance.
 
 These definitions are equivalent:
 
@@ -845,6 +843,8 @@ These definitions are equivalent:
     cli version 1.0
     ```
 
+### Custom Eager Options
+
 If you want to define your own option with a similar behavior, you can do so by calling
 [`eagerOption`][eagerOption]. This function takes an `action` that is called when the option is
 encountered on the command line. To print a message and halt execution normally from the callback,
@@ -863,6 +863,20 @@ class Cli : NoOpCliktCommand() {
     }
 }
 ```
+
+### Custom Eager Options With Values
+
+If you need an eager option that takes a value, pass `eager=true` to [`option()`][option].
+
+```kotln
+val color by option(eager=true).flag("--no-color", default=true)
+```
+
+!!! warning
+    Eager options cannot reference other options, since they are finalized first.
+    They can be declared in regular `OptionGroups`, but not in other types of groups
+    like [switch groups][#choice-and-switch-options-with-groups].
+
 
 ## Deprecating Options
 

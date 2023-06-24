@@ -200,12 +200,21 @@ internal object Parser {
                 invocations.groupBy({ it.opt }, { it.inv })
                     .filterKeys { !it.eager }
             }
+        val ungroupedOptions = command._options.filter {
+            !it.eager && (it as? GroupableOption)?.parameterGroup == null
+        }
+
 
         // Finalize and validate everything as long as we aren't resuming a parse for multiple subcommands
         try {
             if (canRun) {
-                // Finalize eager options
-                invocationsByOption.forEach { (o, inv) -> if (o.eager) o.finalize(context, inv) }
+                // Finalize and validate eager options
+                invocationsByOption.forEach { (o, inv) ->
+                    if (o.eager) {
+                        o.finalize(context, inv)
+                        o.postValidate(context)
+                    }
+                }
 
                 // Parse arguments
                 val argsParseResult = parseArguments(i, positionalArgs, arguments)
@@ -236,7 +245,7 @@ internal object Parser {
                 gatherErrors(usageErrors) {
                     finalizeOptions(
                         context,
-                        command._options.filter { !it.eager && (it as? GroupableOption)?.parameterGroup == null },
+                        ungroupedOptions,
                         invocationsByOptionByGroup[null] ?: emptyMap()
                     )
                 }
@@ -271,11 +280,7 @@ internal object Parser {
                 }
 
                 // Now that all parameters have been finalized, we can validate everything
-                command._options.forEach { o ->
-                    if ((o as? GroupableOption)?.parameterGroup == null) gatherErrors(usageErrors) {
-                        o.postValidate(context)
-                    }
-                }
+                ungroupedOptions.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
                 command._groups.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
                 command._arguments.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
 

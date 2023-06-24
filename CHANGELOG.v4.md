@@ -15,11 +15,11 @@
 - Added `Context.argumentFileReader` which allows custom loading of argument files 
 - Added `Context.allowGroupedShortOptions` which can disable parsing `-abc` as `-a -b -c`
 - Options named `-?` are now supported
+- Added `option(eager=true)` to create an eager option that takes values
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
 - When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340)) 
-- Update kotlin to 1.7.0
 - Clikt no longer automatically calls `trimIndent` on strings passed to `help`. Call `trimIndent` or `trimMargin` yourself if necessary.
 - The constructor of `UsageError` and its subclasses no longer takes a `context` parameter. The context is now inferred automatically.
 - `Context.Builder.helpOptionNames` now accepts any iterable rather than just a set.

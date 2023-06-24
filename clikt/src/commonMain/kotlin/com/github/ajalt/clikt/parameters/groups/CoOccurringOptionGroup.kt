@@ -15,14 +15,27 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
     internal val group: GroupT,
     private val transform: CoOccurringOptionGroupTransform<GroupT, OutT>,
 ) : ParameterGroupDelegate<OutT> {
+    init {
+        require(group.options.any { HelpFormatter.Tags.REQUIRED in it.helpTags }) {
+            "At least one option in a co-occurring group must use `required()`"
+        }
+        require(group.options.none { it.eager }) {
+            "eager options are not allowed in choice and switch option groups"
+        }
+    }
+
     override val groupName: String? get() = group.groupName
     override val groupHelp: String? get() = group.groupHelp
     private var value: OutT by NullableLateinit("Cannot read from option delegate before parsing command line")
     private var occurred = false
 
-    override fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, OutT> {
+    override fun provideDelegate(
+        thisRef: CliktCommand,
+        prop: KProperty<*>,
+    ): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
         for (option in group.options) {
+
             option.parameterGroup = this
             option.groupName = groupName
             thisRef.registerOption(option)
@@ -58,7 +71,6 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
  * group must be given as well.
  */
 fun <T : OptionGroup> T.cooccurring(): CoOccurringOptionGroup<T, T?> {
-    require(options.any { HelpFormatter.Tags.REQUIRED in it.helpTags }) { "At least one option in a co-occurring group must use `required()`" }
     return CoOccurringOptionGroup(this) { occurred, g, _ ->
         if (occurred == true) g
         else null

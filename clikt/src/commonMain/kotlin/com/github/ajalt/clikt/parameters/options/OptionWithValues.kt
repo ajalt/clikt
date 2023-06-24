@@ -4,16 +4,14 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.completion.CompletionCandidates
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.ParameterHolder
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.transform.TransformContext
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
@@ -130,6 +128,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
         acceptsUnattachedValue: Boolean = this.acceptsUnattachedValue,
+        eager: Boolean = this.eager,
     ): OptionWithValues<AllT, EachT, ValueT>
 
     /** Create a new option that is a copy of this one with the same transforms. */
@@ -148,6 +147,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
         acceptsUnattachedValue: Boolean = this.acceptsUnattachedValue,
+        eager: Boolean = this.eager,
     ): OptionWithValues<AllT, EachT, ValueT>
 }
 
@@ -166,6 +166,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     override val secondaryNames: Set<String>,
     override val acceptsNumberValueWithoutName: Boolean,
     override val acceptsUnattachedValue: Boolean,
+    override val eager: Boolean,
     override val transformValue: ValueTransformer<ValueT>,
     override val transformEach: ValuesTransformer<ValueT, EachT>,
     override val transformAll: AllTransformer<EachT, AllT>,
@@ -237,6 +238,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
         acceptsUnattachedValue: Boolean,
+        eager: Boolean,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
@@ -252,6 +254,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             secondaryNames = secondaryNames,
             acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
             acceptsUnattachedValue = acceptsUnattachedValue,
+            eager = eager,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -275,6 +278,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
         acceptsUnattachedValue: Boolean,
+        eager: Boolean,
     ): OptionWithValues<AllT, EachT, ValueT> {
         return OptionWithValuesImpl(
             names = names,
@@ -290,6 +294,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             secondaryNames = secondaryNames,
             acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
             acceptsUnattachedValue = acceptsUnattachedValue,
+            eager = eager,
             transformValue = transformValue,
             transformEach = transformEach,
             transformAll = transformAll,
@@ -326,6 +331,12 @@ internal fun <T> defaultValidator(): OptionValidator<T> = { }
  * @param envvar The environment variable that will be used for the value if one is not given on the command
  *   line.
  * @param helpTags Extra information about this option to pass to the help formatter
+ * @param completionCandidates The values to use for tab completion.
+ * @param valueSourceKey The key to use when reading this option from a [ValueSource].
+ * @param eager If true, this option will be parsed before other options. This is useful for options
+ *   like `--version` that will stop parsing immediately by throwing a [PrintHelpMessage] or
+ *   [ProgramResult] exception in their [validate] callback. If your option is a flag, you can use
+ *   [eagerOption] instead.
  */
 @Suppress("UnusedReceiverParameter")
 fun ParameterHolder.option(
@@ -337,6 +348,7 @@ fun ParameterHolder.option(
     helpTags: Map<String, String> = emptyMap(),
     completionCandidates: CompletionCandidates? = null,
     valueSourceKey: String? = null,
+    eager: Boolean = false,
 ): RawOption = OptionWithValuesImpl(
     names = names.toSet(),
     metavarGetter = metavar?.let { { it } },
@@ -352,6 +364,7 @@ fun ParameterHolder.option(
     acceptsNumberValueWithoutName = false,
     acceptsUnattachedValue = true,
     transformValue = { it },
+    eager = eager,
     transformEach = defaultEachProcessor(),
     transformAll = defaultAllProcessor(),
     transformValidator = defaultValidator()

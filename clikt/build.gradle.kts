@@ -82,25 +82,3 @@ kotlin {
         }
     }
 }
-
-
-
-/**
- * Replace some ugly Dokka markdown with explicit html tags
- */
-open class DokkaProcess : DefaultTask() {
-    @TaskAction
-    fun processFiles() {
-        // The dokka output is the outputDirectory, not each individual file
-        val first = inputs.files.files.first()
-        val files = first.walkTopDown().filter { it.isFile && it.extension == "md" }
-        for (file in files) {
-            val text = file.readLines().map {
-                if (it.startsWith("`") && (it.endsWith("`") || it.endsWith(")"))) {
-                    "<code>" + it.replace("`<`", "&lt;").replace("`>`", "&gt;").replace("`", "") + "</code>"
-                } else it
-            }
-            file.writeText(text.joinToString("\n"))
-        }
-    }
-}

@@ -6,7 +6,6 @@ import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.parsers.shlex
 import com.github.ajalt.mordant.rendering.AnsiLevel
-import com.github.ajalt.mordant.terminal.ExperimentalTerminalApi
 import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.terminal.TerminalRecorder
 
@@ -55,7 +54,6 @@ fun CliktCommand.test(
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
  */
-@OptIn(ExperimentalTerminalApi::class)
 fun CliktCommand.test(
     argv: Array<String>,
     stdin: String = "",

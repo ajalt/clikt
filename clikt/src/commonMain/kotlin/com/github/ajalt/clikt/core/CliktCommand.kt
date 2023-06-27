@@ -335,11 +335,10 @@ abstract class CliktCommand(
         trailingNewline: Boolean = true,
         err: Boolean = false,
     ) {
-        val t = if (err) currentContext.terminal.forStdErr() else currentContext.terminal
         if (trailingNewline) {
-            t.println(message)
+            currentContext.terminal.println(message, stderr = err)
         } else {
-            t.print(message)
+            currentContext.terminal.print(message, stderr = err)
         }
     }
 

@@ -43,7 +43,7 @@ fun CliktCommand.test(
  * Test this command, returning a result that captures the output and result status code.
  *
  * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed with [print] or
- * [println] will not.
+ * [println] is not.
  *
  * @param argv The command line to send to the command
  * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.

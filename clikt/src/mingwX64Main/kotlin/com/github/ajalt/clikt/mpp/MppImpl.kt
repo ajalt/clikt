@@ -7,7 +7,7 @@ import platform.windows.GetEnvironmentVariableW
 import platform.windows.LPWSTR
 
 // value from https://docs.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-getenvironmentvariablew
-const val MAX_ENVVAR_SIZE = 32768u
+private const val MAX_ENVVAR_SIZE = 32768u
 
 /**
  * Windows has whopping 6 different functions to read environment variables:

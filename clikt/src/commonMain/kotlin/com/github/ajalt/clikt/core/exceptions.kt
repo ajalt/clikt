@@ -78,7 +78,7 @@ class Abort : ProgramResult(statusCode = 1)
  */
 class PrintCompletionMessage(message: String) : PrintMessage(message)
 
-/** An exception that signals a usage error. */
+/** An exception that signals a user error. */
 open class UsageError(
     /** The error message. Subclasses can leave this null and use [formatMessage] instead. */
     message: String?,
@@ -257,6 +257,9 @@ class IncorrectArgumentValueCount(
     }
 }
 
+/**
+ * Multiple mutually exclusive options were supplied.
+ */
 class MutuallyExclusiveGroupException(
     val names: List<String>,
 ) : UsageError(null) {

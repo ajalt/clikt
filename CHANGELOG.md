@@ -1,4 +1,47 @@
 # Changelog
+
+## 4.0.0-RC
+### Added
+- You can now use markdown in your help strings, including tables and lists. Clikt uses the Mordant library for rendering.
+- Help output and error messages now include colors by default. You can disable this or customize the styling by configuring the `context.terminal`
+- Added `Option.varargValues()` to create an option that accepts a variable number of values
+- Added `Option.optionalValue()` to create an option whose value is optional.
+- Added `obj` setter to context builder as an alternative to `currentContext.obj`
+- Added `boolean()` parameter type conversions.
+- Added `uint()` and `ulong()` parameter type conversions.
+- Added `nullableFlag()` parameter transformation.
+- Added `CliktCommand.test` extension for testing your commands and their output
+- Clikt will now report multiple errors if they occur via the new `MultiUsageError` exception, rather than just reporting the first error. ([#367](https://github.com/ajalt/clikt/issues/367))
+- Added `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
+- Added `Context.argumentFileReader` which allows custom loading of argument files
+- Added `Context.allowGroupedShortOptions` which can disable parsing `-abc` as `-a -b -c`
+- Options named `-?` or `/?` are now supported
+- Added `option(eager=true)` to create an eager option that takes values
+
+### Removed
+- Removed `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.
+- Removed `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.
+- Removed legacy JS publications. Now only the JS/IR artifacts are published.
+- Removed `CliktHelpFormatter`. Use `MordantHelpFormatter` instead.
+
+### Changed
+- `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
+- When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340))
+- Clikt no longer automatically calls `trimIndent` on strings passed to `help`. Call `trimIndent` or `trimMargin` yourself if necessary.
+- `Context.Builder.helpOptionNames` now accepts any iterable rather than just a set.
+- `CliktCommand.echo` and `prompt` are now public. ([#407](https://github.com/ajalt/clikt/issues/407))
+- Internally, all options are implemented transformations on `OptionWithValues`, rather than using separate classes for each option type. 
+- Some Localization strings have changed: removed `Localization.aborted()`, added `Localization.argumentsMetavar()`
+- `Context.Builder.helpFormatter` is now a lambda that takes the current context as an argument
+- Exceptions have been reworked so that all exceptions thrown by Clikt are subclasses of `CliktError`.
+- `CliktError` now includes `statusCode` and `printError` properties.
+- The constructor of `UsageError` and its subclasses no longer takes a `context` parameter. The context is now inferred automatically.
+- `UsageError.formatUsage` now takes the localization and formatter as arguments
+
+### Fixed
+- When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest if it can't report them all ([#361](https://github.com/ajalt/clikt/issues/361))
+- When `treatUnknownOptionsAsArgs` is true, grouped unknown short options will now be treated as arguments rather than reporting an error.
+
 ## 3.5.4
 ### Fixed
 - Revert jvm jars to target Java 8
@@ -162,7 +205,7 @@
 
 ### Changed
 - Update Kotlin to 1.3.71
-- Improved command name inference. Now, a class like `MyAppCommand` will infer its `commandName` as `my-app` rather than `myappcommand`. You can still specify the name manually as before. ([#168][https://github.com/ajalt/clikt/pull/168])
+- Improved command name inference. Now, a class like `MyAppCommand` will infer its `commandName` as `my-app` rather than `myappcommand`. You can still specify the name manually as before. ([#168](https://github.com/ajalt/clikt/pull/168))
 
 ### Fixed
 - Correctly parse short options with attached values that contain `=`

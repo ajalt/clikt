@@ -46,8 +46,7 @@ subprojects {
         apply(plugin = "org.jetbrains.dokka")
 
         tasks.named<DokkaTask>("dokkaHtml") {
-            val dir = if (project.name == "colormath") "" else "/${project.name}"
-            outputDirectory.set(rootProject.rootDir.resolve("docs/api$dir"))
+            outputDirectory.set(rootProject.rootDir.resolve("docs/api"))
             val rootPath = rootProject.rootDir.toPath()
             val logoCss = rootPath.resolve("docs/css/logo-styles.css").toString().replace('\\', '/')
             val paletteSvg = rootPath.resolve("docs/img/wordmark_small_dark.svg").toString()

@@ -208,10 +208,13 @@ interface Localization {
     fun commandsTitle(): String = "Commands:"
 
     /** The placeholder that indicates where options may be present in the usage help output */
-    fun optionsMetavar(): String = "[<options>]"
+    fun optionsMetavar(): String = "options"
 
     /** The placeholder that indicates where subcommands may be present in the usage help output */
-    fun commandMetavar(): String = "<command> [<args>]..."
+    fun commandMetavar(): String = "command"
+
+    /** The placeholder that indicates where arguments may be present in the usage help output */
+    fun argumentsMetavar(): String = "args"
 
     /** Text rendered for parameters tagged with [HelpFormatter.Tags.DEFAULT] */
     fun helpTagDefault(): String = "default"

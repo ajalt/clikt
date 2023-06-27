@@ -21,9 +21,15 @@ import com.github.ajalt.mordant.widgets.Panel
 
 
 class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
+    // You can override which styles are used for each part of the output.
+    // If you want to change the color of the styles themselves, you can set them in the terminal's
+    // theme (see the main function below).
     override fun styleSectionTitle(title: String): String = theme.style("muted")(title)
+
+    // Print metavars like INT instead of <int>
     override fun normalizeParameter(name: String): String = name.uppercase()
 
+    // Put each parameter section in its own panel
     override fun renderParameters(
         parameters: List<HelpFormatter.ParameterHelp>,
     ): Widget = verticalLayout {
@@ -47,9 +53,6 @@ class Echo(t: Terminal) : CliktCommand(help = "Echo the STRING(s) to standard ou
         context {
             terminal = t
             helpFormatter = { PanelHelpFormatter(it) }
-            localization = object : Localization {
-                override fun optionsMetavar(): String = "OPTIONS"
-            }
         }
     }
 
@@ -65,9 +68,13 @@ class Echo(t: Terminal) : CliktCommand(help = "Echo the STRING(s) to standard ou
 
 fun main(args: Array<String>) {
     val theme = Theme {
+        // Use ANSI-16 codes for help colors
         styles["info"] = TextColors.green
         styles["warning"] = TextColors.blue
         styles["danger"] = TextColors.magenta
+
+        // Remove the border around code blocks
+        flags["markdown.code.block.border"] = false
     }
     Echo(Terminal(theme = theme)).main(args)
 }

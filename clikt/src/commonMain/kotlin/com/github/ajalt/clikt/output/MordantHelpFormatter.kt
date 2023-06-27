@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.mordant.markdown.Markdown
 import com.github.ajalt.mordant.rendering.*
 import com.github.ajalt.mordant.table.verticalLayout
-import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.widgets.*
 
 /**
@@ -16,19 +15,25 @@ import com.github.ajalt.mordant.widgets.*
  *
  * To customize help text, you can create a subclass and set it as the `helpFormatter` on your
  * command's context.
- *
- * @param requiredOptionMarker The string to show before the names of required options, or null to
- *   not show a mark.
- * @param showDefaultValues If true, the default values will be shown in the help text for
- *   parameters that have them.
- * @param showRequiredTag If true, a tag indicating the parameter is required will be shown after
- * the description of required parameters.
  */
 @Suppress("MemberVisibilityCanBePrivate")
 open class MordantHelpFormatter(
+    /**
+     * The current command's context.
+     */
     protected val context: Context,
+    /**
+     * The string to show before the names of required options, or null to not show a mark.
+     */
     protected val requiredOptionMarker: String? = null,
+    /**
+     * If true, the default values will be shown in the help text for parameters that have them.
+     */
     protected val showDefaultValues: Boolean = false,
+    /**
+     * If true, a tag indicating the parameter is required will be shown after the description of
+     * required parameters.
+     */
     protected val showRequiredTag: Boolean = false,
 ) : HelpFormatter {
     protected val localization: Localization get() = context.localization
@@ -89,19 +94,23 @@ open class MordantHelpFormatter(
         val prog = "$title $programName"
         val usageParts = buildList {
             if (parameters.any { it is ParameterHelp.Option }) {
-                add(optionalStyle(localization.optionsMetavar()))
+                val metavar = normalizeParameter(localization.optionsMetavar())
+                add(optionalStyle(renderOptionalMetavar(metavar)))
             }
 
             parameters.filterIsInstance<ParameterHelp.Argument>().mapTo(this) {
-                val name = normalizeParameter(it.name)
-                val t =
-                    (if (it.required) name else "[${name}]") + if (it.repeatable) "..." else ""
+                var name = normalizeParameter(it.name)
+                if (!it.required) name = renderOptionalMetavar(name)
+                if (it.repeatable) name = renderRepeatedMetavar(name)
                 val style = if (it.required) TextStyle() else optionalStyle
-                style(t)
+                style(name)
             }
 
             if (parameters.any { it is ParameterHelp.Subcommand }) {
-                add(optionalStyle(localization.commandMetavar()))
+                val commandMetavar = normalizeParameter(localization.commandMetavar())
+                val argsMetavar = normalizeParameter(localization.argumentsMetavar())
+                val repeatedArgs = renderRepeatedMetavar(renderOptionalMetavar(argsMetavar))
+                add(optionalStyle("$commandMetavar $repeatedArgs"))
             }
         }
 
@@ -166,10 +175,8 @@ open class MordantHelpFormatter(
             }
             val names = mutableListOf(joinNamesForOption(unjoinedNames))
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(it.secondaryNames)
-            DefinitionRow(col1 = names.joinToString(
-                " / ",
-                postfix = renderOptionValue(it)
-            ),
+            DefinitionRow(
+                col1 = names.joinToString(" / ", postfix = renderOptionValue(it)),
                 col2 = renderParameterHelpText(it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
@@ -295,23 +302,18 @@ open class MordantHelpFormatter(
         }
     }
 
+    protected open fun renderOptionalMetavar(metavar: String): String = "[$metavar]"
+    protected open fun renderRepeatedMetavar(metavar: String): String = "$metavar..."
+
     protected open fun renderOptionValue(option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""
-        var prefix = "="
-        var suffix = if (option.nvalues.last > 1) "..." else ""
-        if (option.nvalues.first == 0) {
-            prefix = "[$prefix"
-            suffix = "$suffix]"
-        }
-        val metavar = when (option.nvalues.first) {
-            0 -> option.metavar.trim { it in "[]<>" }
-            else -> option.metavar
-        }
-        val normedMetavar = when {
-            '|' in metavar -> metavar
-            else -> normalizeParameter(metavar)
-        }
-        return "$prefix${styleMetavar(normedMetavar)}$suffix"
+        var metavar = option.metavar.trim { it in "[]<>" }
+        if ('|' !in metavar) metavar = normalizeParameter(metavar)
+        metavar = styleMetavar(metavar)
+        if (option.nvalues.last > 1) metavar = renderRepeatedMetavar(metavar)
+        metavar = "=$metavar"
+        if (option.nvalues.first == 0) metavar = renderOptionalMetavar(metavar)
+        return metavar
     }
 
     protected open fun buildParameterList(rows: List<DefinitionRow>): Widget {

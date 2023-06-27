@@ -10,7 +10,7 @@ import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.convert
 
 private fun mvar(choices: Iterable<String>): String {
-    return choices.joinToString("|", prefix = "[", postfix = "]")
+    return choices.joinToString("|", prefix = "(", postfix = ")")
 }
 
 private fun errorMessage(context: Context, choice: String, choices: Map<String, *>): String {

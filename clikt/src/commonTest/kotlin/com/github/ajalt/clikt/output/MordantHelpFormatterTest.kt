@@ -433,7 +433,7 @@ class MordantHelpFormatterTest {
             |
             |Options:
             |  -f, --foo[=<text>]  option one
-            |  --bar[=c1|c2]       option two
+            |  --bar[=(c1|c2)]     option two
             |  --baz[=<int>...]    option three
             """
         )
@@ -465,7 +465,7 @@ class MordantHelpFormatterTest {
             |  --opt2=<text>
             |
             |Options:
-            |  --opt=[g1|g2]  select group
+            |  --opt=(g1|g2)  select group
             """,
             command = C()
         )

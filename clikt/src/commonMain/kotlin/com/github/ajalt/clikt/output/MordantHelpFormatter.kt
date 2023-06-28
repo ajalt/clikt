@@ -176,8 +176,8 @@ open class MordantHelpFormatter(
             val names = mutableListOf(joinNamesForOption(unjoinedNames))
             if (it.secondaryNames.isNotEmpty()) names += joinNamesForOption(it.secondaryNames)
             DefinitionRow(
-                col1 = names.joinToString(" / ", postfix = renderOptionValue(it)),
-                col2 = renderParameterHelpText(it.help, it.tags),
+                term = names.joinToString(" / ", postfix = renderOptionValue(it)),
+                description = renderParameterHelpText(it.help, it.tags),
                 marker = when (HelpFormatter.Tags.REQUIRED) {
                     in it.tags -> requiredOptionMarker?.let { m ->
                         styleRequiredMarker(m)
@@ -207,7 +207,7 @@ open class MordantHelpFormatter(
                 renderParameterHelpText(it.help, it.tags)
             )
         }
-        if (arguments.isEmpty() || arguments.all { it.col2.isEmpty() }) return emptyList()
+        if (arguments.isEmpty() || arguments.all { it.description.isEmpty() }) return emptyList()
         val title = styleSectionTitle(localization.argumentsTitle())
         return listOf(RenderedSection(title, buildParameterList(arguments)))
     }
@@ -316,19 +316,24 @@ open class MordantHelpFormatter(
         return metavar
     }
 
+    protected open fun renderDefinitionTerm(row: DefinitionRow): Widget {
+        val termPrefix = when {
+            row.marker.isNullOrEmpty() -> "  "
+            else -> row.marker + "  ".drop(row.marker.graphemeLength).ifEmpty { " " }
+        }
+        return Text(termPrefix + row.term, whitespace = Whitespace.PRE_WRAP)
+    }
+
+    protected open fun renderDefinitionDescription(row: DefinitionRow): Widget {
+        return if (row.description.isBlank()) Text("")
+        else (Markdown(row.description, showHtml = true))
+    }
+
     protected open fun buildParameterList(rows: List<DefinitionRow>): Widget {
         return definitionList {
             inline = true
-            for ((col1, col2, marker) in rows) {
-                val termPrefix = when {
-                    marker.isNullOrEmpty() -> "  "
-                    else -> marker + "  ".drop(marker.graphemeLength).ifEmpty { " " }
-                }
-                entry {
-                    term(termPrefix + col1, whitespace = Whitespace.PRE_WRAP)
-                    if (col2.isBlank()) description("")
-                    else description(Markdown(col2, showHtml = true))
-                }
+            for (row in rows) {
+                entry(renderDefinitionTerm(row), renderDefinitionDescription(row))
             }
         }
     }
@@ -342,8 +347,8 @@ open class MordantHelpFormatter(
     }
 
     protected data class DefinitionRow(
-        val col1: String,
-        val col2: String,
+        val term: String,
+        val description: String,
         val marker: String? = null,
     )
 }

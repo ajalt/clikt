@@ -56,6 +56,8 @@ fun <AllT, EachT, ValueT> NullableOption<EachT, ValueT>.transformAll(
  *
  * You can customize how the default is shown to the user with [defaultForHelp].
  *
+ * If you need to compute the default lazily, use [defaultLazy].
+ *
  * ### Example:
  *
  * ```

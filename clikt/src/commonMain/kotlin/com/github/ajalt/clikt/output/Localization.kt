@@ -32,7 +32,7 @@ interface Localization {
 
     /** Message for [NoSuchSubcommand] */
     fun noSuchSubcommand(name: String, possibilities: List<String>): String {
-        return "no such subcommand: $name" + when (possibilities.size) {
+        return "no such subcommand $name" + when (possibilities.size) {
             0 -> ""
             1 -> ". Did you mean ${possibilities[0]}?"
             else -> possibilities.joinToString(prefix = ". (Possible subcommands: ", postfix = ")")
@@ -41,7 +41,7 @@ interface Localization {
 
     /** Message for [NoSuchOption] */
     fun noSuchOption(name: String, possibilities: List<String>): String {
-        return "no such option: $name" + when (possibilities.size) {
+        return "no such option $name" + when (possibilities.size) {
             0 -> ""
             1 -> ". Did you mean ${possibilities[0]}?"
             else -> possibilities.joinToString(prefix = ". (Possible options: ", postfix = ")")

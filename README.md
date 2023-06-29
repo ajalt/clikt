@@ -21,8 +21,8 @@ What does it look like? Here's a complete example of a simple Clikt program:
 
 ```kotlin
 class Hello : CliktCommand() {
-    val count: Int by option(help="Number of greetings").int().default(1)
-    val name: String by option(help="The person to greet").prompt("Your name")
+    val count: Int by option().int().default(1).help("Number of greetings")
+    val name: String by option().prompt("Your name").help("The person to greet")
 
     override fun run() {
         repeat(count) {
@@ -36,40 +36,22 @@ fun main(args: Array<String>) = Hello().main(args)
 
 And here's what it looks like when run:
 
-```
- $ ./hello --count=3
- Your name: John
- Hello John!
- Hello John!
- Hello John!
-```
+<p align="center"><img src="docs/img/readme_screenshot1.png"></p>
 
 The help page is generated for you:
 
-```
-$ ./hello --help
-Usage: hello [OPTIONS]
-
-Options:
-  --count INT  Number of greetings
-  --name TEXT  The person to greet
-  -h, --help   Show this message and exit
-```
+<p align="center"><img src="docs/img/readme_screenshot2.png"></p>
 
 Errors are also taken care of:
 
-```
-$ ./hello --whoops
-Usage: hello [OPTIONS]
+<p align="center"><img src="docs/img/readme_screenshot3.png"></p>
 
-Error: no such option: "--whoops".
-```
 
 ## Documentation
 
 The full documentation can be found on [the website](https://ajalt.github.io/clikt).
 
-There are also a number of [sample applications](samples/). You can run
+There are also a number of [sample applications](samples). You can run
 them with the included [`runsample` script](runsample).
 
 ## Installation
@@ -114,7 +96,7 @@ repositories {
 
 ## License
 
-    Copyright 2018-2022 AJ Alt
+    Copyright 2018 AJ Alt
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

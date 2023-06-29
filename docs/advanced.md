@@ -260,32 +260,36 @@ to implement case-insensitive parsing, for example:
 
 ## Replacing stdin and stdout
 
-By default, functions like [`CliktCommand.main`][main] and [`option().prompt()`][prompt]
-read from `System.in` and write to `System.out`. If you want to use
-clikt in an environment where the standard streams aren't available, you
-can set your own implementation of [`CliktConsole`][CliktConsole]
-when [customizing the command context][customizing-context].
+By default, functions like [`CliktCommand.main`][main] and [`option().prompt()`][prompt] read from
+stdin and write to stdout. If you want to use Clikt in an environment where the standard
+streams aren't available, you can set your own implementation of a `TerminalInterface` when
+[customizing the command context][customizing-context].
 
 ```kotlin
-object MyConsole : CliktConsole {
-    override fun promptForLine(prompt: String, hideInput: Boolean): String? {
-        MyOutputStream.write(prompt)
+object MyInterface : TerminalInterface {
+    override val info: TerminalInfo
+        get() = TerminalInfo(/* ... */)
+
+    override fun completePrintRequest(request: PrintRequest) {
+        if (request.stderr) MyOutputStream.writeError(request.text)
+        else MyOutputStream.write(request.text)
+    }
+
+    override fun readLineOrNull(hideInput: Boolean): String? {
         return if (hideInput) MyInputStream.readPassword()
         else MyInputStream.readLine()
     }
-
-    override fun print(text: String, error: Boolean) {
-        if (error) MyOutputStream.writeError(prompt)
-        else MyOutputStream.write(prompt)
-    }
-
-    override val lineSeparator: String get() = "\n"
 }
 
 class CustomCLI : NoOpCliktCommand() {
-    init { context { console = MyConsole } }
+    init { context { terminal = Terminal(terminalInterface = MyInterface ) } }
 }
 ```
+
+!!! tip
+
+    If you want to log the output, you can use Mordant's `TerminalRecorder`. That's how [test][test]
+    is implemented!
 
 ## Command Line Argument Files ("@argfiles")
 
@@ -366,25 +370,22 @@ Clikt supports the following platforms in addition to JVM:
 All functionality is supported, except:
 
 * `env` parameter of [editText][editText] and [editFile][editFile] is ignored.
-* `hideInput` parameter of [prompt][prompt] is ignored.
 * [file][file] and [path][path] parameter types are not supported.
 
 ### NodeJS
 
 All functionality is supported, except:
 
-* `hideInput` parameter of [prompt][prompt] is ignored.
 * [file][file] and [path][path] parameter types are not supported.
 
 ### Browser JavaScript
 
 All functionality is supported, except:
 
-* The default [CliktConsole][CliktConsole] only outputs to the browser's developer console, which is
+* The default terminal only outputs to the browser's developer console, which is
 probably not what you want. You can [define your own CliktConsole](#replacing-stdin-and-stdout), or
 you can call [parse][parse] instead of [main][main] and handle output yourself.
 * [editText][editText] and [editFile][editFile] are not supported.
-* [prompt][prompt] is only supported if you define your own CliktConsole.
 * [file][file] and [path][path] parameter types are not supported.
 
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
@@ -402,5 +403,6 @@ you can call [parse][parse] instead of [main][main] and handle output yourself.
 [path]:                api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
 [prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
+[test]:                api/clikt/com.github.ajalt.clikt.testing/test.html
 [TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html

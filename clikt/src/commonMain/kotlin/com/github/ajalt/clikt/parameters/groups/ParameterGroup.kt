@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.Invocation
+import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -45,9 +46,16 @@ interface ParameterGroup {
     fun postValidate(context: Context)
 }
 
-interface ParameterGroupDelegate<out T> : ParameterGroup, ReadOnlyProperty<CliktCommand, T> {
+/** A [ParameterGroup] that can be used as a property delegate */
+interface ParameterGroupDelegate<out T> :
+    ParameterGroup,
+    ReadOnlyProperty<CliktCommand, T>,
+    PropertyDelegateProvider<CliktCommand, ReadOnlyProperty<CliktCommand, T>> {
     /** Implementations must call [CliktCommand.registerOptionGroup] */
-    operator fun provideDelegate(thisRef: CliktCommand, prop: KProperty<*>): ReadOnlyProperty<CliktCommand, T>
+    override operator fun provideDelegate(
+        thisRef: CliktCommand,
+        property: KProperty<*>,
+    ): ReadOnlyProperty<CliktCommand, T>
 }
 
 /**

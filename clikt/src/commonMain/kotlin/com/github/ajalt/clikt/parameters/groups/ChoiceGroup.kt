@@ -32,9 +32,9 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
 
     override fun provideDelegate(
         thisRef: CliktCommand,
-        prop: KProperty<*>,
+        property: KProperty<*>,
     ): ReadOnlyProperty<CliktCommand, OutT> {
-        option.provideDelegate(thisRef, prop) // infer the option name and register it
+        option.provideDelegate(thisRef, property) // infer the option name and register it
         thisRef.registerOptionGroup(this)
         for ((_, group) in groups) {
             for (option in group.options) {

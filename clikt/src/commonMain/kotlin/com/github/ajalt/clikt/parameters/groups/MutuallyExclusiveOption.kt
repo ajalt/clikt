@@ -26,7 +26,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
 
     override operator fun provideDelegate(
         thisRef: CliktCommand,
-        prop: KProperty<*>,
+        property: KProperty<*>,
     ): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
 

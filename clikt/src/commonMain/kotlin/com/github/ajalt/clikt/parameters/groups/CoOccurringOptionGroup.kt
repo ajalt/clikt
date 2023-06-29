@@ -31,7 +31,7 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
 
     override fun provideDelegate(
         thisRef: CliktCommand,
-        prop: KProperty<*>,
+        property: KProperty<*>,
     ): ReadOnlyProperty<CliktCommand, OutT> {
         thisRef.registerOptionGroup(this)
         for (option in group.options) {

@@ -26,8 +26,21 @@ you don't have to worry about an exception escaping to the user.
 [`CliktCommand.parse`][parse], so if you don't want exceptions to be caught,
 you can call [`parse`][parse] wherever you would normally call [`main`][main].
 
+!!! tip
+
+    You can use [echoFormattedHelp][echoFormattedHelp] to print the help or error message to any
+    exception, or [getFormattedHelp][getFormattedHelp] to get the help message as a string.
+
 ```kotlin
-fun main(args: Array<String>) = Cli().parse(args)
+fun main(args: Array<String>) {
+    val cli = Cli()
+    try {
+        cli.parse(args)
+    } catch (e: CliktError) {
+        cli.echoFormattedHelp(e)
+        exitProcess(e.statusCode)
+    }
+}
 ```
 
 ## Which Exceptions Exist?
@@ -58,7 +71,9 @@ The following subclasses exist:
 [BadParameterValue]:               api/clikt/com.github.ajalt.clikt.core/-bad-parameter-value/index.html
 [CliktError]:                      api/clikt/com.github.ajalt.clikt.core/-clikt-error/index.html
 [convert]:                         api/clikt/com.github.ajalt.clikt.parameters.options/convert.html
+[echoFormattedHelp]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo-formatted-help.html
 [FileNotFound]:                    api/clikt/com.github.ajalt.clikt.core/-file-not-found/index.html
+[getFormattedHelp]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/get-formatted-help.html
 [IncorrectArgumentValueCount]:     api/clikt/com.github.ajalt.clikt.core/-incorrect-argument-value-count/index.html
 [IncorrectOptionValueCount]:       api/clikt/com.github.ajalt.clikt.core/-incorrect-option-value-count/index.html
 [InvalidFileFormat]:               api/clikt/com.github.ajalt.clikt.core/-invalid-file-format/index.html
@@ -70,7 +85,7 @@ The following subclasses exist:
 [NoSuchOption]:                    api/clikt/com.github.ajalt.clikt.core/-no-such-option/index.html
 [NoSuchSubcommand]:                api/clikt/com.github.ajalt.clikt.core/-no-such-subcommand/index.html
 [parse]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
-[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/
+[PrintCompletionMessage]:          api/clikt/com.github.ajalt.clikt.core/-print-completion-message/index.html
 [PrintHelpMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.html
 [PrintMessage]:                    api/clikt/com.github.ajalt.clikt.core/-print-message/index.html
 [ProgramResult]:                   api/clikt/com.github.ajalt.clikt.core/-program-result/index.html

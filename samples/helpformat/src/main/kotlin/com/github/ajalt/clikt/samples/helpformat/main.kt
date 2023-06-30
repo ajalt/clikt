@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.MordantHelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
@@ -65,6 +64,8 @@ class Echo(t: Terminal) : CliktCommand(help = "Echo the STRING(s) to standard ou
         echo(message, trailingNewline = false)
     }
 }
+
+
 
 fun main(args: Array<String>) {
     val theme = Theme {

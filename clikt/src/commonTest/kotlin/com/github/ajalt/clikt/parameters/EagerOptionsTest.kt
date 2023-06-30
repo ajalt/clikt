@@ -1,11 +1,12 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.PrintMessage
-import com.github.ajalt.clikt.parameters.groups.*
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
+import com.github.ajalt.clikt.parameters.groups.groupSwitch
+import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
+import com.github.ajalt.clikt.parameters.groups.provideDelegate
 import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
@@ -47,7 +48,7 @@ class EagerOptionsTest {
     @JsName("eager_option_parse_order")
     fun `eager option parse order`() {
         class C : TestCommand(called = false) {
-          val o by option().flag().validate { error("fail") }
+            val o by option().flag().validate { error("fail") }
         }
 
         shouldThrow<PrintHelpMessage> { C().parse("-h --o") }
@@ -58,9 +59,10 @@ class EagerOptionsTest {
     @Test
     @JsName("eager_option_in_option_group_plain")
     fun `eager option in option group plain`() {
-        class G: OptionGroup(name="g") {
+        class G : OptionGroup(name = "g") {
             val x by option("-x", eager = true).flag().validate { error("fail") }
         }
+
         class C : TestCommand(called = false) {
             val y by option("-y").flag().validate { fail("fail") }
             val g by G()
@@ -74,9 +76,10 @@ class EagerOptionsTest {
     @Test
     @JsName("eager_option_in_option_group_switch")
     fun `eager option in option group switch`() {
-        class G: OptionGroup(name="g") {
+        class G : OptionGroup(name = "g") {
             val x by option("-x", eager = true)
         }
+
         class C : TestCommand(called = false) {
             val g by option().groupSwitch("--a" to G(), "--b" to G())
         }
@@ -87,10 +90,11 @@ class EagerOptionsTest {
     @Test
     @JsName("eager_option_in_option_group_cooccurring")
     fun `eager option in option group cooccurring`() {
-        class G: OptionGroup(name="g") {
+        class G : OptionGroup(name = "g") {
             val x by option("-x", eager = true)
             val f by option("-f").required()
         }
+
         class C : TestCommand(called = false) {
             val g by option().groupSwitch("--a" to G(), "--b" to G())
         }

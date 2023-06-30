@@ -8,4 +8,4 @@ val Throwable.formattedMessage: String?
     get() = (this as? UsageError)?.formatMessage(
         context?.localization ?: defaultLocalization,
         ParameterFormatter.Plain
-    )  ?: message
+    ) ?: message

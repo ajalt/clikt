@@ -42,7 +42,7 @@ class PromptOptionsTest {
 
         class C : TestCommand() {
             override fun run_() {
-                confirm("Foo", default=false) shouldBe true
+                confirm("Foo", default = false) shouldBe true
             }
         }
         C().parse("")
@@ -106,7 +106,8 @@ class PromptOptionsTest {
                 foo shouldBe "bar"
             }
         }
-        val r = C().test("", stdin="bar")
+
+        val r = C().test("", stdin = "bar")
         r.output shouldBe "Foo: "
     }
 
@@ -121,7 +122,7 @@ class PromptOptionsTest {
             }
         }
 
-        val r= C().subcommands(S()).test("s", stdin="bar")
+        val r = C().subcommands(S()).test("s", stdin = "bar")
         r.output shouldBe "Foo: "
     }
 

@@ -7,8 +7,15 @@ internal object CompletionGenerator {
     fun throwCompletionMessage(command: CliktCommand, shell: String): Nothing {
         val message = when (shell.trim().lowercase()) {
             "fish" -> FishCompletionGenerator.generateFishCompletion(command = command)
-            "zsh" -> BashCompletionGenerator.generateBashOrZshCompletion(command = command, zsh = true)
-            else -> BashCompletionGenerator.generateBashOrZshCompletion(command = command, zsh = false)
+            "zsh" -> BashCompletionGenerator.generateBashOrZshCompletion(
+                command = command,
+                zsh = true
+            )
+
+            else -> BashCompletionGenerator.generateBashOrZshCompletion(
+                command = command,
+                zsh = false
+            )
         }
         throw PrintCompletionMessage(message)
     }

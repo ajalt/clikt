@@ -24,7 +24,8 @@ class DoubleTest {
         row("", null),
         row("--xx 3", 3.0),
         row("--xx=4.0", 4.0),
-        row("-x5.5", 5.5)) { argv, expected ->
+        row("-x5.5", 5.5)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Double? by option("-x", "--xx").double()
             override fun run_() {
@@ -51,7 +52,8 @@ class DoubleTest {
     fun `double option with default`() = forAll(
         row("", -1.0),
         row("--xx=4.0", 4.0),
-        row("-x5.5", 5.5)) { argv, expected ->
+        row("-x5.5", 5.5)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Double by option("-x", "--xx").double().default(-1.0)
             override fun run_() {
@@ -66,7 +68,8 @@ class DoubleTest {
     fun `double argument`() = forAll(
         row("", null, emptyList<Float>()),
         row("1.1 2", 1.1, listOf(2.0)),
-        row("1.1 2 3", 1.1, listOf(2.0, 3.0))) { argv, ex, ey ->
+        row("1.1 2 3", 1.1, listOf(2.0, 3.0))
+    ) { argv, ex, ey ->
         class C : TestCommand() {
             val x: Double? by argument().double().optional()
             val y: List<Double> by argument().double().multiple()

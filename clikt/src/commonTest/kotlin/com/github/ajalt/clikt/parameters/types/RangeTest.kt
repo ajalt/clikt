@@ -46,7 +46,8 @@ class RangeTest {
         row("", null),
         row("--xx=1", 1),
         row("--xx -123", 1),
-        row("-x0", 1)) { argv, expected ->
+        row("-x0", 1)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").int().restrictTo(min = 1, clamp = true)
             override fun run_() {
@@ -86,7 +87,8 @@ class RangeTest {
         row("", null),
         row("--xx=1", 1),
         row("--xx 123", 1),
-        row("-x2", 1)) { argv, expected ->
+        row("-x2", 1)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x by option("-x", "--xx").int().restrictTo(max = 1, clamp = true)
             override fun run_() {

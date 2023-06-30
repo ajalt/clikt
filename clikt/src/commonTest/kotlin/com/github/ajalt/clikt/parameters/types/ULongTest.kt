@@ -53,7 +53,8 @@ class ULongTest {
     fun `ulong option with default`() = forAll(
         row("", 111uL),
         row("--xx=4", 4uL),
-        row("-x5", 5uL)) { argv, expected ->
+        row("-x5", 5uL)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: ULong by option("-x", "--xx").ulong().default(111uL)
             override fun run_() {
@@ -68,7 +69,8 @@ class ULongTest {
     fun `int option with default`() = forAll(
         row("", 111),
         row("--xx=4", 4),
-        row("-x5", 5)) { argv, expected ->
+        row("-x5", 5)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Int by option("-x", "--xx").int().default(111)
             override fun run_() {

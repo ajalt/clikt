@@ -39,13 +39,16 @@ private class NativeEditor(
     }
 
     override fun edit(text: String): String? = memScoped {
-        var filename = "${tmpnam(null)!!.toKString().trimEnd('.').replace("\\", "/")}.${extension.trimStart('.')}"
+        var filename = "${
+            tmpnam(null)!!.toKString().trimEnd('.').replace("\\", "/")
+        }.${extension.trimStart('.')}"
 
         // workaround for minGW bug that tries to create temp files in the root directory
         // https://sourceforge.net/p/mingw-w64/bugs/555/
         if (filename.startsWith("/")) filename = (readEnvvar("TMP") ?: ".") + filename
 
-        val file = fopen(filename, "w") ?: throw CliktError("Error creating temporary file (errno=$errno)")
+        val file =
+            fopen(filename, "w") ?: throw CliktError("Error creating temporary file (errno=$errno)")
         try {
             val editorCmd = getEditorPath()
             fputs(normalizeEditorText(editorCmd, text), file)
@@ -59,7 +62,8 @@ private class NativeEditor(
                 return null
             }
 
-            return readFileIfExists(filename)?.replace("\r\n", "\n") ?: throw CliktError("Could not read file")
+            return readFileIfExists(filename)?.replace("\r\n", "\n")
+                ?: throw CliktError("Could not read file")
         } finally {
             remove(filename)
         }

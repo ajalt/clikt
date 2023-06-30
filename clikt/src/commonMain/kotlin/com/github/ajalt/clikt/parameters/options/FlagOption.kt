@@ -2,13 +2,8 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.mordant.terminal.ConversionResult
-import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.terminal.YesNoPrompt
 
 /** A block that converts a flag value from one type to another */
@@ -37,7 +32,7 @@ fun RawOption.flag(
     defaultForHelp: String = "",
 ): OptionWithValues<Boolean, Boolean, Boolean> {
     return nullableFlag(*secondaryNames)
-        .default(default, defaultForHelp=defaultForHelp)
+        .default(default, defaultForHelp = defaultForHelp)
 }
 
 /**

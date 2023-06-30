@@ -1,7 +1,12 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.arguments.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.arguments.Argument
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
@@ -40,7 +45,11 @@ class MordantHelpFormatterTest {
         row(listOf(c.argument("foo").multiple()), "Usage: prog [<foo>]..."),
         row(listOf(c.argument("foo").multiple(required = true)), "Usage: prog <foo>..."),
         row(
-            listOf<Any>(c.argument("FOO").multiple(required = true), c.option("-x"), c.argument("BAR").optional()),
+            listOf<Any>(
+                c.argument("FOO").multiple(required = true),
+                c.option("-x"),
+                c.argument("BAR").optional()
+            ),
             "Usage: prog [<options>] <foo>... [<bar>]"
         ),
         row(
@@ -138,7 +147,9 @@ class MordantHelpFormatterTest {
     @Test
     @JsName("help_output_one_opt_secondary_name")
     fun `one opt secondary name`() {
-        c.registerOption(c.option("--aa", "-a", help = "some thing to live by").flag("--no-aa", "-A"))
+        c.registerOption(
+            c.option("--aa", "-a", help = "some thing to live by").flag("--no-aa", "-A")
+        )
         doTest(
             """
             |Usage: prog [<options>]
@@ -249,7 +260,13 @@ class MordantHelpFormatterTest {
     @Test
     @JsName("help_output_one_opt_manual_line_break_narrow")
     fun `one opt manual line break narrow`() {
-        c.registerOption(c.option("--aa", "-a", help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"))
+        c.registerOption(
+            c.option(
+                "--aa",
+                "-a",
+                help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"
+            )
+        )
         doTest(
             """
             |Usage: prog [<options>]
@@ -266,7 +283,13 @@ class MordantHelpFormatterTest {
     @Test
     @JsName("help_output_one_opt_manual_line_break_wide")
     fun `one opt manual line break wide`() {
-        c.registerOption(c.option("--aa", "-a", help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"))
+        c.registerOption(
+            c.option(
+                "--aa",
+                "-a",
+                help = "Lorem ipsum dolor\u0085(sit amet, consectetur)"
+            )
+        )
         doTest(
             """
             |Usage: prog [<options>]
@@ -282,10 +305,25 @@ class MordantHelpFormatterTest {
     @JsName("help_output_option_wrapping")
     fun `option wrapping`() {
         c.registerOption(
-            c.option("-x", metavar = "X", help = "one very very very very very very long option").pair()
+            c.option("-x", metavar = "X", help = "one very very very very very very long option")
+                .pair()
         )
-        c.registerOption(c.option("-y", "--yy", metavar = "Y", help = "a shorter but still long option"))
-        c.registerOption(c.option("-z", "--zzzzzzzzzzzzz", metavar = "ZZZZZZZZ", help = "a short option"))
+        c.registerOption(
+            c.option(
+                "-y",
+                "--yy",
+                metavar = "Y",
+                help = "a shorter but still long option"
+            )
+        )
+        c.registerOption(
+            c.option(
+                "-z",
+                "--zzzzzzzzzzzzz",
+                metavar = "ZZZZZZZZ",
+                help = "a short option"
+            )
+        )
         c.registerOption(
             c.option(
                 "-t", "--entirely-too-long-option", metavar = "WOWSOLONG",
@@ -425,7 +463,9 @@ class MordantHelpFormatterTest {
     @JsName("help_output_optional_values")
     fun `optional values`() {
         c.registerOption(c.option("--foo", "-f", help = "option one").optionalValue("d1"))
-        c.registerOption(c.option("--bar", help = "option two").choice("c1", "c2").optionalValue("d2"))
+        c.registerOption(
+            c.option("--bar", help = "option two").choice("c1", "c2").optionalValue("d2")
+        )
         c.registerOption(c.option("--baz", help = "option three").int().varargValues(min = 0))
         doTest(
             """
@@ -546,7 +586,12 @@ class MordantHelpFormatterTest {
     @JsName("eager_options")
     fun `eager options`() {
         c.versionOption("1.0")
-        c.eagerOption("--eager", "-e", help = "this is an eager option with a group", groupName = "My Group") {}
+        c.eagerOption(
+            "--eager",
+            "-e",
+            help = "this is an eager option with a group",
+            groupName = "My Group"
+        ) {}
         c.eagerOption("--eager2", "-E", help = "this is an eager option") {}
         doTest(
             """
@@ -603,7 +648,7 @@ class MordantHelpFormatterTest {
     fun `default option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").default("123"))
-        c.context { helpFormatter = { MordantHelpFormatter(it, showDefaultValues = true) }}
+        c.context { helpFormatter = { MordantHelpFormatter(it, showDefaultValues = true) } }
         doTest(
             """
             |Usage: prog [<options>]
@@ -619,7 +664,14 @@ class MordantHelpFormatterTest {
     @JsName("custom_tag")
     fun `custom tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
-        c.registerOption(c.option("--bb", "-b", help = "bb option help", helpTags = mapOf("deprecated" to "")))
+        c.registerOption(
+            c.option(
+                "--bb",
+                "-b",
+                help = "bb option help",
+                helpTags = mapOf("deprecated" to "")
+            )
+        )
         doTest(
             """
             |Usage: prog [<options>]
@@ -666,7 +718,13 @@ class MordantHelpFormatterTest {
     @JsName("argument_tag")
     fun `argument tag`() {
         c.registerArgument(c.argument("ARG1", help = "arg 1 help"))
-        c.registerArgument(c.argument("ARG2", help = "arg 2 help", helpTags = mapOf("deprecated" to "")))
+        c.registerArgument(
+            c.argument(
+                "ARG2",
+                help = "arg 2 help",
+                helpTags = mapOf("deprecated" to "")
+            )
+        )
         doTest(
             """
             |Usage: prog <arg1> <arg2>

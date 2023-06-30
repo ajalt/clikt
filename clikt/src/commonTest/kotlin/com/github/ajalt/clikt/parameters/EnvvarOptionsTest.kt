@@ -210,8 +210,8 @@ class EnvvarOptionsTest {
         row("--y=z", "xx", "z"),
     ) { argv, ex, ey ->
         class G : OptionGroup() {
-            val x by option(envvar="X").required()
-            val y by option(envvar="Y")
+            val x by option(envvar = "X").required()
+            val y by option(envvar = "Y")
         }
 
         class C : TestCommand() {
@@ -229,7 +229,7 @@ class EnvvarOptionsTest {
     @Test
     @JsName("mutually_exclusive_option_group_envvar")
     fun `mutually exclusive option group envvar`() {
-        class C: TestCommand() {
+        class C : TestCommand() {
             val opt by mutuallyExclusiveOptions(
                 option("--foo", envvar = "FOO"),
                 option("--bar", envvar = "BAR"),
@@ -247,7 +247,7 @@ class EnvvarOptionsTest {
     @Test
     @Suppress("unused")
     @JsName("switch_envvars")
-    fun `switch envvar`(){
+    fun `switch envvar`() {
         class C : TestCommand() {
             val opt by option(envvar = "FOO").switch("--x" to 1, "--y" to 2)
         }

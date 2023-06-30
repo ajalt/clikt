@@ -173,7 +173,9 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
 ) : OptionWithValues<AllT, EachT, ValueT> {
     override var parameterGroup: ParameterGroup? = null
     override var groupName: String? = null
-    override fun metavar(context: Context) = (metavarGetter ?: { localization.stringMetavar() }).invoke(context)
+    override fun metavar(context: Context) =
+        (metavarGetter ?: { localization.stringMetavar() }).invoke(context)
+
     override var value: AllT by NullableLateinit("Cannot read from option delegate before parsing command line")
     override var names: Set<String> = names
         private set
@@ -185,12 +187,20 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             is FinalValue.Parsed -> {
                 when (valueSplit) {
                     null -> invocations
-                    else -> invocations.map { inv -> inv.copy(values = inv.values.flatMap { it.split(valueSplit) }) }
+                    else -> invocations.map { inv ->
+                        inv.copy(values = inv.values.flatMap {
+                            it.split(
+                                valueSplit
+                            )
+                        })
+                    }
                 }
             }
+
             is FinalValue.Sourced -> {
                 v.values.map { Invocation("", it.values) }
             }
+
             is FinalValue.Envvar -> {
                 when (valueSplit) {
                     null -> listOf(Invocation(v.key, listOf(v.value)))
@@ -413,9 +423,11 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
     error: Boolean = false,
 ): OptionDelegate<AllT> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
-    return copy(transformValue,
+    return copy(
+        transformValue,
         transformEach,
         deprecationTransformer(message, error, transformAll),
         transformValidator,
-        helpTags = helpTags)
+        helpTags = helpTags
+    )
 }

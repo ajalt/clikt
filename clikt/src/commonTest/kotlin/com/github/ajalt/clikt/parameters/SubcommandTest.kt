@@ -212,7 +212,8 @@ class SubcommandTest {
         row("a 2", true),
         row("3", true),
         row("a b 4 -xfoo", true),
-        row("a b 4 1", true)) { argv, called ->
+        row("a b 4 1", true)
+    ) { argv, called ->
 
         class C : TestCommand(invokeWithoutSubcommand = true) {
             val x by argument().multiple()
@@ -274,7 +275,11 @@ class SubcommandTest {
     ) { argv, message ->
         shouldThrow<NoSuchSubcommand> {
             TestCommand()
-                .subcommands(TestCommand(name = "foo"), TestCommand(name = "bar"), TestCommand(name = "baz"))
+                .subcommands(
+                    TestCommand(name = "foo"),
+                    TestCommand(name = "bar"),
+                    TestCommand(name = "baz")
+                )
                 .parse(argv)
         }.formattedMessage shouldBe message
     }
@@ -304,7 +309,11 @@ class SubcommandTest {
     ) { argv, fc, bc, fa, bo, ba ->
         val foo = MultiSub1(count = fc)
         val bar = MultiSub2(count = bc)
-        val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo, bar, TestCommand(called = false))
+        val c = TestCommand(allowMultipleSubcommands = true).subcommands(
+            foo,
+            bar,
+            TestCommand(called = false)
+        )
         c.parse(argv)
         if (fc > 0) foo.arg shouldBe fa
         if (bc > 0) {

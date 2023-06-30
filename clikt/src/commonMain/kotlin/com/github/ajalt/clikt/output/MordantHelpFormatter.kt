@@ -6,9 +6,14 @@ import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.mpp.graphemeLengthMpp
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.mordant.markdown.Markdown
-import com.github.ajalt.mordant.rendering.*
+import com.github.ajalt.mordant.rendering.TextStyle
+import com.github.ajalt.mordant.rendering.Theme
+import com.github.ajalt.mordant.rendering.Whitespace
+import com.github.ajalt.mordant.rendering.Widget
 import com.github.ajalt.mordant.table.verticalLayout
-import com.github.ajalt.mordant.widgets.*
+import com.github.ajalt.mordant.widgets.Text
+import com.github.ajalt.mordant.widgets.definitionList
+import com.github.ajalt.mordant.widgets.withPadding
 
 /**
  * Clikt's default HelpFormatter which uses Mordant to render its output.

@@ -16,7 +16,9 @@ private class CompletionOption(
 ) : StaticallyGroupedOption {
     override val eager: Boolean get() = true
     override val secondaryNames: Set<String> get() = emptySet()
-    override fun metavar(context: Context): String = choices.joinToString("|", prefix = "[", postfix = "]")
+    override fun metavar(context: Context): String =
+        choices.joinToString("|", prefix = "[", postfix = "]")
+
     override val valueSourceKey: String? get() = null
     override val groupName: String? get() = null
     override val nvalues: IntRange get() = 1..1

@@ -13,7 +13,12 @@ internal fun String.wrapText(
 
     for ((i, paragraph) in splitParagraphs(this).withIndex()) {
         if (i > 0) sb.append("\n\n")
-        sb.wrapParagraph(paragraph, width, if (i == 0) initialIndent else subsequentIndent, subsequentIndent)
+        sb.wrapParagraph(
+            paragraph,
+            width,
+            if (i == 0) initialIndent else subsequentIndent,
+            subsequentIndent
+        )
     }
 }
 
@@ -50,7 +55,11 @@ internal fun splitParagraphs(text: String): List<String> {
     return paragraphs
 }
 
-private fun StringBuilder.tryPreformat(text: String, initialIndent: String, subsequentIndent: String): Boolean {
+private fun StringBuilder.tryPreformat(
+    text: String,
+    initialIndent: String,
+    subsequentIndent: String,
+): Boolean {
     val value = PRE_P_CONTENTS_REGEX.matchEntire(text)?.groups?.get(1)?.value
     val pre = value?.replaceIndent(subsequentIndent)?.removePrefix(subsequentIndent)
         ?: return false
@@ -63,7 +72,12 @@ private fun StringBuilder.tryPreformat(text: String, initialIndent: String, subs
     return true
 }
 
-private fun StringBuilder.wrapParagraph(text: String, width: Int, initialIndent: String, subsequentIndent: String) {
+private fun StringBuilder.wrapParagraph(
+    text: String,
+    width: Int,
+    initialIndent: String,
+    subsequentIndent: String,
+) {
     if (tryPreformat(text, initialIndent, subsequentIndent)) return
     val breakLine = "\n$subsequentIndent"
 

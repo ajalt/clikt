@@ -37,8 +37,18 @@ internal fun convertToPath(
             if (mustExist && !Files.exists(it)) fail(pathDoesNotExist(name, it.toString()))
             if (!canBeFile && Files.isRegularFile(it)) fail(pathIsFile(name, it.toString()))
             if (!canBeFolder && Files.isDirectory(it)) fail(pathIsDirectory(name, it.toString()))
-            if (mustBeWritable && !Files.isWritable(it)) fail(pathIsNotWritable(name, it.toString()))
-            if (mustBeReadable && !Files.isReadable(it)) fail(pathIsNotReadable(name, it.toString()))
+            if (mustBeWritable && !Files.isWritable(it)) fail(
+                pathIsNotWritable(
+                    name,
+                    it.toString()
+                )
+            )
+            if (mustBeReadable && !Files.isReadable(it)) fail(
+                pathIsNotReadable(
+                    name,
+                    it.toString()
+                )
+            )
             if (!canBeSymlink && Files.isSymbolicLink(it)) fail(pathIsSymlink(name, it.toString()))
         }
     }
@@ -65,7 +75,8 @@ fun RawArgument.path(
     fileSystem: FileSystem = FileSystems.getDefault(),
 ): ProcessedArgument<Path, Path> {
     return convert(completionCandidates = CompletionCandidates.Path) { str ->
-        convertToPath(str,
+        convertToPath(
+            str,
             mustExist,
             canBeFile,
             canBeDir,
@@ -73,7 +84,8 @@ fun RawArgument.path(
             mustBeReadable,
             canBeSymlink,
             fileSystem,
-            context) { fail(it) }
+            context
+        ) { fail(it) }
     }
 }
 
@@ -98,7 +110,8 @@ fun RawOption.path(
     fileSystem: FileSystem = FileSystems.getDefault(),
 ): NullableOption<Path, Path> {
     return convert({ localization.pathMetavar() }, CompletionCandidates.Path) { str ->
-        convertToPath(str,
+        convertToPath(
+            str,
             mustExist,
             canBeFile,
             canBeDir,
@@ -106,6 +119,7 @@ fun RawOption.path(
             mustBeReadable,
             canBeSymlink,
             fileSystem,
-            context) { fail(it) }
+            context
+        ) { fail(it) }
     }
 }

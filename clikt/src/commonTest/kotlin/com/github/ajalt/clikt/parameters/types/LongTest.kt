@@ -53,7 +53,8 @@ class LongTypeTest {
     fun `long option with default`() = forAll(
         row("", 111L),
         row("--xx=4", 4L),
-        row("-x5", 5L)) { argv, expected ->
+        row("-x5", 5L)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Long by option("-x", "--xx").long().default(111L)
             override fun run_() {
@@ -68,7 +69,8 @@ class LongTypeTest {
     fun `long argument`() = forAll(
         row("", null, emptyList()),
         row("1 2", 1L, listOf(2L)),
-        row("1 2 3", 1L, listOf(2L, 3L))) { argv, ex, ey ->
+        row("1 2 3", 1L, listOf(2L, 3L))
+    ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by argument().long().optional()
             val y by argument().long().multiple()

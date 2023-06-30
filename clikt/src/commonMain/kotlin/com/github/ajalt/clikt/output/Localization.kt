@@ -87,7 +87,8 @@ interface Localization {
     fun fileNotFound(filename: String) = "$filename not found"
 
     /** Message for [InvalidFileFormat]*/
-    fun invalidFileFormat(filename: String, message: String) = "incorrect format in file $filename: $message"
+    fun invalidFileFormat(filename: String, message: String) =
+        "incorrect format in file $filename: $message"
 
     /** Message for [InvalidFileFormat]*/
     fun invalidFileFormat(filename: String, lineNumber: Int, message: String) =
@@ -133,13 +134,16 @@ interface Localization {
     fun boolConversionError(value: String) = "$value is not a valid boolean"
 
     /** Invalid value falls outside range */
-    fun rangeExceededMax(value: String, limit: String) = "$value is larger than the maximum valid value of $limit."
+    fun rangeExceededMax(value: String, limit: String) =
+        "$value is larger than the maximum valid value of $limit."
 
     /** Invalid value falls outside range */
-    fun rangeExceededMin(value: String, limit: String) = "$value is smaller than the minimum valid value of $limit."
+    fun rangeExceededMin(value: String, limit: String) =
+        "$value is smaller than the minimum valid value of $limit."
 
     /** Invalid value falls outside range */
-    fun rangeExceededBoth(value: String, min: String, max: String) = "$value is not in the valid range of $min to $max."
+    fun rangeExceededBoth(value: String, min: String, max: String) =
+        "$value is not in the valid range of $min to $max."
 
     /**
      * Invalid value for `choice` parameter

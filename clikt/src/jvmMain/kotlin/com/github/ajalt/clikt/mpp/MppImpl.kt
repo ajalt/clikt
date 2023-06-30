@@ -9,7 +9,8 @@ internal actual fun isWindowsMpp(): Boolean = System.getProperty("os.name")
 
 internal actual val String.graphemeLengthMpp: Int
     get() {
-        val breaks = BreakIterator.getCharacterInstance().also { it.setText(replace(ANSI_CODE_RE, "")) }
+        val breaks =
+            BreakIterator.getCharacterInstance().also { it.setText(replace(ANSI_CODE_RE, "")) }
         return generateSequence { breaks.next() }.takeWhile { it != BreakIterator.DONE }.count()
     }
 

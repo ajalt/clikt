@@ -67,7 +67,8 @@ class IntTypeTest {
     fun `int option with default`() = forAll(
         row("", 111),
         row("--xx=4", 4),
-        row("-x5", 5)) { argv, expected ->
+        row("-x5", 5)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Int by option("-x", "--xx").int().default(111)
             override fun run_() {
@@ -83,7 +84,8 @@ class IntTypeTest {
         row("", null, emptyList()),
         row("1 2", 1, listOf(2)),
         row("-- -1 -2", -1, listOf(-2)),
-        row("1 2 3", 1, listOf(2, 3))) { argv, ex, ey ->
+        row("1 2 3", 1, listOf(2, 3))
+    ) { argv, ex, ey ->
         class C : TestCommand() {
             val x: Int? by argument().int().optional()
             val y: List<Int> by argument().int().multiple()

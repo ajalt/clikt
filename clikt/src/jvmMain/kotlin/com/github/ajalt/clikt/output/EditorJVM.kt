@@ -6,17 +6,17 @@ import java.util.concurrent.TimeUnit
 import kotlin.io.path.*
 
 internal actual fun createEditor(
-        editorPath: String?,
-        env: Map<String, String>,
-        requireSave: Boolean,
-        extension: String
+    editorPath: String?,
+    env: Map<String, String>,
+    requireSave: Boolean,
+    extension: String,
 ): Editor = JvmEditor(editorPath, env, requireSave, extension)
 
 private class JvmEditor(
-        private val editorPath: String?,
-        private val env: Map<String, String>,
-        private val requireSave: Boolean,
-        private val extension: String
+    private val editorPath: String?,
+    private val env: Map<String, String>,
+    private val requireSave: Boolean,
+    private val extension: String,
 ) : Editor {
     private fun getEditorPath(): String {
         return editorPath ?: inferEditorPath { editor ->
@@ -26,7 +26,9 @@ private class JvmEditor(
             } catch (err: Exception) {
                 when (err) {
                     is IOException, is SecurityException, is InterruptedException,
-                    is IllegalThreadStateException -> false
+                    is IllegalThreadStateException,
+                    -> false
+
                     else -> throw CliktError("Error staring editor", err)
                 }
             }

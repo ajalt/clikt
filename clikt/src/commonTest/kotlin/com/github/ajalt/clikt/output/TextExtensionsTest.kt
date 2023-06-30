@@ -41,7 +41,13 @@ class TextExtensionsTest {
         r("a b c", "= a⏎b c", width = 3, initialIndent = "= ", subsequentIndent = ""),
         r("a⏎⏎b", "a⏎⏎b", width = 3),
         r("a b c⏎⏎d e f", "a b⏎c⏎⏎d e⏎f", width = 3),
-        r("a b c⏎⏎d e f", "=a b⏎-c⏎⏎-d e⏎-f", width = 4, initialIndent = "=", subsequentIndent = "-"),
+        r(
+            "a b c⏎⏎d e f",
+            "=a b⏎-c⏎⏎-d e⏎-f",
+            width = 4,
+            initialIndent = "=",
+            subsequentIndent = "-"
+        ),
         r("a⏎b", "...a b", initialIndent = "...", subsequentIndent = "--"),
         r("a b${NEL}c d", "a b⏎c d"),
         r("a b$NEL⏎c d", "a b⏎c d", width = 4),

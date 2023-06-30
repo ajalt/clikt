@@ -32,7 +32,13 @@ fun RawOption.outputStream(
     fileSystem: FileSystem = FileSystems.getDefault(),
 ): NullableOption<OutputStream, OutputStream> {
     return convert({ localization.fileMetavar() }, CompletionCandidates.Path) { s ->
-        convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
+        convertToOutputStream(
+            s,
+            createIfNotExist,
+            truncateExisting,
+            fileSystem,
+            context
+        ) { fail(it) }
     }
 }
 
@@ -65,7 +71,13 @@ fun RawArgument.outputStream(
     fileSystem: FileSystem = FileSystems.getDefault(),
 ): ProcessedArgument<OutputStream, OutputStream> {
     return convert(completionCandidates = CompletionCandidates.Path) { s ->
-        convertToOutputStream(s, createIfNotExist, truncateExisting, fileSystem, context) { fail(it) }
+        convertToOutputStream(
+            s,
+            createIfNotExist,
+            truncateExisting,
+            fileSystem,
+            context
+        ) { fail(it) }
     }
 }
 

@@ -2,7 +2,10 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.internal.defaultArgFileReader
 import com.github.ajalt.clikt.mpp.readEnvvar
-import com.github.ajalt.clikt.output.*
+import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.output.Localization
+import com.github.ajalt.clikt.output.MordantHelpFormatter
+import com.github.ajalt.clikt.output.defaultLocalization
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
 import com.github.ajalt.mordant.terminal.Terminal

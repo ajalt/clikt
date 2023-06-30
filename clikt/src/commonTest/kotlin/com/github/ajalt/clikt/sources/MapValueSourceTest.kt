@@ -58,11 +58,13 @@ class MapValueSourceTest {
             init {
                 context {
                     autoEnvvarPrefix = "A"
-                    valueSource = MapValueSource(mapOf(
-                        "FOO_E" to "foo",
-                        "A_BAR" to "bar",
-                        "B_V" to "baz"
-                    ), getKey = ValueSource.envvarKey())
+                    valueSource = MapValueSource(
+                        mapOf(
+                            "FOO_E" to "foo",
+                            "A_BAR" to "bar",
+                            "B_V" to "baz"
+                        ), getKey = ValueSource.envvarKey()
+                    )
                 }
             }
 
@@ -84,14 +86,14 @@ class MapValueSourceTest {
     fun flag() {
         class C : TestCommand() {
             val foo by option(valueSourceKey = "k").flag()
-            }
+        }
 
-            C().context {
-                valueSource = MapValueSource(mapOf("k" to "true"), getKey = ValueSource.envvarKey())
-            }.parse("").foo shouldBe true
+        C().context {
+            valueSource = MapValueSource(mapOf("k" to "true"), getKey = ValueSource.envvarKey())
+        }.parse("").foo shouldBe true
 
-            class VS : ValueSource {
-                override fun getValues(context: Context, option: Option): List<Invocation> {
+        class VS : ValueSource {
+            override fun getValues(context: Context, option: Option): List<Invocation> {
                 return listOf(Invocation(listOf("false", "true")))
             }
         }

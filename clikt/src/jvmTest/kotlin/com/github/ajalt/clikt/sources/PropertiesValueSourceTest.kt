@@ -137,14 +137,16 @@ class PropertiesValueSourceTest {
     @Test
     fun `option types from properties file`() {
         val file = testFolder.newFile()
-        file.writeText("""
+        file.writeText(
+            """
         int=11
         float=2.2
         double=3.3
         flag=true
         counted=4
         long-name=5
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         class C : TestCommand() {
             init {

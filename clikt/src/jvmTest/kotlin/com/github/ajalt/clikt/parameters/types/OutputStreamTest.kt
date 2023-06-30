@@ -29,7 +29,8 @@ class OutputStreamTest {
     val stdout: SystemOutRule = SystemOutRule().enableLog()
     val fs: FileSystem = Jimfs.newFileSystem(Configuration.unix())
 
-    private fun OutputStream?.writeText(text: String) = this!!.bufferedWriter().use { it.write(text) }
+    private fun OutputStream?.writeText(text: String) =
+        this!!.bufferedWriter().use { it.write(text) }
 
     @Test
     fun `options can be outputStreams`() {
@@ -149,11 +150,15 @@ class OutputStreamTest {
         Files.write(fs.getPath("foo"), listOf("bar"))
 
         class C : TestCommand(called = true) {
-            val stream by argument().outputStream(truncateExisting = truncateExisting, fileSystem = fs)
+            val stream by argument().outputStream(
+                truncateExisting = truncateExisting,
+                fileSystem = fs
+            )
 
             override fun run_() {
                 stream.writeText("baz")
-                Files.readAllBytes(fs.getPath("foo")).decodeToString().replace("\r", "") shouldBe expected
+                Files.readAllBytes(fs.getPath("foo")).decodeToString()
+                    .replace("\r", "") shouldBe expected
             }
         }
 

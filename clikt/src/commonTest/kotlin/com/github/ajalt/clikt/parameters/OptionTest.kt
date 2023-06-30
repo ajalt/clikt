@@ -83,7 +83,7 @@ class OptionTest {
         val err = shouldThrow<NoSuchOption> {
             c.parse("-z")
         }
-        c.getFormattedHelp(err) shouldContain  "Error: custom message"
+        c.getFormattedHelp(err) shouldContain "Error: custom message"
     }
 
     @Test
@@ -897,6 +897,7 @@ class OptionTest {
             init {
                 context { allowGroupedShortOptions = false }
             }
+
             val x by option("-x").flag()
             val y by option("-y")
         }

@@ -104,7 +104,12 @@ abstract class CompletionTestBase(private val shell: String) {
             val user by option(completionCandidates = CompletionCandidates.Username)
             val fixed by option(completionCandidates = CompletionCandidates.Fixed("foo", "bar"))
             val argUser by argument(completionCandidates = CompletionCandidates.Username)
-            val argFixed by argument(completionCandidates = CompletionCandidates.Fixed("baz", "qux"))
+            val argFixed by argument(
+                completionCandidates = CompletionCandidates.Fixed(
+                    "baz",
+                    "qux"
+                )
+            )
         }
 
         doTest(
@@ -118,7 +123,7 @@ abstract class CompletionTestBase(private val shell: String) {
     fun `completion command`() {
         val message = shouldThrow<PrintCompletionMessage> {
             TestCommand()
-                .subcommands(CompletionCommand(), TestCommand(name="foo"))
+                .subcommands(CompletionCommand(), TestCommand(name = "foo"))
                 .parse("generate-completion $shell")
         }.message
         message shouldContain shell

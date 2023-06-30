@@ -38,7 +38,8 @@ class UIntTest {
     fun `uint option with default`() = forAll(
         row("", 111u),
         row("--xx=4", 4u),
-        row("-x5", 5u)) { argv, expected ->
+        row("-x5", 5u)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: UInt by option("-x", "--xx").uint().default(111u)
             override fun run_() {

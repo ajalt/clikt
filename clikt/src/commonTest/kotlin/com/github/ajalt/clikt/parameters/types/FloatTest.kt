@@ -22,7 +22,8 @@ class FloatTest {
     fun `float option`() = forAll(
         row("", null),
         row("--xx=4.0", 4f),
-        row("-x5.5", 5.5f)) { argv, expected ->
+        row("-x5.5", 5.5f)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Float? by option("-x", "--xx").float()
             override fun run_() {
@@ -50,7 +51,8 @@ class FloatTest {
     fun `float option with default`() = forAll(
         row("", -1f),
         row("--xx=4.0", 4f),
-        row("-x5.5", 5.5f)) { argv, expected ->
+        row("-x5.5", 5.5f)
+    ) { argv, expected ->
         class C : TestCommand() {
             val x: Float by option("-x", "--xx").float().default(-1f)
             override fun run_() {
@@ -65,7 +67,8 @@ class FloatTest {
     fun `float argument`() = forAll(
         row("", null, emptyList()),
         row("1.1 2", 1.1f, listOf(2f)),
-        row("1.1 2 3", 1.1f, listOf(2f, 3f))) { argv, ex, ey ->
+        row("1.1 2 3", 1.1f, listOf(2f, 3f))
+    ) { argv, ex, ey ->
         class C : TestCommand() {
             val x: Float? by argument().float().optional()
             val y: List<Float> by argument().float().multiple()

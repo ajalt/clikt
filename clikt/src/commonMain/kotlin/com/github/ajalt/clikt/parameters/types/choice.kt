@@ -30,7 +30,10 @@ private fun errorMessage(context: Context, choice: String, choices: Map<String, 
  * argument().choice(mapOf("foo" to 1, "bar" to 2))
  * ```
  */
-fun <T : Any> RawArgument.choice(choices: Map<String, T>, ignoreCase: Boolean = false): ProcessedArgument<T, T> {
+fun <T : Any> RawArgument.choice(
+    choices: Map<String, T>,
+    ignoreCase: Boolean = false,
+): ProcessedArgument<T, T> {
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
     return convert(completionCandidates = Fixed(choices.keys)) {
@@ -68,7 +71,10 @@ fun <T : Any> RawArgument.choice(
  * argument().choice("foo", "bar")
  * ```
  */
-fun RawArgument.choice(vararg choices: String, ignoreCase: Boolean = false): ProcessedArgument<String, String> {
+fun RawArgument.choice(
+    vararg choices: String,
+    ignoreCase: Boolean = false,
+): ProcessedArgument<String, String> {
     return choice(choices.associateBy { it }, ignoreCase)
 }
 

@@ -71,14 +71,16 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
         try {
             conversion(transformValue(it))
         } catch (err: UsageError) {
-            err.paramName = err.paramName ?: name.takeUnless { n -> n.isEmpty() } ?: option.longestName()
+            err.paramName =
+                err.paramName ?: name.takeUnless { n -> n.isEmpty() } ?: option.longestName()
             throw err
         } catch (err: Exception) {
             fail(err.message ?: "")
         }
     }
 
-    return copy(valueTransform, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
+    return copy(
+        valueTransform, defaultEachProcessor(), defaultAllProcessor(), defaultValidator(),
         metavarGetter = metavarGetter ?: metavar,
         completionCandidates = explicitCompletionCandidates ?: completionCandidates
     )
@@ -152,5 +154,10 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
  * `./program -o key=value`
  */
 fun RawOption.splitPair(delimiter: String = "="): NullableOption<Pair<String, String>, Pair<String, String>> {
-    return convert { it.substringBefore(delimiter) to it.substringAfter(delimiter, missingDelimiterValue = "") }
+    return convert {
+        it.substringBefore(delimiter) to it.substringAfter(
+            delimiter,
+            missingDelimiterValue = ""
+        )
+    }
 }

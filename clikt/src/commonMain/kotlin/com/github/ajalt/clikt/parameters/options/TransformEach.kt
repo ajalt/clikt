@@ -133,5 +133,7 @@ fun <ValueT : Any> NullableOption<ValueT, ValueT>.optionalValue(
     default: ValueT,
     acceptsUnattachedValue: Boolean = true,
 ): NullableOption<ValueT, ValueT> {
-    return transformValues(0..1) { it.firstOrNull() ?: default }.copy(acceptsUnattachedValue = acceptsUnattachedValue)
+    return transformValues(0..1) {
+        it.firstOrNull() ?: default
+    }.copy(acceptsUnattachedValue = acceptsUnattachedValue)
 }

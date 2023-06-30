@@ -7,7 +7,6 @@ import kotlinx.cinterop.toKString
 import platform.posix.fclose
 import platform.posix.fgets
 import platform.posix.fopen
-import platform.posix.getenv
 import kotlin.system.exitProcess
 
 private val LETTER_OR_DIGIT_RE = Regex("""[a-zA-Z0-9]""")

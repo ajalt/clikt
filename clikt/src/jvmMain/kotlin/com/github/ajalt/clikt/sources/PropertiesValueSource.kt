@@ -32,7 +32,10 @@ object PropertiesValueSource {
             try {
                 Files.newInputStream(file).buffered().use { properties.load(it) }
             } catch (e: Throwable) {
-                if (requireValid) throw InvalidFileFormat(file.toString(), e.message ?: "could not read file")
+                if (requireValid) throw InvalidFileFormat(
+                    file.toString(),
+                    e.message ?: "could not read file"
+                )
             }
         }
 
@@ -59,7 +62,10 @@ object PropertiesValueSource {
             try {
                 file.bufferedReader().use { properties.load(it) }
             } catch (e: Throwable) {
-                if (requireValid) throw InvalidFileFormat(file.name, e.message ?: "could not read file")
+                if (requireValid) throw InvalidFileFormat(
+                    file.name,
+                    e.message ?: "could not read file"
+                )
             }
         }
 

@@ -36,7 +36,7 @@ the help page is printed and `run` is not called.
 === "Usage 1"
     ```text
     $ ./tool
-    Usage: tool [OPTIONS] COMMAND [ARGS]...
+    Usage: tool [<options>] <command> [<args>]...
 
     Options:
       --verbose / --no-verbose
@@ -83,7 +83,7 @@ can also set a name manually in the
 === "Usage 2"
     ```text
     $ ./tool -h
-    Usage: tool [OPTIONS] COMMAND [ARGS]...
+    Usage: tool [<options>] <command> [<args>]...
 
     Options:
       -h, --help  Show this message and exit
@@ -117,7 +117,7 @@ command names.
 === "Usage"
     ```text
     $ ./tool --help
-    Usage: tool [OPTIONS] COMMAND [ARGS]...
+    Usage: tool [<options>] <command> [<args>]...
 
       A tool that runs
 
@@ -134,12 +134,12 @@ help is printed:
 
 ```
 $ ./tool execute --help
-Usage: execute [OPTIONS]
+Usage: execute [<options>]
 
   Execute the command
 
 Options:
-  --name TEXT
+  --name <text>
   -h, --help   Show this message and exit
 ```
 
@@ -303,7 +303,7 @@ For example, you can change the name of help option. These definitions are equiv
 === "Usage"
     ```text
     $ ./cli --help
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Options:
       -h, --help  print the help
@@ -329,7 +329,7 @@ line, regardless of the parameters in your command.
 === "Usage"
     ```text
     $ ./cli
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Options:
       -h, --help  print the help

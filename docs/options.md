@@ -505,7 +505,7 @@ input values to new types.
 === "Usage 2"
     ```text
     $ ./digest --hash=sha256
-    Usage: digest [OPTIONS]
+    Usage: digest [<options>]
 
     Error: Invalid value for "--hash": invalid choice: sha256. (choose from md5, sha1)
     ```
@@ -513,7 +513,7 @@ input values to new types.
 === "Usage 3"
     ```text
     $ ./digest --help
-    Usage: digest [OPTIONS]
+    Usage: digest [<options>]
 
     Options:
       --hash [md5|sha1]
@@ -576,7 +576,7 @@ You can enforce that only one of the options is given with [`single`][single]:
 === "Usage"
     ```text
     $ ./order --apples=10 --oranges=small
-    Usage: order [OPTIONS]
+    Usage: order [<options>]
 
     Error: option --apples cannot be used with --oranges
     ```
@@ -630,7 +630,7 @@ are given on the command line. If none if the options are given, the value of th
 === "Usage 3"
     ```text
     $ ./tool --age=30
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Error: Missing option "--name".
     ```
@@ -695,7 +695,7 @@ options][choice-options].
 === "Usage 3"
     ```text
     $ ./tool --load=disk
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Error: Missing option "--path".
     ```
@@ -703,7 +703,7 @@ options][choice-options].
 === "Usage 4"
     ```text
     $ ./tool --load=whoops
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Error: Invalid value for "--load": invalid choice: whoops. (choose from disk, network)
     ```
@@ -741,7 +741,7 @@ this by passing `acceptsValueWithoutName=true` to `int()` or `long()`.
 === "Help Output"
     ```text
     $ ./tool --help
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
     
     Options:
     -<number>, -l, --level <number>
@@ -928,13 +928,13 @@ You can customize or omit the warning message and help tags, or change the warni
 === "Help Output"
     ```text
     $ ./cli --help
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Options:
-      --opt TEXT   option 1 (deprecated)
-      --opt2 TEXT  option 2
-      --opt3 TEXT  option 3 (pending deprecation: use --new-opt instead)
-      --opt4 TEXT  option 4 (deprecated)
+      --opt <text>   option 1 (deprecated)
+      --opt2 <text>  option 2
+      --opt3 <text>  option 3 (pending deprecation: use --new-opt instead)
+      --opt4 <text>  option 4 (deprecated)
     ```
 
 ## Unknown Options

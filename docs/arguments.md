@@ -28,13 +28,14 @@ provided on the command line.
     Hello Foo!
     ```
 
-Arguments appear in the usage string, but normally aren't listed in the
-help page. It's usually more clear to document arguments in the command
-help.
+Arguments appear in the usage string, but listed in the help page unless you set their `help` value.
+It's usually clearer to document arguments in the command help.
 
 === "Example"
     ```kotlin
-    class Cp : CliktCommand(help = "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.") {
+    class Cp : CliktCommand(
+        help = "Copy <source> to <dest>, or multiple <source>(s) to directory <dest>."
+    ) {
         private val source by argument().file(mustExist = true).multiple()
         private val dest by argument().file()
         override fun run() {
@@ -45,9 +46,9 @@ help.
 
 === "Help Output"
     ```text
-    Usage: cp [OPTIONS] [SOURCE]... DEST
+    Usage: cp [<options>] [<source>]... <dest>
 
-      Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST.
+      Copy <source> to <dest>, or multiple <source>(s) to directory <dest>.
 
     Options:
       -h, --help         Show this message and exit
@@ -112,7 +113,7 @@ parsed normally.
 === "Usage 1"
     ```text
     $ ./touch --foo.txt
-    Usage: touch [OPTIONS] [FILES]...
+    Usage: touch [<options>] [<files>]...
 
     Error: no such option: "--foo.txt".
     ```

@@ -254,8 +254,8 @@ to implement case-insensitive parsing, for example:
 
 === "Usage"
     ```text
-    $ ./hello --NAME=Foo
-    Hello Foo!
+    $ ./hello --NAME=Clikt
+    Hello Clikt!
     ```
 
 ## Replacing stdin and stdout

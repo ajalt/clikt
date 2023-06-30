@@ -72,6 +72,7 @@ fun main(args: Array<String>) {
         styles["info"] = TextColors.green
         styles["warning"] = TextColors.blue
         styles["danger"] = TextColors.magenta
+        styles["muted"] = TextColors.gray
 
         // Remove the border around code blocks
         flags["markdown.code.block.border"] = false

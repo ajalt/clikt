@@ -32,7 +32,7 @@ A help page is generated automatically:
 
 ```
 $ ./hello --help
-Usage: hello [OPTIONS]
+Usage: hello [<options>]
 
 Options:
   -h, --help  Show this message and exit
@@ -92,7 +92,7 @@ manage a database:
 === "Help Output"
     ```text
     $ ./db --help
-    Usage: database [OPTIONS] COMMAND [ARGS]...
+    Usage: database [<options>] <command> [<args>]...
 
     Options:
       -h, --help  Show this message and exit
@@ -125,11 +125,11 @@ delegates:
 === "Help Output"
     ```text
     $ ./hello --help
-    Usage: hello [OPTIONS] NAME
+    Usage: hello [<options>] <name>
 
     Options:
-      --count INT  Number of greetings
-      -h, --help   Show this message and exit
+      --count <int>  Number of greetings
+      -h, --help     Show this message and exit
     ```
 
 ## Developing Command Line Applications With Gradle

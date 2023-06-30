@@ -17,12 +17,12 @@ extensions for your options, and override `commandHelp` and `commandHelpEpilog` 
 === "Example"
     ```kotlin
     class Hello : CliktCommand(help = """
-        This script prints NAME COUNT times.
+        This script prints <name> <count> times.
 
-        COUNT must be a positive number, and defaults to 1.
+        <count> must be a positive number, and defaults to 1.
         """
     ) {
-        val count by option("-c", "--count", metavar="COUNT", help = "number of greetings").int().default(1)
+        val count by option("-c", "--count", metavar="count", help = "number of greetings").int().default(1)
         val name by argument()
         override fun run() = repeat(count) { echo("Hello $name!") }
     }
@@ -32,11 +32,11 @@ extensions for your options, and override `commandHelp` and `commandHelpEpilog` 
     ```kotlin
     class Hello : CliktCommand() {
         override val commandHelp = """
-            This script prints NAME COUNT times.
+            This script prints <name> <count> times.
 
-            COUNT must be a positive number, and defaults to 1.
+            <count> must be a positive number, and defaults to 1.
         """
-        val count by option("-c", "--count", metavar="COUNT").int().default(1)
+        val count by option("-c", "--count", metavar="count").int().default(1)
             .help("number of greetings")
         val name by argument()
         override fun run() = repeat(count) { echo("Hello $name!") }
@@ -46,15 +46,15 @@ extensions for your options, and override `commandHelp` and `commandHelpEpilog` 
 === "Help output"
     ```text
     $ ./hello --help
-    Usage: hello [OPTIONS] NAME
+    Usage: hello [<options>] <name>
 
-      This script prints NAME COUNT times.
+      This script prints <name> <count> times.
 
-      COUNT must be a positive number, and defaults to 1.
+      <count> must be a positive number, and defaults to 1.
 
     Options:
-      -c, --count COUNT number of greetings
-      -h, --help        Show this message and exit
+      -c, --count <count> number of greetings
+      -h, --help          Show this message and exit
     ```
 
 Option names and metavars will appear in help output even if no help
@@ -163,7 +163,7 @@ They have a short help string which is the first line of their help.
 === "Usage"
     ```text
     $ ./tool --help
-    Usage: tool [OPTIONS] COMMAND [ARGS]...
+    Usage: tool [<options>] <command> [<args>]...
 
     Options:
       -h, --help  Show this message and exit
@@ -203,7 +203,7 @@ You can change the help option's name and help message on the
 === "Usage"
     ```text
     $ ./tool /help
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Options:
       /help  show the help
@@ -234,11 +234,11 @@ the `defaultForHelp` parameter of [`default`][default].
 === "Usage"
     ```text
     $ ./tool --help
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Options:
-      --a TEXT    this is optional (default: value)
-      --b TEXT    this is also optional (default: chosen for you)
+      --a <text>    this is optional (default: value)
+      --b <text>    this is also optional (default: chosen for you)
     ```
 
 
@@ -266,12 +266,12 @@ You can pass a character to the `requiredOptionMarker` argument of the `CliktHel
 === "Usage"
     ```text
     $ ./tool --help
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Options:
-      --option TEXT    this is optional
-    * --required TEXT  this is required
-      -h, --help       Show this message and exit
+      --option <text>    this is optional
+    * --required <text>  this is required
+      -h, --help         Show this message and exit
     ```
 
 ### Required Option Tag
@@ -293,12 +293,12 @@ You can also show a tag for required options by passing `showRequiredTag = true`
 === "Usage"
     ```text
     $ ./tool --help
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Options:
-      --option TEXT    this is optional
-      --required TEXT  this is required (required)
-      -h, --help       Show this message and exit
+      --option <text>    this is optional
+      --required <text>  this is required (required)
+      -h, --help         Show this message and exit
     ```
 
 ## Grouping Options in Help
@@ -328,14 +328,14 @@ group. Groups can't be nested.
 === "Usage"
     ```text
     $ ./tool --help
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     User Options:
 
       Options controlling the user
 
-      --name TEXT  user name
-      --age INT    user age
+      --name <text>  user name
+      --age <int>    user age
 
     Options:
       -h, --help  Show this message and exit
@@ -354,7 +354,7 @@ When an option or subcommand is mistyped, Clikt will suggest corrections that ar
 === "Mistyped Subcommand"
     ```text
     $ ./cli building
-    Usage: cli [OPTIONS] COMMAND [ARGS]...
+    Usage: cli [<options>] <command> [<args>]...
 
     Error: no such subcommand: "building". Did you mean "build"?
     ```

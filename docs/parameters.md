@@ -40,11 +40,11 @@ arguments only have a single metavar.
 
 === "Help Output"
     ```text
-    Usage: cli [OPTIONS] INFERRED <explicit>
+    Usage: cli [<options>] <inferred> <explicit>
 
     Options:
-      --inferred-opt TEXT
-      -e, --explicit TEXT
+      --inferred-opt <text>
+      -e, --explicit <text>
       -h, --help           Show this message and exit
     ```
 
@@ -107,7 +107,7 @@ conversion is also available if you need, for example, a tri-state `Boolean?` pa
 
 You can restrict the values to a set of values, and optionally map the
 input to a new value. For example, to create an option that only
-accepts the value "A" or "B":
+accepts the value "a" or "b":
 
 ```kotlin
 val opt: String? by option().choice("a", "b")
@@ -134,7 +134,13 @@ val color: Color? by option().enum<Color>()
 ```
 
 Enum parameters accept case-insensitive values by default. This can be configured by passing
-`ignoreCase = false`.
+`ignoreCase = false`. 
+
+You can also pass a lambda to map the enum values to option names.
+
+```kotlin
+val color: Color? by option().enum<Color> { it.name.lowercase() }
+```
 
 ### File paths
 
@@ -190,7 +196,7 @@ For example, you can create an option of type `BigDecimal` like this:
 === "Usage 2"
     ```text
     $ ./cli --opt=foo
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Error: Invalid value for "--opt": For input string: "foo"
     ```
@@ -198,13 +204,13 @@ For example, you can create an option of type `BigDecimal` like this:
 ### Metavars
 
 You can also pass [`option().convert()`][convert] a metavar
-that will be printed in the help page instead of the default of `VALUE`.
+that will be printed in the help page instead of the default of `value`.
 We can modify the above example to use a metavar and an explicit error message:
 
 === "Example"
     ```kotlin
     class Cli: CliktCommand() {
-        val opt by option(help="a real number").convert("FLOAT") {
+        val opt by option(help="a real number").convert("float") {
             it.toBigDecimalOrNull() ?: fail("A real number is required")
         }
         override fun run() = echo("opt=$opt")
@@ -214,7 +220,7 @@ We can modify the above example to use a metavar and an explicit error message:
 === "Usage 1"
     ```text
     $ ./cli --opt=foo
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Error: Invalid value for "--opt": A real number is required
     ```
@@ -222,11 +228,11 @@ We can modify the above example to use a metavar and an explicit error message:
 === "Usage 2"
     ```text
     $ ./cli --help
-    Usage: cli [OPTIONS]
+    Usage: cli [<options>]
 
     Options:
-      --opt FLOAT  a real number
-      -h, --help   Show this message and exit
+      --opt <float>  a real number
+      -h, --help     Show this message and exit
     ```
 
 ### Chaining
@@ -292,7 +298,7 @@ error if it returns false. The lambda is only called if the parameter value is n
 === "Usage 3"
     ```text
     $ ./tool --number=1
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Error: invalid value for --number: value must be even
     ```
@@ -332,7 +338,7 @@ been set, so (unlike in transforms) you can reference other parameters:
 === "Usage 2"
     ```text
     $ ./tool --number=1 --bigger-number=0
-    Usage: tool [OPTIONS]
+    Usage: tool [<options>]
 
     Error: --bigger-number must be bigger than --number
     ```

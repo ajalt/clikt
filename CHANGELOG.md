@@ -17,6 +17,8 @@
 - Added `Context.allowGroupedShortOptions` which can disable parsing `-abc` as `-a -b -c`
 - Options named `-?` or `/?` are now supported
 - Added `option(eager=true)` to create an eager option that takes values
+- Added `option(acceptsUnattachedValue=false)` to force the option to only accept values like `--option=1` and not `--option 1`
+- Added `CliktCommand.test()` that captures the output of a command and does not exit the process.
 
 ### Removed
 - Removed `CliktConsole`. Mordant is now used for all input and output. If you were defining a custom console, instead define a mordant `TerminalInterface` and set it on your context's `Terminal`.

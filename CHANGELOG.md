@@ -15,6 +15,7 @@
 - Added `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
 - Added `Context.argumentFileReader` which allows custom loading of argument files
 - Added `Context.allowGroupedShortOptions` which can disable parsing `-abc` as `-a -b -c`
+- Added `Context.errorEncountered` which is true if parsing has continued after an error was encountered.
 - Options named `-?` or `/?` are now supported
 - Added `option(eager=true)` to create an eager option that takes values
 - Added `option(acceptsUnattachedValue=false)` to force the option to only accept values like `--option=1` and not `--option 1`

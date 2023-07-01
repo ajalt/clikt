@@ -98,10 +98,15 @@ internal object Parser {
             return context.tokenTransformer(context, token.take(2)) !in optionsByName
         }
 
+        fun addError(e: Err) {
+            errors += e
+            context.errorEncountered = true
+        }
+
         fun consumeParse(tokenIndex: Int, result: OptParseResult) {
             positionalArgs += result.unknown.map { tokenIndex to it }
             invocations += result.known
-            result.err?.let { errors += it }
+            result.err?.let(::addError)
             i += result.consumed
         }
 
@@ -218,7 +223,7 @@ internal object Parser {
 
                 // Parse arguments
                 val argsParseResult = parseArguments(i, positionalArgs, arguments)
-                argsParseResult.err?.let { errors += it }
+                argsParseResult.err?.let(::addError)
 
                 val excessResult = handleExcessArguments(
                     argsParseResult.excessCount,
@@ -229,7 +234,7 @@ internal object Parser {
                     positionalArgs,
                     context
                 )
-                excessResult.second?.let { errors += it }
+                excessResult.second?.let(::addError)
 
                 val usageErrors = errors
                     .filter { it.includeInMulti }.ifEmpty { errors }
@@ -240,9 +245,10 @@ internal object Parser {
                 // Finalize arguments before options, so that options can reference them
                 val (retries, argErrs) = finalizeArguments(argsParseResult.args, context)
                 usageErrors += argErrs
+                if (argErrs.isNotEmpty()) context.errorEncountered = true
 
                 // Finalize un-grouped options
-                gatherErrors(usageErrors) {
+                gatherErrors(usageErrors, context) {
                     finalizeOptions(
                         context,
                         ungroupedOptions,
@@ -257,32 +263,32 @@ internal object Parser {
 
                 // Finalize groups after ungrouped options so that the groups can use their values
                 for ((group, invs) in invocationsByOptionByGroup) {
-                    gatherErrors(usageErrors) { group?.finalize(context, invs) }
+                    gatherErrors(usageErrors, context) { group?.finalize(context, invs) }
                 }
 
                 // Finalize groups with no invocations
                 for (g in command._groups) {
-                    if (g !in invocationsByGroup) gatherErrors(usageErrors) {
+                    if (g !in invocationsByGroup) gatherErrors(usageErrors, context) {
                         g.finalize(context, emptyMap())
                     }
                 }
 
-                // We can't validate a param that didn't finalize successfully, and we don't keep track of which
-                // ones are finalized, so throw any errors now
+                // We can't validate a param that didn't finalize successfully, and we don't keep
+                // track of which ones are finalized, so throw any errors now
                 MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
                 usageErrors.clear()
 
                 // Retry any failed args now that they can reference option values
                 retries.forEach { (arg, v) ->
-                    gatherErrors(usageErrors) {
+                    gatherErrors(usageErrors, context) {
                         arg.finalize(context, v)
                     }
                 }
 
                 // Now that all parameters have been finalized, we can validate everything
-                ungroupedOptions.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
-                command._groups.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
-                command._arguments.forEach { gatherErrors(usageErrors) { it.postValidate(context) } }
+                ungroupedOptions.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
+                command._groups.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
+                command._arguments.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
 
                 MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
 
@@ -533,6 +539,10 @@ internal object Parser {
                 retries[it] = v
             } catch (e: UsageError) {
                 usageErrors += e
+                context.errorEncountered = true
+            } catch (e: Abort) {
+                // ignore Abort if we already encountered an error
+                if (!context.errorEncountered) throw e
             }
         }
         return retries to usageErrors
@@ -558,10 +568,15 @@ internal object Parser {
     }
 }
 
-private inline fun gatherErrors(errors: MutableList<UsageError>, block: () -> Unit) {
+private inline fun gatherErrors(
+    errors: MutableList<UsageError>,
+    context: Context,
+    block: () -> Unit
+) {
     try {
         block()
     } catch (e: UsageError) {
         errors += e
+        context.errorEncountered = true
     }
 }

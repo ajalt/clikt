@@ -111,7 +111,21 @@ class Context private constructor(
      */
     val originalArgv: List<String>,
 ) {
+    /**
+     * If this command has subcommands and one of them was invoked, this is the subcommand that will
+     * be run next.
+     */
     var invokedSubcommand: CliktCommand? = null
+        internal set
+
+    /**
+     * If true, an error was previously encountered while parsing the command line, but parsing is
+     * continuing to collect any more errors into a [MultiUsageError].
+     *
+     * If you want to skip option conversion and validation after an error is encountered, you can
+     * throw [Abort].
+     */
+    var errorEncountered: Boolean = false
         internal set
 
     /** Find the closest object of type [T] */

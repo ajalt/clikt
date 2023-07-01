@@ -197,6 +197,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
 
     when (val provided = invocations.lastOrNull()) {
         null -> {
+            if (context.errorEncountered) throw Abort()
             context.terminal.prompt(
                 prompt = promptText,
                 default = default,

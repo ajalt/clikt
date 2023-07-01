@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.internal
 
+import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
@@ -18,6 +19,7 @@ internal fun finalizeOptions(
             option.finalize(context, invocations)
         } catch (e: UsageError) {
             errors += e
+            context.errorEncountered = true
         }
     }
 
@@ -30,6 +32,9 @@ internal fun finalizeOptions(
             retries += o
         } catch (e: UsageError) {
             errors += e
+        } catch (e: Abort) {
+            // ignore Abort if we already encountered an error
+            if (!context.errorEncountered) throw e
         }
     }
 
@@ -40,6 +45,7 @@ internal fun finalizeOptions(
             o.finalize(context, emptyList())
         } catch (e: UsageError) {
             errors += e
+            context.errorEncountered = true
         }
     }
 

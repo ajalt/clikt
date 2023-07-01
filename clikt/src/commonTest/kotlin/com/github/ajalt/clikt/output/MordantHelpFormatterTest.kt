@@ -761,8 +761,8 @@ class MordantHelpFormatterTest {
         TestCommand().test("--foo --bar").stderr shouldBe """
             |Usage: test [<options>]
             |
-            |Error: no such option: --foo
-            |Error: no such option: --bar
+            |Error: no such option --foo
+            |Error: no such option --bar
             |
             """.trimMargin()
     }

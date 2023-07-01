@@ -266,12 +266,12 @@ class SubcommandTest {
 
     @Test
     fun noSuchSubcommand() = forAll(
-        row("qux", "no such subcommand: qux"),
-        row("qux --opt", "no such subcommand: qux"),
-        row("fo", "no such subcommand: fo. Did you mean foo?"),
-        row("fop", "no such subcommand: fop. Did you mean foo?"),
-        row("bart", "no such subcommand: bart. Did you mean bar?"),
-        row("ba", "no such subcommand: ba. (Possible subcommands: bar, baz)")
+        row("qux", "no such subcommand qux"),
+        row("qux --opt", "no such subcommand qux"),
+        row("fo", "no such subcommand fo. Did you mean foo?"),
+        row("fop", "no such subcommand fop. Did you mean foo?"),
+        row("bart", "no such subcommand bart. Did you mean bar?"),
+        row("ba", "no such subcommand ba. (Possible subcommands: bar, baz)")
     ) { argv, message ->
         shouldThrow<NoSuchSubcommand> {
             TestCommand()

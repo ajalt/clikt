@@ -40,7 +40,7 @@ class TestingUtilsTest {
         val ex = """
             |Usage: c [<options>]
             |
-            |Error: no such option: --foo. Did you mean --o?
+            |Error: no such option --foo. Did you mean --o?
             |
         """.trimMargin()
         val result = C().test("--foo bar", stdin = "unused")

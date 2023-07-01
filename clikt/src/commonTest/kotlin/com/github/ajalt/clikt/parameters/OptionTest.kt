@@ -28,11 +28,11 @@ class OptionTest {
     @Test
     @JsName("no_such_option")
     fun `no such option`() = forAll(
-        row("--qux", "no such option: --qux"),
-        row("--fo", "no such option: --fo. Did you mean --foo?"),
-        row("--fop", "no such option: --fop. Did you mean --foo?"),
-        row("--car", "no such option: --car. Did you mean --bar?"),
-        row("--ba", "no such option: --ba. (Possible options: --bar, --baz)")
+        row("--qux", "no such option --qux"),
+        row("--fo", "no such option --fo. Did you mean --foo?"),
+        row("--fop", "no such option --fop. Did you mean --foo?"),
+        row("--car", "no such option --car. Did you mean --bar?"),
+        row("--ba", "no such option --ba. (Possible options: --bar, --baz)")
     ) { argv, message ->
         class C : TestCommand(called = false) {
             val foo by option()
@@ -49,9 +49,9 @@ class OptionTest {
     @Test
     @JsName("no_such_short_option_with_long")
     fun `no such short option with long`() = forAll(
-        row("-long", "no such option: -l. Did you mean --long?"),
-        row("-foo", "no such option: -f. Did you mean --foo?"),
-        row("-oof", "no such option: -f. Did you mean --oof?"),
+        row("-long", "no such option -l. Did you mean --long?"),
+        row("-foo", "no such option -f. Did you mean --foo?"),
+        row("-oof", "no such option -f. Did you mean --oof?"),
     ) { argv, message ->
         class C : TestCommand(called = false) {
             val short by option("-o").flag()
@@ -909,7 +909,7 @@ class OptionTest {
 
         shouldThrow<NoSuchOption> {
             C(false).parse("-xy")
-        }.formattedMessage shouldBe "no such option: -xy. Did you mean -x?"
+        }.formattedMessage shouldBe "no such option -xy. Did you mean -x?"
     }
 }
 

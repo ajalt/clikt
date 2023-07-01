@@ -203,13 +203,13 @@ interface Localization {
     fun usageTitle(): String = "Usage:"
 
     /** The title for the options section of help output */
-    fun optionsTitle(): String = "Options:"
+    fun optionsTitle(): String = "Options"
 
     /** The title for the arguments section of help output */
-    fun argumentsTitle(): String = "Arguments:"
+    fun argumentsTitle(): String = "Arguments"
 
     /** The title for the subcommands section of help output */
-    fun commandsTitle(): String = "Commands:"
+    fun commandsTitle(): String = "Commands"
 
     /** The placeholder that indicates where options may be present in the usage help output */
     fun optionsMetavar(): String = "options"

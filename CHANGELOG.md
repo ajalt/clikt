@@ -34,7 +34,7 @@
 - `Context.Builder.helpOptionNames` now accepts any iterable rather than just a set.
 - `CliktCommand.echo` and `prompt` are now public. ([#407](https://github.com/ajalt/clikt/issues/407))
 - Internally, all options are implemented transformations on `OptionWithValues`, rather than using separate classes for each option type. 
-- Some Localization strings have changed: removed `Localization.aborted()`, added `Localization.argumentsMetavar()`
+- Some Localization strings have changed, removed `Localization.aborted()`, added `Localization.argumentsMetavar()`
 - `Context.Builder.helpFormatter` is now a lambda that takes the current context as an argument
 - Exceptions have been reworked so that all exceptions thrown by Clikt are subclasses of `CliktError`.
 - `CliktError` now includes `statusCode` and `printError` properties.

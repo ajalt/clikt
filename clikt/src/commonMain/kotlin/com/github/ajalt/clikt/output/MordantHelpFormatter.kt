@@ -138,6 +138,8 @@ open class MordantHelpFormatter(
         return Markdown(epilog, showHtml = true)
     }
 
+    protected open fun renderSectionTitle(title: String): String = "$title:"
+
     protected open fun renderOptions(
         parameters: List<ParameterHelp>,
     ): List<RenderedSection> {
@@ -146,11 +148,12 @@ open class MordantHelpFormatter(
         return parameters.filterIsInstance<ParameterHelp.Option>().groupBy { it.groupName }.toList()
             .sortedBy { it.first == null } // Put the ungrouped options last
             .filter { it.second.isNotEmpty() }.map { (title, params) ->
-                val renderedTitle = title?.let { "$it:" } ?: localization.optionsTitle()
+                val renderedTitle = renderSectionTitle(title ?: localization.optionsTitle())
                 val content = renderOptionGroup(groupsByName[title]?.help, params)
                 RenderedSection(styleSectionTitle(renderedTitle), content)
             }.toList()
     }
+
 
     protected open fun renderParameters(
         parameters: List<ParameterHelp>,
@@ -213,7 +216,7 @@ open class MordantHelpFormatter(
             )
         }
         if (arguments.isEmpty() || arguments.all { it.description.isEmpty() }) return emptyList()
-        val title = styleSectionTitle(localization.argumentsTitle())
+        val title = styleSectionTitle(renderSectionTitle(localization.argumentsTitle()))
         return listOf(RenderedSection(title, buildParameterList(arguments)))
     }
 
@@ -227,7 +230,7 @@ open class MordantHelpFormatter(
             )
         }
         if (commands.isEmpty()) return emptyList()
-        val title = styleSectionTitle(localization.commandsTitle())
+        val title = styleSectionTitle(renderSectionTitle(localization.commandsTitle()))
         return listOf(RenderedSection(title, buildParameterList(commands)))
     }
 

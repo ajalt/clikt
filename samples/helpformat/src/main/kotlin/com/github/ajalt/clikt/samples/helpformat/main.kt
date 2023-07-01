@@ -25,6 +25,9 @@ class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
     // theme (see the main function below).
     override fun styleSectionTitle(title: String): String = theme.style("muted")(title)
 
+    // Print section titles like "Options" instead of "Options:"
+    override fun renderSectionTitle(title: String): String = title
+
     // Print metavars like INT instead of <int>
     override fun normalizeParameter(name: String): String = name.uppercase()
 

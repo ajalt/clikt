@@ -383,13 +383,13 @@ All functionality is supported, except:
 All functionality is supported, except:
 
 * The default terminal only outputs to the browser's developer console, which is
-probably not what you want. You can [define your own CliktConsole](#replacing-stdin-and-stdout), or
-you can call [parse][parse] instead of [main][main] and handle output yourself.
+probably not what you want. You can [define your own
+TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] instead of
+[main][main] and handle output yourself.
 * [editText][editText] and [editFile][editFile] are not supported.
 * [file][file] and [path][path] parameter types are not supported.
 
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
-[CliktConsole]:        api/clikt/com.github.ajalt.clikt.output/-clikt-console/index.html
 [context-obj]:         commands.md#nested-handling-and-contexts
 [customizing-context]: commands.md#customizing-contexts
 [dash-dash]:           arguments.md#option-like-arguments-using-

@@ -1,5 +1,18 @@
 # Upgrading to Newer Releases
 
+## Upgrading to 4.0
+
+The `CliktHelpFormatter` class has been removed and replaced with the `MordantHelpFormatter`. The
+`MordantHelpFormatter` constructor takes a `Context` instead of a `Localization`, and the parameters
+controlling size and spacing have been removed. See the [documentation][documenting] for details on
+how to set the help formatter on the Context.
+
+If you were subclassing `CliktHelpFormatter`, `MordantHelpFormatter`'s open methods are different.
+See the [`helpformat`][helpformat] sample for an example of how to use the new formatter.
+
+The `CliktConsole` class has been removed. If you were using it, use your command's Mordant
+`terminal` instead.
+
 ## Upgrading to 3.0
 
 ### Maven Coordinates
@@ -30,7 +43,7 @@ By default, all strings are defined in the [`Localization`][Localization] object
 [context][[Context.localization].
 
 This means that string parameters like `usageTitle` in the constructor for
-[`CliktHelpFormatter`][CliktHelpFormatter] have been removed in favor of functions like
+`CliktHelpFormatter` have been removed in favor of functions like
 [`Localization.usageTitle()`][Localization.usageTitle].
 
 `Context.helpOptionMessage` has also been removed in favor of
@@ -38,8 +51,9 @@ This means that string parameters like `usageTitle` in the constructor for
 Customization][help-option-custom] for an example.
 
 
-[CliktHelpFormatter]:               api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.html
 [Context.localization]:             api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.html
+[documenting]:                      documenting.md#default-values-in-help
+[helpformat]:                       https://github.com/ajalt/clikt/tree/master/samples/helpformat
 [help-option-custom]:               documenting.md#help-option-customization
 [Localization]:                     api/clikt/com.github.ajalt.clikt.output/-localization/index.html
 [Localization.usageTitle]:          api/clikt/com.github.ajalt.clikt.output/-localization/usage-title.html

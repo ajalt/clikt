@@ -215,7 +215,7 @@ If you don't want a help option to be added, you can set
 ## Default Values in Help
 
 You can configure the help formatter to show default values in the help output by passing
-`showDefaultValues = true` to the `CliktHelpFormatter`. By default, the string value of the
+`showDefaultValues = true` to the `MordantHelpFormatter`. By default, the string value of the
 default value will be shown. You can show a different value by passing the value you want to show to
 the `defaultForHelp` parameter of [`default`][default].
 
@@ -223,7 +223,7 @@ the `defaultForHelp` parameter of [`default`][default].
     ```kotlin
     class Tool : NoOpCliktCommand() {
         init {
-            context { helpFormatter = CliktHelpFormatter(showDefaultValues = true) }
+            context { helpFormatter = MordantHelpFormatter(showDefaultValues = true) }
         }
 
         val a by option(help = "this is optional").default("value")
@@ -249,13 +249,13 @@ formatter includes two different ways to show that an option is required.
 
 ### Required Option Marker
 
-You can pass a character to the `requiredOptionMarker` argument of the `CliktHelpFormatter`.
+You can pass a character to the `requiredOptionMarker` argument of the `MordantHelpFormatter`.
 
 === "Example"
     ```kotlin
     class Tool : NoOpCliktCommand() {
         init {
-            context { helpFormatter = CliktHelpFormatter(requiredOptionMarker = "*") }
+            context { helpFormatter = MordantHelpFormatter(requiredOptionMarker = "*") }
         }
 
         val option by option(help = "this is optional")
@@ -276,13 +276,14 @@ You can pass a character to the `requiredOptionMarker` argument of the `CliktHel
 
 ### Required Option Tag
 
-You can also show a tag for required options by passing `showRequiredTag = true` to the `CliktHelpFormatter`.
+You can also show a tag for required options by passing `showRequiredTag = true` to the
+`MordantHelpFormatter`.
 
 === "Example"
     ```kotlin
     class Tool : CliktCommand() {
         init {
-            context { helpFormatter = CliktHelpFormatter(showRequiredTag = true) }
+            context { helpFormatter = MordantHelpFormatter(showRequiredTag = true) }
         }
 
         val option by option(help = "this is optional")
@@ -385,8 +386,8 @@ You can localize error messages by implementing [`Localization`][Localization] a
     ```kotlin
     class CursiveLocalization : Localization {
         override fun usageTitle() = "𝒰𝓈𝒶𝑔𝑒:"
-        override fun optionsTitle() = "𝒪𝓅𝓉𝒾𝑜𝓃𝓈:"
-        override fun optionsMetavar() = "[𝒪𝒫𝒯𝐼𝒪𝒩𝒮]:"
+        override fun optionsTitle() = "𝒪𝓅𝓉𝒾𝑜𝓃𝓈"
+        override fun optionsMetavar() = "𝑜𝓅𝓉𝒾𝑜𝓃𝓈"
         override fun helpOptionMessage() = "𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉"
 
         // ... override the rest of the strings here
@@ -402,7 +403,7 @@ You can localize error messages by implementing [`Localization`][Localization] a
 === "Usage"
     ```text
     $ ./i18ntool --help
-    𝒰𝓈𝒶𝑔𝑒: i18ntool [𝒪𝒫𝒯𝐼𝒪𝒩𝒮]
+    𝒰𝓈𝒶𝑔𝑒: i18ntool [<𝑜𝓅𝓉𝒾𝑜𝓃𝓈>]
 
       𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒
 
@@ -410,7 +411,6 @@ You can localize error messages by implementing [`Localization`][Localization] a
       -h, --help  𝒮𝒽𝑜𝓌 𝓉𝒽𝒾𝓈 𝓂𝑒𝓈𝓈𝒶𝑔𝑒 𝒶𝓃𝒹 𝑒𝓍𝒾𝓉
     ```
 
-[CliktHelpFormatter]:       api/clikt/com.github.ajalt.clikt.output/-clikt-help-formatter/index.html
 [Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
 [Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.html
 [customizing-command-name]: commands.md#customizing-command-name

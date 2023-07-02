@@ -163,22 +163,22 @@ interface Localization {
     /** The `pathType` parameter to [pathDoesNotExist] and other `path*` errors */
     fun pathTypeOther() = "path"
 
-    /** Invalid path type */
+    /** Invalid path value given */
     fun pathDoesNotExist(pathType: String, path: String) = "$pathType \"$path\" does not exist."
 
-    /** Invalid path type */
+    /** Invalid path value given */
     fun pathIsFile(pathType: String, path: String) = "$pathType \"$path\" is a file."
 
-    /** Invalid path type */
+    /** Invalid path value given */
     fun pathIsDirectory(pathType: String, path: String) = "$pathType \"$path\" is a directory."
 
-    /** Invalid path type */
+    /** Invalid path value given */
     fun pathIsNotWritable(pathType: String, path: String) = "$pathType \"$path\" is not writable."
 
-    /** Invalid path type */
+    /** Invalid path value given */
     fun pathIsNotReadable(pathType: String, path: String) = "$pathType \"$path\" is not readable."
 
-    /** Invalid path type */
+    /** Invalid path value given */
     fun pathIsSymlink(pathType: String, path: String) = "$pathType \"$path\" is a symlink."
 
     /** Metavar used for options with unspecified value type */

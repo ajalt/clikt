@@ -135,24 +135,33 @@ delegates:
 ## Developing Command Line Applications With Gradle
 
 When you write a command line application, you probably want to be able to run it without invoking
-`java -jar ...` every time. If you're using Gradle, the [application plugin][application_plugin] provides a gradle task
-that bundles your program jars and scripts to launch them. It makes it easy to build a zip or
-tarball that you can distribute to your users without them needing to perform any incantations like
-setting up a classpath. You can see this plugin in use the in [Clikt samples][clikt-samples].
+`java -jar ...` every time. If you're using Gradle, the [application plugin][application_plugin]
+provides a gradle task that bundles your program jars and scripts to launch them. It makes it easy
+to build a zip or tarball that you can distribute to your users without them needing to perform any
+incantations like setting up a classpath. You can see this plugin in use the in [Clikt
+samples][clikt-samples].
 
 The application plugin also creates tasks that will build then run your
-main function directly from within gradle. Although it seems like these
-tasks would make development easier, they are not recommended for use
-with command line programs. Unfortunately, due to the way gradle is
-designed, command line arguments are not visible to the task. Although
-you can hack the task to split up a gradle property and pass it in to
-your argv, this approach is limited. Additionally, stdin, stdout, and
-environment variables are all captured by gradle. All these limitations
-make the run task mostly useless for command line applications.
+main function directly from within gradle. You can pass command line arguments through to your app
+with the `--args` flag:
 
-An easier way to do development is to use the `installDist` task
-provided by the plugin. This builds all the distribution scripts in your
-build folder, which you can then execute normally. See Clikt's
+```shell
+$ ./gradlew run --args="hello --count=3 --name=Clikt"
+```
+
+A drawback to using the `run` garlde task is that it redirects stdout, so Clikt will not print
+colors or prompt for input. You can configure the Mordant terminal that Clikt uses to always print
+with color, but this will cause ANSI codes to be printed even if you redirect the app's output to a
+file.
+
+```kotlin
+MyCommand().context {
+    terminal = Terminal(ansiLevel = AnsiLevel.TRUECOLOR, interactive = true)
+}.main(args)
+```
+
+Another approach is to use the `installDist` task provided by the plugin. This builds all the
+distribution scripts in your build folder, which you can then execute normally. See Clikt's
 [runsample][runsample] script for an example of this approach.
 
 

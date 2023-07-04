@@ -1,4 +1,15 @@
 # Changelog
+## 4.0.0
+### Added
+- Added `Context.errorEncountered` which is true if parsing has continued after an error was encountered.
+- `option().help{""}` and `argument().help{""}` extensions that set the parameter's help text lazily, with access to the current context so that you can add colors.
+
+### Changed
+- `Option.optionHelp` and `Argument.argumentHelp`, `CliktCommand.commandHelp`, and `CliktCommand.commandHelpEpilog` are now methods that take the context as an argument, and the `help` parameter to `copy` is now a `helpGetter` lambda. `CliktCommand.shortHelp` now takes the context as an argument.
+- The `message` method on `TransformContext` interfaces is now an extension.
+
+### Deprecated
+- Deprecated `CliktCommand.commandHelp` and `commandHelpEpilog` properties in favor of the methods with the same name.
 
 ## 4.0.0-RC
 ### Added
@@ -15,7 +26,6 @@
 - Added `CliktCommand.allHelpParams()`, which can be overridden to change which parameters are displayed in help output
 - Added `Context.argumentFileReader` which allows custom loading of argument files
 - Added `Context.allowGroupedShortOptions` which can disable parsing `-abc` as `-a -b -c`
-- Added `Context.errorEncountered` which is true if parsing has continued after an error was encountered.
 - Options named `-?` or `/?` are now supported
 - Added `option(eager=true)` to create an eager option that takes values
 - Added `option(acceptsUnattachedValue=false)` to force the option to only accept values like `--option=1` and not `--option 1`
@@ -26,9 +36,6 @@
 - Removed `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.
 - Removed legacy JS publications. Now only the JS/IR artifacts are published.
 - Removed `CliktHelpFormatter`. Use `MordantHelpFormatter` instead.
-
-### Deprecated
-- Deprecated `CliktCommand.commandHelp` and `commandHelpEpilog` properties in favor of the methods with the same name.
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
@@ -43,8 +50,6 @@
 - `CliktError` now includes `statusCode` and `printError` properties.
 - The constructor of `UsageError` and its subclasses no longer takes a `context` parameter. The context is now inferred automatically.
 - `UsageError.formatUsage` now takes the localization and formatter as arguments
-- `Option.optionHelp` and `Argument.argumentHelp`, `CliktCommand.commandHelp`, and `CliktCommand.commandHelpEpilog` are now methods that take the context as an argument, and the `help` parameter to `copy` is now a `helpGetter` lambda. `CliktCommand.shortHelp` now takes the context as an argument.
-- The `message` method on `TransformContext` interfaces is now an extension.
 
 ### Fixed
 - When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest if it can't report them all ([#361](https://github.com/ajalt/clikt/issues/361))

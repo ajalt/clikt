@@ -65,7 +65,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
   
     
     
@@ -124,7 +124,7 @@
             
             
             
-            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
             
               <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
@@ -639,6 +639,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#splitting-an-option-value-on-a-delimiter" class="md-nav__link">
+    Splitting an Option Value on a Delimiter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options-with-an-optional-value" class="md-nav__link">
+    Options with an Optional Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#options-with-a-variable-number-of-values" class="md-nav__link">
     Options With a Variable Number of Values
   </a>
@@ -734,6 +748,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#number-options-without-a-name" class="md-nav__link">
+    Number Options Without a Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prompting-for-input" class="md-nav__link">
     Prompting For Input
   </a>
@@ -751,6 +772,26 @@
   <a href="#eager-options" class="md-nav__link">
     Eager Options
   </a>
+  
+    <nav class="md-nav" aria-label="Eager Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-eager-options" class="md-nav__link">
+    Custom Eager Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-eager-options-with-values" class="md-nav__link">
+    Custom Eager Options With Values
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1007,6 +1048,20 @@
     <li class="md-nav__item">
       <a href="#choice-and-switch-options-with-groups" class="md-nav__link">
         Choice and Switch Options With Groups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#number-options-without-a-name" class="md-nav__link">
+        Number Options Without a Name
       </a>
     </li>
   
@@ -1663,20 +1718,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../advanced/#testing-your-clikt-cli" class="md-nav__link">
-        Testing your Clikt CLI
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../advanced/#multiplatform-support" class="md-nav__link">
         Multiplatform Support
       </a>
@@ -1709,12 +1750,89 @@
       
       
         <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-          Utilities
+          Testing
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        Testing Your Commands
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/#testing-environment-variables" class="md-nav__link">
+        Testing Environment Variables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/#custom-testing" class="md-nav__link">
+        Custom Testing
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Utilities
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
           <span class="md-nav__icon md-icon"></span>
           Utilities
         </label>
@@ -1781,17 +1899,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
       
       
       
-        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
           Bash Autocomplete
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_10">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
           <span class="md-nav__icon md-icon"></span>
           Bash Autocomplete
         </label>
@@ -1872,17 +1990,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
       
       
       
-        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
           Exception Handling
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_11">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
           <span class="md-nav__icon md-icon"></span>
           Exception Handling
         </label>
@@ -1949,17 +2067,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
       
       
       
-        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
           API reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_12">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
           <span class="md-nav__icon md-icon"></span>
           API reference
         </label>
@@ -2054,17 +2172,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
       
       
       
-        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
           Releases
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_13">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14">
           <span class="md-nav__icon md-icon"></span>
           Releases
         </label>
@@ -2174,6 +2292,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#splitting-an-option-value-on-a-delimiter" class="md-nav__link">
+    Splitting an Option Value on a Delimiter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options-with-an-optional-value" class="md-nav__link">
+    Options with an Optional Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#options-with-a-variable-number-of-values" class="md-nav__link">
     Options With a Variable Number of Values
   </a>
@@ -2269,6 +2401,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#number-options-without-a-name" class="md-nav__link">
+    Number Options Without a Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prompting-for-input" class="md-nav__link">
     Prompting For Input
   </a>
@@ -2286,6 +2425,26 @@
   <a href="#eager-options" class="md-nav__link">
     Eager Options
   </a>
+  
+    <nav class="md-nav" aria-label="Eager Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-eager-options" class="md-nav__link">
+    Custom Eager Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-eager-options-with-values" class="md-nav__link">
+    Custom Eager Options With Values
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2520,9 +2679,8 @@ you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/defa
 but you give it a lambda returning the default value, and the lambda will only be called if the
 option isn&rsquo;t present on the command line.</p>
 <h2 id="multi-value-options">Multi Value Options<a class="headerlink" href="#multi-value-options" title="Permanent link">&para;</a></h2>
-<p>Options can take any fixed number of values separated by whitespace,
-or a variable number of values separated by a non-whitespace delimiter you specify.
-If you want a variable number of values separated by whitespace, you need to use an argument instead.</p>
+<p>Options can take a fixed number of values separated by whitespace, a variable number of values separated by a delimiter,
+or a variable number of values separated by a whitespace.</p>
 <h3 id="options-with-fixed-number-of-values">Options With Fixed Number of Values<a class="headerlink" href="#options-with-fixed-number-of-values" title="Permanent link">&para;</a></h3>
 <p>There are built in functions for options that take two values (<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/pair.html"><code>pair</code></a>, which uses a <code>Pair</code>),
 or three values (<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/triple.html"><code>triple</code></a>, which uses a <code>Triple</code>). You can change the type of each value
@@ -2559,7 +2717,7 @@ Tesseract has dimensions 6x7x8x9
 </div>
 </div>
 </div>
-<h3 id="options-with-a-variable-number-of-values">Options With a Variable Number of Values<a class="headerlink" href="#options-with-a-variable-number-of-values" title="Permanent link">&para;</a></h3>
+<h3 id="splitting-an-option-value-on-a-delimiter">Splitting an Option Value on a Delimiter<a class="headerlink" href="#splitting-an-option-value-on-a-delimiter" title="Permanent link">&para;</a></h3>
 <p>You can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/split.html"><code>split</code></a> to allow a variable number of values to a single option invocation by
 separating the values with non-whitespace delimiters. This will also split <a href="#values-from-environment-variables">values from environment
 variables</a>.</p>
@@ -2591,6 +2749,66 @@ profile-2
 </div>
 </div>
 </div>
+<h3 id="options-with-an-optional-value">Options with an Optional Value<a class="headerlink" href="#options-with-an-optional-value" title="Permanent link">&para;</a></h3>
+<p>You can create options that take zero or one values with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/optional-value.html"><code>optionalValue</code></a>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:4"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><input id="__tabbed_7_3" name="__tabbed_7" type="radio" /><input id="__tabbed_7_4" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Example</label><label for="__tabbed_7_2">Usage with no option value</label><label for="__tabbed_7_3">Usage with option value</label><label for="__tabbed_7_4">Usage with no option</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">log</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">optionalValue</span><span class="p">(</span><span class="s">&quot;debug&quot;</span><span class="p">).</span><span class="na">default</span><span class="p">(</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;log level: </span><span class="si">$</span><span class="n">log</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./command --log
+log level: debug
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./command --log=verbose
+log level: verbose
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./command
+log level: none
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If a user specifies the value without an <code>=</code>, as in <code>--log debug</code>, the <code>debug</code> will always be interpreted as a
+value for the option, even if the command accepts arguments. This might be confusing to your users, so you
+can require that the option value always be specified with <code>=</code> by passing
+<code>optionalValue(acceptsUnattachedValue=false)</code>.</p>
+</div>
+<h3 id="options-with-a-variable-number-of-values">Options With a Variable Number of Values<a class="headerlink" href="#options-with-a-variable-number-of-values" title="Permanent link">&para;</a></h3>
+<p>If you want your option to take a variable number of values, but want to split the value on whitespace 
+[rather than a delimiter][#splitting-an-option-value-on-a-delimiter], you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/vararg-values.html"><code>varargValues</code></a>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Example</label><label for="__tabbed_8_2">Usage</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Order</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">sizes</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">varargValues</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;You ordered: </span><span class="si">$</span><span class="n">sizes</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./order --sizes small medium
+You ordered: [&quot;small&quot;, &quot;medium&quot;]
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>By default, <code>varargValues</code> requires at least one value, and has no maximum limit. You can configure the limits by
+passing <code>min</code> and <code>max</code> arguments to <code>varargValues</code>.</p>
 <h2 id="multiple-options">Multiple Options<a class="headerlink" href="#multiple-options" title="Permanent link">&para;</a></h2>
 <p>Normally, when an option is provided on the command line more than once,
 only the values from the last occurrence are used. But sometimes you
@@ -2600,7 +2818,7 @@ get this behavior with Clikt, you can use <a href="../api/clikt/com.github.ajalt
 will cause the property delegate value to be a list, where each item in
 the list is the value of from one occurrence of the option. If the option
 is never given, the list will be empty (or you can specify a default to use).</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Example</label><label for="__tabbed_7_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Example</label><label for="__tabbed_9_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Commit</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2626,7 +2844,7 @@ bar
 <p>You can also supply a default value to <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a> or require at least one value be present
 on the command line. These are specified as arguments rather than with separate extension functions
 since they don&rsquo;t change the type of the delegate.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Required</label><label for="__tabbed_8_2">Default</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Required</label><label for="__tabbed_10_2">Default</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">opt</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">multiple</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span>
@@ -2640,7 +2858,7 @@ since they don&rsquo;t change the type of the delegate.</p>
 </div>
 <h3 id="deduplicating-optionmultiple-into-a-unique-set">Deduplicating option().multiple() into a unique set<a class="headerlink" href="#deduplicating-optionmultiple-into-a-unique-set" title="Permanent link">&para;</a></h3>
 <p>You can discard duplicate values from a <code>multiple</code> option with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/unique.html"><code>unique</code></a>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Example</label><label for="__tabbed_9_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Example</label><label for="__tabbed_11_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Build</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2662,7 +2880,7 @@ Building for platforms: [android, ios]
 <p>You can split an option&rsquo;s value into a key-value pair with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/split-pair.html"><code>splitPair</code></a>. By default, the
 delimiter <code>=</code> will be used to split. You can also use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/associate.html"><code>associate</code></a> to allow the option
 to be specified multiple times, and have its values collected in a map.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Example</label><label for="__tabbed_10_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Example</label><label for="__tabbed_12_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Build</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2690,7 +2908,7 @@ names for the option. If the option is invoked with one of the secondary
 names, the delegate will return false. It&rsquo;s a good idea to always set
 secondary names so that a user can disable the flag if it was enabled
 previously.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="11:3"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><input id="__tabbed_11_3" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Example</label><label for="__tabbed_11_2">Usage 1</label><label for="__tabbed_11_3">Usage 2</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:3"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><input id="__tabbed_13_3" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Example</label><label for="__tabbed_13_2">Usage 1</label><label for="__tabbed_13_3">Usage 2</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2715,7 +2933,7 @@ false
 </div>
 <p>Multiple short flag options can be combined when called on the command
 line:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Example</label><label for="__tabbed_12_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Example</label><label for="__tabbed_14_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2735,10 +2953,15 @@ true true Foo
 </div>
 </div>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can diasable short option grouping by setting
+<a href="../api/clikt/com.github.ajalt.clikt.core/-context/allow-grouped-short-options.html"><code>Context.allowGroupedShortOptions</code></a> to <code>false</code>.</p>
+</div>
 <h2 id="counted-flag-options">Counted Flag Options<a class="headerlink" href="#counted-flag-options" title="Permanent link">&para;</a></h2>
 <p>You might want a flag option that counts the number of times it occurs on the command line. You can
 use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/counted.html"><code>counted</code></a> for this.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Example</label><label for="__tabbed_13_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Example</label><label for="__tabbed_15_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Log</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2761,7 +2984,7 @@ Verbosity level: 3
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/switch.html"><code>switch</code></a>, which takes a map of
 option names to values. Note that the names in the map replace any previously specified or inferred
 names.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Example</label><label for="__tabbed_14_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Example</label><label for="__tabbed_16_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Size</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2786,7 +3009,7 @@ You picked size small
 <p>You can restrict the values that a regular option can take to a set of values using
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/choice.html"><code>choice</code></a>. You can also map the
 input values to new types.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="15:4"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><input id="__tabbed_15_3" name="__tabbed_15" type="radio" /><input id="__tabbed_15_4" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Example</label><label for="__tabbed_15_2">Usage 1</label><label for="__tabbed_15_3">Usage 2</label><label for="__tabbed_15_4">Usage 3</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:4"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><input id="__tabbed_17_3" name="__tabbed_17" type="radio" /><input id="__tabbed_17_4" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Example</label><label for="__tabbed_17_2">Usage 1</label><label for="__tabbed_17_3">Usage 2</label><label for="__tabbed_17_4">Usage 3</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Digest</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2804,14 +3027,14 @@ md5
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./digest --hash=sha256
-Usage: digest [OPTIONS]
+Usage: digest [&lt;options&gt;]
 
 Error: Invalid value for &quot;--hash&quot;: invalid choice: sha256. (choose from md5, sha1)
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./digest --help
-Usage: digest [OPTIONS]
+Usage: digest [&lt;options&gt;]
 
 Options:
   --hash [md5|sha1]
@@ -2826,7 +3049,7 @@ you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/mutua
 to group any nullable options into a mutually exclusive group. If more than one of the options in
 the group is given on the command line, the last value is used.</p>
 <p>If you want different types for each option, you can wrap them in a sealed class.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="16:4"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><input id="__tabbed_16_3" name="__tabbed_16" type="radio" /><input id="__tabbed_16_4" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Example</label><label for="__tabbed_16_2">Usage 1</label><label for="__tabbed_16_3">Usage 2</label><label for="__tabbed_16_4">Usage 3</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:4"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><input id="__tabbed_18_3" name="__tabbed_18" type="radio" /><input id="__tabbed_18_4" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Example</label><label for="__tabbed_18_2">Usage 1</label><label for="__tabbed_18_3">Usage 2</label><label for="__tabbed_18_4">Usage 3</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Fruit</span><span class="w"> </span><span class="p">{</span>
@@ -2861,7 +3084,7 @@ Oranges(size=large)
 </div>
 </div>
 <p>You can enforce that only one of the options is given with <a href="../api/clikt/com.github.ajalt.clikt.parameters.groups/single.html"><code>single</code></a>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">Example</label><label for="__tabbed_17_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Example</label><label for="__tabbed_19_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">fruit</span><span class="p">:</span><span class="w"> </span><span class="n">Fruit? </span><span class="k">by</span><span class="w"> </span><span class="n">mutuallyExclusiveOptions</span><span class="o">&lt;</span><span class="n">Fruit</span><span class="o">&gt;</span><span class="p">(</span>
@@ -2872,7 +3095,7 @@ Oranges(size=large)
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./order --apples=10 --oranges=small
-Usage: order [OPTIONS]
+Usage: order [&lt;options&gt;]
 
 Error: option --apples cannot be used with --oranges
 </code></pre></div>
@@ -2890,7 +3113,7 @@ you can make an option group <a href="../api/clikt/com.github.ajalt.clikt.parame
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required.html"><code>required</code></a> option, and may also
 have non-required options. The <code>required</code> constraint is enforced if any of the options in the group
 are given on the command line. If none if the options are given, the value of the group is null.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="18:4"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><input id="__tabbed_18_3" name="__tabbed_18" type="radio" /><input id="__tabbed_18_4" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">Example</label><label for="__tabbed_18_2">Usage 1</label><label for="__tabbed_18_3">Usage 2</label><label for="__tabbed_18_4">Usage 3</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:4"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><input id="__tabbed_20_3" name="__tabbed_20" type="radio" /><input id="__tabbed_20_4" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Example</label><label for="__tabbed_20_2">Usage 1</label><label for="__tabbed_20_3">Usage 2</label><label for="__tabbed_20_4">Usage 3</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">UserOptions</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">OptionGroup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2921,7 +3144,7 @@ jane
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --age=30
-Usage: tool [OPTIONS]
+Usage: tool [&lt;options&gt;]
 
 Error: Missing option &quot;--name&quot;.
 </code></pre></div>
@@ -2938,7 +3161,7 @@ a single new type, they map a value to a <a href="#co-occurring-option-groups">c
 Options for groups other than the selected one are ignored, and only the selected group&rsquo;s <code>required</code>
 constraints are enforced. In the same way, <code>groupSwitch</code> options are similar to <a href="#choice-options"><code>switch</code>
 options</a>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="19:5"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><input id="__tabbed_19_3" name="__tabbed_19" type="radio" /><input id="__tabbed_19_4" name="__tabbed_19" type="radio" /><input id="__tabbed_19_5" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">Example</label><label for="__tabbed_19_2">Usage 1</label><label for="__tabbed_19_3">Usage 2</label><label for="__tabbed_19_4">Usage 3</label><label for="__tabbed_19_5">Usage 4</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:5"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><input id="__tabbed_21_3" name="__tabbed_21" type="radio" /><input id="__tabbed_21_4" name="__tabbed_21" type="radio" /><input id="__tabbed_21_5" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Example</label><label for="__tabbed_21_2">Usage 1</label><label for="__tabbed_21_3">Usage 2</label><label for="__tabbed_21_4">Usage 3</label><label for="__tabbed_21_5">Usage 4</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">LoadConfig</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">OptionGroup</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -2982,25 +3205,67 @@ Loading from network: www.example.com
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --load=disk
-Usage: cli [OPTIONS]
+Usage: cli [&lt;options&gt;]
 
 Error: Missing option &quot;--path&quot;.
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./tool --load=whoops
-Usage: cli [OPTIONS]
+Usage: cli [&lt;options&gt;]
 
 Error: Invalid value for &quot;--load&quot;: invalid choice: whoops. (choose from disk, network)
 </code></pre></div>
 </div>
 </div>
 </div>
+<h2 id="number-options-without-a-name">Number Options Without a Name<a class="headerlink" href="#number-options-without-a-name" title="Permanent link">&para;</a></h2>
+<p>If you have an <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int.html">int</a> or <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/long.html">long</a> option, you might want to allow it to be specified without need the
+option name. For example, <code>git log -2</code> and <code>git log -n 2</code> are equivalent. You can add an option like
+this by passing <code>acceptsValueWithoutName=true</code> to <code>int()</code> or <code>long()</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:4"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><input id="__tabbed_22_3" name="__tabbed_22" type="radio" /><input id="__tabbed_22_4" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Example</label><label for="__tabbed_22_2">Usage 1</label><label for="__tabbed_22_3">Usage 2</label><label for="__tabbed_22_4">Help Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Tool</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">level</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="s">&quot;-l&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--level&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">metavar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&lt;number&gt;&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">int</span><span class="p">(</span><span class="n">acceptsValueWithoutName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Level: </span><span class="si">$</span><span class="n">level</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./tool -20
+Level: 20
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./tool --level=3
+Level: 3
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$ ./tool --help
+Usage: tool [&lt;options&gt;]
+
+Options:
+-&lt;number&gt;, -l, --level &lt;number&gt;
+-h, --help             Show this message and exit
+</code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>You may only have one option with <code>acceptsValueWithoutName=true</code> per command</p>
+</div>
 <h2 id="prompting-for-input">Prompting For Input<a class="headerlink" href="#prompting-for-input" title="Permanent link">&para;</a></h2>
 <p>In some cases, you might want to create an option that uses the value
 given on the command line if there is one, but prompt the user for input
 if one is not provided. Clikt can take care of this for you with the <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html"><code>prompt</code></a> function.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="20:3"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><input id="__tabbed_20_3" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Example</label><label for="__tabbed_20_2">Usage 1</label><label for="__tabbed_20_3">Usage 2</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:3"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><input id="__tabbed_23_3" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Example</label><label for="__tabbed_23_2">Usage 1</label><label for="__tabbed_23_3">Usage 2</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3030,7 +3295,7 @@ Hello foo
 <p>You can also create a option that uses a hidden prompt and asks for
 confirmation. This combination of behavior is commonly used for
 passwords.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">Example</label><label for="__tabbed_21_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Example</label><label for="__tabbed_24_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Login</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3053,15 +3318,13 @@ Your hidden password: hunter2
 <h2 id="eager-options">Eager Options<a class="headerlink" href="#eager-options" title="Permanent link">&para;</a></h2>
 <p>Sometimes you want an option to halt execution immediately and print a
 message. For example, the built-on <code>--help</code> option, or the <code>--version</code>
-option that many programs have. Neither of these options have any value
-associated with them, and they stop command line parsing as soon as
-they&rsquo;re encountered.</p>
+option that many programs have.</p>
 <p>The <code>--help</code> option is added automatically to commands, and <code>--version</code> can be added using
-<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/version-option.html"><code>versionOption</code></a>. Since
-the option doesn&rsquo;t have a value, you can&rsquo;t define it using a property delegate. Instead, call the
-function on a command directly, either in an <code>init</code> block, or on a command instance.</p>
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/version-option.html"><code>versionOption</code></a>. Since the option doesn&rsquo;t have a value, you can&rsquo;t define it using a
+property delegate. Instead, call the function on a command directly, either in an <code>init</code> block, or
+on a command instance.</p>
 <p>These definitions are equivalent:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="22:3"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><input id="__tabbed_22_3" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">Version 1</label><label for="__tabbed_22_2">Version 2</label><label for="__tabbed_22_3">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:3"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><input id="__tabbed_25_3" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Version 1</label><label for="__tabbed_25_2">Version 2</label><label for="__tabbed_25_3">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NoOpCliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3084,6 +3347,7 @@ cli version 1.0
 </div>
 </div>
 </div>
+<h3 id="custom-eager-options">Custom Eager Options<a class="headerlink" href="#custom-eager-options" title="Permanent link">&para;</a></h3>
 <p>If you want to define your own option with a similar behavior, you can do so by calling
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/eager-option.html"><code>eagerOption</code></a>. This function takes an <code>action</code> that is called when the option is
 encountered on the command line. To print a message and halt execution normally from the callback,
@@ -3099,12 +3363,22 @@ normally without printing a message, you can throw <a href="../api/clikt/com.git
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h3 id="custom-eager-options-with-values">Custom Eager Options With Values<a class="headerlink" href="#custom-eager-options-with-values" title="Permanent link">&para;</a></h3>
+<p>If you need an eager option that takes a value, pass <code>eager=true</code> to <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option()</code></a>.</p>
+<div class="highlight"><pre><span></span><code>val color by option(eager=true).flag(&quot;--no-color&quot;, default=true)
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Eager options cannot reference other options, since they are finalized first.
+They can be declared in regular <code>OptionGroups</code>, but not in other types of groups
+like [switch groups][#choice-and-switch-options-with-groups].</p>
+</div>
 <h2 id="deprecating-options">Deprecating Options<a class="headerlink" href="#deprecating-options" title="Permanent link">&para;</a></h2>
 <p>You can communicate to users that an option is deprecated with
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.html"><code>option().deprecated()</code></a>. By default, this function will add a tag to the option&rsquo;s help
 message, and print a warning to stderr if the option is used.</p>
 <p>You can customize or omit the warning message and help tags, or change the warning into an error.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="23:6"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><input id="__tabbed_23_3" name="__tabbed_23" type="radio" /><input id="__tabbed_23_4" name="__tabbed_23" type="radio" /><input id="__tabbed_23_5" name="__tabbed_23" type="radio" /><input id="__tabbed_23_6" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">Example</label><label for="__tabbed_23_2">Usage 1</label><label for="__tabbed_23_3">Usage 2</label><label for="__tabbed_23_4">Usage 3</label><label for="__tabbed_23_5">Usage 4</label><label for="__tabbed_23_6">Help Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:6"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><input id="__tabbed_26_3" name="__tabbed_26" type="radio" /><input id="__tabbed_26_4" name="__tabbed_26" type="radio" /><input id="__tabbed_26_5" name="__tabbed_26" type="radio" /><input id="__tabbed_26_6" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Example</label><label for="__tabbed_26_2">Usage 1</label><label for="__tabbed_26_3">Usage 2</label><label for="__tabbed_26_4">Usage 3</label><label for="__tabbed_26_5">Usage 4</label><label for="__tabbed_26_6">Help Output</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Cli</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3142,13 +3416,13 @@ ERROR: option --opt4 is deprecated
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./cli --help
-Usage: cli [OPTIONS]
+Usage: cli [&lt;options&gt;]
 
 Options:
-  --opt TEXT   option 1 (deprecated)
-  --opt2 TEXT  option 2
-  --opt3 TEXT  option 3 (pending deprecation: use --new-opt instead)
-  --opt4 TEXT  option 4 (deprecated)
+  --opt &lt;text&gt;   option 1 (deprecated)
+  --opt2 &lt;text&gt;  option 2
+  --opt3 &lt;text&gt;  option 3 (pending deprecation: use --new-opt instead)
+  --opt4 &lt;text&gt;  option 4 (deprecated)
 </code></pre></div>
 </div>
 </div>
@@ -3159,19 +3433,19 @@ Options:
 will cause Clikt to treat unknown options as positional arguments rather than reporting an error
 when one is encountered. You&rsquo;ll need to define an <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html"><code>argument().multiple()</code></a>
 property to collect the options, otherwise an error will still be reported.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Example</label><label for="__tabbed_24_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Example</label><label for="__tabbed_27_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Wrapper</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">(</span><span class="n">treatUnknownOptionsAsArgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">allowInterspersedArgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="n">help</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="p">).</span><span class="na">required</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">().</span><span class="na">required</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">arguments</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">argument</span><span class="p">().</span><span class="na">multiple</span><span class="p">()</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">arguments</span><span class="p">).</span><span class="na">joinToString</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Runtime</span><span class="p">.</span><span class="na">getRuntime</span><span class="p">().</span><span class="na">exec</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="n">proc</span><span class="p">.</span><span class="na">inputStream</span><span class="p">.</span><span class="na">bufferedReader</span><span class="p">().</span><span class="na">readText</span><span class="p">())</span>
+<span class="w">        </span><span class="n">echo</span><span class="p">(</span><span class="n">proc</span><span class="p">.</span><span class="na">inputStream</span><span class="p">.</span><span class="na">bufferedReader</span><span class="p">().</span><span class="na">readText</span><span class="p">())</span>
 <span class="w">        </span><span class="n">proc</span><span class="p">.</span><span class="na">waitFor</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -3187,9 +3461,12 @@ NAME
 </div>
 </div>
 </div>
-<p>Note that flag options in a single token (e.g. using <code>-abc</code> to specify <code>-a</code>, <code>-b</code>, and <code>-c</code> in a
-single token) will still report an error if they are unknown. Each option should be specified
-separately in this mode.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Multiple short options in a single token (e.g. using <code>-abc</code> to specify <code>-a</code>, <code>-b</code>, and <code>-c</code> in a single token) will
+still report an error if it contains a mixture of known and unknown options. To avoid this, don&rsquo;t declare single-letter
+names for options in commands that use <code>treatUnknownOptionsAsArgs</code>.</p>
+</div>
 <p>You&rsquo;ll often want to set <a href="../api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.html"><code>allowInterspersedArgs = false</code></a> on your Context when
 using <code>treatUnknownOptionsAsArgs</code>. You may also find that subcommands are a better fit than
 <code>treatUnknownOptionsAsArgs</code> for your use case.</p>
@@ -3206,7 +3483,7 @@ you can set the name manually for an option, or you can enable automatic
 envvar name inference.</p>
 <p>To set the envvar name manually, pass the name to
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option</code></a>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="25:3"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><input id="__tabbed_25_3" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">Example</label><label for="__tabbed_25_2">Usage 1</label><label for="__tabbed_25_3">Usage 2</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:3"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><input id="__tabbed_28_3" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Example</label><label for="__tabbed_28_2">Usage 1</label><label for="__tabbed_28_3">Usage 2</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3237,7 +3514,7 @@ an explicit envvar name to be given an uppercase underscore-separated envvar nam
 is set on the <a href="../api/clikt/com.github.ajalt.clikt.core/context.html"><code>context</code></a>, it is propagated to
 subcommands. If you have a a subcommand called <code>foo</code> with an option <code>--bar</code>, and your prefix is
 <code>MY_TOOL</code>, the option&rsquo;s envvar name will be <code>MY_TOOL_FOO_BAR</code>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">Example</label><label for="__tabbed_26_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Example</label><label for="__tabbed_29_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3294,7 +3571,7 @@ author email with a command line parameter: <code>git commit --author='Clikt &lt
 you can also set it in your git configuration file: <code>user.email=clikt@example.com</code>.</p>
 <p>Clikt allows you to specify one or more sources of option values that will be read from with the
 <a href="../api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-source.html"><code>Context.valueSource</code></a> builder.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">Example</label><label for="__tabbed_27_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="30:2"><input checked="checked" id="__tabbed_30_1" name="__tabbed_30" type="radio" /><input id="__tabbed_30_2" name="__tabbed_30" type="radio" /><div class="tabbed-labels"><label for="__tabbed_30_1">Example</label><label for="__tabbed_30_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3336,7 +3613,7 @@ but you can change this by setting <a href="../api/clikt/com.github.ajalt.clikt.
 <p>When specifying option names manually, you can use any prefix (as long
 as it&rsquo;s entirely punctuation).</p>
 <p>For example, you can make a Windows-style interface with slashes:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">Example</label><label for="__tabbed_28_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="31:2"><input checked="checked" id="__tabbed_31_1" name="__tabbed_31" type="radio" /><input id="__tabbed_31_2" name="__tabbed_31" type="radio" /><div class="tabbed-labels"><label for="__tabbed_31_1">Example</label><label for="__tabbed_31_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3356,7 +3633,7 @@ Hello, Foo!
 </div>
 <p>Or you can make a Java-style interface that uses single-dashes for long
 options:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Example</label><label for="__tabbed_29_2">Usage</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="32:2"><input checked="checked" id="__tabbed_32_1" name="__tabbed_32" type="radio" /><input id="__tabbed_32_2" name="__tabbed_32" type="radio" /><div class="tabbed-labels"><label for="__tabbed_32_1">Example</label><label for="__tabbed_32_2">Usage</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">Hello</span><span class="p">:</span><span class="w"> </span><span class="n">CliktCommand</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3378,16 +3655,14 @@ Hello, Foo!
 <code>--name</code>. If you want to use a different prefix, you should specify all
 option names manually.</p>
 <h2 id="option-transformation-order">Option Transformation Order<a class="headerlink" href="#option-transformation-order" title="Permanent link">&para;</a></h2>
-<p>Clikt has a large number of extension functions that can modify options.
-When applying multiple functions to the same option,
-there&rsquo;s only one valid order for the functions to be applied.
-For example, <code>option().default(3).int()</code> will not compile,
-because <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> must be applied after the value type conversion.
-Similarly, you can only apply one transform of each type.
-So <code>option().int().float()</code> is invalid since <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/int.html"><code>int</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.types/float.html"><code>float</code></a>
-both change the value type, as is <code>option().default("").multiple()</code>
-since <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> and <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a> both transform the
-call list (if you need a custom default value for <code>multiple</code>, you can pass it one as an argument).</p>
+<p>Clikt has a large number of extension functions that can modify options. When applying multiple
+functions to the same option, there&rsquo;s only one valid order for the functions to be applied. For
+example, <code>option().default(3).int()</code> will not compile, because <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> must be applied
+after the value type conversion. </p>
+<p>You can call <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/convert.html"><code>convert</code></a> multiple times, but you can only apply one transform of each other
+type. So <code>option().default("").multiple()</code> is invalid, since <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a> and
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/multiple.html"><code>multiple</code></a> both transform the call list (if you need a custom default value for
+<code>multiple</code>, you can pass it one as an argument).</p>
 <p>Here&rsquo;s an integer option with one of each available transform in a valid order:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">opt</span><span class="p">:</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="kt">Int</span><span class="o">&gt;</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">option</span><span class="p">(</span><span class="s">&quot;-o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--opt&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="p">.</span><span class="na">int</span><span class="p">()</span>

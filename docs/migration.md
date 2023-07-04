@@ -2,6 +2,8 @@
 
 ## Upgrading to 4.0
 
+### Help formatting
+
 The `CliktHelpFormatter` class has been removed and replaced with the `MordantHelpFormatter`. The
 `MordantHelpFormatter` constructor takes a `Context` instead of a `Localization`, and the parameters
 controlling size and spacing have been removed. See the [documentation][documenting] for details on
@@ -10,8 +12,30 @@ how to set the help formatter on the Context.
 If you were subclassing `CliktHelpFormatter`, `MordantHelpFormatter`'s open methods are different.
 See the [`helpformat`][helpformat] sample for an example of how to use the new formatter.
 
+### Prompting
+
 The `CliktConsole` class has been removed. If you were using it, use your command's Mordant
 `terminal` instead.
+
+The `prompt` and `confirm` methods now use Mordant's prompting functionality, and some of their
+arguments have changed. In particular, conversion lambdas now return a `ConversionResult`  instead
+of throwing an exception.
+
+=== "In 4.0"
+    ```kotlin
+    val input = prompt("Enter a number") {
+        it.toIntOrNull()
+            ?.let { ConversionResult.Valid(it) }
+            ?: ConversionResult.Invalid("$it is not a valid integer")
+    }
+    ```
+
+=== "In 3.0"
+    ```kotlin
+    val input = prompt("Enter a number") {
+        it.toIntOrNull() ?: throw BadParameterValue("$it is not a valid integer")
+    }
+    ```
 
 ## Upgrading to 3.0
 

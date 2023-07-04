@@ -34,7 +34,9 @@ the prompt will ask the user to enter a different value.
 === "Example"
     ```kotlin
     val input = prompt("Enter a number") {
-        it.toIntOrNull() ?: throw BadParameterValue("$it is not a valid integer")
+        it.toIntOrNull()
+            ?.let { ConversionResult.Valid(it) }
+            ?: ConversionResult.Invalid("$it is not a valid integer")
     }
     echo("Twice your number is ${input * 2}")
     ```
@@ -58,17 +60,10 @@ if (confirm("Continue?") == true) {
 }
 ```
 
-If you simply want to abort the program in the user gives a negative
-response, you can pass `abort=true`:
 
-```kotlin
-confirm("Continue?", abort=true)
-```
-
-
-[confirm]:             api/clikt/com.github.ajalt.clikt.output/-term-ui/confirm.html
+[confirm]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/confirm.html
 [editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
 [editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
-[prompt]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/prompt.html
+[prompt]:              api/clikt/com.github.ajalt.clikt.core/-clikt-command/prompt.html
 [prompting-for-input]: options.md#prompting-for-input
 [UsageError]:          api/clikt/com.github.ajalt.clikt.core/-usage-error/index.html

@@ -40,13 +40,10 @@ Options:
 
 ## Printing to Stdout and Stderr
 
-Why does this example use [`echo`][echo] instead of [`println`][println]?
-Although `println` works, it can cause problems with multi-platform
-support. `echo` automatically translates line breaks into the line
-separator for the current platform, so you don't have to worry that some
-of your users will see mangled output because you didn't test on
-Windows. You can also pass `err=true` to `echo` to print to stderr
-instead of stdout.
+Why does this example use [`echo`][echo] instead of [`println`][println]? Although `println` works,
+it can cause problems with multi-platform support. `echo` uses Mordant to print, so it supports
+colors and detects the current terminal to make sure that colors work on the current system. You can
+also pass `err=true` to `echo` to print to stderr instead of stdout.
 
 Additionally, if you use Clikt's [testing utilities][test], output sent 
 to `echo` will be captured for testing, but output sent to `println` will not.
@@ -149,7 +146,7 @@ with the `--args` flag:
 $ ./gradlew run --args="hello --count=3 --name=Clikt"
 ```
 
-A drawback to using the `run` garlde task is that it redirects stdout, so Clikt will not print
+A drawback to using the `run` gradle task is that it redirects stdout, so Clikt will not print
 colors or prompt for input. You can configure the Mordant terminal that Clikt uses to always print
 with color, but this will cause ANSI codes to be printed even if you redirect the app's output to a
 file.
@@ -169,7 +166,7 @@ distribution scripts in your build folder, which you can then execute normally. 
 [argument]:           api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
 [clikt-samples]:      https://github.com/ajalt/clikt/tree/master/samples
 [CliktCommand]:       api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
-[echo]:               api/clikt/com.github.ajalt.clikt.output/-term-ui/echo.html
+[echo]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/echo.html
 [main]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
 [option]:             api/clikt/com.github.ajalt.clikt.parameters.options/option.html
 [println]:            https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html

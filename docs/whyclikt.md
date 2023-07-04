@@ -2,7 +2,7 @@
 
 There are existing Kotlin libraries for creating command line interfaces,
 and many Java libraries work in Kotlin as well. However, none of them
-had all of the following features:
+had all the following features:
 
 * Unrestricted composability of commands
 * Fully static type safety for parameters
@@ -18,7 +18,7 @@ interfaces as easy as possible. A good CLI does more than just parse
 in some cases prompts for additional input, or opens an editor. Clikt
 supports all of this out of the box.
 
-Some times you need to make a CLI that doesn't follow Unix conventions.
+Sometimes you need to make a CLI that doesn't follow Unix conventions.
 You might be writing for windows, or you want to use the Java style of
 long options with a single dash. Maybe you need to use a bunch of
 required options instead of arguments, or you want the help page

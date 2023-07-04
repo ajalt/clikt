@@ -27,6 +27,9 @@
 - Removed legacy JS publications. Now only the JS/IR artifacts are published.
 - Removed `CliktHelpFormatter`. Use `MordantHelpFormatter` instead.
 
+### Deprecated
+- Deprecated `CliktCommand.commandHelp` and `commandHelpEpilog` properties in favor of the methods with the same name.
+
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's
 - When using `treatUnknownOptionsAsArgs`, grouped short options like `-abc` will be treated as an argument rather than reporting an error as long as they don't match any short options in the command. ([#340](https://github.com/ajalt/clikt/pull/340))
@@ -40,6 +43,8 @@
 - `CliktError` now includes `statusCode` and `printError` properties.
 - The constructor of `UsageError` and its subclasses no longer takes a `context` parameter. The context is now inferred automatically.
 - `UsageError.formatUsage` now takes the localization and formatter as arguments
+- `Option.optionHelp` and `Argument.argumentHelp`, `CliktCommand.commandHelp`, and `CliktCommand.commandHelpEpilog` are now methods that take the context as an argument, and the `help` parameter to `copy` is now a `helpGetter` lambda. `CliktCommand.shortHelp` now takes the context as an argument.
+- The `message` method on `TransformContext` interfaces is now an extension.
 
 ### Fixed
 - When parsing a command line with more than one error, Clikt will now always report the error that occurs earliest if it can't report them all ([#361](https://github.com/ajalt/clikt/issues/361))

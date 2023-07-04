@@ -6,7 +6,9 @@ import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.transform.HelpTransformContext
 import com.github.ajalt.clikt.parameters.transform.TransformContext
+import com.github.ajalt.clikt.parameters.transform.message
 import com.github.ajalt.clikt.parameters.types.int
 import kotlin.jvm.JvmOverloads
 import kotlin.properties.PropertyDelegateProvider
@@ -37,7 +39,7 @@ interface Argument {
      *
      * It's usually better to leave this null and describe options in the usage line of the command instead.
      */
-    val argumentHelp: String
+    fun getArgumentHelp(context: Context): String
 
     /** Extra information about this argument to pass to the help formatter. */
     val helpTags: Map<String, String>
@@ -87,7 +89,6 @@ class ArgumentTransformContext(
     override val context: Context,
 ) : Argument by argument, TransformContext {
     override fun fail(message: String): Nothing = throw BadParameterValue(message, argument)
-    override fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {
@@ -111,6 +112,9 @@ typealias ArgValidator<AllT> = ArgumentTransformContext.(AllT) -> Unit
  * An [Argument] delegate implementation that transforms its values .
  */
 interface ProcessedArgument<AllT, ValueT> : ArgumentDelegate<AllT> {
+    /** A block that will return the help text for this argument, or `null` if no getter has been specified */
+    val helpGetter: (HelpTransformContext.() -> String)?
+
     /** Called in [finalize] to transform each value provided to the argument. */
     val transformValue: ArgValueTransformer<ValueT>
 
@@ -131,7 +135,7 @@ interface ProcessedArgument<AllT, ValueT> : ArgumentDelegate<AllT> {
         name: String = this.name,
         nvalues: Int = this.nvalues,
         required: Boolean = this.required,
-        help: String = this.argumentHelp,
+        helpGetter: (HelpTransformContext.() -> String)? = this.helpGetter,
         helpTags: Map<String, String> = this.helpTags,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
     ): ProcessedArgument<AllT, ValueT>
@@ -142,7 +146,7 @@ interface ProcessedArgument<AllT, ValueT> : ArgumentDelegate<AllT> {
         name: String = this.name,
         nvalues: Int = this.nvalues,
         required: Boolean = this.required,
-        help: String = this.argumentHelp,
+        helpGetter: (HelpTransformContext.() -> String)? = this.helpGetter,
         helpTags: Map<String, String> = this.helpTags,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
     ): ProcessedArgument<AllT, ValueT>
@@ -152,7 +156,7 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
     override var name: String,
     override val nvalues: Int,
     override val required: Boolean,
-    override val argumentHelp: String,
+    override val helpGetter: (HelpTransformContext.() -> String)?,
     override val helpTags: Map<String, String>,
     override val explicitCompletionCandidates: CompletionCandidates?,
     override val transformValue: ArgValueTransformer<ValueT>,
@@ -163,12 +167,23 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
         require(nvalues != 0) { "Arguments cannot have nvalues == 0" }
     }
 
+    override fun getArgumentHelp(context: Context): String {
+        return helpGetter?.invoke(HelpTransformContext(context)) ?: ""
+    }
+
     override var value: AllT by NullableLateinit("Cannot read from argument delegate before parsing command line")
     override val completionCandidates: CompletionCandidates
         get() = explicitCompletionCandidates ?: CompletionCandidates.None
 
-    override fun parameterHelp(context: Context) =
-        ParameterHelp.Argument(name, argumentHelp, required || nvalues > 1, nvalues < 0, helpTags)
+    override fun parameterHelp(context: Context): ParameterHelp.Argument {
+        return ParameterHelp.Argument(
+            name = name,
+            help = getArgumentHelp(context),
+            required = required || nvalues > 1,
+            repeatable = nvalues < 0,
+            tags = helpTags
+        )
+    }
 
     override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
 
@@ -196,7 +211,7 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
         name: String,
         nvalues: Int,
         required: Boolean,
-        help: String,
+        helpGetter: (HelpTransformContext.() -> String)?,
         helpTags: Map<String, String>,
         completionCandidates: CompletionCandidates?,
     ): ProcessedArgument<AllT, ValueT> {
@@ -204,7 +219,7 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
             name = name,
             nvalues = nvalues,
             required = required,
-            argumentHelp = help,
+            helpGetter = helpGetter,
             helpTags = helpTags,
             explicitCompletionCandidates = completionCandidates,
             transformValue = transformValue,
@@ -219,7 +234,7 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
         name: String,
         nvalues: Int,
         required: Boolean,
-        help: String,
+        helpGetter: (HelpTransformContext.() -> String)?,
         helpTags: Map<String, String>,
         completionCandidates: CompletionCandidates?,
     ): ProcessedArgument<AllT, ValueT> {
@@ -227,7 +242,7 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
             name = name,
             nvalues = nvalues,
             required = required,
-            argumentHelp = help,
+            helpGetter = helpGetter,
             helpTags = helpTags,
             explicitCompletionCandidates = completionCandidates,
             transformValue = transformValue,
@@ -267,7 +282,7 @@ fun CliktCommand.argument(
         name = name,
         nvalues = 1,
         required = true,
-        argumentHelp = help,
+        helpGetter = { help },
         helpTags = helpTags,
         explicitCompletionCandidates = completionCandidates,
         transformValue = { it },
@@ -279,8 +294,11 @@ fun CliktCommand.argument(
 /**
  * Set the help for this argument.
  *
- * Although you would normally pass the help string as an argument to [argument], this function
+ * Although you can also pass the help string as an argument to [argument], this function
  * can be more convenient for long help strings.
+ *
+ * If you want to control the help string lazily or based on the context, you can pass a lambda that
+ * returns a string.
  *
  * ### Example:
  *
@@ -290,9 +308,31 @@ fun CliktCommand.argument(
  *      .help("This is an argument that takes a number")
  * ```
  */
-fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.help(help: String): ProcessedArgument<AllT, ValueT> {
-    return copy(help = help)
+fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.help(
+    help: String,
+): ProcessedArgument<AllT, ValueT> {
+    return help { help }
 }
+
+/**
+ * Set the help for this argument lazily.
+ *
+ * You have access to the current Context if you need the theme or other information.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by argument()
+ *      .int()
+ *      .help { theme.info("This is an argument that takes a number") }
+ * ```
+ */
+fun <AllT, ValueT> ProcessedArgument<AllT, ValueT>.help(
+    help: HelpTransformContext.() -> String,
+): ProcessedArgument<AllT, ValueT> {
+    return copy(helpGetter = help)
+}
+
 
 /**
  * Transform all values to the final argument type.

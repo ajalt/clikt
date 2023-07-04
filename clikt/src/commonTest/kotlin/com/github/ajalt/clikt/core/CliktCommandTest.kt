@@ -93,10 +93,10 @@ class CliktCommandTest {
         row("```\n  foo bar", "foo bar"),
         row("```foo\nbar", "foo")
     ) { help, expected ->
-        class C : NoOpCliktCommand(help = help) {
-            val sh = shortHelp()
+        class C : TestCommand(help = help) {
+            fun h() = shortHelp(currentContext)
         }
-        C().sh shouldBe expected
+        C().parse("").h() shouldBe expected
     }
 
     @Test

@@ -8,10 +8,13 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.transformAll
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
+import com.github.ajalt.clikt.parameters.transform.HelpTransformContext
 import com.github.ajalt.clikt.parameters.transform.TransformContext
+import com.github.ajalt.clikt.parameters.transform.message
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.Invocation
 import com.github.ajalt.clikt.sources.ValueSource
+import com.github.ajalt.mordant.terminal.Terminal
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
@@ -27,7 +30,6 @@ class OptionCallTransformContext(
     override val context: Context,
 ) : Option by option, TransformContext {
     override fun fail(message: String): Nothing = throw BadParameterValue(message, option, name)
-    override fun message(message: String) = context.command.issueMessage(message)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {
@@ -40,13 +42,13 @@ class OptionTransformContext(
     /** The option that was invoked */
     val option: Option,
     /** The current command context */
-    val context: Context,
-) : Option by option {
-    /** Throw an exception indicating that usage was incorrect. */
-    fun fail(message: String): Nothing = throw BadParameterValue(message, option)
+    override val context: Context,
+) : Option by option, TransformContext {
+    /** The terminal from the current context */
+    val terminal: Terminal get() = context.terminal
 
-    /** Issue a message that can be shown to the user */
-    fun message(message: String) = context.command.issueMessage(message)
+    /** Throw an exception indicating that usage was incorrect. */
+    override fun fail(message: String): Nothing = throw BadParameterValue(message, option)
 
     /** If [value] is false, call [fail] with the output of [lazyMessage] */
     inline fun require(value: Boolean, lazyMessage: () -> String = { "" }) {
@@ -105,6 +107,9 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
     /** A block that will return the metavar for this option, or `null` if no getter has been specified */
     val metavarGetter: (Context.() -> String?)?
 
+    /** A block that will return the help text for this option, or `null` if no getter has been specified */
+    val helpGetter: (HelpTransformContext.() -> String)?
+
     /** A regex to split option values on before conversion, or `null` to leave them unsplit */
     val valueSplit: Regex?
 
@@ -117,7 +122,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         names: Set<String> = this.names,
         metavarGetter: (Context.() -> String?)? = this.metavarGetter,
         nvalues: IntRange = this.nvalues,
-        help: String = this.optionHelp,
+        helpGetter: (HelpTransformContext.() -> String)? = this.helpGetter,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
         valueSourceKey: String? = this.valueSourceKey,
@@ -136,7 +141,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         names: Set<String> = this.names,
         metavarGetter: (Context.() -> String?)? = this.metavarGetter,
         nvalues: IntRange = this.nvalues,
-        help: String = this.optionHelp,
+        helpGetter: (HelpTransformContext.() -> String)? = this.helpGetter,
         hidden: Boolean = this.hidden,
         helpTags: Map<String, String> = this.helpTags,
         envvar: String? = this.envvar,
@@ -155,7 +160,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     names: Set<String>,
     override val metavarGetter: (Context.() -> String?)?,
     override val nvalues: IntRange,
-    override val optionHelp: String,
+    override val helpGetter: (HelpTransformContext.() -> String)?,
     override val hidden: Boolean,
     override val helpTags: Map<String, String>,
     override val valueSourceKey: String?,
@@ -181,6 +186,10 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         private set
     override val completionCandidates: CompletionCandidates
         get() = explicitCompletionCandidates ?: CompletionCandidates.None
+
+    override fun optionHelp(context: Context): String {
+        return helpGetter?.invoke(HelpTransformContext(context)) ?: ""
+    }
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
         val inv = when (val v = getFinalValue(context, invocations, envvar)) {
@@ -237,7 +246,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         names: Set<String>,
         metavarGetter: (Context.() -> String?)?,
         nvalues: IntRange,
-        help: String,
+        helpGetter: (HelpTransformContext.() -> String)?,
         hidden: Boolean,
         helpTags: Map<String, String>,
         valueSourceKey: String?,
@@ -253,7 +262,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             names = names,
             metavarGetter = metavarGetter,
             nvalues = nvalues,
-            optionHelp = help,
+            helpGetter = helpGetter,
             hidden = hidden,
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
@@ -277,7 +286,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         names: Set<String>,
         metavarGetter: (Context.() -> String?)?,
         nvalues: IntRange,
-        help: String,
+        helpGetter: (HelpTransformContext.() -> String)?,
         hidden: Boolean,
         helpTags: Map<String, String>,
         envvar: String?,
@@ -293,7 +302,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             names = names,
             metavarGetter = metavarGetter,
             nvalues = nvalues,
-            optionHelp = help,
+            helpGetter = helpGetter,
             hidden = hidden,
             helpTags = helpTags,
             valueSourceKey = valueSourceKey,
@@ -362,7 +371,7 @@ fun ParameterHolder.option(
     names = names.toSet(),
     metavarGetter = metavar?.let { { it } },
     nvalues = 1..1,
-    optionHelp = help,
+    helpGetter = { help },
     hidden = hidden,
     helpTags = helpTags,
     valueSourceKey = valueSourceKey,
@@ -382,8 +391,11 @@ fun ParameterHolder.option(
 /**
  * Set the help for this option.
  *
- * Although you would normally pass the help string as an argument to [option], this function
+ * Although you can also pass the help string as an argument to [option], this function
  * can be more convenient for long help strings.
+ *
+ * If you want to control the help string lazily or based on the context, you can pass a lambda that
+ * returns a string.
  *
  * ### Example:
  *
@@ -393,8 +405,29 @@ fun ParameterHolder.option(
  *      .help("This is an option that takes a number")
  * ```
  */
-fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(help: String): OptionWithValues<AllT, EachT, ValueT> {
-    return copy(help = help)
+fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(
+    help: String
+): OptionWithValues<AllT, EachT, ValueT> {
+    return help { help }
+}
+
+/**
+ * Set the help for this option lazily.
+ *
+ * You have access to the current Context if you need the theme or other information.
+ *
+ * ### Example:
+ *
+ * ```
+ * val number by option()
+ *      .int()
+ *      .help { theme.info("This is an option that takes a number") }
+ * ```
+ */
+fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(
+    help: HelpTransformContext.() -> String,
+): OptionWithValues<AllT, EachT, ValueT> {
+    return copy(helpGetter = help)
 }
 
 /**
@@ -423,10 +456,25 @@ fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.deprecated(
     error: Boolean = false,
 ): OptionDelegate<AllT> {
     val helpTags = if (tagName.isNullOrBlank()) helpTags else helpTags + mapOf(tagName to tagValue)
+    val deprecationTransform: OptionTransformContext.(List<EachT>) -> AllT = {
+        if (it.isNotEmpty()) {
+            val msg = when (message) {
+                null -> ""
+                "" -> "${if (error) "ERROR" else "WARNING"}: option ${option.longestName()} is deprecated"
+                else -> message
+            }
+            if (error) {
+                throw CliktError(msg)
+            } else if (message != null) {
+                message(msg)
+            }
+        }
+        transformAll(it)
+    }
     return copy(
         transformValue,
         transformEach,
-        deprecationTransformer(message, error, transformAll),
+        deprecationTransform,
         transformValidator,
         helpTags = helpTags
     )

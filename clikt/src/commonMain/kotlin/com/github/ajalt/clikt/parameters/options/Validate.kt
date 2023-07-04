@@ -1,5 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
+import com.github.ajalt.clikt.parameters.transform.message
+
 /**
  * Check the final option value and raise an error if it's not valid.
  *

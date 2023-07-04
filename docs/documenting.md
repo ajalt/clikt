@@ -13,6 +13,7 @@ automatically trimmed of leading indentation and re-wrapped to the terminal widt
 
 As an alternative to passing your help strings as function arguments, you can also use the `help()`
 extensions for your options, and override `commandHelp` and `commandHelpEpilog` on your commands.
+These methods can access the terminal theme on the context to add color to your help text.
 
 === "Example"
     ```kotlin
@@ -31,13 +32,17 @@ extensions for your options, and override `commandHelp` and `commandHelpEpilog` 
 === "Alternate style"
     ```kotlin
     class Hello : CliktCommand() {
-        override val commandHelp = """
-            This script prints <name> <count> times.
-
-            <count> must be a positive number, and defaults to 1.
-        """
+        override fun commandHelp(context: Context): String {
+            val style = context.theme.info
+            return """
+                This script prints ${style("<name>")} ${style("<count>")} times.
+    
+                ${style("<count>")} must be a positive number, and defaults to 1.
+            """.trimIndent()
+        }
+    
         val count by option("-c", "--count", metavar="count").int().default(1)
-            .help("number of greetings")
+            .help { theme.success("number of greetings") }
         val name by argument()
         override fun run() = repeat(count) { echo("Hello $name!") }
     }
@@ -63,53 +68,56 @@ in the usage string. It is possible to add a help string to arguments
 which will be added to the help page, but the Unix convention is to just
 describe arguments in the command help.
 
-## Preformatting Paragraphs
+## Markdown in help texts
 
-By default, Clikt will rewrap all paragraphs in your text to the terminal width. This can be
-undesirable if you have some preformatted text, such as source code or a bulleted list.
-
-You can preformat a paragraph by surrounding it with markdown-style triple backticks. The backticks
-will be removed from the output, and if the backticks are on a line by themselves, the line will be
-removed. All whitespace and newlines in the paragraph will be preserved, and will be be rewrapped.
-
+All help texts use Mordant to render Markdown. You can use all the normal markdown features, such as
+lists, tables, and even hyperlinks if your terminal supports them.
 
 === "Example"
     ```kotlin
-    class Tool : NoOpCliktCommand(help = """This is my command.
-
-          This paragraph will be wrapped, but the following list will not:
-
-          ```
-          - This is a list
-          - Its newlines will remain intact
-          ```
-
-          This is a new paragraph that will be wrapped if it's wider than the teminal width.
-          """)
+    class Tool : NoOpCliktCommand() {
+        val option by option().help {
+            """
+            | This | is | a | table |
+            | ---- | -- | - | ----- |
+            | 1    | 2  | 3 | 4     |
+            
+            - This is
+            - a list
+            
+            ```
+            You can
+                use code blocks
+            ```
+            """.trimIndent()
+        }
+    }
     ```
 
 === "Help output"
     ```text
-    Usage: tool
-
-      This is my command.
-
-      This paragraph will be wrapped, but the following list
-      will not:
-
-      - This is a list
-      - It's newlines will remain intact
-
-      This is a new paragraph that will be wrapped if it's wider
-      than the terminal width.
-
+    Usage: tool [<options>]
+    
     Options:
-      -h, --help  Show this message and exit
+      --option=<text>  ┌──────┬────┬───┬───────┐
+                       │ This │ is │ a │ table │
+                       ╞══════╪════╪═══╪═══════╡
+                       │ 1    │ 2  │ 3 │ 4     │
+                       └──────┴────┴───┴───────┘
+    
+                        • This is
+                        • a list
+    
+                       ╭───────────────────╮
+                       │You can            │
+                       │    use code blocks│
+                       ╰───────────────────╯
+      -h, --help       Show this message and exit
     ```
 
 ## Manual Line Breaks
 
-If you want to insert a line break manually without preformmating the entire paragraph, you can use
+If you want to insert a line break manually without preformatting the entire paragraph, you can use
 the [Unicode Next Line (NEL) character][nel]. You can type a NEL with the unicode literal `\u0085`.
 
 Clikt will treat NEL similarly to how `<br>` behaves in HTML: The NEL will be replaced with a line
@@ -118,9 +126,8 @@ break in the output, and the paragraph will still be wrapped to the terminal wid
 === "Example"
     ```kotlin
     class Tool : NoOpCliktCommand() {
-        val option by option(
-            help="This help will be at least two lines.\u0085(this will start a new line)"
-        )
+        val option by option()
+            .help("This help will be at least two lines.\u0085(this will start a new line)")
     }
     ```
 

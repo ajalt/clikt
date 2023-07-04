@@ -56,7 +56,7 @@ internal object FishCompletionGenerator {
 
             append("-a $commandName ")
 
-            val help = command.commandHelp.replace("'", "\\'")
+            val help = command.commandHelp(command.currentContext).replace("'", "\\'")
             if (help.isNotBlank()) {
                 append("-d '${help}'")
             }
@@ -91,7 +91,7 @@ internal object FishCompletionGenerator {
             }
 
             appendParamCompletion(option.completionCandidates)
-            appendHelp(option.optionHelp)
+            appendHelp(option.optionHelp(command.currentContext))
             appendLine()
         }
 
@@ -102,7 +102,7 @@ internal object FishCompletionGenerator {
         for (argument in arguments) {
             appendCompleteCall(rootCommandName, isTopLevel, hasSubcommands, commandName)
             appendParamCompletion(argument.completionCandidates)
-            appendHelp(argument.argumentHelp)
+            appendHelp(argument.getArgumentHelp(command.currentContext))
             appendLine()
         }
 

@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.mpp.isLetterOrDigit
 import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.parameters.transform.message
 import com.github.ajalt.clikt.parsers.Invocation
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.PropertyDelegateProvider
@@ -20,7 +21,7 @@ interface Option {
     fun metavar(context: Context): String?
 
     /** The description of this option, usually a single line. */
-    val optionHelp: String
+    fun optionHelp(context: Context): String
 
     /** The names that can be used to invoke this option. They must start with a punctuation character. */
     val names: Set<String>
@@ -59,7 +60,7 @@ interface Option {
             names,
             secondaryNames,
             metavar(context),
-            optionHelp,
+            optionHelp(context),
             nvalues,
             helpTags,
             acceptsNumberValueWithoutName,
@@ -134,26 +135,6 @@ internal fun splitOptionPrefix(name: String): Pair<String, String> =
         name.length > 2 && name[0] == name[1] -> name.slice(0..1) to name.substring(2)
         else -> name.substring(0, 1) to name.substring(1)
     }
-
-internal fun <EachT, AllT> deprecationTransformer(
-    message: String? = "",
-    error: Boolean = false,
-    transformAll: AllTransformer<EachT, AllT>,
-): AllTransformer<EachT, AllT> = {
-    if (it.isNotEmpty()) {
-        val msg = when (message) {
-            null -> ""
-            "" -> "${if (error) "ERROR" else "WARNING"}: option ${option.longestName()} is deprecated"
-            else -> message
-        }
-        if (error) {
-            throw CliktError(msg)
-        } else if (message != null) {
-            message(msg)
-        }
-    }
-    transformAll(it)
-}
 
 @PublishedApi
 internal fun Option.longestName(): String? = names.maxByOrNull { it.length }

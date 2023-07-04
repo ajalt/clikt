@@ -1,19 +1,17 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.arguments.Argument
-import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.arguments.optional
+import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.transform.theme
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.test
 import com.github.ajalt.mordant.rendering.AnsiLevel
+import com.github.ajalt.mordant.rendering.TextColors.*
+import com.github.ajalt.mordant.rendering.Theme
 import com.github.ajalt.mordant.terminal.Terminal
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -758,12 +756,56 @@ class MordantHelpFormatterTest {
     @Test
     @JsName("multi_error")
     fun `multi error`() {
-        TestCommand().test("--foo --bar").stderr shouldBe """
-            |Usage: test [<options>]
+        c.test("--foo --bar").stderr shouldBe """
+            |Usage: prog [<options>]
             |
             |Error: no such option --foo
             |Error: no such option --bar
             |
+            """.trimMargin()
+    }
+
+    @Test
+    @Suppress("unused")
+    @JsName("theme_colors")
+    fun `theme colors`() {
+        val t = Theme {
+            styles["info"] = green
+            styles["warning"] = blue
+            styles["danger"] = yellow
+            styles["muted"] = cyan
+        }
+
+        class C: TestCommand(name="prog") {
+            override fun commandHelp(context: Context): String =
+                context.theme.danger("command help")
+
+            override fun commandHelpEpilog(context: Context): String =
+                context.theme.danger("command epilog")
+
+            val o by option("--aa", "-a")
+                .help { theme.danger("option help") }
+            val a by argument()
+                .help { theme.danger("argument help") }
+            init {
+                context {
+                    terminal = Terminal(theme = t, width = 79, ansiLevel = AnsiLevel.TRUECOLOR)
+                    helpOptionNames = emptySet()
+                }
+            }
+        }
+        C().getFormattedHelp() shouldBe """
+            |${blue("Usage:")} prog ${cyan("[<options>]")} <a>
+            |
+            |  ${yellow("command help")}
+            |
+            |${blue("Options:")}
+            |  ${green("-a")}, ${green("--aa")}=${cyan("<text>")}  ${yellow("option help")}
+            |
+            |${blue("Arguments:")}
+            |  ${green("<a>")}  ${yellow("argument help")}
+            |
+            |${yellow("command epilog")}
             """.trimMargin()
     }
 }

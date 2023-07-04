@@ -85,21 +85,43 @@ abstract class CliktCommand(
      */
     val commandName: String = name ?: inferCommandName()
 
+    @Deprecated("Use commandHelp method instead")
+    open val commandHelp: String = help
+
     /**
      * The help text for this command.
      *
      * You can set this by passing `help` to the [CliktCommand] constructor, or by overriding this
-     * property.
+     * method if you need to build the string lazily or access the terminal or context.
+     *
+     * ### Example:
+     *
+     * ```
+     * class Command: CliktCommand() {
+     *     override fun commandHelp(context: Context): String {
+     *         return context.theme.info("This is a command")
+     *     }
+     * }
+     * ```
      */
-    open val commandHelp: String = help
+    open fun commandHelp(context: Context): String {
+        @Suppress("DEPRECATION")
+        return commandHelp
+    }
+
+    @Deprecated("Use commandHelpEpilog method instead")
+    open val commandHelpEpilog: String = epilog
 
     /**
      * Help text to display at the end of the help output, after any parameters.
      *
      * You can set this by passing `epilog` to the [CliktCommand] constructor, or by overriding this
-     * property.
+     * method.
      */
-    open val commandHelpEpilog: String = epilog
+    open fun commandHelpEpilog(context: Context): String {
+        @Suppress("DEPRECATION")
+        return commandHelpEpilog
+    }
 
     internal var _subcommands: List<CliktCommand> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
@@ -151,11 +173,12 @@ abstract class CliktCommand(
             _options.mapNotNull { it.parameterHelp(currentContext) },
             _arguments.mapNotNull { it.parameterHelp(currentContext) },
             _groups.mapNotNull { it.parameterHelp(currentContext) },
-            _subcommands.mapNotNull {
-                when {
-                    it.hidden -> null
-                    else -> ParameterHelp.Subcommand(it.commandName, it.shortHelp(), it.helpTags)
-                }
+            _subcommands.mapNotNull { c ->
+                ParameterHelp.Subcommand(
+                    c.commandName,
+                    c.shortHelp(currentContext),
+                    c.helpTags
+                ).takeUnless { c.hidden }
             }
         ).flatten()
     }
@@ -197,8 +220,8 @@ abstract class CliktCommand(
     }
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
-    protected fun shortHelp(): String =
-        Regex("""\s*(?:```)?\s*(.+)""").find(commandHelp)?.groups?.get(1)?.value ?: ""
+    protected fun shortHelp(context: Context): String =
+        Regex("""\s*(?:```)?\s*(.+)""").find(commandHelp(context))?.groups?.get(1)?.value ?: ""
 
     /** The names of all direct children of this command */
     fun registeredSubcommandNames(): List<String> = _subcommands.map { it.commandName }
@@ -290,8 +313,8 @@ abstract class CliktCommand(
         val programName = cmd.getCommandNameWithParents()
         return ctx.helpFormatter(ctx).formatHelp(
             error as? UsageError,
-            cmd.commandHelp,
-            cmd.commandHelpEpilog,
+            cmd.commandHelp(ctx),
+            cmd.commandHelpEpilog(ctx),
             cmd.allHelpParams(),
             programName
         )

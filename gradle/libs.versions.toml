@@ -2,7 +2,7 @@
 kotlin = "1.8.22"
 
 [libraries]
-mordant = "com.github.ajalt.mordant:mordant:2.0.0-beta14"
+mordant = "com.github.ajalt.mordant:mordant:2.0.0"
 
 # used in tests
 kotest =  "io.kotest:kotest-assertions-core:5.6.2"

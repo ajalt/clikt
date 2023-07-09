@@ -1,4 +1,8 @@
 # Changelog
+## Unreleased
+### Added
+- Added `MordantHelpFormatter.renderAttachedOptionValue` that you can override to change how option values are shown, e.g. if you want option to show as `--option <value>` instead of `--option=<value>`. ([#416](https://github.com/ajalt/clikt/issues/416))
+
 ## 4.0.0
 ### Added
 - Added `Context.errorEncountered` which is true if parsing has continued after an error was encountered.

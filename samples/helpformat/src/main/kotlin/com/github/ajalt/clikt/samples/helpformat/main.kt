@@ -31,6 +31,9 @@ class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
     // Print metavars like INT instead of <int>
     override fun normalizeParameter(name: String): String = name.uppercase()
 
+    // Print option values like `--option VALUE instead of `--option=VALUE`
+    override fun renderAttachedOptionValue(metavar: String): String = " $metavar"
+
     // Put each parameter section in its own panel
     override fun renderParameters(
         parameters: List<HelpFormatter.ParameterHelp>,

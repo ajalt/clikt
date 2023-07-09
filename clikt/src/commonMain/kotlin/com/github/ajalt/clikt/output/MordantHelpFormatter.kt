@@ -312,6 +312,7 @@ open class MordantHelpFormatter(
 
     protected open fun renderOptionalMetavar(metavar: String): String = "[$metavar]"
     protected open fun renderRepeatedMetavar(metavar: String): String = "$metavar..."
+    protected open fun renderAttachedOptionValue(metavar: String) = "=$metavar"
 
     protected open fun renderOptionValue(option: ParameterHelp.Option): String {
         if (option.metavar == null) return ""
@@ -319,10 +320,11 @@ open class MordantHelpFormatter(
         if ('|' !in metavar) metavar = normalizeParameter(metavar)
         metavar = styleMetavar(metavar)
         if (option.nvalues.last > 1) metavar = renderRepeatedMetavar(metavar)
-        metavar = "=$metavar"
+        metavar = renderAttachedOptionValue(metavar)
         if (option.nvalues.first == 0) metavar = renderOptionalMetavar(metavar)
         return metavar
     }
+
 
     protected open fun renderDefinitionTerm(row: DefinitionRow): Widget {
         val termPrefix = when {

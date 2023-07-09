@@ -1,12 +1,12 @@
+@file:OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
+
 package com.github.ajalt.clikt.mpp
 
-import kotlinx.cinterop.ByteVar
-import kotlinx.cinterop.allocArray
-import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.toKString
+import kotlinx.cinterop.*
 import platform.posix.fclose
 import platform.posix.fgets
 import platform.posix.fopen
+import kotlin.experimental.ExperimentalNativeApi
 import kotlin.system.exitProcess
 
 private val LETTER_OR_DIGIT_RE = Regex("""[a-zA-Z0-9]""")

@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.mpp.isWindowsMpp
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.mpp.readFileIfExists
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.MemScope
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.toKString

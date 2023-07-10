@@ -56,8 +56,18 @@ class PrintHelpMessage(
  * Execution should be immediately halted.
  */
 open class PrintMessage(
+    /** The message to print */
     message: String,
-    statusCode: Int = 1,
+    /**
+     * The value to use as the exit code for the process.
+     *
+     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * [message]. Defaults to 0.
+     */
+    statusCode: Int = 0,
+    /**
+     * If true, the error message should be printed to stderr.
+     */
     printError: Boolean = false,
 ) : CliktError(message, statusCode = statusCode, printError = printError)
 
@@ -76,7 +86,7 @@ class Abort : ProgramResult(statusCode = 1)
  *
  * Execution should be immediately halted without an error.
  */
-class PrintCompletionMessage(message: String) : PrintMessage(message)
+class PrintCompletionMessage(message: String) : PrintMessage(message, statusCode = 0)
 
 /** An exception that signals a user error. */
 open class UsageError(

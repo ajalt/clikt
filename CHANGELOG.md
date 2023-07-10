@@ -7,6 +7,7 @@
 
 ### Changed
 - Updated Kotlin to 1.9.0
+- `PrintMessage` and `PrintCompletionMessage` now default to exiting with a status code 0, which is the behavior they had in 3.x. ([#419](https://github.com/ajalt/clikt/issues/419))
 
 ## 4.0.0
 ### Added

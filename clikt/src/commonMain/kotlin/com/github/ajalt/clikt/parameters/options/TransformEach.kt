@@ -114,6 +114,8 @@ fun <ValueT> NullableOption<ValueT, ValueT>.varargValues(
  * To avoid ambiguity when combined with [arguments][argument], you can set [acceptsUnattachedValue]
  * to `false` to require that the option's value be specified like `--foo=bar` rather than `--foo bar`.
  *
+ * You can use [optionalValueLazy] if you need to reference other parameters.
+ *
  * ## Example
  *
  * ```
@@ -135,5 +137,41 @@ fun <ValueT : Any> NullableOption<ValueT, ValueT>.optionalValue(
 ): NullableOption<ValueT, ValueT> {
     return transformValues(0..1) {
         it.firstOrNull() ?: default
+    }.copy(acceptsUnattachedValue = acceptsUnattachedValue)
+}
+
+
+/**
+ * Allow this option to be specified with or without an explicit value.
+ *
+ * If the option is specified on the command line without a value, [default] will be called and its
+ * return value can be used.
+ *
+ * To avoid ambiguity when combined with [arguments][argument], you can set [acceptsUnattachedValue]
+ * to `false` to require that the option's value be specified like `--foo=bar` rather than `--foo bar`.
+ *
+ * You can use [optionalValue] if you don't need to reference other parameters.
+ *
+ * ## Example
+ *
+ * ```
+ * val log by option().optionalValueLazy{"verbose"}.default("none")
+ *
+ * > ./tool --log=debug
+ * log level == debug
+ *
+ * > ./tool --log
+ * log level == verbose
+ *
+ * > ./tool
+ * log level == none
+ * ```
+ */
+fun <ValueT : Any> NullableOption<ValueT, ValueT>.optionalValueLazy(
+    acceptsUnattachedValue: Boolean = true,
+    default: () -> ValueT,
+): NullableOption<ValueT, ValueT> {
+    return transformValues(0..1) {
+        it.firstOrNull() ?: default()
     }.copy(acceptsUnattachedValue = acceptsUnattachedValue)
 }

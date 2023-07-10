@@ -217,7 +217,8 @@ variables](#values-from-environment-variables).
 
 ### Options with an Optional Value
 
-You can create options that take zero or one values with [`optionalValue`][optionalValue].
+You can create options that take zero or one values with [`optionalValue`][optionalValue] or
+[`optionalValueLazy`][optionalValueLazy].
 
 === "Example"
     ```kotlin
@@ -1244,6 +1245,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [mutuallyExclusiveOptions]:    api/clikt/com.github.ajalt.clikt.parameters.groups/mutually-exclusive-options.html
 [option]:                      api/clikt/com.github.ajalt.clikt.parameters.options/option.html
 [optionalValue]:               api/clikt/com.github.ajalt.clikt.parameters.options/optional-value.html
+[optionalValueLazy]:           api/clikt/com.github.ajalt.clikt.parameters.options/optional-value-lazy.html
 [pair]:                        api/clikt/com.github.ajalt.clikt.parameters.options/pair.html
 [parameter-types]:             parameters.md#parameter-types
 [PrintMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-message/index.html

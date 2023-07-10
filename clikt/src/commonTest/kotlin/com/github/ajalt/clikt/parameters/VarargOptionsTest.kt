@@ -4,10 +4,7 @@ import com.github.ajalt.clikt.core.MissingArgument
 import com.github.ajalt.clikt.core.NoSuchOption
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.options.optionalValue
-import com.github.ajalt.clikt.parameters.options.varargValues
+import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
@@ -50,6 +47,18 @@ class VarargOptionsTest {
             }
         }
         C().parse(argv)
+    }
+
+    @Test
+    fun optionalValueLazy() {
+        class C : TestCommand() {
+            val o by option().int().default(1)
+            val p by option().int().optionalValueLazy { o }
+            override fun run_() {
+                p shouldBe 2
+            }
+        }
+        C().parse("--o=2 --p")
     }
 
     @Test

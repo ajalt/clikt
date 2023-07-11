@@ -19,10 +19,11 @@ import kotlin.test.assertEquals
 abstract class CompletionTestBase(private val shell: String) {
 
     private fun doTest(expected: String, command: TestCommand) {
-        val message = shouldThrow<PrintCompletionMessage> {
+        val exception = shouldThrow<PrintCompletionMessage> {
             command.parse("--generate-completion=$shell")
-        }.message
-        assertEquals(expected.trimMargin(), message)
+        }
+        assertEquals(expected.trimMargin(), exception.message)
+        assertEquals(exception.statusCode, 0)
     }
 
     @JsName("custom_completions_expected")

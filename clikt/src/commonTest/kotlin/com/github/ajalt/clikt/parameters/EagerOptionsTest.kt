@@ -124,9 +124,11 @@ class EagerOptionsTest {
             }
         }
 
-        shouldThrow<PrintMessage> {
+        val exception = shouldThrow<PrintMessage> {
             C().parse("--version")
-        }.formattedMessage shouldBe "prog version 1.2.3"
+        }
+        exception.formattedMessage shouldBe "prog version 1.2.3"
+        exception.statusCode shouldBe 0
     }
 
     @Test

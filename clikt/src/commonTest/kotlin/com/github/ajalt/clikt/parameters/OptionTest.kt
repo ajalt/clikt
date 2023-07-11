@@ -41,9 +41,11 @@ class OptionTest {
             val fob by option(hidden = true)
         }
 
-        shouldThrow<NoSuchOption> {
+        val exception = shouldThrow<NoSuchOption> {
             C().parse(argv)
-        }.formattedMessage shouldBe message
+        }
+        exception.formattedMessage shouldBe message
+        exception.statusCode shouldBe 1
     }
 
     @Test

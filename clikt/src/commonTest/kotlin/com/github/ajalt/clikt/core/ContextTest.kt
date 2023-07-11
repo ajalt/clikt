@@ -91,7 +91,9 @@ class ContextTest {
     fun `default help option names`() {
         class C : TestCommand()
 
-        shouldThrow<PrintHelpMessage> { C().parse("--help") }
+        shouldThrow<PrintHelpMessage> {
+            C().parse("--help")
+        }.statusCode shouldBe 0
         shouldThrow<PrintHelpMessage> { C().parse("-h") }
         shouldThrow<PrintHelpMessage> {
             C().context { helpOptionNames = setOf("-x") }.parse("-x")

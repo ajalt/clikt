@@ -48,7 +48,14 @@ class PrintHelpMessage(
      * If true, the error message should be printed to stderr.
      */
     val error: Boolean = false,
-) : CliktError(printError = false), ContextCliktError
+    /**
+     * The value to use as the exit code for the process.
+     *
+     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * [message]. Defaults to 0.
+     */
+    statusCode: Int = 0,
+) : CliktError(printError = false, statusCode = statusCode), ContextCliktError
 
 /**
  * An exception that indicates that a message should be printed.

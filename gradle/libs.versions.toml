@@ -2,7 +2,7 @@
 kotlin = "1.9.0"
 
 [libraries]
-mordant = "com.github.ajalt.mordant:mordant:2.0.0"
+mordant = "com.github.ajalt.mordant:mordant:2.0.1"
 
 # used in tests
 kotest =  "io.kotest:kotest-assertions-core:5.6.2"
@@ -15,4 +15,4 @@ kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 
 [plugins]
 dokka = "org.jetbrains.dokka:1.8.20"
-publish = "com.vanniktech.maven.publish:0.25.2"
+publish = "com.vanniktech.maven.publish:0.25.3"

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.1.0
 ### Added
 - Added `MordantHelpFormatter.renderAttachedOptionValue` that you can override to change how option values are shown, e.g. if you want option to show as `--option <value>` instead of `--option=<value>`. ([#416](https://github.com/ajalt/clikt/issues/416))
 - Added `option().optionalValueLazy{}`, which work like `optionalValue()` but the default value is computed lazily. ([#381](https://github.com/ajalt/clikt/issues/381))

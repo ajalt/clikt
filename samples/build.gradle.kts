@@ -7,10 +7,4 @@ subprojects {
     dependencies {
         "implementation"(project(":clikt"))
     }
-
-    tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-        }
-    }
 }

@@ -43,13 +43,15 @@ internal fun finalizeOptions(
     for (o in retries) {
         try {
             o.finalize(context, emptyList())
+        } catch (e: IllegalStateException) {
+            // If we had an earlier usage error, throw that instead of the ISE
+            MultiUsageError.buildOrNull(errors)?.let { throw it }
+            throw e
         } catch (e: UsageError) {
             errors += e
             context.errorEncountered = true
         }
     }
 
-    MultiUsageError.buildOrNull(errors)?.let {
-        throw it
-    }
+    MultiUsageError.buildOrNull(errors)?.let { throw it }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fixed incorrect error message when a `defaultLazy` option referenced a `required` option. ([#430](https://github.com/ajalt/clikt/issues/430))
+
 ## 4.1.0
 ### Added
 - Added `MordantHelpFormatter.renderAttachedOptionValue` that you can override to change how option values are shown, e.g. if you want option to show as `--option <value>` instead of `--option=<value>`. ([#416](https://github.com/ajalt/clikt/issues/416))

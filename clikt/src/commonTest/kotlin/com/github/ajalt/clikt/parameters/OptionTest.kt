@@ -427,6 +427,20 @@ class OptionTest {
         C().parse("")
     }
 
+
+    @Test
+    @JsName("defaultLazy_option_referencing_required_option")
+    fun `defaultLazy option referencing required option`() {
+        class C : TestCommand(called = false) {
+            val y by option().defaultLazy { x }
+            val x by option().required()
+        }
+
+        shouldThrow<MissingOption> {
+            C().parse("")
+        }.formattedMessage shouldBe "missing option --x"
+    }
+
     @Test
     @JsName("defaultLazy_option_referencing_argument")
     fun `defaultLazy option referencing argument`() {

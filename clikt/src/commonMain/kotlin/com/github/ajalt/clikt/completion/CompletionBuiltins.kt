@@ -1,13 +1,10 @@
 package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.StaticallyGroupedOption
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.choice
-import com.github.ajalt.clikt.parsers.Invocation
 
 private val choices = arrayOf("bash", "zsh", "fish")
 

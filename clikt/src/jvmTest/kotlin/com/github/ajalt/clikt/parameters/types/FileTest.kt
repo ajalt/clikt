@@ -14,7 +14,7 @@ class FileTypeTest {
         class C : TestCommand() {
             val x by option("-x", "--xx").file()
             override fun run_() {
-                x!!.shouldBeInstanceOf<File>()
+                x.shouldBeInstanceOf<File>()
             }
         }
 

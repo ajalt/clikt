@@ -122,7 +122,7 @@ internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<Str
 internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: String?): String? {
     if (envvar != null) return envvar
     if (names.isEmpty() || autoEnvvarPrefix == null) return null
-    val name = splitOptionPrefix(names.maxByOrNull { it.length }!!).second
+    val name = splitOptionPrefix(names.maxBy { it.length }).second
     if (name.isEmpty()) return null
     return autoEnvvarPrefix + "_" + name.replace(Regex("\\W"), "_").uppercase()
 }

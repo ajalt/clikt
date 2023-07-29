@@ -15,7 +15,7 @@ Clikt has:
  * arbitrary nesting of commands
  * composable, type safe parameter values
  * generation of help output and shell autocomplete scripts
- * multiplatform packages for JVM, NodeJS, and native Linux, Windows and MacOS 
+ * multiplatform packages for JVM, Node.js, and native Linux, Windows and macOS 
 
 What does it look like? Here's a complete example of a simple Clikt program:
 
@@ -69,10 +69,10 @@ dependencies {
 
 #### Multiplatform
 
-Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for both NodeJS and
-Browsers). Artifacts for macosArm64 are also published, but not tested with CI.
-[See the docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) for more information about functionality
-supported on each target. You'll need to use Gradle 6 or newer.
+Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for both
+Node.js and Browsers). Artifacts for macosArm64 are also published, but not tested with CI. [See the
+docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) for more information about
+functionality supported on each target. You'll need to use Gradle 6 or newer.
 
 #### Snapshots
 

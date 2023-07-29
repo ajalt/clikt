@@ -54,7 +54,7 @@ Both options and arguments can convert the String that the user inputs
 to other types.
 
 Types work by transforming the return value of the property delegate. By
-default parameters have a string type:
+default, parameters have a string type:
 
 ```kotlin
 val opt: String? by option(help="an option")
@@ -71,7 +71,7 @@ val arg: Int by argument(help="an argument").int()
 
 ## Built-In Types
 
-There are a number of built in types that can be applied to options and
+There are a number of built-in types that can be applied to options and
 arguments.
 
 ### Int and Long

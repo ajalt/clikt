@@ -62,8 +62,9 @@ envvars as well, pass `includeSystemEnvvars=true` to `test`.
 
 ## Testing Prompt Options
 
-If you use [`prompt`][prompt] options, you can use the `stdin` parameter of `test` to pass a string containg all the
-lines of input. If you have multiple prompts, each input should be separated by `\n`.
+If you use [`prompt`][prompt] options, you can use the `stdin` parameter of `test` to pass a string
+containing all the lines of input. If you have multiple prompts, each input should be separated by
+`\n`.
 
 === "Test"
     ```kotlin
@@ -104,6 +105,7 @@ To capture output, [override the command's console][replacing-stdin].
 [main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
 [override-envvar]:     options.md#overriding-system-environment-variables
 [parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
+[prompt]:              options.md#prompting-for-input
 [replacing-stdin]:     advanced.md#replacing-stdin-and-stdout
 [test-result]:         api/clikt/com.github.ajalt.clikt.testing/-clikt-command-test-result/index.html
 [test]:                api/clikt/com.github.ajalt.clikt.testing/test.html

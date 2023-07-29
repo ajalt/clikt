@@ -21,6 +21,7 @@ import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName
 import kotlin.test.Test
 
+@Suppress("BooleanLiteralArgument")
 class SubcommandTest {
     @Test
     fun subcommand() = forAll(

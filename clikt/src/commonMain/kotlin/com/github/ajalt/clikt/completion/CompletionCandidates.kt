@@ -11,16 +11,16 @@ annotation class ExperimentalCompletionCandidates
  */
 sealed class CompletionCandidates {
     /** Do not autocomplete this parameter */
-    object None : CompletionCandidates()
+    data object None : CompletionCandidates()
 
     /** Complete with filesystem paths */
-    object Path : CompletionCandidates()
+    data object Path : CompletionCandidates()
 
     /** Complete with entries in the system's hostfile */
-    object Hostname : CompletionCandidates()
+    data object Hostname : CompletionCandidates()
 
     /** Complete with usernames from the current system */
-    object Username : CompletionCandidates()
+    data object Username : CompletionCandidates()
 
     /** Complete the parameter with a fixed set of strings */
     data class Fixed(val candidates: Set<String>) : CompletionCandidates() {

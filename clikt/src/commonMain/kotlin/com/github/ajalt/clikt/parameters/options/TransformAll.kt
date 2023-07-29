@@ -194,7 +194,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
     promptSuffix: String = ": ",
     showDefault: Boolean = true,
     requireConfirmation: Boolean = false,
-    confirmationPrompt: String = "Repeat for confirmation: ",
+    confirmationPrompt: String = "Repeat for confirmation",
     confirmationMismatchMessage: String = "Values do not match, try again",
 ): OptionWithValues<T, T, T> = transformAll { invocations ->
     val promptText = text ?: longestName()?.let { splitOptionPrefix(it).second }

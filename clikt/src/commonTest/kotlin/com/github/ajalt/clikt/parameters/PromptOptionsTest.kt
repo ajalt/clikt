@@ -16,6 +16,7 @@ import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName
 import kotlin.test.Test
 
+@Suppress("unused")
 class PromptOptionsTest {
     @Test
     @JsName("command_prompt")

@@ -29,7 +29,7 @@ internal actual fun readFileIfExists(filename: String): String? {
 
             while (true) {
                 val chunk = fgets(buffer, bufferLength, file)?.toKString()
-                if (chunk == null || chunk.isEmpty()) break
+                if (chunk.isNullOrEmpty()) break
                 chunks.append(chunk)
             }
         }

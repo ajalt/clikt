@@ -365,7 +365,7 @@ advantages:
 
 Clikt supports the following platforms in addition to JVM:
 
-### Desktop native (Linux, Windows, and MacOS)
+### Desktop native (Linux, Windows, and macOS)
 
 All functionality is supported, except:
 

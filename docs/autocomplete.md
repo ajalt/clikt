@@ -24,7 +24,7 @@ the script once each time your CLI changes, and load it each time your start you
 You can generate the completion script by invoking your program with a special environment variable.
 
 You can set the variable name manually with the `autoCompleteEnvvar` parameter in the
-[`CliktCommand` constructor][CliktCommand]. By default it's your command's name capitalized,
+[`CliktCommand` constructor][CliktCommand]. By default, it's your command's name capitalized,
 with `-` replaced with `_`, and prefixed with another `_`.
 So if your command name is `my-command`, the variable would be `_MY_COMMAND_COMPLETE=bash`,
  `_MY_COMMAND_COMPLETE=zsh`, or `_MY_COMMAND_COMPLETE=fish`, depending on your current shell.
@@ -211,7 +211,7 @@ Bash must be at least version 3, or Zsh must be at least version 4.1.
 [CliktCommand]:          api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
 [command-aliases]:       advanced.md#command-aliases
 [file]:                  api/clikt/com.github.ajalt.clikt.parameters.types/file.html
-[fromStdout]:            api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/from-stdout/
+[fromStdout]:            api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/-companion/from-stdout.html
 [option]:                api/clikt/com.github.ajalt.clikt.parameters.options/option.html
 [path]:                  api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [token-normalization]:   advanced.md#token-normalization

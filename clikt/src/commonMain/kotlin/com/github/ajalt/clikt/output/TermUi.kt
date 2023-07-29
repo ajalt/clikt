@@ -34,6 +34,7 @@ object TermUi {
      *
      * @see editText for usage and parameter descriptions.
      */
+    @Suppress("unused")
     fun editFile(
         filename: String,
         editor: String? = null,

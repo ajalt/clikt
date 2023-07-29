@@ -118,11 +118,11 @@ The Clikt version is of course much simpler, but there are more
 fundamental issues with the `kotlin-argparser` version that drove the
 creation of Clikt:
 
-* Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all of the code for each type. With Clikt, you could just do `option().int().transformValues(2) { it[0] to it[1] }`
+* Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all the code for each type. With Clikt, you could just do `option().int().transformValues(2) { it[0] to it[1] }`
 * Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial number of copies of the above code. With Clikt, these are all orthogonal.
 * You have to do all error checking yourself. The `argparser` example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.
 * Option name inference is not automatic, requiring you to wrap the delegate with yet another function.
-* Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with [`option()`][option], and all arguments with [`argument()`][argument].
+* Each delegate function has a different name, with no indication of whether it's creating an option or positional argument. With Clikt, all options are created with [`option()`][option], and all arguments with [`argument()`][argument].
 
 Some of these problems can be solved by writing more code, and some
 can't. On the other hand, Clikt attempts to have a consistent, intuitive,

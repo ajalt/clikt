@@ -45,7 +45,7 @@ interface ValueSource {
          * @param joinSubcommands If null, keys will not include names of subcommands. If given,
          *   this string be used will join subcommand names to the beginning of keys. For options
          *   that are in a root command, this has no effect. For option in subcommands, the
-         *   subcommand name will joined. The root command name is never included.
+         *   subcommand name will be joined. The root command name is never included.
          * @param uppercase If true, returned keys will be entirely uppercase.
          * @param replaceDashes `-` characters in option names will be replaced with this character.
          */

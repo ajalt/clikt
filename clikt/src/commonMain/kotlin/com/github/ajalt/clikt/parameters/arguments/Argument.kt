@@ -271,7 +271,7 @@ internal fun <T> defaultValidator(): ArgValidator<T> = {}
  * @param help The description of this argument for help output.
  * @param helpTags Extra information about this option to pass to the help formatter
  */
-@Suppress("unused")
+@Suppress("UnusedReceiverParameter")
 fun CliktCommand.argument(
     name: String = "",
     help: String = "",

@@ -70,7 +70,7 @@ typealias ValueConverter<InT, ValueT> = OptionCallTransformContext.(InT) -> Valu
 typealias ValuesTransformer<ValueT, EachT> = OptionCallTransformContext.(List<ValueT>) -> EachT
 
 /**
- * A callback that transforms all of the calls to the final option type.
+ * A callback that transforms all the calls to the final option type.
  *
  * The input list will have a size equal to the number of times the option appears on the command line.
  */

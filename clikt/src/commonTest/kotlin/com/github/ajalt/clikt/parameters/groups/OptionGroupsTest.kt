@@ -1,4 +1,4 @@
-@file:Suppress("UnusedImport")
+@file:Suppress("UnusedImport", "unused")
 
 package com.github.ajalt.clikt.parameters.groups
 
@@ -610,6 +610,6 @@ private class Group6 : OptionGroup() {
 }
 
 private sealed class Sealed {
-    object Sealed1 : Sealed()
-    object Sealed2 : Sealed()
+    data object Sealed1 : Sealed()
+    data object Sealed2 : Sealed()
 }

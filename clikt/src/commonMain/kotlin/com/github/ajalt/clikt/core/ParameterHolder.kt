@@ -11,7 +11,7 @@ interface ParameterHolder {
     /**
      * Register an option with this command or group.
      *
-     * This is called automatically for the built in options, but you need to call this if you want to add a
+     * This is called automatically for the built-in options, but you need to call this if you want to add a
      * custom option.
      */
     fun registerOption(option: GroupableOption)

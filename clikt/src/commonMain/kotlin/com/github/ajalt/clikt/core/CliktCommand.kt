@@ -249,7 +249,7 @@ abstract class CliktCommand(
     /**
      * Register an option with this command.
      *
-     * This is called automatically for the built in options, but you need to call this if you want to add a
+     * This is called automatically for the built-in options, but you need to call this if you want to add a
      * custom option.
      */
     fun registerOption(option: Option) {
@@ -270,7 +270,7 @@ abstract class CliktCommand(
     /**
      * Register an argument with this command.
      *
-     * This is called automatically for the built in arguments, but you need to call this if you want to add a
+     * This is called automatically for the built-in arguments, but you need to call this if you want to add a
      * custom argument.
      */
     fun registerArgument(argument: Argument) {

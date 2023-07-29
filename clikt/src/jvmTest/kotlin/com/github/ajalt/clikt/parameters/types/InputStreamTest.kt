@@ -18,7 +18,6 @@ import kotlin.test.Test
 
 
 @Suppress("unused")
-@OptIn(ExperimentalStdlibApi::class)
 class InputStreamTest {
     @get:Rule
     val stdin: TextFromStandardInputStream = emptyStandardInputStream()

@@ -105,7 +105,7 @@ independently:
 
 Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
-can be used with all of the existing functions without any repeated
+can be used with all the existing functions without any repeated
 code.
 
 ## Default Values
@@ -596,7 +596,7 @@ you can make an option group [`cooccurring`][cooccurring].
 Co-occurring groups must have at least one
 [`required`][required] option, and may also
 have non-required options. The `required` constraint is enforced if any of the options in the group
-are given on the command line. If none if the options are given, the value of the group is null.
+are given on the command line. If none of the options are given, the value of the group is null.
 
 === "Example"
     ```kotlin
@@ -786,7 +786,7 @@ The default prompt string is based on the option name, but
 
 ## Password Prompts
 
-You can also create a option that uses a hidden prompt and asks for
+You can also create an option that uses a hidden prompt and asks for
 confirmation. This combination of behavior is commonly used for
 passwords.
 
@@ -1026,7 +1026,7 @@ You can enable automatic envvar name inference by setting the `autoEnvvarPrefix`
 [`context`][context]. This will cause all options without
 an explicit envvar name to be given an uppercase underscore-separated envvar name. Since the prefix
 is set on the [`context`][context], it is propagated to
-subcommands. If you have a a subcommand called `foo` with an option `--bar`, and your prefix is
+subcommands. If you have a subcommand called `foo` with an option `--bar`, and your prefix is
 `MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
 
 === "Example"

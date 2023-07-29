@@ -1,6 +1,12 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `CliktCommand.terminal` extension for accessing the terminal from a command.
+
+### Deprecated
+- Deprecated `CliktCommand.prompt`, use `CliktCommand.terminal.prompt` instead.
+
 ### Fixed
 - Fixed incorrect error message when a `defaultLazy` option referenced a `required` option. ([#430](https://github.com/ajalt/clikt/issues/430))
 

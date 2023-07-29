@@ -804,7 +804,6 @@ passwords.
     ```text
     $ ./login
     Password:
-    Repeat for confirmation:
     Your hidden password: hunter2
     ```
 

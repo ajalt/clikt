@@ -1,65 +1,48 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.clikt.parameters.options.check
-import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.options.nullableFlag
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.transform.theme
+import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
-import com.github.ajalt.clikt.testing.formattedMessage
-import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.test
 import com.github.ajalt.mordant.terminal.ConversionResult
-import io.kotest.assertions.throwables.shouldThrow
+import com.github.ajalt.mordant.terminal.YesNoPrompt
 import io.kotest.matchers.shouldBe
-import org.junit.Rule
-import org.junit.contrib.java.lang.system.SystemOutRule
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream
+import io.kotest.matchers.string.shouldContain
+import kotlin.js.JsName
 import kotlin.test.Test
 
 class PromptOptionsTest {
-    @Rule
-    @JvmField
-    val stdout: SystemOutRule = SystemOutRule().enableLog().muteForSuccessfulTests()
-
-    @Rule
-    @JvmField
-    val stdin: TextFromStandardInputStream = TextFromStandardInputStream.emptyStandardInputStream()
-
     @Test
+    @JsName("command_prompt")
     fun `command prompt`() {
-        stdin.provideLines("bar", "1")
-
         class C : TestCommand() {
             override fun run_() {
                 terminal.prompt("Foo") shouldBe "bar"
                 terminal.prompt("Baz") { ConversionResult.Valid(it.toInt()) } shouldBe 1
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Baz: "
+        C().test("", stdin="bar\n1").output shouldBe "Foo: Baz: "
     }
 
     @Test
+    @JsName("command_confirm")
     fun `command confirm`() {
-        stdin.provideLines("y")
-
         class C : TestCommand() {
             override fun run_() {
-                confirm("Foo", default = false) shouldBe true
+                YesNoPrompt("Foo", terminal, default = false).ask() shouldBe true
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo [y/N]: "
+        C().test("", stdin="y").output shouldBe "Foo [y/N]: "
     }
 
     @Test
+    @JsName("prompt_option")
     fun `prompt option`() {
-        stdin.provideLines("foo", "bar")
-
         class C : TestCommand() {
             val foo by option().prompt()
             val bar by option().prompt()
@@ -68,27 +51,37 @@ class PromptOptionsTest {
                 bar shouldBe "bar"
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
+        C().test("", stdin="foo\nbar").output shouldBe "Foo: Bar: "
     }
 
     @Test
+    @JsName("prompt_option_after_error")
     fun `prompt option after error`() {
         class C : TestCommand(false) {
             val foo by option().int()
             val bar by option().prompt()
         }
-        shouldThrow<BadParameterValue> {
-            C().parse("--foo=x")
-        }.formattedMessage shouldBe "invalid value for --foo: x is not a valid integer"
-        stdout.logWithNormalizedLineSeparator shouldBe ""
+
+        val result = C().test("--foo=x")
+        result.stdout shouldBe ""
+        result.stderr shouldContain "invalid value for --foo: x is not a valid integer"
     }
 
+    @Test
+    @JsName("prompt_option_requireConfirmation")
+    fun `prompt option requireConfirmation`() {
+        class C : TestCommand() {
+            val foo by option().prompt(requireConfirmation = true)
+            override fun run_() {
+                foo shouldBe "foo"
+            }
+        }
+        C().test("", stdin="foo\nfoo").output shouldBe "Foo: Repeat for confirmation: "
+    }
 
     @Test
+    @JsName("prompt_flag")
     fun `prompt flag`() {
-        stdin.provideLines("yes", "f")
-
         class C : TestCommand() {
             val foo by option().nullableFlag().prompt()
             val bar by option().nullableFlag().prompt()
@@ -99,27 +92,24 @@ class PromptOptionsTest {
                 baz shouldBe null
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: "
+        C().test("", stdin="yes\nf").output shouldBe "Foo: Bar: "
     }
 
     @Test
+    @JsName("prompt_option_validate")
     fun `prompt option validate`() {
-        stdin.provideLines("f", "foo")
-
         class C : TestCommand() {
             val foo by option().prompt().check { it.length > 1 }
             override fun run_() {
                 foo shouldBe "foo"
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: invalid value for --foo: f\nFoo: "
+        C().test("", stdin="f\nfoo").output shouldBe "Foo: invalid value for --foo: f\nFoo: "
     }
 
-
     @Test
-    fun `custom console`() {
+    @JsName("custom_console_inherited_by_subcommand")
+    fun `custom console inherited by subcommand`() {
         class C : TestCommand() {
             val foo by option().prompt()
             override fun run_() {
@@ -127,43 +117,25 @@ class PromptOptionsTest {
             }
         }
 
-        val r = C().test("", stdin = "bar")
+        val r = TestCommand().subcommands(C()).test("c", stdin = "bar")
         r.output shouldBe "Foo: "
     }
 
     @Test
-    fun `custom console inherited by subcommand`() {
-        class C : TestCommand()
-
-        class S : TestCommand() {
-            val foo by option().prompt()
-            override fun run_() {
-                foo shouldBe "bar"
-            }
-        }
-
-        val r = C().subcommands(S()).test("s", stdin = "bar")
-        r.output shouldBe "Foo: "
-    }
-
-    @Test
+    @JsName("custom_name")
     fun `custom name`() {
-        stdin.provideLines("foo")
-
         class C : TestCommand() {
             val foo by option().prompt("INPUT")
             override fun run_() {
                 foo shouldBe "foo"
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "INPUT: "
+        C().test("", stdin="foo").output shouldBe "INPUT: "
     }
 
     @Test
+    @JsName("inferred_names")
     fun `inferred names`() {
-        stdin.provideLines("foo", "bar", "baz")
-
         class C : TestCommand() {
             val foo by option().prompt()
             val bar by option("/bar").prompt()
@@ -174,14 +146,12 @@ class PromptOptionsTest {
                 baz shouldBe "baz"
             }
         }
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo: Bar: Some thing: "
+        C().test("", stdin="foo\nbar\nbaz").output shouldBe "Foo: Bar: Some thing: "
     }
 
     @Test
-    fun default() {
-        stdin.provideLines("bar")
-
+    @JsName("prompt_default")
+    fun `prompt default`() {
         class C : TestCommand() {
             val foo by option().prompt(default = "baz")
             override fun run_() {
@@ -189,14 +159,12 @@ class PromptOptionsTest {
             }
         }
 
-        C().parse("")
-        stdout.logWithNormalizedLineSeparator shouldBe "Foo (baz): "
+        C().test("", stdin="bar").output shouldBe "Foo (baz): "
     }
 
     @Test
-    fun `default no stdin`() {
-        stdin.provideLines("")
-
+    @JsName("prompt_default_no_stdin")
+    fun `prompt default no stdin`() {
         class C : TestCommand() {
             val foo by option().prompt(default = "baz")
             override fun run_() {
@@ -204,6 +172,6 @@ class PromptOptionsTest {
             }
         }
 
-        C().parse("")
+        C().test("").output shouldBe "Foo (baz): "
     }
 }

@@ -24,20 +24,60 @@ data class CliktCommandTestResult(
     val statusCode: Int,
 )
 
+/**
+ * Test this command, returning a result that captures the output and result status code.
+ *
+ * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed with [print] or
+ * [println] is not.
+ *
+ * @param argv The command line to send to the command
+ * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
+ * @param envvars A map of environment variable name to value for envvars that can be read by the command
+ * @param includeSystemEnvvars Set to true to include the environment variables from the system in addition to those
+ *   defined in [envvars]
+ * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
+ * @param width The width of the terminal, used to wrap text
+ * @param height The height of the terminal
+ */
 fun CliktCommand.test(
     argv: String,
     stdin: String = "",
     envvars: Map<String, String> = emptyMap(),
+    includeSystemEnvvars: Boolean = false,
+    ansiLevel: AnsiLevel = AnsiLevel.NONE,
+    width: Int = 79,
+    height: Int = 24,
 ): CliktCommandTestResult {
-    return test(shlex("test", argv, null), stdin, envvars)
+    val argvArray = shlex("test", argv, null)
+    return test(argvArray, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
 }
 
 
+/**
+ * Test this command, returning a result that captures the output and result status code.
+ *
+ * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed with [print] or
+ * [println] is not.
+ *
+ * @param argv The command line to send to the command
+ * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
+ * @param envvars A map of environment variable name to value for envvars that can be read by the command
+ * @param includeSystemEnvvars Set to true to include the environment variables from the system in addition to those
+ *   defined in [envvars]
+ * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
+ * @param width The width of the terminal, used to wrap text
+ * @param height The height of the terminal
+ */
 fun CliktCommand.test(
     argv: List<String>,
     stdin: String = "",
     envvars: Map<String, String> = emptyMap(),
-): CliktCommandTestResult = test(argv.toTypedArray(), stdin, envvars)
+    includeSystemEnvvars: Boolean = false,
+    ansiLevel: AnsiLevel = AnsiLevel.NONE,
+    width: Int = 79,
+    height: Int = 24,
+): CliktCommandTestResult =
+    test(argv.toTypedArray(), stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
 
 /**
  * Test this command, returning a result that captures the output and result status code.
@@ -64,11 +104,11 @@ fun CliktCommand.test(
     height: Int = 24,
 ): CliktCommandTestResult {
     var exitCode = 0
-    val iface = TerminalRecorder(ansiLevel, width, height)
-    iface.inputLines = stdin.split("\n").toMutableList()
+    val recorder = TerminalRecorder(ansiLevel, width, height)
+    recorder.inputLines = stdin.split("\n").toMutableList()
     context {
         envvarReader = { envvars[it] ?: (if (includeSystemEnvvars) readEnvvar(it) else null) }
-        terminal = Terminal(terminal.theme, terminal.tabWidth, iface)
+        terminal = Terminal(terminal.theme, terminal.tabWidth, recorder)
     }
 
     try {
@@ -77,5 +117,5 @@ fun CliktCommand.test(
         echoFormattedHelp(e)
         exitCode = e.statusCode
     }
-    return CliktCommandTestResult(iface.stdout(), iface.stderr(), iface.output(), exitCode)
+    return CliktCommandTestResult(recorder.stdout(), recorder.stderr(), recorder.output(), exitCode)
 }

@@ -299,7 +299,7 @@ internal object Parser {
                 command.currentContext.invokedSubcommand = subcommand
                 if (command.currentContext.printExtraMessages) {
                     for (warning in command.messages) {
-                        command.currentContext.terminal.warning(warning, stderr = true)
+                        command.terminal.warning(warning, stderr = true)
                     }
                 }
 

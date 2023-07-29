@@ -1,7 +1,12 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.core.terminal
+import com.github.ajalt.clikt.parameters.options.check
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.transform.theme
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
@@ -30,8 +35,8 @@ class PromptOptionsTest {
 
         class C : TestCommand() {
             override fun run_() {
-                prompt("Foo") shouldBe "bar"
-                prompt("Baz") { ConversionResult.Valid(it.toInt()) } shouldBe 1
+                terminal.prompt("Foo") shouldBe "bar"
+                terminal.prompt("Baz") { ConversionResult.Valid(it.toInt()) } shouldBe 1
             }
         }
         C().parse("")

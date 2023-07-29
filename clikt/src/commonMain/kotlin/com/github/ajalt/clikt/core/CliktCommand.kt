@@ -366,22 +366,15 @@ abstract class CliktCommand(
     }
 
     /**
-     * Print [text] to the user and return the value they enter.
-     *
-     * @param text The message asking for input to show the user
-     * @param default The value to return if the user enters an empty line, or `null` to require a value
-     * @param showDefault If true and a [default] is specified, add the default value to the prompt
-     * @param hideInput If true, the user's input will be treated like a password and hidden from
-     *   the screen. This value will be ignored on platforms where it is not supported.
-     * @param choices The set of values that the user must choose from.
-     * @param promptSuffix A string to append after [text] when showing the user the prompt
-     * @param invalidChoiceMessage The message to show the user if [choices] is specified,
-     *   and they enter a value that isn't one of the choices.
-     *
-     * @return The user input, or `null` if EOF was reached before this function was called.
-     *
-     * @see Terminal.prompt
+     * A deprecated alias for `terminal.prompt`.
      */
+    @Deprecated(
+        "Use terminal.prompt instead",
+        ReplaceWith(
+            "terminal.prompt(text, default, showDefault, showChoices, hideInput, choices, promptSuffix, invalidChoiceMessage)",
+            "com.github.ajalt.clikt.core.terminal"
+        )
+    )
     fun prompt(
         text: String,
         default: String? = null,
@@ -403,23 +396,15 @@ abstract class CliktCommand(
     )
 
     /**
-     * Print [text] to the user and return the value they enter.
-     *
-     * @param text The message asking for input to show the user
-     * @param default The value to return if the user enters an empty line, or `null` to require a value
-     * @param showDefault If true and a [default] is specified, add the default value to the prompt
-     * @param hideInput If true, the user's input will be treated like a password and hidden from
-     *   the screen. This value will be ignored on platforms where it is not supported.
-     * @param choices The set of values that the user must choose from.
-     * @param promptSuffix A string to append after [text] when showing the user the prompt
-     * @param invalidChoiceMessage The message to show the user if [choices] is specified,
-     *   and they enter a value that isn't one of the choices.
-     * @param convert A function that converts the user input to the final value
-     *
-     * @return The converted user input, or `null` if EOF was reached before this function was called.
-     *
-     * @see Terminal.prompt
+     * A deprecated alias for `terminal.prompt`.
      */
+    @Deprecated(
+        "Use terminal.prompt instead",
+        ReplaceWith(
+            "terminal.prompt(text, default, showDefault, showChoices, hideInput, choices, promptSuffix, invalidChoiceMessage, convert)",
+            "com.github.ajalt.clikt.core.terminal"
+        )
+    )
     fun <T> prompt(
         text: String,
         default: T? = null,
@@ -588,7 +573,7 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
  * here.
  */
 fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
-// save the old config to allow multiple context calls
+    // save the old config to allow multiple context calls
     val c = _contextConfig
     _contextConfig = {
         c()
@@ -605,3 +590,7 @@ private fun CliktCommand.inferCommandName(): String {
         "${it.groupValues[1]}-${it.groupValues[2]}"
     }.lowercase()
 }
+
+/** A short for accessing the terminal from the [currentContext][CliktCommand.currentContext] */
+val CliktCommand.terminal: Terminal
+    get() = currentContext.terminal

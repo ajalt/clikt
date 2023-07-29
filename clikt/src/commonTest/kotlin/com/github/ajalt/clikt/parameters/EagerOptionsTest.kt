@@ -17,7 +17,7 @@ import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
 
-@Suppress("BooleanLiteralArgument")
+@Suppress("BooleanLiteralArgument", "unused")
 class EagerOptionsTest {
     @Test
     @JsName("custom_eager_option")

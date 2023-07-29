@@ -3,9 +3,11 @@
 ## Unreleased
 ### Added
 - Added `CliktCommand.terminal` extension for accessing the terminal from a command.
+- Added `includeSystemEnvvars`, `ansiLevel`, `width`, and `height` parameters to all `CliktCommand.test` overloads.
 
 ### Deprecated
-- Deprecated `CliktCommand.prompt`, use `CliktCommand.terminal.prompt` instead.
+- Deprecated `CliktCommand.prompt`, use `CliktCommand.terminal.prompt` or `Prompt` instead.
+- Deprecated `CliktCommand.confirm`, use `YesNoPrompt` instead.
 
 ### Fixed
 - Fixed incorrect error message when a `defaultLazy` option referenced a `required` option. ([#430](https://github.com/ajalt/clikt/issues/430))

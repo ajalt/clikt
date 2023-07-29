@@ -427,21 +427,14 @@ abstract class CliktCommand(
         convert
     )
 
-    /**
-     * Prompt for user confirmation.
-     *
-     * @param text The message asking for input to show the user
-     * @param default The value to return if the user enters an empty line, or `null` to require a value
-     * @param uppercaseDefault If true and [default] is not `null`, the default choice will be shown in uppercase.
-     * @param showChoices If true, the choices will be added to the [prompt]
-     * @param choiceStrings The strings to accept for `true` and `false` inputs
-     * @param promptSuffix A string to append after [prompt] when showing the user the prompt
-     * @param invalidChoiceMessage The message to show the user if they enter a value that isn't one of the [choiceStrings].
-     *
-     * @return The converted user input, or `null` if EOF was reached before this function was called.
-     *
-     * @see Terminal.prompt
-     */
+    @Deprecated(
+        "Use YesNoPrompt instead",
+        ReplaceWith(
+            "YesNoPrompt(text, terminal, default, uppercaseDefault, showChoices, choiceStrings, promptSuffix, invalidChoiceMessage).ask()",
+            "com.github.ajalt.clikt.core.terminal",
+            "com.github.ajalt.mordant.terminal.YesNoPrompt"
+        )
+    )
     fun confirm(
         text: String,
         default: Boolean? = null,
@@ -451,16 +444,7 @@ abstract class CliktCommand(
         promptSuffix: String = ": ",
         invalidChoiceMessage: String = "Invalid value, choose from ",
     ): Boolean? {
-        return YesNoPrompt(
-            text,
-            currentContext.terminal,
-            default,
-            uppercaseDefault,
-            showChoices,
-            choiceStrings,
-            promptSuffix,
-            invalidChoiceMessage,
-        ).ask()
+        return YesNoPrompt(text, terminal, default, uppercaseDefault, showChoices, choiceStrings, promptSuffix, invalidChoiceMessage).ask()
     }
 
     /**

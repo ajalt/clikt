@@ -391,7 +391,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-print-help-message/index.html">PrintHelpMessage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">var </span>context<span class="token operator">: </span><a href="-context/index.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>error<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span> : <a href="-clikt-error/index.html">CliktError</a>, <a href="-context-clikt-error/index.html">ContextCliktError</a></div><div class="brief "><p class="paragraph">An exception that indicates that the command's help should be printed.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="-print-help-message/index.html">PrintHelpMessage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">var </span>context<span class="token operator">: </span><a href="-context/index.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>error<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>statusCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span> : <a href="-clikt-error/index.html">CliktError</a>, <a href="-context-clikt-error/index.html">ContextCliktError</a></div><div class="brief "><p class="paragraph">An exception that indicates that the command's help should be printed.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -406,7 +406,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-print-message/index.html">PrintMessage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>statusCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>printError<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span> : <a href="-clikt-error/index.html">CliktError</a></div><div class="brief "><p class="paragraph">An exception that indicates that a message should be printed.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-print-message/index.html">PrintMessage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>statusCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>printError<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span> : <a href="-clikt-error/index.html">CliktError</a></div><div class="brief "><p class="paragraph">An exception that indicates that a message should be printed.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -467,6 +467,40 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="-usage-error/index.html">UsageError</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>paramName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>statusCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1</span></span></span><span class="token punctuation">)</span> : <a href="-clikt-error/index.html">CliktError</a>, <a href="-context-clikt-error/index.html">ContextCliktError</a></div><div class="brief "><p class="paragraph">An exception that signals a user error.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="208253393%2FProperties%2F-71441751" anchor-label="terminal" id="208253393%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="terminal.html"><span><span>terminal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="208253393%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-clikt-command/index.html">CliktCommand</a><span class="token punctuation">.</span><a href="terminal.html">terminal</a><span class="token operator">: </span><span data-unresolved-link="com.github.ajalt.mordant.terminal/Terminal///PointingToDeclaration/">Terminal</span></div><div class="brief "><p class="paragraph">A short for accessing the terminal from the <a href="-clikt-command/current-context.html">currentContext</a></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1422191625%2FProperties%2F-71441751" anchor-label="theme" id="1422191625%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="theme.html"><span><span>theme</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1422191625%2FProperties%2F-71441751"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-context/index.html">Context</a><span class="token punctuation">.</span><a href="theme.html">theme</a><span class="token operator">: </span><span data-unresolved-link="com.github.ajalt.mordant.rendering/Theme///PointingToDeclaration/">Theme</span></div><div class="brief "><p class="paragraph">The current terminal's theme</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -546,25 +580,6 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="subcommands.html">T</a><span class="token operator"> : </span><a href="-clikt-command/index.html">CliktCommand</a><span class="token operator">&gt; </span><a href="subcommands.html">T</a><span class="token punctuation">.</span><a href="subcommands.html"><span class="token function">subcommands</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>commands<span class="token operator">: </span><a href="-clikt-command/index.html">CliktCommand</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="subcommands.html">T</a></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="subcommands.html">T</a><span class="token operator"> : </span><a href="-clikt-command/index.html">CliktCommand</a><span class="token operator">&gt; </span><a href="subcommands.html">T</a><span class="token punctuation">.</span><a href="subcommands.html"><span class="token function">subcommands</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">commands<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html">Iterable</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-clikt-command/index.html">CliktCommand</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="subcommands.html">T</a></div><div class="brief "><p class="paragraph">Add the given commands as a subcommand of this command.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div data-togglable="EXTENSION_PROPERTY">
-        <h2 class="">Properties</h2>
-        <div class="table"><a data-name="1422191625%2FProperties%2F-71441751" anchor-label="theme" id="1422191625%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="theme.html"><span><span>theme</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1422191625%2FProperties%2F-71441751"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-context/index.html">Context</a><span class="token punctuation">.</span><a href="theme.html">theme</a><span class="token operator">: </span><span data-unresolved-link="com.github.ajalt.mordant.rendering/Theme///PointingToDeclaration/">Theme</span></div><div class="brief "><p class="paragraph">The current terminal's theme</p></div></div></div>
                 </div>
               </div>
             </div>

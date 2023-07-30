@@ -2197,7 +2197,7 @@ the script once each time your CLI changes, and load it each time your start you
 <h3 id="with-an-environment-variable">With an environment variable<a class="headerlink" href="#with-an-environment-variable" title="Permanent link">&para;</a></h3>
 <p>You can generate the completion script by invoking your program with a special environment variable.</p>
 <p>You can set the variable name manually with the <code>autoCompleteEnvvar</code> parameter in the
-<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code> constructor</a>. By default it&rsquo;s your command&rsquo;s name capitalized,
+<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/"><code>CliktCommand</code> constructor</a>. By default, it&rsquo;s your command&rsquo;s name capitalized,
 with <code>-</code> replaced with <code>_</code>, and prefixed with another <code>_</code>.
 So if your command name is <code>my-command</code>, the variable would be <code>_MY_COMMAND_COMPLETE=bash</code>,
  <code>_MY_COMMAND_COMPLETE=zsh</code>, or <code>_MY_COMMAND_COMPLETE=fish</code>, depending on your current shell.</p>
@@ -2301,7 +2301,7 @@ and for parameters converted with <a href="../api/clikt/com.github.ajalt.clikt.p
 <p>The <code>Custom</code> type takes a block that returns code to add to the script which generates completions
 for the given parameter.</p>
 <p>If you just want to call another script or binary that prints all possible completion words to
-stdout, you can use <a href="api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/from-stdout/">fromStdout</a>.</p>
+stdout, you can use <a href="../api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/-companion/from-stdout.html">fromStdout</a>.</p>
 <p>Both Bash and ZSH scripts use Bash&rsquo;s Programmable Completion system (ZSH via a comparability layer).
 The string returned from [generator] should be the body of a function that will be passed to
 <code>compgen -F</code>.</p>

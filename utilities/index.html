@@ -2051,15 +2051,14 @@ are defined. The functions return the edited text if the user saved their change
 </div>
 </div>
 <h2 id="input-prompts">Input Prompts<a class="headerlink" href="#input-prompts" title="Permanent link">&para;</a></h2>
-<p>Options can <a href="../options/#prompting-for-input">prompt for values automatically</a>, but you can also do
-so manually with <a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/prompt.html"><code>prompt</code></a>. By
-default, it accepts any input string, but you can also pass in a conversion function. If the
-conversion raises a <a href="../api/clikt/com.github.ajalt.clikt.core/-usage-error/"><code>UsageError</code></a>,
-the prompt will ask the user to enter a different value.</p>
+<p>Options can <a href="../options/#prompting-for-input">prompt for values automatically</a>, but you can also do so manually
+by using Mordant&rsquo;s prompt functionality directly. By default, it accepts any input string, but you
+can also pass in a conversion function. If the conversion returns a <code>ConversionResult.Invalid</code>, the
+prompt will ask the user to enter a different value.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Example</label><label for="__tabbed_2_2">Interactive Session</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prompt</span><span class="p">(</span><span class="s">&quot;Enter a number&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">terminal</span><span class="p">.</span><span class="na">prompt</span><span class="p">(</span><span class="s">&quot;Enter a number&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nb">it</span><span class="p">.</span><span class="na">toIntOrNull</span><span class="p">()</span>
 <span class="w">        </span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ConversionResult</span><span class="p">.</span><span class="na">Valid</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <span class="w">        </span><span class="o">?:</span><span class="w"> </span><span class="n">ConversionResult</span><span class="p">.</span><span class="na">Invalid</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$</span><span class="n">it</span><span class="s"> is not a valid integer&quot;</span><span class="p">)</span>
@@ -2077,10 +2076,9 @@ Twice your number is 22
 </div>
 </div>
 <h2 id="confirmation-prompts">Confirmation Prompts<a class="headerlink" href="#confirmation-prompts" title="Permanent link">&para;</a></h2>
-<p>You can also ask the user for a yes or no response with
-<a href="../api/clikt/com.github.ajalt.clikt.core/-clikt-command/confirm.html"><code>confirm</code></a>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">confirm</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;OK!&quot;</span><span class="p">)</span>
+<p>You can also ask the user for a yes or no response with Mordant&rsquo;s <a href="https://ajalt.github.io/mordant/api/mordant/com.github.ajalt.mordant.terminal/-yes-no-prompt/index.html"><code>YesNoPrompt</code></a>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">YesNoPrompt</span><span class="p">(</span><span class="s">&quot;Continue?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">terminal</span><span class="p">).</span><span class="na">ask</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Ok!&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 

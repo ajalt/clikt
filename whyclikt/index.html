@@ -2111,11 +2111,11 @@ but you could implement it yourself like this:</p>
 fundamental issues with the <code>kotlin-argparser</code> version that drove the
 creation of Clikt:</p>
 <ul>
-<li>Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all of the code for each type. With Clikt, you could just do <code>option().int().transformValues(2) { it[0] to it[1] }</code></li>
+<li>Its inheritance-based design means that if you wanted to change the type of each value, you would have to copy all the code for each type. With Clikt, you could just do <code>option().int().transformValues(2) { it[0] to it[1] }</code></li>
 <li>Its inheritance-based design means that supporting types, multiple values, and multiple option occurrences would require a combinatorial number of copies of the above code. With Clikt, these are all orthogonal.</li>
 <li>You have to do all error checking yourself. The <code>argparser</code> example silently discards extra values, or copies the single value, rather than inform the user of the mistake. You could write more code to do so, but Clikt takes care of it for you.</li>
 <li>Option name inference is not automatic, requiring you to wrap the delegate with yet another function.</li>
-<li>Each delegate function has a different name, with no indication of whether its creating an option or positional argument. With Clikt, all options are created with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option()</code></a>, and all arguments with <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html"><code>argument()</code></a>.</li>
+<li>Each delegate function has a different name, with no indication of whether it&rsquo;s creating an option or positional argument. With Clikt, all options are created with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/option.html"><code>option()</code></a>, and all arguments with <a href="../api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html"><code>argument()</code></a>.</li>
 </ul>
 <p>Some of these problems can be solved by writing more code, and some
 can&rsquo;t. On the other hand, Clikt attempts to have a consistent, intuitive,

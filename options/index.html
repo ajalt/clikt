@@ -2646,7 +2646,7 @@ independently:</p>
 </ol>
 <p>Since the three types of customizations are orthogonal, you can choose
 which ones you want to use, and if you implement a new customization, it
-can be used with all of the existing functions without any repeated
+can be used with all the existing functions without any repeated
 code.</p>
 <h2 id="default-values">Default Values<a class="headerlink" href="#default-values" title="Permanent link">&para;</a></h2>
 <p>By default, option delegates return <code>null</code> if the option wasn&rsquo;t provided
@@ -2750,7 +2750,8 @@ profile-2
 </div>
 </div>
 <h3 id="options-with-an-optional-value">Options with an Optional Value<a class="headerlink" href="#options-with-an-optional-value" title="Permanent link">&para;</a></h3>
-<p>You can create options that take zero or one values with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/optional-value.html"><code>optionalValue</code></a>.</p>
+<p>You can create options that take zero or one values with <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/optional-value.html"><code>optionalValue</code></a> or
+<a href="../api/clikt/com.github.ajalt.clikt.parameters.options/optional-value-lazy.html"><code>optionalValueLazy</code></a>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:4"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><input id="__tabbed_7_3" name="__tabbed_7" type="radio" /><input id="__tabbed_7_4" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Example</label><label for="__tabbed_7_2">Usage with no option value</label><label for="__tabbed_7_3">Usage with option value</label><label for="__tabbed_7_4">Usage with no option</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -3112,7 +3113,7 @@ you can make an option group <a href="../api/clikt/com.github.ajalt.clikt.parame
 <p>Co-occurring groups must have at least one
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/required.html"><code>required</code></a> option, and may also
 have non-required options. The <code>required</code> constraint is enforced if any of the options in the group
-are given on the command line. If none if the options are given, the value of the group is null.</p>
+are given on the command line. If none of the options are given, the value of the group is null.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="20:4"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><input id="__tabbed_20_3" name="__tabbed_20" type="radio" /><input id="__tabbed_20_4" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Example</label><label for="__tabbed_20_2">Usage 1</label><label for="__tabbed_20_3">Usage 2</label><label for="__tabbed_20_4">Usage 3</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -3292,7 +3293,7 @@ Hello foo
 <p>The default prompt string is based on the option name, but
 <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html"><code>prompt</code></a> takes a number of parameters to customize the output.</p>
 <h2 id="password-prompts">Password Prompts<a class="headerlink" href="#password-prompts" title="Permanent link">&para;</a></h2>
-<p>You can also create a option that uses a hidden prompt and asks for
+<p>You can also create an option that uses a hidden prompt and asks for
 confirmation. This combination of behavior is commonly used for
 passwords.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">Example</label><label for="__tabbed_24_2">Usage</label></div>
@@ -3309,7 +3310,6 @@ passwords.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>$ ./login
 Password:
-Repeat for confirmation:
 Your hidden password: hunter2
 </code></pre></div>
 </div>
@@ -3512,7 +3512,7 @@ Hello Bar
 <a href="../api/clikt/com.github.ajalt.clikt.core/context.html"><code>context</code></a>. This will cause all options without
 an explicit envvar name to be given an uppercase underscore-separated envvar name. Since the prefix
 is set on the <a href="../api/clikt/com.github.ajalt.clikt.core/context.html"><code>context</code></a>, it is propagated to
-subcommands. If you have a a subcommand called <code>foo</code> with an option <code>--bar</code>, and your prefix is
+subcommands. If you have a subcommand called <code>foo</code> with an option <code>--bar</code>, and your prefix is
 <code>MY_TOOL</code>, the option&rsquo;s envvar name will be <code>MY_TOOL_FOO_BAR</code>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="29:2"><input checked="checked" id="__tabbed_29_1" name="__tabbed_29" type="radio" /><input id="__tabbed_29_2" name="__tabbed_29" type="radio" /><div class="tabbed-labels"><label for="__tabbed_29_1">Example</label><label for="__tabbed_29_2">Usage</label></div>
 <div class="tabbed-content">

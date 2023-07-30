@@ -1,7 +1,10 @@
 # Changelog
 
 ## Unreleased
+
+## 4.2.0
 ### Added
+- Added `requireConfirmation` parameter to `option().prompt()` ([#426](https://github.com/ajalt/clikt/issues/426))
 - Added `CliktCommand.terminal` extension for accessing the terminal from a command.
 - Added `includeSystemEnvvars`, `ansiLevel`, `width`, and `height` parameters to all `CliktCommand.test` overloads.
 

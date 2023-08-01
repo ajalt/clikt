@@ -319,6 +319,11 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             transformValidator = validator
         )
     }
+
+    override fun toString(): String = buildString {
+        append(longestName())
+        runCatching { value }.onSuccess { append("=").append(it) }
+    }
 }
 
 typealias NullableOption<EachT, ValueT> = OptionWithValues<EachT?, EachT, ValueT>
@@ -406,7 +411,7 @@ fun ParameterHolder.option(
  * ```
  */
 fun <AllT, EachT, ValueT> OptionWithValues<AllT, EachT, ValueT>.help(
-    help: String
+    help: String,
 ): OptionWithValues<AllT, EachT, ValueT> {
     return help { help }
 }

@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
-
+### Added
+- Added `toString` implementations to options and arguments. ([#434](https://github.com/ajalt/clikt/issues/434))
 ## 4.2.0
 ### Added
 - Added `requireConfirmation` parameter to `option().prompt()` ([#426](https://github.com/ajalt/clikt/issues/426))

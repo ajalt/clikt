@@ -165,25 +165,29 @@ class CliktCommandTest {
     @Test
     @JsName("command_toString")
     fun `command toString`() {
-        class Cmd : TestCommand() {
+        class C : TestCommand(name="cmd") {
+            init {
+                context { helpOptionNames = setOf() }
+            }
             val opt by option("-o", "--option")
             val int by option().int()
-            val arg by argument()
+            val args by argument().multiple()
         }
 
         class Sub : TestCommand() {
             val foo by option()
         }
 
-        Cmd().toString() shouldBe "<Cmd name=cmd options=[--option --int] arguments=[ARG]>"
-        Cmd().apply { parse("--int=123 bar") }
-            .toString() shouldBe "<Cmd name=cmd options=[--option=null --int=123 --help] arguments=[ARG=bar]>"
-        Cmd().apply { parse("foo") }
-            .toString() shouldBe "<Cmd name=cmd options=[--option=null --int=null --help] arguments=[ARG=foo]>"
+        C().toString().shouldBe(
+            "<C name=cmd options=[--option, --int] arguments=[ARGS]>"
+        )
+        C().parse("--int=123 bar baz").toString().shouldBe(
+            "<C name=cmd options=[--option=null, --int=123] arguments=[ARGS=[bar, baz]]>"
+        )
 
-        Cmd().subcommands(Sub()).apply { parse("-ooo bar sub --foo=baz") }.toString().shouldBe(
-            "<Cmd name=cmd options=[--option=oo --int=null --help] arguments=[ARG=bar] " +
-                    "subcommands=[<Sub name=sub options=[--foo=baz --help]>]>"
+        C().subcommands(Sub()).parse("-ooo bar sub --foo=baz").toString().shouldBe(
+            "<C name=cmd options=[--option=oo, --int=null] arguments=[ARGS=[bar]] " +
+                    "subcommands=[<Sub name=sub options=[--foo=baz]>]>"
         )
     }
 
@@ -200,6 +204,9 @@ class CliktCommandTest {
         }
 
         class Cmd : TestCommand() {
+            init {
+                context { helpOptionNames = setOf() }
+            }
             val g by G()
             val g2 by G2().cooccurring()
             val ge by mutuallyExclusiveOptions(
@@ -208,9 +215,29 @@ class CliktCommandTest {
             )
         }
 
-        Cmd().toString() shouldBe "<Cmd name=cmd options=[--option --foo --bar --e1 --e2]>"
-        Cmd().apply { parse("-oo --foo=f --e1=1") }
-            .toString() shouldBe "<Cmd name=cmd options=[--option=o --foo=f --bar=null --e1=1 --e2=null --help]>"
+        Cmd().toString().shouldBe(
+            "<Cmd name=cmd options=[--option, --foo, --bar, --e1, --e2]>"
+        )
+        Cmd().parse("-oo --foo=f --e1=1").toString().shouldBe(
+            "<Cmd name=cmd options=[--option=o, --foo=f, --bar=null, --e1=1, --e2=null]>"
+        )
+    }
+
+    @Test
+    @JsName("parameter_toString")
+    fun `parameter toString`() {
+        class C : TestCommand() {
+            init {
+                context { helpOptionNames = setOf() }
+            }
+            val opt by option("-o", "--option")
+            val args by argument().multiple()
+            override fun run_() {
+                registeredOptions().single().toString() shouldBe "--option=foo"
+                registeredArguments().single().toString() shouldBe "ARGS=[bar, baz]"
+            }
+        }
+        C().parse("-o foo bar baz")
     }
 
     // https://github.com/ajalt/clikt/issues/64

@@ -169,7 +169,6 @@ internal fun Option.hasEnvvarOrSourcedValue(
     context: Context,
     invocations: List<Invocation>,
 ): Boolean {
-
     val envvar = (this as? OptionWithValues<*, *, *>)?.envvar
     val final = this.getFinalValue(context, invocations, envvar)
     return final !is FinalValue.Parsed

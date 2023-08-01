@@ -250,6 +250,11 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
             transformValidator = validator
         )
     }
+
+    override fun toString(): String = buildString {
+        append(name)
+        runCatching { value }.onSuccess { append("=").append(it) }
+    }
 }
 
 typealias RawArgument = ProcessedArgument<String, String>

@@ -495,45 +495,16 @@ abstract class CliktCommand(
     override fun toString() = buildString {
         append("<${this@CliktCommand.classSimpleName()} name=$commandName")
 
-        if (_options.isNotEmpty() || _arguments.isNotEmpty() || _subcommands.isNotEmpty()) {
-            append(" ")
-        }
-
         if (_options.isNotEmpty()) {
-            append("options=[")
-            for ((i, option) in _options.withIndex()) {
-                if (i > 0) append(" ")
-                append(option.longestName())
-                if (_context != null && option is OptionDelegate<*>) {
-                    try {
-                        val value = option.value
-                        append("=").append(value)
-                    } catch (_: IllegalStateException) {
-                    }
-                }
-            }
-            append("]")
+            _options.joinTo(this, prefix=" options=[", postfix = "]")
         }
-
 
         if (_arguments.isNotEmpty()) {
-            append(" arguments=[")
-            for ((i, argument) in _arguments.withIndex()) {
-                if (i > 0) append(" ")
-                append(argument.name)
-                if (_context != null && argument is ProcessedArgument<*, *>) {
-                    try {
-                        val value = argument.value
-                        append("=").append(value)
-                    } catch (_: IllegalStateException) {
-                    }
-                }
-            }
-            append("]")
+            _arguments.joinTo(this, prefix=" arguments=[", postfix = "]")
         }
 
         if (_subcommands.isNotEmpty()) {
-            _subcommands.joinTo(this, " ", prefix = " subcommands=[", postfix = "]")
+            _subcommands.joinTo(this, prefix = " subcommands=[", postfix = "]")
         }
 
         append(">")

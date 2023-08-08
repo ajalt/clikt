@@ -3,6 +3,7 @@
 ## Unreleased
 ### Added
 - Added `toString` implementations to options and arguments. ([#434](https://github.com/ajalt/clikt/issues/434))
+
 ## 4.2.0
 ### Added
 - Added `requireConfirmation` parameter to `option().prompt()` ([#426](https://github.com/ajalt/clikt/issues/426))
@@ -62,6 +63,7 @@
 - Removed `TermUi.echo`, `TermUi.prompt`, and `TermUi.confirm`. Use the equivalent methods on your `CliktCommand`, or use mordant's prompts directly.
 - Removed legacy JS publications. Now only the JS/IR artifacts are published.
 - Removed `CliktHelpFormatter`. Use `MordantHelpFormatter` instead.
+- Removed `FlagOption` and `EagerOption` classes. All options are now implemented as transformations on `OptionWithValues`. `FlagOption` is now `OptionWithValues<Boolean, Boolean, Boolean>`.
 
 ### Changed
 - `prompt` and `confirm` are now implemented with mordant's prompt functionality, and the method parameters have changed to match mordant's

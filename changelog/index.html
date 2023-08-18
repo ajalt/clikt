@@ -4067,6 +4067,7 @@
 <li>Removed <code>TermUi.echo</code>, <code>TermUi.prompt</code>, and <code>TermUi.confirm</code>. Use the equivalent methods on your <code>CliktCommand</code>, or use mordant&rsquo;s prompts directly.</li>
 <li>Removed legacy JS publications. Now only the JS/IR artifacts are published.</li>
 <li>Removed <code>CliktHelpFormatter</code>. Use <code>MordantHelpFormatter</code> instead.</li>
+<li>Removed <code>FlagOption</code> and <code>EagerOption</code> classes. All options are now implemented as transformations on <code>OptionWithValues</code>. <code>FlagOption</code> is now <code>OptionWithValues&lt;Boolean, Boolean, Boolean&gt;</code>.</li>
 </ul>
 <h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
 <ul>

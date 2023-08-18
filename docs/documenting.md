@@ -230,7 +230,9 @@ the `defaultForHelp` parameter of [`default`][default].
     ```kotlin
     class Tool : NoOpCliktCommand() {
         init {
-            context { helpFormatter = MordantHelpFormatter(showDefaultValues = true) }
+            context {
+                helpFormatter = { MordantHelpFormatter(it, showDefaultValues = true) }
+            }
         }
 
         val a by option(help = "this is optional").default("value")
@@ -262,7 +264,9 @@ You can pass a character to the `requiredOptionMarker` argument of the `MordantH
     ```kotlin
     class Tool : NoOpCliktCommand() {
         init {
-            context { helpFormatter = MordantHelpFormatter(requiredOptionMarker = "*") }
+            context {
+                helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") }
+            }
         }
 
         val option by option(help = "this is optional")
@@ -290,7 +294,9 @@ You can also show a tag for required options by passing `showRequiredTag = true`
     ```kotlin
     class Tool : CliktCommand() {
         init {
-            context { helpFormatter = MordantHelpFormatter(showRequiredTag = true) }
+            context {
+                helpFormatter = { MordantHelpFormatter(it, showRequiredTag = true) }
+            }
         }
 
         val option by option(help = "this is optional")

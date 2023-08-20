@@ -72,13 +72,16 @@ class Echo(t: Terminal) : CliktCommand(help = "Echo the STRING(s) to standard ou
     }
 }
 
-class C : CliktCommand() {
-    val foo by option().prompt(requireConfirmation = true)
-    override fun run() {
-        println("foo: $foo")
-    }
-}
-
 fun main(args: Array<String>) {
-    C().main(args)
+    val theme = Theme {
+        // Use ANSI-16 codes for help colors
+        styles["info"] = TextColors.green
+        styles["warning"] = TextColors.blue
+        styles["danger"] = TextColors.magenta
+        styles["muted"] = TextColors.gray
+
+        // Remove the border around code blocks
+        flags["markdown.code.block.border"] = false
+    }
+    Echo(Terminal(theme = theme)).main(args)
 }

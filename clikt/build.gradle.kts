@@ -19,10 +19,6 @@ kotlin {
     macosArm64()
 
     sourceSets {
-        all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-        }
-
         val commonMain by getting {
             dependencies {
                 api(libs.mordant)

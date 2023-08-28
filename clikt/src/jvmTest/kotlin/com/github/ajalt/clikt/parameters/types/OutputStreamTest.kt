@@ -23,7 +23,6 @@ import kotlin.test.Test
 
 
 @Suppress("unused")
-@OptIn(ExperimentalStdlibApi::class)
 class OutputStreamTest {
     @get:Rule
     val stdout: SystemOutRule = SystemOutRule().enableLog()

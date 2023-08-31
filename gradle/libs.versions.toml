@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 
 [libraries]
 mordant = "com.github.ajalt.mordant:mordant:2.1.0"

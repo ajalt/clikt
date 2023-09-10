@@ -15,8 +15,20 @@ kotlin {
 
     linuxX64()
     mingwX64()
-    macosX64()
-    macosArm64()
+
+    val darwinTargets = listOf(
+        macosArm64(),
+        macosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+        iosX64(),
+        watchosArm64(),
+        watchosSimulatorArm64(),
+        watchosX64(),
+        tvosArm64(),
+        tvosSimulatorArm64(),
+        tvosX64()
+    )
 
     sourceSets {
         val commonMain by getting {
@@ -51,11 +63,10 @@ kotlin {
         val nativeDarwinMain by creating {
             dependsOn(nativeMain)
         }
-        val macosX64Main by getting {
-            dependsOn(nativeDarwinMain)
-        }
-        val macosArm64Main by getting {
-            dependsOn(nativeDarwinMain)
+        darwinTargets.forEach {
+            getByName("${it.targetName}Main") {
+                dependsOn(nativeDarwinMain)
+            }
         }
 
         val nativeTest by creating {
@@ -70,11 +81,10 @@ kotlin {
         val nativeDarwinTest by creating {
             dependsOn(nativeTest)
         }
-        val macosX64Test by getting {
-            dependsOn(nativeDarwinTest)
-        }
-        val macosArm64Test by getting {
-            dependsOn(nativeDarwinTest)
+        darwinTargets.forEach {
+            getByName("${it.targetName}Test") {
+                dependsOn(nativeDarwinTest)
+            }
         }
     }
 }

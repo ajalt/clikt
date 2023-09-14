@@ -5,10 +5,7 @@ import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.*
 import java.io.File
 
 /**
@@ -27,10 +24,17 @@ class JsonValueSource(
         }
         if (cursor == null) return emptyList()
 
-        // This implementation interprets a list as multiple invocations, but you could also
-        // implement it as a single invocation with multiple values.
-        if (cursor is JsonArray) return cursor.map { ValueSource.Invocation.value(it) }
-        return ValueSource.Invocation.just(cursor)
+        try {
+            // This implementation interprets a list as multiple invocations, but you could also
+            // implement it as a single invocation with multiple values.
+            if (cursor is JsonArray) return cursor.map {
+                ValueSource.Invocation.value(it.jsonPrimitive.content)
+            }
+            return ValueSource.Invocation.just(cursor.jsonPrimitive.content)
+        } catch (e: IllegalArgumentException) {
+            // This implementation skips invalid values, but you could handle them differently.
+            return emptyList()
+        }
     }
 
     companion object {
@@ -41,12 +45,16 @@ class JsonValueSource(
                 Json.parseToJsonElement(file.readText()) as? JsonObject
                     ?: throw InvalidFileFormat(file.path, "object expected", 1)
             } catch (e: SerializationException) {
-                if (requireValid) throw InvalidFileFormat(file.name, e.message ?: "could not read file")
+                if (requireValid) {
+                    throw InvalidFileFormat(file.name, e.message ?: "could not read file")
+                }
                 JsonObject(emptyMap())
             }
             return JsonValueSource(json)
         }
 
-        fun from(file: String, requireValid: Boolean = false): JsonValueSource = from(File(file), requireValid)
+        fun from(file: String, requireValid: Boolean = false): JsonValueSource {
+            return from(File(file), requireValid)
+        }
     }
 }

@@ -42,7 +42,7 @@ You can set environment variables for your command by passing in a map of `envva
     @Test
     fun testHello() {
         val command = Hello()
-        val result = command.test(""", envvars=mapOf("HELLO_NAME" to "Foo"))
+        val result = command.test("", envvars=mapOf("HELLO_NAME" to "Foo"))
         assertEqual(result.stdout, "Hello, Foo!")
     }
     ```

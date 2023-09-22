@@ -143,7 +143,7 @@ main function directly from within gradle. You can pass command line arguments t
 with the `--args` flag:
 
 ```shell
-$ ./gradlew run --args="hello --count=3 --name=Clikt"
+$ ./gradlew run --args="--count=3 Clikt"
 ```
 
 A drawback to using the `run` gradle task is that it redirects stdout, so Clikt will not print

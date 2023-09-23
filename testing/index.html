@@ -2007,9 +2007,9 @@ Use <code>echo</code> instead.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">testHello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Hello</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">command</span><span class="p">.</span><span class="na">test</span><span class="p">(</span><span class="s">&quot;&quot;&quot;, envvars=mapOf(&quot;HELLO_NAME&quot; to &quot;Foo&quot;))</span>
-<span class="s">    assertEqual(result.stdout, &quot;Hello, Foo!&quot;)</span>
-<span class="s">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">command</span><span class="p">.</span><span class="na">test</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">envvars</span><span class="o">=</span><span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;HELLO_NAME&quot;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="s">&quot;Foo&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello, Foo!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">

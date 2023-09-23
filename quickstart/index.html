@@ -2175,7 +2175,7 @@ samples</a>.</p>
 <p>The application plugin also creates tasks that will build then run your
 main function directly from within gradle. You can pass command line arguments through to your app
 with the <code>--args</code> flag:</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>./gradlew<span class="w"> </span>run<span class="w"> </span>--args<span class="o">=</span><span class="s2">&quot;hello --count=3 --name=Clikt&quot;</span>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>./gradlew<span class="w"> </span>run<span class="w"> </span>--args<span class="o">=</span><span class="s2">&quot;--count=3 Clikt&quot;</span>
 </code></pre></div>
 <p>A drawback to using the <code>run</code> gradle task is that it redirects stdout, so Clikt will not print
 colors or prompt for input. You can configure the Mordant terminal that Clikt uses to always print

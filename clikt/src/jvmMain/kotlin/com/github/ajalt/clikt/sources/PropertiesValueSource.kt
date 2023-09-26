@@ -57,19 +57,7 @@ object PropertiesValueSource {
         requireValid: Boolean = false,
         getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = "."),
     ): ValueSource {
-        val properties = Properties()
-        if (file.isFile) {
-            try {
-                file.bufferedReader().use { properties.load(it) }
-            } catch (e: Throwable) {
-                if (requireValid) throw InvalidFileFormat(
-                    file.name,
-                    e.message ?: "could not read file"
-                )
-            }
-        }
-
-        return from(properties, getKey)
+        return from(file.toPath(), requireValid, getKey)
     }
 
     /**

@@ -3,6 +3,10 @@
 ## Unreleased
 ### Added
 - Added `toString` implementations to options and arguments. ([#434](https://github.com/ajalt/clikt/issues/434))
+- Added `CliktCommand.test` overload that takes a vararg of `String`s as the command line arguments. Thanks to @sschuberth for the contribution ([#451](https://github.com/ajalt/clikt/issues/451))
+
+### Fixed
+- Update Mordant dependency to fix crashes on native targets and GraalVM ([#447](https://github.com/ajalt/clikt/issues/447))
 
 ## 4.2.0
 ### Added

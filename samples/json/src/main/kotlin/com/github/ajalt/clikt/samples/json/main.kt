@@ -20,7 +20,7 @@ class Cli : CliktCommand(help = "An example using json files for configuration v
     init {
         context {
             valueSources(
-                JsonValueSource.from(System.getProperty("user.dir") + "config.json"),
+                JsonValueSource.from(System.getProperty("user.dir") + "/config.json"),
                 JsonValueSource.from(System.getProperty("user.dir") + "/samples/json/config.json")
             )
         }

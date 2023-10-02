@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.2.1
 ### Added
 - Added `toString` implementations to options and arguments. ([#434](https://github.com/ajalt/clikt/issues/434))
 - Added `CliktCommand.test` overload that takes a vararg of `String`s as the command line arguments. Thanks to @sschuberth for the contribution ([#451](https://github.com/ajalt/clikt/issues/451))

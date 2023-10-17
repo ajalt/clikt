@@ -18,10 +18,6 @@ internal actual fun exitProcessMpp(status: Int) {
     exitProcess(status)
 }
 
-internal actual fun isLetterOrDigit(c: Char): Boolean {
-    return c.isLetterOrDigit()
-}
-
 internal actual fun readFileIfExists(filename: String): String? {
     val file = File(filename)
     if (!file.isFile) return null

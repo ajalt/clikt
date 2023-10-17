@@ -35,11 +35,7 @@ private val impls: JsMppImpls = try {
     BrowserMppImpls
 }
 
-private val LETTER_OR_DIGIT_RE = Regex("""[a-zA-Z0-9]""")
-
 internal actual val String.graphemeLengthMpp: Int get() = replace(ANSI_CODE_RE, "").length
-
-internal actual fun isLetterOrDigit(c: Char): Boolean = LETTER_OR_DIGIT_RE.matches(c.toString())
 
 internal actual fun readEnvvar(key: String): String? = impls.readEnvvar(key)
 internal actual fun isWindowsMpp(): Boolean = impls.isWindowsMpp()

@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.10"
+kotlin = "1.9.20"
 
 [libraries]
 mordant = "com.github.ajalt.mordant:mordant:2.2.0"
@@ -14,5 +14,5 @@ kodein = "org.kodein.di:kodein-di-generic-jvm:5.2.0"
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 
 [plugins]
-dokka = "org.jetbrains.dokka:1.9.0"
+dokka = "org.jetbrains.dokka:1.9.10"
 publish = "com.vanniktech.maven.publish:0.25.3"

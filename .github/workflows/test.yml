@@ -20,7 +20,7 @@ jobs:
             TEST_TASK: check
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cache Kotlin Native Compiler
         uses: actions/cache@v3
         with:

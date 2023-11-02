@@ -24,7 +24,7 @@ jobs:
             TEST_TASK: check
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cache Kotlin Native Compiler
         uses: actions/cache@v3
         with:
@@ -52,7 +52,7 @@ jobs:
     runs-on: macos-latest
     if: github.repository == 'ajalt/clikt'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Fetch git tags
         run: git fetch origin +refs/tags/*:refs/tags/*
       - name: Cache Kotlin Native Compiler

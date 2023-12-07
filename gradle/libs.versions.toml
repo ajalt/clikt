@@ -5,7 +5,7 @@ kotlin = "1.9.21"
 mordant = "com.github.ajalt.mordant:mordant:2.2.0"
 
 # used in tests
-kotest =  "io.kotest:kotest-assertions-core:5.7.2"
+kotest =  "io.kotest:kotest-assertions-core:5.8.0"
 systemrules = "com.github.stefanbirkner:system-rules:1.19.0"
 jimfs = "com.google.jimfs:jimfs:1.2"
 

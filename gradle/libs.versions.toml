@@ -10,7 +10,7 @@ systemrules = "com.github.stefanbirkner:system-rules:1.19.0"
 jimfs = "com.google.jimfs:jimfs:1.3.0"
 
 # used in samples
-kodein = "org.kodein.di:kodein-di-generic-jvm:5.2.0"
+kodein = "org.kodein.di:kodein-di-generic-jvm:6.5.5"
 kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 
 [plugins]

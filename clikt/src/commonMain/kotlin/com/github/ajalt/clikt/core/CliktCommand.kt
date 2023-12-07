@@ -62,8 +62,7 @@ abstract class CliktCommand(
     private val autoCompleteEnvvar: String? = "",
     /**
      * If true, allow multiple of this command's subcommands to be called sequentially. This will
-     * disable `allowInterspersedArgs` on the context of this command and its descendants. This
-     * functionality is experimental, and may change in a future release.
+     * disable `allowInterspersedArgs` on the context of this command and its descendants.
      */
     internal val allowMultipleSubcommands: Boolean = false,
     /**

@@ -5,7 +5,7 @@ site_description: "Clikt: Multiplatform command line parser for Kotlin"
 site_author: AJ Alt
 remote_branch: gh-pages
 
-copyright: 'Copyright &copy; 2022 AJ Alt'
+copyright: 'Copyright &copy; 2018 AJ Alt'
 
 theme:
   name: 'material'

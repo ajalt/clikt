@@ -4,6 +4,8 @@ import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.parameters.arguments.Argument
+import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.Invocation
 
@@ -12,45 +14,66 @@ internal fun finalizeOptions(
     options: List<Option>,
     invocationsByOption: Map<Option, List<Invocation>>,
 ) {
+    finalizeParameters(
+        context, options, emptyList(), mapOf(null to invocationsByOption), emptyList()
+    )
+}
+
+private sealed class Param
+private class Opt(val option: Option, val invs: List<Invocation>) : Param()
+private class Arg(val argument: Argument, val invs: List<String>) : Param()
+private class Group(val group: ParameterGroup, val invs: Map<Option, List<Invocation>>) : Param()
+
+internal fun finalizeParameters(
+    context: Context,
+    options: List<Option>,
+    groups: List<ParameterGroup>,
+    invocationsByOptionByGroup: Map<ParameterGroup?, Map<Option, List<Invocation>>>,
+    argsAndTokens: List<Pair<Argument, List<String>>>,
+) {
+    // Add uninvoked params last so that e.g. we can skip prompting if there's an error in an
+    // invoked option
+    val allGroups = invocationsByOptionByGroup.toMutableMap()
+    for (group in groups) {
+        if (group !in allGroups) allGroups[group] = emptyMap()
+    }
+
+    val allOptions = (invocationsByOptionByGroup[null] ?: emptyMap()).toMutableMap()
+    for (opt in options) {
+        if (opt !in allOptions) allOptions[opt] = emptyList()
+    }
+
+    val allParams: List<Param> =
+        argsAndTokens.map { Arg(it.first, it.second) } +
+                allOptions.map { Opt(it.key, it.value) } +
+                allGroups.mapNotNull { it.key?.let { k -> Group(k, it.value) } }
+
+
     val errors = mutableListOf<UsageError>()
-    // Finalize invoked options
-    for ((option, invocations) in invocationsByOption) {
-        try {
-            option.finalize(context, invocations)
-        } catch (e: UsageError) {
-            errors += e
-            context.errorEncountered = true
-        }
-    }
+    var currentRound = allParams.toList()
+    val nextRound = mutableListOf<Param>()
 
-    // Finalize uninvoked options
-    val retries = mutableListOf<Option>()
-    for (o in options.filter { it !in invocationsByOption }) {
-        try {
-            o.finalize(context, emptyList())
-        } catch (e: IllegalStateException) {
-            retries += o
-        } catch (e: UsageError) {
-            errors += e
-        } catch (e: Abort) {
-            // ignore Abort if we already encountered an error
-            if (!context.errorEncountered) throw e
+    while (true) {
+        for (it in currentRound) {
+            try {
+                when (it) {
+                    is Arg -> it.argument.finalize(context, it.invs)
+                    is Opt -> it.option.finalize(context, it.invs)
+                    is Group -> it.group.finalize(context, it.invs)
+                }
+            } catch (e: IllegalStateException) {
+                nextRound += it
+            } catch (e: UsageError) {
+                errors += e
+                context.errorEncountered = true
+            } catch (e: Abort) {
+                // ignore Abort if we already encountered an error
+                if (!context.errorEncountered) throw e
+            }
         }
-    }
-
-    // If an uninvoked option triggers an ISE, retry it once after other options have been finalized
-    // so that lazy defaults can reference other options.
-    for (o in retries) {
-        try {
-            o.finalize(context, emptyList())
-        } catch (e: IllegalStateException) {
-            // If we had an earlier usage error, throw that instead of the ISE
-            MultiUsageError.buildOrNull(errors)?.let { throw it }
-            throw e
-        } catch (e: UsageError) {
-            errors += e
-            context.errorEncountered = true
-        }
+        if (currentRound.size <= nextRound.size) break
+        currentRound = nextRound.toList()
+        nextRound.clear()
     }
 
     MultiUsageError.buildOrNull(errors)?.let { throw it }

@@ -456,6 +456,19 @@ class OptionTest {
     }
 
     @Test
+    @JsName("defaultLazy_option_mutual_recursion")
+    fun `defaultLazy option mutual recursion`() {
+        class C : TestCommand() {
+            val y: String by option().defaultLazy { x }
+            val x: String by option().defaultLazy { y }
+            override fun run_() {
+                y shouldBe "def"
+            }
+        }
+        shouldThrow<IllegalStateException> { C().parse("") }
+    }
+
+    @Test
     @JsName("required_option")
     fun `required option`() {
         class C : TestCommand() {

@@ -51,17 +51,15 @@ class ArgumentTest {
 
     @Test
     @JsName("one_default_argument")
-    fun `one default argument`() = forAll(
-        row("", "def")
-    ) { argv, expected ->
+    fun `one default argument`() {
         class C : TestCommand() {
             val x by argument().default("def")
             override fun run_() {
-                x shouldBe expected
+                x shouldBe "def"
             }
         }
 
-        C().parse(argv)
+        C().parse("")
     }
 
     @Test

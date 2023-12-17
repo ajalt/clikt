@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.internal.finalizeOptions
+import com.github.ajalt.clikt.internal.finalizeParameters
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
@@ -11,7 +11,8 @@ private data class Err(val e: UsageError, val i: Int, val includeInMulti: Boolea
 
 private data class ArgsParseResult(
     val excessCount: Int,
-    val args: Map<Argument, List<String>>,
+    /** All arguments in the command and their parsed tokens (if any) */
+    val args: List<Pair<Argument, List<String>>>,
     val err: Err?,
 )
 
@@ -242,48 +243,20 @@ internal object Parser {
 
                 i = excessResult.first
 
-                // Finalize arguments before options, so that options can reference them
-                val (retries, argErrs) = finalizeArguments(argsParseResult.args, context)
-                usageErrors += argErrs
-                if (argErrs.isNotEmpty()) context.errorEncountered = true
-
-                // Finalize un-grouped options
+                // Finalize arguments, groups, and options
                 gatherErrors(usageErrors, context) {
-                    finalizeOptions(
+                    finalizeParameters(
                         context,
                         ungroupedOptions,
-                        invocationsByOptionByGroup[null] ?: emptyMap()
+                        command._groups,
+                        invocationsByOptionByGroup,
+                        argsParseResult.args,
                     )
-                }
-
-                // Since groups like ChoiceGroup may depend on an ungrouped option's value, we can't finalize groups if
-                // any options failed to validate, so throw errors now
-                MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
-                usageErrors.clear()
-
-                // Finalize groups after ungrouped options so that the groups can use their values
-                for ((group, invs) in invocationsByOptionByGroup) {
-                    gatherErrors(usageErrors, context) { group?.finalize(context, invs) }
-                }
-
-                // Finalize groups with no invocations
-                for (g in command._groups) {
-                    if (g !in invocationsByGroup) gatherErrors(usageErrors, context) {
-                        g.finalize(context, emptyMap())
-                    }
                 }
 
                 // We can't validate a param that didn't finalize successfully, and we don't keep
                 // track of which ones are finalized, so throw any errors now
                 MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
-                usageErrors.clear()
-
-                // Retry any failed args now that they can reference option values
-                retries.forEach { (arg, v) ->
-                    gatherErrors(usageErrors, context) {
-                        arg.finalize(context, v)
-                    }
-                }
 
                 // Now that all parameters have been finalized, we can validate everything
                 ungroupedOptions.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
@@ -485,6 +458,7 @@ internal object Parser {
 
     private fun parseArguments(
         argvIndex: Int,
+        /** Parsed argument tokens and their index in argv */
         positionalArgs: List<Pair<Int, String>>,
         arguments: List<Argument>,
     ): ArgsParseResult {
@@ -512,7 +486,7 @@ internal object Parser {
                 }
                 return ArgsParseResult(
                     0,
-                    out,
+                    out.toList(),
                     Err(e, positionalArgs.getOrNull(i)?.first ?: argvIndex)
                 )
             }
@@ -522,32 +496,8 @@ internal object Parser {
         }
 
         val excess = positionalArgs.size - i
-        return ArgsParseResult(excess, out, null)
+        return ArgsParseResult(excess, out.toList(), null)
     }
-
-    /** Returns map of arguments that need retries to their values */
-    private fun finalizeArguments(
-        parsedArgs: Map<Argument, List<String>>,
-        context: Context,
-    ): Pair<Map<Argument, List<String>>, List<UsageError>> {
-        val retries = mutableMapOf<Argument, List<String>>()
-        val usageErrors = mutableListOf<UsageError>()
-        for ((it, v) in parsedArgs) {
-            try {
-                it.finalize(context, v)
-            } catch (e: IllegalStateException) {
-                retries[it] = v
-            } catch (e: UsageError) {
-                usageErrors += e
-                context.errorEncountered = true
-            } catch (e: Abort) {
-                // ignore Abort if we already encountered an error
-                if (!context.errorEncountered) throw e
-            }
-        }
-        return retries to usageErrors
-    }
-
 
     private fun loadArgFile(filename: String, context: Context): List<String> {
         return shlex(filename, context.argumentFileReader!!(filename), context)

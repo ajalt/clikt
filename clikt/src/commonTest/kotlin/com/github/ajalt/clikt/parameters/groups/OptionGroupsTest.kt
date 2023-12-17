@@ -2,15 +2,13 @@
 
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.MissingOption
-import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.test
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -578,6 +576,21 @@ class OptionGroupsTest {
 
         shouldThrow<UsageError> { C(3).parse("--g=a --opt=3") }
         shouldThrow<UsageError> { C(3).parse("--opt=3") }
+    }
+
+    @Test
+    @JsName("defaultLazy_option_referencing_group")
+    fun `defaultLazy option referencing group`() {
+        class C : TestCommand() {
+            val g by Group1()
+            val o by option().int().defaultLazy { g.g11 }
+
+            override fun run_() {
+                o shouldBe 1
+            }
+        }
+
+        C().parse("--g11=1")
     }
 }
 

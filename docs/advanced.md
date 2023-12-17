@@ -186,9 +186,11 @@ To implement git-style aliases:
     Committing with message: my message
     ```
 
-Note that aliases are not expanded recursively: none of the tokens that
-an alias expands to will be expanded again, even if they match another
-alias.
+!!! note
+
+    Aliases are not expanded recursively: none of the tokens that
+    an alias expands to will be expanded again, even if they match another
+    alias.
 
 You also use this functionality to implement command prefixes:
 

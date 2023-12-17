@@ -140,6 +140,12 @@ you can use [`defaultLazy`][defaultLazy] instead of [`default`][default]. It has
 but you give it a lambda returning the default value, and the lambda will only be called if the
 option isn't present on the command line.
 
+!!! warning
+
+    The lambda you pass to `defaultLazy` is normally called at most once. But the lambda references
+    another parameter, it may be called more than once in order to make sure the parameter it references
+    is available.
+
 ## Multi Value Options
 
 Options can take a fixed number of values separated by whitespace, a variable number of values separated by a delimiter,
@@ -1178,9 +1184,11 @@ options:
     Hello, Foo!
     ```
 
-Note that inferred names will always have a POSIX-style prefix like
-`--name`. If you want to use a different prefix, you should specify all
-option names manually.
+!!! note
+
+    Inferred names will always have a POSIX-style prefix like
+    `--name`. If you want to use a different prefix, you should specify all
+    option names manually.
 
 ## Option Transformation Order
 

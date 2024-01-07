@@ -60,7 +60,7 @@ Clikt is distributed through [Maven Central](https://search.maven.org/artifact/c
 
 ```groovy
 dependencies {
-   implementation("com.github.ajalt.clikt:clikt:4.2.1")
+   implementation("com.github.ajalt.clikt:clikt:4.2.2")
 }
 ```
 

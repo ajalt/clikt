@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.2
+### Changed
+- Options and arguments can now reference option groups in their `defaultLazy` and other finalization blocks. They can also freely reference each other, including though chains of references. ([#473](https://github.com/ajalt/clikt/issues/473))
+- Updated Kotlin to 1.9.21 ([#472](https://github.com/ajalt/clikt/pull/472))
+
 ## 4.2.1
 ### Added
 - Added `toString` implementations to options and arguments. ([#434](https://github.com/ajalt/clikt/issues/434))

@@ -56,7 +56,7 @@ manage a database:
 
 === "Example"
     ```kotlin
-    class Database(name="db"): CliktCommand() {
+    class Database: CliktCommand(name="db") {
         override fun run() = Unit
     }
 

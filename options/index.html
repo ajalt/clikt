@@ -2678,6 +2678,12 @@ on the command line. You can instead return a default value with <a href="../api
 you can use <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy.html"><code>defaultLazy</code></a> instead of <a href="../api/clikt/com.github.ajalt.clikt.parameters.options/default.html"><code>default</code></a>. It has the same effect,
 but you give it a lambda returning the default value, and the lambda will only be called if the
 option isn&rsquo;t present on the command line.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The lambda you pass to <code>defaultLazy</code> is normally called at most once. But the lambda references
+another parameter, it may be called more than once in order to make sure the parameter it references
+is available.</p>
+</div>
 <h2 id="multi-value-options">Multi Value Options<a class="headerlink" href="#multi-value-options" title="Permanent link">&para;</a></h2>
 <p>Options can take a fixed number of values separated by whitespace, a variable number of values separated by a delimiter,
 or a variable number of values separated by a whitespace.</p>
@@ -3651,9 +3657,12 @@ Hello, Foo!
 </div>
 </div>
 </div>
-<p>Note that inferred names will always have a POSIX-style prefix like
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Inferred names will always have a POSIX-style prefix like
 <code>--name</code>. If you want to use a different prefix, you should specify all
 option names manually.</p>
+</div>
 <h2 id="option-transformation-order">Option Transformation Order<a class="headerlink" href="#option-transformation-order" title="Permanent link">&para;</a></h2>
 <p>Clikt has a large number of extension functions that can modify options. When applying multiple
 functions to the same option, there&rsquo;s only one valid order for the functions to be applied. For
@@ -3692,7 +3701,7 @@ type. So <code>option().default("").multiple()</code> is invalid, since <a href=
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2022 AJ Alt
+      Copyright &copy; 2018 AJ Alt
     </div>
   
   

@@ -234,7 +234,7 @@ could do something like this:
     ```kotlin
     class CustomHelpCommand : TestCommand() {
         init {
-            eagerOption("-h", "--help") {
+            eagerOption("-h", "--help", help="Show this message and exit") {
                 echo("about to print help")
                 throw PrintHelpMessage(context)
             }

@@ -242,6 +242,26 @@ could do something like this:
     }
     ```
 
+=== "Example 2"
+    ```kotlin
+    // If you want to use the help message from the localization, you can register an option
+    // with eager=true and use the lazy `help` method.
+    class CustomHelpCommand : TestCommand() {
+        init {
+            registerOption(
+                option("-h", "--help", eager=true).flag()
+                    .help { context.localization.helpOptionMessage() }
+                    .validate {
+                        if(it) {
+                            echo("about to print help")
+                            throw PrintHelpMessage(context)
+                        }
+                    }
+            )
+        }
+    }
+    ```
+
 === "Usage"
     ```text
     $ ./tool --help

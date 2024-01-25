@@ -817,12 +817,12 @@ passwords.
 ## Eager Options
 
 Sometimes you want an option to halt execution immediately and print a
-message. For example, the built-on `--help` option, or the `--version`
+message. For example, the built-in `--help` option, or the `--version`
 option that many programs have.
 
 The `--help` option is added automatically to commands, and `--version` can be added using
-[`versionOption`][versionOption]. Since the option doesn't have a value, you can't define it using a
-property delegate. Instead, call the function on a command directly, either in an `init` block, or
+[`versionOption`][versionOption]. Since these options don't have values, you can't define them using
+property delegates. Instead, call the function on a command directly, either in an `init` block, or
 on a command instance.
 
 These definitions are equivalent:
@@ -879,9 +879,9 @@ val color by option(eager=true).flag("--no-color", default=true)
 ```
 
 !!! warning
-    Eager options cannot reference other options, since they are finalized first.
-    They can be declared in regular `OptionGroups`, but not in other types of groups
-    like [switch groups][#choice-and-switch-options-with-groups].
+    Eager options can't reference other options or arguments, since they're evaluated before parsing the
+    rest of the command line. They can be declared in regular `OptionGroups`, but not in other types of
+    groups like [switch groups](#choice-and-switch-options-with-groups).
 
 
 ## Deprecating Options

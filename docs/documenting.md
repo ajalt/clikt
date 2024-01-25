@@ -183,10 +183,13 @@ They have a short help string which is the first line of their help.
 
 ## Help Option Customization
 
-Clikt handles the help option is specially. It is added automatically to
-every command. Any help option name that conflicts with another option is
-not used for the help option. If the help option has no unique names, it
-is not added.
+Clikt adds a help option to every command automatically. It uses the names `-h` and `--help` and
+prints the command's help message when invoked. 
+
+### Changing the help option names
+
+Any help option name that conflicts with another option is not used for the help option. If the help
+option has no unique names, it is not added.
 
 You can change the help option's name and help message on the
 [command's context][customizing-contexts]:
@@ -218,6 +221,60 @@ You can change the help option's name and help message on the
 
 If you don't want a help option to be added, you can set
 `helpOptionNames = emptySet()`
+
+
+### Changing the help option behavior
+
+If you want to run some code when the help option is invoked, or change its behavior, you can define
+the option yourself. The default help option is an [eager option][eager-options] that throws a
+[PrintHelpMessage], so if you wanted to log some information when the help option is invoked, you
+could do something like this:
+
+=== "Example"
+    ```kotlin
+    class CustomHelpCommand : TestCommand() {
+        init {
+            eagerOption("-h", "--help", help="Show this message and exit") {
+                echo("about to print help")
+                throw PrintHelpMessage(context)
+            }
+        }
+    }
+    ```
+
+=== "Example 2"
+    ```kotlin
+    // If you want to use the help message from the localization, you can register an option
+    // with eager=true and use the lazy `help` method.
+    class CustomHelpCommand : TestCommand() {
+        init {
+            registerOption(
+                option("-h", "--help", eager=true).flag()
+                    .help { context.localization.helpOptionMessage() }
+                    .validate {
+                        if(it) {
+                            echo("about to print help")
+                            throw PrintHelpMessage(context)
+                        }
+                    }
+            )
+        }
+    }
+    ```
+
+=== "Usage"
+    ```text
+    $ ./tool --help
+    about to print help
+    Usage: custom-help [<options>]
+
+    Options:
+      -h, --help  Show this message and exit
+    ```
+
+!!! warning
+    Eager options can't reference other options or arguments, since they're evaluated before parsing
+    the rest of the command line.
 
 ## Default Values in Help
 
@@ -426,13 +483,15 @@ You can localize error messages by implementing [`Localization`][Localization] a
 
 [Commands]:                 api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
 [Context.localization]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/localization.html
+[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.html
+[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.html
+[OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html
+[PrintHelpMessage]:         api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.html
 [customizing-command-name]: commands.md#customizing-command-name
 [customizing-contexts]:     commands.md#customizing-contexts
 [default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.html
+[eager-options]:            options.md#eager-options
 [groups.provideDelegate]:   api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html
-[HelpFormatter]:            api/clikt/com.github.ajalt.clikt.output/-help-formatter/index.html
-[Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.html
 [nel]:                      https://www.fileformat.info/info/unicode/char/0085/index.htm
-[OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html
 [provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html
 [required]:                 api/clikt/com.github.ajalt.clikt.parameters.options/required.html

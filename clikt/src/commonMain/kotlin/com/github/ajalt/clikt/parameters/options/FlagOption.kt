@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.mordant.terminal.YesNoPrompt
+import kotlin.jvm.JvmOverloads
 
 /** A block that converts a flag value from one type to another */
 typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
@@ -79,8 +80,16 @@ inline fun <OutT> OptionWithValues<Boolean, Boolean, Boolean>.convert(
 /**
  * Turn an option into a flag that counts the number of times it occurs on the command line.
  */
-fun RawOption.counted(): OptionWithValues<Int, Int, Int> {
-    return int().transformValues(0..0) { it.lastOrNull() ?: 1 }.transformAll { it.sum() }
+@JvmOverloads // TODO(5.0): remove this annotation
+fun RawOption.counted(limit: Int = 0, clamp: Boolean = true): OptionWithValues<Int, Int, Int> {
+    return int().transformValues(0..0) { it.lastOrNull() ?: 1 }.transformAll {
+        val s = it.sum()
+        when {
+            limit > 0 && clamp -> s.coerceAtMost(limit)
+            limit in 1..<s -> fail(context.localization.countedOptionExceededLimit(s, limit))
+            else -> s
+        }
+    }
 }
 
 /**

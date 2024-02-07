@@ -361,10 +361,11 @@ class OptionTest {
         row("-xyx", 2, true, null),
         row("-xyxzxyz", 2, true, "xyz"),
         row("-xyzxyz", 1, true, "xyz"),
-        row("-xzfoo", 1, false, "foo")
+        row("-xzfoo", 1, false, "foo"),
+        row("-xxxxxx", 4, false, null),
     ) { argv, ex, ey, ez ->
         class C : TestCommand() {
-            val x by option("-x", "--xx").counted()
+            val x by option("-x", "--xx").counted(limit = 4)
             val y by option("-y", "--yy").flag()
             val z by option("-z", "--zz")
             override fun run_() {
@@ -375,6 +376,20 @@ class OptionTest {
         }
 
         C().parse(argv)
+    }
+
+    @Test
+    @JsName("counted_option_clamp_false")
+    fun `counted option clamp=false`() {
+        class C(called: Boolean) : TestCommand(called) {
+            val x by option("-x").counted(limit = 2, clamp = false)
+        }
+
+        C(true).parse("").x shouldBe 0
+        C(true).parse("-xx").x shouldBe 2
+
+        shouldThrow<UsageError> { C(false).parse("-xxxx") }
+            .formattedMessage shouldBe "invalid value for -x: option was given 4 times, but only 2 times are allowed"
     }
 
     @Test

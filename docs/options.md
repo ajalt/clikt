@@ -445,10 +445,13 @@ line:
 You might want a flag option that counts the number of times it occurs on the command line. You can
 use [`counted`][counted] for this.
 
+You can specify a `limit` for the number of times the [`counted`][counted] option can be given,
+and either `clamp` the value or show an error if the limit is exceeded.
+
 === "Example"
     ```kotlin
     class Log : CliktCommand() {
-        val verbosity by option("-v").counted()
+        val verbosity by option("-v").counted(limit=3, clamp=true)
         override fun run() {
             echo("Verbosity level: $verbosity")
         }
@@ -460,6 +463,7 @@ use [`counted`][counted] for this.
     $ ./log -vvv
     Verbosity level: 3
     ```
+
 
 ## Feature Switch Flags
 

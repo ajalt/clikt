@@ -146,6 +146,12 @@ interface Localization {
         "$value is not in the valid range of $min to $max."
 
     /**
+     * A counted option was given more times than its limit
+     */
+    fun countedOptionExceededLimit(count: Int, limit: Int): String =
+        "option was given $count times, but only $limit times are allowed"
+
+    /**
      * Invalid value for `choice` parameter
      *
      * @param choices non-empty list of possible choices

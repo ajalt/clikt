@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added `limit` parameter to `option().counted()` to limit the number of times the option can be used. You can either clamp the value to the limit, or throw an error if the limit is exceeded. ([#483](https://github.com/ajalt/clikt/issues/483))
+
 ## 4.2.2
 ### Changed
 - Options and arguments can now reference option groups in their `defaultLazy` and other finalization blocks. They can also freely reference each other, including though chains of references. ([#473](https://github.com/ajalt/clikt/issues/473))

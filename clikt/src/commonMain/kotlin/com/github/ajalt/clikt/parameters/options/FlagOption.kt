@@ -79,16 +79,19 @@ inline fun <OutT> OptionWithValues<Boolean, Boolean, Boolean>.convert(
 
 /**
  * Turn an option into a flag that counts the number of times it occurs on the command line.
+ *
+ * @param limit The maximum number of times the option can be given. (defaults to no limit)
+ * @param clamp If `true`, the counted value will be clamped to the [limit] if it is exceeded. If
+ *   `false`, an error will be shown isntead of clamping.
  */
 @JvmOverloads // TODO(5.0): remove this annotation
-fun RawOption.counted(limit: Int = 0, clamp: Boolean = true): OptionWithValues<Int, Int, Int> {
+fun RawOption.counted(limit: Int = Int.MAX_VALUE, clamp: Boolean = true): OptionWithValues<Int, Int, Int> {
     return int().transformValues(0..0) { it.lastOrNull() ?: 1 }.transformAll {
         val s = it.sum()
-        when {
-            limit > 0 && clamp -> s.coerceAtMost(limit)
-            limit in 1..<s -> fail(context.localization.countedOptionExceededLimit(s, limit))
-            else -> s
+        if (!clamp && s > limit) {
+            fail(context.localization.countedOptionExceededLimit(s, limit))
         }
+        s.coerceAtMost(limit)
     }
 }
 

@@ -67,8 +67,8 @@ inline fun <T : CliktCommand> T.versionOption(
     version: String,
     /** The help message for the option */
     help: String = "Show the version and exit",
-    /** The names of this option. Defaults to --version */
-    names: Set<String> = setOf("--version"),
+    /** The names of this option. Defaults to -v or --version */
+    names: Set<String> = setOf("-v", "--version"),
     /** A block that returns the message to print. The [version] is passed as a parameter */
     crossinline message: (String) -> String = { "$commandName version $it" },
 ): T = eagerOption(names, help) { throw PrintMessage(message(version)) }

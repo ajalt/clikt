@@ -124,11 +124,19 @@ class EagerOptionsTest {
             }
         }
 
-        val exception = shouldThrow<PrintMessage> {
+        shouldThrow<PrintMessage> {
             C().parse("--version")
+        }.let { e ->
+            e.formattedMessage shouldBe "prog version 1.2.3"
+            e.statusCode shouldBe 0
         }
-        exception.formattedMessage shouldBe "prog version 1.2.3"
-        exception.statusCode shouldBe 0
+
+        shouldThrow<PrintMessage> {
+            C().parse("-v")
+        }.let { e ->
+            e.formattedMessage shouldBe "prog version 1.2.3"
+            e.statusCode shouldBe 0
+        }
     }
 
     @Test

@@ -8,6 +8,12 @@ plugins {
     kotlin("multiplatform").version(libs.versions.kotlin).apply(false)
     alias(libs.plugins.dokka).apply(false)
     alias(libs.plugins.publish).apply(false)
+    alias(libs.plugins.kotlinBinaryCompatibilityValidator)
+}
+
+apiValidation {
+    // https://github.com/Kotlin/binary-compatibility-validator/issues/3
+    project("samples").subprojects.mapTo(ignoredProjects) { it.name }
 }
 
 fun getPublishVersion(): String {

@@ -12,6 +12,7 @@ import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import kotlin.js.JsName
 import kotlin.test.Test
+import kotlin.test.fail
 
 class ContextTest {
     class Foo
@@ -129,5 +130,80 @@ class ContextTest {
         c.parse("")
 
         c.currentContext.obj shouldBeSameInstanceAs foo
+    }
+
+    @Test
+    @OptIn(ExperimentalStdlibApi::class)
+    @JsName("register_closeable_multiple_subcommands")
+    fun `register closeable multiple subcommands`() {
+        var parentCount = 0
+        var childCount = 0
+        var childSaw0 = 0
+        var childSaw1 = 0
+
+        class Parent : TestCommand(allowMultipleSubcommands = true) {
+            override fun run_() {
+                currentContext.callOnClose { parentCount++ }
+            }
+        }
+
+
+        class Child : TestCommand(count = 2) {
+            override fun run_() {
+                when (childCount) {
+                    0 -> childSaw0++
+                    1 -> childSaw1++
+                    else -> fail("too many calls")
+                }
+                parentCount shouldBe 0
+                val c = object : AutoCloseable {
+                    override fun close() {
+                        childCount++
+                    }
+                }
+                currentContext.registerCloseable(c) shouldBeSameInstanceAs c
+            }
+        }
+        Parent().subcommands(Child()).parse("child child")
+        parentCount shouldBe 1
+        childSaw0 shouldBe 1
+        childSaw1 shouldBe 1
+        childCount shouldBe 2
+    }
+
+    @Test
+    @JsName("register_closeable_throws")
+    fun `register closeable throws`() {
+        var count1 = 0
+        var count2 = 0
+        var count3 = 0
+
+        class E1 : Exception()
+        class E2 : Exception()
+        class E3 : Exception()
+
+        class C : TestCommand() {
+            override fun run_() {
+                currentContext.callOnClose {
+                    count1++
+                    throw E1()
+                }
+                currentContext.callOnClose {
+                    count2++
+                    throw E2()
+                }
+                currentContext.callOnClose {
+                    count3++
+                    throw E3()
+                }
+            }
+        }
+        shouldThrow<E3> {
+            C().parse("")
+        }
+
+        count1 shouldBe 1
+        count2 shouldBe 1
+        count3 shouldBe 1
     }
 }

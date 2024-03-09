@@ -34,7 +34,7 @@ fun RawOption.inputStream(
  * Use `-` as the default value for an [inputStream] option.
  */
 fun NullableOption<InputStream, InputStream>.defaultStdin(): OptionWithValues<InputStream, InputStream, InputStream> {
-    return default(UnclosableInputStream(System.`in`), "-")
+    return default(UncloseableInputStream(System.`in`), "-")
 }
 
 // endregion
@@ -62,7 +62,7 @@ fun RawArgument.inputStream(
  * Use `-` as the default value for an [inputStream] argument.
  */
 fun ProcessedArgument<InputStream, InputStream>.defaultStdin(): ArgumentDelegate<InputStream> {
-    return default(UnclosableInputStream(System.`in`))
+    return default(UncloseableInputStream(System.`in`))
 }
 
 // endregion
@@ -73,7 +73,7 @@ fun ProcessedArgument<InputStream, InputStream>.defaultStdin(): ArgumentDelegate
  * [defaultStdin]).
  */
 val InputStream.isCliktParameterDefaultStdin: Boolean
-    get() = this is UnclosableInputStream
+    get() = this is UncloseableInputStream
 
 private fun convertToInputStream(
     s: String,
@@ -82,7 +82,7 @@ private fun convertToInputStream(
     fail: (String) -> Unit,
 ): InputStream {
     return if (s == "-") {
-        UnclosableInputStream(System.`in`)
+        UncloseableInputStream(System.`in`)
     } else {
         val path = convertToPath(
             path = s,
@@ -100,7 +100,7 @@ private fun convertToInputStream(
     }
 }
 
-private class UnclosableInputStream(private var delegate: InputStream?) : InputStream() {
+private class UncloseableInputStream(private var delegate: InputStream?) : InputStream() {
     private val stream get() = delegate ?: throw IOException("Stream closed")
     override fun available(): Int = stream.available()
     override fun read(): Int = stream.read()

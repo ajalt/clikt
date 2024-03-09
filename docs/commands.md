@@ -230,6 +230,11 @@ the property, you should use [`currentContext.findOrSetObject`][Context.findOrSe
     }
     ```
 
+!!! tip
+
+    If you need to share resources that need to be cleaned up, you can use
+    [`currentContext.registerCloseable`](advanced.md#managing-shared-resources)
+
 ## Running Parent Command Without Children
 
 Normally, if a command has children, [`run`][run] is not called unless a child

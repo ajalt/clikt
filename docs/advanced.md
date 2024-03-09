@@ -350,6 +350,43 @@ If you want to use a value starting with `@` as an argument without expanding it
 - If a `\` occurs at the end of a line, the next line is trimmed of leading whitespace and the two
   lines are concatenated.
 
+## Managing Shared Resources
+
+You might need to open a resource like a file or a network connection in one command, and use it in
+its subcommands.
+
+The typical way to manage a resource is with the `use` function:
+
+```kotiln
+class MyCommand : CliktCommand() {
+    private val file by option().file().required()
+
+    override fun run() {
+        file.bufferedReader().use { reader ->
+            // use the reader
+        }
+    }
+}
+```
+
+But if you need to share the resource with subcommands, the `use` function will exit and close the
+resource before the subcommand is called. Instead, use the context's [registerCloseable] function
+(for `kotlin.AutoCloseable`) or [registerJvmCloseable] function (for `java.lang.AutoCloseable`) to:
+
+```kotlin
+class MyCommand : CliktCommand() {
+    private val file by option().file().required()
+
+    override fun run() {
+        currentContext.obj = currentContext.registerJvmCloseable(file.bufferedReader())
+    }
+}
+```
+
+You can register as many closeables as you need, and they will all be closed when the command and
+its subcommands have finished running. If you need to manage a resource that isn't `AutoClosable`,
+you can use [callOnClose].
+
 ## Custom exit status codes
 
 Clikt will normally exit your program with a status code of 0 for a normal execution, or 1 if
@@ -391,7 +428,10 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 * [editText][editText] and [editFile][editFile] are not supported.
 * [file][file] and [path][path] parameter types are not supported.
 
+[ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
+[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
+[callOnClose]:         api/clikt/com.github.ajalt.clikt.core/-context/call-on-close.html
 [context-obj]:         commands.md#nested-handling-and-contexts
 [customizing-context]: commands.md#customizing-contexts
 [dash-dash]:           arguments.md#option-like-arguments-using-
@@ -403,8 +443,8 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 [main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
 [parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
 [path]:                api/clikt/com.github.ajalt.clikt.parameters.types/path.html
-[ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
 [prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
+[registerCloseable]:   api/clikt/com.github.ajalt.clikt.core/register-closeable.html
+[registerJvmCloseable]:api/clikt/com.github.ajalt.clikt.core/register-jvm-closeable.html
 [test]:                api/clikt/com.github.ajalt.clikt.testing/test.html
-[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html

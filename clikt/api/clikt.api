@@ -161,6 +161,8 @@ public final class com/github/ajalt/clikt/core/Context {
 	public static final field Companion Lcom/github/ajalt/clikt/core/Context$Companion;
 	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Lcom/github/ajalt/clikt/core/CliktCommand;ZZLjava/lang/String;ZLjava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/mordant/terminal/Terminal;Lkotlin/jvm/functions/Function1;ZLcom/github/ajalt/clikt/sources/ValueSource;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/clikt/output/Localization;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun ancestors ()Lkotlin/sequences/Sequence;
+	public final fun callOnClose (Lkotlin/jvm/functions/Function0;)V
+	public final fun close ()V
 	public final fun commandNameWithParents ()Ljava/util/List;
 	public final fun fail (Ljava/lang/String;)Ljava/lang/Void;
 	public static synthetic fun fail$default (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/Void;
@@ -239,8 +241,13 @@ public abstract interface class com/github/ajalt/clikt/core/ContextCliktError {
 	public abstract fun setContext (Lcom/github/ajalt/clikt/core/Context;)V
 }
 
+public final class com/github/ajalt/clikt/core/ContextJvmKt {
+	public static final fun registerJvmCloseable (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/AutoCloseable;)Ljava/lang/AutoCloseable;
+}
+
 public final class com/github/ajalt/clikt/core/ContextKt {
 	public static final fun getTheme (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/mordant/rendering/Theme;
+	public static final fun registerCloseable (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/AutoCloseable;)Ljava/lang/AutoCloseable;
 }
 
 public final class com/github/ajalt/clikt/core/FileNotFound : com/github/ajalt/clikt/core/UsageError {

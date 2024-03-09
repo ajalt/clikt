@@ -46,7 +46,7 @@ fun RawOption.outputStream(
  * Use `-` as the default value for an [outputStream] option.
  */
 fun NullableOption<OutputStream, OutputStream>.defaultStdout(): OptionWithValues<OutputStream, OutputStream, OutputStream> {
-    return default(UnclosableOutputStream(System.out), "-")
+    return default(UncloseableOutputStream(System.out), "-")
 }
 
 // endregion
@@ -85,7 +85,7 @@ fun RawArgument.outputStream(
  * Use `-` as the default value for an [outputStream] argument.
  */
 fun ProcessedArgument<OutputStream, OutputStream>.defaultStdout(): ArgumentDelegate<OutputStream> {
-    return default(UnclosableOutputStream(System.out))
+    return default(UncloseableOutputStream(System.out))
 }
 
 // endregion
@@ -96,7 +96,7 @@ fun ProcessedArgument<OutputStream, OutputStream>.defaultStdout(): ArgumentDeleg
  * [defaultStdout]).
  */
 val OutputStream.isCliktParameterDefaultStdout: Boolean
-    get() = this is UnclosableOutputStream
+    get() = this is UncloseableOutputStream
 
 private fun convertToOutputStream(
     s: String,
@@ -107,7 +107,7 @@ private fun convertToOutputStream(
     fail: (String) -> Unit,
 ): OutputStream {
     return if (s == "-") {
-        UnclosableOutputStream(System.out)
+        UncloseableOutputStream(System.out)
     } else {
         val path = convertToPath(
             s,
@@ -126,7 +126,7 @@ private fun convertToOutputStream(
     }
 }
 
-private class UnclosableOutputStream(private var delegate: OutputStream?) : OutputStream() {
+private class UncloseableOutputStream(private var delegate: OutputStream?) : OutputStream() {
     private val stream get() = delegate ?: throw IOException("Stream closed")
 
     override fun write(b: Int) = stream.write(b)

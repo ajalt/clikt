@@ -129,6 +129,8 @@ class Context private constructor(
     var errorEncountered: Boolean = false
         internal set
 
+    private val closeables = mutableListOf<() -> Unit>()
+
     /** Find the closest object of type [T] */
     inline fun <reified T : Any> findObject(): T? {
         return selfAndAncestors().mapNotNull { it.obj as? T }.firstOrNull()
@@ -163,6 +165,43 @@ class Context private constructor(
     /** Throw a [UsageError] with the given message */
     fun fail(message: String = ""): Nothing = throw UsageError(message)
 
+    /**
+     * Register a callback to be called when this command and all its subcommands have finished.
+     *
+     * This is useful for resources that need to be shared across multiple commands.
+     *
+     * If your resource implements [AutoCloseable], you should use [registerCloseable] instead.
+     *
+     * ### Example
+     *
+     * ```
+     * currentContext.callOnClose { myResource.close() }
+     * ```
+     */
+    fun callOnClose(closeable: () -> Unit) {
+        closeables.add(closeable)
+    }
+
+    /**
+     * Close all registered closeables in the reverse order they were registered.
+     *
+     * This is called automatically after a command and its subcommands have finished running.
+     */
+    fun close() {
+        var err: Throwable? = null
+        for (c in closeables.asReversed()) {
+            try {
+                c()
+            } catch (e: Throwable) {
+                if (err == null) err = e
+                else err.addSuppressed(e)
+            }
+        }
+        closeables.clear()
+        if (err != null) throw err
+    }
+
+    // TODO(5.0): these don't need to be member functions
     @PublishedApi
     internal fun ancestors() = generateSequence(parent) { it.parent }
 
@@ -340,6 +379,30 @@ class Context private constructor(
             }
         }
     }
+}
+
+/**
+ * Register an [AutoCloseable] to be closed when this command and all its subcommands have
+ * finished running.
+ *
+ * This is useful for resources that need to be shared across multiple commands. For resources
+ * that aren't shared, it's often simpler to use [use] directly.
+ *
+ * Registered closeables will be closed in the reverse order that they were registered.
+ *
+ * ### Example
+ *
+ * ```
+ * currentContext.obj = currentContext.registerCloseable(MyResource())
+ * ```
+ *
+ * @return the closeable that was registered
+ * @see Context.callOnClose
+ */
+@ExperimentalStdlibApi
+fun <T: AutoCloseable> Context.registerCloseable(closeable: T): T {
+    callOnClose { closeable.close() }
+    return closeable
 }
 
 /** Find the closest object of type [T], or throw a [NullPointerException] */

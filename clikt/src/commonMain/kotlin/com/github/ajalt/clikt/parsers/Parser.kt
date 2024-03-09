@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parsers
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.finalizeParameters
 import com.github.ajalt.clikt.parameters.arguments.Argument
+import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
@@ -99,15 +100,13 @@ internal object Parser {
             return context.tokenTransformer(context, token.take(2)) !in optionsByName
         }
 
-        fun addError(e: Err) {
-            errors += e
-            context.errorEncountered = true
-        }
-
         fun consumeParse(tokenIndex: Int, result: OptParseResult) {
             positionalArgs += result.unknown.map { tokenIndex to it }
             invocations += result.known
-            result.err?.let(::addError)
+            result.err?.let {
+                errors += it
+                context.errorEncountered = true
+            }
             i += result.consumed
         }
 
@@ -211,92 +210,143 @@ internal object Parser {
         }
 
 
-        // Finalize and validate everything as long as we aren't resuming a parse for multiple subcommands
+        // Finalize and validate everything as long as we aren't resuming a parse for multiple
+        // subcommands
         try {
-            if (canRun) {
-                // Finalize and validate eager options
-                invocationsByOption.forEach { (o, inv) ->
-                    if (o.eager) {
-                        o.finalize(context, inv)
-                        o.postValidate(context)
-                    }
-                }
-
-                // Parse arguments
-                val argsParseResult = parseArguments(i, positionalArgs, arguments)
-                argsParseResult.err?.let(::addError)
-
-                val excessResult = handleExcessArguments(
-                    argsParseResult.excessCount,
-                    hasMultipleSubAncestor,
-                    i,
-                    tokens,
-                    subcommands,
-                    positionalArgs,
-                    context
-                )
-                excessResult.second?.let(::addError)
-
-                val usageErrors = errors
-                    .filter { it.includeInMulti }.ifEmpty { errors }
-                    .sortedBy { it.i }.mapTo(mutableListOf()) { it.e }
-
-                i = excessResult.first
-
-                // Finalize arguments, groups, and options
-                gatherErrors(usageErrors, context) {
-                    finalizeParameters(
+            try {
+                if (canRun) {
+                    i = finalizeAndRun(
                         context,
+                        i,
+                        command,
+                        subcommand,
+                        invocationsByOption,
+                        positionalArgs,
+                        arguments,
+                        hasMultipleSubAncestor,
+                        tokens,
+                        subcommands,
+                        errors,
                         ungroupedOptions,
-                        command._groups,
-                        invocationsByOptionByGroup,
-                        argsParseResult.args,
+                        invocationsByOptionByGroup
                     )
+                } else if (subcommand == null && positionalArgs.isNotEmpty()) {
+                    // If we're resuming a parse with multiple subcommands, there can't be any args
+                    // after the last subcommand is parsed
+                    throw excessArgsError(positionalArgs, positionalArgs.size, context)
                 }
-
-                // We can't validate a param that didn't finalize successfully, and we don't keep
-                // track of which ones are finalized, so throw any errors now
-                MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
-
-                // Now that all parameters have been finalized, we can validate everything
-                ungroupedOptions.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
-                command._groups.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
-                command._arguments.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
-
-                MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
-
-                if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
-                    throw PrintHelpMessage(context, error = true)
-                }
-
-                command.currentContext.invokedSubcommand = subcommand
-                if (command.currentContext.printExtraMessages) {
-                    for (warning in command.messages) {
-                        command.terminal.warning(warning, stderr = true)
-                    }
-                }
-
-                command.run()
-            } else if (subcommand == null && positionalArgs.isNotEmpty()) {
-                // If we're resuming a parse with multiple subcommands, there can't be any args after the last
-                // subcommand is parsed
-                throw excessArgsError(positionalArgs, positionalArgs.size, context)
+            } catch (e: UsageError) {
+                // Augment usage errors with the current context if they don't have one
+                e.context = context
+                throw e
             }
-        } catch (e: UsageError) {
-            // Augment usage errors with the current context if they don't have one
-            e.context = context
-            throw e
-        }
 
-        if (subcommand != null) {
-            val nextTokens = parse(tokens.drop(i), subcommand.currentContext, true)
-            if (command.allowMultipleSubcommands && nextTokens.isNotEmpty()) {
-                parse(nextTokens, context, false)
+            if (subcommand != null) {
+                val nextTokens = parse(tokens.drop(i), subcommand.currentContext, true)
+                if (command.allowMultipleSubcommands && nextTokens.isNotEmpty()) {
+                    parse(nextTokens, context, false)
+                }
+                return nextTokens
             }
-            return nextTokens
+        } finally {
+            context.close()
         }
 
         return tokens.drop(i)
+    }
+
+    private fun finalizeAndRun(
+        context: Context,
+        i: Int,
+        command: CliktCommand,
+        subcommand: CliktCommand?,
+        invocationsByOption: Map<Option, List<Invocation>>,
+        positionalArgs: MutableList<Pair<Int, String>>,
+        arguments: MutableList<Argument>,
+        hasMultipleSubAncestor: Boolean,
+        tokens: List<String>,
+        subcommands: Map<String, CliktCommand>,
+        errors: MutableList<Err>,
+        ungroupedOptions: List<Option>,
+        invocationsByOptionByGroup: Map<ParameterGroup?, Map<Option, List<Invocation>>>,
+    ): Int {
+        // Finalize and validate eager options
+        var nextArgvI = i
+
+        invocationsByOption.forEach { (o, inv) ->
+            if (o.eager) {
+                o.finalize(context, inv)
+                o.postValidate(context)
+            }
+        }
+
+        // Parse arguments
+        val argsParseResult = parseArguments(nextArgvI, positionalArgs, arguments)
+        argsParseResult.err?.let {
+            errors += it
+            context.errorEncountered = true
+        }
+
+        val excessResult = handleExcessArguments(
+            argsParseResult.excessCount,
+            hasMultipleSubAncestor,
+            nextArgvI,
+            tokens,
+            subcommands,
+            positionalArgs,
+            context
+        )
+        excessResult.second?.let {
+            errors += it
+            context.errorEncountered = true
+        }
+
+        val usageErrors = errors
+            .filter { it.includeInMulti }.ifEmpty { errors }
+            .sortedBy { it.i }.mapTo(mutableListOf()) { it.e }
+
+        nextArgvI = excessResult.first
+
+        // Finalize arguments, groups, and options
+        gatherErrors(usageErrors, context) {
+            finalizeParameters(
+                context,
+                ungroupedOptions,
+                command._groups,
+                invocationsByOptionByGroup,
+                argsParseResult.args,
+            )
+        }
+
+        // We can't validate a param that didn't finalize successfully, and we don't keep
+        // track of which ones are finalized, so throw any errors now
+        MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
+
+        // Now that all parameters have been finalized, we can validate everything
+        ungroupedOptions.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
+        command._groups.forEach { gatherErrors(usageErrors, context) { it.postValidate(context) } }
+        command._arguments.forEach {
+            gatherErrors(
+                usageErrors,
+                context
+            ) { it.postValidate(context) }
+        }
+
+        MultiUsageError.buildOrNull(usageErrors)?.let { throw it }
+
+        if (subcommand == null && subcommands.isNotEmpty() && !command.invokeWithoutSubcommand) {
+            throw PrintHelpMessage(context, error = true)
+        }
+
+        command.currentContext.invokedSubcommand = subcommand
+        if (command.currentContext.printExtraMessages) {
+            for (warning in command.messages) {
+                command.terminal.warning(warning, stderr = true)
+            }
+        }
+
+        command.run()
+        return nextArgvI
     }
 
     /** Returns either the new argv index, or an error */
@@ -514,14 +564,14 @@ internal object Parser {
             1 -> context.localization.extraArgumentOne(actual)
             else -> context.localization.extraArgumentMany(actual, excess)
         }
-        return UsageError(message)
+        return UsageError(message).also { it.context = context }
     }
 }
 
 private inline fun gatherErrors(
     errors: MutableList<UsageError>,
     context: Context,
-    block: () -> Unit
+    block: () -> Unit,
 ) {
     try {
         block()

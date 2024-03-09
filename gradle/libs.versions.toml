@@ -16,3 +16,4 @@ kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
 [plugins]
 dokka = "org.jetbrains.dokka:1.9.10"
 publish = "com.vanniktech.maven.publish:0.25.3"
+kotlinBinaryCompatibilityValidator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.14.0"

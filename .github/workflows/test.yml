@@ -17,7 +17,7 @@ jobs:
           - os: windows-latest
             TEST_TASK: mingwX64Test
           - os: ubuntu-latest
-            TEST_TASK: check
+            TEST_TASK: apiCheck check
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v4

@@ -6,7 +6,7 @@
 - Added `Context.registerClosable` and `Context.callOnClose` to allow you to register cleanup actions that will be called when the command exits. ([#395](https://github.com/ajalt/clikt/issues/395))
 
 ### Fixed
-- Fixed `unrecognized modifier 'i'` that happened on tab-completion when using sub command aliases
+- Fixed `unrecognized modifier 'i'` that happened on tab-completion when using sub command aliases ([#500](https://github.com/ajalt/clikt/pull/500))
 
 ## 4.2.2
 ### Changed

@@ -38,7 +38,9 @@ internal object BashCompletionGenerator {
                 if (zsh) {
                     append(
                         """
-                    |autoload bashcompinit
+                    |autoload -Uz compinit
+                    |compinit
+                    |autoload -Uz bashcompinit
                     |bashcompinit
                     |
                     |

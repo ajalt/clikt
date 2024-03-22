@@ -7,6 +7,7 @@
 
 ### Fixed
 - Fixed `unrecognized modifier 'i'` that happened on tab-completion when using sub command aliases ([#500](https://github.com/ajalt/clikt/pull/500))
+- Make sure auto complete script works on zsh, fixing the error `complete:13: command not found: compdef` ([#499](https://github.com/ajalt/clikt/pull/499))
 
 ## 4.2.2
 ### Changed

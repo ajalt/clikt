@@ -69,8 +69,8 @@ dependencies {
 
 #### Multiplatform
 
-Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, and `js` (for both
-Node.js and Browsers). Artifacts for macosArm64 are also published, but not tested with CI. [See the
+Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `macosX64`, `macosArm64'`,
+and `js` (for both Node.js and Browsers). [See the
 docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) for more information about
 functionality supported on each target. You'll need to use Gradle 6 or newer.
 

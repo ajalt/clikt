@@ -137,7 +137,7 @@ internal object BashCompletionGenerator {
                     """
                 |      $name)
                 |        (( i = i + 1 ))
-                |        COMP_WORDS=( "${'$'}{COMP_WORDS[@]:0:i}"
+                |        COMP_WORDS=( "${'$'}{COMP_WORDS[@]:0:${'$'}{i}}"
                 """.trimMargin()
                 )
                 toks.joinTo(this, " ", prefix = " ") { "'$it'" }

@@ -1,13 +1,15 @@
 # Changelog
 
 ## Unreleased
+
+## 4.3.0
 ### Added
 - Added `limit` parameter to `option().counted()` to limit the number of times the option can be used. You can either clamp the value to the limit, or throw an error if the limit is exceeded. ([#483](https://github.com/ajalt/clikt/issues/483))
 - Added `Context.registerClosable` and `Context.callOnClose` to allow you to register cleanup actions that will be called when the command exits. ([#395](https://github.com/ajalt/clikt/issues/395))
 
 ### Fixed
-- Fixed `unrecognized modifier 'i'` that happened on tab-completion when using sub command aliases ([#500](https://github.com/ajalt/clikt/pull/500))
-- Make sure auto complete script works on zsh, fixing the error `complete:13: command not found: compdef` ([#499](https://github.com/ajalt/clikt/pull/499))
+- Fixed `unrecognized modifier 'i'` that happened on tab-completion when using sub command aliases. Thanks to @hick209 for the contribution. ([#500](https://github.com/ajalt/clikt/pull/500))
+- Make sure auto complete script works on zsh, fixing the error `complete:13: command not found: compdef`. Thanks to @hick209 for the contribution. ([#499](https://github.com/ajalt/clikt/pull/499))
 
 ## 4.2.2
 ### Changed

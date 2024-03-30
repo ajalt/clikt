@@ -1,15 +1,11 @@
 package com.github.ajalt.clikt.tmp
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.internal.finalizeParameters
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
-import com.github.ajalt.clikt.parameters.arguments.Argument
-import com.github.ajalt.clikt.parameters.groups.ParameterGroup
-import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.CommandInvocation
 import com.github.ajalt.clikt.parsers.CommandLineParseResult
-import com.github.ajalt.clikt.parsers.Invocation
 import com.github.ajalt.clikt.parsers.shlex
 
 // TODO: move this back to parsers package
@@ -22,12 +18,15 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
-    // does not throw
-    fun parse(command: CliktCommand, originalArgv: List<String>): CommandLineParseResult {
+    // TODO: docs does not throw
+    fun <RunnerT : Function<*>> parse(
+        command: BaseCliktCommand<RunnerT>,
+        originalArgv: List<String>,
+    ): CommandLineParseResult<RunnerT> {
         return parseArgv(command, originalArgv)
     }
 
-    fun finalize(invocation: CommandInvocation) {
+    fun finalize(invocation: CommandInvocation<*>) {
         finalizeParameters(
             invocation.command.currentContext,
             invocation.command.registeredOptions(),

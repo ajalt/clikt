@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
@@ -18,15 +18,14 @@ data class Invocation(val name: String, val values: List<String>)
 // TODO: docs
 data class ArgumentInvocation(val argument: Argument, val values: List<String>)
 
-// TODO: swap to BaseCliktCommand<T>
-data class CommandInvocation(
-    val command: CliktCommand,
+data class CommandInvocation<RunnerT : Function<*>>(
+    val command: BaseCliktCommand<RunnerT>,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
 )
 
-class CommandLineParseResult(
-    val invocations: List<CommandInvocation>,
+class CommandLineParseResult<RunnerT : Function<*>>(
+    val invocations: List<CommandInvocation<RunnerT>>,
     val originalArgv: List<String>,
     val expandedArgv: List<String>,
     val errors: List<CliktError>,

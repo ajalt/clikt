@@ -6,8 +6,11 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 import com.github.ajalt.clikt.parsers.*
 
-internal fun parseArgv(command: CliktCommand, originalArgv: List<String>): CommandLineParseResult {
-    val results = mutableListOf<CommandInvocation>()
+internal fun <RunnerT : Function<*>> parseArgv(
+    command: BaseCliktCommand<RunnerT>,
+    originalArgv: List<String>,
+): CommandLineParseResult<RunnerT> {
+    val results = mutableListOf<CommandInvocation<RunnerT>>()
     var expandedArgv = originalArgv
     val errors = mutableListOf<CliktError>()
     var i = 0
@@ -41,12 +44,12 @@ internal fun parseArgv(command: CliktCommand, originalArgv: List<String>): Comma
     return CommandLineParseResult(results, originalArgv, expandedArgv, errors)
 }
 
-private fun parseCommand(
-    command: CliktCommand,
+private fun <RunnerT : Function<*>> parseCommand(
+    command: BaseCliktCommand<RunnerT>,
     parentContext: Context?,
     argv: List<String>,
     startingIndex: Int,
-): CommandParseResult {
+): CommandParseResult<RunnerT> {
     var tokens = argv
     val context = command.resetContext(parentContext)
     val aliases = command.aliases()
@@ -57,7 +60,7 @@ private fun parseCommand(
     val prefixes = mutableSetOf<String>()
     val longNames = mutableSetOf<String>()
     val argumentTokens = mutableListOf<String>()
-    var subcommand: CliktCommand? = null
+    var subcommand: BaseCliktCommand<RunnerT>? = null
     var canParseOptions = true
     var canExpandAtFiles = context.expandArgumentFiles
     val optInvocations = mutableListOf<OptInvocation>()
@@ -65,7 +68,7 @@ private fun parseCommand(
     var i = startingIndex
     var minAliasI = i
 
-    fun makeResult(): CommandParseResult {
+    fun makeResult(): CommandParseResult<RunnerT> {
         val opts = optInvocations.groupBy({ it.opt }, { it.inv })
         return CommandParseResult(subcommand, i, errors, tokens, opts, argumentTokens)
     }
@@ -205,12 +208,12 @@ private fun parseCommand(
 }
 
 /** Returns the new argv index and any errors */
-private fun handleExcessArgs(
+private fun <RunnerT : Function<*>> handleExcessArgs(
     argResult: ArgsParseResult,
-    command: CliktCommand,
+    command: BaseCliktCommand<RunnerT>,
     i: Int,
     expandedArgv: List<String>,
-    commandResult: CommandParseResult,
+    commandResult: CommandParseResult<RunnerT>,
 ): Pair<Int, List<CliktError>> {
     if (argResult.excessCount <= 0) return i to emptyList()
     val hasMultipleSubAncestor = command.currentContext.ancestors().any {
@@ -410,8 +413,8 @@ private fun loadArgFile(filename: String, context: Context): List<String> {
     return shlex(filename, context.argumentFileReader!!(filename), context.localization)
 }
 
-private data class CommandParseResult(
-    val subcommand: CliktCommand?,
+private data class CommandParseResult<RunnerT : Function<*>>(
+    val subcommand: BaseCliktCommand<RunnerT>?,
     val i: Int,
     val errors: List<CliktError>,
     val expandedArgv: List<String>,

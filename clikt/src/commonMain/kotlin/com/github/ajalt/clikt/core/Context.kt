@@ -27,7 +27,7 @@ class Context private constructor(
     /**
      * The command that this context associated with.
      */
-    val command: CliktCommand,
+    val command: BaseCliktCommand<*>,
     /**
      * If false, options and arguments cannot be mixed; the first time an argument is
      *   encountered, all remaining tokens are parsed as arguments.
@@ -116,7 +116,7 @@ class Context private constructor(
      * If this command has subcommands and one of them was invoked, this is the subcommand that will
      * be run next.
      */
-    var invokedSubcommand: CliktCommand? = null
+    var invokedSubcommand: BaseCliktCommand<*>? = null
         internal set
 
     /**
@@ -152,9 +152,7 @@ class Context private constructor(
 
     /** Return a list of command names, starting with the topmost command and ending with this Context's parent. */
     fun parentNames(): List<String> {
-        return ancestors()
-            .map { it.command.commandName }
-            .toList().asReversed()
+        return ancestors().map { it.command.commandName }.toList().asReversed()
     }
 
     /** Return a list of command names, starting with the topmost command and ending with this Context's command. */
@@ -215,7 +213,7 @@ class Context private constructor(
     val expandArgumentFiles: Boolean get() = argumentFileReader != null
 
 
-    class Builder(command: CliktCommand, val parent: Context? = null) {
+    class Builder(command: BaseCliktCommand<*>, val parent: Context? = null) {
         /**
          * If false, options and arguments cannot be mixed; the first time an argument is encountered, all
          * remaining tokens are parsed as arguments.
@@ -343,17 +341,17 @@ class Context private constructor(
 
     companion object {
         internal fun build(
-            command: CliktCommand,
+            command: BaseCliktCommand<*>,
             parent: Context?,
             argv: List<String>,
             block: Builder.() -> Unit,
         ): Context {
             with(Builder(command, parent)) {
                 block()
-                val interspersed = allowInterspersedArgs && !command.allowMultipleSubcommands &&
-                        parent?.let { p ->
-                            p.selfAndAncestors().any { it.command.allowMultipleSubcommands }
-                        } != true
+                val interspersed =
+                    allowInterspersedArgs && !command.allowMultipleSubcommands && parent?.let { p ->
+                        p.selfAndAncestors().any { it.command.allowMultipleSubcommands }
+                    } != true
                 val formatter: ((Context) -> HelpFormatter) =
                     helpFormatter ?: { MordantHelpFormatter(it) }
                 return Context(
@@ -400,20 +398,20 @@ class Context private constructor(
  * @see Context.callOnClose
  */
 @ExperimentalStdlibApi
-fun <T: AutoCloseable> Context.registerCloseable(closeable: T): T {
+fun <T : AutoCloseable> Context.registerCloseable(closeable: T): T {
     callOnClose { closeable.close() }
     return closeable
 }
 
 /** Find the closest object of type [T], or throw a [NullPointerException] */
 @Suppress("UnusedReceiverParameter") // these extensions don't use their receiver, but we want to limit where they can be called
-inline fun <reified T : Any> CliktCommand.requireObject(): ReadOnlyProperty<CliktCommand, T> {
+inline fun <reified T : Any> BaseCliktCommand<*>.requireObject(): ReadOnlyProperty<BaseCliktCommand<*>, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject()!! }
 }
 
 /** Find the closest object of type [T], or null */
 @Suppress("UnusedReceiverParameter")
-inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCommand, T?> {
+inline fun <reified T : Any> BaseCliktCommand<*>.findObject(): ReadOnlyProperty<BaseCliktCommand<*>, T?> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject() }
 }
 
@@ -426,16 +424,16 @@ inline fun <reified T : Any> CliktCommand.findObject(): ReadOnlyProperty<CliktCo
  * function instead.
  */
 @Suppress("UnusedReceiverParameter")
-inline fun <reified T : Any> CliktCommand.findOrSetObject(crossinline default: () -> T): ReadOnlyProperty<CliktCommand, T> {
+inline fun <reified T : Any> BaseCliktCommand<*>.findOrSetObject(
+    crossinline default: () -> T
+): ReadOnlyProperty<BaseCliktCommand<*>, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(default) }
 }
 
 /** The current terminal's theme */
-val Context.theme : Theme get() = terminal.theme
+val Context.theme: Theme get() = terminal.theme
 
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
-    possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }
-        .filter { it.second > 0.8 }
-        .sortedByDescending { it.second }
-        .map { it.first }
+    possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }.filter { it.second > 0.8 }
+        .sortedByDescending { it.second }.map { it.first }
 }

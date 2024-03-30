@@ -4,28 +4,20 @@ import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.clikt.parameters.arguments.Argument
-import com.github.ajalt.clikt.parameters.arguments.ProcessedArgument
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parsers.Parser
-import com.github.ajalt.mordant.terminal.ConversionResult
 import com.github.ajalt.mordant.terminal.Terminal
-import com.github.ajalt.mordant.terminal.YesNoPrompt
 
+// TODO: docs
 /**
- * The [CliktCommand] is the core of command line interfaces in Clikt.
- *
- * Command line interfaces created by creating a subclass of [CliktCommand] with properties defined with
- * [option] and [argument]. You can then parse `argv` by calling [main], which will take care of printing
- * errors and help to the user. If you want to handle output yourself, you can use [parse] instead.
- *
- * Once the command line has been parsed and all the parameters are populated, [run] is called.
+ * A base class for commands that want to define a custom type for their `run` function.
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
-abstract class CliktCommand(
+abstract class BaseCliktCommand<RunnerT : Function<*>>(
     /**
      * The help for this command. The first line is used in the usage string, and the entire string
      * is used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
@@ -78,6 +70,13 @@ abstract class CliktCommand(
     private val hidden: Boolean = false,
 ) : ParameterHolder {
     /**
+     * The function to run when this command is invoked.
+     *
+     * For [CliktCommand], this just calls `run`.
+     */
+    abstract val runner: RunnerT
+
+    /**
      * The name of this command, used in help output.
      *
      * You can set this by passing `name` to the [CliktCommand] constructor.
@@ -114,7 +113,7 @@ abstract class CliktCommand(
         return epilog
     }
 
-    internal var _subcommands: List<CliktCommand> = emptyList()
+    internal var _subcommands: List<BaseCliktCommand<RunnerT>> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
     internal val _arguments: MutableList<Argument> = mutableListOf()
     internal val _groups: MutableList<ParameterGroup> = mutableListOf()
@@ -125,14 +124,34 @@ abstract class CliktCommand(
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
     fun resetContext(parent: Context?): Context {
-        TODO("implement this, doc that each run get a fresh context now")
-//        _context?.close()
-//        return createContext(...)
+        //TODO ("doc that each run get a fresh context now")
+        _context?.close()
+        // TODO either pass argv or remove it from ctx
+        _context = Context.build(this, parent, emptyList(), _contextConfig)
+
+        if (allowMultipleSubcommands) {
+            require(currentContext.ancestors().none { it.command.allowMultipleSubcommands }) {
+                "Commands with allowMultipleSubcommands=true cannot be nested in " +
+                        "commands that also have allowMultipleSubcommands=true"
+            }
+        }
+
+        if (currentContext.helpOptionNames.isNotEmpty()) {
+            val names = currentContext.helpOptionNames - registeredOptionNames()
+            if (names.isNotEmpty()) {
+                eagerOption(names, currentContext.localization.helpOptionMessage()) {
+                    throw PrintHelpMessage(context)
+                }
+            }
+        }
+        // TODO  check(command !in a) { "Command ${command.commandName} already registered" }
+        return _context!!
     }
+
     private fun createContext(
         argv: List<String>,
         parent: Context?,
-        ancestors: List<CliktCommand>,
+        ancestors: List<BaseCliktCommand<RunnerT>>,
     ): Context {
         _context = Context.build(this, parent, argv, _contextConfig)
 
@@ -180,7 +199,7 @@ abstract class CliktCommand(
     }
 
     private fun getCommandNameWithParents(): String {
-        if (_context == null) createContext(emptyList(), null, emptyList())
+        if (_context == null) resetContext(null)
         return currentContext.commandNameWithParents().joinToString(" ")
     }
 
@@ -303,8 +322,7 @@ abstract class CliktCommand(
             return error.message
         }
 
-        val ctx = (error as? ContextCliktError)?.context
-            ?: _context ?: createContext(emptyList(), null, emptyList())
+        val ctx = (error as? ContextCliktError)?.context ?: _context ?: resetContext(null)
         val cmd = ctx.command
         val programName = cmd.getCommandNameWithParents()
         return ctx.helpFormatter(ctx).formatHelp(
@@ -367,7 +385,6 @@ abstract class CliktCommand(
      * You should use [main] instead unless you want to handle output yourself.
      */
     fun parse(argv: List<String>, parentContext: Context? = null) {
-        createContext(argv, parentContext, emptyList())
         generateCompletion()
         Parser.parse(argv, this.currentContext)
     }
@@ -407,14 +424,14 @@ abstract class CliktCommand(
     abstract fun run()
 
     override fun toString() = buildString {
-        append("<${this@CliktCommand.classSimpleName()} name=$commandName")
+        append("<${this@BaseCliktCommand.classSimpleName()} name=$commandName")
 
         if (_options.isNotEmpty()) {
-            _options.joinTo(this, prefix=" options=[", postfix = "]")
+            _options.joinTo(this, prefix = " options=[", postfix = "]")
         }
 
         if (_arguments.isNotEmpty()) {
-            _arguments.joinTo(this, prefix=" arguments=[", postfix = "]")
+            _arguments.joinTo(this, prefix = " arguments=[", postfix = "]")
         }
 
         if (_subcommands.isNotEmpty()) {
@@ -425,13 +442,21 @@ abstract class CliktCommand(
     }
 }
 
+//abstract class CliktCommand : BaseCliktCommand<() -> Unit>() {
+//    override fun run() {
+//        throw PrintHelpMessage(currentContext)
+//    }
+//}
+
 /** Add the given commands as a subcommand of this command. */
-fun <T : CliktCommand> T.subcommands(commands: Iterable<CliktCommand>): T = apply {
+fun <RunnerT, CommandT> CommandT.subcommands(commands: Iterable<CommandT>): CommandT
+        where CommandT : BaseCliktCommand<RunnerT> = apply {
     _subcommands = _subcommands + commands
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
+fun <RunnerT, CommandT> CommandT.subcommands(vararg commands: CommandT): CommandT
+        where CommandT : BaseCliktCommand<RunnerT> = apply {
     _subcommands = _subcommands + commands
 }
 
@@ -441,7 +466,7 @@ fun <T : CliktCommand> T.subcommands(vararg commands: CliktCommand): T = apply {
  * Context property values are normally inherited from the parent context, but you can override any of them
  * here.
  */
-fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
+fun <T : BaseCliktCommand<*>> T.context(block: Context.Builder.() -> Unit): T = apply {
     // save the old config to allow multiple context calls
     val c = _contextConfig
     _contextConfig = {
@@ -452,7 +477,7 @@ fun <T : CliktCommand> T.context(block: Context.Builder.() -> Unit): T = apply {
 
 private fun Any.classSimpleName(): String = this::class.simpleName.orEmpty().split("$").last()
 
-private fun CliktCommand.inferCommandName(): String {
+private fun BaseCliktCommand<*>.inferCommandName(): String {
     val name = classSimpleName()
 
     val suffixes = setOf("Command", "Commands")
@@ -467,5 +492,5 @@ private fun CliktCommand.inferCommandName(): String {
 }
 
 /** A short for accessing the terminal from the [currentContext][CliktCommand.currentContext] */
-val CliktCommand.terminal: Terminal
+val BaseCliktCommand<*>.terminal: Terminal
     get() = currentContext.terminal

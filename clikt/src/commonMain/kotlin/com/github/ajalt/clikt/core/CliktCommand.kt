@@ -30,12 +30,12 @@ abstract class CliktCommand(
      * The help for this command. The first line is used in the usage string, and the entire string
      * is used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
      */
-    help: String = "",
+    private val help: String = "",
     /**
      * Text to display at the end of the full help output. It is automatically re-wrapped to the
      * terminal width.
      */
-    epilog: String = "",
+    private val epilog: String = "",
     /**
      * The name of the program to use in the help output. If not given, it is inferred from the
      * class name.
@@ -84,9 +84,6 @@ abstract class CliktCommand(
      */
     val commandName: String = name ?: inferCommandName()
 
-    @Deprecated("Use commandHelp method instead")
-    open val commandHelp: String = help
-
     /**
      * The help text for this command.
      *
@@ -104,12 +101,8 @@ abstract class CliktCommand(
      * ```
      */
     open fun commandHelp(context: Context): String {
-        @Suppress("DEPRECATION")
-        return commandHelp
+        return help
     }
-
-    @Deprecated("Use commandHelpEpilog method instead")
-    open val commandHelpEpilog: String = epilog
 
     /**
      * Help text to display at the end of the help output, after any parameters.
@@ -118,8 +111,7 @@ abstract class CliktCommand(
      * method.
      */
     open fun commandHelpEpilog(context: Context): String {
-        @Suppress("DEPRECATION")
-        return commandHelpEpilog
+        return epilog
     }
 
     internal var _subcommands: List<CliktCommand> = emptyList()
@@ -367,88 +359,6 @@ abstract class CliktCommand(
         } else {
             currentContext.terminal.print(message, stderr = err)
         }
-    }
-
-    /**
-     * A deprecated alias for `terminal.prompt`.
-     */
-    @Deprecated(
-        "Use terminal.prompt instead",
-        ReplaceWith(
-            "terminal.prompt(text, default, showDefault, showChoices, hideInput, choices, promptSuffix, invalidChoiceMessage)",
-            "com.github.ajalt.clikt.core.terminal"
-        )
-    )
-    fun prompt(
-        text: String,
-        default: String? = null,
-        showDefault: Boolean = true,
-        showChoices: Boolean = true,
-        hideInput: Boolean = false,
-        choices: Collection<String> = emptyList(),
-        promptSuffix: String = ": ",
-        invalidChoiceMessage: String = "Invalid value, choose from ",
-    ): String? = currentContext.terminal.prompt(
-        text,
-        default,
-        showDefault,
-        showChoices,
-        hideInput,
-        choices,
-        promptSuffix,
-        invalidChoiceMessage
-    )
-
-    /**
-     * A deprecated alias for `terminal.prompt`.
-     */
-    @Deprecated(
-        "Use terminal.prompt instead",
-        ReplaceWith(
-            "terminal.prompt(text, default, showDefault, showChoices, hideInput, choices, promptSuffix, invalidChoiceMessage, convert)",
-            "com.github.ajalt.clikt.core.terminal"
-        )
-    )
-    fun <T> prompt(
-        text: String,
-        default: T? = null,
-        showDefault: Boolean = true,
-        showChoices: Boolean = true,
-        hideInput: Boolean = false,
-        choices: Collection<T> = emptyList(),
-        promptSuffix: String = ": ",
-        invalidChoiceMessage: String = "Invalid value, choose from ",
-        convert: (String) -> ConversionResult<T>,
-    ): T? = currentContext.terminal.prompt(
-        text,
-        default,
-        showDefault,
-        showChoices,
-        hideInput,
-        choices,
-        promptSuffix,
-        invalidChoiceMessage,
-        convert
-    )
-
-    @Deprecated(
-        "Use YesNoPrompt instead",
-        ReplaceWith(
-            "YesNoPrompt(text, terminal, default, uppercaseDefault, showChoices, choiceStrings, promptSuffix, invalidChoiceMessage).ask()",
-            "com.github.ajalt.clikt.core.terminal",
-            "com.github.ajalt.mordant.terminal.YesNoPrompt"
-        )
-    )
-    fun confirm(
-        text: String,
-        default: Boolean? = null,
-        uppercaseDefault: Boolean = true,
-        showChoices: Boolean = true,
-        choiceStrings: List<String> = listOf("y", "n"),
-        promptSuffix: String = ": ",
-        invalidChoiceMessage: String = "Invalid value, choose from ",
-    ): Boolean? {
-        return YesNoPrompt(text, terminal, default, uppercaseDefault, showChoices, choiceStrings, promptSuffix, invalidChoiceMessage).ask()
     }
 
     /**

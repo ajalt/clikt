@@ -1,11 +1,14 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.InvalidFileFormat
+import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
 
-internal fun shlex(filename: String, text: String, context: Context?): List<String> {
-    val localization = context?.localization ?: defaultLocalization
+internal fun shlex(
+    filename: String,
+    text: String,
+    localization: Localization = defaultLocalization,
+): List<String> {
     val toks = mutableListOf<String>()
     var inQuote: Char? = null
     val sb = StringBuilder()

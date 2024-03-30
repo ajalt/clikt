@@ -67,7 +67,7 @@ open class TestCommand(
 }
 
 fun <T : TestCommand> T.parse(argv: String): T {
-    parse(shlex("test", argv, null))
+    parse(shlex("test", argv))
     TestCommand.assertCalled(this)
     return this
 }

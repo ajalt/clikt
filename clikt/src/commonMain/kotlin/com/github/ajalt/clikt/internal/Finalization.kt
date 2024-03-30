@@ -1,12 +1,10 @@
 package com.github.ajalt.clikt.internal
 
-import com.github.ajalt.clikt.core.Abort
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.MultiUsageError
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parsers.ArgumentInvocation
 import com.github.ajalt.clikt.parsers.Invocation
 
 internal fun finalizeOptions(
@@ -15,7 +13,7 @@ internal fun finalizeOptions(
     invocationsByOption: Map<Option, List<Invocation>>,
 ) {
     finalizeParameters(
-        context, options, emptyList(), mapOf(null to invocationsByOption), emptyList()
+        context, options, emptyList(), invocationsByOption, emptyList()
     )
 }
 
@@ -28,23 +26,26 @@ internal fun finalizeParameters(
     context: Context,
     options: List<Option>,
     groups: List<ParameterGroup>,
-    invocationsByOptionByGroup: Map<ParameterGroup?, Map<Option, List<Invocation>>>,
-    argsAndTokens: List<Pair<Argument, List<String>>>,
+    optionInvocations: Map<Option, List<Invocation>>,
+    argumentInvocations: List<ArgumentInvocation>,
 ) {
+    val allGroups = optionInvocations.entries
+        .groupBy({ it.key.group }, { it.key to it.value })
+        .mapValuesTo(mutableMapOf()) { it.value.toMap() }
+
     // Add uninvoked params last so that e.g. we can skip prompting if there's an error in an
     // invoked option
-    val allGroups = invocationsByOptionByGroup.toMutableMap()
     for (group in groups) {
         if (group !in allGroups) allGroups[group] = emptyMap()
     }
 
-    val allOptions = (invocationsByOptionByGroup[null] ?: emptyMap()).toMutableMap()
+    val allOptions = (allGroups[null] ?: emptyMap()).toMutableMap()
     for (opt in options) {
         if (opt !in allOptions) allOptions[opt] = emptyList()
     }
 
     val allParams: List<Param> =
-        argsAndTokens.map { Arg(it.first, it.second) } +
+        argumentInvocations.map { Arg(it.argument, it.values) } +
                 allOptions.map { Opt(it.key, it.value) } +
                 allGroups.mapNotNull { it.key?.let { k -> Group(k, it.value) } }
 
@@ -78,3 +79,5 @@ internal fun finalizeParameters(
 
     MultiUsageError.buildOrNull(errors)?.let { throw it }
 }
+
+private val Option.group: ParameterGroup? get() = (this as? GroupableOption)?.parameterGroup

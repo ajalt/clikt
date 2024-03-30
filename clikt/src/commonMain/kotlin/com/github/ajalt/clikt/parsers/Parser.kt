@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.parsers
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.finalizeParameters
 import com.github.ajalt.clikt.parameters.arguments.Argument
-import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
@@ -197,14 +196,6 @@ internal object Parser {
 
         // Group options for finalization
         val invocationsByOption = invocations.groupBy({ it.opt }, { it.inv })
-        val invocationsByGroup = invocations.groupBy {
-            (it.opt as? GroupableOption)?.parameterGroup
-        }
-        val invocationsByOptionByGroup = invocationsByGroup
-            .mapValues { (_, invocations) ->
-                invocations.groupBy({ it.opt }, { it.inv })
-                    .filterKeys { !it.eager }
-            }
         val ungroupedOptions = command._options.filter {
             !it.eager && (it as? GroupableOption)?.parameterGroup == null
         }
@@ -227,8 +218,7 @@ internal object Parser {
                         tokens,
                         subcommands,
                         errors,
-                        ungroupedOptions,
-                        invocationsByOptionByGroup
+                        ungroupedOptions
                     )
                 } else if (subcommand == null && positionalArgs.isNotEmpty()) {
                     // If we're resuming a parse with multiple subcommands, there can't be any args
@@ -268,7 +258,6 @@ internal object Parser {
         subcommands: Map<String, CliktCommand>,
         errors: MutableList<Err>,
         ungroupedOptions: List<Option>,
-        invocationsByOptionByGroup: Map<ParameterGroup?, Map<Option, List<Invocation>>>,
     ): Int {
         // Finalize and validate eager options
         var nextArgvI = i
@@ -312,8 +301,8 @@ internal object Parser {
                 context,
                 ungroupedOptions,
                 command._groups,
-                invocationsByOptionByGroup,
-                argsParseResult.args,
+                invocationsByOption,
+                argsParseResult.args.map { (a, v) -> ArgumentInvocation(a, v) },
             )
         }
 
@@ -549,7 +538,7 @@ internal object Parser {
     }
 
     private fun loadArgFile(filename: String, context: Context): List<String> {
-        return shlex(filename, context.argumentFileReader!!(filename), context)
+        return shlex(filename, context.argumentFileReader!!(filename), context.localization)
     }
 
     private fun excessArgsError(

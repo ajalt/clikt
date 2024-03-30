@@ -52,7 +52,7 @@ abstract class CliktCommand(
      */
     val printHelpOnEmptyArgs: Boolean = false,
     /**
-     * Extra information about this option to pass to the help formatter.
+     * Extra information about this command to pass to the help formatter.
      */
     val helpTags: Map<String, String> = emptyMap(),
     /**
@@ -132,6 +132,11 @@ abstract class CliktCommand(
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
+    fun resetContext(parent: Context?): Context {
+        TODO("implement this, doc that each run get a fresh context now")
+//        _context?.close()
+//        return createContext(...)
+    }
     private fun createContext(
         argv: List<String>,
         parent: Context?,

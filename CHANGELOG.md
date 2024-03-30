@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `NoSuchArgument` exception that is thrown when too many arguments were given on the command line. Previously, a less specific `UsageError` was thrown instead.
 ## 4.4.0
 ### Added
 - Publish `linuxArm64` and `wasmJs` targets.

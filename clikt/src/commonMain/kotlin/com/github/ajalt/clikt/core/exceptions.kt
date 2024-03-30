@@ -147,9 +147,16 @@ class MultiUsageError(
         fun buildOrNull(errors: List<UsageError>): UsageError? = when (errors.size) {
             0 -> null
             1 -> errors[0]
-            else -> MultiUsageError(errors.flatMap {
-                (it as? MultiUsageError)?.errors ?: listOf(it)
-            })
+            else -> {
+                val flatErrors = errors.flatMap { (it as? MultiUsageError)?.errors ?: listOf(it) }
+                var encounteredUnknownOpt = false
+                // Don't report argument errors after unknown options since they might be the values
+                // for that option
+                MultiUsageError(flatErrors.filter {
+                    if (it is NoSuchOption) encounteredUnknownOpt = true
+                    !encounteredUnknownOpt || it !is NoSuchArgument
+                })
+            }
         }
     }
 
@@ -230,7 +237,6 @@ class NoSuchSubcommand(
     }
 }
 
-
 /** An option was provided that does not exist. */
 class NoSuchOption(
     paramName: String,
@@ -241,6 +247,25 @@ class NoSuchOption(
             paramName?.let(formatter::formatOption) ?: "",
             possibilities.map(formatter::formatOption)
         )
+    }
+}
+
+/**
+ * One or more arguments were provided that do not exist.
+ */
+class NoSuchArgument(
+    private val excessArguments: List<String>,
+) : UsageError(null) {
+    init {
+        require(excessArguments.isNotEmpty()) { "must provide at least one excess argument" }
+    }
+
+    override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
+        val actual = excessArguments.joinToString(" ", limit = 3, prefix = "(", postfix = ")")
+        return when (excessArguments.size) {
+            1 -> localization.extraArgumentOne(actual)
+            else -> localization.extraArgumentMany(actual, excessArguments.size)
+        }
     }
 }
 

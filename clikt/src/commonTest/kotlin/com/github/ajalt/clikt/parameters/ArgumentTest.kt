@@ -161,9 +161,9 @@ class ArgumentTest {
         }
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo") }
             .formattedMessage shouldBe "argument X requires 2 values"
-        shouldThrow<UsageError> { C().parse("foo bar baz") }
+        shouldThrow<NoSuchArgument> { C().parse("foo bar baz") }
             .formattedMessage shouldBe "got unexpected extra argument (baz)"
-        shouldThrow<UsageError> { C().parse("foo bar baz qux") }
+        shouldThrow<NoSuchArgument> { C().parse("foo bar baz qux") }
             .formattedMessage shouldBe "got unexpected extra arguments (baz qux)"
     }
 
@@ -176,7 +176,7 @@ class ArgumentTest {
 
         shouldThrow<IncorrectArgumentValueCount> { C().parse("foo bar") }
             .formattedMessage shouldBe "argument X requires 3 values"
-        shouldThrow<UsageError> { C().parse("foo bar baz qux") }
+        shouldThrow<NoSuchArgument> { C().parse("foo bar baz qux") }
             .formattedMessage shouldBe "got unexpected extra argument (qux)"
 
     }

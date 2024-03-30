@@ -233,7 +233,7 @@ class OptionTest {
         }
         shouldThrow<IncorrectOptionValueCount> { C().parse("-x") }.formattedMessage shouldBe
                 "option -x requires 2 values"
-        shouldThrow<UsageError> { C().parse("--yy foo bar baz") }.formattedMessage shouldBe
+        shouldThrow<NoSuchArgument> { C().parse("--yy foo bar baz") }.formattedMessage shouldBe
                 "got unexpected extra argument (baz)"
     }
 

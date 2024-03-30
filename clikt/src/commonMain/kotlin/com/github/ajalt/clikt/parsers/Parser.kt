@@ -8,7 +8,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
 /** [i] is the argv index of the token that caused the error */
-private data class Err(val e: UsageError, val i: Int, val includeInMulti: Boolean = true)
+private data class Err(val e: UsageError, val i: Int)
 
 private data class ArgsParseResult(
     val excessCount: Int,
@@ -302,7 +302,6 @@ internal object Parser {
         }
 
         val usageErrors = errors
-            .filter { it.includeInMulti }.ifEmpty { errors }
             .sortedBy { it.i }.mapTo(mutableListOf()) { it.e }
 
         nextArgvI = excessResult.first
@@ -369,7 +368,7 @@ internal object Parser {
                     )
                 }
 
-                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i, false)
+                else -> -1 to Err(excessArgsError(positionalArgs, excess, context), i)
             }
         }
         return i to null
@@ -558,13 +557,8 @@ internal object Parser {
         excess: Int,
         context: Context,
     ): UsageError {
-        val actual = positionalArgs.takeLast(excess)
-            .joinToString(" ", limit = 3, prefix = "(", postfix = ")") { it.second }
-        val message = when (excess) {
-            1 -> context.localization.extraArgumentOne(actual)
-            else -> context.localization.extraArgumentMany(actual, excess)
-        }
-        return UsageError(message).also { it.context = context }
+        val actual = positionalArgs.takeLast(excess).map { it.second }
+        return NoSuchArgument(actual).also { it.context = context }
     }
 }
 

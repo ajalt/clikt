@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
+import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.internal.finalizeParameters
+import com.github.ajalt.clikt.internal.validateParameters
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
 
@@ -24,12 +26,20 @@ object CommandLineParser {
     }
 
     fun finalize(invocation: CommandInvocation<*>) {
-        finalizeParameters(
+        val usageErrors = finalizeParameters(
             invocation.command.currentContext,
             invocation.command.registeredOptions(),
             invocation.command.registeredParameterGroups(),
             invocation.optionInvocations,
             invocation.argumentInvocations,
         )
+
+        // Now that all parameters have been finalized, we can validate everything
+        val validationErrors = validateParameters(
+            invocation.command.currentContext,
+            invocation.optionInvocations
+        )
+
+        MultiUsageError.buildOrNull(usageErrors + validationErrors)?.let { throw it }
     }
 }

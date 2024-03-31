@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.CommandLineParser
+import com.github.ajalt.clikt.parsers.throwErrors
 
 /**
  * The [CliktCommand] is the core of command line interfaces in Clikt.
@@ -96,5 +97,10 @@ fun BaseCliktCommand<() -> Unit>.parse(argv: Array<String>) {
  */
 fun BaseCliktCommand<() -> Unit>.parse(argv: List<String>) {
 // TODO   generateCompletion()
-    CommandLineParser.parse(this, argv)
+    val result = CommandLineParser.parse(this, argv)
+    result.throwErrors()
+    for (invocation in result.invocations) {
+        CommandLineParser.finalize(invocation)
+        invocation.command.runner()
+    }
 }

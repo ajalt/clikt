@@ -11,18 +11,20 @@ internal fun <RunnerT : Function<*>> parseArgv(
 ): CommandLineParseResult<RunnerT> {
     val results = mutableListOf<CommandInvocation<RunnerT>>()
     var expandedArgv = originalArgv
+    var nextCommand: BaseCliktCommand<RunnerT>? = command
     val errors = mutableListOf<CliktError>()
     var i = 0
-    do {
+    while (nextCommand != null) {
         val parent = results.lastOrNull()?.command?.currentContext
-        val commandResult = parseCommand(command, parent, expandedArgv, i)
-        check(i in expandedArgv.indices) {
+        val commandResult = parseCommand(nextCommand, parent, expandedArgv, i)
+        check(expandedArgv.isEmpty() || i in expandedArgv.indices) {
             "Internal error: index $i out of bounds ${expandedArgv.indices}"
         }
 
         i = commandResult.i
         errors += commandResult.errors
         expandedArgv = commandResult.expandedArgv
+        nextCommand = commandResult.subcommand
         if (commandResult.errors.isNotEmpty()) command.currentContext.errorEncountered = true
 
         val argResult = parseArguments(commandResult.argumentTokens, command._arguments)
@@ -33,9 +35,9 @@ internal fun <RunnerT : Function<*>> parseArgv(
             (e as? UsageError)?.let { it.context = it.context ?: command.currentContext }
         }
         results += CommandInvocation(command, commandResult.optInvocations, argResult.invocations)
-    } while (commandResult.subcommand != null)
+    }
     val lastInvocation = results.lastOrNull()
-    if (lastInvocation != null && i != expandedArgv.lastIndex) {
+    if (lastInvocation != null && i != expandedArgv.size) {
         errors += NoSuchArgument(expandedArgv.drop(i + 1)).also {
             it.context = command.currentContext
         }
@@ -72,28 +74,6 @@ private fun <RunnerT : Function<*>> parseCommand(
         return CommandParseResult(subcommand, i, errors, tokens, opts, argumentTokens)
     }
 
-    for (option in command._options) {
-        require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
-            "options must have at least one name"
-        }
-
-        require(option.acceptsUnattachedValue || option.nvalues.last <= 1) {
-            "acceptsUnattachedValue must be true if the option accepts more than one value"
-        }
-
-        for (name in option.names + option.secondaryNames) {
-            optionsByName[name] = option
-            if (name.length > 2) longNames += name
-            prefixes += splitOptionPrefix(name).first
-        }
-    }
-    prefixes.remove("")
-
-    if (tokens.isEmpty() && command.printHelpOnEmptyArgs) {
-        errors += PrintHelpMessage(context, error = true)
-        return makeResult()
-    }
-
     fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
         if ("=" !in token) return false
         if (prefix.isEmpty()) return false
@@ -123,6 +103,28 @@ private fun <RunnerT : Function<*>> parseCommand(
             addAll(tokens.drop(i + 1))
         }
         minAliasI = i + newTokens.size
+    }
+
+    for (option in command._options) {
+        require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
+            "options must have at least one name"
+        }
+
+        require(option.acceptsUnattachedValue || option.nvalues.last <= 1) {
+            "acceptsUnattachedValue must be true if the option accepts more than one value"
+        }
+
+        for (name in option.names + option.secondaryNames) {
+            optionsByName[name] = option
+            if (name.length > 2) longNames += name
+            prefixes += splitOptionPrefix(name).first
+        }
+    }
+    prefixes.remove("")
+
+    if (tokens.isEmpty() && command.printHelpOnEmptyArgs) {
+        errors += PrintHelpMessage(context, error = true)
+        return makeResult()
     }
 
     loop@ while (i <= tokens.lastIndex) {

@@ -7,13 +7,11 @@ import com.github.ajalt.clikt.core.parse
 import com.github.ajalt.clikt.parsers.shlex
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
-import io.kotest.matchers.shouldBe
 import kotlin.test.assertEquals
-import kotlin.test.fail
 
 open class TestCommand(
-    private val called: Boolean = true,
-    private val count: Int? = null,
+    called: Boolean = true,
+    count: Int? = null,
     help: String = "",
     epilog: String = "",
     name: String? = null,
@@ -42,9 +40,9 @@ open class TestCommand(
         }
     }
 
+    private val count = count ?: if (called) 1 else 0
     private var actualCount = 0
     final override fun run() {
-        if (count == null) actualCount shouldBe 0
         actualCount++
         run_()
     }
@@ -54,12 +52,7 @@ open class TestCommand(
     companion object {
         fun assertCalled(cmd: BaseCliktCommand<*>) {
             if (cmd is TestCommand) {
-                if (cmd.count != null) {
-                    assertEquals(cmd.count, cmd.actualCount, "command call count")
-                } else {
-                    if (cmd.called && cmd.actualCount == 0) fail("${cmd.commandName} should have been called")
-                    if (!cmd.called && cmd.actualCount > 0) fail("${cmd.commandName} should not be called")
-                }
+                assertEquals(cmd.count, cmd.actualCount, "${cmd.commandName} call count")
             }
             for (sub in cmd.registeredSubcommands()) {
                 assertCalled(sub)

@@ -212,6 +212,9 @@ class Context private constructor(
      */
     val expandArgumentFiles: Boolean get() = argumentFileReader != null
 
+    override fun toString(): String {
+        return "Context(command=${command.commandName}, parent=${parent?.command?.commandName})"
+    }
 
     class Builder(command: BaseCliktCommand<*>, val parent: Context? = null) {
         /**

@@ -12,9 +12,10 @@ internal fun finalizeOptions(
     options: List<Option>,
     invocationsByOption: Map<Option, List<Invocation>>,
 ) {
-    finalizeParameters(
+    val errors = finalizeParameters(
         context, options, emptyList(), invocationsByOption, emptyList()
     )
+    MultiUsageError.buildOrNull(errors)?.let { throw it }
 }
 
 private sealed class Param
@@ -28,7 +29,7 @@ internal fun finalizeParameters(
     groups: List<ParameterGroup>,
     optionInvocations: Map<Option, List<Invocation>>,
     argumentInvocations: List<ArgumentInvocation>,
-) {
+): List<UsageError> {
     val allGroups = optionInvocations.entries
         .groupBy({ it.key.group }, { it.key to it.value })
         .mapValuesTo(mutableMapOf()) { it.value.toMap() }
@@ -65,6 +66,7 @@ internal fun finalizeParameters(
             } catch (e: IllegalStateException) {
                 nextRound += it
             } catch (e: UsageError) {
+                e.context = e.context ?: context
                 errors += e
                 context.errorEncountered = true
             } catch (e: Abort) {
@@ -77,7 +79,41 @@ internal fun finalizeParameters(
         nextRound.clear()
     }
 
-    MultiUsageError.buildOrNull(errors)?.let { throw it }
+    return errors
+}
+
+internal fun validateParameters(
+    context: Context,
+    optionInvocations: Map<Option, List<Invocation>>,
+): List<UsageError> {
+    val usageErrors = mutableListOf<UsageError>()
+    optionInvocations.keys.filter { it.group == null }.forEach {
+        gatherErrors(usageErrors, context) { it.postValidate(context) }
+    }
+    context.command.registeredParameterGroups().forEach {
+        gatherErrors(usageErrors, context) { it.postValidate(context) }
+    }
+    context.command.registeredArguments().forEach {
+        gatherErrors(
+            usageErrors,
+            context
+        ) { it.postValidate(context) }
+    }
+    return usageErrors
+}
+
+private inline fun gatherErrors(
+    errors: MutableList<UsageError>,
+    context: Context,
+    block: () -> Unit,
+) {
+    try {
+        block()
+    } catch (e: UsageError) {
+        e.context = e.context ?: context
+        errors += e
+        context.errorEncountered = true
+    }
 }
 
 private val Option.group: ParameterGroup? get() = (this as? GroupableOption)?.parameterGroup

@@ -2,6 +2,8 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktError
+import com.github.ajalt.clikt.core.MultiUsageError
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 
@@ -30,3 +32,13 @@ class CommandLineParseResult<RunnerT : Function<*>>(
     val expandedArgv: List<String>,
     val errors: List<CliktError>,
 )
+
+fun CommandLineParseResult<*>.throwErrors() {
+    when (val first = errors.firstOrNull()) {
+        is UsageError -> MultiUsageError.buildOrNull(
+            errors.takeWhile { it is UsageError }.filterIsInstance<UsageError>()
+        )?.let { throw it }
+
+        is CliktError -> throw first
+    }
+}

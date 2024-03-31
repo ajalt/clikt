@@ -332,8 +332,12 @@ class OptionTest {
     fun `flag convert validate`() {
         class C : TestCommand() {
             val x by option().flag("--no-x")
-                .convert { if (it) E.A else E.B }
-                .validate { require(it == E.A) }
+                .convert {
+                    if (it) E.A else E.B
+                }
+                .validate {
+                    require(it == E.A)
+                }
         }
 
         C().parse("--x").x shouldBe E.A

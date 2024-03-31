@@ -305,19 +305,17 @@ class ArgumentTest {
 
     @Test
     @JsName("value_minus_minus_with_argument")
-    fun `value -- with argument`() = forAll(
-        row("--xx --xx -- --xx", "--xx", "--xx")
-    ) { argv, ex, ey ->
+    fun `value -- with argument`() {
         class C : TestCommand() {
             val x by option("-x", "--xx")
             val y by argument()
             override fun run_() {
-                x shouldBe ex
-                y shouldBe ey
+                x shouldBe "--xx"
+                y shouldBe  "--xx"
             }
         }
 
-        C().parse(argv)
+        C().parse("--xx --xx -- --xx")
     }
 
     @Test

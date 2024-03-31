@@ -51,6 +51,7 @@ class EagerOptionsTest {
             val o by option().flag().validate { error("fail") }
         }
 
+
         shouldThrow<PrintHelpMessage> { C().parse("-h --o") }
         shouldThrow<PrintHelpMessage> { C().parse("--o -h") }
         shouldThrow<IllegalStateException> { C().parse("--o") }

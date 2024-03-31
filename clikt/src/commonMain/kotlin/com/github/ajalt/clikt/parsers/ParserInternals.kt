@@ -6,40 +6,40 @@ import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
 internal fun <RunnerT : Function<*>> parseArgv(
-    command: BaseCliktCommand<RunnerT>,
+    rootCommand: BaseCliktCommand<RunnerT>,
     originalArgv: List<String>,
 ): CommandLineParseResult<RunnerT> {
     val results = mutableListOf<CommandInvocation<RunnerT>>()
     var expandedArgv = originalArgv
-    var nextCommand: BaseCliktCommand<RunnerT>? = command
+    var command: BaseCliktCommand<RunnerT>? = rootCommand
     val errors = mutableListOf<CliktError>()
     var i = 0
-    while (nextCommand != null) {
+    while (command != null) {
         val parent = results.lastOrNull()?.command?.currentContext
-        val commandResult = CommandParser(nextCommand, parent, expandedArgv, i).parse()
-        check(expandedArgv.isEmpty() || i in expandedArgv.indices) {
-            "Internal error: index $i out of bounds ${expandedArgv.indices}"
-        }
-
+        val commandResult = CommandParser(command, parent, expandedArgv, i).parse()
         i = commandResult.i
         errors += commandResult.errors
         expandedArgv = commandResult.expandedArgv
-        nextCommand = commandResult.subcommand
         if (commandResult.errors.isNotEmpty()) command.currentContext.errorEncountered = true
 
         val argResult = parseArguments(commandResult.argumentTokens, command._arguments)
+        argResult.err?.let { errors += it }
+
         val excessArgResult = handleExcessArgs(argResult, command, i, expandedArgv, commandResult)
         i = excessArgResult.first
         errors += excessArgResult.second
-        errors.forEach { e ->
-            (e as? UsageError)?.let { it.context = it.context ?: command.currentContext }
+        for (e in errors) {
+            if (e is UsageError) e.context = e.context ?: command.currentContext
         }
-        results += CommandInvocation(command, commandResult.optInvocations, argResult.invocations)
+        results += CommandInvocation(
+            command, commandResult.optInvocations, argResult.invocations
+        )
+        command = commandResult.subcommand
     }
     val lastInvocation = results.lastOrNull()
     if (lastInvocation != null && i != expandedArgv.size) {
         errors += NoSuchArgument(expandedArgv.drop(i + 1)).also {
-            it.context = command.currentContext
+            it.context = rootCommand.currentContext
         }
     }
     return CommandLineParseResult(results, originalArgv, expandedArgv, errors)
@@ -87,7 +87,7 @@ private class CommandParser<RunnerT : Function<*>>(
         }
         prefixes.remove("")
 
-        if (tokens.isEmpty() && command.printHelpOnEmptyArgs) {
+        if (i > tokens.lastIndex && command.printHelpOnEmptyArgs) {
             errors += PrintHelpMessage(context, error = true)
             return makeResult()
         }

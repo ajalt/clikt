@@ -75,7 +75,6 @@ class CliktCommandTest {
         }
     }
 
-
     @Test
     @JsName("printHelpOnEmptyArgs__true")
     fun `printHelpOnEmptyArgs = true`() {

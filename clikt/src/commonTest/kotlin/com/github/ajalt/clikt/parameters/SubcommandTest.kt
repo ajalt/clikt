@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters
 
-import com.github.ajalt.clikt.core.NoSuchSubcommand
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.pair
@@ -13,6 +10,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.test
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -263,6 +261,21 @@ class SubcommandTest {
             |
             |Error: missing argument <arg>
             """.trimMargin()
+    }
+
+    @Test
+    @JsName("subcommandprintHelpOnEmptyArgs__true")
+    fun `subcommand printHelpOnEmptyArgs = true`() {
+        class C : TestCommand(called = false, printHelpOnEmptyArgs = true)
+        class S : TestCommand(called = false, printHelpOnEmptyArgs = true) {
+            val x by argument()
+        }
+
+        shouldThrow<PrintHelpMessage> {
+            C().subcommands(S()).parse("s")
+        }.error shouldBe true
+        val c = C().subcommands(S().context { helpOptionNames = emptyList() })
+        c.test("s").output.trim() shouldBe "Usage: c s <x>"
     }
 
     @Test

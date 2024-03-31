@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.BadParameterValue
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.MissingOption
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.OptionDelegate
@@ -31,9 +28,9 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
     }
 
     override fun provideDelegate(
-        thisRef: CliktCommand,
+        thisRef: BaseCliktCommand<*>,
         property: KProperty<*>,
-    ): ReadOnlyProperty<CliktCommand, OutT> {
+    ): ReadOnlyProperty<BaseCliktCommand<*>, OutT> {
         option.provideDelegate(thisRef, property) // infer the option name and register it
         thisRef.registerOptionGroup(this)
         for ((_, group) in groups) {
@@ -46,7 +43,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
         return this
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
+    override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): OutT = value
 
     override fun finalize(
         context: Context,

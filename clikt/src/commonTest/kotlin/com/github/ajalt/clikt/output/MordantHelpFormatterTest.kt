@@ -63,6 +63,7 @@ class MordantHelpFormatterTest {
                 is Argument -> c.registerArgument(p)
                 is Option -> c.registerOption(p)
                 is CliktCommand -> c.subcommands(p)
+                else -> error("Unknown param type: $p")
             }
         }
         c.getFormattedHelp()?.lines()?.first() shouldBe expected

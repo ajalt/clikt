@@ -25,9 +25,9 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
     private var value: OutT by NullableLateinit("Cannot read from group delegate before parsing command line")
 
     override operator fun provideDelegate(
-        thisRef: CliktCommand,
+        thisRef: BaseCliktCommand<*>,
         property: KProperty<*>,
-    ): ReadOnlyProperty<CliktCommand, OutT> {
+    ): ReadOnlyProperty<BaseCliktCommand<*>, OutT> {
         thisRef.registerOptionGroup(this)
 
         for (option in options) {
@@ -40,7 +40,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         return this
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
+    override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): OutT = value
 
     override fun finalize(
         context: Context,

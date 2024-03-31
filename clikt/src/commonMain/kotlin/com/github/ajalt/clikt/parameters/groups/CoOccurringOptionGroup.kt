@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parameters.groups
 
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.output.HelpFormatter
@@ -32,9 +33,9 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
     private var occurred = false
 
     override fun provideDelegate(
-        thisRef: CliktCommand,
+        thisRef: BaseCliktCommand<*>,
         property: KProperty<*>,
-    ): ReadOnlyProperty<CliktCommand, OutT> {
+    ): ReadOnlyProperty<BaseCliktCommand<*>, OutT> {
         thisRef.registerOptionGroup(this)
         for (option in group.options) {
 
@@ -45,7 +46,7 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
         return this
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): OutT = value
+    override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): OutT = value
 
     override fun finalize(context: Context, invocationsByOption: Map<Option, List<Invocation>>) {
         occurred = invocationsByOption.isNotEmpty() || group.options.any {

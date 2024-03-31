@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.Abort
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.PrintMessage
-import com.github.ajalt.clikt.core.ProgramResult
+import com.github.ajalt.clikt.core.*
 
 
 /**
@@ -19,7 +16,7 @@ import com.github.ajalt.clikt.core.ProgramResult
  *   exception. If you want to exit normally without printing a message, you should throw
  *   [`Abort(error=false)`][Abort].
  */
-fun <T : CliktCommand> T.eagerOption(
+fun <T : BaseCliktCommand<*>> T.eagerOption(
     vararg names: String,
     help: String = "",
     hidden: Boolean = false,
@@ -41,7 +38,7 @@ fun <T : CliktCommand> T.eagerOption(
  *   exception. If you want to exit normally without printing a message, you should throw
  *   [`ProgramResult(0)`][ProgramResult].
  */
-fun <T : CliktCommand> T.eagerOption(
+fun <T : BaseCliktCommand<*>> T.eagerOption(
     names: Collection<String>,
     help: String = "",
     hidden: Boolean = false,
@@ -62,7 +59,7 @@ fun <T : CliktCommand> T.eagerOption(
 }
 
 /** Add an eager option to this command that, when invoked, prints a version message and exits. */
-inline fun <T : CliktCommand> T.versionOption(
+inline fun <T : BaseCliktCommand<*>> T.versionOption(
     /** The version to print */
     version: String,
     /** The help message for the option */

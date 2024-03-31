@@ -1,12 +1,9 @@
-package com.github.ajalt.clikt.tmp
+package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.internal.finalizeParameters
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
-import com.github.ajalt.clikt.parsers.CommandInvocation
-import com.github.ajalt.clikt.parsers.CommandLineParseResult
-import com.github.ajalt.clikt.parsers.shlex
 
 // TODO: move this back to parsers package
 

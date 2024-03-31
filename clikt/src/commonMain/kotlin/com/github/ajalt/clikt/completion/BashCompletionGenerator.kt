@@ -1,11 +1,11 @@
 package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
-import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.parameters.options.Option
 
 internal object BashCompletionGenerator {
-    fun generateBashOrZshCompletion(command: CliktCommand, zsh: Boolean): String {
+    fun generateBashOrZshCompletion(command: BaseCliktCommand<*>, zsh: Boolean): String {
         val commandName = command.commandName
         val (isTopLevel, funcName) = commandCompletionFuncName(command)
         val options = command._options
@@ -297,7 +297,7 @@ internal object BashCompletionGenerator {
         }
     }
 
-    private fun commandCompletionFuncName(command: CliktCommand): Pair<Boolean, String> {
+    private fun commandCompletionFuncName(command: BaseCliktCommand<*>): Pair<Boolean, String> {
         val ancestors = generateSequence(command.currentContext) { it.parent }
             .map { it.command.commandName }
             .toList().asReversed()

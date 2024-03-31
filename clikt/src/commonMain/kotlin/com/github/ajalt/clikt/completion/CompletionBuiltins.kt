@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.completion
 
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
@@ -11,7 +12,7 @@ private val choices = arrayOf("bash", "zsh", "fish")
 /**
  * Add an option to a command that will print a completion script for the given shell when invoked.
  */
-fun <T : CliktCommand> T.completionOption(
+fun <T : BaseCliktCommand<*>> T.completionOption(
     vararg names: String = arrayOf("--generate-completion"),
     help: String = "",
     hidden: Boolean = false,

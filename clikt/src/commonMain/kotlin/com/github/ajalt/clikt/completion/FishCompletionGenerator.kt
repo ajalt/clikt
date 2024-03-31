@@ -1,17 +1,18 @@
 package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.Option
 
 internal object FishCompletionGenerator {
-    fun generateFishCompletion(command: CliktCommand): String {
+    fun generateFishCompletion(command: BaseCliktCommand<*>): String {
         if (!command.hasFishCompletionRequirements) return ""
         return generateFishCompletionForCommand(command)
     }
 
 
-    private fun generateFishCompletionForCommand(command: CliktCommand): String = buildString {
+    private fun generateFishCompletionForCommand(command: BaseCliktCommand<*>): String = buildString {
         val parentCommandName = command.currentContext.parentNames().lastOrNull()
         val rootCommandName = command.currentContext.commandNameWithParents().first()
         val isTopLevel = parentCommandName == null
@@ -171,7 +172,7 @@ internal object FishCompletionGenerator {
         return joinToString("_", postfix = "_subcommands") { it.replace(Regex("\\W"), "_") }
     }
 
-    private val CliktCommand.hasFishCompletionRequirements: Boolean
+    private val BaseCliktCommand<*>.hasFishCompletionRequirements: Boolean
         get() = _arguments.isNotEmpty()
                 || _subcommands.isNotEmpty()
                 || _options.flatMap { it.allNames }.any { it.isValidFishCompletionOption }

@@ -70,8 +70,8 @@ interface Argument {
 /** An argument that functions as a property delegate */
 interface ArgumentDelegate<out T> :
     Argument,
-    ReadOnlyProperty<CliktCommand, T>,
-    PropertyDelegateProvider<CliktCommand, ReadOnlyProperty<CliktCommand, T>> {
+    ReadOnlyProperty<BaseCliktCommand<*>, T>,
+    PropertyDelegateProvider<BaseCliktCommand<*>, ReadOnlyProperty<BaseCliktCommand<*>, T>> {
     /**
      * The value for this argument.
      *
@@ -79,7 +79,7 @@ interface ArgumentDelegate<out T> :
      */
     val value: T
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): T = value
+    override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): T = value
 }
 
 /** A receiver for argument transformers. */
@@ -185,10 +185,10 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
         )
     }
 
-    override fun getValue(thisRef: CliktCommand, property: KProperty<*>): AllT = value
+    override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): AllT = value
 
-    override operator fun provideDelegate(thisRef: CliktCommand, property: KProperty<*>):
-            ReadOnlyProperty<CliktCommand, AllT> {
+    override operator fun provideDelegate(thisRef: BaseCliktCommand<*>, property: KProperty<*>):
+            ReadOnlyProperty<BaseCliktCommand<*>, AllT> {
         if (name.isBlank()) name = property.name.uppercase().replace("-", "_")
         thisRef.registerArgument(this)
         return this
@@ -277,7 +277,7 @@ internal fun <T> defaultValidator(): ArgValidator<T> = {}
  * @param helpTags Extra information about this option to pass to the help formatter
  */
 @Suppress("UnusedReceiverParameter")
-fun CliktCommand.argument(
+fun BaseCliktCommand<*>.argument(
     name: String = "",
     help: String = "",
     helpTags: Map<String, String> = emptyMap(),

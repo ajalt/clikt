@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.GroupableOption
-import com.github.ajalt.clikt.core.ParameterHolder
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.options.Option
@@ -49,13 +46,13 @@ interface ParameterGroup {
 /** A [ParameterGroup] that can be used as a property delegate */
 interface ParameterGroupDelegate<out T> :
     ParameterGroup,
-    ReadOnlyProperty<CliktCommand, T>,
-    PropertyDelegateProvider<CliktCommand, ReadOnlyProperty<CliktCommand, T>> {
-    /** Implementations must call [CliktCommand.registerOptionGroup] */
+    ReadOnlyProperty<BaseCliktCommand<*>, T>,
+    PropertyDelegateProvider<BaseCliktCommand<*>, ReadOnlyProperty<BaseCliktCommand<*>, T>> {
+    /** Implementations must call [BaseCliktCommand<*>.registerOptionGroup] */
     override operator fun provideDelegate(
-        thisRef: CliktCommand,
+        thisRef: BaseCliktCommand<*>,
         property: KProperty<*>,
-    ): ReadOnlyProperty<CliktCommand, T>
+    ): ReadOnlyProperty<BaseCliktCommand<*>, T>
 }
 
 /**
@@ -98,9 +95,9 @@ open class OptionGroup(
 }
 
 operator fun <T : OptionGroup> T.provideDelegate(
-    thisRef: CliktCommand,
+    thisRef: BaseCliktCommand<*>,
     prop: KProperty<*>,
-): ReadOnlyProperty<CliktCommand, T> {
+): ReadOnlyProperty<BaseCliktCommand<*>, T> {
     thisRef.registerOptionGroup(this)
     options.forEach { thisRef.registerOption(it) }
     return ReadOnlyProperty { _, _ -> this@provideDelegate }

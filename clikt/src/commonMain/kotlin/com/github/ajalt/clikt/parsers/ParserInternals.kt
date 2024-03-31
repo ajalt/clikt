@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
@@ -22,17 +21,11 @@ internal fun <RunnerT : Function<*>> parseArgv(
         expandedArgv = commandResult.expandedArgv
         if (commandResult.errors.isNotEmpty()) command.currentContext.errorEncountered = true
 
-        val argResult = parseArguments(commandResult.argumentTokens, command._arguments)
-        argResult.err?.let { errors += it }
-
-        val excessArgResult = handleExcessArgs(argResult, command, i, expandedArgv, commandResult)
-        i = excessArgResult.first
-        errors += excessArgResult.second
         for (e in errors) {
             if (e is UsageError) e.context = e.context ?: command.currentContext
         }
         results += CommandInvocation(
-            command, commandResult.optInvocations, argResult.invocations
+            command, commandResult.optInvocations, commandResult.argInvocations
         )
         command = commandResult.subcommand
     }
@@ -54,7 +47,18 @@ private class CommandParser<RunnerT : Function<*>>(
     private var tokens = argv
     private val context = command.resetContext(parentContext)
     private val aliases = command.aliases()
-    private val subcommands = command._subcommands.associateBy { it.commandName }
+    private val subcommands = buildMap {
+        // If the parent command allows multiple subcommands, include the parent's subcommands so
+        // that we can chain into them
+        if (parentContext != null && parentContext.command.allowMultipleSubcommands) {
+            parentContext.command._subcommands.associateTo(this) {
+                // We could avoid this cast if Context was generic, but it doesn't seem worth it
+                @Suppress("UNCHECKED_CAST")
+                it.commandName to it as BaseCliktCommand<RunnerT>
+            }
+        }
+        command._subcommands.associateByTo(this) { it.commandName }
+    }
     private val subcommandNames = subcommands.keys
     private val optionsByName = mutableMapOf<String, Option>()
     private val numberOption = command._options.find { it.acceptsNumberValueWithoutName }
@@ -62,37 +66,29 @@ private class CommandParser<RunnerT : Function<*>>(
     private val longNames = mutableSetOf<String>()
     private val argumentTokens = mutableListOf<String>()
     private var subcommand: BaseCliktCommand<RunnerT>? = null
-    private var canParseOptions = true
-    private var canExpandAtFiles = context.expandArgumentFiles
     private val optInvocations = mutableListOf<OptInvocation>()
+    private val argInvocations = mutableListOf<ArgumentInvocation>()
     private val errors = mutableListOf<CliktError>()
     private var i = startingIndex
     private var minAliasI = i
+    private val minArgCount = when {
+        command._arguments.any { it.nvalues < 0 } -> Int.MAX_VALUE
+        else -> command._arguments.sumOf { it.nvalues }
+    }
+    private val canParseSubcommands get() = argumentTokens.size >= minArgCount
+    private var canParseOptions = true
+    private var canExpandAtFiles = context.expandArgumentFiles
 
     fun parse(): CommandParseResult<RunnerT> {
-        for (option in command._options) {
-            require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
-                "options must have at least one name"
-            }
+        splitOptionPrefixes()
+        if (printHelpOnEmptyArgsIfNecessary()) return makeResult()
+        consumeTokens()
+        parseArguments()
+        return makeResult()
+    }
 
-            require(option.acceptsUnattachedValue || option.nvalues.last <= 1) {
-                "acceptsUnattachedValue must be true if the option accepts more than one value"
-            }
-
-            for (name in option.names + option.secondaryNames) {
-                optionsByName[name] = option
-                if (name.length > 2) longNames += name
-                prefixes += splitOptionPrefix(name).first
-            }
-        }
-        prefixes.remove("")
-
-        if (i > tokens.lastIndex && command.printHelpOnEmptyArgs) {
-            errors += PrintHelpMessage(context, error = true)
-            return makeResult()
-        }
-
-        loop@ while (i <= tokens.lastIndex) {
+    private fun consumeTokens() {
+        while (i <= tokens.lastIndex) {
             val tok = tokens[i]
             val normTok = context.tokenTransformer(context, tok)
             val prefix = splitOptionPrefix(tok).first
@@ -135,10 +131,10 @@ private class CommandParser<RunnerT : Function<*>>(
                     insertTokens(aliases.getValue(tok))
                 }
 
-                normTok in subcommands -> {
+                canParseSubcommands && normTok in subcommands -> {
                     subcommand = subcommands.getValue(normTok)
                     i += 1
-                    break@loop
+                    break
                 }
 
                 else -> {
@@ -148,13 +144,38 @@ private class CommandParser<RunnerT : Function<*>>(
                 }
             }
         }
+    }
 
-        return makeResult()
+    private fun printHelpOnEmptyArgsIfNecessary(): Boolean {
+        if (i > tokens.lastIndex && command.printHelpOnEmptyArgs) {
+            errors += PrintHelpMessage(context, error = true)
+            return true
+        }
+        return false
+    }
+
+    private fun splitOptionPrefixes() {
+        for (option in command._options) {
+            require(option.names.isNotEmpty() || option.secondaryNames.isNotEmpty()) {
+                "options must have at least one name"
+            }
+
+            require(option.acceptsUnattachedValue || option.nvalues.last <= 1) {
+                "acceptsUnattachedValue must be true if the option accepts more than one value"
+            }
+
+            for (name in option.names + option.secondaryNames) {
+                optionsByName[name] = option
+                if (name.length > 2) longNames += name
+                prefixes += splitOptionPrefix(name).first
+            }
+        }
+        prefixes.remove("")
     }
 
     private fun makeResult(): CommandParseResult<RunnerT> {
         val opts = optInvocations.groupBy({ it.opt }, { it.inv })
-        return CommandParseResult(subcommand, i, errors, tokens, opts, argumentTokens)
+        return CommandParseResult(subcommand, i, errors, tokens, opts, argInvocations)
     }
 
     private fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
@@ -278,75 +299,53 @@ private class CommandParser<RunnerT : Function<*>>(
         return OptParseResult(consumed, option, name, values)
     }
 
+    private fun parseArguments() {
+        // The number of fixed size arguments that occur after an unlimited size argument. This
+        // includes optional args, so it might be bigger than the number of provided values.
+        val endSize = command._arguments.asReversed()
+            .takeWhile { it.nvalues > 0 }
+            .sumOf { it.nvalues }
 
-}
-
-private fun parseArguments(
-    argumentTokens: List<String>,
-    arguments: List<Argument>,
-): ArgsParseResult {
-    val invocations = mutableListOf<ArgumentInvocation>()
-    // The number of fixed size arguments that occur after an unlimited size argument. This
-    // includes optional args, so it might be bigger than the number of provided values.
-    val endSize = arguments.asReversed()
-        .takeWhile { it.nvalues > 0 }
-        .sumOf { it.nvalues }
-
-    var i = 0
-    for (argument in arguments) {
-        val remaining = argumentTokens.size - i
-        val consumed = when {
-            argument.nvalues <= 0 -> maxOf(if (argument.required) 1 else 0, remaining - endSize)
-            argument.nvalues > 0 && !argument.required && remaining == 0 -> 0
-            else -> argument.nvalues
-        }
-
-        if (consumed > remaining) {
-            val e = when (remaining) {
-                0 -> MissingArgument(argument)
-                else -> IncorrectArgumentValueCount(argument)
+        var tokenI = 0
+        for (argument in command._arguments) {
+            val remaining = argumentTokens.size - tokenI
+            val consumed = when {
+                argument.nvalues <= 0 -> maxOf(if (argument.required) 1 else 0, remaining - endSize)
+                argument.nvalues > 0 && !argument.required && remaining == 0 -> 0
+                else -> argument.nvalues
             }
-            return ArgsParseResult(0, invocations, e)
+
+            if (consumed > remaining) {
+                val e = when (remaining) {
+                    0 -> MissingArgument(argument)
+                    else -> IncorrectArgumentValueCount(argument)
+                }
+                errors += e
+                return
+            }
+            val values = argumentTokens.subList(tokenI, tokenI + consumed)
+            argInvocations += ArgumentInvocation(argument, values)
+            tokenI += consumed
         }
-        val values = argumentTokens.subList(i, i + consumed)
-        invocations += ArgumentInvocation(argument, values)
-        i += consumed
+
+        handleExcessArgs(argumentTokens.size - tokenI)
     }
 
-    val excess = argumentTokens.size - i
-    return ArgsParseResult(excess, invocations, null)
-}
-
-/** Returns the new argv index and any errors */
-private fun <RunnerT : Function<*>> handleExcessArgs(
-    argResult: ArgsParseResult,
-    command: BaseCliktCommand<RunnerT>,
-    i: Int,
-    expandedArgv: List<String>,
-    commandResult: CommandParseResult<RunnerT>,
-): Pair<Int, List<CliktError>> {
-    if (argResult.excessCount <= 0) return i to emptyList()
-    val hasMultipleSubAncestor = command.currentContext.ancestors().any {
-        it.command.allowMultipleSubcommands
-    }
-    if (hasMultipleSubAncestor) {
-        return expandedArgv.size - argResult.excessCount to emptyList()
-    } else {
-        val subcommandNames = command._subcommands.map { it.commandName }
-        val error = when {
-            argResult.excessCount == 1 && subcommandNames.isNotEmpty() -> {
-                val actual = commandResult.argumentTokens.last()
+    private fun handleExcessArgs(excessCount: Int) {
+        when {
+            excessCount == 0 -> {}
+            excessCount == 1 && subcommandNames.isNotEmpty() -> {
+                val actual = argumentTokens.last()
                 val possibilities = command.currentContext.correctionSuggestor(
-                    actual, subcommandNames
+                    actual, subcommandNames.toList()
                 )
-                NoSuchSubcommand(actual, possibilities)
+                errors += NoSuchSubcommand(actual, possibilities)
             }
 
             else -> {
-                NoSuchArgument(commandResult.argumentTokens.takeLast(argResult.excessCount))
+                errors += NoSuchArgument(argumentTokens.takeLast(excessCount))
             }
         }
-        return i to listOf(error)
     }
 }
 
@@ -361,13 +360,7 @@ private data class CommandParseResult<RunnerT : Function<*>>(
     val errors: List<CliktError>,
     val expandedArgv: List<String>,
     val optInvocations: Map<Option, List<Invocation>>,
-    val argumentTokens: List<String>,
-)
-
-private data class ArgsParseResult(
-    val excessCount: Int,
-    val invocations: List<ArgumentInvocation>,
-    val err: CliktError?,
+    val argInvocations: List<ArgumentInvocation>,
 )
 
 private data class OptInvocation(val opt: Option, val name: String, val values: List<String>) {

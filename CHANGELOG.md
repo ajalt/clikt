@@ -7,6 +7,9 @@
 ### Added
 - Publish `linuxArm64` and `wasmJs` targets.
 
+### Fixed
+- Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.
+
 ## 4.3.0
 ### Added
 - Added `limit` parameter to `option().counted()` to limit the number of times the option can be used. You can either clamp the value to the limit, or throw an error if the limit is exceeded. ([#483](https://github.com/ajalt/clikt/issues/483))

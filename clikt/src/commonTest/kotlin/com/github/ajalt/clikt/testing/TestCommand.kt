@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.testing
 
+import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.parse
 import com.github.ajalt.clikt.parsers.shlex
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
@@ -50,7 +52,7 @@ open class TestCommand(
     open fun run_() = Unit
 
     companion object {
-        fun assertCalled(cmd: CliktCommand) {
+        fun assertCalled(cmd: BaseCliktCommand<*>) {
             if (cmd is TestCommand) {
                 if (cmd.count != null) {
                     assertEquals(cmd.count, cmd.actualCount, "command call count")

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.*
 import org.kodein.di.Kodein

@@ -3,7 +3,9 @@ package com.github.ajalt.clikt.testing
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.parse
 import com.github.ajalt.clikt.mpp.readEnvvar
+import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.clikt.parsers.shlex
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
@@ -49,7 +51,7 @@ fun CliktCommand.test(
     width: Int = 79,
     height: Int = 24,
 ): CliktCommandTestResult {
-    val argvArray = shlex("test", argv, null)
+    val argvArray = CommandLineParser.tokenize(argv)
     return test(argvArray, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
 }
 
@@ -104,8 +106,9 @@ fun CliktCommand.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
-): CliktCommandTestResult =
-    test(argv.toTypedArray(), stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
+): CliktCommandTestResult {
+    return test(argv.toTypedArray(), stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
+}
 
 /**
  * Test this command, returning a result that captures the output and result status code.

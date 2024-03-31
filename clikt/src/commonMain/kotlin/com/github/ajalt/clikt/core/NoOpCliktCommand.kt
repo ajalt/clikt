@@ -13,7 +13,7 @@ open class NoOpCliktCommand(
     autoCompleteEnvvar: String? = "",
     allowMultipleSubcommands: Boolean = false,
     hidden: Boolean = false,
-) : CliktCommand(
+) : BaseCliktCommand<() -> Unit>(
     help,
     epilog,
     name,
@@ -24,5 +24,5 @@ open class NoOpCliktCommand(
     allowMultipleSubcommands,
     hidden
 ) {
-    override fun run() = Unit
+    final override val runner: () -> Unit = {}
 }

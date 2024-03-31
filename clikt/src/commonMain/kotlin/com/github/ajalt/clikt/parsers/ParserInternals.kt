@@ -1,10 +1,9 @@
-package com.github.ajalt.clikt.tmp
+package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
-import com.github.ajalt.clikt.parsers.*
 
 internal fun <RunnerT : Function<*>> parseArgv(
     command: BaseCliktCommand<RunnerT>,
@@ -17,7 +16,7 @@ internal fun <RunnerT : Function<*>> parseArgv(
     do {
         val parent = results.lastOrNull()?.command?.currentContext
         val commandResult = parseCommand(command, parent, expandedArgv, i)
-        check(commandResult.i in expandedArgv.indices) {
+        check(i in expandedArgv.indices) {
             "Internal error: index $i out of bounds ${expandedArgv.indices}"
         }
 

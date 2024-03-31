@@ -403,9 +403,14 @@ class SubcommandTest {
             }
         }
 
-        val c = C()
-        c.subcommands(MultiSub1(1), MultiSub2(1)).parse("--x=xx foo 1 bar 2")
+        val c = C().subcommands(MultiSub1(1), MultiSub2(1))
+        c.parse("--x=xx foo 1 bar 2")
         c.x shouldBe "xx"
+
+        val c2 = C().subcommands(MultiSub1(1), MultiSub2(1))
+        shouldThrow<NoSuchSubcommand> {
+            c2.parse("--x=xx foo 1 z bar 2")
+        }
     }
 
     @Test

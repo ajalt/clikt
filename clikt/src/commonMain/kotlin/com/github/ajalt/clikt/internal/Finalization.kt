@@ -13,7 +13,7 @@ internal fun finalizeOptions(
     invocationsByOption: Map<Option, List<Invocation>>,
 ) {
     val errors = finalizeParameters(
-        context, options, emptyList(), invocationsByOption, emptyList()
+        context, options, emptyList(), emptyList(), invocationsByOption, emptyList()
     )
     MultiUsageError.buildOrNull(errors)?.let { throw it }
 }
@@ -27,29 +27,41 @@ internal fun finalizeParameters(
     context: Context,
     options: List<Option>,
     groups: List<ParameterGroup>,
+    arguments: List<Argument>,
     optionInvocations: Map<Option, List<Invocation>>,
     argumentInvocations: List<ArgumentInvocation>,
 ): List<UsageError> {
-    val allGroups = optionInvocations.entries
-        .groupBy({ it.key.group }, { it.key to it.value })
-        .mapValuesTo(mutableMapOf()) { it.value.toMap() }
-
     // Add uninvoked params last so that e.g. we can skip prompting if there's an error in an
     // invoked option
-    for (group in groups) {
-        if (group !in allGroups) allGroups[group] = emptyMap()
+
+    val allGroups = buildMap<ParameterGroup?, Map<Option, List<Invocation>>> {
+        optionInvocations.entries
+            .groupBy({ it.key.group }, { it.key to it.value })
+            .mapValuesTo(this) { it.value.toMap() }
+        for (group in groups) {
+            if (group !in this) set(group, emptyMap())
+        }
     }
 
-    val allOptions = (allGroups[null] ?: emptyMap()).toMutableMap()
-    for (opt in options) {
-        if (opt !in allOptions) allOptions[opt] = emptyList()
+    val allOptions = buildMap<Option, List<Invocation>> {
+        allGroups[null]?.toMap(this)
+        for (opt in options) {
+            if (opt !in this) set(opt, emptyList())
+        }
     }
 
-    val allParams: List<Param> =
-        argumentInvocations.map { Arg(it.argument, it.values) } +
-                allOptions.map { Opt(it.key, it.value) } +
-                allGroups.mapNotNull { it.key?.let { k -> Group(k, it.value) } }
+    val allArguments = buildMap<Argument, List<String>> {
+        argumentInvocations.associateTo(this) { it.argument to it.values }
+        for (arg in arguments) {
+            if (arg !in this) set(arg, emptyList())
+        }
+    }
 
+    val allParams: List<Param> = buildList {
+        allArguments.keys.mapTo(this) { Arg(it, allArguments.getValue(it)) }
+        allOptions.keys.mapTo(this) { Opt(it, allOptions.getValue(it)) }
+        allGroups.mapNotNullTo(this) { it.key?.let { k -> Group(k, it.value) } }
+    }
 
     val errors = mutableListOf<UsageError>()
     var currentRound = allParams.toList()
@@ -74,7 +86,7 @@ internal fun finalizeParameters(
                 if (!context.errorEncountered) throw e
             }
         }
-        if (currentRound.size <= nextRound.size) break
+        if (nextRound.isEmpty() || currentRound.size <= nextRound.size) break
         currentRound = nextRound.toList()
         nextRound.clear()
     }
@@ -82,7 +94,7 @@ internal fun finalizeParameters(
     return errors
 }
 
-internal fun validateParameters(
+internal fun validateOptions(
     context: Context,
     optionInvocations: Map<Option, List<Invocation>>,
 ): List<UsageError> {
@@ -90,6 +102,15 @@ internal fun validateParameters(
     optionInvocations.keys.filter { it.group == null }.forEach {
         gatherErrors(usageErrors, context) { it.postValidate(context) }
     }
+    return usageErrors
+}
+
+internal fun validateParameters(
+    context: Context,
+    optionInvocations: Map<Option, List<Invocation>>,
+): List<UsageError> {
+    val usageErrors = mutableListOf<UsageError>()
+    usageErrors += validateOptions(context, optionInvocations)
     context.command.registeredParameterGroups().forEach {
         gatherErrors(usageErrors, context) { it.postValidate(context) }
     }

@@ -296,6 +296,7 @@ class CliktCommandTest {
     @JsName("treat_unknown_options_as_arguments")
     fun `treat unknown options as arguments`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
+
             val foo by option().flag()
             val args by argument().multiple()
 

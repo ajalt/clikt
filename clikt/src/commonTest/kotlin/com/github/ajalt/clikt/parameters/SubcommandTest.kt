@@ -321,8 +321,8 @@ class SubcommandTest {
         row("foo a bar --opt=o b foo c bar d", 2, 2, "c", null, "d"),
         row("foo a bar b foo c bar --opt=o d", 2, 2, "c", "o", "d")
     ) { argv, fc, bc, fa, bo, ba ->
-        val foo = MultiSub1(count = fc)
-        val bar = MultiSub2(count = bc)
+        val foo = MultiSubFoo(count = fc)
+        val bar = MultiSubBar(count = bc)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(
             foo,
             bar,
@@ -339,8 +339,8 @@ class SubcommandTest {
     @Test
     @JsName("multiple_subcommands_with_nesting")
     fun `multiple subcommands with nesting`() {
-        val foo = MultiSub1(count = 2)
-        val bar = MultiSub2(count = 2)
+        val foo = MultiSubFoo(count = 2)
+        val bar = MultiSubBar(count = 2)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo.subcommands(bar))
         c.parse("foo f1 bar --opt=1 b1 foo f2 bar b2")
         foo.arg shouldBe "f2"
@@ -351,8 +351,8 @@ class SubcommandTest {
     @Test
     @JsName("multiple_subcommands_nesting_the_same_name")
     fun `multiple subcommands nesting the same name`() {
-        val bar1 = MultiSub2(count = 2)
-        val bar2 = MultiSub2(count = 2)
+        val bar1 = MultiSubBar(count = 2)
+        val bar2 = MultiSubBar(count = 2)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(bar1.subcommands(bar2))
         c.parse("bar a11 bar a12 bar a12 bar --opt=o a22")
         bar1.arg shouldBe "a12"
@@ -373,7 +373,7 @@ class SubcommandTest {
             val arg by argument().multiple()
         }
 
-        val foo = MultiSub1(count = fc)
+        val foo = MultiSubFoo(count = fc)
         val baz = Baz()
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(foo, baz)
         c.parse(argv)
@@ -403,11 +403,11 @@ class SubcommandTest {
             }
         }
 
-        val c = C().subcommands(MultiSub1(1), MultiSub2(1))
+        val c = C().subcommands(MultiSubFoo(1), MultiSubBar(1))
         c.parse("--x=xx foo 1 bar 2")
         c.x shouldBe "xx"
 
-        val c2 = C().subcommands(MultiSub1(1), MultiSub2(1))
+        val c2 = C().subcommands(MultiSubFoo(1), MultiSubBar(1))
         shouldThrow<NoSuchSubcommand> {
             c2.parse("--x=xx foo 1 z bar 2")
         }
@@ -424,7 +424,7 @@ class SubcommandTest {
             }
         }
 
-        C().subcommands(MultiSub1(1), MultiSub2(1)).parse("--x=xx foo 1 bar 2")
+        C().subcommands(MultiSubFoo(1), MultiSubBar(1)).parse("--x=xx foo 1 bar 2")
     }
 
     @Test
@@ -455,11 +455,11 @@ class SubcommandTest {
     }
 }
 
-private class MultiSub1(count: Int) : TestCommand(name = "foo", count = count) {
+private class MultiSubFoo(count: Int) : TestCommand(name = "foo", count = count) {
     val arg by argument()
 }
 
-private class MultiSub2(count: Int) : TestCommand(name = "bar", count = count) {
+private class MultiSubBar(count: Int) : TestCommand(name = "bar", count = count) {
     val opt by option()
     val arg by argument()
 }

@@ -8,6 +8,7 @@ internal fun <RunnerT : Function<*>> parseArgv(
     rootCommand: BaseCliktCommand<RunnerT>,
     originalArgv: List<String>,
 ): CommandLineParseResult<RunnerT> {
+    rootCommand.resetContext(null)
     val results = mutableListOf<CommandInvocation<RunnerT>>()
     var expandedArgv = originalArgv
     var command: BaseCliktCommand<RunnerT>? = rootCommand
@@ -45,18 +46,18 @@ private class CommandParser<RunnerT : Function<*>>(
     startingIndex: Int,
 ) {
     private var tokens = argv
-    private val context = command.resetContext(parentContext)
+    private val context = command.currentContext
     private val aliases = command.aliases()
     private val subcommands = buildMap {
-        // If the parent command allows multiple subcommands, include the parent's subcommands so
+        // If an ancestor command allows multiple subcommands, include its subcommands so
         // that we can chain into them
-        if (parentContext != null && parentContext.command.allowMultipleSubcommands) {
-            parentContext.command._subcommands.associateTo(this) {
+        parentContext?.selfAndAncestors()
+            ?.firstOrNull { it.command.allowMultipleSubcommands }?.command
+            ?._subcommands?.associateTo(this) {
                 // We could avoid this cast if Context was generic, but it doesn't seem worth it
                 @Suppress("UNCHECKED_CAST")
                 it.commandName to it as BaseCliktCommand<RunnerT>
             }
-        }
         command._subcommands.associateByTo(this) { it.commandName }
     }
     private val subcommandNames = subcommands.keys
@@ -71,10 +72,7 @@ private class CommandParser<RunnerT : Function<*>>(
     private val errors = mutableListOf<CliktError>()
     private var i = startingIndex
     private var minAliasI = i
-    private val minArgCount = when {
-        command._arguments.any { it.nvalues < 0 } -> Int.MAX_VALUE
-        else -> command._arguments.sumOf { it.nvalues }
-    }
+    private val minArgCount = command._arguments.sumOf { it.nvalues.coerceAtLeast(0) }
     private val canParseSubcommands get() = argumentTokens.size >= minArgCount
     private var canParseOptions = true
     private var canExpandAtFiles = context.expandArgumentFiles

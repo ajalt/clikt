@@ -122,11 +122,16 @@ abstract class BaseCliktCommand<RunnerT : Function<*>>(
 
     private fun registeredOptionNames() = _options.flatMapTo(mutableSetOf()) { it.names }
 
+    /**
+     * Create a new context for this command and all its subcommands recursively.
+     *
+     * @return The new context.
+     */
     fun resetContext(parent: Context?): Context {
-        //TODO ("doc that each run get a fresh context now")
         _context?.close()
         // TODO either pass argv or remove it from ctx
-        _context = Context.build(this, parent, emptyList(), _contextConfig)
+        val ctx = Context.build(this, parent, emptyList(), _contextConfig)
+        _context = ctx
 
         if (allowMultipleSubcommands) {
             require(currentContext.ancestors().none { it.command.allowMultipleSubcommands }) {
@@ -143,10 +148,14 @@ abstract class BaseCliktCommand<RunnerT : Function<*>>(
                 }
             }
         }
-        // TODO
-        //  val a = (ancestors + parent?.command).filterNotNull()
-        //  check(command !in a) { "Command ${command.commandName} already registered" }
-        return _context!!
+
+        val a = ctx.ancestors().map { it.command }.toList()
+        for (command in _subcommands) {
+            check(command !in a) {
+                "Command ${command.commandName} already registered" }
+            command.resetContext(ctx)
+        }
+        return ctx
     }
 
     /**

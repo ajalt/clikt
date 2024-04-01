@@ -372,15 +372,15 @@ abstract class BaseCliktCommand<RunnerT : Function<*>>(
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <RunnerT, BaseT : BaseCliktCommand<RunnerT>, CommandT : BaseT> CommandT.subcommands(
-    commands: Iterable<BaseT>,
+fun <RunnerT : Function<*>, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
+    commands: Iterable<BaseCliktCommand<RunnerT>>,
 ): CommandT = apply {
     _subcommands = _subcommands + commands
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <RunnerT, BaseT : BaseCliktCommand<RunnerT>, CommandT : BaseT> CommandT.subcommands(
-    vararg commands: BaseT,
+fun <RunnerT : Function<*>, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
+    vararg commands: BaseCliktCommand<RunnerT>,
 ): CommandT = apply {
     _subcommands = _subcommands + commands
 }

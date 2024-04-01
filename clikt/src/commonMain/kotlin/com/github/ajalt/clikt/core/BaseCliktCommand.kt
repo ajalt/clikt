@@ -16,7 +16,7 @@ import com.github.ajalt.mordant.terminal.Terminal
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
-abstract class BaseCliktCommand<RunnerT : Function<*>>(
+abstract class BaseCliktCommand<RunnerT>(
     /**
      * The help for this command. The first line is used in the usage string, and the entire string
      * is used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
@@ -381,14 +381,14 @@ abstract class BaseCliktCommand<RunnerT : Function<*>>(
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <RunnerT : Function<*>, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
+fun <RunnerT, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
     commands: Iterable<BaseCliktCommand<RunnerT>>,
 ): CommandT = apply {
     _subcommands = _subcommands + commands
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <RunnerT : Function<*>, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
+fun <RunnerT, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
     vararg commands: BaseCliktCommand<RunnerT>,
 ): CommandT = apply {
     _subcommands = _subcommands + commands

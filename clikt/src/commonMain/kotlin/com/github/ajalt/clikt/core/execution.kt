@@ -3,7 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.mpp.exitProcessMpp
 
 // TODO: docs
-fun <RunnerT : Function<*>> BaseCliktCommand<RunnerT>.main(
+fun <RunnerT> BaseCliktCommand<RunnerT>.main(
     argv: List<String>,
     parse: BaseCliktCommand<RunnerT>.(List<String>) -> Unit,
 ) {

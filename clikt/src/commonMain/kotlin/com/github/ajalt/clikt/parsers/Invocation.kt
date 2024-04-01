@@ -20,13 +20,13 @@ data class Invocation(val name: String, val values: List<String>)
 // TODO: docs
 data class ArgumentInvocation(val argument: Argument, val values: List<String>)
 
-data class CommandInvocation<RunnerT : Function<*>>(
+data class CommandInvocation<RunnerT>(
     val command: BaseCliktCommand<RunnerT>,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
 )
 
-class CommandLineParseResult<RunnerT : Function<*>>(
+class CommandLineParseResult<RunnerT>(
     val invocations: List<CommandInvocation<RunnerT>>,
     val originalArgv: List<String>,
     val expandedArgv: List<String>,

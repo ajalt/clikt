@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
-internal fun <RunnerT : Function<*>> parseArgv(
+internal fun <RunnerT> parseArgv(
     rootCommand: BaseCliktCommand<RunnerT>,
     originalArgv: List<String>,
 ): CommandLineParseResult<RunnerT> {
@@ -39,7 +39,7 @@ internal fun <RunnerT : Function<*>> parseArgv(
     return CommandLineParseResult(results, originalArgv, expandedArgv, errors)
 }
 
-private class CommandParser<RunnerT : Function<*>>(
+private class CommandParser<RunnerT>(
     private val command: BaseCliktCommand<RunnerT>,
     parentContext: Context?,
     argv: List<String>,
@@ -352,7 +352,7 @@ private fun loadArgFile(filename: String, context: Context): List<String> {
     return shlex(filename, context.argumentFileReader!!(filename), context.localization)
 }
 
-private data class CommandParseResult<RunnerT : Function<*>>(
+private data class CommandParseResult<RunnerT>(
     val subcommand: BaseCliktCommand<RunnerT>?,
     val i: Int,
     val errors: List<CliktError>,

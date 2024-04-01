@@ -19,7 +19,7 @@ object CommandLineParser {
     }
 
     // TODO: docs does not throw
-    fun <RunnerT : Function<*>> parse(
+    fun <RunnerT> parse(
         command: BaseCliktCommand<RunnerT>, originalArgv: List<String>,
     ): CommandLineParseResult<RunnerT> {
         return parseArgv(command, originalArgv)

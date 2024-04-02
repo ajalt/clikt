@@ -446,20 +446,14 @@ constructor.
 
 The parent command will [`run`][run] once, and each subcommand will `run` once each time they're called.
 
-### Parsing multiple subcommands
+!!! warning
 
-Note that enabling `allowMultipleSubcommands` will disable [`allowInterspersedArgs`][interspersed]
-on the command and all its subcommands. If both were allowed to be enabled at the same time, then
-not all command lines could be parsed unambiguously.
+    Enabling `allowMultipleSubcommands` will disable [`allowInterspersedArgs`][interspersed]
+    on the command and all its subcommands. If both were allowed to be enabled at the same time, then
+    not all command lines could be parsed unambiguously.
 
-When parsing in this mode, tokens are consumed greedily by a subcommand until it encounters an
-argument token it doesn't support, at which point the parent command resumes parsing where the
-subcommand left off. This means that if you have a subcommand with an
-[`argument().multiple()`][argument.multiple] parameter, you won't be able to call any other
-subcommands after that one, since it will consume the rest of the command line.
-
-Subcommands of a command with `allowMultipleSubcommands=true` can themselves have subcommands, but
-cannot have `allowMultipleSubcommands=true`.
+    Subcommands of a command with `allowMultipleSubcommands=true` can themselves have subcommands, but
+    cannot have `allowMultipleSubcommands=true`.
 
 
 [argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html

@@ -151,8 +151,7 @@ abstract class BaseCliktCommand<RunnerT>(
 
         val a = ctx.ancestors().map { it.command }.toList()
         for (command in _subcommands) {
-            check(command !in a) {
-                "Command ${command.commandName} already registered" }
+            check(command !in a) { "Command ${command.commandName} already registered" }
             command.resetContext(ctx)
         }
         return ctx

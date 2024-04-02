@@ -48,19 +48,18 @@ private class CommandParser<RunnerT>(
     private var tokens = argv
     private val context = command.currentContext
     private val aliases = command.aliases()
-    private val subcommands = buildMap {
-        // If an ancestor command allows multiple subcommands, include its subcommands so
-        // that we can chain into them
-        parentContext?.selfAndAncestors()
-            ?.firstOrNull { it.command.allowMultipleSubcommands }?.command
-            ?._subcommands?.associateTo(this) {
-                // We could avoid this cast if Context was generic, but it doesn't seem worth it
-                @Suppress("UNCHECKED_CAST")
-                it.commandName to it as BaseCliktCommand<RunnerT>
-            }
-        command._subcommands.associateByTo(this) { it.commandName }
-    }
-    private val subcommandNames = subcommands.keys
+    private val extraSubcommands = parentContext?.selfAndAncestors()
+        ?.firstOrNull { it.command.allowMultipleSubcommands }?.command
+        ?._subcommands?.associate {
+            // We could avoid this cast if Context was generic, but it doesn't seem worth it
+            @Suppress("UNCHECKED_CAST")
+            it.commandName to it as BaseCliktCommand<RunnerT>
+        } ?: emptyMap()
+    private val localSubcommands = command._subcommands.associateBy { it.commandName }
+
+    // If an ancestor command allows multiple subcommands, include its subcommands so
+    // that we can chain into them
+    private val allSubcommands = extraSubcommands + localSubcommands
     private val optionsByName = mutableMapOf<String, Option>()
     private val numberOption = command._options.find { it.acceptsNumberValueWithoutName }
     private val prefixes = mutableSetOf<String>()
@@ -129,8 +128,8 @@ private class CommandParser<RunnerT>(
                     insertTokens(aliases.getValue(tok))
                 }
 
-                canParseSubcommands && normTok in subcommands -> {
-                    subcommand = subcommands.getValue(normTok)
+                canParseSubcommands && normTok in allSubcommands -> {
+                    subcommand = allSubcommands.getValue(normTok)
                     i += 1
                     break
                 }
@@ -279,7 +278,7 @@ private class CommandParser<RunnerT>(
             if ((values.size >= option.nvalues.first) &&
                 ((tok == "--")
                         || (tok in optionsByName)
-                        || (tok in subcommandNames)
+                        || (tok in allSubcommands)
                         || (!command.treatUnknownOptionsAsArgs
                         && splitOptionPrefix(tok).first.isNotEmpty()))
             ) break
@@ -332,10 +331,10 @@ private class CommandParser<RunnerT>(
     private fun handleExcessArgs(excessCount: Int) {
         when {
             excessCount == 0 -> {}
-            excessCount == 1 && subcommandNames.isNotEmpty() -> {
+            excessCount == 1 && localSubcommands.isNotEmpty() -> {
                 val actual = argumentTokens.last()
                 val possibilities = command.currentContext.correctionSuggestor(
-                    actual, subcommandNames.toList()
+                    actual, localSubcommands.keys.toList()
                 )
                 errors += NoSuchSubcommand(actual, possibilities)
             }

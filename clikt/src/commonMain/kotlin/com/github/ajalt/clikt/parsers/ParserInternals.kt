@@ -12,31 +12,34 @@ internal fun <RunnerT> parseArgv(
     val results = mutableListOf<CommandInvocation<RunnerT>>()
     var expandedArgv = originalArgv
     var command: BaseCliktCommand<RunnerT>? = rootCommand
-    val errors = mutableListOf<CliktError>()
     var i = 0
     while (command != null) {
         val parent = results.lastOrNull()?.command?.currentContext
         val commandResult = CommandParser(command, parent, expandedArgv, i).parse()
         i = commandResult.i
-        errors += commandResult.errors
         expandedArgv = commandResult.expandedArgv
         if (commandResult.errors.isNotEmpty()) command.currentContext.errorEncountered = true
 
-        for (e in errors) {
+        for (e in commandResult.errors) {
             if (e is UsageError) e.context = e.context ?: command.currentContext
         }
         results += CommandInvocation(
-            command, commandResult.optInvocations, commandResult.argInvocations
+            command,
+            commandResult.optInvocations,
+            commandResult.argInvocations,
+            commandResult.errors
         )
         command = commandResult.subcommand
     }
-    val lastInvocation = results.lastOrNull()
-    if (lastInvocation != null && i != expandedArgv.size) {
-        errors += NoSuchArgument(expandedArgv.drop(i + 1)).also {
-            it.context = rootCommand.currentContext
+    check(results.isNotEmpty())
+    if (i != expandedArgv.size) {
+        val lastResult = results.last()
+        val error = NoSuchArgument(expandedArgv.drop(i + 1)).also {
+            it.context = lastResult.command.currentContext
         }
+        results[results.lastIndex] = lastResult.copy(errors = lastResult.errors + error)
     }
-    return CommandLineParseResult(results, originalArgv, expandedArgv, errors)
+    return CommandLineParseResult(results, originalArgv, expandedArgv)
 }
 
 private class CommandParser<RunnerT>(

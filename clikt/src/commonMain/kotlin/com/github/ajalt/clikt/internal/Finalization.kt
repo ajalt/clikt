@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.internal
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.Abort
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
@@ -12,10 +14,9 @@ internal fun finalizeOptions(
     options: List<Option>,
     invocationsByOption: Map<Option, List<Invocation>>,
 ) {
-    val errors = finalizeParameters(
-        context, options, emptyList(), emptyList(), invocationsByOption, emptyList()
-    )
-    MultiUsageError.buildOrNull(errors)?.let { throw it }
+    iterateFinalization(
+        context, getAllOptions(invocationsByOption, options).map { Opt(it.key, it.value) }
+    ).throwErrors()
 }
 
 private sealed class Param
@@ -43,12 +44,7 @@ internal fun finalizeParameters(
         }
     }
 
-    val allOptions = buildMap<Option, List<Invocation>> {
-        allGroups[null]?.toMap(this)
-        for (opt in options) {
-            if (opt !in this) set(opt, emptyList())
-        }
-    }
+    val allOptions = getAllOptions(allGroups[null] ?: emptyMap(), options)
 
     val allArguments = buildMap<Argument, List<String>> {
         argumentInvocations.associateTo(this) { it.argument to it.values }
@@ -58,11 +54,30 @@ internal fun finalizeParameters(
     }
 
     val allParams: List<Param> = buildList {
-        allArguments.keys.mapTo(this) { Arg(it, allArguments.getValue(it)) }
-        allOptions.keys.mapTo(this) { Opt(it, allOptions.getValue(it)) }
+        allArguments.entries.mapTo(this) { Arg(it.key, it.value) }
+        allOptions.entries.mapTo(this) { Opt(it.key, it.value) }
         allGroups.mapNotNullTo(this) { it.key?.let { k -> Group(k, it.value) } }
     }
 
+    return iterateFinalization(context, allParams)
+}
+
+private fun getAllOptions(
+    invocations: Map<Option, List<Invocation>>,
+    options: List<Option>,
+): Map<Option, List<Invocation>> {
+    return buildMap {
+        putAll(invocations)
+        for (opt in options) {
+            if (opt !in this) set(opt, emptyList())
+        }
+    }
+}
+
+private fun iterateFinalization(
+    context: Context,
+    allParams: List<Param>,
+): MutableList<UsageError> {
     val errors = mutableListOf<UsageError>()
     var currentRound = allParams.toList()
     val nextRound = mutableListOf<Param>()
@@ -90,7 +105,6 @@ internal fun finalizeParameters(
         currentRound = nextRound.toList()
         nextRound.clear()
     }
-
     return errors
 }
 
@@ -136,5 +150,3 @@ private inline fun gatherErrors(
         context.errorEncountered = true
     }
 }
-
-private val Option.group: ParameterGroup? get() = (this as? GroupableOption)?.parameterGroup

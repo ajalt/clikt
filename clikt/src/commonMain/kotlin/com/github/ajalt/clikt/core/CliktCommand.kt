@@ -90,7 +90,6 @@ fun BaseCliktCommand<() -> Unit>.parse(argv: Array<String>) {
 fun BaseCliktCommand<() -> Unit>.parse(argv: List<String>) {
 // TODO   generateCompletion()
     val result = CommandLineParser.parse(this, argv)
-    result.throwErrors()
     for (invocation in result.invocations) {
         CommandLineParser.finalize(invocation)
         invocation.command.runner()

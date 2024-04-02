@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.groups.provideDelegate
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.TestException
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
@@ -48,20 +49,19 @@ class EagerOptionsTest {
     @JsName("eager_option_parse_order")
     fun `eager option parse order`() {
         class C : TestCommand(called = false) {
-            val o by option().flag().validate { error("fail") }
+            val o by option().flag().validate { throw TestException("fail") }
         }
-
 
         shouldThrow<PrintHelpMessage> { C().parse("-h --o") }
         shouldThrow<PrintHelpMessage> { C().parse("--o -h") }
-        shouldThrow<IllegalStateException> { C().parse("--o") }
+        shouldThrow<TestException> { C().parse("--o") }
     }
 
     @Test
     @JsName("eager_option_in_option_group_plain")
     fun `eager option in option group plain`() {
         class G : OptionGroup(name = "g") {
-            val x by option("-x", eager = true).flag().validate { error("fail") }
+            val x by option("-x", eager = true).flag().validate { throw TestException("fail") }
         }
 
         class C : TestCommand(called = false) {
@@ -70,8 +70,8 @@ class EagerOptionsTest {
         }
 
         shouldThrow<PrintHelpMessage> { C().parse("-hxy") }
-        shouldThrow<IllegalStateException> { C().parse("-xyh") }
-        shouldThrow<IllegalStateException> { C().parse("-yxh") }
+        shouldThrow<TestException> { C().parse("-xyh") }
+        shouldThrow<TestException> { C().parse("-yxh") }
     }
 
     @Test

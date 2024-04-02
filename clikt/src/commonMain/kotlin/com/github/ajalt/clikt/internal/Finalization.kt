@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
+import com.github.ajalt.clikt.parameters.internal.LateinitException
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.ArgumentInvocation
 import com.github.ajalt.clikt.parsers.Invocation
@@ -20,9 +21,9 @@ internal fun finalizeOptions(
 }
 
 private sealed class Param
-private class Opt(val option: Option, val invs: List<Invocation>) : Param()
-private class Arg(val argument: Argument, val invs: List<String>) : Param()
-private class Group(val group: ParameterGroup, val invs: Map<Option, List<Invocation>>) : Param()
+private data class Opt(val option: Option, val invs: List<Invocation>) : Param()
+private data class Arg(val argument: Argument, val invs: List<String>) : Param()
+private data class Group(val group: ParameterGroup, val invs: Map<Option, List<Invocation>>) : Param()
 
 internal fun finalizeParameters(
     context: Context,
@@ -90,7 +91,7 @@ private fun iterateFinalization(
                     is Opt -> it.option.finalize(context, it.invs)
                     is Group -> it.group.finalize(context, it.invs)
                 }
-            } catch (e: IllegalStateException) {
+            } catch (e: LateinitException) {
                 nextRound += it
             } catch (e: UsageError) {
                 e.context = e.context ?: context
@@ -113,7 +114,7 @@ internal fun validateOptions(
     optionInvocations: Map<Option, List<Invocation>>,
 ): List<UsageError> {
     val usageErrors = mutableListOf<UsageError>()
-    optionInvocations.keys.filter { it.group == null }.forEach {
+    optionInvocations.keys.forEach {
         gatherErrors(usageErrors, context) { it.postValidate(context) }
     }
     return usageErrors

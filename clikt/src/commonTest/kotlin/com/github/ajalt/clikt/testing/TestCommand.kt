@@ -9,6 +9,8 @@ import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
 import kotlin.test.assertEquals
 
+class TestException(message: String) : Exception(message)
+
 open class TestCommand(
     called: Boolean = true,
     count: Int? = null,
@@ -66,3 +68,4 @@ fun <T : TestCommand> T.parse(argv: String): T {
     TestCommand.assertCalled(this)
     return this
 }
+

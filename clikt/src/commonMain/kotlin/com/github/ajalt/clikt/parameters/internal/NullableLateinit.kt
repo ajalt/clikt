@@ -15,13 +15,13 @@ internal class NullableLateinit<T>(private val errorMessage: String) : ReadWrite
     private var value: Any? = UNINITIALIZED
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        if (value === UNINITIALIZED) throw IllegalStateException(errorMessage)
+        if (value === UNINITIALIZED) throw LateinitException(errorMessage)
 
         try {
             @Suppress("UNCHECKED_CAST")
             return value as T
         } catch (e: ClassCastException) {
-            throw IllegalStateException(errorMessage)
+            throw LateinitException(errorMessage)
         }
     }
 
@@ -29,3 +29,5 @@ internal class NullableLateinit<T>(private val errorMessage: String) : ReadWrite
         this.value = value
     }
 }
+
+internal class LateinitException(message: String) : IllegalStateException(message)

@@ -53,7 +53,7 @@ object CommandLineParser {
             invocation.argumentInvocations,
         ).throwErrors()
 
-        validateParameters(context, invocation.optionInvocations).throwErrors()
+        validateParameters(context, nonEagerInvs).throwErrors()
 
         if (subcommand == null && command._subcommands.isNotEmpty() &&
             !command.invokeWithoutSubcommand

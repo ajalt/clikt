@@ -281,7 +281,6 @@ class SubcommandTest {
     @Test
     fun noSuchSubcommand() = forAll(
         row("qux", "no such subcommand qux"),
-        row("qux --opt", "no such subcommand qux"),
         row("fo", "no such subcommand fo. Did you mean foo?"),
         row("fop", "no such subcommand fop. Did you mean foo?"),
         row("bart", "no such subcommand bart. Did you mean bar?"),
@@ -365,9 +364,9 @@ class SubcommandTest {
     fun `multiple subcommands with varargs`() = forAll(
         row("foo f1 baz", 1, 1, "f1", emptyList()),
         row("foo f1 foo f2 baz", 2, 1, "f2", emptyList()),
-        row("baz foo", 0, 1, "", listOf("foo")),
-        row("baz foo baz foo", 0, 1, "", listOf("foo", "baz", "foo")),
-        row("foo f1 baz foo f2", 1, 1, "f1", listOf("foo", "f2"))
+        row("baz b1 foo f1", 1, 1, "f1", listOf("b1")),
+        row("baz foo f1 baz foo f2", 2, 2, "f2", listOf()),
+        row("foo f1 baz b1 b2 foo f2", 2, 1, "f2", listOf("b1", "b2"))
     ) { argv, fc, bc, fa, ba ->
         class Baz : TestCommand(name = "baz", count = bc) {
             val arg by argument().multiple()
@@ -408,9 +407,9 @@ class SubcommandTest {
         c.x shouldBe "xx"
 
         val c2 = C().subcommands(MultiSubFoo(1), MultiSubBar(1))
-        shouldThrow<NoSuchSubcommand> {
+        shouldThrow<NoSuchArgument> {
             c2.parse("--x=xx foo 1 z bar 2")
-        }
+        }.formattedMessage shouldBe "got unexpected extra argument (z)"
     }
 
     @Test
@@ -436,7 +435,6 @@ class SubcommandTest {
             c.parse("sub foo")
         }.formattedMessage shouldBe "got unexpected extra argument (foo)"
     }
-
 
     @Test
     @JsName("accessing_options_of_uninvoked_subcommand")

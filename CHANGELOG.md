@@ -7,6 +7,9 @@
 ### Added
 - Publish `linuxArm64` and `wasmJs` targets.
 
+### Changed
+- In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
+
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.
 

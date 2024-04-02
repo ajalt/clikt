@@ -2,8 +2,6 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.core.MultiUsageError
-import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 
@@ -24,6 +22,7 @@ data class CommandInvocation<RunnerT>(
     val command: BaseCliktCommand<RunnerT>,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
+    val invokedSubcommand: BaseCliktCommand<RunnerT>?,
     val errors: List<CliktError>,
 )
 

@@ -2,7 +2,7 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.core.MultiUsageError
+import com.github.ajalt.clikt.core.PrintHelpMessage
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.internal.*
 import com.github.ajalt.clikt.output.Localization
@@ -25,7 +25,11 @@ object CommandLineParser {
 
     // TODO: docs throws
     fun finalize(invocation: CommandInvocation<*>) {
-        val (eagerOpts, nonEagerOpts) = invocation.command.registeredOptions()
+        val command = invocation.command
+        val context = command.currentContext
+        val subcommand = invocation.invokedSubcommand
+
+        val (eagerOpts, nonEagerOpts) = command.registeredOptions()
             .partition { it.eager }
 
         val (eagerInvs, nonEagerInvs) = invocation.optionInvocations.entries
@@ -33,26 +37,31 @@ object CommandLineParser {
             .toList().map { it.associate { (k, v) -> k to v } }
 
         // finalize and validate eager options first
-        finalizeOptions(invocation.command.currentContext, eagerOpts, eagerInvs)
-        validateOptions(invocation.command.currentContext, eagerInvs).throwErrors()
+        finalizeOptions(context, eagerOpts, eagerInvs)
+        validateOptions(context, eagerInvs).throwErrors()
 
         // throw any parse errors after the eager options are finalized
         invocation.throwErrors()
 
         // then finalize and validate everything else
         finalizeParameters(
-            invocation.command.currentContext,
+            context,
             nonEagerOpts.filter { it.group == null },
-            invocation.command.registeredParameterGroups(),
-            invocation.command.registeredArguments(),
+            command.registeredParameterGroups(),
+            command.registeredArguments(),
             nonEagerInvs,
             invocation.argumentInvocations,
         ).throwErrors()
 
-        validateParameters(
-            invocation.command.currentContext,
-            invocation.optionInvocations
-        ).throwErrors()
+        validateParameters(context, invocation.optionInvocations).throwErrors()
+
+        if (subcommand == null && command._subcommands.isNotEmpty() &&
+            !command.invokeWithoutSubcommand
+        ) {
+            throw PrintHelpMessage(context, error = true)
+        }
+
+        context.invokedSubcommand = subcommand
     }
 }
 
@@ -60,6 +69,7 @@ private fun CommandInvocation<*>.throwErrors() {
     when (val first = errors.firstOrNull()) {
         is UsageError -> errors.takeWhile { it is UsageError }
             .filterIsInstance<UsageError>().throwErrors()
+
         is CliktError -> throw first
     }
 }

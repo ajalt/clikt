@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parsers.CommandLineParser
-import com.github.ajalt.clikt.parsers.throwErrors
 
 /**
  * The [CliktCommand] is the core of command line interfaces in Clikt.

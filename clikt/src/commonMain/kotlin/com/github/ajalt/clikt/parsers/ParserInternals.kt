@@ -27,6 +27,7 @@ internal fun <RunnerT> parseArgv(
             command,
             commandResult.optInvocations,
             commandResult.argInvocations,
+            commandResult.subcommand,
             commandResult.errors
         )
         command = commandResult.subcommand

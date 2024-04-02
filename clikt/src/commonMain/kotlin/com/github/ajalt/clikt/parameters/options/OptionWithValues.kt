@@ -197,11 +197,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
                 when (valueSplit) {
                     null -> invocations
                     else -> invocations.map { inv ->
-                        inv.copy(values = inv.values.flatMap {
-                            it.split(
-                                valueSplit
-                            )
-                        })
+                        inv.copy(values = inv.values.flatMap { it.split(valueSplit) })
                     }
                 }
             }

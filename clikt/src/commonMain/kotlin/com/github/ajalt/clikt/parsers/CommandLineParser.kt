@@ -1,12 +1,10 @@
 package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
+import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.internal.finalizeOptions
-import com.github.ajalt.clikt.internal.finalizeParameters
-import com.github.ajalt.clikt.internal.validateOptions
-import com.github.ajalt.clikt.internal.validateParameters
+import com.github.ajalt.clikt.internal.*
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
 
@@ -38,10 +36,13 @@ object CommandLineParser {
         finalizeOptions(invocation.command.currentContext, eagerOpts, eagerInvs)
         validateOptions(invocation.command.currentContext, eagerInvs).throwErrors()
 
+        // throw any parse errors after the eager options are finalized
+        invocation.throwErrors()
+
         // then finalize and validate everything else
         finalizeParameters(
             invocation.command.currentContext,
-            nonEagerOpts,
+            nonEagerOpts.filter { it.group == null },
             invocation.command.registeredParameterGroups(),
             invocation.command.registeredArguments(),
             nonEagerInvs,
@@ -55,6 +56,10 @@ object CommandLineParser {
     }
 }
 
-private fun List<UsageError>.throwErrors() {
-    MultiUsageError.buildOrNull(this)?.let { throw it }
+private fun CommandInvocation<*>.throwErrors() {
+    when (val first = errors.firstOrNull()) {
+        is UsageError -> errors.takeWhile { it is UsageError }
+            .filterIsInstance<UsageError>().throwErrors()
+        is CliktError -> throw first
+    }
 }

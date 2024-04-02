@@ -24,21 +24,11 @@ data class CommandInvocation<RunnerT>(
     val command: BaseCliktCommand<RunnerT>,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
+    val errors: List<CliktError>,
 )
 
 class CommandLineParseResult<RunnerT>(
     val invocations: List<CommandInvocation<RunnerT>>,
     val originalArgv: List<String>,
     val expandedArgv: List<String>,
-    val errors: List<CliktError>,
 )
-
-fun CommandLineParseResult<*>.throwErrors() {
-    when (val first = errors.firstOrNull()) {
-        is UsageError -> MultiUsageError.buildOrNull(
-            errors.takeWhile { it is UsageError }.filterIsInstance<UsageError>()
-        )?.let { throw it }
-
-        is CliktError -> throw first
-    }
-}

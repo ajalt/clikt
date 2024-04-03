@@ -16,12 +16,13 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
+    // TODO: docs throws
     inline fun <RunnerT> parseAndRun(
         command: BaseCliktCommand<RunnerT>,
         argv: List<String>,
         crossinline run: (BaseCliktCommand<RunnerT>) -> Unit,
     ) {
-// TODO   generateCompletion()
+        // TODO   generateCompletion()
         val result = parse(command, argv)
         for (invocation in result.invocations) {
             try {
@@ -45,6 +46,8 @@ object CommandLineParser {
         val command = invocation.command
         val context = command.currentContext
         val subcommand = invocation.invokedSubcommand
+        val groups = command.registeredParameterGroups()
+        val arguments = command.registeredArguments()
 
         val (eagerOpts, nonEagerOpts) = command.registeredOptions()
             .partition { it.eager }
@@ -53,24 +56,26 @@ object CommandLineParser {
             .partition { it.key.eager }
             .toList().map { it.associate { (k, v) -> k to v } }
 
-        // finalize and validate eager options first
+        // finalize and validate eager options first; unlike other options, eager options only get
+        // validated if they're invoked
         finalizeOptions(context, eagerOpts, eagerInvs)
-        validateOptions(context, eagerInvs).throwErrors()
+        validateParameters(context, eagerInvs.keys).throwErrors()
 
         // throw any parse errors after the eager options are finalized
         invocation.throwErrors()
 
         // then finalize and validate everything else
+        val nonEagerNonGroupOpts = nonEagerOpts.filter { it.group == null }
         finalizeParameters(
             context,
-            nonEagerOpts.filter { it.group == null },
-            command.registeredParameterGroups(),
-            command.registeredArguments(),
+            nonEagerNonGroupOpts,
+            groups,
+            arguments,
             nonEagerInvs,
             invocation.argumentInvocations,
         ).throwErrors()
 
-        validateParameters(context, nonEagerInvs).throwErrors()
+        validateParameters(context, nonEagerNonGroupOpts, groups, arguments).throwErrors()
 
         if (subcommand == null && command._subcommands.isNotEmpty() &&
             !command.invokeWithoutSubcommand

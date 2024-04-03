@@ -369,6 +369,20 @@ class OptionGroupsTest {
     }
 
     @Test
+    @JsName("grouped_option_is_finalized_exactly_once")
+    fun `grouped option is finalized exactly once`() {
+        class G : OptionGroup() {
+            private var finalized = 0
+            val x by option().convert { ++finalized }
+        }
+
+        class C : TestCommand() {
+            val g by G()
+        }
+        C().parse("--x=1").g.x shouldBe 1
+    }
+
+    @Test
     @JsName("plain_option_group_validation")
     fun `plain option group validation`() = forAll(
         row("", null, true),

@@ -23,7 +23,8 @@ internal fun finalizeOptions(
 private sealed class Param
 private data class Opt(val option: Option, val invs: List<Invocation>) : Param()
 private data class Arg(val argument: Argument, val invs: List<String>) : Param()
-private data class Group(val group: ParameterGroup, val invs: Map<Option, List<Invocation>>) : Param()
+private data class Group(val group: ParameterGroup, val invs: Map<Option, List<Invocation>>) :
+    Param()
 
 internal fun finalizeParameters(
     context: Context,
@@ -109,31 +110,21 @@ private fun iterateFinalization(
     return errors
 }
 
-internal fun validateOptions(
-    context: Context,
-    optionInvocations: Map<Option, List<Invocation>>,
-): List<UsageError> {
-    val usageErrors = mutableListOf<UsageError>()
-    optionInvocations.keys.forEach {
-        gatherErrors(usageErrors, context) { it.postValidate(context) }
-    }
-    return usageErrors
-}
-
 internal fun validateParameters(
     context: Context,
-    optionInvocations: Map<Option, List<Invocation>>,
+    options: Iterable<Option> = emptyList(),
+    groups: Iterable<ParameterGroup> = emptyList(),
+    arguments: Iterable<Argument> = emptyList(),
 ): List<UsageError> {
     val usageErrors = mutableListOf<UsageError>()
-    usageErrors += validateOptions(context, optionInvocations)
-    context.command.registeredParameterGroups().forEach {
-        gatherErrors(usageErrors, context) { it.postValidate(context) }
+    for (option in options) {
+        gatherErrors(usageErrors, context) { option.postValidate(context) }
     }
-    context.command.registeredArguments().forEach {
-        gatherErrors(
-            usageErrors,
-            context
-        ) { it.postValidate(context) }
+    for (group in groups) {
+        gatherErrors(usageErrors, context) { group.postValidate(context) }
+    }
+    for (argument in arguments) {
+        gatherErrors(usageErrors, context) { argument.postValidate(context) }
     }
     return usageErrors
 }

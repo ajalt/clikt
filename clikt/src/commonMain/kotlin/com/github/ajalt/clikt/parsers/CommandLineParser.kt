@@ -16,11 +16,28 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
+    inline fun <RunnerT> parseAndRun(
+        command: BaseCliktCommand<RunnerT>,
+        argv: List<String>,
+        crossinline run: (BaseCliktCommand<RunnerT>) -> Unit,
+    ) {
+// TODO   generateCompletion()
+        val result = parse(command, argv)
+        for (invocation in result.invocations) {
+            try {
+                finalize(invocation)
+                run(invocation.command)
+            } finally {
+                invocation.command.currentContext.close()
+            }
+        }
+    }
+
     // TODO: docs does not throw
     fun <RunnerT> parse(
-        command: BaseCliktCommand<RunnerT>, originalArgv: List<String>,
+        command: BaseCliktCommand<RunnerT>, argv: List<String>,
     ): CommandLineParseResult<RunnerT> {
-        return parseArgv(command, originalArgv)
+        return parseArgv(command, argv)
     }
 
     // TODO: docs throws
@@ -67,6 +84,7 @@ object CommandLineParser {
 
 private fun CommandInvocation<*>.throwErrors() {
     when (val first = errors.firstOrNull()) {
+        // TODO: check if there is ever an error after a UsageError
         is UsageError -> errors.takeWhile { it is UsageError }
             .filterIsInstance<UsageError>().throwErrors()
 

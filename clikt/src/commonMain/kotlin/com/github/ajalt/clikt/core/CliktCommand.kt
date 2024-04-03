@@ -87,10 +87,5 @@ fun BaseCliktCommand<() -> Unit>.parse(argv: Array<String>) {
  * You should use [main] instead unless you want to handle output yourself.
  */
 fun BaseCliktCommand<() -> Unit>.parse(argv: List<String>) {
-// TODO   generateCompletion()
-    val result = CommandLineParser.parse(this, argv)
-    for (invocation in result.invocations) {
-        CommandLineParser.finalize(invocation)
-        invocation.command.runner()
-    }
+    CommandLineParser.parseAndRun(this, argv) { it.runner() }
 }

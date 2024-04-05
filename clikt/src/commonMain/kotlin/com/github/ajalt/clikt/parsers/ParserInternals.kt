@@ -18,11 +18,6 @@ internal fun <RunnerT> parseArgv(
         val commandResult = CommandParser(command, parent, expandedArgv, i).parse()
         i = commandResult.i
         expandedArgv = commandResult.expandedArgv
-        if (commandResult.errors.isNotEmpty()) command.currentContext.errorEncountered = true
-
-        for (e in commandResult.errors) {
-            if (e is UsageError) e.context = e.context ?: command.currentContext
-        }
         results += CommandInvocation(
             command,
             commandResult.optInvocations,
@@ -30,11 +25,19 @@ internal fun <RunnerT> parseArgv(
             commandResult.subcommand,
             commandResult.errors
         )
+        for (e in commandResult.errors) {
+            if (e is UsageError) e.context = e.context ?: command.currentContext
+        }
+        if (commandResult.errors.isNotEmpty()) {
+            command.currentContext.errorEncountered = true
+            break
+        }
         command = commandResult.subcommand
     }
-    check(results.isNotEmpty())
-    if (i != expandedArgv.size) {
-        val lastResult = results.last()
+    // TODO: pretty sure we can remove this
+    val lastResult = results.last()
+    if (lastResult.errors.isEmpty() && i != expandedArgv.size) {
+        // Only report trailing tokens if the last command didn't have any errors,
         val error = NoSuchArgument(expandedArgv.drop(i + 1)).also {
             it.context = lastResult.command.currentContext
         }
@@ -289,14 +292,8 @@ private class CommandParser<RunnerT>(
             values += tok
         }
 
+        // This might not be enough values for the option, but we'll report that during finalization
         val consumed = values.size + if (attachedValue == null) 1 else 0
-        if (values.size !in option.nvalues) {
-            return OptParseResult(
-                consumed,
-                err = IncorrectOptionValueCount(option, name)
-            )
-        }
-
         return OptParseResult(consumed, option, name, values)
     }
 
@@ -316,16 +313,15 @@ private class CommandParser<RunnerT>(
                 else -> argument.nvalues
             }
 
+            val toIndex = (tokenI + consumed).coerceAtMost(argumentTokens.size)
+            val values = argumentTokens.subList(tokenI, toIndex)
+            argInvocations += ArgumentInvocation(argument, values)
+
             if (consumed > remaining) {
-                val e = when (remaining) {
-                    0 -> MissingArgument(argument)
-                    else -> IncorrectArgumentValueCount(argument)
-                }
-                errors += e
+                // Not enough values for remaining args, we'll report it during finalization
                 return
             }
-            val values = argumentTokens.subList(tokenI, tokenI + consumed)
-            argInvocations += ArgumentInvocation(argument, values)
+
             tokenI += consumed
         }
 

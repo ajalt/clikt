@@ -152,7 +152,8 @@ internal fun Option.getFinalValue(
     envvar: String?,
 ): FinalValue {
     return when {
-        invocations.isNotEmpty() -> FinalValue.Parsed(invocations)
+        // We don't look at envvars or the value source for eager options
+        eager || invocations.isNotEmpty() -> FinalValue.Parsed(invocations)
         context.readEnvvarBeforeValueSource -> {
             readEnvVar(context, envvar) ?: readValueSource(context)
         }

@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.sources.MapValueSource
 import com.github.ajalt.clikt.sources.ValueSource
+import io.kotest.assertions.withClue
 import io.kotest.matchers.shouldBe
 
 class TestSource(vararg values: Pair<String, String>) : ValueSource {
@@ -16,6 +17,8 @@ class TestSource(vararg values: Pair<String, String>) : ValueSource {
     }
 
     fun assert(read: Boolean) {
-        this.read shouldBe read
+        withClue("ValueSource read") {
+            this.read shouldBe read
+        }
     }
 }

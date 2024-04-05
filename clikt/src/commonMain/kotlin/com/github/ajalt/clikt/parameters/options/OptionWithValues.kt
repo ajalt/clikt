@@ -192,10 +192,15 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     }
 
     override fun finalize(context: Context, invocations: List<Invocation>) {
-        val inv = when (val v = getFinalValue(context, invocations, envvar)) {
+        val invs = when (val v = getFinalValue(context, invocations, envvar)) {
             is FinalValue.Parsed -> {
                 when (valueSplit) {
-                    null -> invocations
+                    null -> {
+                        invocations.find { it.values.size !in nvalues }?.let {
+                            throw IncorrectOptionValueCount(this, it.name)
+                        }
+                        invocations
+                    }
                     else -> invocations.map { inv ->
                         inv.copy(values = inv.values.flatMap { it.split(valueSplit) })
                     }
@@ -214,7 +219,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             }
         }
 
-        value = transformAll(OptionTransformContext(this, context), inv.map {
+        value = transformAll(OptionTransformContext(this, context), invs.map {
             val tc = OptionCallTransformContext(it.name, this, context)
             transformEach(tc, it.values.map { v -> transformValue(tc, v) })
         })

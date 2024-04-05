@@ -26,10 +26,9 @@ fun <EachT, ValueT> NullableOption<ValueT, ValueT>.transformValues(
         transformEach = transform,
         transformAll = defaultAllProcessor(),
         validator = defaultValidator(),
-        metavarGetter = if (nvalues == 0..0) {
-            { null }
-        } else {
-            metavarGetter
+        metavarGetter = when (nvalues) {
+            0..0 -> { { null } }
+            else -> { metavarGetter }
         },
         nvalues = nvalues
     )

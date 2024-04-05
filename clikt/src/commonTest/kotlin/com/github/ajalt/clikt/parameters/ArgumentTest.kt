@@ -480,10 +480,7 @@ class ArgumentTest {
         class C : TestCommand(called = false) {
             val x by argument()
         }
-        shouldThrow<MultiUsageError> { C().parse("-foo") }.errors.let {
-            it[0].shouldBeInstanceOf<NoSuchOption>()
-            it[1].shouldBeInstanceOf<MissingArgument>()
-        }
+        shouldThrow<NoSuchOption> { C().parse("-foo") }
     }
 
     @Test
@@ -516,10 +513,7 @@ class ArgumentTest {
 
             val x by argument()
         }
-        shouldThrow<MultiUsageError> { C().parse("/foo") }.errors.let {
-            it[0].shouldBeInstanceOf<NoSuchOption>()
-            it[1].shouldBeInstanceOf<MissingArgument>()
-        }
+        shouldThrow<NoSuchOption> { C().parse("/foo") }
     }
 
     @Test

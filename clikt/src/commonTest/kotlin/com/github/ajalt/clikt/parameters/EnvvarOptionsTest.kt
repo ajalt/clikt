@@ -109,7 +109,6 @@ class EnvvarOptionsTest {
     @Test
     @JsName("split_envvar")
     fun `split envvar`() {
-
         class C : TestCommand() {
             val foo by option(envvar = "FOO")
             val bar by option(envvar = "BAR").split(";")

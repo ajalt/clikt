@@ -196,6 +196,12 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
 
     override fun finalize(context: Context, values: List<String>) {
         val ctx = ArgumentTransformContext(this, context)
+        if (required) {
+            when {
+                values.isEmpty() -> throw MissingArgument(this)
+                nvalues > 0 && values.size != nvalues -> throw IncorrectArgumentValueCount(this)
+            }
+        }
         value = transformAll(ctx, values.map { transformValue(ctx, it) })
     }
 

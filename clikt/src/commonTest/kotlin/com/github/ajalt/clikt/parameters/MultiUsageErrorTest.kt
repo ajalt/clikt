@@ -11,6 +11,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -37,6 +38,7 @@ class MultiUsageErrorTest {
         class C : TestCommand(called = false) {
             val x by option().int().required().check { it == 0 }
             val y by option().int().required().check { it == 0 }
+            // TODO: parseArguments and handleExcessArgs used to be part of the finalization step.
             val a by argument().int().check { it == 0 }
         }
 
@@ -44,7 +46,7 @@ class MultiUsageErrorTest {
             C().parse(argv)
         }
         ((e as? MultiUsageError)?.errors ?: listOf(e))
-            .map { er -> er.formatMessage(defaultLocalization, ParameterFormatter.Plain) }
+            .map { it.formattedMessage }
             .shouldBe(ex)
     }
 }

@@ -105,22 +105,6 @@ class ContextTest {
     }
 
     @Test
-    fun originalArgv() {
-        class C : TestCommand()
-        class S : TestCommand() {
-            val opt by option()
-            val args by argument().multiple()
-            override fun run_() {
-                opt shouldBe "o"
-                args shouldBe listOf("1", "2")
-                currentContext.originalArgv shouldBe listOf("s", "--opt", "o", "1", "2")
-            }
-        }
-
-        C().subcommands(S()).parse("s --opt o 1 2")
-    }
-
-    @Test
     @JsName("assign_obj_through_context_builder")
     fun `assign obj through context builder`() {
         val foo = Foo()

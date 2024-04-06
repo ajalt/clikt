@@ -107,10 +107,6 @@ class Context private constructor(
      * can also set the object on the context itself after it's been constructed.
      */
     var obj: Any?,
-    /**
-     * The original command line arguments.
-     */
-    val originalArgv: List<String>,
 ) {
     /**
      * If this command has subcommands and one of them was invoked, this is the subcommand that will
@@ -211,6 +207,12 @@ class Context private constructor(
      * will be treated as normal arguments.
      */
     val expandArgumentFiles: Boolean get() = argumentFileReader != null
+
+    /**
+     * The original command line arguments.
+     */
+    @Deprecated("This property is deprecated and will be removed in the future. It will now always return an empty list. If your commands need an argv, you can pass it to them before they are run.")
+    val originalArgv: List<String> = emptyList()
 
     override fun toString(): String {
         return "Context(command=${command.commandName}, parent=${parent?.command?.commandName})"
@@ -346,7 +348,6 @@ class Context private constructor(
         internal fun build(
             command: BaseCliktCommand<*>,
             parent: Context?,
-            argv: List<String>,
             block: Builder.() -> Unit,
         ): Context {
             with(Builder(command, parent)) {
@@ -375,7 +376,6 @@ class Context private constructor(
                     localization = localization,
                     readEnvvar = envvarReader,
                     obj = obj,
-                    originalArgv = argv
                 )
             }
         }

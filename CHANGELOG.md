@@ -14,6 +14,9 @@
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.
 
+### Deprecated
+- Deprecated `Context.originalArgv`. It will now always return an empty list. If your commands need an argv, you can pass it to them before you run them.
+
 ## 4.3.0
 ### Added
 - Added `limit` parameter to `option().counted()` to limit the number of times the option can be used. You can either clamp the value to the limit, or throw an error if the limit is exceeded. ([#483](https://github.com/ajalt/clikt/issues/483))

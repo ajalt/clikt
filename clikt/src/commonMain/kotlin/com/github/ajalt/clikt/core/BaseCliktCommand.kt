@@ -1,6 +1,5 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -129,8 +128,7 @@ abstract class BaseCliktCommand<RunnerT>(
      */
     fun resetContext(parent: Context?): Context {
         _context?.close()
-        // TODO either pass argv or remove it from ctx
-        val ctx = Context.build(this, parent, emptyList(), _contextConfig)
+        val ctx = Context.build(this, parent, _contextConfig)
         _context = ctx
 
         if (allowMultipleSubcommands) {

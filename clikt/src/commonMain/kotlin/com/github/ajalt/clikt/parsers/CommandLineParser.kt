@@ -16,18 +16,27 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
-    // TODO: docs throws
-    inline fun <RunnerT> parseAndRun(
+    /**
+     * A shortcut for calling `run(parse(command, argv), runCommand)`
+     */
+    fun <RunnerT> parseAndRun(
         command: BaseCliktCommand<RunnerT>,
         argv: List<String>,
-        crossinline run: (BaseCliktCommand<RunnerT>) -> Unit,
+        runCommand: (BaseCliktCommand<RunnerT>) -> Unit,
     ) {
-        // TODO   generateCompletion()
-        val result = parse(command, argv)
+        run(parse(command, argv), runCommand)
+    }
+
+    // TODO: docs throws
+    fun <RunnerT> run(
+        result: CommandLineParseResult<RunnerT>,
+        runCommand: (BaseCliktCommand<RunnerT>) -> Unit,
+    ) {
+        result.throwError()
         for (invocation in result.invocations) {
             try {
                 finalize(invocation)
-                run(invocation.command)
+                runCommand(invocation.command)
             } finally {
                 invocation.command.currentContext.close()
             }

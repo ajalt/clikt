@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parsers.CommandLineParseResult
 import com.github.ajalt.clikt.parsers.CommandLineParser
 
 /**

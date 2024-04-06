@@ -50,7 +50,7 @@ abstract class BaseCliktCommand<RunnerT>(
      * The envvar to use to enable shell autocomplete script generation. Set to null to disable
      * generation.
      */
-    private val autoCompleteEnvvar: String? = "",
+    internal val autoCompleteEnvvar: String? = "",
     /**
      * If true, allow multiple of this command's subcommands to be called sequentially. This will
      * disable `allowInterspersedArgs` on the context of this command and its descendants.
@@ -179,18 +179,6 @@ abstract class BaseCliktCommand<RunnerT>(
     private fun getCommandNameWithParents(): String {
         if (_context == null) resetContext(null)
         return currentContext.commandNameWithParents().joinToString(" ")
-    }
-
-    private fun generateCompletion() {
-        if (autoCompleteEnvvar == null) return
-        val envvar = when {
-            autoCompleteEnvvar.isBlank() -> "_${commandName.replace("-", "_").uppercase()}_COMPLETE"
-            else -> autoCompleteEnvvar
-        }
-
-        val envval = currentContext.readEnvvar(envvar) ?: return
-
-        CompletionGenerator.throwCompletionMessage(this, envval)
     }
 
     /**

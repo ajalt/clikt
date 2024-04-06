@@ -30,4 +30,9 @@ class CommandLineParseResult<RunnerT>(
     val invocations: List<CommandInvocation<RunnerT>>,
     val originalArgv: List<String>,
     val expandedArgv: List<String>,
+    val error: CliktError?,
 )
+
+fun CommandLineParseResult<*>.throwError() {
+    error?.let { throw it }
+}

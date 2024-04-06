@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
+import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
@@ -8,7 +9,14 @@ internal fun <RunnerT> parseArgv(
     rootCommand: BaseCliktCommand<RunnerT>,
     originalArgv: List<String>,
 ): CommandLineParseResult<RunnerT> {
-    rootCommand.resetContext(null)
+    val rootContext = rootCommand.resetContext(null)
+
+    generateCompletion(rootContext, rootCommand)?.let {
+        return@parseArgv CommandLineParseResult(
+            emptyList(), originalArgv, originalArgv, it
+        )
+    }
+
     val results = mutableListOf<CommandInvocation<RunnerT>>()
     var expandedArgv = originalArgv
     var command: BaseCliktCommand<RunnerT>? = rootCommand
@@ -43,7 +51,23 @@ internal fun <RunnerT> parseArgv(
         }
         results[results.lastIndex] = lastResult.copy(errors = lastResult.errors + error)
     }
-    return CommandLineParseResult(results, originalArgv, expandedArgv)
+    return CommandLineParseResult(results, originalArgv, expandedArgv, null)
+}
+
+private fun generateCompletion(
+    context: Context,
+    command: BaseCliktCommand<*>,
+): PrintCompletionMessage? {
+    if (command.autoCompleteEnvvar == null) return null
+    val envvar = when {
+        command.autoCompleteEnvvar.isBlank() -> "_${
+            command.commandName.replace("-", "_").uppercase()
+        }_COMPLETE"
+
+        else -> command.autoCompleteEnvvar
+    }
+    val envval = context.readEnvvar(envvar) ?: return null
+    return CompletionGenerator.getCompletionMessage(command, envval)
 }
 
 private class CommandParser<RunnerT>(

@@ -1,9 +1,7 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.core.BaseCliktCommand
-import com.github.ajalt.clikt.core.CliktError
-import com.github.ajalt.clikt.core.PrintHelpMessage
-import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.completion.CompletionGenerator
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.*
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
@@ -58,6 +56,8 @@ object CommandLineParser {
         val groups = command.registeredParameterGroups()
         val arguments = command.registeredArguments()
 
+        throwCompletionMessageIfRequsted(context, command)
+
         val (eagerOpts, nonEagerOpts) = command.registeredOptions()
             .partition { it.eager }
 
@@ -104,4 +104,20 @@ private fun CommandInvocation<*>.throwErrors() {
 
         is CliktError -> throw first
     }
+}
+
+private fun throwCompletionMessageIfRequsted(
+    context: Context,
+    command: BaseCliktCommand<*>,
+) {
+    if (command.autoCompleteEnvvar == null) return
+    val envvar = when {
+        command.autoCompleteEnvvar.isBlank() -> "_${
+            command.commandName.replace("-", "_").uppercase()
+        }_COMPLETE"
+
+        else -> command.autoCompleteEnvvar
+    }
+    val envval = context.readEnvvar(envvar) ?: return
+    throw CompletionGenerator.getCompletionMessage(command, envval)
 }

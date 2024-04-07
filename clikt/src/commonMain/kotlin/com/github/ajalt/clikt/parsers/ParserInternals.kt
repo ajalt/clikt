@@ -33,15 +33,6 @@ internal fun <RunnerT> parseArgv(
         }
         command = commandResult.subcommand
     }
-    // TODO: pretty sure we can remove this
-    val lastResult = results.last()
-    if (lastResult.errors.isEmpty() && i != expandedArgv.size) {
-        // Only report trailing tokens if the last command didn't have any errors,
-        val error = NoSuchArgument(expandedArgv.drop(i + 1)).also {
-            it.context = lastResult.command.currentContext
-        }
-        results[results.lastIndex] = lastResult.copy(errors = lastResult.errors + error)
-    }
     return CommandLineParseResult(results, originalArgv, expandedArgv, null)
 }
 

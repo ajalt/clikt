@@ -43,9 +43,12 @@ open class TestCommand(
     }
 
     private val count = count ?: if (called) 1 else 0
-    private var actualCount = 0
+    private val invoked = mutableListOf<BaseCliktCommand<*>?>()
+    val invokedSubcommands: List<BaseCliktCommand<*>?> get() = invoked
+    private val actualCount get() = invoked.size
+
     final override fun run() {
-        actualCount++
+        invoked += currentContext.invokedSubcommand
         run_()
     }
 

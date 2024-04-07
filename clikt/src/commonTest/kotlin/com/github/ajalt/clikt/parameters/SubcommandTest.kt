@@ -345,6 +345,9 @@ class SubcommandTest {
         foo.arg shouldBe "f2"
         bar.opt shouldBe null
         bar.arg shouldBe "b2"
+
+        foo.invokedSubcommands shouldBe listOf(bar, bar)
+        bar.invokedSubcommands shouldBe listOf(null, null)
     }
 
     @Test
@@ -357,6 +360,9 @@ class SubcommandTest {
         bar1.arg shouldBe "a12"
         bar2.opt shouldBe "o"
         bar2.arg shouldBe "a22"
+
+        bar1.invokedSubcommands shouldBe listOf(bar2, bar2)
+        bar2.invokedSubcommands shouldBe listOf(null, null)
     }
 
     @Test
@@ -402,9 +408,14 @@ class SubcommandTest {
             }
         }
 
-        val c = C().subcommands(MultiSubFoo(1), MultiSubBar(1))
+        val foo = MultiSubFoo(1)
+        val bar = MultiSubBar(1)
+        val c = C().subcommands(foo, bar)
         c.parse("--x=xx foo 1 bar 2")
         c.x shouldBe "xx"
+        foo.invokedSubcommands shouldBe listOf(null)
+        bar.invokedSubcommands shouldBe listOf(null)
+        c.invokedSubcommands shouldBe listOf(foo)
 
         val c2 = C().subcommands(MultiSubFoo(1), MultiSubBar(1))
         shouldThrow<NoSuchArgument> {
@@ -431,7 +442,8 @@ class SubcommandTest {
     fun `multiple subcommands with excess arguments`() {
         val sub = TestCommand(name = "sub", called = true)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(sub)
-        shouldThrow<UsageError> {
+        c.parse("sub foo")
+        shouldThrow<NoSuchArgument> {
             c.parse("sub foo")
         }.formattedMessage shouldBe "got unexpected extra argument (foo)"
     }

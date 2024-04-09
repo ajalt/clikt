@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parsers.CommandLineParseResult
 import com.github.ajalt.clikt.parsers.CommandLineParser
 
 /**
@@ -60,7 +59,9 @@ abstract class CliktCommand(
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun BaseCliktCommand<() -> Unit>.main(argv: Array<out String>) = main(argv.asList())
+fun BaseCliktCommand<() -> Unit>.main(argv: List<String>) {
+    CommandLineParser.main(this, argv) { parse(argv) }
+}
 
 /**
  * Parse the command line and print helpful output if any errors occur.
@@ -71,7 +72,7 @@ fun BaseCliktCommand<() -> Unit>.main(argv: Array<out String>) = main(argv.asLis
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun BaseCliktCommand<() -> Unit>.main(argv: List<String>) = main(argv) { parse(argv) }
+fun BaseCliktCommand<() -> Unit>.main(argv: Array<out String>) = main(argv.asList())
 
 /**
  * Parse the command line and throw an exception if parsing fails.

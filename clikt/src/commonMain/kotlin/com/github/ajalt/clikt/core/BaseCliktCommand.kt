@@ -126,7 +126,7 @@ abstract class BaseCliktCommand<RunnerT>(
      *
      * @return The new context.
      */
-    fun resetContext(parent: Context?): Context {
+    fun resetContext(parent: Context? = null): Context {
         _context?.close()
         val ctx = Context.build(this, parent, _contextConfig)
         _context = ctx
@@ -278,7 +278,7 @@ abstract class BaseCliktCommand<RunnerT>(
         _groups += group
     }
 
-
+    // TODO: all of these final functions could be extensions?
     /**
      * Return the help string for this command, optionally with an [error].
      *

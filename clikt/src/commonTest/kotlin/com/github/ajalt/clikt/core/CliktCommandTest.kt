@@ -68,7 +68,10 @@ class CliktCommandTest {
         }
 
         val child = TestCommand(called = true, name = "foo")
-        TestCommand(called = true, invokeWithoutSubcommand = true).subcommands(child).apply {
+        TestCommand(
+            called = true,
+            invokeWithoutSubcommand = true
+        ).subcommands(child).apply {
             parse("foo")
             currentContext.invokedSubcommand shouldBe child
             child.currentContext.invokedSubcommand shouldBe null

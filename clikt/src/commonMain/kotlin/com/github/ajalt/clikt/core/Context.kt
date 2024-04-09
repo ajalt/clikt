@@ -108,12 +108,27 @@ class Context private constructor(
      */
     var obj: Any?,
 ) {
+
+    // TODO: add this to web docs and changelog
+    /**
+     * All invoked subcommands, in the order they were invoked.
+     *
+     * If `allowMultipleSubcommands=false`, this will have at most one entry. If
+     * `allowMultipleSubcommands=true`, the same command can appear in the list more than once.
+     */
+    var invokedSubcommands: List<BaseCliktCommand<*>> = emptyList()
+        internal set
+
     /**
      * If this command has subcommands and one of them was invoked, this is the subcommand that will
-     * be run next.
+     * be run first.
+     *
+     * If `allowMultipleSubcommands=true` on this command, you can use [invokedSubcommands] to get
+     * all invoked subcommands.
      */
-    var invokedSubcommand: BaseCliktCommand<*>? = null
-        internal set
+    val invokedSubcommand: BaseCliktCommand<*>? get() = invokedSubcommands.firstOrNull()
+
+
 
     /**
      * If true, an error was previously encountered while parsing the command line, but parsing is
@@ -428,7 +443,7 @@ inline fun <reified T : Any> BaseCliktCommand<*>.findObject(): ReadOnlyProperty<
  */
 @Suppress("UnusedReceiverParameter")
 inline fun <reified T : Any> BaseCliktCommand<*>.findOrSetObject(
-    crossinline default: () -> T
+    crossinline default: () -> T,
 ): ReadOnlyProperty<BaseCliktCommand<*>, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(default) }
 }

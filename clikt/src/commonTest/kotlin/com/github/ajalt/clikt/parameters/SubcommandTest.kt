@@ -7,11 +7,14 @@ import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
+import com.github.ajalt.clikt.parsers.CommandInvocation
+import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.test
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.withClue
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
@@ -356,14 +359,33 @@ class SubcommandTest {
         val bar1 = MultiSubBar(count = 2)
         val bar2 = MultiSubBar(count = 2)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(bar1.subcommands(bar2))
-        c.parse("bar a11 bar a12 bar a12 bar --opt=o a22")
+        val argv = "bar a11 bar a12 bar a12 bar --opt=o a22"
+        c.parse(argv)
         bar1.arg shouldBe "a12"
         bar2.opt shouldBe "o"
         bar2.arg shouldBe "a22"
 
+        c.invokedSubcommands shouldBe listOf(bar1, bar1)
         bar1.invokedSubcommands shouldBe listOf(bar2, bar2)
         bar2.invokedSubcommands shouldBe listOf(null, null)
+
+        val result = CommandLineParser.parse(c, CommandLineParser.tokenize(argv))
+        val invocation = result.invocation
+        invocation.command shouldBe c
+        invocation subcommandsShouldBe listOf(bar1, bar1)
+        invocation.subcommandInvocations[0] subcommandsShouldBe listOf(bar2)
+        invocation.subcommandInvocations[1] subcommandsShouldBe listOf(bar2)
     }
+
+    private infix fun CommandInvocation<*>.subcommandsShouldBe(
+        expected: List<BaseCliktCommand<*>>,
+    ) {
+        withClue("${command.commandName} subcommands") {
+            subcommandInvocations.map { it.command.commandName }
+                .shouldBe(expected.map { it.commandName })
+        }
+    }
+
 
     @Test
     @JsName("multiple_subcommands_with_varargs")

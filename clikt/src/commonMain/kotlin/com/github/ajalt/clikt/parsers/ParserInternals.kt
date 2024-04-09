@@ -8,33 +8,40 @@ internal fun <RunnerT> parseArgv(
     rootCommand: BaseCliktCommand<RunnerT>,
     originalArgv: List<String>,
 ): CommandLineParseResult<RunnerT> {
-    val results = mutableListOf<CommandInvocation<RunnerT>>()
-    var expandedArgv = originalArgv
-    var command: BaseCliktCommand<RunnerT>? = rootCommand
-    var i = 0
-    while (command != null) {
-        val parent = results.lastOrNull()?.command?.currentContext
-        val commandResult = CommandParser(command, parent, expandedArgv, i).parse()
-        i = commandResult.i
-        expandedArgv = commandResult.expandedArgv
-        results += CommandInvocation(
-            command,
-            commandResult.optInvocations,
-            commandResult.argInvocations,
-            commandResult.subcommand,
-            commandResult.errors
-        )
-        for (e in commandResult.errors) {
-            if (e is UsageError) e.context = e.context ?: command.currentContext
-        }
-        if (commandResult.errors.isNotEmpty()) {
-            command.currentContext.errorEncountered = true
-            break
-        }
-        command = commandResult.subcommand
-    }
-    return CommandLineParseResult(results, originalArgv, expandedArgv, null)
+    rootCommand.resetContext()
+    val result = parseCommandArgv(rootCommand, null, originalArgv, 0)
+    return CommandLineParseResult(result.invocation, originalArgv, result.argv)
 }
+
+/** Parse argv for the command, and recursively for its invoked subcommands */
+private fun <RunnerT> parseCommandArgv(
+    command: BaseCliktCommand<RunnerT>,
+    parent: Context?,
+    argv: List<String>,
+    i: Int,
+): CommandArgvParseResult<RunnerT> {
+    val rootResult = CommandParser(command, parent, argv, i).parse()
+    val subcommands = mutableListOf<CommandInvocation<RunnerT>>()
+    var nextCommand: BaseCliktCommand<RunnerT>? = rootResult.nextCommand
+    var nextArgv = rootResult.expandedArgv
+    var nextI = rootResult.i
+    while (nextCommand != null) {
+        val result = parseCommandArgv(nextCommand, command.currentContext, nextArgv, nextI)
+        nextCommand = result.nextCommand
+        nextArgv = result.argv
+        nextI = result.i
+        subcommands += result.invocation
+    }
+
+    return CommandArgvParseResult(rootResult.toInvocation(subcommands), nextCommand, argv, i)
+}
+
+private class CommandArgvParseResult<RunnerT>(
+    val invocation: CommandInvocation<RunnerT>,
+    val nextCommand: BaseCliktCommand<RunnerT>?,
+    val argv: List<String>,
+    val i: Int,
+)
 
 private class CommandParser<RunnerT>(
     private val command: BaseCliktCommand<RunnerT>,
@@ -43,7 +50,7 @@ private class CommandParser<RunnerT>(
     startingIndex: Int,
 ) {
     private var tokens = argv
-    private val context = command.resetContext(parentContext)
+    private val context = command.currentContext
     private val aliases = command.aliases()
     private val extraSubcommands = parentContext?.selfAndAncestors()
         ?.firstOrNull { it.command.allowMultipleSubcommands }?.command
@@ -169,7 +176,12 @@ private class CommandParser<RunnerT>(
 
     private fun makeResult(): CommandParseResult<RunnerT> {
         val opts = optInvocations.groupBy({ it.opt }, { it.inv })
-        return CommandParseResult(subcommand, i, errors, tokens, opts, argInvocations)
+        for (e in errors) {
+            if (e is UsageError) e.context = e.context ?: context
+            context.errorEncountered = true
+        }
+        val nextCommand = subcommand.takeIf { errors.isEmpty() }
+        return CommandParseResult(command, nextCommand, i, errors, tokens, opts, argInvocations)
     }
 
     private fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
@@ -342,13 +354,22 @@ private fun loadArgFile(filename: String, context: Context): List<String> {
 }
 
 private data class CommandParseResult<RunnerT>(
-    val subcommand: BaseCliktCommand<RunnerT>?,
+    val command: BaseCliktCommand<RunnerT>,
+    val nextCommand: BaseCliktCommand<RunnerT>?,
     val i: Int,
     val errors: List<CliktError>,
     val expandedArgv: List<String>,
     val optInvocations: Map<Option, List<Invocation>>,
     val argInvocations: List<ArgumentInvocation>,
-)
+) {
+    fun toInvocation(subcommands: List<CommandInvocation<RunnerT>>) = CommandInvocation(
+        command,
+        optInvocations,
+        argInvocations,
+        subcommands,
+        errors,
+    )
+}
 
 private data class OptInvocation(val opt: Option, val name: String, val values: List<String>) {
     val inv get() = Invocation(name, values)

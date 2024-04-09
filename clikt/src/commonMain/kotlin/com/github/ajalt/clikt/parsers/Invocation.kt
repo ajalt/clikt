@@ -22,17 +22,12 @@ data class CommandInvocation<RunnerT>(
     val command: BaseCliktCommand<RunnerT>,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
-    val invokedSubcommand: BaseCliktCommand<RunnerT>?,
+    val subcommandInvocations: List<CommandInvocation<RunnerT>>,
     val errors: List<CliktError>,
 )
 
 class CommandLineParseResult<RunnerT>(
-    val invocations: List<CommandInvocation<RunnerT>>,
+    val invocation: CommandInvocation<RunnerT>,
     val originalArgv: List<String>,
     val expandedArgv: List<String>,
-    val error: CliktError?,
 )
-
-fun CommandLineParseResult<*>.throwError() {
-    error?.let { throw it }
-}

@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parsers
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.*
+import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
 
@@ -15,30 +16,47 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
+    fun <RunnerT> main(
+        command: BaseCliktCommand<RunnerT>,
+        argv: List<String>,
+        parseAndRun: BaseCliktCommand<RunnerT>.(List<String>) -> Unit,
+    ) {
+        try {
+            command.parseAndRun(argv)
+        } catch (e: CliktError) {
+            command.echoFormattedHelp(e)
+            exitProcessMpp(e.statusCode)
+        }
+    }
+
+
     /**
-     * A shortcut for calling `run(parse(command, argv), runCommand)`
+     * A shortcut for calling `run(parse(command, argv).invocation, runCommand)`
      */
     fun <RunnerT> parseAndRun(
         command: BaseCliktCommand<RunnerT>,
         argv: List<String>,
         runCommand: (BaseCliktCommand<RunnerT>) -> Unit,
-    ) {
-        run(parse(command, argv), runCommand)
+    ): CommandLineParseResult<RunnerT> {
+        val result = parse(command, argv)
+        run(result.invocation, runCommand)
+        return result
     }
 
     // TODO: docs throws
     fun <RunnerT> run(
-        result: CommandLineParseResult<RunnerT>,
+        invocation: CommandInvocation<RunnerT>,
         runCommand: (BaseCliktCommand<RunnerT>) -> Unit,
     ) {
-        result.throwError()
-        for (invocation in result.invocations) {
-            try {
-                finalize(invocation)
-                runCommand(invocation.command)
-            } finally {
-                invocation.command.currentContext.close()
+        try {
+            finalize(invocation)
+            runCommand(invocation.command)
+
+            for (subcommandInvocation in invocation.subcommandInvocations) {
+                run(subcommandInvocation, runCommand)
             }
+        } finally {
+            invocation.command.currentContext.close()
         }
     }
 
@@ -53,11 +71,10 @@ object CommandLineParser {
     fun finalize(invocation: CommandInvocation<*>) {
         val command = invocation.command
         val context = command.currentContext
-        val subcommand = invocation.invokedSubcommand
         val groups = command.registeredParameterGroups()
         val arguments = command.registeredArguments()
 
-        throwCompletionMessageIfRequsted(context, command)
+        throwCompletionMessageIfRequested(context, command)
 
         val (eagerOpts, nonEagerOpts) = command.registeredOptions()
             .partition { it.eager }
@@ -76,24 +93,21 @@ object CommandLineParser {
 
         // then finalize and validate everything else
         val nonEagerNonGroupOpts = nonEagerOpts.filter { it.group == null }
+        val argumentInvocations = invocation.argumentInvocations
         finalizeParameters(
-            context,
-            nonEagerNonGroupOpts,
-            groups,
-            arguments,
-            nonEagerInvs,
-            invocation.argumentInvocations,
+            context, nonEagerNonGroupOpts, groups, arguments, nonEagerInvs, argumentInvocations
         ).throwErrors()
 
         validateParameters(context, nonEagerNonGroupOpts, groups, arguments).throwErrors()
 
-        if (subcommand == null && command._subcommands.isNotEmpty() &&
-            !command.invokeWithoutSubcommand
+        if (invocation.subcommandInvocations.isEmpty()
+            && command._subcommands.isNotEmpty()
+            && !command.invokeWithoutSubcommand
         ) {
             throw PrintHelpMessage(context, error = true)
         }
 
-        context.invokedSubcommand = subcommand
+        context.invokedSubcommands = invocation.subcommandInvocations.map { it.command }
     }
 }
 
@@ -107,7 +121,7 @@ private fun CommandInvocation<*>.throwErrors() {
     }
 }
 
-private fun throwCompletionMessageIfRequsted(
+private fun throwCompletionMessageIfRequested(
     context: Context,
     command: BaseCliktCommand<*>,
 ) {

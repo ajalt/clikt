@@ -24,6 +24,7 @@ open class TestCommand(
     allowMultipleSubcommands: Boolean = false,
     treatUnknownOptionsAsArgs: Boolean = false,
     hidden: Boolean = false,
+    noHelp: Boolean = false,
 ) : CliktCommand(
     help,
     epilog,
@@ -39,16 +40,15 @@ open class TestCommand(
     init {
         context {
             terminal = parent?.terminal ?: Terminal(AnsiLevel.NONE)
+            if (noHelp) helpOptionNames = emptyList()
         }
     }
 
     private val count = count ?: if (called) 1 else 0
-    private val invoked = mutableListOf<BaseCliktCommand<*>?>()
-    val invokedSubcommands: List<BaseCliktCommand<*>?> get() = invoked
-    private val actualCount get() = invoked.size
+    private var actualCount = 0
 
     final override fun run() {
-        invoked += currentContext.invokedSubcommand
+        actualCount++
         run_()
     }
 

@@ -107,7 +107,7 @@ object CommandLineParser {
             throw PrintHelpMessage(context, error = true)
         }
 
-        context.invokedSubcommands = invocation.subcommandInvocations.map { it.command }
+        context.invokedSubcommands += invocation.subcommandInvocations.map { it.command }
     }
 }
 

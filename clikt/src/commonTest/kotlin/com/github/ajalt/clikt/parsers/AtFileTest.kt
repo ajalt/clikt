@@ -73,10 +73,15 @@ class AtFileTest {
             }
         }
 
-        C().withAtFiles(
+        val c = C().withAtFiles(
             "foo" to "--foo 123 456",
             "bar" to "@foo"
-        ).parse("@foo")
+        )
+        c.parse("@foo")
+
+        val result = CommandLineParser.parse(c, listOf("@foo"))
+        result.originalArgv shouldBe listOf("@foo")
+        result.expandedArgv shouldBe listOf("--foo", "123", "456")
     }
 
     @Test
@@ -164,5 +169,30 @@ class AtFileTest {
         }
 
         C().parse("@file")
+    }
+
+    @Test
+    @JsName("parsing_atfile_with_alias")
+    fun `parsing atfile with alias`() {
+        class C : TestCommand() {
+            val foo by option()
+            val arg by argument().multiple()
+
+            override fun aliases() = mapOf(
+                "alias" to listOf("@foo", "789"),
+            )
+
+            override fun run_() {
+                foo shouldBe "123"
+                arg shouldBe listOf("456", "789")
+            }
+        }
+
+        val c = C().withAtFiles("foo" to "--foo 123 456")
+        c.parse("alias")
+
+        val result = CommandLineParser.parse(c, listOf("alias"))
+        result.originalArgv shouldBe listOf("alias")
+        result.expandedArgv shouldBe listOf("--foo", "123", "456", "789")
     }
 }

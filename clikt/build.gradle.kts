@@ -38,6 +38,8 @@ kotlin {
             dependencies {
                 api(kotlin("test"))
                 api(libs.kotest)
+                api(libs.coroutines.core)
+                api(libs.coroutines.test)
             }
         }
 

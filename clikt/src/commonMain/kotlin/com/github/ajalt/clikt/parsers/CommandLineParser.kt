@@ -16,7 +16,7 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
-    fun <T: BaseCliktCommand<T>> main(
+    inline fun <T: BaseCliktCommand<T>> main(
         command: T,
         argv: List<String>,
         parseAndRun: T.(argv: List<String>) -> Unit,
@@ -25,7 +25,7 @@ object CommandLineParser {
             command.parseAndRun(argv)
         } catch (e: CliktError) {
             command.echoFormattedHelp(e)
-            exitProcessMpp(e.statusCode)
+           TODO(" exitProcessMpp(e.statusCode)")
         }
     }
 
@@ -33,7 +33,7 @@ object CommandLineParser {
     /**
      * A shortcut for calling `run(parse(command, argv).invocation, runCommand)`
      */
-    fun <T: BaseCliktCommand<T>> parseAndRun(
+    inline fun <T: BaseCliktCommand<T>> parseAndRun(
         command: T,
         argv: List<String>,
         runCommand: (T) -> Unit,
@@ -44,26 +44,23 @@ object CommandLineParser {
     }
 
     // TODO: docs throws
-    fun <T: BaseCliktCommand<T>> run(
-        invocation: CommandInvocation<T>,
+    inline fun <T: BaseCliktCommand<T>> run(
+        rootInvocation: CommandInvocation<T>,
         runCommand: (T) -> Unit,
     ) {
+        val invocations = rootInvocation.flatten()
         try {
-            finalize(invocation)
-            runCommand(invocation.command)
-
-            for (subcommandInvocation in invocation.subcommandInvocations) {
-                run(subcommandInvocation, runCommand)
+            for (invocation in invocations) {
+                finalize(invocation)
+                runCommand(invocation.command)
             }
         } finally {
-            invocation.command.currentContext.close()
+            invocations.close()
         }
     }
 
     // TODO: docs does not throw
-    fun <T: BaseCliktCommand<T>> parse(
-        command: T, argv: List<String>,
-    ): CommandLineParseResult<T> {
+    fun <T: BaseCliktCommand<T>> parse(command: T, argv: List<String>): CommandLineParseResult<T> {
         return parseArgv(command, argv)
     }
 

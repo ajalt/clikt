@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktError
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 
@@ -31,3 +32,37 @@ class CommandLineParseResult<T: BaseCliktCommand<T>>(
     val originalArgv: List<String>,
     val expandedArgv: List<String>,
 )
+
+fun <T: BaseCliktCommand<T>> CommandInvocation<T>.flatten(): FlatInvocations<T> {
+    return FlatInvocations(this)
+}
+
+class FlatInvocations<T: BaseCliktCommand<T>> internal constructor(
+    root: CommandInvocation<T>,
+): Sequence<CommandInvocation<T>> {
+    private val closables = mutableListOf<Context>()
+    private val seq = sequence {
+        suspend fun SequenceScope<CommandInvocation<T>>.yieldSubs(inv: CommandInvocation<T>) {
+            closables.add(inv.command.currentContext)
+            yield(inv)
+            for (sub in inv.subcommandInvocations) {
+                yieldSubs(sub)
+            }
+            closables.removeLast().close()
+        }
+        yieldSubs(root)
+    }
+
+    override fun iterator(): Iterator<CommandInvocation<T>> = seq.iterator()
+
+    fun close() {
+        closables.forEach { it.close() }
+    }
+}
+
+fun <T: BaseCliktCommand<T>> CommandLineParseResult<T>.flatten(): Sequence<CommandInvocation<T>> {
+    return sequence {
+        yield(invocation)
+        yieldAll(invocation.subcommandInvocations)
+    }
+}

@@ -349,8 +349,55 @@ class SubcommandTest {
         bar.opt shouldBe null
         bar.arg shouldBe "b2"
 
-        foo.invokedSubcommands shouldBe listOf(bar, bar)
-        bar.invokedSubcommands shouldBe listOf(null, null)
+        foo.currentContext.invokedSubcommands shouldBe listOf(bar, bar)
+        bar.currentContext.invokedSubcommands shouldBe listOf()
+    }
+
+    @Test
+    @JsName("multiple_subcommands_with_nesting_parse_result")
+    fun `multiple subcommands with nesting parse result`() {
+        val a = TestCommand(name = "a", count = 3, noHelp = true)
+        val b = TestCommand(name = "b", count = 2, noHelp = true)
+        val c = TestCommand(name = "c", count = 1, noHelp = true)
+        val d = TestCommand(name = "d", count = 1, noHelp = true)
+        val r = TestCommand(name = "r", allowMultipleSubcommands = true, noHelp = true)
+            .subcommands(a, b.subcommands(c, d))
+        val argv = "a a b c b d a"
+
+        val result = CommandLineParser.parse(r, CommandLineParser.tokenize(argv))
+        val invocation = result.invocation
+        invocation.command shouldBe r
+        invocation subcommandsShouldBe listOf(a, a, b, b, a)
+        invocation.subcommandInvocations[0] subcommandsShouldBe listOf()
+        invocation.subcommandInvocations[1] subcommandsShouldBe listOf()
+        invocation.subcommandInvocations[2] subcommandsShouldBe listOf(c)
+        invocation.subcommandInvocations[3] subcommandsShouldBe listOf(d)
+        invocation.subcommandInvocations[4] subcommandsShouldBe listOf()
+
+        CommandLineParser.run(invocation) { it.runner() }
+        TestCommand.assertCalled(r)
+        r.currentContext.invokedSubcommands shouldBe listOf(a, a, b, b, a)
+        a.currentContext.invokedSubcommands shouldBe listOf()
+        b.currentContext.invokedSubcommands shouldBe listOf(c, d)
+    }
+
+    @Test
+    @JsName("multiple_subcommands_with_nesting_invalid")
+    fun `multiple subcommands with nesting invalid`() = forAll(
+        row("c"),
+        row("d"),
+        row("a c"),
+        row("a d"),
+        row("b c d"),
+        row("b d c"),
+    ) { argv ->
+        val a = TestCommand(name = "a", count = 3, noHelp = true)
+        val b = TestCommand(name = "b", count = 2, noHelp = true)
+        val c = TestCommand(name = "c", count = 1, noHelp = true)
+        val d = TestCommand(name = "d", count = 1, noHelp = true)
+        val r = TestCommand(name = "r", allowMultipleSubcommands = true, noHelp = true)
+            .subcommands(a, b.subcommands(c, d))
+        shouldThrow<UsageError> { r.parse(argv) }
     }
 
     @Test
@@ -360,14 +407,6 @@ class SubcommandTest {
         val bar2 = MultiSubBar(count = 2)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(bar1.subcommands(bar2))
         val argv = "bar a11 bar a12 bar a12 bar --opt=o a22"
-        c.parse(argv)
-        bar1.arg shouldBe "a12"
-        bar2.opt shouldBe "o"
-        bar2.arg shouldBe "a22"
-
-        c.invokedSubcommands shouldBe listOf(bar1, bar1)
-        bar1.invokedSubcommands shouldBe listOf(bar2, bar2)
-        bar2.invokedSubcommands shouldBe listOf(null, null)
 
         val result = CommandLineParser.parse(c, CommandLineParser.tokenize(argv))
         val invocation = result.invocation
@@ -375,17 +414,18 @@ class SubcommandTest {
         invocation subcommandsShouldBe listOf(bar1, bar1)
         invocation.subcommandInvocations[0] subcommandsShouldBe listOf(bar2)
         invocation.subcommandInvocations[1] subcommandsShouldBe listOf(bar2)
-    }
 
-    private infix fun CommandInvocation<*>.subcommandsShouldBe(
-        expected: List<BaseCliktCommand<*>>,
-    ) {
-        withClue("${command.commandName} subcommands") {
-            subcommandInvocations.map { it.command.commandName }
-                .shouldBe(expected.map { it.commandName })
-        }
-    }
+        CommandLineParser.run(invocation) { it.runner() }
+        TestCommand.assertCalled(c)
+        bar1.arg shouldBe "a12"
+        bar2.opt shouldBe "o"
+        bar2.arg shouldBe "a22"
 
+        c.currentContext.invokedSubcommands shouldBe listOf(bar1, bar1)
+        bar1.currentContext.invokedSubcommands shouldBe listOf(bar2, bar2)
+        bar2.currentContext.invokedSubcommands shouldBe listOf()
+
+    }
 
     @Test
     @JsName("multiple_subcommands_with_varargs")
@@ -435,9 +475,9 @@ class SubcommandTest {
         val c = C().subcommands(foo, bar)
         c.parse("--x=xx foo 1 bar 2")
         c.x shouldBe "xx"
-        foo.invokedSubcommands shouldBe listOf(null)
-        bar.invokedSubcommands shouldBe listOf(null)
-        c.invokedSubcommands shouldBe listOf(foo)
+        foo.currentContext.invokedSubcommands shouldBe listOf()
+        bar.currentContext.invokedSubcommands shouldBe listOf()
+        c.currentContext.invokedSubcommands shouldBe listOf(foo, bar)
 
         val c2 = C().subcommands(MultiSubFoo(1), MultiSubBar(1))
         shouldThrow<NoSuchArgument> {
@@ -464,7 +504,6 @@ class SubcommandTest {
     fun `multiple subcommands with excess arguments`() {
         val sub = TestCommand(name = "sub", called = true)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(sub)
-        c.parse("sub foo")
         shouldThrow<NoSuchArgument> {
             c.parse("sub foo")
         }.formattedMessage shouldBe "got unexpected extra argument (foo)"
@@ -494,4 +533,16 @@ private class MultiSubFoo(count: Int) : TestCommand(name = "foo", count = count)
 private class MultiSubBar(count: Int) : TestCommand(name = "bar", count = count) {
     val opt by option()
     val arg by argument()
+}
+
+private infix fun CommandInvocation<*>.subcommandsShouldBe(
+    expected: List<BaseCliktCommand<*>>,
+) {
+    fun BaseCliktCommand<*>.str(): String {
+        return "{$commandName (${_subcommands.joinToString { it.commandName }})}"
+    }
+    withClue("${command.commandName} subcommands") {
+        subcommandInvocations.map { it.command.str() }
+            .shouldBe(expected.map { it.str() })
+    }
 }

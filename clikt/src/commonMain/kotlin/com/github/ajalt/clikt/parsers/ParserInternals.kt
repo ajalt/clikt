@@ -9,31 +9,32 @@ internal fun <RunnerT> parseArgv(
     originalArgv: List<String>,
 ): CommandLineParseResult<RunnerT> {
     rootCommand.resetContext()
-    val result = parseCommandArgv(rootCommand, null, originalArgv, 0)
+    val result = parseCommandArgv(rootCommand, originalArgv, 0)
     return CommandLineParseResult(result.invocation, originalArgv, result.argv)
 }
 
 /** Parse argv for the command, and recursively for its invoked subcommands */
 private fun <RunnerT> parseCommandArgv(
     command: BaseCliktCommand<RunnerT>,
-    parent: Context?,
     argv: List<String>,
     i: Int,
 ): CommandArgvParseResult<RunnerT> {
-    val rootResult = CommandParser(command, parent, argv, i).parse()
+    val rootResult = CommandParser(command, argv, i).parse()
     val subcommands = mutableListOf<CommandInvocation<RunnerT>>()
     var nextCommand: BaseCliktCommand<RunnerT>? = rootResult.nextCommand
     var nextArgv = rootResult.expandedArgv
     var nextI = rootResult.i
-    while (nextCommand != null) {
-        val result = parseCommandArgv(nextCommand, command.currentContext, nextArgv, nextI)
+    while (nextCommand != null && nextCommand.currentContext.parent?.command == command) {
+        val result = parseCommandArgv(nextCommand, nextArgv, nextI)
         nextCommand = result.nextCommand
         nextArgv = result.argv
         nextI = result.i
         subcommands += result.invocation
     }
 
-    return CommandArgvParseResult(rootResult.toInvocation(subcommands), nextCommand, argv, i)
+    return CommandArgvParseResult(
+        rootResult.toInvocation(subcommands), nextCommand, nextArgv, nextI
+    )
 }
 
 private class CommandArgvParseResult<RunnerT>(
@@ -45,17 +46,20 @@ private class CommandArgvParseResult<RunnerT>(
 
 private class CommandParser<RunnerT>(
     private val command: BaseCliktCommand<RunnerT>,
-    parentContext: Context?,
     argv: List<String>,
     startingIndex: Int,
 ) {
     private var tokens = argv
     private val context = command.currentContext
     private val aliases = command.aliases()
-    private val extraSubcommands = parentContext?.selfAndAncestors()
-        ?.firstOrNull { it.command.allowMultipleSubcommands }?.command
-        ?._subcommands?.associate {
-            // We could avoid this cast if Context was generic, but it doesn't seem worth it
+
+    /**
+     * Subcommands of an ancestor with allowMultipleSubcommands, since any of them could be next
+     */
+    private val ancestorMultipleSubcommands = context.ancestors()
+        .firstOrNull { it.command.allowMultipleSubcommands }
+        ?.command?._subcommands?.associate {
+            // TODO We could avoid this cast if Context was generic
             @Suppress("UNCHECKED_CAST")
             it.commandName to it as BaseCliktCommand<RunnerT>
         } ?: emptyMap()
@@ -63,7 +67,7 @@ private class CommandParser<RunnerT>(
 
     // If an ancestor command allows multiple subcommands, include its subcommands so
     // that we can chain into them
-    private val allSubcommands = extraSubcommands + localSubcommands
+    private val allSubcommands = ancestorMultipleSubcommands + localSubcommands
     private val optionsByName = mutableMapOf<String, Option>()
     private val numberOption = command._options.find { it.acceptsNumberValueWithoutName }
     private val prefixes = mutableSetOf<String>()

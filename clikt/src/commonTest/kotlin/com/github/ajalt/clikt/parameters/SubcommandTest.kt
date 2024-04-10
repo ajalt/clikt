@@ -374,7 +374,7 @@ class SubcommandTest {
         invocation.subcommandInvocations[3] subcommandsShouldBe listOf(d)
         invocation.subcommandInvocations[4] subcommandsShouldBe listOf()
 
-        CommandLineParser.run(invocation) { it.runner() }
+        CommandLineParser.run(invocation) { it.run() }
         TestCommand.assertCalled(r)
         r.currentContext.invokedSubcommands shouldBe listOf(a, a, b, b, a)
         a.currentContext.invokedSubcommands shouldBe listOf()
@@ -415,7 +415,7 @@ class SubcommandTest {
         invocation.subcommandInvocations[0] subcommandsShouldBe listOf(bar2)
         invocation.subcommandInvocations[1] subcommandsShouldBe listOf(bar2)
 
-        CommandLineParser.run(invocation) { it.runner() }
+        CommandLineParser.run(invocation) { it.run() }
         TestCommand.assertCalled(c)
         bar1.arg shouldBe "a12"
         bar2.opt shouldBe "o"

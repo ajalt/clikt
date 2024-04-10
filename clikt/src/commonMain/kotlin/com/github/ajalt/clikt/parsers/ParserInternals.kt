@@ -4,24 +4,24 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
-internal fun <RunnerT> parseArgv(
-    rootCommand: BaseCliktCommand<RunnerT>,
+internal fun <T : BaseCliktCommand<T>> parseArgv(
+    rootCommand: T,
     originalArgv: List<String>,
-): CommandLineParseResult<RunnerT> {
+): CommandLineParseResult<T> {
     rootCommand.resetContext()
     val result = parseCommandArgv(rootCommand, originalArgv, 0)
     return CommandLineParseResult(result.invocation, originalArgv, result.argv)
 }
 
 /** Parse argv for the command, and recursively for its invoked subcommands */
-private fun <RunnerT> parseCommandArgv(
-    command: BaseCliktCommand<RunnerT>,
+private fun <T : BaseCliktCommand<T>> parseCommandArgv(
+    command: T,
     argv: List<String>,
     i: Int,
-): CommandArgvParseResult<RunnerT> {
+): CommandArgvParseResult<T> {
     val rootResult = CommandParser(command, argv, i).parse()
-    val subcommands = mutableListOf<CommandInvocation<RunnerT>>()
-    var nextCommand: BaseCliktCommand<RunnerT>? = rootResult.nextCommand
+    val subcommands = mutableListOf<CommandInvocation<T>>()
+    var nextCommand: T? = rootResult.nextCommand
     var nextArgv = rootResult.expandedArgv
     var nextI = rootResult.i
     while (nextCommand != null && nextCommand.currentContext.parent?.command == command) {
@@ -37,15 +37,15 @@ private fun <RunnerT> parseCommandArgv(
     )
 }
 
-private class CommandArgvParseResult<RunnerT>(
-    val invocation: CommandInvocation<RunnerT>,
-    val nextCommand: BaseCliktCommand<RunnerT>?,
+private class CommandArgvParseResult<T : BaseCliktCommand<T>>(
+    val invocation: CommandInvocation<T>,
+    val nextCommand: T?,
     val argv: List<String>,
     val i: Int,
 )
 
-private class CommandParser<RunnerT>(
-    private val command: BaseCliktCommand<RunnerT>,
+private class CommandParser<T : BaseCliktCommand<T>>(
+    private val command: T,
     argv: List<String>,
     startingIndex: Int,
 ) {
@@ -53,15 +53,13 @@ private class CommandParser<RunnerT>(
     private val context = command.currentContext
     private val aliases = command.aliases()
 
-    /**
-     * Subcommands of an ancestor with allowMultipleSubcommands, since any of them could be next
-     */
+    // Subcommands of an ancestor with allowMultipleSubcommands, since any of them could be next
     private val ancestorMultipleSubcommands = context.ancestors()
         .firstOrNull { it.command.allowMultipleSubcommands }
         ?.command?._subcommands?.associate {
             // TODO We could avoid this cast if Context was generic
             @Suppress("UNCHECKED_CAST")
-            it.commandName to it as BaseCliktCommand<RunnerT>
+            it.commandName to it as T
         } ?: emptyMap()
     private val localSubcommands = command._subcommands.associateBy { it.commandName }
 
@@ -73,7 +71,7 @@ private class CommandParser<RunnerT>(
     private val prefixes = mutableSetOf<String>()
     private val longNames = mutableSetOf<String>()
     private val argumentTokens = mutableListOf<String>()
-    private var subcommand: BaseCliktCommand<RunnerT>? = null
+    private var subcommand: T? = null
     private val optInvocations = mutableListOf<OptInvocation>()
     private val argInvocations = mutableListOf<ArgumentInvocation>()
     private val errors = mutableListOf<CliktError>()
@@ -84,7 +82,7 @@ private class CommandParser<RunnerT>(
     private var canParseOptions = true
     private var canExpandAtFiles = context.expandArgumentFiles
 
-    fun parse(): CommandParseResult<RunnerT> {
+    fun parse(): CommandParseResult<T> {
         splitOptionPrefixes()
         if (printHelpOnEmptyArgsIfNecessary()) return makeResult()
         consumeTokens()
@@ -178,7 +176,7 @@ private class CommandParser<RunnerT>(
         prefixes.remove("")
     }
 
-    private fun makeResult(): CommandParseResult<RunnerT> {
+    private fun makeResult(): CommandParseResult<T> {
         val opts = optInvocations.groupBy({ it.opt }, { it.inv })
         for (e in errors) {
             if (e is UsageError) e.context = e.context ?: context
@@ -357,16 +355,16 @@ private fun loadArgFile(filename: String, context: Context): List<String> {
     return shlex(filename, context.argumentFileReader!!(filename), context.localization)
 }
 
-private data class CommandParseResult<RunnerT>(
-    val command: BaseCliktCommand<RunnerT>,
-    val nextCommand: BaseCliktCommand<RunnerT>?,
+private data class CommandParseResult<T : BaseCliktCommand<T>>(
+    val command: T,
+    val nextCommand: T?,
     val i: Int,
     val errors: List<CliktError>,
     val expandedArgv: List<String>,
     val optInvocations: Map<Option, List<Invocation>>,
     val argInvocations: List<ArgumentInvocation>,
 ) {
-    fun toInvocation(subcommands: List<CommandInvocation<RunnerT>>) = CommandInvocation(
+    fun toInvocation(subcommands: List<CommandInvocation<T>>) = CommandInvocation(
         command,
         optInvocations,
         argInvocations,

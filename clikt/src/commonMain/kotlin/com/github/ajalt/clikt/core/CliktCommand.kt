@@ -24,7 +24,7 @@ abstract class CliktCommand(
     allowMultipleSubcommands: Boolean = false,
     treatUnknownOptionsAsArgs: Boolean = false,
     hidden: Boolean = false,
-) : BaseCliktCommand<() -> Unit>(
+) : BaseCliktCommand<CliktCommand>(
     help,
     epilog,
     name,
@@ -36,8 +36,6 @@ abstract class CliktCommand(
     treatUnknownOptionsAsArgs,
     hidden
 ) {
-    final override val runner: () -> Unit get() = ::run
-
     /**
      * Perform actions after parsing is complete and this command is invoked.
      *
@@ -59,7 +57,7 @@ abstract class CliktCommand(
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun BaseCliktCommand<() -> Unit>.main(argv: List<String>) {
+fun CliktCommand.main(argv: List<String>) {
     CommandLineParser.main(this, argv) { parse(argv) }
 }
 
@@ -72,14 +70,14 @@ fun BaseCliktCommand<() -> Unit>.main(argv: List<String>) {
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun BaseCliktCommand<() -> Unit>.main(argv: Array<out String>) = main(argv.asList())
+fun CliktCommand.main(argv: Array<out String>) = main(argv.asList())
 
 /**
  * Parse the command line and throw an exception if parsing fails.
  *
  * You should use [main] instead unless you want to handle output yourself.
  */
-fun BaseCliktCommand<() -> Unit>.parse(argv: Array<String>) {
+fun CliktCommand.parse(argv: Array<String>) {
     parse(argv.asList())
 }
 
@@ -88,6 +86,6 @@ fun BaseCliktCommand<() -> Unit>.parse(argv: Array<String>) {
  *
  * You should use [main] instead unless you want to handle output yourself.
  */
-fun BaseCliktCommand<() -> Unit>.parse(argv: List<String>) {
-    CommandLineParser.parseAndRun(this, argv) { it.runner() }
+fun CliktCommand.parse(argv: List<String>) {
+    CommandLineParser.parseAndRun(this, argv) { it.run() }
 }

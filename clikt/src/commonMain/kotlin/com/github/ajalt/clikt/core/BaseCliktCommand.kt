@@ -15,7 +15,7 @@ import com.github.ajalt.mordant.terminal.Terminal
  */
 @Suppress("PropertyName")
 @ParameterHolderDsl
-abstract class BaseCliktCommand<RunnerT>(
+abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
     /**
      * The help for this command. The first line is used in the usage string, and the entire string
      * is used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
@@ -68,13 +68,6 @@ abstract class BaseCliktCommand<RunnerT>(
     private val hidden: Boolean = false,
 ) : ParameterHolder {
     /**
-     * The function to run when this command is invoked.
-     *
-     * For [CliktCommand], this just calls `run`.
-     */
-    abstract val runner: RunnerT
-
-    /**
      * The name of this command, used in help output.
      *
      * You can set this by passing `name` to the [CliktCommand] constructor.
@@ -111,7 +104,7 @@ abstract class BaseCliktCommand<RunnerT>(
         return epilog
     }
 
-    internal var _subcommands: List<BaseCliktCommand<RunnerT>> = emptyList()
+    internal var _subcommands: List<T> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
     internal val _arguments: MutableList<Argument> = mutableListOf()
     internal val _groups: MutableList<ParameterGroup> = mutableListOf()
@@ -208,7 +201,7 @@ abstract class BaseCliktCommand<RunnerT>(
     /**
      * Get a read-only list of commands registered as [subcommands] of this command.
      */
-    fun registeredSubcommands(): List<BaseCliktCommand<RunnerT>> = _subcommands.toList()
+    fun registeredSubcommands(): List<T> = _subcommands.toList()
 
     /**
      * Get a read-only list of options registered in this command (e.g. via [registerOption] or an
@@ -366,15 +359,15 @@ abstract class BaseCliktCommand<RunnerT>(
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <RunnerT, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
-    commands: Iterable<BaseCliktCommand<RunnerT>>,
+fun <T : BaseCliktCommand<T>, CommandT : T> CommandT.subcommands(
+    commands: Iterable<T>,
 ): CommandT = apply {
     _subcommands = _subcommands + commands
 }
 
 /** Add the given commands as a subcommand of this command. */
-fun <RunnerT, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
-    vararg commands: BaseCliktCommand<RunnerT>,
+fun <T : BaseCliktCommand<T>, CommandT : T> CommandT.subcommands(
+    vararg commands: T,
 ): CommandT = apply {
     _subcommands = _subcommands + commands
 }
@@ -385,9 +378,7 @@ fun <RunnerT, CommandT : BaseCliktCommand<RunnerT>> CommandT.subcommands(
  * Context property values are normally inherited from the parent context, but you can override any of them
  * here.
  */
-fun <RunnerT, CommandT : BaseCliktCommand<RunnerT>> CommandT.context(
-    block: Context.Builder.() -> Unit,
-): CommandT = apply {
+fun <T : BaseCliktCommand<T>, U: T> U.context(block: Context.Builder.() -> Unit): U = apply {
     // save the old config to allow multiple context calls
     val c = _contextConfig
     _contextConfig = {

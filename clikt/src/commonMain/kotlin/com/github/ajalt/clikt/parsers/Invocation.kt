@@ -18,16 +18,16 @@ data class Invocation(val name: String, val values: List<String>)
 // TODO: docs
 data class ArgumentInvocation(val argument: Argument, val values: List<String>)
 
-data class CommandInvocation<RunnerT>(
-    val command: BaseCliktCommand<RunnerT>,
+data class CommandInvocation<T: BaseCliktCommand<T>>(
+    val command: T,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
-    val subcommandInvocations: List<CommandInvocation<RunnerT>>,
+    val subcommandInvocations: List<CommandInvocation<T>>,
     val errors: List<CliktError>,
 )
 
-class CommandLineParseResult<RunnerT>(
-    val invocation: CommandInvocation<RunnerT>,
+class CommandLineParseResult<T: BaseCliktCommand<T>>(
+    val invocation: CommandInvocation<T>,
     val originalArgv: List<String>,
     val expandedArgv: List<String>,
 )

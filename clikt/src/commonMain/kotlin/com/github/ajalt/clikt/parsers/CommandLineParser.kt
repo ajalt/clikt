@@ -16,10 +16,10 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
-    fun <RunnerT> main(
-        command: BaseCliktCommand<RunnerT>,
+    fun <T: BaseCliktCommand<T>> main(
+        command: T,
         argv: List<String>,
-        parseAndRun: BaseCliktCommand<RunnerT>.(List<String>) -> Unit,
+        parseAndRun: T.(argv: List<String>) -> Unit,
     ) {
         try {
             command.parseAndRun(argv)
@@ -33,20 +33,20 @@ object CommandLineParser {
     /**
      * A shortcut for calling `run(parse(command, argv).invocation, runCommand)`
      */
-    fun <RunnerT> parseAndRun(
-        command: BaseCliktCommand<RunnerT>,
+    fun <T: BaseCliktCommand<T>> parseAndRun(
+        command: T,
         argv: List<String>,
-        runCommand: (BaseCliktCommand<RunnerT>) -> Unit,
-    ): CommandLineParseResult<RunnerT> {
+        runCommand: (T) -> Unit,
+    ): CommandLineParseResult<T> {
         val result = parse(command, argv)
         run(result.invocation, runCommand)
         return result
     }
 
     // TODO: docs throws
-    fun <RunnerT> run(
-        invocation: CommandInvocation<RunnerT>,
-        runCommand: (BaseCliktCommand<RunnerT>) -> Unit,
+    fun <T: BaseCliktCommand<T>> run(
+        invocation: CommandInvocation<T>,
+        runCommand: (T) -> Unit,
     ) {
         try {
             finalize(invocation)
@@ -61,9 +61,9 @@ object CommandLineParser {
     }
 
     // TODO: docs does not throw
-    fun <RunnerT> parse(
-        command: BaseCliktCommand<RunnerT>, argv: List<String>,
-    ): CommandLineParseResult<RunnerT> {
+    fun <T: BaseCliktCommand<T>> parse(
+        command: T, argv: List<String>,
+    ): CommandLineParseResult<T> {
         return parseArgv(command, argv)
     }
 

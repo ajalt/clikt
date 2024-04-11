@@ -3,6 +3,7 @@
 ## Unreleased
 ### Added
 - Added `NoSuchArgument` exception that is thrown when too many arguments were given on the command line. Previously, a less specific `UsageError` was thrown instead.
+- Added `CliktUtil.exitProcess`, which is a cross-platform way to exit the process with a status code.
 ## 4.4.0
 ### Added
 - Publish `linuxArm64` and `wasmJs` targets.

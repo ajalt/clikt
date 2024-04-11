@@ -38,7 +38,6 @@ class MultiUsageErrorTest {
         class C : TestCommand(called = false) {
             val x by option().int().required().check { it == 0 }
             val y by option().int().required().check { it == 0 }
-            // TODO: parseArguments and handleExcessArgs used to be part of the finalization step.
             val a by argument().int().check { it == 0 }
         }
 

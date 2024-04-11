@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.parsers
 import com.github.ajalt.clikt.completion.CompletionGenerator
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.*
-import com.github.ajalt.clikt.mpp.exitProcessMpp
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
 
@@ -13,19 +12,19 @@ object CommandLineParser {
         commandLine: String,
         localization: Localization = defaultLocalization,
     ): List<String> {
-        return shlex("TODO", commandLine, localization)// TODO
+        return shlex("TODO", commandLine, localization)// TODO shlex
     }
 
-    inline fun <T: BaseCliktCommand<T>, U> main(
+    inline fun <T : BaseCliktCommand<T>> main(
         command: T,
         argv: List<String>,
-        parseAndRun: T.(argv: List<String>) -> U,
-    ) : U {
+        parseAndRun: T.(argv: List<String>) -> Unit,
+    ) {
         try {
-            return command.parseAndRun(argv)
+            command.parseAndRun(argv)
         } catch (e: CliktError) {
             command.echoFormattedHelp(e)
-           TODO(" exitProcessMpp(e.statusCode)")
+            CliktUtil.exitProcess(e.statusCode)
         }
     }
 
@@ -33,7 +32,7 @@ object CommandLineParser {
     /**
      * A shortcut for calling `run(parse(command, argv).invocation, runCommand)`
      */
-    inline fun <T: BaseCliktCommand<T>> parseAndRun(
+    inline fun <T : BaseCliktCommand<T>> parseAndRun(
         command: T,
         argv: List<String>,
         runCommand: (T) -> Unit,
@@ -44,7 +43,7 @@ object CommandLineParser {
     }
 
     // TODO: docs throws
-    inline fun <T: BaseCliktCommand<T>> run(
+    inline fun <T : BaseCliktCommand<T>> run(
         rootInvocation: CommandInvocation<T>,
         runCommand: (T) -> Unit,
     ) {
@@ -60,7 +59,7 @@ object CommandLineParser {
     }
 
     // TODO: docs does not throw
-    fun <T: BaseCliktCommand<T>> parse(command: T, argv: List<String>): CommandLineParseResult<T> {
+    fun <T : BaseCliktCommand<T>> parse(command: T, argv: List<String>): CommandLineParseResult<T> {
         return parseArgv(command, argv)
     }
 

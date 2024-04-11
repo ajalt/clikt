@@ -108,11 +108,9 @@ object CommandLineParser {
 }
 
 private fun CommandInvocation<*>.throwErrors() {
+    // The errors are always UsageErrors, expect for the case of printHelpOnEmptyArgs
     when (val first = errors.firstOrNull()) {
-        // TODO: check if there is ever an error after a UsageError
-        is UsageError -> errors.takeWhile { it is UsageError }
-            .filterIsInstance<UsageError>().throwErrors()
-
+        is UsageError -> errors.filterIsInstance<UsageError>().throwErrors()
         is CliktError -> throw first
     }
 }

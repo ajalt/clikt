@@ -16,13 +16,13 @@ object CommandLineParser {
         return shlex("TODO", commandLine, localization)// TODO
     }
 
-    inline fun <T: BaseCliktCommand<T>> main(
+    inline fun <T: BaseCliktCommand<T>, U> main(
         command: T,
         argv: List<String>,
-        parseAndRun: T.(argv: List<String>) -> Unit,
-    ) {
+        parseAndRun: T.(argv: List<String>) -> U,
+    ) : U {
         try {
-            command.parseAndRun(argv)
+            return command.parseAndRun(argv)
         } catch (e: CliktError) {
             command.echoFormattedHelp(e)
            TODO(" exitProcessMpp(e.statusCode)")

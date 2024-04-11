@@ -3,11 +3,12 @@ package com.github.ajalt.clikt.command
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parsers.CommandLineParser
 
-// TODO: md docs
+// TODO: md docs, changelog
 /**
- * A version of [CliktCommand] that supports a suspending [run] function.
+ * A version of [CliktCommand] that returns a value from the [run] function, which is then passed to
+ * subcommands.
  */
-abstract class SuspendingCliktCommand(
+abstract class ChainedCliktCommand<T>(
     help: String = "",
     epilog: String = "",
     name: String? = null,
@@ -18,7 +19,7 @@ abstract class SuspendingCliktCommand(
     allowMultipleSubcommands: Boolean = false,
     treatUnknownOptionsAsArgs: Boolean = false,
     hidden: Boolean = false,
-) : BaseCliktCommand<SuspendingCliktCommand>(
+) : BaseCliktCommand<ChainedCliktCommand<T>>(
     help,
     epilog,
     name,
@@ -33,13 +34,15 @@ abstract class SuspendingCliktCommand(
     /**
      * Perform actions after parsing is complete and this command is invoked.
      *
+     * This takes the value returned by the previously invoked command and returns a new value.
+     *
      * This is called after command line parsing is complete. If this command is a subcommand, this
      * will only be called if the subcommand is invoked.
      *
      * If one of this command's subcommands is invoked, this is called before the subcommand's
      * arguments are parsed.
      */
-    abstract suspend fun run()
+    abstract fun run(value: T): T
 }
 
 
@@ -52,8 +55,8 @@ abstract class SuspendingCliktCommand(
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-suspend fun SuspendingCliktCommand.main(argv: List<String>) {
-    CommandLineParser.main(this, argv) { parse(argv) }
+fun <T> ChainedCliktCommand<T>.main(argv: List<String>, initial: T): T {
+    return CommandLineParser.main(this, argv) { parse(argv, initial) }
 }
 
 /**
@@ -65,15 +68,8 @@ suspend fun SuspendingCliktCommand.main(argv: List<String>) {
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-suspend fun SuspendingCliktCommand.main(argv: Array<out String>) = main(argv.asList())
-
-/**
- * Parse the command line and throw an exception if parsing fails.
- *
- * You should use [main] instead unless you want to handle output yourself.
- */
-suspend fun SuspendingCliktCommand.parse(argv: Array<String>) {
-    parse(argv.asList())
+fun <T> ChainedCliktCommand<T>.main(argv: Array<out String>, initial: T) {
+    main(argv.asList(), initial)
 }
 
 /**
@@ -81,6 +77,17 @@ suspend fun SuspendingCliktCommand.parse(argv: Array<String>) {
  *
  * You should use [main] instead unless you want to handle output yourself.
  */
-suspend fun SuspendingCliktCommand.parse(argv: List<String>) {
-    CommandLineParser.parseAndRun(this, argv) { it.run() }
+fun <T> ChainedCliktCommand<T>.parse(argv: Array<String>, initial: T): T {
+    return parse(argv.asList(), initial)
+}
+
+/**
+ * Parse the command line and throw an exception if parsing fails.
+ *
+ * You should use [main] instead unless you want to handle output yourself.
+ */
+fun <T> ChainedCliktCommand<T>.parse(argv: List<String>, initial: T): T {
+    var value = initial
+    CommandLineParser.parseAndRun(this, argv) { value = it.run(value) }
+    return value
 }

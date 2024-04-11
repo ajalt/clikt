@@ -59,10 +59,3 @@ class FlatInvocations<T: BaseCliktCommand<T>> internal constructor(
         closables.forEach { it.close() }
     }
 }
-
-fun <T: BaseCliktCommand<T>> CommandLineParseResult<T>.flatten(): Sequence<CommandInvocation<T>> {
-    return sequence {
-        yield(invocation)
-        yieldAll(invocation.subcommandInvocations)
-    }
-}

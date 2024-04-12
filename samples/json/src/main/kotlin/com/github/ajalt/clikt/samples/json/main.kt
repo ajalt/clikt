@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.samples.json
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.main
-import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
@@ -17,7 +14,10 @@ class Subcommand : CliktCommand() {
     }
 }
 
-class Cli : CliktCommand(help = "An example using json files for configuration values") {
+class Cli : CliktCommand() {
+    override fun commandHelp(context: Context) =
+        "An example using json files for configuration values"
+
     init {
         context {
             valueSources(
@@ -27,7 +27,11 @@ class Cli : CliktCommand(help = "An example using json files for configuration v
         }
     }
 
-    private val option by option("-o", "--option", help = "this option takes multiple values").multiple()
+    private val option by option(
+        "-o",
+        "--option",
+        help = "this option takes multiple values"
+    ).multiple()
     private val flag by option("-f", "--flag", help = "this option is a flag").flag()
 
     override fun run() {

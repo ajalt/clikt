@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.samples.repo
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.main
-import com.github.ajalt.clikt.core.requireObject
-import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
@@ -12,16 +9,21 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.file
 import java.io.File
 
-data class RepoConfig(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
+data class RepoConfig(
+    var home: String,
+    val config: MutableMap<String, String>,
+    var verbose: Boolean,
+)
 
-class Repo : CliktCommand(
-    help = """
-        Repo is a command line tool that showcases how to build complex
-        command line interfaces with Clikt.
+class Repo : CliktCommand() {
+    override fun commandHelp(context: Context): String = """
+    Repo is a command line tool that showcases how to build complex
+    command line interfaces with Clikt.
 
-        This tool is supposed to look like a distributed version control
-        system to show how something like this can be structured.
-        """.trimIndent()) {
+    This tool is supposed to look like a distributed version control
+    system to show how something like this can be structured.
+    """.trimIndent()
+
     init {
         versionOption("1.0")
     }
@@ -44,14 +46,15 @@ class Repo : CliktCommand(
 }
 
 
-class Clone : CliktCommand(
-    help = """
-        Clones a repository.
+class Clone : CliktCommand() {
+    override fun commandHelp(context: Context): String = """
+    Clones a repository.
 
-        This will clone the repository at SRC into the folder DEST. If DEST
-        is not provided this will automatically use the last path component
-        of SRC and create that folder.
-        """.trimIndent()) {
+    This will clone the repository at SRC into the folder DEST. If DEST
+    is not provided this will automatically use the last path component
+    of SRC and create that folder.
+    """.trimIndent()
+
     val repo: RepoConfig by requireObject()
     val src: File by argument().file()
     val dest: File? by argument().file().optional()
@@ -72,12 +75,13 @@ class Clone : CliktCommand(
     }
 }
 
-class Delete : CliktCommand(
-    help = """
-        Deletes a repository.
+class Delete : CliktCommand() {
+    override fun commandHelp(context: Context): String = """
+    Deletes a repository.
 
-        This will throw away the current repository.
-        """.trimIndent()) {
+    This will throw away the current repository.
+    """.trimIndent()
+
     val repo: RepoConfig by requireObject()
 
     override fun run() {
@@ -86,13 +90,13 @@ class Delete : CliktCommand(
     }
 }
 
-class SetUser : CliktCommand(
-    name = "setuser",
-    help = """
-        Sets the user credentials.
+class SetUser : CliktCommand(name = "setuser") {
+    override fun commandHelp(context: Context): String = """
+    Sets the user credentials.
 
-        This will override the current user config.
-        """.trimIndent()) {
+    This will override the current user config.
+    """.trimIndent()
+
     val repo: RepoConfig by requireObject()
     val username: String by option(help = "The developer's shown username.")
         .prompt()
@@ -110,24 +114,24 @@ class SetUser : CliktCommand(
 }
 
 
-class Commit : CliktCommand(
-    help = """
-        Commits outstanding changes.
+class Commit : CliktCommand() {
+    override fun commandHelp(context: Context) = """
+    Commits outstanding changes.
 
-        Commit changes to the given files into the repository.  You will need to
-        "repo push" to push up your changes to other repositories.
+    Commit changes to the given files into the repository.  You will need to
+    "repo push" to push up your changes to other repositories.
 
-        If a list of files is omitted, all changes reported by "repo status"
-        will be committed.
-        """.trimIndent()) {
+    If a list of files is omitted, all changes reported by "repo status"
+    will be committed.
+    """.trimIndent()
+
     val repo: RepoConfig by requireObject()
-    val message: List<String> by option("--message", "-m",
-        help = "The commit message. If provided multiple times " +
-                "each argument gets converted into a new line.")
-        .multiple()
-    val files: List<File> by argument()
-        .file()
-        .multiple()
+    val message: List<String> by option("--message", "-m").multiple()
+        .help(
+            "The commit message. If provided multiple times " +
+                    "each argument gets converted into a new line."
+        )
+    val files: List<File> by argument().file().multiple()
 
     override fun run() {
         val msg: String = if (message.isNotEmpty()) {

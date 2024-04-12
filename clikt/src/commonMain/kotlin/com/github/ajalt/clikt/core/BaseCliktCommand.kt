@@ -17,68 +17,21 @@ import com.github.ajalt.mordant.terminal.Terminal
 @ParameterHolderDsl
 abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
     /**
-     * The help for this command. The first line is used in the usage string, and the entire string
-     * is used in the help output. Paragraphs are automatically re-wrapped to the terminal width.
-     */
-    private val help: String = "",
-    /**
-     * Text to display at the end of the full help output. It is automatically re-wrapped to the
-     * terminal width.
-     */
-    private val epilog: String = "",
-    /**
      * The name of the program to use in the help output. If not given, it is inferred from the
      * class name.
      */
     name: String? = null,
-    /**
-     * Used when this command has subcommands, and this command is called without a subcommand. If
-     * true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
-     */
-    val invokeWithoutSubcommand: Boolean = false,
-    /**
-     * If this command is called with no values on the command line, print a help message (by
-     * throwing [PrintHelpMessage]) if this is true, otherwise run normally.
-     */
-    val printHelpOnEmptyArgs: Boolean = false,
-    /**
-     * Extra information about this command to pass to the help formatter.
-     */
-    val helpTags: Map<String, String> = emptyMap(),
-    /**
-     * The envvar to use to enable shell autocomplete script generation. Set to null to disable
-     * generation.
-     */
-    internal val autoCompleteEnvvar: String? = "",
-    /**
-     * If true, allow multiple of this command's subcommands to be called sequentially. This will
-     * disable `allowInterspersedArgs` on the context of this command and its descendants.
-     */
-    internal val allowMultipleSubcommands: Boolean = false,
-    /**
-     * If true, any options on the command line whose names aren't valid will be parsed as an
-     * argument rather than reporting an error. You'll need to define an `argument().multiple()` to
-     * collect these options, or an error will still be reported. Unknown short option flags grouped
-     * with other flags on the command line will always be reported as errors.
-     */
-    internal val treatUnknownOptionsAsArgs: Boolean = false,
-    /**
-     * If true, don't display this command in help output when used as a subcommand.
-     */
-    private val hidden: Boolean = false,
 ) : ParameterHolder {
+    // TODO: rename commandName commandHelp commandHelpEpilog?
     /**
      * The name of this command, used in help output.
      *
-     * You can set this by passing `name` to the [CliktCommand] constructor.
+     * By default, this is the lowercase name of the class, with "Command" removed if it's present
      */
-    val commandName: String = name ?: inferCommandName()
+    val commandName: String = name?.takeIf { it.isNotBlank() } ?: inferCommandName()
 
     /**
      * The help text for this command.
-     *
-     * You can set this by passing `help` to the [CliktCommand] constructor, or by overriding this
-     * method if you need to build the string lazily or access the terminal or context.
      *
      * ### Example:
      *
@@ -90,9 +43,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
      * }
      * ```
      */
-    open fun commandHelp(context: Context): String {
-        return help
-    }
+    open fun commandHelp(context: Context): String = ""
 
     /**
      * Help text to display at the end of the help output, after any parameters.
@@ -100,14 +51,55 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
      * You can set this by passing `epilog` to the [CliktCommand] constructor, or by overriding this
      * method.
      */
-    open fun commandHelpEpilog(context: Context): String {
-        return epilog
-    }
+    open fun commandHelpEpilog(context: Context): String = ""
 
+    /**
+     * Used when this command has subcommands, and this command is called without a subcommand. If
+     * true, [run] will be called. By default, a [PrintHelpMessage] is thrown instead.
+     */
+    open val invokeWithoutSubcommand: Boolean = false
+
+    /**
+     * If this command is called with no values on the command line, print a help message (by
+     * throwing [PrintHelpMessage]) if this is `true`, otherwise run normally.
+     */
+    open val printHelpOnEmptyArgs: Boolean = false
+
+    /**
+     * Extra information about this command to pass to the help formatter.
+     */
+    open val helpTags: Map<String, String> = emptyMap()
+
+    /**
+     * The envvar to use to enable shell autocomplete script generation. Set to null to disable
+     * generation.
+     */
+    open val autoCompleteEnvvar: String? = ""
+
+    /**
+     * If true, allow multiple of this command's subcommands to be called sequentially. This will
+     * disable `allowInterspersedArgs` on the context of this command and its descendants.
+     */
+    open val allowMultipleSubcommands: Boolean = false
+
+    /**
+     * If true, any options on the command line whose names aren't valid will be parsed as an
+     * argument rather than reporting an error. You'll need to define an `argument().multiple()` to
+     * collect these options, or an error will still be reported. Unknown short option flags grouped
+     * with other flags on the command line will always be reported as errors.
+     */
+    open val treatUnknownOptionsAsArgs: Boolean = false
+
+    /**
+     * If true, don't display this command in help output when used as a subcommand.
+     */
+    open val hidden: Boolean = false
+
+    // TODO: make these all private?
     internal var _subcommands: List<T> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
     internal val _arguments: MutableList<Argument> = mutableListOf()
-    internal val _groups: MutableList<ParameterGroup> = mutableListOf()
+    private val _groups: MutableList<ParameterGroup> = mutableListOf()
     internal var _contextConfig: Context.Builder.() -> Unit = {}
     private var _context: Context? = null
     private val _messages = mutableListOf<String>()
@@ -378,7 +370,7 @@ fun <T : BaseCliktCommand<T>, CommandT : T> CommandT.subcommands(
  * Context property values are normally inherited from the parent context, but you can override any of them
  * here.
  */
-fun <T : BaseCliktCommand<T>, U: T> U.context(block: Context.Builder.() -> Unit): U = apply {
+fun <T : BaseCliktCommand<T>, U : T> U.context(block: Context.Builder.() -> Unit): U = apply {
     // save the old config to allow multiple context calls
     val c = _contextConfig
     _contextConfig = {

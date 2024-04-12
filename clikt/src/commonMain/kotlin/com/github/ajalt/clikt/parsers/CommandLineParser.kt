@@ -119,13 +119,13 @@ private fun throwCompletionMessageIfRequested(
     context: Context,
     command: BaseCliktCommand<*>,
 ) {
-    if (command.autoCompleteEnvvar == null) return
+    val commandEnvvar = command.autoCompleteEnvvar ?: return
     val envvar = when {
-        command.autoCompleteEnvvar.isBlank() -> "_${
+        commandEnvvar.isBlank() -> "_${
             command.commandName.replace("-", "_").uppercase()
         }_COMPLETE"
 
-        else -> command.autoCompleteEnvvar
+        else -> commandEnvvar
     }
     val envval = context.readEnvvar(envvar) ?: return
     throw CompletionGenerator.getCompletionMessage(command, envval)

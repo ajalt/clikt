@@ -4,25 +4,11 @@ package com.github.ajalt.clikt.core
  * A [CliktCommand] that has a default implementation of [CliktCommand.run] that is a no-op.
  */
 open class NoOpCliktCommand(
-    help: String = "",
-    epilog: String = "",
+    /**
+     * The name of the program to use in the help output. If not given, it is inferred from the
+     * class name.
+     */
     name: String? = null,
-    invokeWithoutSubcommand: Boolean = false,
-    printHelpOnEmptyArgs: Boolean = false,
-    helpTags: Map<String, String> = emptyMap(),
-    autoCompleteEnvvar: String? = "",
-    allowMultipleSubcommands: Boolean = false,
-    hidden: Boolean = false,
-) : CliktCommand(
-    help,
-    epilog,
-    name,
-    invokeWithoutSubcommand,
-    printHelpOnEmptyArgs,
-    helpTags,
-    autoCompleteEnvvar,
-    allowMultipleSubcommands,
-    hidden
-) {
+) : CliktCommand(name) {
     final override fun run() {}
 }

@@ -11,7 +11,7 @@ import java.io.File
  *   have multiple tokens (e.g. `cm = commit -m`).
  */
 class AliasedCli(private val configFile: File) : NoOpCliktCommand() {
-    override fun commandHelp(context: Context) = "An example that supports aliased subcommands"
+    override fun help(context: Context) = "An example that supports aliased subcommands"
     override fun aliases(): Map<String, List<String>> {
         return configFile.readLines().map { it.split("=", limit = 2) }
             .associate { it[0].trim() to it[1].trim().split(Regex("\\s+")) }
@@ -20,22 +20,22 @@ class AliasedCli(private val configFile: File) : NoOpCliktCommand() {
 
 
 class Push : CliktCommand() {
-    override fun commandHelp(context: Context) = "push changes"
+    override fun help(context: Context) = "push changes"
     override fun run() = echo("push")
 }
 
 class Pull : CliktCommand() {
-    override fun commandHelp(context: Context) = "pull changes"
+    override fun help(context: Context) = "pull changes"
     override fun run() = echo("pull")
 }
 
 class Clone : CliktCommand() {
-    override fun commandHelp(context: Context) = "clone a repository"
+    override fun help(context: Context) = "clone a repository"
     override fun run() = echo("clone")
 }
 
 class Commit : CliktCommand() {
-    override fun commandHelp(context: Context) = "clone a repository"
+    override fun help(context: Context) = "clone a repository"
     val message by option("-m", "--message").multiple()
     override fun run() = echo("commit message=${message.joinToString("\n")}")
 }

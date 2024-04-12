@@ -16,7 +16,7 @@ data class RepoConfig(
 )
 
 class Repo : CliktCommand() {
-    override fun commandHelp(context: Context): String = """
+    override fun help(context: Context): String = """
     Repo is a command line tool that showcases how to build complex
     command line interfaces with Clikt.
 
@@ -47,7 +47,7 @@ class Repo : CliktCommand() {
 
 
 class Clone : CliktCommand() {
-    override fun commandHelp(context: Context): String = """
+    override fun help(context: Context): String = """
     Clones a repository.
 
     This will clone the repository at SRC into the folder DEST. If DEST
@@ -76,7 +76,7 @@ class Clone : CliktCommand() {
 }
 
 class Delete : CliktCommand() {
-    override fun commandHelp(context: Context): String = """
+    override fun help(context: Context): String = """
     Deletes a repository.
 
     This will throw away the current repository.
@@ -91,7 +91,7 @@ class Delete : CliktCommand() {
 }
 
 class SetUser : CliktCommand(name = "setuser") {
-    override fun commandHelp(context: Context): String = """
+    override fun help(context: Context): String = """
     Sets the user credentials.
 
     This will override the current user config.
@@ -115,7 +115,7 @@ class SetUser : CliktCommand(name = "setuser") {
 
 
 class Commit : CliktCommand() {
-    override fun commandHelp(context: Context) = """
+    override fun help(context: Context) = """
     Commits outstanding changes.
 
     Commit changes to the given files into the repository.  You will need to

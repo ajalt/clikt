@@ -868,7 +868,7 @@ You can define your own version option like this:
 class Cli : NoOpCliktCommand() {
     init {
         eagerOption("--version") {
-            throw PrintMessage("$commandName version 1.0")
+            throw PrintMessage("$name version 1.0")
         }
     }
 }

@@ -22,7 +22,6 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
      */
     name: String? = null,
 ) : ParameterHolder {
-    // TODO: rename commandName commandHelp commandHelpEpilog?
     /**
      * The name of this command, used in help output.
      *
@@ -43,15 +42,18 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
      * }
      * ```
      */
-    open fun commandHelp(context: Context): String = ""
+    open fun help(context: Context): String = ""
+
+    @Deprecated("Method renamed to `help`", ReplaceWith("help(context)"))
+    open fun commandHelp(context: Context): String = help(context)
 
     /**
      * Help text to display at the end of the help output, after any parameters.
-     *
-     * You can set this by passing `epilog` to the [CliktCommand] constructor, or by overriding this
-     * method.
      */
-    open fun commandHelpEpilog(context: Context): String = ""
+    open fun helpEpilog(context: Context): String = ""
+
+    @Deprecated("Method renamed to `helpEpilog`", ReplaceWith("helpEpilog(context)"))
+    open fun commandHelpEpilog(context: Context): String = helpEpilog(context)
 
     /**
      * Used when this command has subcommands, and this command is called without a subcommand. If
@@ -93,7 +95,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
     /**
      * If true, don't display this command in help output when used as a subcommand.
      */
-    open val hidden: Boolean = false
+    open val hiddenFromHelp: Boolean = false
 
     // TODO: make these all private?
     internal var _subcommands: List<T> = emptyList()
@@ -154,7 +156,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
                     c.commandName,
                     c.shortHelp(currentContext),
                     c.helpTags
-                ).takeUnless { c.hidden }
+                ).takeUnless { c.hiddenFromHelp }
             }
         ).flatten()
     }
@@ -185,7 +187,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
 
     /** The help displayed in the commands list when this command is used as a subcommand. */
     protected fun shortHelp(context: Context): String =
-        Regex("""\s*(?:```)?\s*(.+)""").find(commandHelp(context))?.groups?.get(1)?.value ?: ""
+        Regex("""\s*(?:```)?\s*(.+)""").find(help(context))?.groups?.get(1)?.value ?: ""
 
     /** The names of all direct children of this command */
     fun registeredSubcommandNames(): List<String> = _subcommands.map { it.commandName }
@@ -279,8 +281,8 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
         val programName = cmd.getCommandNameWithParents()
         return ctx.helpFormatter(ctx).formatHelp(
             error as? UsageError,
-            cmd.commandHelp(ctx),
-            cmd.commandHelpEpilog(ctx),
+            cmd.help(ctx),
+            cmd.helpEpilog(ctx),
             cmd.allHelpParams(),
             programName
         )

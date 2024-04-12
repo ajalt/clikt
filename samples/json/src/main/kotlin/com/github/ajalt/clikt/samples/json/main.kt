@@ -15,7 +15,7 @@ class Subcommand : CliktCommand() {
 }
 
 class Cli : CliktCommand() {
-    override fun commandHelp(context: Context) =
+    override fun help(context: Context) =
         "An example using json files for configuration values"
 
     init {

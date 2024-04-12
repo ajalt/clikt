@@ -1,8 +1,7 @@
 package com.github.ajalt.clikt.samples.validation
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.main
+import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.convert
 import com.github.ajalt.clikt.parameters.options.*
@@ -12,7 +11,7 @@ import java.net.URL
 data class Quad(val a: Int, val b: Int, val c: Int, val d: Int)
 
 class Cli : CliktCommand() {
-    override fun commandHelp(context: Context) = "Validation examples"
+    override fun help(context: Context) = "Validation examples"
 
     val count by option(help = "A positive even number").int()
         .check("Should be a positive, even integer") { it > 0 && it % 2 == 0 }

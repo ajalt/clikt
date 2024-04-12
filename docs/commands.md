@@ -245,7 +245,8 @@ is about to be invoked, if there is one.
 
 === "Example"
     ```kotlin
-    class Tool : CliktCommand(invokeWithoutSubcommand = true) {
+    class Tool : CliktCommand() {
+        override val invokeWithoutSubcommand = true
         override fun run() {
             val subcommand = currentContext.invokedSubcommand
             if (subcommand == null) {
@@ -255,14 +256,12 @@ is about to be invoked, if there is one.
             }
         }
     }
-
+    
     class Execute : CliktCommand() {
         override fun run() {
             echo("running subcommand")
         }
     }
-
-    fun main(args: Array<String>) = Tool().subcommands(Execute()).main(args)
     ```
 
 === "Usage 1"
@@ -319,13 +318,14 @@ For example, you can change the name of help option. These definitions are equiv
 Normally, if a command is called with no values on the command line, a usage error is printed if
 there are required parameters, or [`run`][run] is called if there aren't any.
 
-You can change this behavior by passing `printHelpOnEmptyArgs = true` to your command's
-constructor. This will cause a help message to be printed when no values are provided on the command
+You can change this behavior by passing overriding `printHelpOnEmptyArgs = true` in your command.
+This will cause a help message to be printed when no values are provided on the command
 line, regardless of the parameters in your command.
 
 === "Example"
     ```kotlin
-    class Cli : CliktCommand(printHelpOnEmptyArgs = true) {
+    class Cli : CliktCommand() {
+        override val printHelpOnEmptyArgs = true
         val arg by argument()
         override fun run() { echo("Command ran") }
     }
@@ -408,12 +408,12 @@ Some command line interfaces allow you to call more than one subcommand at a tim
 might do something like `gradle clean build publish` to run the `clean` task, then the `build` task,
 then the `publish` task, which are all subcommands of `gradle`.
 
-To do this with Clikt, pass `allowMultipleSubcommands = true` to your [`CliktCommand`][CliktCommand]
-constructor.
+To do this with Clikt, override `allowMultipleSubcommands = true` in your command.
 
 === "Example"
     ```kotlin
-    class Compiler: CliktCommand(allowMultipleSubcommands = true) {
+    class Compiler: CliktCommand() {
+        override val allowMultipleSubcommands = true
         override fun run() {
             echo("Running compiler")
         }
@@ -444,7 +444,8 @@ constructor.
     Building main.kt
     ```
 
-The parent command will [`run`][run] once, and each subcommand will `run` once each time they're called.
+The parent command will [`run`][run] once, and each subcommand will `run` once each time they're
+called.
 
 !!! warning
 

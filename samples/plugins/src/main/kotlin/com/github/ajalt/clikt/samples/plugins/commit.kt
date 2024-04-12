@@ -1,10 +1,12 @@
 package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
@@ -14,8 +16,8 @@ import org.kodein.di.generic.inSet
 import org.kodein.di.generic.provider
 import java.io.File
 
-class Commit : CliktCommand(
-    help = """
+class Commit : CliktCommand() {
+    override fun commandHelp(context: Context) = """
         Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to
@@ -23,12 +25,14 @@ class Commit : CliktCommand(
 
         If a list of files is omitted, all changes reported by "repo status"
         will be committed.
-        """.trimIndent()) {
+        """.trimIndent()
+
     val repo: Repo by requireObject()
-    val message: List<String> by option("--message", "-m",
-        help = "The commit message. If provided multiple times " +
-                "each argument gets converted into a new line.")
-        .multiple()
+    val message: List<String> by option("--message", "-m").multiple()
+        .help(
+            "The commit message. If provided multiple times " +
+                    "each argument gets converted into a new line."
+        )
     val files: List<File> by argument()
         .file()
         .multiple()

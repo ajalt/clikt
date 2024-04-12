@@ -14,28 +14,12 @@ import com.github.ajalt.clikt.parsers.CommandLineParser
  * Once the command line has been parsed and all the parameters are populated, [run] is called.
  */
 abstract class CliktCommand(
-    help: String = "",
-    epilog: String = "",
+    /**
+     * The name of the program to use in the help output. If not given, it is inferred from the
+     * class name.
+     */
     name: String? = null,
-    invokeWithoutSubcommand: Boolean = false,
-    printHelpOnEmptyArgs: Boolean = false,
-    helpTags: Map<String, String> = emptyMap(),
-    autoCompleteEnvvar: String? = "",
-    allowMultipleSubcommands: Boolean = false,
-    treatUnknownOptionsAsArgs: Boolean = false,
-    hidden: Boolean = false,
-) : BaseCliktCommand<CliktCommand>(
-    help,
-    epilog,
-    name,
-    invokeWithoutSubcommand,
-    printHelpOnEmptyArgs,
-    helpTags,
-    autoCompleteEnvvar,
-    allowMultipleSubcommands,
-    treatUnknownOptionsAsArgs,
-    hidden
-) {
+) : BaseCliktCommand<CliktCommand>(name) {
     /**
      * Perform actions after parsing is complete and this command is invoked.
      *

@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.testing
 
-import com.github.ajalt.clikt.core.BaseCliktCommand
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.parse
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parsers.shlex
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
@@ -14,35 +11,28 @@ class TestException(message: String) : Exception(message)
 open class TestCommand(
     called: Boolean = true,
     count: Int? = null,
-    help: String = "",
-    epilog: String = "",
+    private val help: String = "",
+    private val epilog: String = "",
     name: String? = null,
-    invokeWithoutSubcommand: Boolean = false,
-    printHelpOnEmptyArgs: Boolean = false,
-    helpTags: Map<String, String> = emptyMap(),
-    autoCompleteEnvvar: String? = "",
-    allowMultipleSubcommands: Boolean = false,
-    treatUnknownOptionsAsArgs: Boolean = false,
-    hidden: Boolean = false,
+    override val invokeWithoutSubcommand: Boolean = false,
+    override val printHelpOnEmptyArgs: Boolean = false,
+    override val helpTags: Map<String, String> = emptyMap(),
+    override val autoCompleteEnvvar: String? = "",
+    override val allowMultipleSubcommands: Boolean = false,
+    override val treatUnknownOptionsAsArgs: Boolean = false,
+    override val hidden: Boolean = false,
     noHelp: Boolean = false,
-) : CliktCommand(
-    help,
-    epilog,
-    name,
-    invokeWithoutSubcommand,
-    printHelpOnEmptyArgs,
-    helpTags,
-    autoCompleteEnvvar,
-    allowMultipleSubcommands,
-    treatUnknownOptionsAsArgs,
-    hidden
-) {
+) : CliktCommand(name) {
     init {
         context {
             terminal = parent?.terminal ?: Terminal(AnsiLevel.NONE)
             if (noHelp) helpOptionNames = emptyList()
         }
     }
+
+    override fun commandHelp(context: Context): String = help
+
+    override fun commandHelpEpilog(context: Context): String = epilog
 
     private val count = count ?: if (called) 1 else 0
     private var actualCount = 0

@@ -949,16 +949,17 @@ You can customize or omit the warning message and help tags, or change the warni
 
 ## Unknown Options
 
-You may want to collect unknown options for manual processing. You can do this by passing
-`treatUnknownOptionsAsArgs = true` to your [`CliktCommand` constructor][CliktCommand.init]. This
-will cause Clikt to treat unknown options as positional arguments rather than reporting an error
-when one is encountered. You'll need to define an [`argument().multiple()`][argument.multiple]
-property to collect the options, otherwise an error will still be reported.
+You may want to collect unknown options for manual processing. You can do this by overriding
+`treatUnknownOptionsAsArgs = true` in your command. This will cause Clikt to treat unknown options
+as positional arguments rather than reporting an error when one is encountered. You'll need to
+define an [`argument().multiple()`][argument.multiple] property to collect the options, otherwise an
+error will still be reported.
 
 === "Example"
     ```kotlin
-    class Wrapper : CliktCommand(treatUnknownOptionsAsArgs = true) {
-        init { context { allowInterspersedArgs = false } }
+    class Wrapper : CliktCommand() {
+        init { context { allowInterspersedArgs = false }}
+        override val treatUnknownOptionsAsArgs = true
 
         val command by option().required()
         val arguments by argument().multiple()
@@ -983,12 +984,13 @@ property to collect the options, otherwise an error will still be reported.
 
 !!! warning
 
-    Multiple short options in a single token (e.g. using `-abc` to specify `-a`, `-b`, and `-c` in a single token) will
-    still report an error if it contains a mixture of known and unknown options. To avoid this, don't declare single-letter
-    names for options in commands that use `treatUnknownOptionsAsArgs`.
+    Multiple short options in a single token (e.g. using `-abc` to specify `-a`, `-b`, and `-c` in a
+    single token) will still report an error if it contains a mixture of known and unknown options. To
+    avoid this, don't declare single-letter names for options in commands that use
+    `treatUnknownOptionsAsArgs`.
 
-You'll often want to set [`allowInterspersedArgs = false`][allowInterspersedArgs] on your Context when
-using `treatUnknownOptionsAsArgs`. You may also find that subcommands are a better fit than
+You'll often want to set [`allowInterspersedArgs = false`][allowInterspersedArgs] on your Context
+when using `treatUnknownOptionsAsArgs`. You may also find that subcommands are a better fit than
 `treatUnknownOptionsAsArgs` for your use case.
 
 ## Values From Environment Variables
@@ -1033,11 +1035,10 @@ To set the envvar name manually, pass the name to
     ```
 
 You can enable automatic envvar name inference by setting the `autoEnvvarPrefix` on a command's
-[`context`][context]. This will cause all options without
-an explicit envvar name to be given an uppercase underscore-separated envvar name. Since the prefix
-is set on the [`context`][context], it is propagated to
-subcommands. If you have a subcommand called `foo` with an option `--bar`, and your prefix is
-`MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
+[`context`][context]. This will cause all options without an explicit envvar name to be given an
+uppercase underscore-separated envvar name. Since the prefix is set on the [`context`][context], it
+is propagated to subcommands. If you have a subcommand called `foo` with an option `--bar`, and your
+prefix is `MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
 
 === "Example"
     ```kotlin

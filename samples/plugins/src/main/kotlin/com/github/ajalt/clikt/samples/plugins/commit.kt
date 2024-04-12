@@ -17,7 +17,7 @@ import org.kodein.di.generic.provider
 import java.io.File
 
 class Commit : CliktCommand() {
-    override fun commandHelp(context: Context) = """
+    override fun help(context: Context) = """
         Commits outstanding changes.
 
         Commit changes to the given files into the repository.  You will need to

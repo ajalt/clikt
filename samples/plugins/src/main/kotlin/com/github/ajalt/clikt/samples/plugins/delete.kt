@@ -9,7 +9,7 @@ import org.kodein.di.generic.inSet
 import org.kodein.di.generic.provider
 
 class Delete : CliktCommand() {
-    override fun commandHelp(context: Context) = """
+    override fun help(context: Context) = """
     Deletes a repository.
 
     This will throw away the current repository.

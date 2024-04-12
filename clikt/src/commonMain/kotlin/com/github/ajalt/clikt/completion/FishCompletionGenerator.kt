@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.completion.CompletionCandidates.Custom.ShellType
 import com.github.ajalt.clikt.core.BaseCliktCommand
-import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.Option
 
 internal object FishCompletionGenerator {
@@ -57,7 +56,7 @@ internal object FishCompletionGenerator {
 
             append("-a $commandName ")
 
-            val help = command.commandHelp(command.currentContext).replace("'", "\\'")
+            val help = command.help(command.currentContext).replace("'", "\\'")
             if (help.isNotBlank()) {
                 append("-d '${help}'")
             }

@@ -20,7 +20,7 @@ open class TestCommand(
     override val autoCompleteEnvvar: String? = "",
     override val allowMultipleSubcommands: Boolean = false,
     override val treatUnknownOptionsAsArgs: Boolean = false,
-    override val hidden: Boolean = false,
+    override val hiddenFromHelp: Boolean = false,
     noHelp: Boolean = false,
 ) : CliktCommand(name) {
     init {
@@ -30,9 +30,9 @@ open class TestCommand(
         }
     }
 
-    override fun commandHelp(context: Context): String = help
+    override fun help(context: Context): String = help
 
-    override fun commandHelpEpilog(context: Context): String = epilog
+    override fun helpEpilog(context: Context): String = epilog
 
     private val count = count ?: if (called) 1 else 0
     private var actualCount = 0

@@ -34,8 +34,8 @@ class CompletionCommand(
     private val epilog: String = "",
     name: String = "generate-completion",
 ) : CliktCommand(name) {
-    override fun commandHelp(context: Context): String = help
-    override fun commandHelpEpilog(context: Context): String = epilog
+    override fun help(context: Context): String = help
+    override fun helpEpilog(context: Context): String = epilog
     private val shell by argument("shell").choice(*choices)
     override fun run() {
         val cmd = currentContext.parent?.command ?: this

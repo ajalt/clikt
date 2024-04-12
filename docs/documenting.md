@@ -7,43 +7,40 @@ and set it on the [command's context][customizing-contexts].
 
 ## Help Texts
 
-[Commands][Commands] and parameters accept a `help` argument. Commands also accept an `epilog`
-argument, which is printed after the parameters and commands on the help page. All text is
-automatically trimmed of leading indentation and re-wrapped to the terminal width.
-
-As an alternative to passing your help strings as function arguments, you can also use the `help()`
-extensions for your options, and override `commandHelp` and `commandHelpEpilog` on your commands.
-These methods can access the terminal theme on the context to add color to your help text.
+You can add help text to commands and parameters. For parameters, you can pass a `help` string or 
+use the `help()` extension. For commands, you can override the `help` and `helpEpilog` methods.
 
 === "Example"
     ```kotlin
-    class Hello : CliktCommand(help = """
+    class Hello : CliktCommand() {
+        override fun help(context: Context) = """
         This script prints <name> <count> times.
-
+    
         <count> must be a positive number, and defaults to 1.
-        """
-    ) {
-        val count by option("-c", "--count", metavar="count", help = "number of greetings").int().default(1)
-        val name by argument()
-        override fun run() = repeat(count) { echo("Hello $name!") }
+        """.trimIndent()
+        val count by option("-c", "--count", metavar="count", help="number of greetings")
+            .int().default(1)
+        val name by argument(help="The name to greet")
+        override fun run() = repeat(count) { echo("Hello $commandName!") }
     }
     ```
 
 === "Alternate style"
     ```kotlin
     class Hello : CliktCommand() {
-        override fun commandHelp(context: Context): String {
+        override fun help(context: Context): String {
             val style = context.theme.info
             return """
-                This script prints ${style("<name>")} ${style("<count>")} times.
+            This script prints ${style("<name>")} ${style("<count>")} times.
     
-                ${style("<count>")} must be a positive number, and defaults to 1.
+            ${style("<count>")} must be a positive number, and defaults to 1.
             """.trimIndent()
         }
     
         val count by option("-c", "--count", metavar="count").int().default(1)
             .help { theme.success("number of greetings") }
         val name by argument()
+            .help("The name to greet")
         override fun run() = repeat(count) { echo("Hello $name!") }
     }
     ```
@@ -158,13 +155,17 @@ They have a short help string which is the first line of their help.
     ```kotlin
     class Tool : NoOpCliktCommand()
 
-    class Execute : NoOpCliktCommand(help = """
-        Execute the command.
+    class Execute : NoOpCliktCommand() {
+        override fun help(context: Context) = """
+            Execute the command.
 
-        The command will be executed.
-        """)
+            The command will be executed.
+            """.trimIndent()
+    }
 
-    class Abort : NoOpCliktCommand(help="Kill any running commands.")
+    class Abort : NoOpCliktCommand() {
+        override fun help(context: Context) = "Kill any running commands."
+    }
     ```
 
 === "Usage"
@@ -463,10 +464,9 @@ You can localize error messages by implementing [`Localization`][Localization] a
         // ... override the rest of the strings here
     }
 
-    class I18NTool : NoOpCliktCommand(help = "𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒") {
-        init {
-            context { localization = CursiveLocalization() }
-        }
+    class I18NTool : NoOpCliktCommand() {
+        override fun help(context: Context) = "𝒯𝒽𝒾𝓈 𝓉𝑜𝑜𝓁 𝒾𝓈 𝒾𝓃 𝒸𝓊𝓇𝓈𝒾𝓋𝑒"
+        init { context { localization = CursiveLocalization() } }
     }
     ```
 

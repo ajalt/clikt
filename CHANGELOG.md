@@ -12,7 +12,7 @@
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.
 - **Breaking Change:** Removed the following parameters from `CliktCommand`'s constructor; override the corresponding properties instead:
-  
+
   | removed parameter           | replacement property            |
   |-----------------------------|---------------------------------|
   | `help`                      | `fun commandHelp`               |
@@ -23,7 +23,8 @@
   | `autoCompleteEnvvar`        | `val autoCompleteEnvvar`        |
   | `allowMultipleSubcommands`  | `val allowMultipleSubcommands`  |
   | `treatUnknownOptionsAsArgs` | `val treatUnknownOptionsAsArgs` |
-  | `hidden`                    | `val hidden`                    |
+  | `hidden`                    | `val hiddenFromHelp`            |
+- The following methods on `CliktCommand` have been renamed: `commandHelp` -> `help`, `commandHelpEpilog` -> `epilog`. The old names are deprecated.
 
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.

@@ -12,7 +12,7 @@ import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.mordant.terminal.YesNoPrompt
 
 class Copy : CliktCommand() {
-    override fun commandHelp(context: Context): String {
+    override fun help(context: Context): String {
         return "Copy SOURCE to DEST, or multiple SOURCE(s) to directory DEST."
     }
 

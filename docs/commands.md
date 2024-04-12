@@ -101,12 +101,14 @@ command names.
 
 === "Example"
     ```kotlin
-    class Tool : CliktCommand(help = "A tool that runs") {
+    class Tool : CliktCommand() {
+        override fun help(context: Context) = "A tool that runs"
         val verbose by option().flag("--no-verbose")
         override fun run() = Unit
     }
 
-    class Execute : CliktCommand(help = "Execute the command") {
+    class Execute : CliktCommand() {
+        override fun help(context: Context) = "Execute the command"
         val name by option()
         override fun run() = Unit
     }
@@ -252,7 +254,7 @@ is about to be invoked, if there is one.
             if (subcommand == null) {
                 echo("invoked without a subcommand")
             } else {
-                echo("about to run ${subcommand.commandName}")
+                echo("about to run ${subcommand.name}")
             }
         }
     }

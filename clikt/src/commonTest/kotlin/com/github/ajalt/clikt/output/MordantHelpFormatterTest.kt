@@ -444,7 +444,7 @@ class MordantHelpFormatterTest {
             TestCommand(name = "foo", help = "some thing to live by"),
             TestCommand(name = "bar", help = "another argument"),
             TestCommand(name = "baz"),
-            TestCommand(name = "qux", hidden = true),
+            TestCommand(name = "qux", hiddenFromHelp = true),
         )
         doTest(
             """
@@ -778,10 +778,10 @@ class MordantHelpFormatterTest {
         }
 
         class C: TestCommand(name="prog") {
-            override fun commandHelp(context: Context): String =
+            override fun help(context: Context): String =
                 context.theme.danger("command help")
 
-            override fun commandHelpEpilog(context: Context): String =
+            override fun helpEpilog(context: Context): String =
                 context.theme.danger("command epilog")
 
             val o by option("--aa", "-a")

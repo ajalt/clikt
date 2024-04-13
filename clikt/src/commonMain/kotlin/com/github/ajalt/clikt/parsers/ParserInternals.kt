@@ -57,7 +57,6 @@ private class CommandParser<T : BaseCliktCommand<T>>(
     private val ancestorMultipleSubcommands = context.ancestors()
         .firstOrNull { it.command.allowMultipleSubcommands }
         ?.command?._subcommands?.associate {
-            // TODO We could avoid this cast if Context was generic
             @Suppress("UNCHECKED_CAST")
             it.commandName to it as T
         } ?: emptyMap()

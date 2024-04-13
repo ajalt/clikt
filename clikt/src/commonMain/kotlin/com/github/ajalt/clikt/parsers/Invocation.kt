@@ -8,38 +8,104 @@ import com.github.ajalt.clikt.parameters.options.Option
 
 /**
  * The output of parsing a single option and its values.
- *
- * @param name The name that was used to invoke the option. May be empty if the value was not retrieved
- *   from the command line (e.g. values from environment variables).
- * @param values The values provided to the option. All invocations passed to [Option.finalize]
- *   will have a size in the range of [Option.nvalues].
  */
-data class Invocation(val name: String, val values: List<String>)
+data class Invocation(
+    /**
+     * The name that was used to invoke the option. May be empty if the value was not retrieved
+     * from the command line (e.g. values from environment variables).
+     */
+    val name: String,
+    /**
+     * The values provided to the option. This will always have a size in the range of
+     * [Option.nvalues] for the option that was invoked.
+     */
+    val values: List<String>,
+)
 
-// TODO: docs
-data class ArgumentInvocation(val argument: Argument, val values: List<String>)
+/**
+ * The output of parsing a single argument and its values.
+ */
+data class ArgumentInvocation(
+    /**
+     * The argument that was invoked.
+     */
+    val argument: Argument,
+    /**
+     * The values provided to the argument. This will always have a size in the range of
+     * [Argument.nvalues] for the argument that was invoked.
+     */
+    val values: List<String>,
+)
 
-data class CommandInvocation<T: BaseCliktCommand<T>>(
+/**
+ * The output of parsing a single command and its options and arguments.
+ */
+data class CommandInvocation<T : BaseCliktCommand<T>>(
     val command: T,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
+    /**
+     * The subcommands of this command that were invoked.
+     *
+     * This list will have at most one entry unless [allowMultipleSubcommands][BaseCliktCommand.allowMultipleSubcommands] is
+     * true.
+     */
     val subcommandInvocations: List<CommandInvocation<T>>,
+    /**
+     * The errors that occurred while parsing this command.
+     */
     val errors: List<CliktError>,
 )
 
-class CommandLineParseResult<T: BaseCliktCommand<T>>(
+/**
+ * The result of parsing a command line.
+ */
+class CommandLineParseResult<T : BaseCliktCommand<T>>(
+    /**
+     * The root command that was parsed.
+     */
     val invocation: CommandInvocation<T>,
+    /**
+     * The original command line tokens that were passed to `parse`.
+     */
     val originalArgv: List<String>,
+    /**
+     * The full argv after expanding any [argument file tokens][Context.argumentFileReader] or
+     * [aliases][BaseCliktCommand.aliases].
+     */
     val expandedArgv: List<String>,
 )
 
-fun <T: BaseCliktCommand<T>> CommandInvocation<T>.flatten(): FlatInvocations<T> {
+/**
+ * Flatten a command invocation into a sequence of invocations.
+ *
+ * This will yield the root command invocation, followed by all subcommand invocations in the order
+ * they were invoked on the command line.
+ *
+ * You can use this to avoid recursion when processing invocations.
+ *
+ * ### Example
+ *
+ * ```
+ * val invocations = rootInvocation.flatten()
+ * try {
+ *   for (inv in invocations) {
+ *     finalize(inv)
+ *     run(inv.command)
+ *   }
+ * } finally {
+ *   invocations.close()
+ * }
+ * ```
+ */
+fun <T : BaseCliktCommand<T>> CommandInvocation<T>.flatten(): FlatInvocations<T> {
     return FlatInvocations(this)
 }
 
-class FlatInvocations<T: BaseCliktCommand<T>> internal constructor(
+// TODO: this should be an AutoClosable once that interface is stable
+class FlatInvocations<T : BaseCliktCommand<T>> internal constructor(
     root: CommandInvocation<T>,
-): Sequence<CommandInvocation<T>> {
+) : Sequence<CommandInvocation<T>> {
     private val closables = mutableListOf<Context>()
     private val seq = sequence {
         suspend fun SequenceScope<CommandInvocation<T>>.yieldSubs(inv: CommandInvocation<T>) {
@@ -55,6 +121,9 @@ class FlatInvocations<T: BaseCliktCommand<T>> internal constructor(
 
     override fun iterator(): Iterator<CommandInvocation<T>> = seq.iterator()
 
+    /**
+     * [Close][Context.close] all open contexts of invoked commands.
+     */
     fun close() {
         closables.forEach { it.close() }
     }

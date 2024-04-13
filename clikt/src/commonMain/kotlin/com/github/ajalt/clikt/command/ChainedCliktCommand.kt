@@ -3,10 +3,11 @@ package com.github.ajalt.clikt.command
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parsers.CommandLineParser
 
-// TODO: md docs, changelog
 /**
  * A version of [CliktCommand] that returns a value from the [run] function, which is then passed to
  * subcommands.
+ *
+ * This command works best if you set [allowMultipleSubcommands] to `true`.
  */
 abstract class ChainedCliktCommand<T>(
     /**
@@ -59,8 +60,8 @@ fun <T> ChainedCliktCommand<T>.main(argv: List<String>, initial: T): T {
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun <T> ChainedCliktCommand<T>.main(argv: Array<out String>, initial: T) {
-    main(argv.asList(), initial)
+fun <T> ChainedCliktCommand<T>.main(argv: Array<out String>, initial: T): T {
+    return main(argv.asList(), initial)
 }
 
 /**

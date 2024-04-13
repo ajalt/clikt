@@ -126,6 +126,7 @@ fun CliktCommand.test(
  * @param height The height of the terminal
  */
 fun CliktCommand.test(
+    // TODO make test() work with base command
     argv: Array<String>,
     stdin: String = "",
     envvars: Map<String, String> = emptyMap(),

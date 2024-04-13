@@ -109,7 +109,6 @@ class Context private constructor(
     var obj: Any?,
 ) {
 
-    // TODO: add this to web docs and changelog
     /**
      * All invoked subcommands, in the order they were invoked.
      *
@@ -127,8 +126,6 @@ class Context private constructor(
      * all invoked subcommands.
      */
     val invokedSubcommand: BaseCliktCommand<*>? get() = invokedSubcommands.firstOrNull()
-
-
 
     /**
      * If true, an error was previously encountered while parsing the command line, but parsing is

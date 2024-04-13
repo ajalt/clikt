@@ -239,11 +239,10 @@ the property, you should use [`currentContext.findOrSetObject`][Context.findOrSe
 
 ## Running Parent Command Without Children
 
-Normally, if a command has children, [`run`][run] is not called unless a child
-command is invoked on the command line. Instead, `--help` is called on the parent. If you want to
-change this behavior to always call `run()` on the parent, you can do so by setting
-`invokeWithoutSubcommand` to `true`. The `Context` will then have information on the subcommand that
-is about to be invoked, if there is one.
+Normally, if a command has children, [`run`][run] is not called unless a child command is invoked on
+the command line. Instead, `--help` is called on the parent. If you want to change this behavior to
+always call `run()` on the parent, you can do so by setting `invokeWithoutSubcommand` to `true`. The
+`Context` will then have information on the subcommand that is about to be invoked, if there is one.
 
 === "Example"
     ```kotlin
@@ -458,9 +457,66 @@ called.
     Subcommands of a command with `allowMultipleSubcommands=true` can themselves have subcommands, but
     cannot have `allowMultipleSubcommands=true`.
 
+## Command pipelines
+
+If you have [multiple subcommands](#chaining-and-repeating-subcommands) you might want to pass the
+output of one subcommand to the next. For example, the [ImageMagick](https://imagemagick.org) tool
+lets you apply a series of transformations to an image by invoking multiple subcommands.
+
+To do this with Clikt, you could pass your output through the
+[`Context.obj`](#nested-handling-and-contexts), but another option is to use a
+[ChainedCliktCommand], which allows you to return values from your `run` function that will be
+passed to the next subcommand.
+
+In this example, we'll write simple text editing pipeline that takes an initial string, and then
+applies a series of transformations to it, printing the final result:
+
+=== "Example"
+    ```kotlin
+    class EditText : ChainedCliktCommand<String>() {
+        override val allowMultipleSubcommands: Boolean = true
+        val text by argument()
+        override fun run(value: String): String = text
+    }
+
+    class RepeatText : ChainedCliktCommand<String>("repeat") {
+        val count by option().int().default(1)
+        override fun run(value: String): String {
+            return value.repeat(count)
+        }
+    }
+
+    class UppercaseText : ChainedCliktCommand<String>("uppercase") {
+        override fun run(value: String): String {
+            return value.uppercase()
+        }
+    }
+
+    class ReplaceText : ChainedCliktCommand<String>("replace") {
+        val oldValue by argument()
+        val newValue by argument()
+        override fun run(value: String): String {
+            return value.replace(oldValue, newValue)
+        }
+    }
+
+    fun main(args: Array<String>) {
+        val command = EditText()
+            .subcommands(RepeatText(), UppercaseText(), ReplaceText())
+        val result = command.main(args, "")
+        command.echo(result)
+    }
+    ```
+
+=== "Usage"
+    ```text
+    $ ./edit-text 'hello ' uppercase repeat --count=3 replace H Y
+    YELLO YELLO YELLO
+    ```
 
 [argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html
 [builder.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/-builder/obj.html
+[ChainedCliktCommand]:           api/clikt/com.github.ajalt.clikt.command/-chained-clikt-command/index.html
 [CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
 [Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/find-or-set-object.html
 [Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/obj.html
@@ -471,7 +527,7 @@ called.
 [findObject]:                    api/clikt/com.github.ajalt.clikt.core/find-object.html
 [findOrSetObject]:               api/clikt/com.github.ajalt.clikt.core/find-or-set-object.html
 [interspersed]:                  api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.html
-[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/issue-message.html
+[issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/issue-message.html
 [printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
 [requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.html
 [run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html

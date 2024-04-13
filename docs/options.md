@@ -264,7 +264,8 @@ You can create options that take zero or one values with [`optionalValue`][optio
 ### Options With a Variable Number of Values
 
 If you want your option to take a variable number of values, but want to split the value on whitespace 
-[rather than a delimiter][#splitting-an-option-value-on-a-delimiter], you can use [`varargValues`][varargValues].
+[rather than a delimiter](#splitting-an-option-value-on-a-delimiter), you can use
+[`varargValues`][varargValues].
 
 === "Example"
 
@@ -674,7 +675,7 @@ options][choice-options].
         val password by option().prompt(hideInput = true)
     }
 
-    class Tool : CliktCommand(help = "An example of a custom help formatter that uses ansi colors") {
+    class Tool : CliktCommand() {
         val load by option().groupChoice(
                 "disk" to FromDisk(),
                 "network" to FromNetwork()
@@ -1227,8 +1228,8 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [choice-options]:              #choice-options
 [choice]:                      api/clikt/com.github.ajalt.clikt.parameters.types/choice.html
 [CliktCommand.init]:           api/clikt/com.github.ajalt.clikt.core/-clikt-command/-clikt-command.html
-[CliktCommand.main]:           api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
-[CliktCommand.registerOption]: api/clikt/com.github.ajalt.clikt.core/-clikt-command/register-option.html
+[CliktCommand.main]:           api/clikt/com.github.ajalt.clikt.core/main.html
+[CliktCommand.registerOption]: api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/register-option.html
 [co-occurring-option-groups]:  #co-occurring-option-groups
 [Context.valueSource]:         api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-source.html
 [Context.valueSources]:        api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-sources.html

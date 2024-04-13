@@ -4,6 +4,12 @@
 ### Added
 - Added `NoSuchArgument` exception that is thrown when too many arguments were given on the command line. Previously, a less specific `UsageError` was thrown instead.
 - Added `CliktUtil.exitProcess`, which is a cross-platform way to exit the process with a status code.
+- Added `CommandLineParser.tokenize` that splits a string into argv tokens.
+- Added `CommandLineParser` that provides functions for parsing and finalizing commands manually for more control.
+- Added `Context.invokedSubcommands` that contains all subcommands of the current command that are going to be invoked when `allowMultipleSubcommands` is `true`.
+- Added `SuspendingCliktCommand` that has a `suspend fun run` method, allowing you to use coroutines in your commands.
+- Added `ChainedCliktCommand` that allows you to return a value from your `run` method and pass it to the next command in the chain.
+
 ## 4.4.0
 ### Added
 - Publish `linuxArm64` and `wasmJs` targets.
@@ -25,6 +31,7 @@
   | `treatUnknownOptionsAsArgs` | `val treatUnknownOptionsAsArgs` |
   | `hidden`                    | `val hiddenFromHelp`            |
 - The following methods on `CliktCommand` have been renamed: `commandHelp` -> `help`, `commandHelpEpilog` -> `epilog`. The old names are deprecated.
+- **Breaking Change:** `CliktCommand.main` and `CliktCommand.parse` are now extension functions rather than methods.
 
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.

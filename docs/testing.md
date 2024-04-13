@@ -102,9 +102,9 @@ to return test values for them.
 
 To capture output, [override the command's console][replacing-stdin].
 
-[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
+[main]:                api/clikt/com.github.ajalt.clikt.core/main.html
 [override-envvar]:     options.md#overriding-system-environment-variables
-[parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
+[parse]:               api/clikt/com.github.ajalt.clikt.core/parse.html
 [prompt]:              options.md#prompting-for-input
 [replacing-stdin]:     advanced.md#replacing-stdin-and-stdout
 [test-result]:         api/clikt/com.github.ajalt.clikt.testing/-clikt-command-test-result/index.html

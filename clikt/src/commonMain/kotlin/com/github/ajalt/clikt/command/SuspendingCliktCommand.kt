@@ -3,7 +3,6 @@ package com.github.ajalt.clikt.command
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parsers.CommandLineParser
 
-// TODO: md docs
 /**
  * A version of [CliktCommand] that supports a suspending [run] function.
  */

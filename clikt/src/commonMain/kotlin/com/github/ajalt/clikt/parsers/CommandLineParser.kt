@@ -6,7 +6,9 @@ import com.github.ajalt.clikt.internal.*
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.defaultLocalization
 
-// TODO: docs, changelog
+/**
+ * Methods for parsing command lines and running commands manually.
+ */
 object CommandLineParser {
     /**
      * Split a command line into a list of argv tokens.
@@ -28,6 +30,10 @@ object CommandLineParser {
         return shlex(filename, commandLine, localization)
     }
 
+    /**
+     * Call [parseAndRun] with the given [command] and [argv]. If an error is thrown, exit the
+     * process with the error's [status code][CliktError.statusCode].
+     */
     inline fun <T : BaseCliktCommand<T>> main(
         command: T,
         argv: List<String>,
@@ -55,7 +61,12 @@ object CommandLineParser {
         return result
     }
 
-    // TODO: docs throws
+    /**
+     * [Finalize][finalize] and [run][runCommand] all invoked commands.
+     *
+     * @throws CliktError if an error occurred while parsing or of any occur while finalizing or
+     * running the commands.
+     */
     inline fun <T : BaseCliktCommand<T>> run(
         rootInvocation: CommandInvocation<T>,
         runCommand: (T) -> Unit,
@@ -71,12 +82,25 @@ object CommandLineParser {
         }
     }
 
-    // TODO: docs does not throw
+    /**
+     * Parse a command line and return the result.
+     *
+     * This function does not throw exceptions. If parsing errors occur, they will be in the returned
+     * result.
+     *
+     * This function does not [run] the command or [finalize] the invocations.
+     */
     fun <T : BaseCliktCommand<T>> parse(command: T, argv: List<String>): CommandLineParseResult<T> {
         return parseArgv(command, argv)
     }
 
-    // TODO: docs throws
+    /**
+     * Finalize a command invocation, converting and setting the values for all options and other
+     * parameters. This function does not [run] the command.
+     *
+     * @throws CliktError If the [invocation] had any errors or if any parameters fail to finalize,
+     * such as if a required option is missing or a value could not be converted.
+     */
     fun finalize(invocation: CommandInvocation<*>) {
         val command = invocation.command
         val context = command.currentContext

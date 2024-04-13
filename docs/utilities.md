@@ -62,7 +62,6 @@ if (YesNoPrompt("Continue?", terminal).ask() == true) {
 [confirm]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/confirm.html
 [editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
 [editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
-[prompt]:              api/clikt/com.github.ajalt.clikt.core/-clikt-command/prompt.html
 [prompting-for-input]: options.md#prompting-for-input
 [UsageError]:          api/clikt/com.github.ajalt.clikt.core/-usage-error/index.html
 [YesNoPrompt]:         https://ajalt.github.io/mordant/api/mordant/com.github.ajalt.mordant.terminal/-yes-no-prompt/index.html

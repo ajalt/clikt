@@ -55,7 +55,10 @@ class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
     }
 }
 
-class Echo(t: Terminal) : CliktCommand(help = "Echo the STRING(s) to standard output") {
+class Echo(t: Terminal) : CliktCommand() {
+    override fun help(context: Context): String {
+        return "Echo the STRING(s) to standard output"
+    }
     init {
         context {
             terminal = t

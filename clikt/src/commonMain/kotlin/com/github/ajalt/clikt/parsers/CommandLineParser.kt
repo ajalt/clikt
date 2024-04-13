@@ -8,11 +8,24 @@ import com.github.ajalt.clikt.output.defaultLocalization
 
 // TODO: docs, changelog
 object CommandLineParser {
+    /**
+     * Split a command line into a list of argv tokens.
+     *
+     * ### Example
+     * ```
+     * tokenize("--text 'hello world'") == listOf("--text", "hello world")
+     * ```
+     *
+     * @param commandLine The command line to split
+     * @param filename The name of the file being parsed. This is used in error messages.
+     * @param localization The localization to use for error messages
+     */
     fun tokenize(
         commandLine: String,
+        filename: String = "",
         localization: Localization = defaultLocalization,
     ): List<String> {
-        return shlex("TODO", commandLine, localization)// TODO shlex
+        return shlex(filename, commandLine, localization)
     }
 
     inline fun <T : BaseCliktCommand<T>> main(

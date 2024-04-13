@@ -97,7 +97,6 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
      */
     open val hiddenFromHelp: Boolean = false
 
-    // TODO: make these all private?
     internal var _subcommands: List<T> = emptyList()
     internal val _options: MutableList<Option> = mutableListOf()
     internal val _arguments: MutableList<Argument> = mutableListOf()
@@ -265,7 +264,6 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
         _groups += group
     }
 
-    // TODO: all of these final functions could be extensions?
     /**
      * Return the help string for this command, optionally with an [error].
      *

@@ -31,19 +31,35 @@ object CommandLineParser {
     }
 
     /**
-     * Call [parseAndRun] with the given [command] and [argv]. If an error is thrown, exit the
+     * Call [parseAndRun] on the given [command]. If an error is thrown, exit the
      * process with the error's [status code][CliktError.statusCode].
      */
-    inline fun <T : BaseCliktCommand<T>> main(
-        command: T,
-        argv: List<String>,
-        parseAndRun: T.(argv: List<String>) -> Unit,
-    ) {
+    inline fun <T : BaseCliktCommand<T>> main(command: T, parseAndRun: T.() -> Unit) {
         try {
-            command.parseAndRun(argv)
+            command.parseAndRun()
         } catch (e: CliktError) {
             command.echoFormattedHelp(e)
             CliktUtil.exitProcess(e.statusCode)
+        }
+    }
+
+    /**
+     * Call [parseAndRun] on the given [command]. If an error is thrown, exit the
+     * process with the error's [status code][CliktError.statusCode].
+     *
+     * @return The value returned by [parseAndRun]
+     * @throws ProgramResult If run on Kotlin/JS on browsers and an error occurs, since it's not
+     * possible to exit the process in that case.
+     */
+    inline fun <T : BaseCliktCommand<T>, R> mainReturningValue(
+        command: T, parseAndRun: T.() -> R,
+    ): R {
+        try {
+            return command.parseAndRun()
+        } catch (e: CliktError) {
+            command.echoFormattedHelp(e)
+            CliktUtil.exitProcess(e.statusCode)
+            throw ProgramResult(e.statusCode)
         }
     }
 
@@ -74,7 +90,6 @@ object CommandLineParser {
         val invocations = rootInvocation.flatten()
         try {
             for (invocation in invocations) {
-                finalize(invocation)
                 runCommand(invocation.command)
             }
         } finally {

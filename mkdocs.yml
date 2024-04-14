@@ -127,6 +127,10 @@ nav:
       - 'Token Normalization': advanced/#token-normalization
       - 'Replacing stdin and stdout': advanced/#replacing-stdin-and-stdout
       - 'Argument Files ("@-files")': advanced/#command-line-argument-files-files
+      - 'Managing Shared Resources': advanced/#managing-shared-resources
+      - 'Custom exit status codes': advanced/#custom-exit-status-codes
+      - 'Custom run function signature': advanced/#custom-run-function-signature
+      - 'Custom run behavior': advanced/#custom-run-behavior
       - 'Multiplatform Support': advanced/#multiplatform-support
   - 'Testing':
       - 'Testing Your Commands': testing/

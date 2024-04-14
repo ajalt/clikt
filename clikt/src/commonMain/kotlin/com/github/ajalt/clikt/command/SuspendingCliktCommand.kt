@@ -39,7 +39,7 @@ abstract class SuspendingCliktCommand(
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
 suspend fun SuspendingCliktCommand.main(argv: List<String>) {
-    CommandLineParser.main(this, argv) { parse(argv) }
+    CommandLineParser.main(this) { parse(argv) }
 }
 
 /**

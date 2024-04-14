@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.parse
-import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal

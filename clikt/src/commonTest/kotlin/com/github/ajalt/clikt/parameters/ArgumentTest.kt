@@ -15,7 +15,6 @@ import io.kotest.data.row
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.contain
-import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlin.js.JsName
 import kotlin.test.Test
 

@@ -20,7 +20,6 @@ class SuspendingCliktCommandTest {
 
             override suspend fun run() {
                 yield()
-                arg shouldBe "foo"
                 ran = true
             }
         }
@@ -36,7 +35,21 @@ class SuspendingCliktCommandTest {
         val sub = Sub()
         val c: C = C().subcommands(sub)
         c.parse(CommandLineParser.tokenize("foo sub"))
+        c.arg shouldBe "foo"
         c.ran shouldBe true
         sub.ran shouldBe true
+    }
+
+    @Test
+    @JsName("suspending_command_test")
+    fun `suspending command test`() = runTest {
+        class C : SuspendingCliktCommand() {
+            val arg by argument()
+            override suspend fun run() {
+                echo(arg)
+            }
+        }
+
+        C().test("baz").output shouldBe "baz\n"
     }
 }

@@ -331,6 +331,21 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
         }
     }
 
+    /**
+     * Configure this command's [Context].
+     *
+     * Context property values are normally inherited from the parent context, but you can override any of them
+     * here.
+     */
+    fun configureContext(block: Context.Builder.() -> Unit) {
+        // save the old config to allow multiple context calls
+        val c = _contextConfig
+        _contextConfig = {
+            c()
+            block()
+        }
+    }
+
     override fun toString() = buildString {
         append("<${this@BaseCliktCommand.classSimpleName()} name=$commandName")
 
@@ -371,12 +386,7 @@ fun <T : BaseCliktCommand<T>, CommandT : T> CommandT.subcommands(
  * here.
  */
 fun <T : BaseCliktCommand<T>, U : T> U.context(block: Context.Builder.() -> Unit): U = apply {
-    // save the old config to allow multiple context calls
-    val c = _contextConfig
-    _contextConfig = {
-        c()
-        block()
-    }
+    configureContext(block)
 }
 
 private fun Any.classSimpleName(): String = this::class.simpleName.orEmpty().split("$").last()

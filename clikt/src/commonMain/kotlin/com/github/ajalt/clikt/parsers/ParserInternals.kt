@@ -360,7 +360,7 @@ private data class CommandParseResult<T : BaseCliktCommand<T>>(
     val i: Int,
     val errors: List<CliktError>,
     val expandedArgv: List<String>,
-    val optInvocations: Map<Option, List<Invocation>>,
+    val optInvocations: Map<Option, List<OptionInvocation>>,
     val argInvocations: List<ArgumentInvocation>,
 ) {
     fun toInvocation(subcommands: List<CommandInvocation<T>>) = CommandInvocation(
@@ -373,7 +373,7 @@ private data class CommandParseResult<T : BaseCliktCommand<T>>(
 }
 
 private data class OptInvocation(val opt: Option, val name: String, val values: List<String>) {
-    val inv get() = Invocation(name, values)
+    val inv get() = OptionInvocation(name, values)
 }
 
 private data class OptParseResult(

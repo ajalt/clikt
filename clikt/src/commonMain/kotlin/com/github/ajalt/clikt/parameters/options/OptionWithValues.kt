@@ -12,7 +12,7 @@ import com.github.ajalt.clikt.parameters.transform.HelpTransformContext
 import com.github.ajalt.clikt.parameters.transform.TransformContext
 import com.github.ajalt.clikt.parameters.transform.message
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.parsers.OptionInvocation
 import com.github.ajalt.clikt.sources.ValueSource
 import com.github.ajalt.mordant.terminal.Terminal
 import kotlin.jvm.JvmMultifileClass
@@ -191,7 +191,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         return helpGetter?.invoke(HelpTransformContext(context)) ?: ""
     }
 
-    override fun finalize(context: Context, invocations: List<Invocation>) {
+    override fun finalize(context: Context, invocations: List<OptionInvocation>) {
         val invs = when (val v = getFinalValue(context, invocations, envvar)) {
             is FinalValue.Parsed -> {
                 when (valueSplit) {
@@ -208,13 +208,13 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             }
 
             is FinalValue.Sourced -> {
-                v.values.map { Invocation("", it.values) }
+                v.values.map { OptionInvocation("", it.values) }
             }
 
             is FinalValue.Envvar -> {
                 when (valueSplit) {
-                    null -> listOf(Invocation(v.key, listOf(v.value)))
-                    else -> listOf(Invocation(v.key, v.value.split(valueSplit)))
+                    null -> listOf(OptionInvocation(v.key, listOf(v.value)))
+                    else -> listOf(OptionInvocation(v.key, v.value.split(valueSplit)))
                 }
             }
         }

@@ -9,7 +9,7 @@ import com.github.ajalt.clikt.parameters.options.Option
 /**
  * The output of parsing a single option and its values.
  */
-data class Invocation(
+data class OptionInvocation(
     /**
      * The name that was used to invoke the option. May be empty if the value was not retrieved
      * from the command line (e.g. values from environment variables).
@@ -42,7 +42,7 @@ class ArgumentInvocation(
  */
 class CommandInvocation<T : BaseCliktCommand<T>>(
     val command: T,
-    val optionInvocations: Map<Option, List<Invocation>>,
+    val optionInvocations: Map<Option, List<OptionInvocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
     /**
      * The subcommands of this command that were invoked.

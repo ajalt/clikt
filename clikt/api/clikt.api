@@ -1353,22 +1353,22 @@ public final class com/github/ajalt/clikt/parsers/FlatInvocations : kotlin/seque
 	public fun iterator ()Ljava/util/Iterator;
 }
 
-public final class com/github/ajalt/clikt/parsers/Invocation {
+public final class com/github/ajalt/clikt/parsers/InvocationKt {
+	public static final fun flatten (Lcom/github/ajalt/clikt/parsers/CommandInvocation;Z)Lcom/github/ajalt/clikt/parsers/FlatInvocations;
+	public static synthetic fun flatten$default (Lcom/github/ajalt/clikt/parsers/CommandInvocation;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parsers/FlatInvocations;
+}
+
+public final class com/github/ajalt/clikt/parsers/OptionInvocation {
 	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lcom/github/ajalt/clikt/parsers/Invocation;
-	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parsers/Invocation;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parsers/Invocation;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;)Lcom/github/ajalt/clikt/parsers/OptionInvocation;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parsers/OptionInvocation;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parsers/OptionInvocation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getValues ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/github/ajalt/clikt/parsers/InvocationKt {
-	public static final fun flatten (Lcom/github/ajalt/clikt/parsers/CommandInvocation;Z)Lcom/github/ajalt/clikt/parsers/FlatInvocations;
-	public static synthetic fun flatten$default (Lcom/github/ajalt/clikt/parsers/CommandInvocation;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parsers/FlatInvocations;
 }
 
 public final class com/github/ajalt/clikt/sources/ChainedValueSource : com/github/ajalt/clikt/sources/ValueSource {

@@ -10,7 +10,7 @@ import com.github.ajalt.clikt.parameters.options.OptionDelegate
 import com.github.ajalt.clikt.parameters.options.RawOption
 import com.github.ajalt.clikt.parameters.options.switch
 import com.github.ajalt.clikt.parameters.types.choice
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.parsers.OptionInvocation
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -50,7 +50,7 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
 
     override fun finalize(
         context: Context,
-        invocationsByOption: Map<Option, List<Invocation>>,
+        invocationsByOption: Map<Option, List<OptionInvocation>>,
     ) {
         val key = option.value
         if (key == null) {

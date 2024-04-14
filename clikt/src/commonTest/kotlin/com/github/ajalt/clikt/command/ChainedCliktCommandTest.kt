@@ -53,7 +53,7 @@ class ChainedCliktCommandTest {
 
     @Test
     @JsName("chained_command_test")
-    fun `chained command test`()  {
+    fun `chained command test`() {
         class C : ChainedCliktCommand<Int>() {
             val arg by argument().int()
             override fun run(value: Int): Int {

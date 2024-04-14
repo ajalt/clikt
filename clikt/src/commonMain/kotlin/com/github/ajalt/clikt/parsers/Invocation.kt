@@ -25,7 +25,7 @@ data class Invocation(
 /**
  * The output of parsing a single argument and its values.
  */
-data class ArgumentInvocation(
+class ArgumentInvocation(
     /**
      * The argument that was invoked.
      */
@@ -40,7 +40,7 @@ data class ArgumentInvocation(
 /**
  * The output of parsing a single command and its options and arguments.
  */
-data class CommandInvocation<T : BaseCliktCommand<T>>(
+class CommandInvocation<T : BaseCliktCommand<T>>(
     val command: T,
     val optionInvocations: Map<Option, List<Invocation>>,
     val argumentInvocations: List<ArgumentInvocation>,
@@ -90,21 +90,23 @@ class CommandLineParseResult<T : BaseCliktCommand<T>>(
  * val invocations = rootInvocation.flatten()
  * try {
  *   for (inv in invocations) {
- *     finalize(inv)
  *     run(inv.command)
  *   }
  * } finally {
  *   invocations.close()
  * }
  * ```
+ *
+ * @param finalize If true (the default), finalize all commands as they are emitted in the sequence. If false, you
+ * must call [CommandLineParser.finalize] on each invocation yourself before running the command.
  */
-fun <T : BaseCliktCommand<T>> CommandInvocation<T>.flatten(): FlatInvocations<T> {
-    return FlatInvocations(this)
+fun <T : BaseCliktCommand<T>> CommandInvocation<T>.flatten(finalize: Boolean = true): FlatInvocations<T> {
+    return FlatInvocations(this, finalize)
 }
 
 // TODO: this should be an AutoClosable once that interface is stable
 class FlatInvocations<T : BaseCliktCommand<T>> internal constructor(
-    root: CommandInvocation<T>,
+    root: CommandInvocation<T>, private val finalize: Boolean,
 ) : Sequence<CommandInvocation<T>> {
     private val closables = mutableListOf<Context>()
     private val seq = sequence {
@@ -117,7 +119,7 @@ class FlatInvocations<T : BaseCliktCommand<T>> internal constructor(
             closables.removeLast().close()
         }
         yieldSubs(root)
-    }
+    }.onEach { if (finalize) CommandLineParser.finalize(it) }
 
     override fun iterator(): Iterator<CommandInvocation<T>> = seq.iterator()
 

@@ -42,7 +42,7 @@ abstract class CliktCommand(
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
 fun CliktCommand.main(argv: List<String>) {
-    CommandLineParser.main(this, argv) { parse(argv) }
+    CommandLineParser.main(this) { parse(argv) }
 }
 
 /**

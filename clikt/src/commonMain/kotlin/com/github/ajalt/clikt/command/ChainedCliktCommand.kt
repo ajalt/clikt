@@ -44,14 +44,7 @@ abstract class ChainedCliktCommand<T>(
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
 fun <T> ChainedCliktCommand<T>.main(argv: List<String>, initial: T): T {
-    try {
-        return parse(argv, initial)
-    } catch (e: CliktError) {
-        echoFormattedHelp(e)
-        CliktUtil.exitProcess(e.statusCode)
-        // Throw an exception if we can't exit, since we don't have a return value
-        throw ProgramResult(e.statusCode)
-    }
+    return CommandLineParser.mainReturningValue(this) { parse(argv, initial) }
 }
 
 /**

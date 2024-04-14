@@ -400,6 +400,154 @@ advantages:
 - `ProgramResult` is easier to test. Exiting the process makes unit tests difficult to run.
 - `ProgramResult` works on all platforms. `exitProcess` is only available on the JVM.
 
+## Custom run function signature
+
+Clikt provides a few command base classes that have different run function signatures.
+[CliktCommand] has `fun run()`, while [SuspendingCliktCommand] has `suspend fun run()`. If you want
+a run function with a different signature, you can define your own base class the inherits from
+[BaseCliktCommand] and use the [CommandLineParser] methods to parse and run the command.
+
+For example, if you want a command that uses a [Flow] to emit multiple value for each run, you could
+implement it like this:
+
+=== "Example"
+    ```kotlin
+    abstract class FlowCliktCommand : BaseCliktCommand<FlowCliktCommand>() {
+        abstract fun run(): Flow<String>
+    }
+
+    class MyFlowCommand : FlowCliktCommand() {
+        val opt by option().required()
+        val arg by argument().int()
+
+        override fun run(): Flow<String> = flow {
+            emit(opt)
+            emit(arg.toString())
+        }
+    }
+
+    class MyFlowSubcommand : FlowCliktCommand() {
+        val arg by argument().multiple()
+
+        override fun run(): Flow<String> = flow {
+            arg.forEach { emit(it) }
+        }
+    }
+
+    fun FlowCliktCommand.parse(argv: Array<String>): Flow<String> {
+        val flows = mutableListOf<Flow<String>>()
+        CommandLineParser.parseAndRun(this, argv.asList()) { flows += it.run() }
+        return flow { flows.forEach { emitAll(it) } }
+    }
+
+    fun FlowCliktCommand.main(argv: Array<String>): Flow<String> {
+        return CommandLineParser.mainReturningValue(this) { parse(argv) }
+    }
+
+    suspend fun main(args: Array<String>) {
+        val command = MyFlowCommand().subcommands(MyFlowSubcommand())
+        val resultFlow: Flow<String> = command.main(args)
+        resultFlow.collect {
+            command.echo(it)
+        }
+    }
+    ```
+
+=== "Usage"
+    ```text
+    $ ./command --opt=foo 11 my-flow-subcommand bar baz
+    foo
+    11
+    bar
+    baz
+    ```
+
+There are a number of steps here, so let's break it down:
+
+1. Define a base class `FlowCliktCommand` that inherits from [BaseCliktCommand] and has an abstract
+   `run` function that returns a `Flow`.
+2. Define your commands that inherit from `FlowCliktCommand` and implement your `run` function.
+3. Define an extension function `parse` that uses [CommandLineParser.parseAndRun] to parse the
+   command and run the `run` function.
+4. Define an extension function `main` that uses [CommandLineParser.main] to run the `parse`
+   function and handle any exceptions it might throw.
+5. In your `main` function, call `main` on your command, and collect the results of the `Flow`.
+
+If you want to customize the behavior even further, see the [next section](#custom-run-behavior).
+
+## Custom run behavior
+
+If you want to customize how or when subcommands are run, you can do so by defining a custom base
+class like in the [previous section](#custom-run-function-signature), but instead of using
+`CommandLineParser.parseAndRun`, you can call your command's `run` functions manually.
+
+For example, if you want commands to return status codes, and you want to stop running commands as
+soon as one of them returns a non-zero status code, you could implement it like this:
+
+=== "Example"
+    ```kotlin
+    abstract class StatusCliktCommand : BaseCliktCommand<StatusCliktCommand>() {
+        abstract fun run(): Int
+    }
+    
+    class ParentCommand : StatusCliktCommand() {
+        override val allowMultipleSubcommands: Boolean = true
+        override fun run(): Int {
+            echo("Parent")
+            return 0
+        }
+    }
+    
+    class SuccessCommand : StatusCliktCommand() {
+        override fun run(): Int {
+            echo("Success")
+            return 0
+        }
+    }
+    
+    class FailureCommand : StatusCliktCommand() {
+        override fun run(): Int {
+            echo("Failure")
+            return 1001
+        }
+    }
+    
+    fun StatusCliktCommand.parse(argv: Array<String>): Int {
+        val parseResult = CommandLineParser.parse(this, argv.asList())
+        for (invocation in parseResult.invocation.flatten()) {
+            val status = invocation.command.run()
+            if (status != 0) {
+                return status
+            }
+        }
+        return 0
+    }
+    
+    fun StatusCliktCommand.main(argv: Array<String>) {
+        val status = CommandLineParser.mainReturningValue(this) { parse(argv) }
+        CliktUtil.exitProcess(status)
+    }
+    
+    fun main(argv: Array<String>) {
+        ParentCommand().subcommands(SuccessCommand(), FailureCommand()).main(argv)
+    }
+    ```
+
+=== "Usage"
+    ```text
+    $ ./command success failure success
+    Parent
+    Success
+    Failure
+
+    $ echo $?
+    1001
+    ```
+
+The steps here are similar to the [previous section](#custom-run-function-signature), but instead of
+using [CommandLineParser.parseAndRun], we use [CommandLineParser.parse], then call `run` on each
+command invocation manually, and stop when one of them returns a non-zero status code.
+
 ## Multiplatform Support
 
 Clikt supports the following platforms in addition to JVM:
@@ -428,23 +576,31 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 * [editText][editText] and [editFile][editFile] are not supported.
 * [file][file] and [path][path] parameter types are not supported.
 
-[ProgramResult]:       api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
-[TermUI]:              api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
-[aliases]:             api/clikt/com.github.ajalt.clikt.core/-clikt-command/aliases.html
-[callOnClose]:         api/clikt/com.github.ajalt.clikt.core/-context/call-on-close.html
-[context-obj]:         commands.md#nested-handling-and-contexts
-[customizing-context]: commands.md#customizing-contexts
-[dash-dash]:           arguments.md#option-like-arguments-using-
-[editFile]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
-[editText]:            api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
-[expandArgumentFiles]: api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
-[file]:                api/clikt/com.github.ajalt.clikt.parameters.types/file.html
-[grouping-options]:    documenting.md#grouping-options-in-help
-[main]:                api/clikt/com.github.ajalt.clikt.core/-clikt-command/main.html
-[parse]:               api/clikt/com.github.ajalt.clikt.core/-clikt-command/parse.html
-[path]:                api/clikt/com.github.ajalt.clikt.parameters.types/path.html
-[prompt]:              api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
-[registerCloseable]:   api/clikt/com.github.ajalt.clikt.core/register-closeable.html
-[registerJvmCloseable]:api/clikt/com.github.ajalt.clikt.core/register-jvm-closeable.html
-[test]:                api/clikt/com.github.ajalt.clikt.testing/test.html
-[tokenTransformer]:    api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html
+[BaseCliktCommand]:              api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/index.html
+[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
+[CommandLineParser]:             api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/index.html
+[CommandLineParser.main]:        api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/main.html
+[CommandLineParser.parse]:       api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/parse.html
+[CommandLineParser.parseAndRun]: api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/parse-and-run.html
+[Flow]:                          https://kotlinlang.org/docs/flow.html
+[ProgramResult]:                 api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
+[SuspendingCliktCommand]:        api/clikt/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
+[TermUI]:                        api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
+[aliases]:                       api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/aliases.html
+[callOnClose]:                   api/clikt/com.github.ajalt.clikt.core/-context/call-on-close.html
+[context-obj]:                   commands.md#nested-handling-and-contexts
+[customizing-context]:           commands.md#customizing-contexts
+[dash-dash]:                     arguments.md#option-like-arguments-using-
+[editFile]:                      api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
+[editText]:                      api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
+[expandArgumentFiles]:           api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
+[file]:                          api/clikt/com.github.ajalt.clikt.parameters.types/file.html
+[grouping-options]:              documenting.md#grouping-options-in-help
+[main]:                          api/clikt/com.github.ajalt.clikt.core/main.html
+[parse]:                         api/clikt/com.github.ajalt.clikt.core/parse.html
+[path]:                          api/clikt/com.github.ajalt.clikt.parameters.types/path.html
+[prompt]:                        api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
+[registerCloseable]:             api/clikt/com.github.ajalt.clikt.core/register-closeable.html
+[registerJvmCloseable]:          api/clikt/com.github.ajalt.clikt.core/register-jvm-closeable.html
+[test]:                          api/clikt/com.github.ajalt.clikt.testing/test.html
+[tokenTransformer]:              api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html

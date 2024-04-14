@@ -207,13 +207,6 @@ class Context private constructor(
         if (err != null) throw err
     }
 
-    // TODO(5.0): these don't need to be member functions
-    @PublishedApi
-    internal fun ancestors() = generateSequence(parent) { it.parent }
-
-    @PublishedApi
-    internal fun selfAndAncestors() = generateSequence(this) { it.parent }
-
     /**
      * If true, arguments starting with `@` will be expanded as argument files. If false, they
      * will be treated as normal arguments.
@@ -448,7 +441,12 @@ inline fun <reified T : Any> BaseCliktCommand<*>.findOrSetObject(
 /** The current terminal's theme */
 val Context.theme: Theme get() = terminal.theme
 
+
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
     possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }.filter { it.second > 0.8 }
         .sortedByDescending { it.second }.map { it.first }
 }
+
+@PublishedApi
+internal fun Context.selfAndAncestors() = generateSequence(this) { it.parent }
+internal fun Context.ancestors() = generateSequence(parent) { it.parent }

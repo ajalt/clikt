@@ -17,7 +17,7 @@
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.
-- **Breaking Change:** Removed the following parameters from `CliktCommand`'s constructor; override the corresponding properties instead:
+- **Breaking Change:** Moved the following parameters from `CliktCommand`'s constructor; override the corresponding properties instead:
 
   | removed parameter           | replacement property            |
   |-----------------------------|---------------------------------|
@@ -38,6 +38,9 @@
 
 ### Deprecated
 - Deprecated `Context.originalArgv`. It will now always return an empty list. If your commands need an argv, you can pass it to them before you run them.
+
+### Removed
+- Removed previously deprecated experimental annotations.
 
 ## 4.3.0
 ### Added

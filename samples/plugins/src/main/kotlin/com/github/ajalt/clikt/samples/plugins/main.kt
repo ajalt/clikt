@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.*
@@ -11,14 +12,15 @@ import org.kodein.di.generic.setBinding
 
 data class Repo(var home: String, val config: MutableMap<String, String>, var verbose: Boolean)
 
-class Cli : CliktCommand(
-    help = """
-        Repo is a command line tool that showcases how to build complex
-        command line interfaces with Clikt.
+class Cli : CliktCommand() {
+    override fun help(context: Context) = """
+    Repo is a command line tool that showcases how to build complex
+    command line interfaces with Clikt.
 
-        This tool is supposed to look like a distributed version control
-        system to show how something like this can be structured.
-        """.trimIndent()) {
+    This tool is supposed to look like a distributed version control
+    system to show how something like this can be structured.
+    """.trimIndent()
+
     init {
         versionOption("1.0")
     }

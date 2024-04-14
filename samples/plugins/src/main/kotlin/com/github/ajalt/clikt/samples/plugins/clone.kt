@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
@@ -13,14 +14,15 @@ import org.kodein.di.generic.inSet
 import org.kodein.di.generic.provider
 import java.io.File
 
-class Clone : CliktCommand(
-    help = """
-        Clones a repository.
+class Clone : CliktCommand() {
+    override fun help(context: Context) = """
+    Clones a repository.
 
-        This will clone the repository at SRC into the folder DEST. If DEST
-        is not provided this will automatically use the last path component
-        of SRC and create that folder.
-        """.trimIndent()) {
+    This will clone the repository at SRC into the folder DEST. If DEST
+    is not provided this will automatically use the last path component
+    of SRC and create that folder.
+    """.trimIndent()
+
     val repo: Repo by requireObject()
     val src: String by argument()
     val dest: String? by argument().optional()

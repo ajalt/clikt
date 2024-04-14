@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.samples.plugins
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
@@ -9,13 +10,13 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.inSet
 import org.kodein.di.generic.provider
 
-class SetUser : CliktCommand(
-    name = "setuser",
-    help = """
-        Sets the user credentials.
+class SetUser : CliktCommand(name = "setuser") {
+    override fun help(context: Context) = """
+    Sets the user credentials.
 
-        This will override the current user config.
-        """.trimIndent()) {
+    This will override the current user config.
+    """.trimIndent()
+
     val repo: Repo by requireObject()
     val username: String by option(help = "The developer's shown username.")
         .prompt()

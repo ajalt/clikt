@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
 import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.parsers.OptionInvocation
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -44,7 +44,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
 
     override fun finalize(
         context: Context,
-        invocationsByOption: Map<Option, List<Invocation>>,
+        invocationsByOption: Map<Option, List<OptionInvocation>>,
     ) {
         finalizeOptions(context, options, invocationsByOption)
         val values = options.filter {

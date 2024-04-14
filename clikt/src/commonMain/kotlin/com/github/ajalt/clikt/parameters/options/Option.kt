@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.core.GroupableOption
 import com.github.ajalt.clikt.core.ParameterHolder
 import com.github.ajalt.clikt.core.StaticallyGroupedOption
 import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.parsers.OptionInvocation
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
@@ -80,7 +80,7 @@ interface Option {
      * @param context The context for this parse
      * @param invocations A possibly empty list of invocations of this option.
      */
-    fun finalize(context: Context, invocations: List<Invocation>)
+    fun finalize(context: Context, invocations: List<OptionInvocation>)
 
     /**
      * Called after all of a command's parameters have been [finalize]d to perform validation of the final value.
@@ -141,14 +141,14 @@ internal fun splitOptionPrefix(name: String): Pair<String, String> =
 internal fun Option.longestName(): String? = names.maxByOrNull { it.length }
 
 internal sealed class FinalValue {
-    data class Parsed(val values: List<Invocation>) : FinalValue()
+    data class Parsed(val values: List<OptionInvocation>) : FinalValue()
     data class Sourced(val values: List<ValueSource.Invocation>) : FinalValue()
     data class Envvar(val key: String, val value: String) : FinalValue()
 }
 
 internal fun Option.getFinalValue(
     context: Context,
-    invocations: List<Invocation>,
+    invocations: List<OptionInvocation>,
     envvar: String?,
 ): FinalValue {
     return when {
@@ -170,7 +170,7 @@ internal fun Option.getFinalValue(
 // final value again to check for values from other sources.
 internal fun Option.hasEnvvarOrSourcedValue(
     context: Context,
-    invocations: List<Invocation>,
+    invocations: List<OptionInvocation>,
 ): Boolean {
     val envvar = (this as? OptionWithValues<*, *, *>)?.envvar
     val final = this.getFinalValue(context, invocations, envvar)

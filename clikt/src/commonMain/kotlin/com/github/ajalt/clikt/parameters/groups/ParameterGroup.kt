@@ -7,7 +7,7 @@ import com.github.ajalt.clikt.core.ParameterHolder
 import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.options.Option
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.parsers.OptionInvocation
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -38,7 +38,7 @@ interface ParameterGroup {
      * @param context The context for this parse
      * @param invocationsByOption The invocations of options in this group.
      */
-    fun finalize(context: Context, invocationsByOption: Map<Option, List<Invocation>>)
+    fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionInvocation>>)
 
     /**
      * Called after all of a command's parameters have been [finalize]d to perform validation of the final values.
@@ -90,7 +90,7 @@ open class OptionGroup(
         options += option
     }
 
-    override fun finalize(context: Context, invocationsByOption: Map<Option, List<Invocation>>) {
+    override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionInvocation>>) {
         finalizeOptions(context, options, invocationsByOption)
     }
 

@@ -8,12 +8,12 @@ import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.internal.LateinitException
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parsers.ArgumentInvocation
-import com.github.ajalt.clikt.parsers.Invocation
+import com.github.ajalt.clikt.parsers.OptionInvocation
 
 internal fun finalizeOptions(
     context: Context,
     options: List<Option>,
-    invocationsByOption: Map<Option, List<Invocation>>,
+    invocationsByOption: Map<Option, List<OptionInvocation>>,
 ) {
     iterateFinalization(
         context, getAllOptions(invocationsByOption, options).map { Opt(it.key, it.value) }
@@ -21,9 +21,9 @@ internal fun finalizeOptions(
 }
 
 private sealed class Param
-private data class Opt(val option: Option, val invs: List<Invocation>) : Param()
+private data class Opt(val option: Option, val invs: List<OptionInvocation>) : Param()
 private data class Arg(val argument: Argument, val invs: List<String>) : Param()
-private data class Group(val group: ParameterGroup, val invs: Map<Option, List<Invocation>>) :
+private data class Group(val group: ParameterGroup, val invs: Map<Option, List<OptionInvocation>>) :
     Param()
 
 internal fun finalizeParameters(
@@ -31,13 +31,13 @@ internal fun finalizeParameters(
     options: List<Option>,
     groups: List<ParameterGroup>,
     arguments: List<Argument>,
-    optionInvocations: Map<Option, List<Invocation>>,
+    optionInvocations: Map<Option, List<OptionInvocation>>,
     argumentInvocations: List<ArgumentInvocation>,
 ): List<UsageError> {
     // Add uninvoked params last so that e.g. we can skip prompting if there's an error in an
     // invoked option
 
-    val allGroups = buildMap<ParameterGroup?, Map<Option, List<Invocation>>> {
+    val allGroups = buildMap<ParameterGroup?, Map<Option, List<OptionInvocation>>> {
         optionInvocations.entries
             .groupBy({ it.key.group }, { it.key to it.value })
             .mapValuesTo(this) { it.value.toMap() }
@@ -65,9 +65,9 @@ internal fun finalizeParameters(
 }
 
 private fun getAllOptions(
-    invocations: Map<Option, List<Invocation>>,
+    invocations: Map<Option, List<OptionInvocation>>,
     options: List<Option>,
-): Map<Option, List<Invocation>> {
+): Map<Option, List<OptionInvocation>> {
     return buildMap {
         putAll(invocations)
         for (opt in options) {

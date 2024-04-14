@@ -21,8 +21,8 @@
 
   | removed parameter           | replacement property            |
   |-----------------------------|---------------------------------|
-  | `help`                      | `fun commandHelp`               |
-  | `epilog`                    | `fun commandHelpEpilog`         |
+  | `help`                      | `fun help`                      |
+  | `epilog`                    | `fun helpEpilog`                |
   | `invokeWithoutSubcommand`   | `val invokeWithoutSubcommand`   |
   | `printHelpOnEmptyArgs`      | `val printHelpOnEmptyArgs`      |
   | `helpTags`                  | `val helpTags`                  |

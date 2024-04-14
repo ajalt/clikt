@@ -1,5 +1,67 @@
 # Upgrading to Newer Releases
 
+## Upgrading to 5.0
+
+## `main` is now an extension
+
+The `CliktCommand.main` and `CliktCommand.parse` methods are now a extension functions, so you'll
+need to import them.
+
+```diff
++ import com.github.ajalt.clikt.core.main
+fun main(args: Array<String>) = MyCommand().main(args)
+```
+
+## `CliktCommand` constructor no longer takes most parameters
+
+All parameters of the `CliktCommand` except for `name` have been moved to open properties.
+
+=== "In 5.0"
+    ```kotlin
+    class MyCommand : CliktCommand(name="mycommand") {
+        override fun help(context: Context) = "command help"
+        override fun helpEpilog(context: Context) = "command epilog"
+        override val invokeWithoutSubcommand = true
+        override val printHelpOnEmptyArgs = true
+        override val helpTags = mapOf("tag" to "value")
+        override val autoCompleteEnvvar = "MYCOMMAND_COMPLETE"
+        override val allowMultipleSubcommands = true
+        override val treatUnknownOptionsAsArgs = true
+        override val hiddenFromHelp = true
+    }
+    ```
+
+=== "In 4.0"
+    ```kotlin
+    class MyCommand : CliktCommand(
+        name = "mycommand",
+        help = "command help",
+        helpEpilog = "command epilog",
+        invokeWithoutSubcommand = true,
+        printHelpOnEmptyArgs = true,
+        helpTags = mapOf("tag" to "value"),
+        autoCompleteEnvvar = "MYCOMMAND_COMPLETE",
+        allowMultipleSubcommands = true,
+        treatUnknownOptionsAsArgs = true,
+        hiddenFromHelp = true,
+    ) {
+    }
+    ```
+
+The full list of moved parameters:
+
+| removed parameter           | new replacement property        |
+|-----------------------------|---------------------------------|
+| `help`                      | `fun help`                      |
+| `epilog`                    | `fun helpEpilog`                |
+| `invokeWithoutSubcommand`   | `val invokeWithoutSubcommand`   |
+| `printHelpOnEmptyArgs`      | `val printHelpOnEmptyArgs`      |
+| `helpTags`                  | `val helpTags`                  |
+| `autoCompleteEnvvar`        | `val autoCompleteEnvvar`        |
+| `allowMultipleSubcommands`  | `val allowMultipleSubcommands`  |
+| `treatUnknownOptionsAsArgs` | `val treatUnknownOptionsAsArgs` |
+| `hidden`                    | `val hiddenFromHelp`            |
+
 ## Upgrading to 4.0
 
 ### Help formatting

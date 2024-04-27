@@ -10,11 +10,9 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [ macos-latest, macos-14, windows-latest, ubuntu-latest ]
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
         include:
           - os: macos-latest
-            TEST_TASK: macosX64Test
-          - os: macos-14
             TEST_TASK: macosArm64Test
           - os: windows-latest
             TEST_TASK: mingwX64Test
@@ -47,4 +45,4 @@ jobs:
           path: build-reports.zip
 
 env:
-  GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx5g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+  GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx6g -Dfile.encoding=UTF-8"

@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE", "KotlinRedundantDiagnosticSuppress")
 
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 
 
 plugins {
@@ -46,4 +47,15 @@ kotlin {
             }
         }
     }
+}
+
+// https://youtrack.jetbrains.com/issue/KT-63014
+// https://github.com/Kotlin/kotlin-wasm-examples/blob/1b007347bf9f8a1ec3d420d30de1815768d5df02/nodejs-example/build.gradle.kts#L22
+rootProject.the<NodeJsRootExtension>().apply {
+    nodeVersion = "22.0.0-nightly202404032241e8c5b3"
+    nodeDownloadBaseUrl = "https://nodejs.org/download/nightly"
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask>().configureEach {
+    args.add("--ignore-engines")
 }

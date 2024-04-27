@@ -1,7 +1,6 @@
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-import java.io.ByteArrayOutputStream
 
 
 plugins {
@@ -17,21 +16,11 @@ apiValidation {
 }
 
 fun getPublishVersion(): String {
-    val versionName = project.property("VERSION_NAME") as String
-    // Call gradle with -PinferVersion to set the dynamic version name.
-    // Otherwise, we skip it to save time.
-    if (!project.hasProperty("inferVersion")) return versionName
-
-    val stdout = ByteArrayOutputStream()
-    project.exec {
-        commandLine = listOf("git", "tag", "--points-at", "HEAD")
-        standardOutput = stdout
-    }
-    val tag = String(stdout.toByteArray()).trim()
-    if (tag.isNotEmpty()) return tag
-
+    val version = project.property("VERSION_NAME").toString()
+    // Call gradle with -PsnapshotVersion to set the version as a snapshot.
+    if (!project.hasProperty("snapshotVersion")) return version
     val buildNumber = System.getenv("GITHUB_RUN_NUMBER") ?: "0"
-    return "$versionName.$buildNumber-SNAPSHOT"
+    return "$version.$buildNumber-SNAPSHOT"
 }
 
 

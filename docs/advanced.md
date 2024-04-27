@@ -411,13 +411,13 @@ All functionality is supported, except:
 * `env` parameter of [editText][editText] and [editFile][editFile] is ignored.
 * [file][file] and [path][path] parameter types are not supported.
 
-### NodeJS
+### NodeJS JavaScript and WasmJS
 
 All functionality is supported, except:
 
 * [file][file] and [path][path] parameter types are not supported.
 
-### Browser JavaScript
+### Browser JavaScript and WasmJS
 
 All functionality is supported, except:
 

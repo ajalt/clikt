@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+## 4.4.0
+### Added
+- Publish `linuxArm64` and `wasmJs` targets.
 
 ## 4.3.0
 ### Added

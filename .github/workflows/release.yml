@@ -8,7 +8,7 @@ on:
 jobs:
   release:
     runs-on: macos-latest
-    if: ${{ github.ref == 'refs/heads/master' && github.repository == 'ajalt/clikt' }}
+    if: ${{ github.repository == 'ajalt/clikt' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

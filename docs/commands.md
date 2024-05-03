@@ -162,23 +162,25 @@ context object for itself that is linked to its parent's context.
 customize command line parsing. Although each command creates its own
 context, the configuration is inherited from the parent context.
 
-`Context` objects also have an [`obj`][Context.obj] property that can hold an object that can be
-accessed from child commands.
+`Context` objects also have a [`data`][Context.data] map and [`obj`][Context.obj] property that
+hold objects that can be accessed from child commands.
 
 === "Example"
     ```kotlin
+    data class MyConfig(var verbose: Boolean = false)
+
     class Tool : CliktCommand() {
         val verbose by option().flag("--no-verbose")
-        val config by findOrSetObject { mutableMapOf<String, String>() }
+        val config by findOrSetObject { MyConfig() }
         override fun run() {
-            config["VERBOSE"] = if (verbose) "on" else "off"
+            config.verbose = if (verbose) "on" else "off"
         }
     }
 
     class Execute : CliktCommand() {
-        val config by requireObject<Map<String, String>>()
+        val config by requireObject<MyConfig>()
         override fun run() {
-            echo("Verbose mode is ${config["VERBOSE"]}")
+            echo("Verbose mode is ${config.verbose}")
         }
     }
 
@@ -195,14 +197,14 @@ The [`findObject`][findObject], [`findOrSetObject`][findOrSetObject], and
 [`requireObject`][requireObject] functions will walk up the context tree until they find a
 [`obj`][Context.obj] with the given type. If no such object exists, they will either return `null`,
 throw an exception, or create an instance of the object and store it on the command's context,
-depending on which function you use. Since each context only has a single `obj`, if you need to
-store multiple objects on a single context, you could create a data class with everything you want
-to store and set that as your `obj`.
+depending on which function you use. If you need more than one object, you can pass a `key` to these
+functions, and they'll look for an object with that key and type in the context's `data` map.
 
-Note that the [`findOrSetObject`][findOrSetObject] property is lazy and won't set the Context's
-`obj` until its value is accessed. If you need to set an object for subcommands without accessing
-the property, you should use [`currentContext.findOrSetObject`][Context.findOrSetObject], or set
-[`currentContext.obj`][Context.obj] or [`Context.Builder.obj`][builder.obj] directly, instead.
+Keep in mind that the [`findOrSetObject`][findOrSetObject] property is lazy and won't set the
+Context's `obj` until its value is accessed. If you need to set an object for subcommands without
+accessing the property, you should use [`currentContext.findOrSetObject`][Context.findOrSetObject],
+or set [`currentContext.obj`][Context.obj] or [`Context.Builder.obj`][builder.obj] directly,
+instead.
 
 === "Eager initialization with findOrSetObject"
     ```kotlin

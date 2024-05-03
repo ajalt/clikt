@@ -101,14 +101,13 @@ class Context private constructor(
      */
     val readEnvvar: (String) -> String?,
     /**
-     * An arbitrary object on the context.
+     * A map holding arbitrary data on the context.
      *
-     * This object can be retrieved with functions [findOrSetObject] and [requireObject]. You
-     * can also set the object on the context itself after it's been constructed.
+     * Values on this object can be retrieved with functions [findOrSetObject] and [requireObject].
+     * You can also set the values on the context itself after it's been constructed.
      */
-    var obj: Any?,
+    val data: MutableMap<String, Any?> = mutableMapOf(),
 ) {
-
     /**
      * All invoked subcommands, in the order they were invoked.
      *
@@ -139,14 +138,17 @@ class Context private constructor(
 
     private val closeables = mutableListOf<() -> Unit>()
 
-    /** Find the closest object of type [T] */
-    inline fun <reified T : Any> findObject(): T? {
-        return selfAndAncestors().mapNotNull { it.obj as? T }.firstOrNull()
+    /** Find the closest object with [key] of type [T] */
+    inline fun <reified T : Any> findObject(key: String = DEFAULT_OBJ_KEY): T? {
+        return selfAndAncestors().mapNotNull { it.data[key] as? T }.firstOrNull()
     }
 
-    /** Find the closest object of type [T], setting `this.`[obj] if one is not found. */
-    inline fun <reified T : Any> findOrSetObject(defaultValue: () -> T): T {
-        return findObject() ?: defaultValue().also { obj = it }
+    /** Find the closest object with [key] of type [T], setting it on `this` if one is not found. */
+    inline fun <reified T : Any> findOrSetObject(
+        key: String = DEFAULT_OBJ_KEY,
+        defaultValue: () -> T,
+    ): T {
+        return findObject(key) ?: defaultValue().also { data[key] = it }
     }
 
     /** Find the outermost context */
@@ -341,15 +343,17 @@ class Context private constructor(
         var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: ::readEnvvar
 
         /**
-         * Set an arbitrary object on the context.
+         * A map holding arbitrary data on the context.
          *
-         * This object can be retrieved with functions [findOrSetObject] and [requireObject]. You
-         * can also set the object on the context itself after it's been constructed.
+         * Values on this object can be retrieved with functions [findOrSetObject] and [requireObject].
+         * You can also set the values on the context itself after it's been constructed.
          */
-        var obj: Any? = parent?.obj
+        val data: MutableMap<String, Any?> = parent?.data ?: mutableMapOf()
     }
 
     companion object {
+        const val DEFAULT_OBJ_KEY = "default_object"
+
         internal fun build(
             command: BaseCliktCommand<*>,
             parent: Context?,
@@ -380,7 +384,7 @@ class Context private constructor(
                     correctionSuggestor = correctionSuggestor,
                     localization = localization,
                     readEnvvar = envvarReader,
-                    obj = obj,
+                    data = data,
                 )
             }
         }
@@ -413,14 +417,18 @@ fun <T : AutoCloseable> Context.registerCloseable(closeable: T): T {
 
 /** Find the closest object of type [T], or throw a [NullPointerException] */
 @Suppress("UnusedReceiverParameter") // these extensions don't use their receiver, but we want to limit where they can be called
-inline fun <reified T : Any> BaseCliktCommand<*>.requireObject(): ReadOnlyProperty<BaseCliktCommand<*>, T> {
-    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject()!! }
+inline fun <reified T : Any> BaseCliktCommand<*>.requireObject(
+    key: String = Context.DEFAULT_OBJ_KEY
+): ReadOnlyProperty<BaseCliktCommand<*>, T> {
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject(key)!! }
 }
 
 /** Find the closest object of type [T], or null */
 @Suppress("UnusedReceiverParameter")
-inline fun <reified T : Any> BaseCliktCommand<*>.findObject(): ReadOnlyProperty<BaseCliktCommand<*>, T?> {
-    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject() }
+inline fun <reified T : Any> BaseCliktCommand<*>.findObject(
+    key: String = Context.DEFAULT_OBJ_KEY
+): ReadOnlyProperty<BaseCliktCommand<*>, T?> {
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject(key) }
 }
 
 /**
@@ -433,14 +441,41 @@ inline fun <reified T : Any> BaseCliktCommand<*>.findObject(): ReadOnlyProperty<
  */
 @Suppress("UnusedReceiverParameter")
 inline fun <reified T : Any> BaseCliktCommand<*>.findOrSetObject(
+    key: String = Context.DEFAULT_OBJ_KEY,
     crossinline default: () -> T,
 ): ReadOnlyProperty<BaseCliktCommand<*>, T> {
-    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(default) }
+    return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(key, default) }
 }
 
 /** The current terminal's theme */
 val Context.theme: Theme get() = terminal.theme
 
+/**
+ * Set an arbitrary object on the context.
+ *
+ * This object can be retrieved with functions [findOrSetObject] and [requireObject].
+ *
+ * You can set more than one object on the context with [data][Context.data]
+ */
+var Context.obj: Any?
+    get() = data[Context.DEFAULT_OBJ_KEY]
+    set(value) {
+        data[Context.DEFAULT_OBJ_KEY] = value
+    }
+
+/**
+ * Set an arbitrary object on the context.
+ *
+ * This object can be retrieved with functions [findOrSetObject] and [requireObject]. You
+ * can also set the object on the context itself after it's been constructed.
+ *
+ * You can set more than one object on the context with [data][Context.data]
+ */
+var Context.Builder.obj: Any?
+    get() = data[Context.DEFAULT_OBJ_KEY]
+    set(value) {
+        data[Context.DEFAULT_OBJ_KEY] = value
+    }
 
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
     possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }.filter { it.second > 0.8 }

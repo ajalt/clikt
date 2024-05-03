@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.command
 
 import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.obj
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument

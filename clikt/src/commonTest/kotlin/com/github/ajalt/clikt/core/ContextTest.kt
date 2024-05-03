@@ -23,6 +23,11 @@ class ContextTest {
             val o3 by findObject<String>()
             val o4 by findObject<Int>()
 
+            val o5 by findObject<String>("key")
+            val o6 by findOrSetObject("key") { "foo" }
+            val o7 by findObject<String>("key")
+            val o8 by requireObject<String>("key")
+
             override fun run_() {
                 currentContext.findRoot() shouldBe currentContext
             }
@@ -34,6 +39,11 @@ class ContextTest {
         c.o2 shouldBe "foo"
         c.o3 shouldBe "foo"
         c.o4 shouldBe null
+
+        c.o5 shouldBe null
+        c.o6 shouldBe "foo"
+        c.o7 shouldBe "foo"
+        c.o8 shouldBe "foo"
     }
 
     @Test

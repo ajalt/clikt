@@ -14,7 +14,6 @@ import com.github.ajalt.clikt.parameters.transform.message
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parsers.OptionInvocation
 import com.github.ajalt.clikt.sources.ValueSource
-import com.github.ajalt.mordant.terminal.Terminal
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 import kotlin.properties.ReadOnlyProperty
@@ -44,9 +43,6 @@ class OptionTransformContext(
     /** The current command context */
     override val context: Context,
 ) : Option by option, TransformContext {
-    /** The terminal from the current context */
-    val terminal: Terminal get() = context.terminal
-
     /** Throw an exception indicating that usage was incorrect. */
     override fun fail(message: String): Nothing = throw BadParameterValue(message, option)
 

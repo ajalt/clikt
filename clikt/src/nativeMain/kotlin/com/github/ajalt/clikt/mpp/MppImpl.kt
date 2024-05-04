@@ -9,8 +9,6 @@ import platform.posix.fopen
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.system.exitProcess
 
-internal actual val String.graphemeLengthMpp: Int get() = replace(ANSI_CODE_RE, "").length
-
 internal actual fun isWindowsMpp(): Boolean = Platform.osFamily == OsFamily.WINDOWS
 
 internal actual fun exitProcessMpp(status: Int): Unit = exitProcess(status)

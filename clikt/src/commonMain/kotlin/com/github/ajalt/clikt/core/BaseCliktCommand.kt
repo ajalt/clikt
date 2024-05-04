@@ -8,7 +8,6 @@ import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.eagerOption
 import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.mordant.terminal.Terminal
 
 /**
  * A base class for commands that want to define a custom type for their `run` function.
@@ -324,14 +323,9 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
         trailingNewline: Boolean = true,
         err: Boolean = false,
     ) {
-        if (trailingNewline) {
-            currentContext.terminal.println(message, stderr = err)
-        } else {
-            currentContext.terminal.print(message, stderr = err)
-        }
+        currentContext.echoer.echo(currentContext, message, trailingNewline, err)
     }
 
-    var i = 1
     /**
      * Configure this command's [Context].
      *
@@ -404,9 +398,3 @@ private fun BaseCliktCommand<*>.inferCommandName(): String {
         "${it.groupValues[1]}-${it.groupValues[2]}"
     }.lowercase()
 }
-
-/**
- * A shortcut for accessing the terminal from the [currentContext][CliktCommand.currentContext]
- */
-val BaseCliktCommand<*>.terminal: Terminal
-    get() = currentContext.terminal

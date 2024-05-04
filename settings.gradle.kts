@@ -1,4 +1,5 @@
 include("clikt")
+include("clikt-mordant")
 include("samples:copy")
 include("samples:repo")
 include("samples:validation")

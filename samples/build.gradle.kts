@@ -4,5 +4,6 @@ subprojects {
 
     dependencies {
         "implementation"(project(":clikt"))
+        "implementation"(project(":clikt-mordant"))
     }
 }

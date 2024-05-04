@@ -10,6 +10,7 @@
 - Added `SuspendingCliktCommand` that has a `suspend fun run` method, allowing you to use coroutines in your commands.
 - Added `ChainedCliktCommand` that allows you to return a value from your `run` method and pass it to the next command in the chain.
 - Added `Context.data` as an alternative to `obj` that allows you to store more than one object in the context.
+- Added `Context.echoer` to customize how `echo` messages are printed.
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.
@@ -28,7 +29,7 @@
   | `hidden`                    | `val hiddenFromHelp`            |
 - The following methods on `CliktCommand` have been renamed: `commandHelp` -> `help`, `commandHelpEpilog` -> `epilog`. The old names are deprecated.
 - **Breaking Change:** `CliktCommand.main` and `CliktCommand.parse` are now extension functions rather than methods.
-- **Breaking Change:** `Context.obj` and `Context.terminal` are now extension functions rather than properties.
+- **Breaking Change:** `Context.obj` and `Context.terminal`, and `OptionTransformContext.terminal` are now extension functions rather than properties.
 - **Breaking Change:** The `RenderedSection` and `DefinitionRow` classes have moved to `AbstractHelpFormatter`.
 
 ### Fixed
@@ -39,6 +40,7 @@
 
 ### Removed
 - Removed previously deprecated experimental annotations.
+- Removed `MordantHelpFormatter.graphemeLength`
 
 ## 4.4.0
 ### Added

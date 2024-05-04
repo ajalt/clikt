@@ -331,6 +331,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
         }
     }
 
+    var i = 1
     /**
      * Configure this command's [Context].
      *

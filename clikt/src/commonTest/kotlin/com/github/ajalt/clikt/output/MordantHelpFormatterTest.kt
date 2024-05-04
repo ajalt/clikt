@@ -20,6 +20,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 
+@Suppress("unused")
 class MordantHelpFormatterTest {
     private val c = TestCommand(name = "prog")
     private fun doTest(
@@ -70,7 +71,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("formatUsage_wrapping_command_name")
     fun `formatUsage wrapping command name`() {
         class C : TestCommand(name = "cli a_very_very_very_long command") {
@@ -372,7 +372,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("help_output_option_groups")
     fun `option groups`() {
         class G : OptionGroup("Grouped") {
@@ -418,7 +417,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("help_output_arguments")
     fun arguments() {
         class C : TestCommand(name = "prog") {
@@ -479,7 +477,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("choice_group")
     fun `choice group`() {
         class G1 : OptionGroup("G1") {
@@ -511,7 +508,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("switch_group")
     fun `switch group`() {
         class G1 : OptionGroup("G1") {
@@ -544,7 +540,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("mutually_exclusive_options")
     fun `mutually exclusive options`() {
         class C : TestCommand(name = "prog") {
@@ -767,7 +762,6 @@ class MordantHelpFormatterTest {
     }
 
     @Test
-    @Suppress("unused")
     @JsName("theme_colors")
     fun `theme colors`() {
         val t = Theme {
@@ -777,7 +771,7 @@ class MordantHelpFormatterTest {
             styles["muted"] = cyan
         }
 
-        class C: TestCommand(name="prog") {
+        class C : TestCommand(name = "prog") {
             override fun help(context: Context): String =
                 context.theme.danger("command help")
 
@@ -788,6 +782,7 @@ class MordantHelpFormatterTest {
                 .help { theme.danger("option help") }
             val a by argument()
                 .help { theme.danger("argument help") }
+
             init {
                 context {
                     terminal = Terminal(theme = t, width = 79, ansiLevel = AnsiLevel.TRUECOLOR)
@@ -807,6 +802,102 @@ class MordantHelpFormatterTest {
             |  ${green("<a>")}  ${yellow("argument help")}
             |
             |${yellow("command epilog")}
+            """.trimMargin()
+    }
+
+    @Test
+    @JsName("nested_help_formatter_config")
+    fun `nested help formatter config`() {
+        class C(name: String) : TestCommand(name=name) {
+            val o by option().required()
+        }
+
+        val c1 = C(name = "prog")
+        val c2 = C(name = "mid").context {
+            helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") }
+        }
+        val c3 = C(name = "leaf").context {
+            helpFormatter = { MordantHelpFormatter(it, showRequiredTag = true) }
+        }
+        val cc = c1.subcommands(c2.subcommands(c3))
+        cc.test("--help").output shouldBe """
+            |Usage: prog [<options>] <command> [<args>]...
+            |
+            |Options:
+            |  --o=<text>
+            |  -h, --help  Show this message and exit
+            |
+            |Commands:
+            |  mid
+            |
+            """.trimMargin()
+
+        cc.test("--o=1 mid --help").output shouldBe """
+            |Usage: prog mid [<options>] <command> [<args>]...
+            |
+            |Options:
+            |* --o=<text>
+            |  -h, --help  Show this message and exit
+            |
+            |Commands:
+            |  leaf
+            |
+            """.trimMargin()
+
+        cc.test("--o=1 mid --o=2 leaf --help").output shouldBe """
+            |Usage: prog mid leaf [<options>]
+            |
+            |Options:
+            |  --o=<text>  (required)
+            |  -h, --help  Show this message and exit
+            |
+            """.trimMargin()
+    }
+
+    @Test
+    @JsName("nested_help_formatter_inherit_config")
+    fun `nested help formatter inherit config`() {
+        class C(name: String) : TestCommand(name=name) {
+            val o by option().required()
+        }
+
+        val c1 = C(name = "prog").context {
+            helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") }
+        }
+        val c2 = C(name = "mid")
+        val c3 = C(name = "leaf")
+        val cc = c1.subcommands(c2.subcommands(c3))
+        cc.test("--help").output shouldBe """
+            |Usage: prog [<options>] <command> [<args>]...
+            |
+            |Options:
+            |* --o=<text>
+            |  -h, --help  Show this message and exit
+            |
+            |Commands:
+            |  mid
+            |
+            """.trimMargin()
+
+        cc.test("--o=1 mid --help").output shouldBe """
+            |Usage: prog mid [<options>] <command> [<args>]...
+            |
+            |Options:
+            |* --o=<text>
+            |  -h, --help  Show this message and exit
+            |
+            |Commands:
+            |  leaf
+            |
+            """.trimMargin()
+
+        cc.test("--o=1 mid --o=2 leaf --help").output shouldBe """
+            |Usage: prog mid leaf [<options>]
+            |
+            |Options:
+            |* --o=<text>
+            |  -h, --help  Show this message and exit
+            |
             """.trimMargin()
     }
 }

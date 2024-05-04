@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters.transform
 
 import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.mordant.rendering.Theme
 import com.github.ajalt.mordant.terminal.Terminal
 

@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.core
 
+import com.github.ajalt.clikt.core.Context.Companion.TERMINAL_KEY
 import com.github.ajalt.clikt.internal.defaultArgFileReader
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
@@ -62,10 +63,7 @@ class Context private constructor(
      * and commands) before parsing. This can be used to implement e.g. case-insensitive behavior.
      */
     val tokenTransformer: Context.(String) -> String,
-    /**
-     * The terminal to used to read and write messages.
-     */
-    val terminal: Terminal,
+
     /**
      * A block that returns the content of an argument file for a given filename.
      */
@@ -271,11 +269,6 @@ class Context private constructor(
         }
 
         /**
-         * The terminal that will handle reading and writing text.
-         */
-        var terminal: Terminal = parent?.terminal ?: Terminal()
-
-        /**
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
@@ -353,6 +346,7 @@ class Context private constructor(
 
     companion object {
         const val DEFAULT_OBJ_KEY = "default_object"
+        const val TERMINAL_KEY = "mordant_terminal"
 
         internal fun build(
             command: BaseCliktCommand<*>,
@@ -377,7 +371,6 @@ class Context private constructor(
                     helpOptionNames = helpOptionNames.toSet(),
                     helpFormatter = formatter,
                     tokenTransformer = tokenTransformer,
-                    terminal = terminal,
                     argumentFileReader = argumentFileReader,
                     readEnvvarBeforeValueSource = readEnvvarBeforeValueSource,
                     valueSource = valueSource,
@@ -418,7 +411,7 @@ fun <T : AutoCloseable> Context.registerCloseable(closeable: T): T {
 /** Find the closest object of type [T], or throw a [NullPointerException] */
 @Suppress("UnusedReceiverParameter") // these extensions don't use their receiver, but we want to limit where they can be called
 inline fun <reified T : Any> BaseCliktCommand<*>.requireObject(
-    key: String = Context.DEFAULT_OBJ_KEY
+    key: String = Context.DEFAULT_OBJ_KEY,
 ): ReadOnlyProperty<BaseCliktCommand<*>, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject(key)!! }
 }
@@ -426,7 +419,7 @@ inline fun <reified T : Any> BaseCliktCommand<*>.requireObject(
 /** Find the closest object of type [T], or null */
 @Suppress("UnusedReceiverParameter")
 inline fun <reified T : Any> BaseCliktCommand<*>.findObject(
-    key: String = Context.DEFAULT_OBJ_KEY
+    key: String = Context.DEFAULT_OBJ_KEY,
 ): ReadOnlyProperty<BaseCliktCommand<*>, T?> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findObject(key) }
 }
@@ -446,6 +439,15 @@ inline fun <reified T : Any> BaseCliktCommand<*>.findOrSetObject(
 ): ReadOnlyProperty<BaseCliktCommand<*>, T> {
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(key, default) }
 }
+
+/**
+ * The terminal to used to read and write messages.
+ */
+val Context.terminal: Terminal
+    get() = findObject(TERMINAL_KEY) ?: Terminal().also {
+        // Set the terminal on the root so that we don't create multiple
+        selfAndAncestors().last().data[TERMINAL_KEY] = it
+    }
 
 /** The current terminal's theme */
 val Context.theme: Theme get() = terminal.theme
@@ -476,6 +478,18 @@ var Context.Builder.obj: Any?
     set(value) {
         data[Context.DEFAULT_OBJ_KEY] = value
     }
+
+/**
+ * The terminal that will handle reading and writing text.
+ */
+var Context.Builder.terminal: Terminal
+    get() = data[TERMINAL_KEY] as? Terminal
+        ?: parent?.terminal
+        ?: Terminal().also { data[TERMINAL_KEY] = it }
+    set(value) {
+        data[TERMINAL_KEY] = value
+    }
+
 
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
     possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }.filter { it.second > 0.8 }

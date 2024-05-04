@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.mordant.terminal.YesNoPrompt

@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.MultiUsageError
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class AbstractHelpFormatter<PartT>(
     /**
      * The current command's context.

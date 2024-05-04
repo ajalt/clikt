@@ -29,6 +29,7 @@
 - The following methods on `CliktCommand` have been renamed: `commandHelp` -> `help`, `commandHelpEpilog` -> `epilog`. The old names are deprecated.
 - **Breaking Change:** `CliktCommand.main` and `CliktCommand.parse` are now extension functions rather than methods.
 - **Breaking Change:** `Context.obj` and `Context.terminal` are now extension functions rather than properties.
+- **Breaking Change:** The `RenderedSection` and `DefinitionRow` classes have moved to `AbstractHelpFormatter`.
 
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.

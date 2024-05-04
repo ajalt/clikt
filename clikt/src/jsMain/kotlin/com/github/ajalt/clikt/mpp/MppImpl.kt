@@ -35,8 +35,6 @@ private val impls: JsMppImpls = try {
     BrowserMppImpls
 }
 
-internal actual val String.graphemeLengthMpp: Int get() = replace(ANSI_CODE_RE, "").length
-
 internal actual fun readEnvvar(key: String): String? = impls.readEnvvar(key)
 internal actual fun isWindowsMpp(): Boolean = impls.isWindowsMpp()
 internal actual fun exitProcessMpp(status: Int): Unit = impls.exitProcessMpp(status)

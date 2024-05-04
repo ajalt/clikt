@@ -1,9 +1,6 @@
 package com.github.ajalt.clikt.samples.helpformat
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.main
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.MordantHelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.argument
@@ -18,6 +15,7 @@ import com.github.ajalt.mordant.table.ColumnWidth
 import com.github.ajalt.mordant.table.verticalLayout
 import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.widgets.Panel
+import com.github.ajalt.mordant.widgets.Text
 
 
 class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
@@ -44,7 +42,7 @@ class PanelHelpFormatter(context: Context) : MordantHelpFormatter(context) {
             cell(
                 Panel(
                     section.content,
-                    section.title,
+                    Text(section.title),
                     expand = true,
                     titleAlign = TextAlign.LEFT,
                     borderStyle = theme.style("muted")

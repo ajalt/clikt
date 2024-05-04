@@ -3,14 +3,8 @@
 
 package com.github.ajalt.clikt.parameters.options
 
-import com.github.ajalt.clikt.core.Abort
 import com.github.ajalt.clikt.core.MissingOption
-import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.output.HelpFormatter
-import com.github.ajalt.clikt.output.ParameterFormatter
-import com.github.ajalt.mordant.terminal.ConfirmationPrompt
-import com.github.ajalt.mordant.terminal.ConversionResult
-import com.github.ajalt.mordant.terminal.Prompt
 import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 
@@ -171,81 +165,3 @@ fun <A, B, EachT, ValueT> OptionWithValues<List<Pair<A, B>>, EachT, ValueT>.toMa
 fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, String>, Pair<String, String>, Pair<String, String>> {
     return splitPair(delimiter).multiple().toMap()
 }
-
-/**
- * If the option isn't given on the command line, prompt the user for manual input.
- *
- * Note that if the option is defined with a [validate] or [check], that validation will be run each
- * time the user enters a value. This means that, unlike normal options, the validation for prompt
- * options cannot reference other parameters.
- *
- * @param text The text to prompt the user with
- * @param default The default value to use if no input is given. If null, the prompt will be repeated until
- *   input is given.
- * @param hideInput If true, user input will not be shown on the screen. Useful for passwords and sensitive
- *   input.
- * @param promptSuffix Text to display directly after [text]. Defaults to ": ".
- * @param showDefault Show [default] to the user in the prompt.
- */
-fun <T : Any> NullableOption<T, T>.prompt(
-    text: String? = null,
-    default: T? = null,
-    hideInput: Boolean = false,
-    promptSuffix: String = ": ",
-    showDefault: Boolean = true,
-    requireConfirmation: Boolean = false,
-    confirmationPrompt: String = "Repeat for confirmation",
-    confirmationMismatchMessage: String = "Values do not match, try again",
-): OptionWithValues<T, T, T> = transformAll { invocations ->
-    val promptText = text ?: longestName()?.let { splitOptionPrefix(it).second }
-        ?.replace(Regex("\\W"), " ")?.capitalize2() ?: "Value"
-    val provided = invocations.lastOrNull()
-    if (provided != null) return@transformAll provided
-    if (context.errorEncountered) throw Abort()
-
-    val builder: (String) -> Prompt<T> = {
-        object : Prompt<T>(
-            prompt = it,
-            terminal = terminal,
-            default = default,
-            showDefault = showDefault,
-            hideInput = hideInput,
-            promptSuffix = promptSuffix,
-        ) {
-            override fun convert(input: String): ConversionResult<T> {
-                val ctx = OptionCallTransformContext("", this@transformAll, context)
-                try {
-                    val v = transformEach(ctx, listOf(transformValue(ctx, input)))
-
-                    @Suppress("UNCHECKED_CAST")
-                    val validator = (option as? OptionWithValues<T, T, T>)?.transformValidator
-                    validator?.invoke(this@transformAll, v)
-                    return ConversionResult.Valid(v)
-                } catch (e: UsageError) {
-                    e.context = e.context ?: context
-                    return ConversionResult.Invalid(
-                        e.formatMessage(
-                            context.localization,
-                            ParameterFormatter.Plain
-                        )
-                    )
-                }
-            }
-        }
-    }
-    val result = if (requireConfirmation) {
-        ConfirmationPrompt.create(
-            promptText,
-            confirmationPrompt,
-            confirmationMismatchMessage,
-            builder
-        ).ask()
-    } else {
-        builder(promptText).ask()
-    }
-    return@transformAll result ?: throw Abort()
-}
-
-// the stdlib capitalize was deprecated without a replacement
-private fun String.capitalize2(): String =
-    replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }

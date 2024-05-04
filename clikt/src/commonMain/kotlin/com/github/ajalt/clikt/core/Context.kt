@@ -1,16 +1,13 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.core.Context.Companion.TERMINAL_KEY
 import com.github.ajalt.clikt.internal.defaultArgFileReader
 import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.Localization
-import com.github.ajalt.clikt.output.MordantHelpFormatter
+import com.github.ajalt.clikt.output.PlaintextHelpFormatter
 import com.github.ajalt.clikt.output.defaultLocalization
 import com.github.ajalt.clikt.sources.ChainedValueSource
 import com.github.ajalt.clikt.sources.ValueSource
-import com.github.ajalt.mordant.rendering.Theme
-import com.github.ajalt.mordant.terminal.Terminal
 import kotlin.properties.ReadOnlyProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
@@ -45,7 +42,8 @@ class Context private constructor(
     val autoEnvvarPrefix: String?,
     /**
      * Set this to false to prevent extra messages from being printed automatically.
-     * You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
+     * You can still access them at [messages][BaseCliktCommand.messages] inside of
+     * `CliktCommand.run`.
      */
     val printExtraMessages: Boolean,
     /**
@@ -104,7 +102,12 @@ class Context private constructor(
      * Values on this object can be retrieved with functions [findOrSetObject] and [requireObject].
      * You can also set the values on the context itself after it's been constructed.
      */
-    val data: MutableMap<String, Any?> = mutableMapOf(),
+    val data: MutableMap<String, Any?>,
+
+    /**
+     * The terminal echoer to use for output.
+     */
+    val echoer: TerminalEchoer,
 ) {
     /**
      * All invoked subcommands, in the order they were invoked.
@@ -240,7 +243,8 @@ class Context private constructor(
         /**
          * Set this to false to prevent extra messages from being printed automatically.
          *
-         * You can still access them at [CliktCommand.messages] inside of [CliktCommand.run].
+         * You can still access them at [messages][BaseCliktCommand.messages] inside of
+         * `CliktCommand.run`.
          */
         var printExtraMessages: Boolean = parent?.printExtraMessages ?: true
 
@@ -342,10 +346,18 @@ class Context private constructor(
          * You can also set the values on the context itself after it's been constructed.
          */
         val data: MutableMap<String, Any?> = parent?.data ?: mutableMapOf()
+
+        /**
+         * The terminal echoer to use for output.
+         */
+        var echoer: TerminalEchoer = parent?.echoer ?: DefaultTerminalEchoer
     }
 
     companion object {
+        /** The key in [data] that [obj] is stored at. */
         const val DEFAULT_OBJ_KEY = "default_object"
+
+        /** The key in [data] that the mordant terminal is stored at. */
         const val TERMINAL_KEY = "mordant_terminal"
 
         internal fun build(
@@ -359,8 +371,6 @@ class Context private constructor(
                     allowInterspersedArgs && !command.allowMultipleSubcommands && parent?.let { p ->
                         p.selfAndAncestors().any { it.command.allowMultipleSubcommands }
                     } != true
-                val formatter: ((Context) -> HelpFormatter) =
-                    helpFormatter ?: { MordantHelpFormatter(it) }
                 return Context(
                     parent = parent,
                     command = command,
@@ -369,7 +379,7 @@ class Context private constructor(
                     autoEnvvarPrefix = autoEnvvarPrefix,
                     printExtraMessages = printExtraMessages,
                     helpOptionNames = helpOptionNames.toSet(),
-                    helpFormatter = formatter,
+                    helpFormatter = helpFormatter ?: { PlaintextHelpFormatter(it) },
                     tokenTransformer = tokenTransformer,
                     argumentFileReader = argumentFileReader,
                     readEnvvarBeforeValueSource = readEnvvarBeforeValueSource,
@@ -378,6 +388,7 @@ class Context private constructor(
                     localization = localization,
                     readEnvvar = envvarReader,
                     data = data,
+                    echoer = echoer,
                 )
             }
         }
@@ -429,7 +440,7 @@ inline fun <reified T : Any> BaseCliktCommand<*>.findObject(
  *
  * Note that this function returns a delegate, and so the object will not be set on the context
  * until the delegated property's value is accessed. If you want to set a value for subcommands
- * without accessing the property, call [Context.findOrSetObject] in your [run][CliktCommand.run]
+ * without accessing the property, call [Context.findOrSetObject] in your `run`
  * function instead.
  */
 @Suppress("UnusedReceiverParameter")
@@ -440,17 +451,6 @@ inline fun <reified T : Any> BaseCliktCommand<*>.findOrSetObject(
     return ReadOnlyProperty { thisRef, _ -> thisRef.currentContext.findOrSetObject(key, default) }
 }
 
-/**
- * The terminal to used to read and write messages.
- */
-val Context.terminal: Terminal
-    get() = findObject(TERMINAL_KEY) ?: Terminal().also {
-        // Set the terminal on the root so that we don't create multiple
-        selfAndAncestors().last().data[TERMINAL_KEY] = it
-    }
-
-/** The current terminal's theme */
-val Context.theme: Theme get() = terminal.theme
 
 /**
  * Set an arbitrary object on the context.
@@ -479,18 +479,6 @@ var Context.Builder.obj: Any?
         data[Context.DEFAULT_OBJ_KEY] = value
     }
 
-/**
- * The terminal that will handle reading and writing text.
- */
-var Context.Builder.terminal: Terminal
-    get() = data[TERMINAL_KEY] as? Terminal
-        ?: parent?.terminal
-        ?: Terminal().also { data[TERMINAL_KEY] = it }
-    set(value) {
-        data[TERMINAL_KEY] = value
-    }
-
-
 private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possibleValues ->
     possibleValues.map { it to jaroWinklerSimilarity(enteredValue, it) }.filter { it.second > 0.8 }
         .sortedByDescending { it.second }.map { it.first }
@@ -499,3 +487,13 @@ private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possib
 @PublishedApi
 internal fun Context.selfAndAncestors() = generateSequence(this) { it.parent }
 internal fun Context.ancestors() = generateSequence(parent) { it.parent }
+
+private object DefaultTerminalEchoer : TerminalEchoer {
+    override fun echo(context: Context, message: Any?, trailingNewline: Boolean, err: Boolean) {
+        if (trailingNewline) {
+            println(message)
+        } else {
+            print(message)
+        }
+    }
+}

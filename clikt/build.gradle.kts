@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_VARIABLE", "KotlinRedundantDiagnosticSuppress")
-
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
@@ -26,30 +24,6 @@ kotlin {
     mingwX64()
     macosX64()
     macosArm64()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(libs.mordant)
-            }
-        }
-
-        val commonTest by getting {
-            dependencies {
-                api(kotlin("test"))
-                api(libs.kotest)
-                api(libs.coroutines.core)
-                api(libs.coroutines.test)
-            }
-        }
-
-        val jvmTest by getting {
-            dependencies {
-                api(libs.systemrules)
-                api(libs.jimfs)
-            }
-        }
-    }
 }
 
 // https://youtrack.jetbrains.com/issue/KT-63014

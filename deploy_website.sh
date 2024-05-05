@@ -9,7 +9,7 @@
 set -ex
 
 # Generate API docs
-./gradlew cleanDokkaHtml dokkaHtml
+./gradlew cleanDokkaHtmlMultiModule dokkaHtmlMultiModule
 
 # Copy the changelog into the site, omitting the unreleased section
 cat CHANGELOG.md \

@@ -1,12 +1,16 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 
 plugins {
     kotlin("multiplatform").version(libs.versions.kotlin).apply(false)
-    alias(libs.plugins.dokka).apply(false)
     alias(libs.plugins.publish).apply(false)
+    alias(libs.plugins.dokka)
     alias(libs.plugins.kotlinBinaryCompatibilityValidator)
 }
 
@@ -24,6 +28,11 @@ fun getPublishVersion(): String {
 }
 
 
+private val dokkaConfig = mapOf(
+    "org.jetbrains.dokka.base.DokkaBase" to """{
+        "footerMessage": "Copyright &copy; 2018 AJ Alt"
+    }"""
+)
 
 subprojects {
     project.setProperty("VERSION_NAME", getPublishVersion())
@@ -36,29 +45,21 @@ subprojects {
     tasks.withType<JavaCompile>().configureEach {
         options.release.set(8)
     }
-
     pluginManager.withPlugin("com.vanniktech.maven.publish") {
         apply(plugin = "org.jetbrains.dokka")
-
-        tasks.named<DokkaTask>("dokkaHtml") {
-            outputDirectory.set(rootProject.rootDir.resolve("docs/api"))
-            val rootPath = rootProject.rootDir.toPath()
-            val logoCss = rootPath.resolve("docs/css/logo-styles.css").toString().replace('\\', '/')
-            val paletteSvg = rootPath.resolve("docs/img/wordmark_small_dark.svg").toString()
-                .replace('\\', '/')
-            pluginsMapConfiguration.set(
-                mapOf(
-                    "org.jetbrains.dokka.base.DokkaBase" to """{
-                "customStyleSheets": ["$logoCss"],
-                "customAssets": ["$paletteSvg"],
-                "footerMessage": "Copyright &copy; 2021 AJ Alt"
-            }"""
-                )
-            )
-            dokkaSourceSets.configureEach {
-                reportUndocumented.set(false)
-                skipDeprecated.set(true)
-            }
+    }
+    tasks.withType<DokkaTask>().configureEach {
+        dokkaSourceSets.configureEach {
+            reportUndocumented.set(false)
+            skipDeprecated.set(false)
         }
     }
+    tasks.withType<DokkaTaskPartial>().configureEach {
+        pluginsMapConfiguration.set(dokkaConfig)
+    }
+}
+
+tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
+    outputDirectory.set(rootProject.rootDir.resolve("docs/api"))
+    pluginsMapConfiguration.set(dokkaConfig)
 }

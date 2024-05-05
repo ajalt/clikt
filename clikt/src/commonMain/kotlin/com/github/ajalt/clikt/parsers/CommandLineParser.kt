@@ -1,6 +1,6 @@
 package com.github.ajalt.clikt.parsers
 
-import com.github.ajalt.clikt.completion.CompletionGenerator
+import com.github.ajalt.clikt.completion.CompletionGenerator.generateCompletionForCommand
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.internal.*
 import com.github.ajalt.clikt.output.Localization
@@ -180,5 +180,5 @@ private fun throwCompletionMessageIfRequested(
         else -> commandEnvvar
     }
     val envval = context.readEnvvar(envvar) ?: return
-    throw CompletionGenerator.getCompletionMessage(command, envval)
+    throw PrintCompletionMessage(generateCompletionForCommand(command, envval))
 }

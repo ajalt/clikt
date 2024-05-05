@@ -10,6 +10,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -121,13 +122,12 @@ abstract class CompletionTestBase(private val shell: String) {
     @Test
     @JsName("completion_command")
     fun `completion command`() {
-        TODO()
-    //        val message = shouldThrow<PrintCompletionMessage> {
-//            TestCommand()
-//                .subcommands(CompletionCommand(), TestCommand(name = "foo"))
-//                .parse("generate-completion $shell")
-//        }.message
-//        message shouldContain shell
-//        message shouldContain "foo"
+        val message = shouldThrow<PrintCompletionMessage> {
+            TestCommand()
+                .subcommands(CompletionCommand(), TestCommand(name = "foo"))
+                .parse("generate-completion $shell")
+        }.message
+        message shouldContain shell
+        message shouldContain "foo"
     }
 }

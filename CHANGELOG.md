@@ -11,6 +11,7 @@
 - Added `ChainedCliktCommand` that allows you to return a value from your `run` method and pass it to the next command in the chain.
 - Added `Context.data` as an alternative to `obj` that allows you to store more than one object in the context.
 - Added `Context.echoer` to customize how `echo` messages are printed.
+- Added `CompletionGenerator` to manually generate completions for a command.
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.

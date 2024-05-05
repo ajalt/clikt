@@ -1,6 +1,8 @@
 package com.github.ajalt.clikt.completion
 
+import com.github.ajalt.clikt.completion.CompletionGenerator.generateCompletionForCommand
 import com.github.ajalt.clikt.core.BaseCliktCommand
+import com.github.ajalt.clikt.core.PrintCompletionMessage
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
 
@@ -18,24 +20,6 @@ fun <T : BaseCliktCommand<*>> T.completionOption(
         *names, help = help, hidden = hidden, eager = true,
         metavar = choices.joinToString("|", prefix = "(", postfix = ")")
     ).validate {
-        CompletionGenerator.throwCompletionMessage(context.command, it)
+        throw PrintCompletionMessage(generateCompletionForCommand(context.command, it))
     })
 }
-
-// TODO: make completiongenerator public
-///**
-// * A subcommand that will print a completion script for the given shell when invoked.
-// */
-//class CompletionCommand(
-//    private val help: String = "Generate a tab-complete script for the given shell",
-//    private val epilog: String = "",
-//    name: String = "generate-completion",
-//) : CliktCommand(name) {
-//    override fun help(context: Context): String = help
-//    override fun helpEpilog(context: Context): String = epilog
-//    private val shell by argument("shell").choice(*choices)
-//    override fun run() {
-//        val cmd = currentContext.parent?.command ?: this
-//        CompletionGenerator.throwCompletionMessage(cmd, shell)
-//    }
-//}

@@ -101,6 +101,20 @@ A third option is to add a subcommand that will generate the completion when inv
     $ ./my-command generate-completion bash > ~/my-program-completion.sh
     ```
 
+### Manually
+
+Finally, if none of the built-in methods work for you, you can generate the completion script
+yourself with the [CompletionGenerator].
+
+=== "Example"
+    ```kotlin
+    class MyCommand: CliktCommand() {
+        override fun run() {
+            echo(CompletionGenerator.generateCompletionForCommand(this, "bash"))
+        }
+    }
+    ```
+
 ### Using the generated script
 
 Once you've generated the completion script, source the file to activate completion:
@@ -205,15 +219,16 @@ you're trying to complete the `multiple` argument rather than the later ones.
 Bash must be at least version 3, or Zsh must be at least version 4.1.
 
 
+[CliktCommand]:          api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
+[CompletionCommand]:     api/clikt/com.github.ajalt.clikt.completion/-completion-command/index.html
+[CompletionGenerator]:   api/clikt/com.github.ajalt.clikt.completion/-completion-generator/index.html
 [allowInterspersedArgs]: api/clikt/com.github.ajalt.clikt.core/-context/allow-interspersed-args.html
 [argument]:              api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
 [choice]:                api/clikt/com.github.ajalt.clikt.parameters.types/choice.html
-[CliktCommand]:          api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
 [command-aliases]:       advanced.md#command-aliases
+[completionOption]:      api/clikt/com.github.ajalt.clikt.completion/completion-option.html
 [file]:                  api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [fromStdout]:            api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/-companion/from-stdout.html
 [option]:                api/clikt/com.github.ajalt.clikt.parameters.options/option.html
 [path]:                  api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [token-normalization]:   advanced.md#token-normalization
-[completionOption]:      api/clikt/com.github.ajalt.clikt.completion/completion-option.html
-[CompletionCommand]:     api/clikt/com.github.ajalt.clikt.completion/-completion-command/

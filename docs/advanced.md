@@ -577,14 +577,14 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 * [file][file] and [path][path] parameter types are not supported.
 
 [BaseCliktCommand]:              api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/index.html
-[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
+[CliktCommand]:                  api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
 [CommandLineParser]:             api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/index.html
 [CommandLineParser.main]:        api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/main.html
 [CommandLineParser.parse]:       api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/parse.html
 [CommandLineParser.parseAndRun]: api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/parse-and-run.html
 [Flow]:                          https://kotlinlang.org/docs/flow.html
 [ProgramResult]:                 api/clikt/com.github.ajalt.clikt.core/-program-result/index.html
-[SuspendingCliktCommand]:        api/clikt/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
+[SuspendingCliktCommand]:        api/clikt-mordant/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
 [TermUI]:                        api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [aliases]:                       api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/aliases.html
 [callOnClose]:                   api/clikt/com.github.ajalt.clikt.core/-context/call-on-close.html
@@ -599,8 +599,8 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 [main]:                          api/clikt/com.github.ajalt.clikt.core/main.html
 [parse]:                         api/clikt/com.github.ajalt.clikt.core/parse.html
 [path]:                          api/clikt/com.github.ajalt.clikt.parameters.types/path.html
-[prompt]:                        api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
+[prompt]:                        api/clikt-mordant/com.github.ajalt.clikt.parameters.options/prompt.html
 [registerCloseable]:             api/clikt/com.github.ajalt.clikt.core/register-closeable.html
 [registerJvmCloseable]:          api/clikt/com.github.ajalt.clikt.core/register-jvm-closeable.html
-[test]:                          api/clikt/com.github.ajalt.clikt.testing/test.html
+[test]:                          api/clikt-mordant/com.github.ajalt.clikt.testing/test.html
 [tokenTransformer]:              api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html

@@ -107,5 +107,5 @@ To capture output, [override the command's console][replacing-stdin].
 [parse]:               api/clikt/com.github.ajalt.clikt.core/parse.html
 [prompt]:              options.md#prompting-for-input
 [replacing-stdin]:     advanced.md#replacing-stdin-and-stdout
-[test-result]:         api/clikt/com.github.ajalt.clikt.testing/-clikt-command-test-result/index.html
-[test]:                api/clikt/com.github.ajalt.clikt.testing/test.html
+[test-result]:         api/clikt-mordant/com.github.ajalt.clikt.testing/-clikt-command-test-result/index.html
+[test]:                api/clikt-mordant/com.github.ajalt.clikt.testing/test.html

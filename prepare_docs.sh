@@ -4,12 +4,12 @@
 # https://squidfunk.github.io/mkdocs-material/
 # It requires Python to run.
 # Install the packages with the following command:
-# pip install mkdocs mkdocs-material
+# Install the packages: `pip install mkdocs-material`
+# Build the api docs: `./gradlew dokkaHtmlMultiModule`
+# Then run this script to prepare the docs for the website.
+# Finally, run `mkdocs serve` to preview the site locally or `mkdocs build` to build the site.
 
 set -ex
-
-# Generate API docs
-./gradlew cleanDokkaHtmlMultiModule dokkaHtmlMultiModule
 
 # Copy the changelog into the site, omitting the unreleased section
 cat CHANGELOG.md \
@@ -45,9 +45,3 @@ cat >> docs/index.md <<- EOM
 * [Parameter Type Conversions](api/clikt/com.github.ajalt.clikt.parameters.types/)
 * [Output Formatting](api/clikt/com.github.ajalt.clikt.output/)
 EOM
-
-# Build and deploy the new site to github pages
-mkdocs gh-deploy
-
-# Remove the file copies
-rm docs/index.md docs/changelog.md

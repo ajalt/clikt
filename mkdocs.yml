@@ -55,6 +55,11 @@ markdown_extensions:
   - tables
   - admonition
 
+validation:
+  nav:
+    # nav links like `foo/#anchor` work, but are incorrectly flagged as broken
+    not_found: ignore
+
 nav:
   - 'Quickstart':
       - 'Basic Concepts': quickstart.md
@@ -133,7 +138,7 @@ nav:
       - 'Custom run behavior': advanced/#custom-run-behavior
       - 'Multiplatform Support': advanced/#multiplatform-support
   - 'Testing':
-      - 'Testing Your Commands': testing/
+      - 'Testing Your Commands': testing.md
       - 'Testing Environment Variables': testing/#testing-environment-variables
       - 'Custom Testing': testing/#custom-testing
   - 'Utilities':
@@ -155,6 +160,7 @@ nav:
       - 'Arguments': api/clikt/com.github.ajalt.clikt.parameters.arguments/
       - 'Parameter Type Conversions': api/clikt/com.github.ajalt.clikt.parameters.types/
       - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/
+      - 'All Modules': api/clikt/
   - 'Releases':
     - 'Change Log': changelog.md
     - 'Upgrading to Newer Releases': migration.md

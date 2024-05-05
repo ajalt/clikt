@@ -1227,7 +1227,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [associate]:                   api/clikt/com.github.ajalt.clikt.parameters.options/associate.html
 [choice-options]:              #choice-options
 [choice]:                      api/clikt/com.github.ajalt.clikt.parameters.types/choice.html
-[CliktCommand.init]:           api/clikt/com.github.ajalt.clikt.core/-clikt-command/-clikt-command.html
+[CliktCommand.init]:           api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/-clikt-command.html
 [CliktCommand.main]:           api/clikt/com.github.ajalt.clikt.core/main.html
 [CliktCommand.registerOption]: api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/register-option.html
 [co-occurring-option-groups]:  #co-occurring-option-groups
@@ -1262,7 +1262,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [pair]:                        api/clikt/com.github.ajalt.clikt.parameters.options/pair.html
 [parameter-types]:             parameters.md#parameter-types
 [PrintMessage]:                api/clikt/com.github.ajalt.clikt.core/-print-message/index.html
-[prompt]:                      api/clikt/com.github.ajalt.clikt.parameters.options/prompt.html
+[prompt]:                      api/clikt-mordant/com.github.ajalt.clikt.parameters.options/prompt.html
 [PropertiesValueSource]:       api/clikt/com.github.ajalt.clikt.sources/-properties-value-source/index.html
 [readEnvvarFirst]:             api/clikt/com.github.ajalt.clikt.core/-context/-builder/read-envvar-before-value-source.html
 [required]:                    api/clikt/com.github.ajalt.clikt.parameters.groups/required.html

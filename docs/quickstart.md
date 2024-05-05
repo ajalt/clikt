@@ -181,15 +181,15 @@ distribution scripts in your build folder, which you can then execute normally. 
 [runsample][runsample] script for an example of this approach.
 
 
-[application_plugin]: https://docs.gradle.org/current/userguide/application_plugin.html
-[argument]:           api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
-[clikt-samples]:      https://github.com/ajalt/clikt/tree/master/samples
-[CliktCommand]:       api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
-[echo]:               api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/echo.html
-[main]:               api/clikt/com.github.ajalt.clikt.core/main.html
-[option]:             api/clikt/com.github.ajalt.clikt.parameters.options/option.html
-[println]:            https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html
-[README]:             https://github.com/ajalt/clikt
-[runsample]:          https://github.com/ajalt/clikt/blob/master/runsample
-[SuspendingCliktCommand]: api/clikt/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
-[test]:               testing.md
+[application_plugin]:       https://docs.gradle.org/current/userguide/application_plugin.html
+[argument]:                 api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
+[clikt-samples]:            https://github.com/ajalt/clikt/tree/master/samples
+[CliktCommand]:             api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
+[echo]:                     api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/echo.html
+[main]:                     api/clikt/com.github.ajalt.clikt.core/main.html
+[option]:                   api/clikt/com.github.ajalt.clikt.parameters.options/option.html
+[println]:                  https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html
+[README]:                   https://github.com/ajalt/clikt
+[runsample]:                https://github.com/ajalt/clikt/blob/master/runsample
+[SuspendingCliktCommand]:   api/clikt-mordant/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
+[test]:                     testing.md

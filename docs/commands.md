@@ -203,7 +203,7 @@ functions, and they'll look for an object with that key and type in the context'
 Keep in mind that the [`findOrSetObject`][findOrSetObject] property is lazy and won't set the
 Context's `obj` until its value is accessed. If you need to set an object for subcommands without
 accessing the property, you should use [`currentContext.findOrSetObject`][Context.findOrSetObject],
-or set [`currentContext.obj`][Context.obj] or [`Context.Builder.obj`][builder.obj] directly,
+or set [`currentContext.obj`][Context.obj] or [`Context.Builder.obj`][Context.obj] directly,
 instead.
 
 === "Eager initialization with findOrSetObject"
@@ -517,11 +517,10 @@ applies a series of transformations to it, printing the final result:
     ```
 
 [argument.multiple]:             api/clikt/com.github.ajalt.clikt.parameters.arguments/multiple.html
-[builder.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/-builder/obj.html
-[ChainedCliktCommand]:           api/clikt/com.github.ajalt.clikt.command/-chained-clikt-command/index.html
-[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-clikt-command/index.html
+[ChainedCliktCommand]:           api/clikt-mordant/com.github.ajalt.clikt.command/-chained-clikt-command/index.html
+[CliktCommand]:                  api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
 [Context.findOrSetObject]:       api/clikt/com.github.ajalt.clikt.core/find-or-set-object.html
-[Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/-context/obj.html
+[Context.obj]:                   api/clikt/com.github.ajalt.clikt.core/obj.html
 [Context]:                       api/clikt/com.github.ajalt.clikt.core/-context/index.html
 [context]:                       api/clikt/com.github.ajalt.clikt.core/context.html
 [customizing-context]:           #customizing-contexts
@@ -532,5 +531,5 @@ applies a series of transformations to it, printing the final result:
 [issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/issue-message.html
 [printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
 [requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.html
-[run]:                           api/clikt/com.github.ajalt.clikt.core/-clikt-command/run.html
+[run]:                           api/clikt/com.github.ajalt.clikt.core/-runnable-clikt-command/run.html
 [subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.html

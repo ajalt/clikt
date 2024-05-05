@@ -3,13 +3,16 @@ package com.github.ajalt.clikt.completion
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.PrintCompletionMessage
 
-internal object CompletionGenerator {
-    fun throwCompletionMessage(command: BaseCliktCommand<*>, shell: String): Nothing {
-        throw getCompletionMessage(command, shell)
-    }
-
-    fun getCompletionMessage(command: BaseCliktCommand<*>, shell: String): PrintCompletionMessage {
-        val message = when (shell.trim().lowercase()) {
+object CompletionGenerator {
+    /**
+     * Generate a completion script for the given shell and command.
+     *
+     * @param command The command to generate a completion script for.
+     * @param shell The shell to generate a completion script for. One of "bash", "zsh", or "fish".
+     *   If any other value is provided, the script will be generated for bash.
+     */
+    fun generateCompletionForCommand(command: BaseCliktCommand<*>, shell: String): String {
+        return when (shell.trim().lowercase()) {
             "fish" -> FishCompletionGenerator.generateFishCompletion(command = command)
             "zsh" -> BashCompletionGenerator.generateBashOrZshCompletion(
                 command = command,
@@ -21,6 +24,5 @@ internal object CompletionGenerator {
                 zsh = false
             )
         }
-        return PrintCompletionMessage(message)
     }
 }

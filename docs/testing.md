@@ -90,18 +90,30 @@ containing all the lines of input. If you have multiple prompts, each input shou
 
 ## Custom Testing
 
-If the `test` helper doesn't cover all the use cases you need to test, you can run your command yourself. 
-
-In unit tests, you won't want to use [`CliktCommand.main`][main], since it calls `exitProcess` when errors occur.
-Instead, you should instead use [`CliktCommand.parse`][parse], which throws exceptions with error details rather than
-printing the details and exiting the process. See the documentation on [exceptions](exceptions.md) for more information
-on the exceptions that can be thrown.
+If the `test` helper doesn't cover all the use cases you need to test, you can run your command
+yourself.
 
 If your command uses environment variables, you can [configure the context][override-envvar]
 to return test values for them.
 
 To capture output, [override the command's console][replacing-stdin].
 
+By default [`CliktCommand.main`][main], calls `exitProcess` when errors occur, which would stop
+tests from running. You have a couple of choices to handle this:
+
+### Configuring `exitProcess`
+
+`CliktCommand.main` calls [`Context.exitProcess`][exitProcess] to exit the process. You can set
+that to an empty lambda to skip it, or one that captures the status value if you want to check it in
+you tests.
+
+### Using `parse` instead of `main`
+
+Instead of calling `main`, you can use [`CliktCommand.parse`][parse], which throws exceptions with
+error details rather than printing the details and exiting the process. See the documentation on
+[exceptions](exceptions.md) for more information on the exceptions that can be thrown.
+
+[exitProcess]:         api/clikt/com.github.ajalt.clikt.core/-context/-builder/exit-process.html
 [main]:                api/clikt/com.github.ajalt.clikt.core/main.html
 [override-envvar]:     options.md#overriding-system-environment-variables
 [parse]:               api/clikt/com.github.ajalt.clikt.core/parse.html

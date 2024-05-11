@@ -336,7 +336,7 @@ If you want to use a value starting with `@` as an argument without expanding it
 
 1. Pass it after a `--`, [which disables expansion for everything that occurs after it][dash-dash].
 2. Escape it with `@@`. The first `@` will be removed and the rest used as the argument value. For example, `@@file` will parse as the string `@file`
-3. Disable @argfile expansion entirely by setting [`Context.expandArgumentFiles = false`][expandArgumentFiles]
+3. Disable @argfile expansion entirely by setting [`Context.argumentFileReader = null`][argumentFileReader]
 
 ### File format
 
@@ -587,13 +587,13 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 [SuspendingCliktCommand]:        api/clikt-mordant/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
 [TermUI]:                        api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [aliases]:                       api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/aliases.html
+[argumentFileReader]:            api/clikt/com.github.ajalt.clikt.core/-context/argument-file-reader.html
 [callOnClose]:                   api/clikt/com.github.ajalt.clikt.core/-context/call-on-close.html
 [context-obj]:                   commands.md#nested-handling-and-contexts
 [customizing-context]:           commands.md#customizing-contexts
 [dash-dash]:                     arguments.md#option-like-arguments-using-
 [editFile]:                      api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
 [editText]:                      api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
-[expandArgumentFiles]:           api/clikt/com.github.ajalt.clikt.core/-context/expand-argument-files.html
 [file]:                          api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [grouping-options]:              documenting.md#grouping-options-in-help
 [main]:                          api/clikt/com.github.ajalt.clikt.core/main.html

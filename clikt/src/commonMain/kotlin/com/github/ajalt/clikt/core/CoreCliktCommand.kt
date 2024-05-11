@@ -6,16 +6,50 @@ import com.github.ajalt.clikt.parsers.CommandLineParser
 /**
  * A command with a [run] function that's called when the command is invoked.
  *
- * It uses the [PlaintextHelpFormatter] by default. You usually want to use `CliktCommand` instead.
+ * It uses the [PlaintextHelpFormatter] by default. You usually want to inherit from `CliktCommand`
  * instead, which uses the `MordantHelpFormatter`.
+ *
+ * By default, this class doesn't support and text formatting or wrapping, and it doesn't support
+ * environment variables, arg files, exit status codes, or printing to stderr. You can add these
+ * features by setting a custom [Context.helpFormatter], [Context.argumentFileReader],
+ * [Context.Builder.envvarReader], [Context.exitProcess], and [Context.echoer].
+ *
+ * ### Example
+ *
+ * On JVM, if you want to use this class and define the above features:
+ *
+ * ```kotlin
+ *    abstract class MyCoreCommand : CoreCliktCommand() {
+ *        init {
+ *            context {
+ *                argumentFileReader = {
+ *                    with(Paths.get(it)) {
+ *                        if (isRegularFile()) readText() else throw FileNotFound(it)
+ *                    }
+ *                }
+ *                envvarReader = { System.getenv(it) }
+ *                exitProcess = { System.exit(it) }
+ *                echoer = { _, message, newline, err ->
+ *                    val writer = if (err) System.err else System.out
+ *                    if (newline) {
+ *                        writer.println(message)
+ *                    } else {
+ *                        writer.print(message)
+ *                    }
+ *                }
+ *            }
+ *        }
+ *    }
+ * ```
+ *
  */
-abstract class RunnableCliktCommand(
+abstract class CoreCliktCommand(
     /**
      * The name of the program to use in the help output. If not given, it is inferred from the
      * class name.
      */
     name: String? = null,
-) : BaseCliktCommand<RunnableCliktCommand>(name) {
+) : BaseCliktCommand<CoreCliktCommand>(name) {
     /**
      * Perform actions after parsing is complete and this command is invoked.
      *
@@ -37,7 +71,7 @@ abstract class RunnableCliktCommand(
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun RunnableCliktCommand.main(argv: List<String>) {
+fun CoreCliktCommand.main(argv: List<String>) {
     CommandLineParser.main(this) { parse(argv) }
 }
 
@@ -50,14 +84,14 @@ fun RunnableCliktCommand.main(argv: List<String>) {
  *
  * If you don't want Clikt to exit your process, call [parse] instead.
  */
-fun RunnableCliktCommand.main(argv: Array<out String>) = main(argv.asList())
+fun CoreCliktCommand.main(argv: Array<out String>) = main(argv.asList())
 
 /**
  * Parse the command line and throw an exception if parsing fails.
  *
  * You should use [main] instead unless you want to handle output yourself.
  */
-fun RunnableCliktCommand.parse(argv: Array<String>) {
+fun CoreCliktCommand.parse(argv: Array<String>) {
     parse(argv.asList())
 }
 
@@ -66,6 +100,6 @@ fun RunnableCliktCommand.parse(argv: Array<String>) {
  *
  * You should use [main] instead unless you want to handle output yourself.
  */
-fun RunnableCliktCommand.parse(argv: List<String>) {
+fun CoreCliktCommand.parse(argv: List<String>) {
     CommandLineParser.parseAndRun(this, argv) { it.run() }
 }

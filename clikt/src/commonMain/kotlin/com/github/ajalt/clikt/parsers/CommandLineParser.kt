@@ -39,7 +39,7 @@ object CommandLineParser {
             command.parseAndRun()
         } catch (e: CliktError) {
             command.echoFormattedHelp(e)
-            CliktUtil.exitProcess(e.statusCode)
+            command.currentContext.exitProcess(e.statusCode)
         }
     }
 
@@ -58,7 +58,7 @@ object CommandLineParser {
             return command.parseAndRun()
         } catch (e: CliktError) {
             command.echoFormattedHelp(e)
-            CliktUtil.exitProcess(e.statusCode)
+            command.currentContext.exitProcess(e.statusCode)
             throw ProgramResult(e.statusCode)
         }
     }

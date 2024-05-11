@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.core.Context.Companion.TERMINAL_KEY
 import com.github.ajalt.clikt.output.MordantHelpFormatter
+import com.github.ajalt.mordant.platform.MultiplatformSystem
 import com.github.ajalt.mordant.rendering.Theme
 import com.github.ajalt.mordant.terminal.Terminal
 
@@ -46,17 +47,20 @@ val BaseCliktCommand<*>.terminal: Terminal
  */
 fun BaseCliktCommand<*>.installMordant() {
     configureContext {
-        echoer = MordantEchoer
-        helpFormatter = { parent?.helpFormatter?.invoke(it) ?: MordantHelpFormatter(it) }
-    }
-}
-
-private object MordantEchoer: TerminalEchoer {
-    override fun echo(context: Context,message: Any?, trailingNewline: Boolean, err: Boolean) {
-        if (trailingNewline) {
-            context.terminal.println(message, stderr = err)
-        } else {
-            context.terminal.print(message, stderr = err)
+        // Only install mordant if we're the parent command so that we don't override inherited
+        // settings.
+        if (parent != null) return@configureContext
+        helpFormatter = { MordantHelpFormatter(it) }
+        envvarReader = { MultiplatformSystem.readEnvironmentVariable(it) }
+        argumentFileReader = { MultiplatformSystem.readFileAsUtf8(it) ?: throw FileNotFound(it) }
+        exitProcess = { MultiplatformSystem.exitProcess(it) }
+        echoer = { context: Context, message: Any?, trailingNewline: Boolean, err: Boolean ->
+            if (trailingNewline) {
+                context.terminal.println(message, stderr = err)
+            } else {
+                context.terminal.print(message, stderr = err)
+            }
         }
     }
 }
+

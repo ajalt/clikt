@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.samples.repo
 
 import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.optional
@@ -134,32 +133,9 @@ class Commit : CliktCommand() {
     val files: List<File> by argument().file().multiple()
 
     override fun run() {
-        val msg: String = if (message.isNotEmpty()) {
-            message.joinToString("\n")
-        } else {
-            val marker = "# Files to be committed:"
-            val text = buildString {
-                append("\n\n").append(marker).append("\n#")
-                for (file in files) {
-                    append("\n#   ").append(file)
-                }
-            }
-
-            val message = TermUi.editText(text)
-            if (message == null) {
-                echo("Aborted!")
-                return
-            }
-            message.split(marker, limit = 2)[0].trim().apply {
-                if (this.isEmpty()) {
-                    echo("Aborting commit due to empty commit message.")
-                    return
-                }
-            }
-        }
         echo("Files to be committed: $files")
         echo("Commit message:")
-        echo(msg)
+        echo(message.joinToString("\n"))
     }
 }
 

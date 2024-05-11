@@ -197,4 +197,25 @@ class ContextTest {
         count2 shouldBe 1
         count3 shouldBe 1
     }
+
+    @Test
+    @JsName("custom_exitProcess")
+    fun `custom exitProcess`() {
+        var status = Int.MAX_VALUE
+
+        class C : NoOpCliktCommand() {
+            init {
+                context {
+                    exitProcess = { status = it }
+                    echoer = { _, _, _, _ -> }
+                }
+            }
+        }
+        C().main(listOf("--help"))
+        status shouldBe 0
+
+        status = Int.MAX_VALUE
+        C().main(listOf("--foo"))
+        status shouldBe 1
+    }
 }

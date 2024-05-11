@@ -18,7 +18,7 @@ abstract class CliktCommand(
      * class name.
      */
     name: String? = null,
-) : RunnableCliktCommand(name) {
+) : CoreCliktCommand(name) {
     init {
         installMordant()
     }

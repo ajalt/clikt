@@ -24,6 +24,9 @@ kotlin {
     mingwX64()
     macosX64()
     macosArm64()
+
+    // these targets are only supported in the core module
+
 }
 
 // https://youtrack.jetbrains.com/issue/KT-63014

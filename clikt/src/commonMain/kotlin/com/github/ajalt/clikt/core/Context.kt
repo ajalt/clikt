@@ -1,7 +1,5 @@
 package com.github.ajalt.clikt.core
 
-import com.github.ajalt.clikt.internal.defaultArgFileReader
-import com.github.ajalt.clikt.mpp.readEnvvar
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.output.PlaintextHelpFormatter
@@ -11,6 +9,7 @@ import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
+typealias TerminalEchoer = (context: Context, message: Any?, trailingNewline: Boolean, err: Boolean) -> Unit
 
 /**
  * An object used to control command line parsing and pass data between commands.
@@ -108,6 +107,13 @@ class Context private constructor(
      * The terminal echoer to use for output.
      */
     val echoer: TerminalEchoer,
+
+    /**
+     * The function to call to exit the process with a status code.
+     *
+     * You can set this in tests to avoid actually exiting the process.
+     */
+    val exitProcess: (status: Int) -> Unit,
 ) {
     /**
      * All invoked subcommands, in the order they were invoked.
@@ -276,11 +282,11 @@ class Context private constructor(
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
+        @Suppress("UNUSED_PARAMETER")
+        @Deprecated("This property is deprecated and will be removed in the future. Setting it no longer has any effect. Set argumentFileReader instead.")
         var expandArgumentFiles: Boolean
             get() = argumentFileReader == null
-            set(value) {
-                argumentFileReader = if (value) defaultArgFileReader else null
-            }
+            set(value) {}
 
         /**
          * A block that returns the content of an argument file for a given filename.
@@ -289,7 +295,7 @@ class Context private constructor(
          *
          * The block should throw [FileNotFound] if the given `filename` cannot be read.
          */
-        var argumentFileReader: ((filename: String) -> String)? = defaultArgFileReader
+        var argumentFileReader: ((filename: String) -> String)? = null
 
         /**
          * If `false`,the [valueSource] is searched before environment variables.
@@ -337,7 +343,7 @@ class Context private constructor(
          *
          * You can set this to read from a map or other source during tests.
          */
-        var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: ::readEnvvar
+        var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: { null }
 
         /**
          * A map holding arbitrary data on the context.
@@ -351,6 +357,13 @@ class Context private constructor(
          * The terminal echoer to use for output.
          */
         var echoer: TerminalEchoer = parent?.echoer ?: DefaultTerminalEchoer
+
+        /**
+         * The function to call to exit the process with a status code.
+         *
+         * You can set this in tests to avoid actually exiting the process.
+         */
+        var exitProcess: (status: Int) -> Unit = parent?.exitProcess ?: {}
     }
 
     companion object {
@@ -389,6 +402,7 @@ class Context private constructor(
                     readEnvvar = envvarReader,
                     data = data,
                     echoer = echoer,
+                    exitProcess = exitProcess,
                 )
             }
         }
@@ -488,12 +502,11 @@ private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possib
 internal fun Context.selfAndAncestors() = generateSequence(this) { it.parent }
 internal fun Context.ancestors() = generateSequence(parent) { it.parent }
 
-private object DefaultTerminalEchoer : TerminalEchoer {
-    override fun echo(context: Context, message: Any?, trailingNewline: Boolean, err: Boolean) {
+private val DefaultTerminalEchoer: TerminalEchoer =
+    { _: Context, message: Any?, trailingNewline: Boolean, _: Boolean ->
         if (trailingNewline) {
             println(message)
         } else {
             print(message)
         }
     }
-}

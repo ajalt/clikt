@@ -157,7 +157,7 @@ class AtFileTest {
         class C : TestCommand() {
             init {
                 context {
-                    expandArgumentFiles = false
+                    argumentFileReader = null
                 }
             }
 

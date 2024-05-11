@@ -3,7 +3,6 @@
 ## Unreleased
 ### Added
 - Added `NoSuchArgument` exception that is thrown when too many arguments were given on the command line. Previously, a less specific `UsageError` was thrown instead.
-- Added `CliktUtil.exitProcess`, which is a cross-platform way to exit the process with a status code.
 - Added `CommandLineParser.tokenize` that splits a string into argv tokens.
 - Added `CommandLineParser` that provides functions for parsing and finalizing commands manually for more control.
 - Added `Context.invokedSubcommands` that contains all subcommands of the current command that are going to be invoked when `allowMultipleSubcommands` is `true`.
@@ -12,6 +11,7 @@
 - Added `Context.data` as an alternative to `obj` that allows you to store more than one object in the context.
 - Added `Context.echoer` to customize how `echo` messages are printed.
 - Added `CompletionGenerator` to manually generate completions for a command.
+- Added `Context.exitProcess` which you can use to prevent the process from exiting during tests.
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.
@@ -37,11 +37,13 @@
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.
 
 ### Deprecated
-- Deprecated `Context.originalArgv`. It will now always return an empty list. If your commands need an argv, you can pass it to them before you run them.
+- Deprecated `Context.originalArgv`. It will now always return an empty list. If your commands need an argv, you can pass it to them before you run them, or set in on the new `Context.data` map.
+- Deprecated `Context.expandArgumentFiles`. Use `Context.argumentFileReader` instead.
 
 ### Removed
 - Removed previously deprecated experimental annotations.
 - Removed `MordantHelpFormatter.graphemeLength`
+- Removed `TermUi`
 
 ## 4.4.0
 ### Added

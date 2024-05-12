@@ -12,7 +12,7 @@
 - Added `Context.echoer` to customize how `echo` messages are printed.
 - Added `CompletionGenerator` to manually generate completions for a command.
 - Added `Context.exitProcess` which you can use to prevent the process from exiting during tests.
-- Added core module that supports iOS, watchOS, tvOS, and wasmWasi targets.
+- Added core module that supports iOS, watchOS, tvOS, and wasmWasi targets and has no dependencies.
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.

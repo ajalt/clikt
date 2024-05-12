@@ -26,7 +26,20 @@ kotlin {
     macosArm64()
 
     // these targets are only supported in the core module
-
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+    watchosX64()
+    watchosArm32()
+    watchosArm64()
+    watchosSimulatorArm64()
+    tvosX64()
+    tvosArm64()
+    tvosSimulatorArm64()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmWasi {
+        nodejs()
+    }
 }
 
 // https://youtrack.jetbrains.com/issue/KT-63014

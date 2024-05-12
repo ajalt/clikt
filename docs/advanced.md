@@ -548,6 +548,59 @@ The steps here are similar to the [previous section](#custom-run-function-signat
 using [CommandLineParser.parseAndRun], we use [CommandLineParser.parse], then call `run` on each
 command invocation manually, and stop when one of them returns a non-zero status code.
 
+## Core Module
+
+Clikt normally uses Mordant for rendering output and interacting with the system, but there are some 
+cases where you might want to use Clikt without Mordant. For these cases, Clikt has a core module
+that doesn't have any dependencies.
+
+Replace your Clikt dependency with the core module:
+
+```kotlin
+dependencies {
+    implementation("com.github.ajalt.clikt:clikt-core:$cliktVersion")
+}
+```
+
+The [CliktCommand] class is only available in the full module, so you'll need to use
+[CoreCliktCommand] instead. The `CoreCliktCommand` has the same API as `CliktCommand`, but it
+doesn't have any of these features built in:
+
+- Text wrapping, formatting, markdown, or color support
+- [argument files](#command-line-argument-files-argfiles)
+- [environment variables][envvars]
+- `main` exiting the process with a status code
+- printing to stderr
+- [prompt options][prompt]
+
+Most of those features can be added by setting the appropriate properties on the command's context.
+Here's an example of setting all of them using Java APIs, but you only need to set the ones you'll
+use:
+
+```kotlin
+abstract class MyCoreCommand : CoreCliktCommand() {
+    init {
+        context {
+            argumentFileReader = {
+                with(Paths.get(it)) {
+                    if (isRegularFile()) readText() else throw FileNotFound(it)
+                }
+            }
+            envvarReader = { System.getenv(it) }
+            exitProcess = { System.exit(it) }
+            echoer = { context, message, newline, err ->
+                val writer = if (err) System.err else System.out
+                if (newline) {
+                    writer.println(message)
+                } else {
+                    writer.print(message)
+                }
+            }
+        }
+    }
+}
+```
+
 ## Multiplatform Support
 
 Clikt supports the following platforms in addition to JVM:
@@ -576,8 +629,13 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 * [editText][editText] and [editFile][editFile] are not supported.
 * [file][file] and [path][path] parameter types are not supported.
 
+### iOS, watchOS, tvOS and wasmWasi
+
+These platforms are supported for the [core module](#core-module) only.
+
 [BaseCliktCommand]:              api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/index.html
 [CliktCommand]:                  api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
+[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-core-clikt-command/index.html
 [CommandLineParser]:             api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/index.html
 [CommandLineParser.main]:        api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/main.html
 [CommandLineParser.parse]:       api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/parse.html
@@ -594,12 +652,13 @@ TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] 
 [dash-dash]:                     arguments.md#option-like-arguments-using-
 [editFile]:                      api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-file.html
 [editText]:                      api/clikt/com.github.ajalt.clikt.output/-term-ui/edit-text.html
+[envvars]:                       options.md#values-from-environment-variables
 [file]:                          api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [grouping-options]:              documenting.md#grouping-options-in-help
 [main]:                          api/clikt/com.github.ajalt.clikt.core/main.html
 [parse]:                         api/clikt/com.github.ajalt.clikt.core/parse.html
 [path]:                          api/clikt/com.github.ajalt.clikt.parameters.types/path.html
-[prompt]:                        api/clikt-mordant/com.github.ajalt.clikt.parameters.options/prompt.html
+[prompt]:                        options.md#prompting-for-input
 [registerCloseable]:             api/clikt/com.github.ajalt.clikt.core/register-closeable.html
 [registerJvmCloseable]:          api/clikt/com.github.ajalt.clikt.core/register-jvm-closeable.html
 [test]:                          api/clikt-mordant/com.github.ajalt.clikt.testing/test.html

@@ -572,6 +572,7 @@ doesn't have any of these features built in:
 - `main` exiting the process with a status code
 - printing to stderr
 - [prompt options][prompt]
+- The [test][test] function
 
 Most of those features can be added by setting the appropriate properties on the command's context.
 Here's an example of setting all of them using Java APIs, but you only need to set the ones you'll

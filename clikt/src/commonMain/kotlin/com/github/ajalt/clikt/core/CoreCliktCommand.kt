@@ -10,9 +10,10 @@ import com.github.ajalt.clikt.parsers.CommandLineParser
  * instead, which uses the `MordantHelpFormatter`.
  *
  * By default, this class doesn't support and text formatting or wrapping, and it doesn't support
- * environment variables, arg files, exit status codes, or printing to stderr. You can add these
- * features by setting a custom [Context.helpFormatter], [Context.argumentFileReader],
- * [Context.Builder.envvarReader], [Context.exitProcess], and [Context.echoer].
+ * environment variables, arg files, exit status codes, or printing to stderr. Although you can use
+ * this class without those features, if you need then you can set a custom [Context.helpFormatter],
+ * [Context.argumentFileReader], [Context.Builder.envvarReader], [Context.exitProcess], or
+ * [Context.echoer].
  *
  * ### Example
  *
@@ -29,7 +30,7 @@ import com.github.ajalt.clikt.parsers.CommandLineParser
  *                }
  *                envvarReader = { System.getenv(it) }
  *                exitProcess = { System.exit(it) }
- *                echoer = { _, message, newline, err ->
+ *                echoer = { context, message, newline, err ->
  *                    val writer = if (err) System.err else System.out
  *                    if (newline) {
  *                        writer.println(message)

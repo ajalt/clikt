@@ -18,71 +18,11 @@ abstract class ChainedCliktCommand<T>(
      * class name.
      */
     name: String? = null,
-) : BaseCliktCommand<ChainedCliktCommand<T>>(name) {
+) : CoreChainedCliktCommand<T>(name) {
     init {
         installMordant()
     }
-    /**
-     * Perform actions after parsing is complete and this command is invoked.
-     *
-     * This takes the value returned by the previously invoked command and returns a new value.
-     *
-     * This is called after command line parsing is complete. If this command is a subcommand, this
-     * will only be called if the subcommand is invoked.
-     *
-     * If one of this command's subcommands is invoked, this is called before the subcommand's
-     * arguments are parsed.
-     */
-    abstract fun run(value: T): T
 }
-
-
-/**
- * Parse the command line and print helpful output if any errors occur.
- *
- * This function calls [parse] and catches any [CliktError]s that are thrown, exiting the process
- * with the specified [status code][CliktError.statusCode]. Other errors are allowed to pass
- * through.
- *
- * If you don't want Clikt to exit your process, call [parse] instead.
- */
-fun <T> ChainedCliktCommand<T>.main(argv: List<String>, initial: T): T {
-    return CommandLineParser.mainReturningValue(this) { parse(argv, initial) }
-}
-
-/**
- * Parse the command line and print helpful output if any errors occur.
- *
- * This function calls [parse] and catches any [CliktError]s that are thrown, exiting the process
- * with the specified [status code][CliktError.statusCode]. Other errors are allowed to pass
- * through.
- *
- * If you don't want Clikt to exit your process, call [parse] instead.
- */
-fun <T> ChainedCliktCommand<T>.main(argv: Array<out String>, initial: T): T {
-    return main(argv.asList(), initial)
-}
-
-/**
- * Parse the command line and throw an exception if parsing fails.
- *
- * You should use [main] instead unless you want to handle output yourself.
- */
-fun <T> ChainedCliktCommand<T>.parse(argv: Array<String>, initial: T): T {
-    return parse(argv.asList(), initial)
-}
-
-/**
- * Parse the command line and throw an exception if parsing fails.
- *
- * You should use [main] instead unless you want to handle output yourself.
- */
-fun <T> ChainedCliktCommand<T>.parse(argv: List<String>, initial: T): T {
-    var value = initial
-    CommandLineParser.parseAndRun(this, argv) { value = it.run(value) }
-    return value
-}
-
 
 /**
  * Test this command, returning a result that captures the output and result status code.

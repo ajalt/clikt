@@ -27,7 +27,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":clikt"))
+                api(project(":clikt"))
                 api(libs.mordant)
             }
         }

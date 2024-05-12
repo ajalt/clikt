@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
@@ -51,4 +52,11 @@ rootProject.the<NodeJsRootExtension>().apply {
 
 rootProject.tasks.withType<KotlinNpmInstallTask>().configureEach {
     args.add("--ignore-engines")
+}
+
+tasks.withType<DokkaTaskPartial> {
+    dokkaSourceSets.configureEach {
+        moduleName.set("clikt-core")
+        includes.from("README.md")
+    }
 }

@@ -18,5 +18,7 @@ dependencyResolutionManagement {
             url= uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
             mavenContent { snapshotsOnly() }
         }
+        // TODO: remove this
+        mavenLocal()
     }
 }

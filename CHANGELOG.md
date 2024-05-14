@@ -10,10 +10,6 @@
 - Added `SuspendingCliktCommand` that has a `suspend fun run` method, allowing you to use coroutines in your commands.
 - Added `ChainedCliktCommand` that allows you to return a value from your `run` method and pass it to the next command in the chain.
 
-## 4.4.0
-### Added
-- Publish `linuxArm64` and `wasmJs` targets.
-
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.
@@ -41,6 +37,10 @@
 
 ### Removed
 - Removed previously deprecated experimental annotations.
+
+## 4.4.0
+### Added
+- Publish `linuxArm64` and `wasmJs` targets.
 
 ## 4.3.0
 ### Added

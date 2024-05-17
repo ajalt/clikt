@@ -1,41 +1,29 @@
-public abstract class com/github/ajalt/clikt/command/ChainedCliktCommand : com/github/ajalt/clikt/core/BaseCliktCommand {
+public abstract class com/github/ajalt/clikt/command/CoreChainedCliktCommand : com/github/ajalt/clikt/core/BaseCliktCommand {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public abstract fun run (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/github/ajalt/clikt/command/ChainedCliktCommandKt {
-	public static final fun main (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
-	public static final fun main (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
-	public static final fun parse (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
-	public static final fun parse (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
-	public static final fun test (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static final fun test (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static final fun test (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+public final class com/github/ajalt/clikt/command/CoreChainedCliktCommandKt {
+	public static final fun main (Lcom/github/ajalt/clikt/command/CoreChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
+	public static final fun main (Lcom/github/ajalt/clikt/command/CoreChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+	public static final fun parse (Lcom/github/ajalt/clikt/command/CoreChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
+	public static final fun parse (Lcom/github/ajalt/clikt/command/CoreChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public abstract class com/github/ajalt/clikt/command/SuspendingCliktCommand : com/github/ajalt/clikt/core/BaseCliktCommand {
+public abstract class com/github/ajalt/clikt/command/CoreSuspendingCliktCommand : com/github/ajalt/clikt/core/BaseCliktCommand {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public abstract fun run (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class com/github/ajalt/clikt/command/SuspendingCliktCommandKt {
-	public static final fun main (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun main (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun parse (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun parse (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun test (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun test (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun test (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+public final class com/github/ajalt/clikt/command/CoreSuspendingCliktCommandKt {
+	public static final fun main (Lcom/github/ajalt/clikt/command/CoreSuspendingCliktCommand;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun main (Lcom/github/ajalt/clikt/command/CoreSuspendingCliktCommand;[Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun parse (Lcom/github/ajalt/clikt/command/CoreSuspendingCliktCommand;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun parse (Lcom/github/ajalt/clikt/command/CoreSuspendingCliktCommand;[Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/ajalt/clikt/completion/CompletionBuiltinsKt {
@@ -110,13 +98,18 @@ public final class com/github/ajalt/clikt/completion/CompletionCandidates$Userna
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/github/ajalt/clikt/completion/CompletionCommand : com/github/ajalt/clikt/core/CliktCommand {
+public final class com/github/ajalt/clikt/completion/CompletionCommand : com/github/ajalt/clikt/core/CoreCliktCommand {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun help (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
 	public fun helpEpilog (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
 	public fun run ()V
+}
+
+public final class com/github/ajalt/clikt/completion/CompletionGenerator {
+	public static final field INSTANCE Lcom/github/ajalt/clikt/completion/CompletionGenerator;
+	public final fun generateCompletionForCommand (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com/github/ajalt/clikt/core/Abort : com/github/ajalt/clikt/core/ProgramResult {
@@ -177,23 +170,8 @@ public abstract class com/github/ajalt/clikt/core/BaseCliktCommand : com/github/
 
 public final class com/github/ajalt/clikt/core/BaseCliktCommandKt {
 	public static final fun context (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Lkotlin/jvm/functions/Function1;)Lcom/github/ajalt/clikt/core/BaseCliktCommand;
-	public static final fun getTerminal (Lcom/github/ajalt/clikt/core/BaseCliktCommand;)Lcom/github/ajalt/mordant/terminal/Terminal;
 	public static final fun subcommands (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/lang/Iterable;)Lcom/github/ajalt/clikt/core/BaseCliktCommand;
 	public static final fun subcommands (Lcom/github/ajalt/clikt/core/BaseCliktCommand;[Lcom/github/ajalt/clikt/core/BaseCliktCommand;)Lcom/github/ajalt/clikt/core/BaseCliktCommand;
-}
-
-public abstract class com/github/ajalt/clikt/core/CliktCommand : com/github/ajalt/clikt/core/BaseCliktCommand {
-	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public abstract fun run ()V
-}
-
-public final class com/github/ajalt/clikt/core/CliktCommandKt {
-	public static final fun main (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/util/List;)V
-	public static final fun main (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;)V
-	public static final fun parse (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/util/List;)V
-	public static final fun parse (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;)V
 }
 
 public class com/github/ajalt/clikt/core/CliktError : java/lang/RuntimeException {
@@ -204,14 +182,11 @@ public class com/github/ajalt/clikt/core/CliktError : java/lang/RuntimeException
 	public final fun getStatusCode ()I
 }
 
-public final class com/github/ajalt/clikt/core/CliktUtil {
-	public static final field INSTANCE Lcom/github/ajalt/clikt/core/CliktUtil;
-	public final fun exitProcess (I)V
-}
-
 public final class com/github/ajalt/clikt/core/Context {
 	public static final field Companion Lcom/github/ajalt/clikt/core/Context$Companion;
-	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Lcom/github/ajalt/clikt/core/BaseCliktCommand;ZZLjava/lang/String;ZLjava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/mordant/terminal/Terminal;Lkotlin/jvm/functions/Function1;ZLcom/github/ajalt/clikt/sources/ValueSource;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/clikt/output/Localization;Lkotlin/jvm/functions/Function1;Ljava/lang/Object;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final field DEFAULT_OBJ_KEY Ljava/lang/String;
+	public static final field TERMINAL_KEY Ljava/lang/String;
+	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Lcom/github/ajalt/clikt/core/BaseCliktCommand;ZZLjava/lang/String;ZLjava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ZLcom/github/ajalt/clikt/sources/ValueSource;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/clikt/output/Localization;Lkotlin/jvm/functions/Function1;Ljava/util/Map;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun callOnClose (Lkotlin/jvm/functions/Function0;)V
 	public final fun close ()V
 	public final fun commandNameWithParents ()Ljava/util/List;
@@ -224,25 +199,25 @@ public final class com/github/ajalt/clikt/core/Context {
 	public final fun getAutoEnvvarPrefix ()Ljava/lang/String;
 	public final fun getCommand ()Lcom/github/ajalt/clikt/core/BaseCliktCommand;
 	public final fun getCorrectionSuggestor ()Lkotlin/jvm/functions/Function2;
+	public final fun getData ()Ljava/util/Map;
+	public final fun getEchoer ()Lkotlin/jvm/functions/Function4;
 	public final fun getErrorEncountered ()Z
+	public final fun getExitProcess ()Lkotlin/jvm/functions/Function1;
 	public final fun getExpandArgumentFiles ()Z
 	public final fun getHelpFormatter ()Lkotlin/jvm/functions/Function1;
 	public final fun getHelpOptionNames ()Ljava/util/Set;
 	public final fun getInvokedSubcommand ()Lcom/github/ajalt/clikt/core/BaseCliktCommand;
 	public final fun getInvokedSubcommands ()Ljava/util/List;
 	public final fun getLocalization ()Lcom/github/ajalt/clikt/output/Localization;
-	public final fun getObj ()Ljava/lang/Object;
 	public final fun getOriginalArgv ()Ljava/util/List;
 	public final fun getParent ()Lcom/github/ajalt/clikt/core/Context;
 	public final fun getPrintExtraMessages ()Z
 	public final fun getReadEnvvar ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvarBeforeValueSource ()Z
-	public final fun getTerminal ()Lcom/github/ajalt/mordant/terminal/Terminal;
 	public final fun getTokenTransformer ()Lkotlin/jvm/functions/Function2;
 	public final fun getValueSource ()Lcom/github/ajalt/clikt/sources/ValueSource;
 	public final fun parentNames ()Ljava/util/List;
 	public final fun setArgumentFileReader (Lkotlin/jvm/functions/Function1;)V
-	public final fun setObj (Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -254,16 +229,17 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun getArgumentFileReader ()Lkotlin/jvm/functions/Function1;
 	public final fun getAutoEnvvarPrefix ()Ljava/lang/String;
 	public final fun getCorrectionSuggestor ()Lkotlin/jvm/functions/Function2;
+	public final fun getData ()Ljava/util/Map;
+	public final fun getEchoer ()Lkotlin/jvm/functions/Function4;
 	public final fun getEnvvarReader ()Lkotlin/jvm/functions/Function1;
+	public final fun getExitProcess ()Lkotlin/jvm/functions/Function1;
 	public final fun getExpandArgumentFiles ()Z
 	public final fun getHelpFormatter ()Lkotlin/jvm/functions/Function1;
 	public final fun getHelpOptionNames ()Ljava/lang/Iterable;
 	public final fun getLocalization ()Lcom/github/ajalt/clikt/output/Localization;
-	public final fun getObj ()Ljava/lang/Object;
 	public final fun getParent ()Lcom/github/ajalt/clikt/core/Context;
 	public final fun getPrintExtraMessages ()Z
 	public final fun getReadEnvvarBeforeValueSource ()Z
-	public final fun getTerminal ()Lcom/github/ajalt/mordant/terminal/Terminal;
 	public final fun getTokenTransformer ()Lkotlin/jvm/functions/Function2;
 	public final fun getValueSource ()Lcom/github/ajalt/clikt/sources/ValueSource;
 	public final fun setAllowGroupedShortOptions (Z)V
@@ -271,15 +247,15 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun setArgumentFileReader (Lkotlin/jvm/functions/Function1;)V
 	public final fun setAutoEnvvarPrefix (Ljava/lang/String;)V
 	public final fun setCorrectionSuggestor (Lkotlin/jvm/functions/Function2;)V
+	public final fun setEchoer (Lkotlin/jvm/functions/Function4;)V
 	public final fun setEnvvarReader (Lkotlin/jvm/functions/Function1;)V
+	public final fun setExitProcess (Lkotlin/jvm/functions/Function1;)V
 	public final fun setExpandArgumentFiles (Z)V
 	public final fun setHelpFormatter (Lkotlin/jvm/functions/Function1;)V
 	public final fun setHelpOptionNames (Ljava/lang/Iterable;)V
 	public final fun setLocalization (Lcom/github/ajalt/clikt/output/Localization;)V
-	public final fun setObj (Ljava/lang/Object;)V
 	public final fun setPrintExtraMessages (Z)V
 	public final fun setReadEnvvarBeforeValueSource (Z)V
-	public final fun setTerminal (Lcom/github/ajalt/mordant/terminal/Terminal;)V
 	public final fun setTokenTransformer (Lkotlin/jvm/functions/Function2;)V
 	public final fun setValueSource (Lcom/github/ajalt/clikt/sources/ValueSource;)V
 	public final fun valueSources ([Lcom/github/ajalt/clikt/sources/ValueSource;)V
@@ -298,9 +274,26 @@ public final class com/github/ajalt/clikt/core/ContextJvmKt {
 }
 
 public final class com/github/ajalt/clikt/core/ContextKt {
-	public static final fun getTheme (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/mordant/rendering/Theme;
+	public static final fun getObj (Lcom/github/ajalt/clikt/core/Context$Builder;)Ljava/lang/Object;
+	public static final fun getObj (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/Object;
 	public static final fun registerCloseable (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/AutoCloseable;)Ljava/lang/AutoCloseable;
 	public static final fun selfAndAncestors (Lcom/github/ajalt/clikt/core/Context;)Lkotlin/sequences/Sequence;
+	public static final fun setObj (Lcom/github/ajalt/clikt/core/Context$Builder;Ljava/lang/Object;)V
+	public static final fun setObj (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/Object;)V
+}
+
+public abstract class com/github/ajalt/clikt/core/CoreCliktCommand : com/github/ajalt/clikt/core/BaseCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public abstract fun run ()V
+}
+
+public final class com/github/ajalt/clikt/core/CoreCliktCommandKt {
+	public static final fun main (Lcom/github/ajalt/clikt/core/CoreCliktCommand;Ljava/util/List;)V
+	public static final fun main (Lcom/github/ajalt/clikt/core/CoreCliktCommand;[Ljava/lang/String;)V
+	public static final fun parse (Lcom/github/ajalt/clikt/core/CoreCliktCommand;Ljava/util/List;)V
+	public static final fun parse (Lcom/github/ajalt/clikt/core/CoreCliktCommand;[Ljava/lang/String;)V
 }
 
 public final class com/github/ajalt/clikt/core/FileNotFound : com/github/ajalt/clikt/core/UsageError {
@@ -368,13 +361,6 @@ public final class com/github/ajalt/clikt/core/MutuallyExclusiveGroupException :
 	public fun <init> (Ljava/util/List;)V
 	public fun formatMessage (Lcom/github/ajalt/clikt/output/Localization;Lcom/github/ajalt/clikt/output/ParameterFormatter;)Ljava/lang/String;
 	public final fun getNames ()Ljava/util/List;
-}
-
-public class com/github/ajalt/clikt/core/NoOpCliktCommand : com/github/ajalt/clikt/core/CliktCommand {
-	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun run ()V
 }
 
 public final class com/github/ajalt/clikt/core/NoSuchArgument : com/github/ajalt/clikt/core/UsageError {
@@ -450,6 +436,85 @@ public class com/github/ajalt/clikt/core/UsageError : com/github/ajalt/clikt/cor
 	public final fun getParamName ()Ljava/lang/String;
 	public fun setContext (Lcom/github/ajalt/clikt/core/Context;)V
 	public final fun setParamName (Ljava/lang/String;)V
+}
+
+public abstract class com/github/ajalt/clikt/output/AbstractHelpFormatter : com/github/ajalt/clikt/output/HelpFormatter {
+	public fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZ)V
+	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	protected abstract fun buildParameterList (Ljava/util/List;)Ljava/lang/Object;
+	protected fun collectHelpParts (Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/util/List;
+	protected fun collectParameterSections (Ljava/util/List;)Ljava/util/List;
+	protected final fun getContext ()Lcom/github/ajalt/clikt/core/Context;
+	protected final fun getLocalization ()Lcom/github/ajalt/clikt/output/Localization;
+	protected final fun getRequiredOptionMarker ()Ljava/lang/String;
+	protected final fun getShowDefaultValues ()Z
+	protected final fun getShowRequiredTag ()Z
+	protected fun joinNamesForOption (Ljava/lang/Iterable;)Ljava/lang/String;
+	protected fun normalizeParameter (Ljava/lang/String;)Ljava/lang/String;
+	protected fun numberOptionName (Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;)Ljava/lang/String;
+	protected fun parameterFormatter (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/clikt/output/ParameterFormatter;
+	protected fun renderArguments (Ljava/util/List;)Ljava/util/List;
+	protected fun renderAttachedOptionValue (Ljava/lang/String;)Ljava/lang/String;
+	protected fun renderCommands (Ljava/util/List;)Ljava/util/List;
+	protected abstract fun renderDefinitionDescription (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Ljava/lang/Object;
+	protected abstract fun renderDefinitionTerm (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Ljava/lang/Object;
+	protected abstract fun renderEpilog (Ljava/lang/String;)Ljava/lang/Object;
+	protected abstract fun renderError (Ljava/util/List;Lcom/github/ajalt/clikt/core/UsageError;)Ljava/lang/Object;
+	protected fun renderErrorString (Ljava/util/List;Lcom/github/ajalt/clikt/core/UsageError;)Ljava/lang/String;
+	protected fun renderOptionDefinition (Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;)Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;
+	protected abstract fun renderOptionGroup (Ljava/lang/String;Ljava/util/List;)Ljava/lang/Object;
+	protected fun renderOptionValue (Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;)Ljava/lang/String;
+	protected fun renderOptionalMetavar (Ljava/lang/String;)Ljava/lang/String;
+	protected fun renderOptions (Ljava/util/List;)Ljava/util/List;
+	protected fun renderParameterHelpText (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
+	protected abstract fun renderParameters (Ljava/util/List;)Ljava/lang/Object;
+	protected abstract fun renderProlog (Ljava/lang/String;)Ljava/lang/Object;
+	protected fun renderRepeatedMetavar (Ljava/lang/String;)Ljava/lang/String;
+	protected fun renderSectionTitle (Ljava/lang/String;)Ljava/lang/String;
+	protected fun renderTag (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	protected abstract fun renderUsage (Ljava/util/List;Ljava/lang/String;)Ljava/lang/Object;
+	protected fun renderUsageParametersString (Ljava/util/List;)Ljava/lang/String;
+	protected fun shouldShowTag (Ljava/lang/String;Ljava/lang/String;)Z
+	protected fun styleArgumentName (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleError (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleHelpTag (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleMetavar (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleOptionName (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleOptionalUsageParameter (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleRequiredMarker (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleRequiredUsageParameter (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleSectionTitle (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleSubcommandName (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleUsageTitle (Ljava/lang/String;)Ljava/lang/String;
+}
+
+protected final class com/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getMarker ()Ljava/lang/String;
+	public final fun getTerm ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+protected final class com/github/ajalt/clikt/output/AbstractHelpFormatter$RenderedSection {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Object;)Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$RenderedSection;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$RenderedSection;Ljava/lang/String;Ljava/lang/Object;ILjava/lang/Object;)Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$RenderedSection;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/Object;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class com/github/ajalt/clikt/output/HelpFormatter {
@@ -661,85 +726,6 @@ public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
 	public static fun usageTitle (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 }
 
-public class com/github/ajalt/clikt/output/MordantHelpFormatter : com/github/ajalt/clikt/output/HelpFormatter {
-	public fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZ)V
-	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	protected fun buildParameterList (Ljava/util/List;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun collectHelpParts (Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/util/List;
-	protected fun collectParameterSections (Ljava/util/List;)Ljava/util/List;
-	public fun formatHelp (Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;
-	protected final fun getContext ()Lcom/github/ajalt/clikt/core/Context;
-	protected final fun getGraphemeLength (Ljava/lang/String;)I
-	protected final fun getLocalization ()Lcom/github/ajalt/clikt/output/Localization;
-	protected final fun getRequiredOptionMarker ()Ljava/lang/String;
-	protected final fun getShowDefaultValues ()Z
-	protected final fun getShowRequiredTag ()Z
-	protected final fun getTheme ()Lcom/github/ajalt/mordant/rendering/Theme;
-	protected fun joinNamesForOption (Ljava/lang/Iterable;)Ljava/lang/String;
-	protected fun normalizeParameter (Ljava/lang/String;)Ljava/lang/String;
-	protected fun numberOptionName (Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;)Ljava/lang/String;
-	protected fun parameterFormatter (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/clikt/output/ParameterFormatter;
-	protected fun renderArguments (Ljava/util/List;)Ljava/util/List;
-	protected fun renderAttachedOptionValue (Ljava/lang/String;)Ljava/lang/String;
-	protected fun renderCommands (Ljava/util/List;)Ljava/util/List;
-	protected fun renderDefinitionDescription (Lcom/github/ajalt/clikt/output/MordantHelpFormatter$DefinitionRow;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderDefinitionTerm (Lcom/github/ajalt/clikt/output/MordantHelpFormatter$DefinitionRow;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderEpilog (Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderError (Ljava/util/List;Lcom/github/ajalt/clikt/core/UsageError;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderOptionGroup (Ljava/lang/String;Ljava/util/List;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderOptionValue (Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;)Ljava/lang/String;
-	protected fun renderOptionalMetavar (Ljava/lang/String;)Ljava/lang/String;
-	protected fun renderOptions (Ljava/util/List;)Ljava/util/List;
-	protected fun renderParameterHelpText (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
-	protected fun renderParameters (Ljava/util/List;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderProlog (Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun renderRepeatedMetavar (Ljava/lang/String;)Ljava/lang/String;
-	protected fun renderSectionTitle (Ljava/lang/String;)Ljava/lang/String;
-	protected fun renderTag (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	protected fun renderUsage (Ljava/util/List;Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
-	protected fun shouldShowTag (Ljava/lang/String;Ljava/lang/String;)Z
-	protected fun styleArgumentName (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleError (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleHelpTag (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleMetavar (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleOptionName (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleRequiredMarker (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleSectionTitle (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleSubcommandName (Ljava/lang/String;)Ljava/lang/String;
-	protected fun styleUsageTitle (Ljava/lang/String;)Ljava/lang/String;
-}
-
-protected final class com/github/ajalt/clikt/output/MordantHelpFormatter$DefinitionRow {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/github/ajalt/clikt/output/MordantHelpFormatter$DefinitionRow;
-	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/output/MordantHelpFormatter$DefinitionRow;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/output/MordantHelpFormatter$DefinitionRow;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDescription ()Ljava/lang/String;
-	public final fun getMarker ()Ljava/lang/String;
-	public final fun getTerm ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-protected final class com/github/ajalt/clikt/output/MordantHelpFormatter$RenderedSection {
-	public fun <init> (Lcom/github/ajalt/mordant/rendering/Widget;Lcom/github/ajalt/mordant/rendering/Widget;)V
-	public fun <init> (Ljava/lang/String;Lcom/github/ajalt/mordant/rendering/Widget;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Lcom/github/ajalt/mordant/rendering/Widget;
-	public final fun component2 ()Lcom/github/ajalt/mordant/rendering/Widget;
-	public final fun copy (Lcom/github/ajalt/mordant/rendering/Widget;Lcom/github/ajalt/mordant/rendering/Widget;)Lcom/github/ajalt/clikt/output/MordantHelpFormatter$RenderedSection;
-	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/output/MordantHelpFormatter$RenderedSection;Lcom/github/ajalt/mordant/rendering/Widget;Lcom/github/ajalt/mordant/rendering/Widget;ILjava/lang/Object;)Lcom/github/ajalt/clikt/output/MordantHelpFormatter$RenderedSection;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getContent ()Lcom/github/ajalt/mordant/rendering/Widget;
-	public final fun getTitle ()Lcom/github/ajalt/mordant/rendering/Widget;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public abstract interface class com/github/ajalt/clikt/output/ParameterFormatter {
 	public abstract fun formatArgument (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun formatOption (Ljava/lang/String;)Ljava/lang/String;
@@ -753,13 +739,19 @@ public final class com/github/ajalt/clikt/output/ParameterFormatter$Plain : com/
 	public fun formatSubcommand (Ljava/lang/String;)Ljava/lang/String;
 }
 
-public final class com/github/ajalt/clikt/output/TermUi {
-	public static final field INSTANCE Lcom/github/ajalt/clikt/output/TermUi;
-	public final fun editFile (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLjava/lang/String;)V
-	public static synthetic fun editFile$default (Lcom/github/ajalt/clikt/output/TermUi;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLjava/lang/String;ILjava/lang/Object;)V
-	public final fun editText (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLjava/lang/String;)Ljava/lang/String;
-	public static synthetic fun editText$default (Lcom/github/ajalt/clikt/output/TermUi;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLjava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
-	public final fun isWindows ()Z
+public final class com/github/ajalt/clikt/output/PlaintextHelpFormatter : com/github/ajalt/clikt/output/AbstractHelpFormatter {
+	public fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZ)V
+	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun buildParameterList (Ljava/util/List;)Ljava/lang/Object;
+	public fun formatHelp (Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;
+	public synthetic fun renderDefinitionDescription (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Ljava/lang/Object;
+	public synthetic fun renderDefinitionTerm (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Ljava/lang/Object;
+	public synthetic fun renderEpilog (Ljava/lang/String;)Ljava/lang/Object;
+	public synthetic fun renderError (Ljava/util/List;Lcom/github/ajalt/clikt/core/UsageError;)Ljava/lang/Object;
+	public synthetic fun renderOptionGroup (Ljava/lang/String;Ljava/util/List;)Ljava/lang/Object;
+	public synthetic fun renderParameters (Ljava/util/List;)Ljava/lang/Object;
+	public synthetic fun renderProlog (Ljava/lang/String;)Ljava/lang/Object;
+	public synthetic fun renderUsage (Ljava/util/List;Ljava/lang/String;)Ljava/lang/Object;
 }
 
 public abstract interface class com/github/ajalt/clikt/parameters/arguments/Argument {
@@ -995,8 +987,6 @@ public final class com/github/ajalt/clikt/parameters/options/FlagOptionKt {
 	public static final fun flag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun flag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun nullableFlag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun prompt (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Boolean;ZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static synthetic fun prompt$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Boolean;ZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun switch (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/util/Map;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun switch (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Lkotlin/Pair;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 }
@@ -1086,7 +1076,6 @@ public final class com/github/ajalt/clikt/parameters/options/OptionTransformCont
 	public fun getNvalues ()Lkotlin/ranges/IntRange;
 	public final fun getOption ()Lcom/github/ajalt/clikt/parameters/options/Option;
 	public fun getSecondaryNames ()Ljava/util/Set;
-	public final fun getTerminal ()Lcom/github/ajalt/mordant/terminal/Terminal;
 	public fun getValueSourceKey ()Ljava/lang/String;
 	public fun metavar (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
 	public fun optionHelp (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
@@ -1148,8 +1137,6 @@ public final class com/github/ajalt/clikt/parameters/options/OptionWithValuesKt 
 	public static final fun optionalValueLazy (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;ZLkotlin/jvm/functions/Function0;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun optionalValueLazy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;ZLkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun pair (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun prompt (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Object;ZLjava/lang/String;ZZLjava/lang/String;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static synthetic fun prompt$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Object;ZLjava/lang/String;ZZLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun required (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun split (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun split (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/text/Regex;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
@@ -1210,8 +1197,6 @@ public abstract interface class com/github/ajalt/clikt/parameters/transform/Tran
 }
 
 public final class com/github/ajalt/clikt/parameters/transform/TransformContextKt {
-	public static final fun getTerminal (Lcom/github/ajalt/clikt/parameters/transform/TransformContext;)Lcom/github/ajalt/mordant/terminal/Terminal;
-	public static final fun getTheme (Lcom/github/ajalt/clikt/parameters/transform/TransformContext;)Lcom/github/ajalt/mordant/rendering/Theme;
 	public static final fun message (Lcom/github/ajalt/clikt/parameters/transform/TransformContext;Ljava/lang/String;)V
 }
 
@@ -1422,35 +1407,5 @@ public final class com/github/ajalt/clikt/sources/ValueSource$Invocation {
 public final class com/github/ajalt/clikt/sources/ValueSource$Invocation$Companion {
 	public final fun just (Ljava/lang/Object;)Ljava/util/List;
 	public final fun value (Ljava/lang/Object;)Lcom/github/ajalt/clikt/sources/ValueSource$Invocation;
-}
-
-public final class com/github/ajalt/clikt/testing/CliktCommandTestResult {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()I
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getOutput ()Ljava/lang/String;
-	public final fun getStatusCode ()I
-	public final fun getStderr ()Ljava/lang/String;
-	public final fun getStdout ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/github/ajalt/clikt/testing/CliktTestingKt {
-	public static final fun test (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/jvm/functions/Function1;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static final fun test (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static final fun test (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static final fun test (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static final fun varargTest (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
-	public static synthetic fun varargTest$default (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
 }
 

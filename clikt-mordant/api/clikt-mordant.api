@@ -1,0 +1,131 @@
+public abstract class com/github/ajalt/clikt/command/ChainedCliktCommand : com/github/ajalt/clikt/command/CoreChainedCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/github/ajalt/clikt/command/ChainedCliktCommandKt {
+	public static final fun test (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static final fun test (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static final fun test (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/ChainedCliktCommand;[Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+}
+
+public abstract class com/github/ajalt/clikt/command/SuspendingCliktCommand : com/github/ajalt/clikt/command/CoreSuspendingCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/github/ajalt/clikt/command/SuspendingCliktCommandKt {
+	public static final fun test (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun test (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun test (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract class com/github/ajalt/clikt/core/CliktCommand : com/github/ajalt/clikt/core/CoreCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/github/ajalt/clikt/core/MordantContextKt {
+	public static final fun getTerminal (Lcom/github/ajalt/clikt/core/BaseCliktCommand;)Lcom/github/ajalt/mordant/terminal/Terminal;
+	public static final fun getTerminal (Lcom/github/ajalt/clikt/core/Context$Builder;)Lcom/github/ajalt/mordant/terminal/Terminal;
+	public static final fun getTerminal (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/mordant/terminal/Terminal;
+	public static final fun getTheme (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/mordant/rendering/Theme;
+	public static final fun installMordant (Lcom/github/ajalt/clikt/core/BaseCliktCommand;)V
+	public static final fun setTerminal (Lcom/github/ajalt/clikt/core/Context$Builder;Lcom/github/ajalt/mordant/terminal/Terminal;)V
+}
+
+public class com/github/ajalt/clikt/core/NoOpCliktCommand : com/github/ajalt/clikt/core/CliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun run ()V
+}
+
+public class com/github/ajalt/clikt/output/MordantHelpFormatter : com/github/ajalt/clikt/output/AbstractHelpFormatter {
+	public fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZ)V
+	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	protected fun buildParameterList (Ljava/util/List;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun buildParameterList (Ljava/util/List;)Ljava/lang/Object;
+	public fun formatHelp (Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;
+	protected final fun getTheme ()Lcom/github/ajalt/mordant/rendering/Theme;
+	protected fun normalizeParameter (Ljava/lang/String;)Ljava/lang/String;
+	protected fun renderDefinitionDescription (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderDefinitionDescription (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Ljava/lang/Object;
+	protected fun renderDefinitionTerm (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderDefinitionTerm (Lcom/github/ajalt/clikt/output/AbstractHelpFormatter$DefinitionRow;)Ljava/lang/Object;
+	protected fun renderEpilog (Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderEpilog (Ljava/lang/String;)Ljava/lang/Object;
+	protected fun renderError (Ljava/util/List;Lcom/github/ajalt/clikt/core/UsageError;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderError (Ljava/util/List;Lcom/github/ajalt/clikt/core/UsageError;)Ljava/lang/Object;
+	protected fun renderOptionGroup (Ljava/lang/String;Ljava/util/List;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderOptionGroup (Ljava/lang/String;Ljava/util/List;)Ljava/lang/Object;
+	protected fun renderParameters (Ljava/util/List;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderParameters (Ljava/util/List;)Ljava/lang/Object;
+	protected fun renderProlog (Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderProlog (Ljava/lang/String;)Ljava/lang/Object;
+	protected fun renderUsage (Ljava/util/List;Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
+	public synthetic fun renderUsage (Ljava/util/List;Ljava/lang/String;)Ljava/lang/Object;
+	protected fun styleArgumentName (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleError (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleHelpTag (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleMetavar (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleOptionName (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleOptionalUsageParameter (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleRequiredMarker (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleSectionTitle (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleSubcommandName (Ljava/lang/String;)Ljava/lang/String;
+	protected fun styleUsageTitle (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/github/ajalt/clikt/parameters/options/PromptOptionsKt {
+	public static final fun prompt (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Boolean;ZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun prompt (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Object;ZLjava/lang/String;ZZLjava/lang/String;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun prompt$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Boolean;ZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun prompt$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Ljava/lang/Object;ZLjava/lang/String;ZZLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+}
+
+public final class com/github/ajalt/clikt/parameters/transform/MordantTransformContextKt {
+	public static final fun getTerminal (Lcom/github/ajalt/clikt/parameters/options/OptionTransformContext;)Lcom/github/ajalt/mordant/terminal/Terminal;
+	public static final fun getTerminal (Lcom/github/ajalt/clikt/parameters/transform/TransformContext;)Lcom/github/ajalt/mordant/terminal/Terminal;
+	public static final fun getTheme (Lcom/github/ajalt/clikt/parameters/transform/TransformContext;)Lcom/github/ajalt/mordant/rendering/Theme;
+}
+
+public final class com/github/ajalt/clikt/testing/CliktCommandTestResult {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()I
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getOutput ()Ljava/lang/String;
+	public final fun getStatusCode ()I
+	public final fun getStderr ()Ljava/lang/String;
+	public final fun getStdout ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/ajalt/clikt/testing/CliktTestingKt {
+	public static final fun test (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/jvm/functions/Function1;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static final fun test (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static final fun test (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static final fun test (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/CliktCommand;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun test$default (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static final fun varargTest (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;II)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+	public static synthetic fun varargTest$default (Lcom/github/ajalt/clikt/core/CliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIILjava/lang/Object;)Lcom/github/ajalt/clikt/testing/CliktCommandTestResult;
+}
+

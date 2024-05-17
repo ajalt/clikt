@@ -8,7 +8,7 @@ mordant = "com.github.ajalt.mordant:mordant:2.6.0"
 # used in tests
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-kotest =  "io.kotest:kotest-assertions-core:5.9.0.1440-SNAPSHOT"
+kotest =  "io.kotest:kotest-assertions-core:5.9.0"
 systemrules = "com.github.stefanbirkner:system-rules:1.19.0"
 jimfs = "com.google.jimfs:jimfs:1.3.0"
 

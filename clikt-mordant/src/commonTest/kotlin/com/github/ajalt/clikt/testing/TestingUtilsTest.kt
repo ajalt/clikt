@@ -1,7 +1,9 @@
 package com.github.ajalt.clikt.testing
 
+import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
+import com.github.ajalt.mordant.rendering.AnsiLevel
 import io.kotest.matchers.shouldBe
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -69,5 +71,31 @@ class TestingUtilsTest {
         result.stderr shouldBe "err\n"
         result.output shouldBe "O1: O2: err\n"
         result.statusCode shouldBe 0
+    }
+
+    @Test
+    @JsName("test_TerminalInfo_configuration")
+    fun `test TerminalInfo configuration`() {
+        class C : TestCommand() {
+            override fun run_() {
+                with(currentContext.terminal.info) {
+                    ansiLevel shouldBe AnsiLevel.NONE
+                    width shouldBe 11
+                    height shouldBe 22
+                    ansiHyperLinks shouldBe true
+                    outputInteractive shouldBe true
+                    inputInteractive shouldBe true
+                }
+            }
+        }
+        C().test(
+            "",
+            ansiLevel = AnsiLevel.NONE,
+            width = 11,
+            height = 22,
+            hyperlinks = true,
+            outputInteractive = true,
+            inputInteractive = true,
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.command
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.installMordant
 import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.clikt.testing.CliktCommandTestResult
 import com.github.ajalt.clikt.testing.test
@@ -24,8 +25,8 @@ abstract class SuspendingCliktCommand(
 /**
  * Test this command, returning a result that captures the output and result status code.
  *
- * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed with [print] or
- * [println] is not.
+ * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed
+ * with [print] or [println] is not.
  *
  * @param argv The command line to send to the command
  * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
@@ -35,6 +36,9 @@ abstract class SuspendingCliktCommand(
  * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
+ * @param hyperlinks Whether to enable hyperlink support in the terminal
+ * @param outputInteractive Whether the output is interactive
+ * @param inputInteractive Whether the input is interactive
  */
 suspend fun SuspendingCliktCommand.test(
     argv: String,
@@ -44,16 +48,22 @@ suspend fun SuspendingCliktCommand.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
+    hyperlinks: Boolean = ansiLevel != AnsiLevel.NONE,
+    outputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
+    inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
 ): CliktCommandTestResult {
     val argvArray = CommandLineParser.tokenize(argv)
-    return test(argvArray, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
+    return test(
+        argvArray, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
+        hyperlinks, outputInteractive, inputInteractive
+    )
 }
 
 /**
  * Test this command, returning a result that captures the output and result status code.
  *
- * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed with [print] or
- * [println] is not.
+ * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed
+ * with [print] or [println] is not.
  *
  * @param argv The command line to send to the command
  * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
@@ -63,6 +73,9 @@ suspend fun SuspendingCliktCommand.test(
  * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
+ * @param hyperlinks Whether to enable hyperlink support in the terminal
+ * @param outputInteractive Whether the output is interactive
+ * @param inputInteractive Whether the input is interactive
  */
 suspend fun SuspendingCliktCommand.test(
     argv: Array<String>,
@@ -72,15 +85,21 @@ suspend fun SuspendingCliktCommand.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
+    hyperlinks: Boolean = ansiLevel != AnsiLevel.NONE,
+    outputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
+    inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
 ): CliktCommandTestResult {
-    return test(argv.asList(), stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
+    return test(
+        argv.asList(), stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
+        hyperlinks, outputInteractive, inputInteractive
+    )
 }
 
 /**
  * Test this command, returning a result that captures the output and result status code.
  *
- * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed with [print] or
- * [println] is not.
+ * Note that only output printed with [echo][CliktCommand.echo] will be captured. Anything printed
+ * with [print] or [println] is not.
  *
  * @param argv The command line to send to the command
  * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
@@ -90,6 +109,9 @@ suspend fun SuspendingCliktCommand.test(
  * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
+ * @param hyperlinks Whether to enable hyperlink support in the terminal
+ * @param outputInteractive Whether the output is interactive
+ * @param inputInteractive Whether the input is interactive
  */
 suspend fun SuspendingCliktCommand.test(
     argv: List<String>,
@@ -99,8 +121,12 @@ suspend fun SuspendingCliktCommand.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
+    hyperlinks: Boolean = ansiLevel != AnsiLevel.NONE,
+    outputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
+    inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
 ): CliktCommandTestResult {
-    return test(argv, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height) {
-        parse(it)
-    }
+    return test(
+        argv, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
+        hyperlinks, outputInteractive, inputInteractive
+    ) { parse(it) }
 }

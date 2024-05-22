@@ -87,27 +87,24 @@ class CommandLineParseResult<T : BaseCliktCommand<T>>(
  * ### Example
  *
  * ```
- * val invocations = rootInvocation.flatten()
- * try {
- *   for (inv in invocations) {
- *     run(inv.command)
- *   }
- * } finally {
- *   invocations.close()
+ * rootInvocation.flatten().use { invocations ->
+ *     for (invocation in invocations) {
+ *         runCommand(invocation.command)
+ *     }
  * }
  * ```
  *
- * @param finalize If true (the default), finalize all commands as they are emitted in the sequence. If false, you
- * must call [CommandLineParser.finalize] on each invocation yourself before running the command.
+ * @param finalize If true (the default), finalize all commands as they are emitted in the sequence.
+ *   If false, you must call [CommandLineParser.finalize] on each invocation yourself before running
+ *   the command.
  */
 fun <T : BaseCliktCommand<T>> CommandInvocation<T>.flatten(finalize: Boolean = true): FlatInvocations<T> {
     return FlatInvocations(this, finalize)
 }
 
-// TODO: this should be an AutoClosable once that interface is stable
 class FlatInvocations<T : BaseCliktCommand<T>> internal constructor(
     root: CommandInvocation<T>, private val finalize: Boolean,
-) : Sequence<CommandInvocation<T>> {
+) : Sequence<CommandInvocation<T>>, AutoCloseable {
     private val closables = mutableListOf<Context>()
     private val seq = sequence {
         suspend fun SequenceScope<CommandInvocation<T>>.yieldSubs(inv: CommandInvocation<T>) {
@@ -126,7 +123,7 @@ class FlatInvocations<T : BaseCliktCommand<T>> internal constructor(
     /**
      * [Close][Context.close] all open contexts of invoked commands.
      */
-    fun close() {
+    override fun close() {
         closables.forEach { it.close() }
     }
 }

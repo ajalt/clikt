@@ -1333,8 +1333,8 @@ public final class com/github/ajalt/clikt/parsers/CommandLineParser {
 	public static synthetic fun tokenize$default (Lcom/github/ajalt/clikt/parsers/CommandLineParser;Ljava/lang/String;Ljava/lang/String;Lcom/github/ajalt/clikt/output/Localization;ILjava/lang/Object;)Ljava/util/List;
 }
 
-public final class com/github/ajalt/clikt/parsers/FlatInvocations : kotlin/sequences/Sequence {
-	public final fun close ()V
+public final class com/github/ajalt/clikt/parsers/FlatInvocations : java/lang/AutoCloseable, kotlin/sequences/Sequence {
+	public fun close ()V
 	public fun iterator ()Ljava/util/Iterator;
 }
 

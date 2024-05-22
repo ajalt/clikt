@@ -489,7 +489,7 @@ soon as one of them returns a non-zero status code, you could implement it like 
     abstract class StatusCliktCommand : BaseCliktCommand<StatusCliktCommand>() {
         abstract fun run(): Int
     }
-    
+
     class ParentCommand : StatusCliktCommand() {
         override val allowMultipleSubcommands: Boolean = true
         override fun run(): Int {
@@ -497,37 +497,39 @@ soon as one of them returns a non-zero status code, you could implement it like 
             return 0
         }
     }
-    
+
     class SuccessCommand : StatusCliktCommand() {
         override fun run(): Int {
             echo("Success")
             return 0
         }
     }
-    
+
     class FailureCommand : StatusCliktCommand() {
         override fun run(): Int {
             echo("Failure")
             return 1001
         }
     }
-    
+
     fun StatusCliktCommand.parse(argv: Array<String>): Int {
         val parseResult = CommandLineParser.parse(this, argv.asList())
-        for (invocation in parseResult.invocation.flatten()) {
-            val status = invocation.command.run()
-            if (status != 0) {
-                return status
+        parseResult.invocation.flatten().use { invocations ->
+            for (invocation in invocations) {
+                val status = invocation.command.run()
+                if (status != 0) {
+                    return status
+                }
             }
         }
         return 0
     }
-    
+
     fun StatusCliktCommand.main(argv: Array<String>) {
         val status = CommandLineParser.mainReturningValue(this) { parse(argv) }
-        CliktUtil.exitProcess(status)
+        exitProcess(status)
     }
-    
+
     fun main(argv: Array<String>) {
         ParentCommand().subcommands(SuccessCommand(), FailureCommand()).main(argv)
     }

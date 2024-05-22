@@ -124,7 +124,6 @@ class ContextTest {
     }
 
     @Test
-    @OptIn(ExperimentalStdlibApi::class)
     @JsName("register_closeable_multiple_subcommands")
     fun `register closeable multiple subcommands`() {
         var parentCount = 0

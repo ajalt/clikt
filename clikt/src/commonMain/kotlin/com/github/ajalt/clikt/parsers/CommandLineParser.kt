@@ -87,13 +87,10 @@ object CommandLineParser {
         rootInvocation: CommandInvocation<T>,
         runCommand: (T) -> Unit,
     ) {
-        val invocations = rootInvocation.flatten()
-        try {
+        rootInvocation.flatten().use { invocations ->
             for (invocation in invocations) {
                 runCommand(invocation.command)
             }
-        } finally {
-            invocations.close()
         }
     }
 

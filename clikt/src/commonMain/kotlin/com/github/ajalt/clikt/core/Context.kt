@@ -427,7 +427,6 @@ class Context private constructor(
  * @return the closeable that was registered
  * @see Context.callOnClose
  */
-@ExperimentalStdlibApi
 fun <T : AutoCloseable> Context.registerCloseable(closeable: T): T {
     callOnClose { closeable.close() }
     return closeable

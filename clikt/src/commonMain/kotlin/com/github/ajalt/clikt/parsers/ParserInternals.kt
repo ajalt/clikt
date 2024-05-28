@@ -94,6 +94,18 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             val tok = tokens[i]
             val normTok = context.tokenTransformer(context, tok)
             val prefix = splitOptionPrefix(tok).first
+
+            val quote_pair_matches = command.argumentQuoteCharacterPairs.any { pair ->
+                tok.startsWith(pair.first) && tok.endsWith(pair.second)
+            }
+
+            if (quote_pair_matches) {
+                if (!context.allowInterspersedArgs) canParseOptions = false
+                argumentTokens += tok.substring(1, tok.length - 1) // arguments aren't transformed
+                i += 1
+                continue
+            }
+
             when {
                 canExpandAtFiles
                         && tok.startsWith("@")
@@ -105,6 +117,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
                         insertTokens(loadArgFile(normTok.drop(1), context))
                     }
                 }
+
 
                 canParseOptions
                         && tok == "--" -> {

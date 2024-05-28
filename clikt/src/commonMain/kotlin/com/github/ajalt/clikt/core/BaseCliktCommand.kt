@@ -92,6 +92,13 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
     open val treatUnknownOptionsAsArgs: Boolean = false
 
     /**
+     * Command-line arguments with first and last characters matching one of these pairs will
+     * always be interpreted as an argument, even if matching an option. The first and last
+     * characters will be removed in the final argument. Use to pass arguments beginning with '-'
+     */
+    open val argumentQuoteCharacterPairs: List<Pair<Char, Char>> = emptyList()
+
+    /**
      * If true, don't display this command in help output when used as a subcommand.
      */
     open val hiddenFromHelp: Boolean = false

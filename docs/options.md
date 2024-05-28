@@ -263,7 +263,7 @@ You can create options that take zero or one values with [`optionalValue`][optio
 
 ### Options With a Variable Number of Values
 
-If you want your option to take a variable number of values, but want to split the value on whitespace 
+If you want your option to take a variable number of values, but want to split the value on whitespace
 [rather than a delimiter](#splitting-an-option-value-on-a-delimiter), you can use
 [`varargValues`][varargValues].
 
@@ -731,7 +731,7 @@ this by passing `acceptsValueWithoutName=true` to `int()` or `long()`.
     class Tool : CliktCommand() {
         val level by option("-l", "--level", metavar = "<number>")
             .int(acceptsValueWithoutName = true)
-    
+
         override fun run() {
             echo("Level: $level")
         }
@@ -754,7 +754,7 @@ this by passing `acceptsValueWithoutName=true` to `int()` or `long()`.
     ```text
     $ ./tool --help
     Usage: tool [<options>]
-    
+
     Options:
     -<number>, -l, --level <number>
     -h, --help             Show this message and exit
@@ -994,6 +994,47 @@ You'll often want to set [`allowInterspersedArgs = false`][allowInterspersedArgs
 when using `treatUnknownOptionsAsArgs`. You may also find that subcommands are a better fit than
 `treatUnknownOptionsAsArgs` for your use case.
 
+## Passing arguments matching options
+
+To explicitly pass strings beginning with '-' as arguments instead of them being interpreted as options, add a quote character pair to `argumentQuoteCharacterPairs`. If an input begins and ends with a pair's characters, it will be used as an argument with the quote characters removed.
+
+=== "Example"
+    ```kotlin
+    class Echo : CliktCommand() {
+        override val argumentQuoteCharacterPairs = listOf(Pair('"', '"'))
+
+        val disable by option(help = "Disable").flag()
+        val argument by argument().optional()
+
+        override fun run() {
+            if (disable) {
+                echo("Disabled")
+                return
+            }
+
+            echo(argument)
+        }
+    }
+    ```
+
+=== "Usage 1"
+    ```text
+    $ ./echo --disable
+    Disabled
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./echo "--disable" # Most shells will remove quotes, so they must be escaped
+    Disabled
+    ```
+
+=== "Usage 3"
+    ```text
+    $ ./echo \"--disable\"
+    --disable
+    ```
+
 ## Values From Environment Variables
 
 Clikt supports reading option values from environment variables if they
@@ -1201,7 +1242,7 @@ options:
 Clikt has a large number of extension functions that can modify options. When applying multiple
 functions to the same option, there's only one valid order for the functions to be applied. For
 example, `option().default(3).int()` will not compile, because [`default`][default] must be applied
-after the value type conversion. 
+after the value type conversion.
 
 You can call [`convert`][convert] multiple times, but you can only apply one transform of each other
 type. So `option().default("").multiple()` is invalid, since [`default`][default] and

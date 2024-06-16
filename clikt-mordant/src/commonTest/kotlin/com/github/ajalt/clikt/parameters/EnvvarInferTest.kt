@@ -24,7 +24,7 @@ class EnvvarInferTest {
             init {
                 context {
                     // Return the key as the value of the envvar
-                    envvarReader = { it }
+                    readEnvvar = { it }
                     autoEnvvarPrefix = prefix
                 }
             }

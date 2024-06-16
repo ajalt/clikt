@@ -833,7 +833,7 @@ class OptionTest {
             }
         }
 
-        C().context { tokenTransformer = { it.lowercase() } }.parse(argv)
+        C().context { transformToken = { it.lowercase() } }.parse(argv)
     }
 
     @Test
@@ -849,7 +849,7 @@ class OptionTest {
             }
         }
 
-        C().context { tokenTransformer = { "--xx" } }.parse(argv)
+        C().context { transformToken = { "--xx" } }.parse(argv)
     }
 
     @Test

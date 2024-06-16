@@ -16,7 +16,7 @@ import kotlin.test.Test
 
 class AtFileTest {
     private fun <T : CliktCommand> T.withAtFiles(vararg content: Pair<String, String>): T {
-        return context { argumentFileReader = { content.toMap().getValue(it).trimMargin() } }
+        return context { readArgumentFile = { content.toMap().getValue(it).trimMargin() } }
     }
 
     @Test
@@ -157,7 +157,7 @@ class AtFileTest {
         class C : TestCommand() {
             init {
                 context {
-                    argumentFileReader = null
+                    readArgumentFile = null
                 }
             }
 

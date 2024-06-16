@@ -12,8 +12,8 @@ import com.github.ajalt.clikt.parsers.CommandLineParser
  * By default, this class doesn't support and text formatting or wrapping, and it doesn't support
  * environment variables, arg files, exit status codes, or printing to stderr. Although you can use
  * this class without those features, if you need then you can set a custom [Context.helpFormatter],
- * [Context.argumentFileReader], [Context.Builder.envvarReader], [Context.exitProcess], or
- * [Context.echoer].
+ * [Context.readArgumentFile], [Context.Builder.readEnvvar], [Context.exitProcess], or
+ * [Context.echoMessage].
  *
  * ### Example
  *

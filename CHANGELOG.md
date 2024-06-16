@@ -44,6 +44,14 @@
 ### Deprecated
 - Deprecated `Context.originalArgv`. It will now always return an empty list. If your commands need an argv, you can pass it to them before you run them, or set in on the new `Context.data` map.
 - Deprecated `Context.expandArgumentFiles`. Use `Context.argumentFileReader` instead.
+- Renamed the following `Context` fields to be more consistent. The old names are deprecated.
+
+| old name                      | new name                        |
+|-------------------------------|---------------------------------|
+| `Context.envvarReader`        | `Context.readEnvvar`            |
+| `Context.correctionSuggestor` | `Context.suggestTypoCorrection` |
+| `Context.argumentFileReader`  | `Context.readArgumentFile`      |
+| `Context.tokenTransformer`    | `Context.transformToken`        |
 
 ### Removed
 - Removed previously deprecated experimental annotations.

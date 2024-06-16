@@ -51,10 +51,10 @@ fun BaseCliktCommand<*>.installMordant() {
         // settings.
         if (parent != null) return@configureContext
         helpFormatter = { MordantHelpFormatter(it) }
-        envvarReader = { MultiplatformSystem.readEnvironmentVariable(it) }
-        argumentFileReader = { MultiplatformSystem.readFileAsUtf8(it) ?: throw FileNotFound(it) }
+        readEnvvar = { MultiplatformSystem.readEnvironmentVariable(it) }
+        readArgumentFile = { MultiplatformSystem.readFileAsUtf8(it) ?: throw FileNotFound(it) }
         exitProcess = { MultiplatformSystem.exitProcess(it) }
-        echoer = { context: Context, message: Any?, trailingNewline: Boolean, err: Boolean ->
+        echoMessage = { context: Context, message: Any?, trailingNewline: Boolean, err: Boolean ->
             if (trailingNewline) {
                 context.terminal.println(message, stderr = err)
             } else {

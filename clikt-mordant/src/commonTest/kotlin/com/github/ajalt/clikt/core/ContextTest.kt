@@ -206,7 +206,7 @@ class ContextTest {
             init {
                 context {
                     exitProcess = { status = it }
-                    echoer = { _, _, _, _ -> }
+                    echoMessage = { _, _, _, _ -> }
                 }
             }
         }

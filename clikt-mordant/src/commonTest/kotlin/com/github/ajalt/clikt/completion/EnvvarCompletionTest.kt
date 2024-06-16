@@ -24,7 +24,7 @@ class EnvvarCompletionTest {
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
             init {
                 context {
-                    envvarReader = mapOf("TEST_COMPLETE" to shell)::get
+                    readEnvvar = mapOf("TEST_COMPLETE" to shell)::get
                 }
             }
         }

@@ -70,7 +70,7 @@ class CommandLineParseResult<T : BaseCliktCommand<T>>(
      */
     val originalArgv: List<String>,
     /**
-     * The full argv after expanding any [argument file tokens][Context.argumentFileReader] or
+     * The full argv after expanding any [argument file tokens][Context.readArgumentFile] or
      * [aliases][BaseCliktCommand.aliases].
      */
     val expandedArgv: List<String>,

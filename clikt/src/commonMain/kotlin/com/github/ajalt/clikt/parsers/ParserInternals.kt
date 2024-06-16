@@ -92,7 +92,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
     private fun consumeTokens() {
         while (i <= tokens.lastIndex) {
             val tok = tokens[i]
-            val normTok = context.tokenTransformer(context, tok)
+            val normTok = context.transformToken(context, tok)
             val prefix = splitOptionPrefix(tok).first
             when {
                 canExpandAtFiles
@@ -189,12 +189,12 @@ private class CommandParser<T : BaseCliktCommand<T>>(
         if ("=" !in token) return false
         if (prefix.isEmpty()) return false
         if (prefix.length > 1) return true
-        if (context.tokenTransformer(
+        if (context.transformToken(
                 context,
                 token.substringBefore("=")
             ) in longNames
         ) return true
-        return context.tokenTransformer(context, token.take(2)) !in optionsByName
+        return context.transformToken(context, token.take(2)) !in optionsByName
     }
 
     private fun consumeOptionParse(result: OptParseResult) {
@@ -223,11 +223,11 @@ private class CommandParser<T : BaseCliktCommand<T>>(
         } else {
             tok to null
         }
-        name = context.tokenTransformer(context, name)
+        name = context.transformToken(context, name)
         val option = optionsByName[name] ?: if (command.treatUnknownOptionsAsArgs) {
             return OptParseResult(1, listOf(tok))
         } else {
-            val possibilities = context.correctionSuggestor(
+            val possibilities = context.suggestTypoCorrection(
                 name,
                 optionsByName.filterNot { it.value.hidden }.keys.toList()
             )
@@ -249,7 +249,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
         for ((i, opt) in tok.withIndex()) {
             if (i == 0) continue // skip the dash
 
-            val name = context.tokenTransformer(context, prefix + opt)
+            val name = context.transformToken(context, prefix + opt)
             val option = optionsByName[name] ?: if (command.treatUnknownOptionsAsArgs) {
                 return OptParseResult(1, unknown = listOf(tok))
             } else {
@@ -336,7 +336,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             excessCount == 0 -> {}
             excessCount == 1 && localSubcommands.isNotEmpty() -> {
                 val actual = argumentTokens.last()
-                val possibilities = command.currentContext.correctionSuggestor(
+                val possibilities = command.currentContext.suggestTypoCorrection(
                     actual, localSubcommands.keys.toList()
                 )
                 errors += NoSuchSubcommand(actual, possibilities)
@@ -351,7 +351,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
 
 
 private fun loadArgFile(filename: String, context: Context): List<String> {
-    return shlex(filename, context.argumentFileReader!!(filename), context.localization)
+    return shlex(filename, context.readArgumentFile!!(filename), context.localization)
 }
 
 private data class CommandParseResult<T : BaseCliktCommand<T>>(

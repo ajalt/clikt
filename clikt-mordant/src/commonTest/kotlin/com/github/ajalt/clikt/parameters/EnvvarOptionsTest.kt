@@ -20,7 +20,7 @@ import kotlin.test.Test
 
 class EnvvarOptionsTest {
     private fun <T : CliktCommand> T.withEnv(vararg entries: Pair<String, String?>): T {
-        return context { envvarReader = { entries.toMap()[it] } }
+        return context { readEnvvar = { entries.toMap()[it] } }
     }
 
     @Test

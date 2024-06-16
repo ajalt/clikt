@@ -9,7 +9,7 @@ import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.ReadOnlyProperty
 
 typealias TypoSuggestor = (enteredValue: String, possibleValues: List<String>) -> List<String>
-typealias TerminalEchoer = (context: Context, message: Any?, trailingNewline: Boolean, err: Boolean) -> Unit
+typealias MessageEchoer = (context: Context, message: Any?, trailingNewline: Boolean, err: Boolean) -> Unit
 
 /**
  * An object used to control command line parsing and pass data between commands.
@@ -59,12 +59,12 @@ class Context private constructor(
      * An optional transformation function that is called to transform command line tokens (options
      * and commands) before parsing. This can be used to implement e.g. case-insensitive behavior.
      */
-    val tokenTransformer: Context.(String) -> String,
+    val transformToken: Context.(String) -> String,
 
     /**
      * A block that returns the content of an argument file for a given filename.
      */
-    var argumentFileReader: ((filename: String) -> String)?,
+    var readArgumentFile: ((filename: String) -> String)?,
     /**
      * If `false`,the [valueSource] is searched before environment variables.
      *
@@ -82,7 +82,7 @@ class Context private constructor(
      * takes the entered name and a list of all registered names option/subcommand names and filters
      * the list down to values to suggest to the user.
      */
-    val correctionSuggestor: TypoSuggestor,
+    val suggestTypoCorrection: TypoSuggestor,
     /**
      * Localized strings to use for help output and error reporting.
      */
@@ -106,7 +106,7 @@ class Context private constructor(
     /**
      * The terminal echoer to use for output.
      */
-    val echoer: TerminalEchoer,
+    val echoMessage: MessageEchoer,
 
     /**
      * The function to call to exit the process with a status code.
@@ -220,13 +220,27 @@ class Context private constructor(
      * If true, arguments starting with `@` will be expanded as argument files. If false, they
      * will be treated as normal arguments.
      */
-    val expandArgumentFiles: Boolean get() = argumentFileReader != null
+    val expandArgumentFiles: Boolean get() = readArgumentFile != null
 
     /**
      * The original command line arguments.
      */
     @Deprecated("This property is deprecated and will be removed in the future. It will now always return an empty list. If your commands need an argv, you can pass it to them before they are run.")
     val originalArgv: List<String> = emptyList()
+
+    @Suppress("unused")
+    @Deprecated("Renamed to transformToken", ReplaceWith("transformToken"))
+    val tokenTransformer: Context.(String) -> String
+        get() = transformToken
+
+    @Suppress("unused")
+    @Deprecated("Renamed to readArgumentFile", ReplaceWith("readArgumentFile"))
+    val argumentFileReader: ((filename: String) -> String)?
+        get() = readArgumentFile
+
+    @Deprecated("Renamed to suggestTypoCorrection", ReplaceWith("suggestTypoCorrection"))
+    val correctionSuggestor: TypoSuggestor
+        get() = suggestTypoCorrection
 
     override fun toString(): String {
         return "Context(command=${command.commandName}, parent=${parent?.command?.commandName})"
@@ -266,7 +280,15 @@ class Context private constructor(
         var helpFormatter: ((Context) -> HelpFormatter)? = parent?.helpFormatter
 
         /** An optional transformation function that is called to transform command line */
-        var tokenTransformer: Context.(String) -> String = parent?.tokenTransformer ?: { it }
+        var transformToken: Context.(String) -> String = parent?.transformToken ?: { it }
+
+        @Suppress("unused")
+        @Deprecated("Renamed to transformToken", ReplaceWith("transformToken"))
+        var tokenTransformer: Context.(String) -> String
+            get() = transformToken
+            set(value) {
+                transformToken = value
+            }
 
         /**
          * The prefix to add to inferred envvar names.
@@ -282,10 +304,10 @@ class Context private constructor(
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
-        @Suppress("UNUSED_PARAMETER")
-        @Deprecated("This property is deprecated and will be removed in the future. Setting it no longer has any effect. Set argumentFileReader instead.")
+        @Suppress("unused", "UNUSED_PARAMETER")
+        @Deprecated("This property is deprecated and will be removed in the future. Setting it no longer has any effect. Set readArgumentFile instead.")
         var expandArgumentFiles: Boolean
-            get() = argumentFileReader == null
+            get() = readArgumentFile == null
             set(value) {}
 
         /**
@@ -295,7 +317,15 @@ class Context private constructor(
          *
          * The block should throw [FileNotFound] if the given `filename` cannot be read.
          */
-        var argumentFileReader: ((filename: String) -> String)? = null
+        var readArgumentFile: ((filename: String) -> String)? = null
+
+        @Suppress("unused")
+        @Deprecated("Renamed to readArgumentFile", ReplaceWith("readArgumentFile"))
+        var argumentFileReader: ((filename: String) -> String)?
+            get() = readArgumentFile
+            set(value) {
+                readArgumentFile = value
+            }
 
         /**
          * If `false`,the [valueSource] is searched before environment variables.
@@ -329,7 +359,15 @@ class Context private constructor(
          * takes the entered name and a list of all registered names option/subcommand names and
          * filters the list down to values to suggest to the user.
          */
-        var correctionSuggestor: TypoSuggestor = DEFAULT_CORRECTION_SUGGESTOR
+        var suggestTypoCorrection: TypoSuggestor = DEFAULT_CORRECTION_SUGGESTOR
+
+        @Deprecated("Renamed to suggestTypoCorrection", ReplaceWith("suggestTypoCorrection"))
+        var correctionSuggestor: TypoSuggestor
+            get() = suggestTypoCorrection
+            set(value) {
+                suggestTypoCorrection = value
+            }
+
 
         /**
          * Localized strings to use for help output and error reporting.
@@ -343,7 +381,15 @@ class Context private constructor(
          *
          * You can set this to read from a map or other source during tests.
          */
-        var envvarReader: (key: String) -> String? = parent?.readEnvvar ?: { null }
+        var readEnvvar: (key: String) -> String? = parent?.readEnvvar ?: { null }
+
+        @Suppress("unused")
+        @Deprecated("Renamed to readEnvvar", ReplaceWith("readEnvvar"))
+        var envvarReader: (key: String) -> String?
+            get() = readEnvvar
+            set(value) {
+                readEnvvar = value
+            }
 
         /**
          * A map holding arbitrary data on the context.
@@ -354,9 +400,9 @@ class Context private constructor(
         val data: MutableMap<String, Any?> = parent?.data ?: mutableMapOf()
 
         /**
-         * The terminal echoer to use for output.
+         * The function to call to echo messages when `CliktCommand.echo` is called.
          */
-        var echoer: TerminalEchoer = parent?.echoer ?: DefaultTerminalEchoer
+        var echoMessage: MessageEchoer = parent?.echoMessage ?: DefaultMessageEchoer
 
         /**
          * The function to call to exit the process with a status code.
@@ -393,15 +439,15 @@ class Context private constructor(
                     printExtraMessages = printExtraMessages,
                     helpOptionNames = helpOptionNames.toSet(),
                     helpFormatter = helpFormatter ?: { PlaintextHelpFormatter(it) },
-                    tokenTransformer = tokenTransformer,
-                    argumentFileReader = argumentFileReader,
+                    transformToken = transformToken,
+                    readArgumentFile = readArgumentFile,
                     readEnvvarBeforeValueSource = readEnvvarBeforeValueSource,
                     valueSource = valueSource,
-                    correctionSuggestor = correctionSuggestor,
+                    suggestTypoCorrection = suggestTypoCorrection,
                     localization = localization,
-                    readEnvvar = envvarReader,
+                    readEnvvar = readEnvvar,
                     data = data,
-                    echoer = echoer,
+                    echoMessage = echoMessage,
                     exitProcess = exitProcess,
                 )
             }
@@ -501,7 +547,7 @@ private val DEFAULT_CORRECTION_SUGGESTOR: TypoSuggestor = { enteredValue, possib
 internal fun Context.selfAndAncestors() = generateSequence(this) { it.parent }
 internal fun Context.ancestors() = generateSequence(parent) { it.parent }
 
-private val DefaultTerminalEchoer: TerminalEchoer =
+private val DefaultMessageEchoer: MessageEchoer =
     { _: Context, message: Any?, trailingNewline: Boolean, _: Boolean ->
         if (trailingNewline) {
             println(message)

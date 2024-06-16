@@ -591,7 +591,7 @@ abstract class MyCoreCommand : CoreCliktCommand() {
             }
             envvarReader = { System.getenv(it) }
             exitProcess = { System.exit(it) }
-            echoer = { context, message, newline, err ->
+            echoMessage = { context, message, newline, err ->
                 val writer = if (err) System.err else System.out
                 if (newline) {
                     writer.println(message)

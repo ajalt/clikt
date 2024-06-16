@@ -200,7 +200,7 @@ public final class com/github/ajalt/clikt/core/Context {
 	public final fun getCommand ()Lcom/github/ajalt/clikt/core/BaseCliktCommand;
 	public final fun getCorrectionSuggestor ()Lkotlin/jvm/functions/Function2;
 	public final fun getData ()Ljava/util/Map;
-	public final fun getEchoer ()Lkotlin/jvm/functions/Function4;
+	public final fun getEchoMessage ()Lkotlin/jvm/functions/Function4;
 	public final fun getErrorEncountered ()Z
 	public final fun getExitProcess ()Lkotlin/jvm/functions/Function1;
 	public final fun getExpandArgumentFiles ()Z
@@ -212,12 +212,15 @@ public final class com/github/ajalt/clikt/core/Context {
 	public final fun getOriginalArgv ()Ljava/util/List;
 	public final fun getParent ()Lcom/github/ajalt/clikt/core/Context;
 	public final fun getPrintExtraMessages ()Z
+	public final fun getReadArgumentFile ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvar ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvarBeforeValueSource ()Z
+	public final fun getSuggestTypoCorrection ()Lkotlin/jvm/functions/Function2;
 	public final fun getTokenTransformer ()Lkotlin/jvm/functions/Function2;
+	public final fun getTransformToken ()Lkotlin/jvm/functions/Function2;
 	public final fun getValueSource ()Lcom/github/ajalt/clikt/sources/ValueSource;
 	public final fun parentNames ()Ljava/util/List;
-	public final fun setArgumentFileReader (Lkotlin/jvm/functions/Function1;)V
+	public final fun setReadArgumentFile (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -230,7 +233,7 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun getAutoEnvvarPrefix ()Ljava/lang/String;
 	public final fun getCorrectionSuggestor ()Lkotlin/jvm/functions/Function2;
 	public final fun getData ()Ljava/util/Map;
-	public final fun getEchoer ()Lkotlin/jvm/functions/Function4;
+	public final fun getEchoMessage ()Lkotlin/jvm/functions/Function4;
 	public final fun getEnvvarReader ()Lkotlin/jvm/functions/Function1;
 	public final fun getExitProcess ()Lkotlin/jvm/functions/Function1;
 	public final fun getExpandArgumentFiles ()Z
@@ -239,15 +242,19 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun getLocalization ()Lcom/github/ajalt/clikt/output/Localization;
 	public final fun getParent ()Lcom/github/ajalt/clikt/core/Context;
 	public final fun getPrintExtraMessages ()Z
+	public final fun getReadArgumentFile ()Lkotlin/jvm/functions/Function1;
+	public final fun getReadEnvvar ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvarBeforeValueSource ()Z
+	public final fun getSuggestTypoCorrection ()Lkotlin/jvm/functions/Function2;
 	public final fun getTokenTransformer ()Lkotlin/jvm/functions/Function2;
+	public final fun getTransformToken ()Lkotlin/jvm/functions/Function2;
 	public final fun getValueSource ()Lcom/github/ajalt/clikt/sources/ValueSource;
 	public final fun setAllowGroupedShortOptions (Z)V
 	public final fun setAllowInterspersedArgs (Z)V
 	public final fun setArgumentFileReader (Lkotlin/jvm/functions/Function1;)V
 	public final fun setAutoEnvvarPrefix (Ljava/lang/String;)V
 	public final fun setCorrectionSuggestor (Lkotlin/jvm/functions/Function2;)V
-	public final fun setEchoer (Lkotlin/jvm/functions/Function4;)V
+	public final fun setEchoMessage (Lkotlin/jvm/functions/Function4;)V
 	public final fun setEnvvarReader (Lkotlin/jvm/functions/Function1;)V
 	public final fun setExitProcess (Lkotlin/jvm/functions/Function1;)V
 	public final fun setExpandArgumentFiles (Z)V
@@ -255,8 +262,12 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun setHelpOptionNames (Ljava/lang/Iterable;)V
 	public final fun setLocalization (Lcom/github/ajalt/clikt/output/Localization;)V
 	public final fun setPrintExtraMessages (Z)V
+	public final fun setReadArgumentFile (Lkotlin/jvm/functions/Function1;)V
+	public final fun setReadEnvvar (Lkotlin/jvm/functions/Function1;)V
 	public final fun setReadEnvvarBeforeValueSource (Z)V
+	public final fun setSuggestTypoCorrection (Lkotlin/jvm/functions/Function2;)V
 	public final fun setTokenTransformer (Lkotlin/jvm/functions/Function2;)V
+	public final fun setTransformToken (Lkotlin/jvm/functions/Function2;)V
 	public final fun setValueSource (Lcom/github/ajalt/clikt/sources/ValueSource;)V
 	public final fun valueSources ([Lcom/github/ajalt/clikt/sources/ValueSource;)V
 }

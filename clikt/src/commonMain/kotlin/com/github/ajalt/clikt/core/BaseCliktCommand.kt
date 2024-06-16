@@ -323,7 +323,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
         trailingNewline: Boolean = true,
         err: Boolean = false,
     ) {
-        currentContext.echoer(currentContext, message, trailingNewline, err)
+        currentContext.echoMessage(currentContext, message, trailingNewline, err)
     }
 
     /**

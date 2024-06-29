@@ -1,16 +1,32 @@
 # Upgrading to Newer Releases
 
+See the [changelog] for a full list of changes in each release. This guide contains information on
+the most significant changes that may require updating to your code.
+
 ## Upgrading to 5.0
 
-## `main` is now an extension
+## some methods like `main` are now extensions
 
-The `CliktCommand.main` and `CliktCommand.parse` methods are now a extension functions, so you'll
+The `CliktCommand.main` and `CliktCommand.parse` methods are now extension functions, so you'll
 need to import them.
 
 ```diff
 + import com.github.ajalt.clikt.core.main
 fun main(args: Array<String>) = MyCommand().main(args)
 ```
+
+`Context.obj` and `Context.terminal`, and `OptionTransformContext.terminal` are also now extensions.
+
+```diff
++ import com.github.ajalt.clikt.core.obj
++ import com.github.ajalt.clikt.core.terminal
+
+fun main() {
+    val ctx = MyCommand().currentContext
+    ctx.terminal.info(ctx.obj)
+}
+```
+
 
 ## `CliktCommand` constructor no longer takes most parameters
 
@@ -61,6 +77,44 @@ The full list of moved parameters:
 | `allowMultipleSubcommands`  | `val allowMultipleSubcommands`  |
 | `treatUnknownOptionsAsArgs` | `val treatUnknownOptionsAsArgs` |
 | `hidden`                    | `val hiddenFromHelp`            |
+
+### Markdown moved to a separate module
+
+In order to reduce executable size, the Markdown rendering functionality has been moved to a separate
+module.
+
+To use Markdown rendering first, add the `:clitk-markdown` dependency to your project:
+
+```kotlin
+dependencies {
+   implementation("com.github.ajalt.clikt:clikt-markdown:$cliktVersion")
+}
+```
+
+Then install the markdown help formatter on your command:
+
+```kotlin
+val command = MyCommand().installMordantMarkdown()
+```
+
+
+### `Context` builder properties renamed
+
+Some of the properties on `Context` and its builder have been renamed to be more consistent:
+
+| old name                      | new name                        |
+|-------------------------------|---------------------------------|
+| `Context.envvarReader`        | `Context.readEnvvar`            |
+| `Context.correctionSuggestor` | `Context.suggestTypoCorrection` |
+| `Context.argumentFileReader`  | `Context.readArgumentFile`      |
+| `Context.tokenTransformer`    | `Context.transformToken`        |
+
+The old names are still available as deprecated properties.
+
+### Removed `TermUi`
+
+The remaining methods in `TermUi` have been removed. If you were using it, you can open an editor
+manually with `ProcessBuilder` or similar.
 
 ## Upgrading to 4.0
 

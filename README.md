@@ -64,15 +64,17 @@ dependencies {
 }
 ```
 
+There is also a smaller core module available. [See the docs for details](https://ajalt.github.io/clikt/advanced/#core-module).
+
 
 ###### If you're using Maven instead of Gradle, use `<artifactId>clikt-jvm</artifactId>`
 
 #### Multiplatform
 
-Clikt supports the following targets: `jvm`, `mingwX64`, `linuxX64`, `linuxArm64`, `macosX64`, `macosArm64`,
-and `js` and `wasmJs` (for both Node.js and Browsers). [See the
-docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) for more information about
-functionality supported on each target. You'll need to use Gradle 6 or newer.
+Clikt supports most multiplatform targets.
+[See the docs](https://ajalt.github.io/clikt/advanced/#multiplatform-support) 
+for more information about functionality supported on each target. You'll need to use Gradle 6 or
+newer.
 
 #### Snapshots
 

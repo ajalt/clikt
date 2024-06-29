@@ -12,6 +12,9 @@ inside a [`CliktCommand`][CliktCommand]. The normal way to use Clikt is to forwa
 The simplest command with no parameters would look like this:
 
 ```kotlin
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.main
+
 class Hello: CliktCommand() {
     override fun run() {
         echo("Hello World!")
@@ -67,6 +70,7 @@ class Hello : SuspendingCliktCommand() {
 
 suspend fun main(args: Array<String>) = Hello().main(args)
 ```
+
 ## Nesting Commands
 
 Instances of any command can be attached to other commands, allowing

@@ -608,35 +608,29 @@ abstract class MyCoreCommand : CoreCliktCommand() {
 
 ## Multiplatform Support
 
-Clikt supports the following platforms in addition to JVM:
+Clikt supports the following platforms:
+
+### JVM
+
+There are some JVM-only extensions available such as [file][file] and [path][path] parameter types.
 
 ### Desktop native (Linux, Windows, and macOS)
 
-All functionality is supported, except:
+### JavaScript and WasmJS
 
-* `env` parameter of [editText][editText] and [editFile][editFile] is ignored.
-* [file][file] and [path][path] parameter types are not supported.
+All functionality is supported on Node.js.
 
-### NodeJS JavaScript and WasmJS
-
-All functionality is supported, except:
-
-* [file][file] and [path][path] parameter types are not supported.
-
-### Browser JavaScript and WasmJS
-
-All functionality is supported, except:
-
-* The default terminal only outputs to the browser's developer console, which is
-probably not what you want. You can [define your own
+In the browser, the default terminal only outputs to the browser's developer
+console, which is probably not what you want. You can [define your own
 TerminalInterface](#replacing-stdin-and-stdout), or you can call [parse][parse] instead of
 [main][main] and handle output yourself.
-* [editText][editText] and [editFile][editFile] are not supported.
-* [file][file] and [path][path] parameter types are not supported.
 
-### iOS, watchOS, tvOS and wasmWasi
+### iOS
 
-These platforms are supported for the [core module](#core-module) only.
+### watchOS, tvOS and WasmWasi
+
+These platforms are not supported by the [markdown module], but all other functionality is
+available.
 
 [BaseCliktCommand]:              api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/index.html
 [CliktCommand]:                  api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
@@ -662,6 +656,7 @@ These platforms are supported for the [core module](#core-module) only.
 [file]:                          api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [grouping-options]:              documenting.md#grouping-options-in-help
 [main]:                          api/clikt/com.github.ajalt.clikt.core/main.html
+[markdown module]:               documenting.md#markdown-in-help-texts
 [parse]:                         api/clikt/com.github.ajalt.clikt.core/parse.html
 [path]:                          api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [prompt]:                        options.md#prompting-for-input

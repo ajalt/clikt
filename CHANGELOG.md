@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+
+## 5.0.0
 ### Added
 - Publish `iosArm64` and `iosX64` targets.
 - Added `NoSuchArgument` exception that is thrown when too many arguments were given on the command line. Previously, a less specific `UsageError` was thrown instead.

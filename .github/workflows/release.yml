@@ -16,9 +16,8 @@ jobs:
           distribution: 'zulu'
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          # disable configuration cache due to https://github.com/gradle/gradle/issues/22779
-          arguments: publishToMavenCentral --no-configuration-cache
+        # disable configuration cache due to https://github.com/gradle/gradle/issues/22779
+      - run: ./gradlew publishToMavenCentral --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralPassword }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}

@@ -237,16 +237,16 @@ You also use this functionality to implement command prefixes:
 
 To prevent ambiguities in parsing, aliases are only supported for
 command names. However, there's another way to modify user input that
-works on more types of tokens. You can set a [`tokenTransformer`][tokenTransformer] on the
-[command's context][customizing-context] that will be
-called for each option and command name that is input. This can be used
+works on more types of tokens. You can set [`transformToken`][transformToken] on the
+[command's context][customizing-context], which will be
+called for each option and command name that's input. This can be used
 to implement case-insensitive parsing, for example:
 
 === "Example"
     ```kotlin
     class Hello : CliktCommand() {
         init {
-            context { tokenTransformer = { it.lowercase() } }
+            context { transformToken = { it.lowercase() } }
         }
 
         val name by option()
@@ -336,7 +336,7 @@ If you want to use a value starting with `@` as an argument without expanding it
 
 1. Pass it after a `--`, [which disables expansion for everything that occurs after it][dash-dash].
 2. Escape it with `@@`. The first `@` will be removed and the rest used as the argument value. For example, `@@file` will parse as the string `@file`
-3. Disable @argfile expansion entirely by setting [`Context.argumentFileReader = null`][argumentFileReader]
+3. Disable @argfile expansion entirely by setting [`Context.readArgumentFile = null`][readArgumentFile]
 
 ### File format
 
@@ -584,12 +584,14 @@ use:
 abstract class MyCoreCommand : CoreCliktCommand() {
     init {
         context {
-            argumentFileReader = {
-                with(Paths.get(it)) {
-                    if (isRegularFile()) readText() else throw FileNotFound(it)
+            readArgumentFile = {
+                try {
+                    Path(it).readText()
+                } catch (e: IOException) {
+                    throw FileNotFound(it)
                 }
             }
-            envvarReader = { System.getenv(it) }
+            readEnvvar = { System.getenv(it) }
             exitProcess = { System.exit(it) }
             echoMessage = { context, message, newline, err ->
                 val writer = if (err) System.err else System.out
@@ -648,7 +650,7 @@ These platforms are supported for the [core module](#core-module) only.
 [SuspendingCliktCommand]:        api/clikt-mordant/com.github.ajalt.clikt.command/-suspending-clikt-command/index.html
 [TermUI]:                        api/clikt/com.github.ajalt.clikt.output/-term-ui/index.html
 [aliases]:                       api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/aliases.html
-[argumentFileReader]:            api/clikt/com.github.ajalt.clikt.core/-context/argument-file-reader.html
+[readArgumentFile]:              api/clikt/com.github.ajalt.clikt.core/-context/read-argument-file.html
 [callOnClose]:                   api/clikt/com.github.ajalt.clikt.core/-context/call-on-close.html
 [context-obj]:                   commands.md#nested-handling-and-contexts
 [customizing-context]:           commands.md#customizing-contexts
@@ -665,4 +667,4 @@ These platforms are supported for the [core module](#core-module) only.
 [registerCloseable]:             api/clikt/com.github.ajalt.clikt.core/register-closeable.html
 [registerJvmCloseable]:          api/clikt/com.github.ajalt.clikt.core/register-jvm-closeable.html
 [test]:                          api/clikt-mordant/com.github.ajalt.clikt.testing/test.html
-[tokenTransformer]:              api/clikt/com.github.ajalt.clikt.core/-context/token-transformer.html
+[transformToken]:                api/clikt/com.github.ajalt.clikt.core/-context/transform-token.html

@@ -20,27 +20,29 @@ import com.github.ajalt.clikt.parsers.CommandLineParser
  * On JVM, if you want to use this class and define the above features:
  *
  * ```kotlin
- *    abstract class MyCoreCommand : CoreCliktCommand() {
- *        init {
- *            context {
- *                argumentFileReader = {
- *                    with(Paths.get(it)) {
- *                        if (isRegularFile()) readText() else throw FileNotFound(it)
- *                    }
- *                }
- *                envvarReader = { System.getenv(it) }
- *                exitProcess = { System.exit(it) }
- *                echoer = { context, message, newline, err ->
- *                    val writer = if (err) System.err else System.out
- *                    if (newline) {
- *                        writer.println(message)
- *                    } else {
- *                        writer.print(message)
- *                    }
- *                }
- *            }
- *        }
- *    }
+ * abstract class MyCoreCommand : CoreCliktCommand() {
+ *     init {
+ *         context {
+ *             readArgumentFile = {
+ *                 try {
+ *                     Path(it).readText()
+ *                 } catch (e: IOException) {
+ *                     throw FileNotFound(it)
+ *                 }
+ *             }
+ *             readEnvvar = { System.getenv(it) }
+ *             exitProcess = { System.exit(it) }
+ *             echoMessage = { context, message, newline, err ->
+ *                 val writer = if (err) System.err else System.out
+ *                 if (newline) {
+ *                     writer.println(message)
+ *                 } else {
+ *                     writer.print(message)
+ *                 }
+ *             }
+ *         }
+ *     }
+ * }
  * ```
  *
  */

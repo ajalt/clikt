@@ -104,7 +104,7 @@ class Context private constructor(
     val data: MutableMap<String, Any?>,
 
     /**
-     * The terminal echoer to use for output.
+     * The callable to call to echo output.
      */
     val echoMessage: MessageEchoer,
 

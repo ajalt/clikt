@@ -1083,14 +1083,14 @@ All other values are invalid.
 ### Overriding system environment variables
 
 You can set a custom function that will be used instead of the system environment variables with
-[ContextBuilder.envvarReader][envvarReader].
+[ContextBuilder.readEnvvar][readEnvvar].
 
 ```kotlin
 @Test
 fun `test envvar`() {
     val envvars = mapOf("MY_TOOL_OPTION" to "value")
     val tool = MyTool().context {
-        envvarReader = { envvars[it] }
+        readEnvvar = { envvars[it] }
     }
     tool.parse(emptyList())
     assertEquals("value", tool.option)
@@ -1242,7 +1242,7 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [defaultLazy]:                 api/clikt/com.github.ajalt.clikt.parameters.options/default-lazy.html
 [deprecated]:                  api/clikt/com.github.ajalt.clikt.parameters.options/deprecated.html
 [eagerOption]:                 api/clikt/com.github.ajalt.clikt.parameters.options/eager-option.html
-[envvarReader]:                api/clikt/com.github.ajalt.clikt.core/-context/-builder/envvar-reader.html
+[readEnvvar]:                  api/clikt/com.github.ajalt.clikt.core/-context/-builder/read-envvar.html
 [feature-switch-flags]:        #feature-switch-flags
 [file]:                        api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [flag]:                        api/clikt/com.github.ajalt.clikt.parameters.options/flag.html

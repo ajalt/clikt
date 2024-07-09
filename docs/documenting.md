@@ -432,7 +432,7 @@ When an option or subcommand is mistyped, Clikt will suggest corrections that ar
     ```
 
 By default, Clikt will suggest corrections of any similar option or subcommand name based on a
-similarity metric. You can customize the suggestions by setting a `correctionSuggestor` on your
+similarity metric. You can customize the suggestions by setting `suggestTypoCorrection` on your
 command's context.
 
 ```kotlin
@@ -440,7 +440,7 @@ class Cli : NoOpCliktCommand() {
     init {
         context {
             // Only suggest corrections that start with the entered value
-            correctionSuggestor = { enteredValue, possibleValues ->
+            suggestTypoCorrection = { enteredValue, possibleValues ->
                 possibleValues.filter { it.startsWith(enteredValue) }
             }
         }

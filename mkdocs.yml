@@ -145,7 +145,7 @@ nav:
       - 'Launching Editors': utilities.md
       - 'Input Prompts': utilities/#input-prompts
       - 'Confirmation Prompts': utilities/#confirmation-prompts
-  - 'Bash Autocomplete':
+  - 'Shell Completion':
       - 'Supported Functionality': autocomplete.md
       - 'Enabling Completion': autocomplete/#enabling-completion
       - 'Customizing Completions': autocomplete/#customizing-completions

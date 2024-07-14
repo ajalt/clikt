@@ -307,6 +307,13 @@ public final class com/github/ajalt/clikt/core/CoreCliktCommandKt {
 	public static final fun parse (Lcom/github/ajalt/clikt/core/CoreCliktCommand;[Ljava/lang/String;)V
 }
 
+public class com/github/ajalt/clikt/core/CoreNoOpCliktCommand : com/github/ajalt/clikt/core/CoreCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun run ()V
+}
+
 public final class com/github/ajalt/clikt/core/FileNotFound : com/github/ajalt/clikt/core/UsageError {
 	public fun <init> (Ljava/lang/String;)V
 	public fun formatMessage (Lcom/github/ajalt/clikt/output/Localization;Lcom/github/ajalt/clikt/output/ParameterFormatter;)Ljava/lang/String;
@@ -372,13 +379,6 @@ public final class com/github/ajalt/clikt/core/MutuallyExclusiveGroupException :
 	public fun <init> (Ljava/util/List;)V
 	public fun formatMessage (Lcom/github/ajalt/clikt/output/Localization;Lcom/github/ajalt/clikt/output/ParameterFormatter;)Ljava/lang/String;
 	public final fun getNames ()Ljava/util/List;
-}
-
-public class com/github/ajalt/clikt/core/NoOpCliktCommand : com/github/ajalt/clikt/core/CoreCliktCommand {
-	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun run ()V
 }
 
 public final class com/github/ajalt/clikt/core/NoSuchArgument : com/github/ajalt/clikt/core/UsageError {

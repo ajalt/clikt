@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.parsers
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.hasEnvvarOrSourcedValue
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
 
 internal fun <T : BaseCliktCommand<T>> parseArgv(
@@ -149,7 +150,9 @@ private class CommandParser<T : BaseCliktCommand<T>>(
     }
 
     private fun printHelpOnEmptyArgsIfNecessary(): Boolean {
-        if (i > tokens.lastIndex && command.printHelpOnEmptyArgs) {
+        if (i > tokens.lastIndex && command.printHelpOnEmptyArgs
+            && command._options.none { it.hasEnvvarOrSourcedValue(context, emptyList()) }
+        ) {
             errors += PrintHelpMessage(context, error = true)
             return true
         }

@@ -40,6 +40,7 @@
 
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.
+- Commands with `printHelpOnEmptyArgs=true` will no longer print help if an option has a value from an environment variable or value source.  ([#382](https://github.com/ajalt/clikt/pull/382))
 
 ### Deprecated
 - Deprecated `Context.originalArgv`. It will now always return an empty list. If your commands need an argv, you can pass it to them before you run them, or set in on the new `Context.data` map.

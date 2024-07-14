@@ -13,6 +13,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import com.github.ajalt.clikt.testing.test
+import com.github.ajalt.clikt.testing.withEnv
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
@@ -81,10 +82,36 @@ class CliktCommandTest {
     @Test
     @JsName("printHelpOnEmptyArgs__true")
     fun `printHelpOnEmptyArgs = true`() {
-        class C : TestCommand(called = false, printHelpOnEmptyArgs = true)
+        class C : TestCommand(called = false, printHelpOnEmptyArgs = true) {
+            val r by option().required()
+        }
         shouldThrow<PrintHelpMessage> {
             C().parse("")
         }.error shouldBe true
+    }
+
+    @Test
+    @JsName("printHelpOnEmptyArgs_with_envvars")
+    fun `printHelpOnEmptyArgs with envvars`() {
+        class C : TestCommand(called = true, printHelpOnEmptyArgs = true) {
+            val foo by option(envvar = "FOO")
+            override fun run_() {
+                foo shouldBe "bar"
+            }
+        }
+        C().withEnv("FOO" to "bar").parse("")
+    }
+
+    @Test
+    @JsName("printHelpOnEmptyArgs_with_envvars_and_required_option")
+    fun `printHelpOnEmptyArgs with envvars and required option`() {
+        class C : TestCommand(called = false, printHelpOnEmptyArgs = true) {
+            val foo by option(envvar = "FOO")
+            val r by option().required()
+        }
+        shouldThrow<MissingOption> {
+            C().withEnv("FOO" to "bar").parse("")
+        }
     }
 
     @Test
@@ -169,10 +196,11 @@ class CliktCommandTest {
     @Test
     @JsName("command_toString")
     fun `command toString`() {
-        class C : TestCommand(name="cmd") {
+        class C : TestCommand(name = "cmd") {
             init {
                 context { helpOptionNames = setOf() }
             }
+
             val opt by option("-o", "--option")
             val int by option().int()
             val args by argument().multiple()
@@ -211,6 +239,7 @@ class CliktCommandTest {
             init {
                 context { helpOptionNames = setOf() }
             }
+
             val g by G()
             val g2 by G2().cooccurring()
             val ge by mutuallyExclusiveOptions(
@@ -234,6 +263,7 @@ class CliktCommandTest {
             init {
                 context { helpOptionNames = setOf() }
             }
+
             val opt by option("-o", "--option")
             val args by argument().multiple()
             override fun run_() {

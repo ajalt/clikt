@@ -1,7 +1,7 @@
 package com.github.ajalt.clikt.core
 
 /**
- * A [CoreCliktCommand] that has a default implementation of [CoreCliktCommand.run] that is a no-op.
+ * A [CoreCliktCommand] that has a default implementation of [CliktCommand.run] that is a no-op.
  */
 open class NoOpCliktCommand(
     /**
@@ -9,6 +9,6 @@ open class NoOpCliktCommand(
      * class name.
      */
     name: String? = null,
-) : CoreCliktCommand(name) {
+) : CliktCommand(name) {
     final override fun run() {}
 }

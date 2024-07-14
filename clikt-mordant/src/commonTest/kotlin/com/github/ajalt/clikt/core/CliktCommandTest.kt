@@ -34,7 +34,7 @@ class CliktCommandTest {
         class ListAllValuesCommand : TestCommand()
         class LGTMMeansLookingGoodToMe : TestCommand()
         class `nothing-to-change` : TestCommand()
-        class ListCommands : NoOpCliktCommand()
+        class ListCommands : CoreNoOpCliktCommand()
         ListAllValuesCommand().commandName shouldBe "list-all-values"
         LGTMMeansLookingGoodToMe().commandName shouldBe "lgtmmeans-looking-good-to-me"
         `nothing-to-change`().commandName shouldBe "nothing-to-change"

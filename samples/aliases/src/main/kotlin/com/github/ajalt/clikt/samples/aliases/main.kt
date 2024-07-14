@@ -10,7 +10,7 @@ import java.io.File
  * @param configFile A config file containing aliases, one per line, in the form `token = alias`. Aliases can
  *   have multiple tokens (e.g. `cm = commit -m`).
  */
-class AliasedCli(private val configFile: File) : NoOpCliktCommand() {
+class AliasedCli(private val configFile: File) : CoreNoOpCliktCommand() {
     override fun help(context: Context) = "An example that supports aliased subcommands"
     override fun aliases(): Map<String, List<String>> {
         return configFile.readLines().map { it.split("=", limit = 2) }

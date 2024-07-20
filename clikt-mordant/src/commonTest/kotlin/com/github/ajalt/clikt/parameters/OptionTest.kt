@@ -928,7 +928,7 @@ class OptionTest {
         )
     ) { argv, ex, ey, ez ->
         class C : TestCommand() {
-            val x by option("-X").associate { it.first.uppercase() to it.second.toInt() }
+            val x by option("-X").associate { (k, v) -> k.uppercase() to v.toInt() }
             val y by option("-Y").associateBy { it.uppercase() }
             val z by option("-Z").associateWith { it.toInt() }
             override fun run_() {

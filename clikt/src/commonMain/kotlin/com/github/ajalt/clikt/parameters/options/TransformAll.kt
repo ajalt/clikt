@@ -176,7 +176,7 @@ fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, S
  */
 inline fun <K, V> RawOption.associate(
     delimiter: String = "=",
-    crossinline transform: (Pair<String, String>) -> Pair<K, V>, // TODO: two params instead of pair?
+    crossinline transform: (Pair<String, String>) -> Pair<K, V>,
 ): OptionWithValues<Map<K, V>, Pair<K, V>, Pair<K, V>> {
     return splitPair(delimiter).convert { transform(it) }.multiple().toMap()
 }

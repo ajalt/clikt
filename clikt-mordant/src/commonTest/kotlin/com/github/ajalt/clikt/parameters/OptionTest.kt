@@ -920,6 +920,28 @@ class OptionTest {
     }
 
     @Test
+    @JsName("associate_conversion_options")
+    fun `associate conversion options`() = forAll(
+        row("", emptyMap(), emptyMap(), emptyMap()),
+        row(
+            "-Xa=1 -Yb=2 -Zc=3", mapOf("A" to 1), mapOf("B" to "2"), mapOf("c" to 3),
+        )
+    ) { argv, ex, ey, ez ->
+        class C : TestCommand() {
+            val x by option("-X").associate { (k, v) -> k.uppercase() to v.toInt() }
+            val y by option("-Y").associateBy { it.uppercase() }
+            val z by option("-Z").associateWith { it.toInt() }
+            override fun run_() {
+                x shouldBe ex
+                y shouldBe ey
+                z shouldBe ez
+            }
+        }
+        C().parse(argv)
+    }
+
+
+    @Test
     @JsName("customized_splitPair")
     fun `customized splitPair`() = forAll(
         row("", null),

@@ -144,7 +144,8 @@ fun <EachT, ValueT> NullableOption<EachT, ValueT>.multiple(
  * val opt2: Set<Int> by option().int().split(",").default(emptyList()).unique()
  * ```
  */
-fun <T, EachT, ValueT> OptionWithValues<List<T>, EachT, ValueT>.unique(): OptionWithValues<Set<T>, EachT, ValueT> {
+fun <T, EachT, ValueT> OptionWithValues<List<T>, EachT, ValueT>.unique()
+: OptionWithValues<Set<T>, EachT, ValueT> {
     return copy(transformValue, transformEach, { transformAll(it).toSet() }, defaultValidator())
 }
 
@@ -153,7 +154,8 @@ fun <T, EachT, ValueT> OptionWithValues<List<T>, EachT, ValueT>.unique(): Option
  *
  * If the same key appears more than once, the last one will be added to the map.
  */
-fun <A, B, EachT, ValueT> OptionWithValues<List<Pair<A, B>>, EachT, ValueT>.toMap(): OptionWithValues<Map<A, B>, EachT, ValueT> {
+fun <A, B, EachT, ValueT> OptionWithValues<List<Pair<A, B>>, EachT, ValueT>.toMap()
+: OptionWithValues<Map<A, B>, EachT, ValueT> {
     return copy(transformValue, transformEach, { transformAll(it).toMap() }, defaultValidator())
 }
 
@@ -164,4 +166,39 @@ fun <A, B, EachT, ValueT> OptionWithValues<List<Pair<A, B>>, EachT, ValueT>.toMa
  */
 fun RawOption.associate(delimiter: String = "="): OptionWithValues<Map<String, String>, Pair<String, String>, Pair<String, String>> {
     return splitPair(delimiter).multiple().toMap()
+}
+
+/**
+ * Change this option to take multiple values, each split on a [delimiter] and converted with the
+ * [transform] function and converted to a map.
+ *
+ * This is shorthand for [splitPair], [convert], [multiple], and [toMap].
+ */
+inline fun <K, V> RawOption.associate(
+    delimiter: String = "=",
+    crossinline transform: (Pair<String, String>) -> Pair<K, V>,
+): OptionWithValues<Map<K, V>, Pair<K, V>, Pair<K, V>> {
+    return splitPair(delimiter).convert { transform(it) }.multiple().toMap()
+}
+
+/**
+ * Change this option to take multiple values, each split on a [delimiter], its first value
+ * converted with the [keySelector], and converted to a map.
+ */
+inline fun <K> RawOption.associateBy(
+    delimiter: String = "=",
+    crossinline keySelector: (String) -> K,
+): OptionWithValues<Map<K, String>, Pair<K,  String>, Pair<K, String>> {
+    return associate(delimiter) { keySelector(it.first) to it.second }
+}
+
+/**
+ * Change this option to take multiple values, each split on a [delimiter], its second value
+ * converted with the [valueSelector], and converted to a map.
+ */
+inline fun <V> RawOption.associateWith(
+    delimiter: String = "=",
+    crossinline valueSelector: (String) -> V,
+): OptionWithValues<Map<String, V>, Pair<String, V>, Pair<String, V>> {
+    return associate(delimiter) { it.first to valueSelector(it.second) }
 }

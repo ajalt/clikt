@@ -1130,7 +1130,13 @@ public final class com/github/ajalt/clikt/parameters/options/OptionWithValues$De
 
 public final class com/github/ajalt/clikt/parameters/options/OptionWithValuesKt {
 	public static final fun associate (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun associate (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun associate$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun associate$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun associateBy (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun associateBy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun associateWith (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun associateWith$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun convert (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Lkotlin/jvm/functions/Function2;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun convert (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Lkotlin/jvm/functions/Function2;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun convert$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;

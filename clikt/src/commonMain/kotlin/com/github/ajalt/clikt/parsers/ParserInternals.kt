@@ -96,6 +96,10 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             val normTok = context.transformToken(context, tok)
             val prefix = splitOptionPrefix(tok).first
             when {
+                i >= minAliasI && tok in aliases -> {
+                    insertTokens(aliases.getValue(tok))
+                }
+
                 canExpandAtFiles
                         && tok.startsWith("@")
                         && normTok !in optionsByName -> {
@@ -128,10 +132,6 @@ private class CommandParser<T : BaseCliktCommand<T>>(
                         && prefix.isNotEmpty()
                         && prefix in prefixes -> {
                     consumeOptionParse(parseShortOpt(tok))
-                }
-
-                i >= minAliasI && tok in aliases -> {
-                    insertTokens(aliases.getValue(tok))
                 }
 
                 canParseSubcommands && normTok in allSubcommands -> {
@@ -211,11 +211,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
     }
 
     private fun insertTokens(newTokens: List<String>) {
-        tokens = buildList(tokens.size + newTokens.size) {
-            addAll(tokens.take(i))
-            addAll(newTokens)
-            addAll(tokens.drop(i + 1))
-        }
+        tokens = listOf(tokens.take(i), newTokens, tokens.drop(i + 1)).flatten()
         minAliasI = i + newTokens.size
     }
 

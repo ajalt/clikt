@@ -837,8 +837,8 @@ class OptionTest {
     }
 
     @Test
-    @JsName("aliased_tokens")
-    fun `aliased tokens`() = forAll(
+    @JsName("token_transform_alias")
+    fun `token transform alias`() = forAll(
         row("", null),
         row("--yy 3", "3")
     ) { argv, expected ->

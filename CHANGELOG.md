@@ -15,7 +15,8 @@
 - Added `Context.exitProcess` which you can use to prevent the process from exiting during tests.
 - Added core module that supports watchOS, tvOS, and wasmWasi targets and has no dependencies.
 - Added more options to `CliktCommand.test` to control the terminal interactivity. ([#517](https://github.com/ajalt/clikt/pull/517))
-- Added `associate{}`, `associateBy{}`, and `associateWith{}' transforms for options that allow you to convert the keys and values of the map.  ([#529](https://github.com/ajalt/clikt/pull/529))
+- Added `associate{}`, `associateBy{}`, and `associateWith{}` transforms for options that allow you to convert the keys and values of the map.  ([#529](https://github.com/ajalt/clikt/pull/529))
+- Added support for aliasing options to other options. ([#535](https://github.com/ajalt/clikt/pull/535))
 
 ### Changed
 - In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.

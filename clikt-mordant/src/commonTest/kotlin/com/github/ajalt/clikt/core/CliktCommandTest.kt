@@ -132,10 +132,12 @@ class CliktCommandTest {
 
     @Test
     fun aliases() = forAll(
-        row("-xx", "x", emptyList()),
-        row("a", "a", listOf("b")),
+        row("y x", "x", emptyList()),
         row("a", "a", listOf("b")),
         row("b", null, listOf("-xa")),
+        row("--alias", "c", emptyList()),
+        row("--", "d", emptyList()),
+        row("@f", "e", emptyList()),
         row("recurse", null, listOf("recurse")),
         row("recurse2", "foo", listOf("recurse", "recurse2"))
     ) { argv, ex, ey ->
@@ -152,7 +154,10 @@ class CliktCommandTest {
                 "a" to listOf("-xa", "b"),
                 "b" to listOf("--", "-xa"),
                 "recurse" to listOf("recurse"),
-                "recurse2" to listOf("recurse", "--xx=foo", "recurse2")
+                "recurse2" to listOf("recurse", "--xx=foo", "recurse2"),
+                "--alias" to listOf("--xx=c"),
+                "--" to listOf("-xd"),
+                "@f" to listOf("-xe"),
             )
         }
 

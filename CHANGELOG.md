@@ -19,7 +19,7 @@
 - Added support for aliasing options to other options. ([#535](https://github.com/ajalt/clikt/pull/535))
 
 ### Changed
-- In a subcommand with `argument().multiple()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
+- In a subcommand with and an `argument()` with `multiple()` or `optional()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
 - Due to changes to the internal parsing algorithm, the exact details of error messages when multiple usage errors occur have changed in some cases.
 - **Breaking Change:** Moved the following parameters from `CliktCommand`'s constructor; override the corresponding properties instead:
 

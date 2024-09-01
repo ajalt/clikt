@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
@@ -10,9 +11,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.TestCommand
-import com.github.ajalt.clikt.testing.parse
-import com.github.ajalt.clikt.testing.test
+import com.github.ajalt.clikt.testing.*
 import com.github.ajalt.clikt.testing.withEnv
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll

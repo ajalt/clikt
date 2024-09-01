@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
@@ -336,6 +337,18 @@ class SubcommandTest {
             bar.opt shouldBe bo
             bar.arg shouldBe ba
         }
+    }
+
+    @Test
+    @JsName("multiple_subcommands_optional_sub_arg")
+    fun `multiple subcommands optional sub arg`() {
+        class Sub: TestCommand(count = 2) {
+            val a by argument().optional()
+        }
+        class C: TestCommand(allowMultipleSubcommands = true)
+        val sub = Sub()
+        C().subcommands(sub).parse("sub sub b")
+        sub.a shouldBe "b"
     }
 
     @Test

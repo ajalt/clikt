@@ -77,7 +77,9 @@ private class CommandParser<T : BaseCliktCommand<T>>(
     private val errors = mutableListOf<CliktError>()
     private var i = startingIndex
     private var minAliasI = i
-    private val minArgCount = command._arguments.sumOf { it.nvalues.coerceAtLeast(0) }
+    private val minArgCount = command._arguments.sumOf {
+        if (it.required) it.nvalues.coerceAtLeast(0) else 0
+    }
     private val canParseSubcommands get() = argumentTokens.size >= minArgCount
     private var canParseOptions = true
     private var canExpandAtFiles = context.expandArgumentFiles

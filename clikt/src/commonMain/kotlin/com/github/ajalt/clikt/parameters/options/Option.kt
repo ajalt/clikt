@@ -140,20 +140,14 @@ internal fun splitOptionPrefix(name: String): Pair<String, String> =
 @PublishedApi
 internal fun Option.longestName(): String? = names.maxByOrNull { it.length }
 
-internal sealed class FinalValue {
-    data class Parsed(val values: List<OptionInvocation>) : FinalValue()
-    data class Sourced(val values: List<ValueSource.Invocation>) : FinalValue()
-    data class Envvar(val key: String, val value: String) : FinalValue()
-}
-
 internal fun Option.getFinalValue(
     context: Context,
     invocations: List<OptionInvocation>,
     envvar: String?,
-): FinalValue {
+): List<OptionInvocation> {
     return when {
         // We don't look at envvars or the value source for eager options
-        eager || invocations.isNotEmpty() -> FinalValue.Parsed(invocations)
+        eager || invocations.isNotEmpty() -> invocations
         context.readEnvvarBeforeValueSource -> {
             readEnvVar(context, envvar) ?: readValueSource(context)
         }
@@ -161,7 +155,7 @@ internal fun Option.getFinalValue(
         else -> {
             readValueSource(context) ?: readEnvVar(context, envvar)
         }
-    } ?: FinalValue.Parsed(emptyList())
+    } ?: emptyList()
 }
 
 // This is a pretty ugly hack: option groups need to enforce their constraints, including on options
@@ -172,17 +166,19 @@ internal fun Option.hasEnvvarOrSourcedValue(
     context: Context,
     invocations: List<OptionInvocation>,
 ): Boolean {
+    if (invocations.isNotEmpty()) return false
     val envvar = (this as? OptionWithValues<*, *, *>)?.envvar
     val final = this.getFinalValue(context, invocations, envvar)
-    return final !is FinalValue.Parsed
+    return final.isNotEmpty()
 }
 
-private fun Option.readValueSource(context: Context): FinalValue? {
-    return context.valueSource?.getValues(context, this)?.ifEmpty { null }
-        ?.let { FinalValue.Sourced(it) }
+private fun Option.readValueSource(context: Context): List<OptionInvocation>? {
+    return context.valueSource?.getValues(context, this)
+        ?.map { OptionInvocation("", it.values) }
+        ?.ifEmpty { null }
 }
 
-private fun Option.readEnvVar(context: Context, envvar: String?): FinalValue? {
+private fun Option.readEnvVar(context: Context, envvar: String?): List<OptionInvocation>? {
     val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix) ?: return null
-    return context.readEnvvar(env)?.let { FinalValue.Envvar(env, it) }
+    return context.readEnvvar(env)?.let { listOf(OptionInvocation(env, listOf(it))) }
 }

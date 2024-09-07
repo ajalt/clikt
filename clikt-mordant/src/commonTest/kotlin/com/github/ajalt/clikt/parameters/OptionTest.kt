@@ -257,6 +257,25 @@ class OptionTest {
     }
 
     @Test
+    @JsName("two_options_with_split_and_limit")
+    fun `two options with split and limit`() = forAll(
+        row("", null, null),
+        row("-x 5 -y a", listOf("5"), listOf("a")),
+        row("-x 5x6X7x8 -y a:b:c", listOf("5", "6", "7x8"), listOf("a", "b:c"))
+    ) { argv, ex, ey ->
+        class C : TestCommand() {
+            val x by option("-x").split("x", ignoreCase = true, limit = 3)
+            val y by option("-y").split(Regex(":"), limit=2)
+            override fun run_() {
+                x shouldBe ex
+                y shouldBe ey
+            }
+        }
+
+        C().parse(argv)
+    }
+
+    @Test
     @JsName("flag_options")
     fun `flag options`() = forAll(
         row("", false, false, null),

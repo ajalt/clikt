@@ -17,6 +17,7 @@
 - Added more options to `CliktCommand.test` to control the terminal interactivity. ([#517](https://github.com/ajalt/clikt/pull/517))
 - Added `associate{}`, `associateBy{}`, and `associateWith{}` transforms for options that allow you to convert the keys and values of the map.  ([#529](https://github.com/ajalt/clikt/pull/529))
 - Added support for aliasing options to other options. ([#535](https://github.com/ajalt/clikt/pull/535))
+- Added `limit` and `ignoreCase` parameters to `option().split()`. ([#541](https://github.com/ajalt/clikt/pull/541))
 
 ### Changed
 - In a subcommand with and an `argument()` with `multiple()` or `optional()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.

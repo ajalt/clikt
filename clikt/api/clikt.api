@@ -1104,8 +1104,8 @@ public final class com/github/ajalt/clikt/parameters/options/OptionTransformCont
 }
 
 public abstract interface class com/github/ajalt/clikt/parameters/options/OptionWithValues : com/github/ajalt/clikt/parameters/options/OptionDelegate {
-	public abstract fun copy (Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public abstract fun copy (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public abstract fun copy (Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public abstract fun copy (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public abstract fun getEnvvar ()Ljava/lang/String;
 	public abstract fun getExplicitCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
 	public abstract fun getHelpGetter ()Lkotlin/jvm/functions/Function1;
@@ -1114,12 +1114,12 @@ public abstract interface class com/github/ajalt/clikt/parameters/options/Option
 	public abstract fun getTransformEach ()Lkotlin/jvm/functions/Function2;
 	public abstract fun getTransformValidator ()Lkotlin/jvm/functions/Function2;
 	public abstract fun getTransformValue ()Lkotlin/jvm/functions/Function2;
-	public abstract fun getValueSplit ()Lkotlin/text/Regex;
+	public abstract fun getValueSplit ()Lkotlin/jvm/functions/Function1;
 }
 
 public final class com/github/ajalt/clikt/parameters/options/OptionWithValues$DefaultImpls {
-	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/text/Regex;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static fun getAcceptsNumberValueWithoutName (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Z
 	public static fun getAcceptsUnattachedValue (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Z
 	public static fun getCompletionCandidates (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Lcom/github/ajalt/clikt/completion/CompletionCandidates;
@@ -1162,8 +1162,10 @@ public final class com/github/ajalt/clikt/parameters/options/OptionWithValuesKt 
 	public static synthetic fun optionalValueLazy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;ZLkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun pair (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun required (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun split (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun split (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/text/Regex;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun split (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/text/Regex;I)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun split (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZI)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun split$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/text/Regex;IILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun split$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZIILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun splitPair (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun splitPair$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun toMap (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;

@@ -106,8 +106,8 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
     /** A block that will return the help text for this option, or `null` if no getter has been specified */
     val helpGetter: (HelpTransformContext.() -> String)?
 
-    /** A regex to split option values on before conversion, or `null` to leave them unsplit */
-    val valueSplit: Regex?
+    /** A function to split option values on before conversion */
+    val valueSplit: (String) -> List<String>
 
     /** Create a new option that is a copy of this one with different transforms. */
     fun <AllT, EachT, ValueT> copy(
@@ -123,7 +123,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         helpTags: Map<String, String> = this.helpTags,
         valueSourceKey: String? = this.valueSourceKey,
         envvar: String? = this.envvar,
-        valueSplit: Regex? = this.valueSplit,
+        valueSplit: (String) -> List<String> = this.valueSplit,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
@@ -142,7 +142,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         helpTags: Map<String, String> = this.helpTags,
         envvar: String? = this.envvar,
         valueSourceKey: String? = this.valueSourceKey,
-        valueSplit: Regex? = this.valueSplit,
+        valueSplit: (String) -> List<String> = this.valueSplit,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
@@ -161,7 +161,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     override val helpTags: Map<String, String>,
     override val valueSourceKey: String?,
     override val envvar: String?,
-    override val valueSplit: Regex?,
+    override val valueSplit: (String) -> List<String>,
     override val explicitCompletionCandidates: CompletionCandidates?,
     override val secondaryNames: Set<String>,
     override val acceptsNumberValueWithoutName: Boolean,
@@ -188,31 +188,13 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     }
 
     override fun finalize(context: Context, invocations: List<OptionInvocation>) {
-        val invs = when (val v = getFinalValue(context, invocations, envvar)) {
-            is FinalValue.Parsed -> {
-                when (valueSplit) {
-                    null -> {
-                        invocations.find { it.values.size !in nvalues }?.let {
-                            throw IncorrectOptionValueCount(this, it.name)
-                        }
-                        invocations
-                    }
-                    else -> invocations.map { inv ->
-                        inv.copy(values = inv.values.flatMap { it.split(valueSplit) })
-                    }
-                }
+        val invs = getFinalValue(context, invocations, envvar).map { inv ->
+            // Only enforce nvalues if there are command line invocations, since some options like
+            // switches work differently for envvars.
+            if (invocations.isNotEmpty() && inv.values.size !in nvalues) {
+                throw IncorrectOptionValueCount(this, inv.name)
             }
-
-            is FinalValue.Sourced -> {
-                v.values.map { OptionInvocation("", it.values) }
-            }
-
-            is FinalValue.Envvar -> {
-                when (valueSplit) {
-                    null -> listOf(OptionInvocation(v.key, listOf(v.value)))
-                    else -> listOf(OptionInvocation(v.key, v.value.split(valueSplit)))
-                }
-            }
+            inv.copy(values = inv.values.flatMap { valueSplit(it) })
         }
 
         value = transformAll(OptionTransformContext(this, context), invs.map {
@@ -248,7 +230,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         helpTags: Map<String, String>,
         valueSourceKey: String?,
         envvar: String?,
-        valueSplit: Regex?,
+        valueSplit: (String) -> List<String>,
         completionCandidates: CompletionCandidates?,
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
@@ -288,7 +270,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         helpTags: Map<String, String>,
         envvar: String?,
         valueSourceKey: String?,
-        valueSplit: Regex?,
+        valueSplit: (String) -> List<String>,
         completionCandidates: CompletionCandidates?,
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
@@ -378,7 +360,7 @@ fun ParameterHolder.option(
     helpTags = helpTags,
     valueSourceKey = valueSourceKey,
     envvar = envvar,
-    valueSplit = null,
+    valueSplit = ::listOf,
     explicitCompletionCandidates = completionCandidates,
     secondaryNames = emptySet(),
     acceptsNumberValueWithoutName = false,

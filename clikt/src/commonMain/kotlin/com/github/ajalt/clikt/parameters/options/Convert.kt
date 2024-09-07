@@ -88,7 +88,7 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
 
 
 /**
- * Change to option to take any number of values, separated by a [regex].
+ * Change to option to take any number of values, separated by matched of a [regex].
  *
  * This must be called after converting the value type, and before other transforms.
  *
@@ -101,8 +101,11 @@ inline fun <InT : Any, ValueT : Any> NullableOption<InT, InT>.convert(
  * Which can be called like this:
  *
  * `./program --opt 1,2,3`
+ *
+ * @param limit Non-negative value specifying the maximum number of substrings to return.
+ * Zero by default means no limit is set.
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex, limit: Int = 0)
         : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
     return copy(
         transformValue = transformValue,
@@ -110,12 +113,12 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
         transformAll = defaultAllProcessor(),
         validator = defaultValidator(),
         nvalues = 1..1,
-        valueSplit = regex
+        valueSplit = { it.split(regex, limit) }
     )
 }
 
 /**
- * Change to option to take any number of values, separated by a string [delimiter].
+ * Change to option to take any number of values, separated by the [delimiters].
  *
  * This must be called after converting the value type, and before other transforms.
  *
@@ -128,10 +131,24 @@ fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(regex: Regex)
  * Which can be called like this:
  *
  * `./program --opt 1,2,3`
+ *
+ * @param delimiters One or more strings to be used as delimiters.
+ * @param ignoreCase `true` to ignore character case when matching a delimiter. By default `false`.
+ * @param limit The maximum number of substrings to return. Zero by default means no limit is set.
  */
-fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(delimiter: String)
-        : OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
-    return split(Regex.fromLiteral(delimiter))
+fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.split(
+    vararg delimiters: String,
+    ignoreCase: Boolean = false,
+    limit: Int = 0,
+): OptionWithValues<List<ValueT>?, List<ValueT>, ValueT> {
+    return copy(
+        transformValue = transformValue,
+        transformEach = { it },
+        transformAll = defaultAllProcessor(),
+        validator = defaultValidator(),
+        nvalues = 1..1,
+        valueSplit = { it.split(*delimiters, ignoreCase = ignoreCase, limit = limit) }
+    )
 }
 
 

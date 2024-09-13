@@ -78,13 +78,13 @@ class TestingUtilsTest {
     fun `test TerminalInfo configuration`() {
         class C : TestCommand() {
             override fun run_() {
-                with(currentContext.terminal.info) {
-                    ansiLevel shouldBe AnsiLevel.NONE
-                    width shouldBe 11
-                    height shouldBe 22
-                    ansiHyperLinks shouldBe true
-                    outputInteractive shouldBe true
-                    inputInteractive shouldBe true
+                with(currentContext.terminal) {
+                    terminalInfo.ansiLevel shouldBe AnsiLevel.NONE
+                    size.width shouldBe 11
+                    size.height shouldBe 22
+                    terminalInfo.ansiHyperLinks shouldBe true
+                    terminalInfo.outputInteractive shouldBe true
+                    terminalInfo.inputInteractive shouldBe true
                 }
             }
         }

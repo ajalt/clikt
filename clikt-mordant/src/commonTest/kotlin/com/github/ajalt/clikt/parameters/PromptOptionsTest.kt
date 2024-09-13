@@ -11,6 +11,7 @@ import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.test
 import com.github.ajalt.mordant.terminal.ConversionResult
 import com.github.ajalt.mordant.terminal.YesNoPrompt
+import com.github.ajalt.mordant.terminal.prompt
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName

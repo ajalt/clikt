@@ -31,6 +31,7 @@ kotlin {
             dependencies {
                 api(project(":clikt"))
                 api(libs.mordant)
+                api(libs.mordant.markdown)
             }
         }
 

@@ -208,7 +208,11 @@ inline fun <T : BaseCliktCommand<T>> BaseCliktCommand<T>.test(
     configureContext {
         val originalReader = readEnvvar
         readEnvvar = { envvars[it] ?: (if (includeSystemEnvvars) originalReader(it) else null) }
-        terminal = Terminal(terminal.theme, terminal.tabWidth, recorder)
+        terminal = Terminal(
+            theme = terminal.theme,
+            tabWidth = terminal.tabWidth,
+            terminalInterface = recorder
+        )
     }
     try {
         parse(argv)

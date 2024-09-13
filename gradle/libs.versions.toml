@@ -1,9 +1,11 @@
 [versions]
 kotlin = "2.0.0"
 coroutines = "1.8.1"
+mordant = "3.0.0"
 
 [libraries]
-mordant = "com.github.ajalt.mordant:mordant:2.6.0"
+mordant = {module = "com.github.ajalt.mordant:mordant", version.ref = "mordant"}
+mordant-markdown = {module = "com.github.ajalt.mordant:mordant-markdown", version.ref = "mordant"}
 
 # used in tests
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }

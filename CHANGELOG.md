@@ -40,6 +40,7 @@
 - **Breaking Change:** `Context.obj` and `Context.terminal`, and `OptionTransformContext.terminal` are now extension functions rather than properties.
 - **Breaking Change:** The `RenderedSection` and `DefinitionRow` classes have moved to `AbstractHelpFormatter`.
 - Updated Kotlin to 2.0.0
+- Support calling `--help` on subcommands when parents have required parameters.
 
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.

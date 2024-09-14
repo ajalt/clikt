@@ -23,7 +23,7 @@ import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName
 import kotlin.test.Test
 
-@Suppress("BooleanLiteralArgument")
+@Suppress("BooleanLiteralArgument", "unused")
 class SubcommandTest {
     @Test
     fun subcommand() = forAll(
@@ -268,6 +268,32 @@ class SubcommandTest {
     }
 
     @Test
+    @JsName("subcommand_help_with_required_parent")
+    fun `subcommand help with required parent`() {
+        class Parent : TestCommand() {
+            val o by option().required()
+        }
+        class Child : TestCommand() {
+            val o by option().required()
+        }
+        class Grandchild : TestCommand(called = false) {
+            val foo by option()
+        }
+
+        val p = Parent()
+        shouldThrow<PrintHelpMessage> {
+            p.subcommands(Child().subcommands(Grandchild()))
+                .parse("child grandchild --help")
+        }.let { p.getFormattedHelp(it) } shouldBe """
+            |Usage: parent child grandchild [<options>]
+            |
+            |Options:
+            |  --foo=<text>
+            |  -h, --help    Show this message and exit
+            """.trimMargin()
+    }
+
+    @Test
     @JsName("subcommandprintHelpOnEmptyArgs__true")
     fun `subcommand printHelpOnEmptyArgs = true`() {
         class C : TestCommand(called = false, printHelpOnEmptyArgs = true)
@@ -342,10 +368,12 @@ class SubcommandTest {
     @Test
     @JsName("multiple_subcommands_optional_sub_arg")
     fun `multiple subcommands optional sub arg`() {
-        class Sub: TestCommand(count = 2) {
+        class Sub : TestCommand(count = 2) {
             val a by argument().optional()
         }
-        class C: TestCommand(allowMultipleSubcommands = true)
+
+        class C : TestCommand(allowMultipleSubcommands = true)
+
         val sub = Sub()
         C().subcommands(sub).parse("sub sub b")
         sub.a shouldBe "b"

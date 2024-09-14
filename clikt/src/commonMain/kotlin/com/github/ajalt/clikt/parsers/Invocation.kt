@@ -95,8 +95,8 @@ class CommandLineParseResult<T : BaseCliktCommand<T>>(
  * ```
  *
  * @param finalize If true (the default), finalize all commands as they are emitted in the sequence.
- *   If false, you must call [CommandLineParser.finalize] on each invocation yourself before running
- *   the command.
+ * If false, you must call [CommandLineParser.finalizeEagerOptions] and
+ * [CommandLineParser.finalizeCommand] on each invocation yourself before running the command.
  */
 fun <T : BaseCliktCommand<T>> CommandInvocation<T>.flatten(finalize: Boolean = true): FlatInvocations<T> {
     return FlatInvocations(this, finalize)
@@ -116,9 +116,21 @@ class FlatInvocations<T : BaseCliktCommand<T>> internal constructor(
             closables.removeLast().close()
         }
         yieldSubs(root)
-    }.onEach { if (finalize) CommandLineParser.finalize(it) }
+    }
 
-    override fun iterator(): Iterator<CommandInvocation<T>> = seq.iterator()
+
+    override fun iterator(): Iterator<CommandInvocation<T>> {
+        return when {
+            finalize -> sequence {
+                // Finalize eager options of all commands first so that you can call --help on
+                // subcommands even if the parent has required parameters
+                seq.iterator().forEach(CommandLineParser::finalizeEagerOptions)
+                yieldAll(seq.onEach { CommandLineParser.finalizeCommand(it) })
+            }
+
+            else -> seq
+        }.iterator()
+    }
 
     /**
      * [Close][Context.close] all open contexts of invoked commands.

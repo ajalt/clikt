@@ -1349,7 +1349,8 @@ public final class com/github/ajalt/clikt/parsers/CommandLineParseResult {
 
 public final class com/github/ajalt/clikt/parsers/CommandLineParser {
 	public static final field INSTANCE Lcom/github/ajalt/clikt/parsers/CommandLineParser;
-	public final fun finalize (Lcom/github/ajalt/clikt/parsers/CommandInvocation;)V
+	public final fun finalizeCommand (Lcom/github/ajalt/clikt/parsers/CommandInvocation;)V
+	public final fun finalizeEagerOptions (Lcom/github/ajalt/clikt/parsers/CommandInvocation;)V
 	public final fun main (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Lkotlin/jvm/functions/Function1;)V
 	public final fun mainReturningValue (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 	public final fun parse (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/util/List;)Lcom/github/ajalt/clikt/parsers/CommandLineParseResult;

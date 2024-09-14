@@ -78,7 +78,7 @@ object CommandLineParser {
     }
 
     /**
-     * [Finalize][finalize] and [run][runCommand] all invoked commands.
+     * [Finalize][finalizeCommand] and [run][runCommand] all invoked commands.
      *
      * @throws CliktError if an error occurred while parsing or of any occur while finalizing or
      * running the commands.
@@ -100,38 +100,48 @@ object CommandLineParser {
      * This function does not throw exceptions. If parsing errors occur, they will be in the returned
      * result.
      *
-     * This function does not [run] the command or [finalize] the invocations.
+     * This function does not [run] the command or [finalizeCommand] the invocations.
      */
     fun <T : BaseCliktCommand<T>> parse(command: T, argv: List<String>): CommandLineParseResult<T> {
         return parseArgv(command, argv)
     }
-
     /**
-     * Finalize a command invocation, converting and setting the values for all options and other
-     * parameters. This function does not [run] the command.
+     * Finalize eager options for a command invocation, running them if they were invoked.
      *
-     * @throws CliktError If the [invocation] had any errors or if any parameters fail to finalize,
-     * such as if a required option is missing or a value could not be converted.
+     * This does not finalize any other parameters.
+     *
+     * @throws CliktError If any of the eager options were invoked and throw an error like
+     * [PrintHelpMessage].
      */
-    fun finalize(invocation: CommandInvocation<*>) {
+    fun finalizeEagerOptions(invocation: CommandInvocation<*>) {
         val command = invocation.command
         val context = command.currentContext
-        val groups = command.registeredParameterGroups()
-        val arguments = command.registeredArguments()
-
         throwCompletionMessageIfRequested(context, command)
 
-        val (eagerOpts, nonEagerOpts) = command.registeredOptions()
-            .partition { it.eager }
-
-        val (eagerInvs, nonEagerInvs) = invocation.optionInvocations.entries
-            .partition { it.key.eager }
-            .toList().map { it.associate { (k, v) -> k to v } }
+        val (eagerOpts, _) = getOpts(command)
+        val (eagerInvs, _) = getInvs(invocation)
 
         // finalize and validate eager options first; unlike other options, eager options only get
         // validated if they're invoked
         finalizeOptions(context, eagerOpts, eagerInvs)
         validateParameters(context, eagerInvs.keys).throwErrors()
+    }
+
+    /**
+     * Finalize a command invocation, converting and setting the values for all options and other
+     * parameters. This function does not [finalizeEagerOptions] or [run] the command.
+     *
+     * @throws CliktError If the [invocation] had any errors or if any parameters fail to finalize,
+     * such as if a required option is missing or a value could not be converted.
+     */
+    fun finalizeCommand(invocation: CommandInvocation<*>) {
+        val command = invocation.command
+        val context = command.currentContext
+        val groups = command.registeredParameterGroups()
+        val arguments = command.registeredArguments()
+
+        val (_, nonEagerOpts) = getOpts(command)
+        val (_, nonEagerInvs) = getInvs(invocation)
 
         // throw any parse errors after the eager options are finalized
         invocation.throwErrors()
@@ -154,6 +164,15 @@ object CommandLineParser {
 
         context.invokedSubcommands += invocation.subcommandInvocations.map { it.command }
     }
+
+    private fun getInvs(invocation: CommandInvocation<*>) =
+        invocation.optionInvocations.entries
+            .partition { it.key.eager }
+            .toList().map { it.associate { (k, v) -> k to v } }
+
+    private fun getOpts(command: BaseCliktCommand<*>) =
+        command.registeredOptions()
+            .partition { it.eager }
 }
 
 private fun CommandInvocation<*>.throwErrors() {

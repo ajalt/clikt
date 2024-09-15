@@ -1,8 +1,10 @@
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 
 plugins {
     kotlin("multiplatform")
+    alias(libs.plugins.publish)
 }
 
 kotlin {
@@ -46,5 +48,11 @@ kotlin {
                 api(libs.jimfs)
             }
         }
+    }
+}
+
+tasks.withType<DokkaTaskPartial> {
+    dokkaSourceSets.configureEach {
+        includes.from("README.md")
     }
 }

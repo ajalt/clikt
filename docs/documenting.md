@@ -67,12 +67,31 @@ describe arguments in the command help.
 
 ## Markdown in help texts
 
-All help texts use Mordant to render Markdown. You can use all the normal markdown features, such as
-lists, tables, and even hyperlinks if your terminal supports them.
+You can configure Clikt to use Mordant to render Markdown in help texts. You can use all the normal
+markdown features, such as lists, tables, and even hyperlinks if your terminal supports them.
+
+First, add the `:clitk-markdown` dependency to your project:
+
+```kotlin
+dependencies {
+   implementation("com.github.ajalt.clikt:clikt-markdown:$cliktVersion")
+}
+```
+
+And install the markdown help formatter on your command:
+
+```kotlin
+val command = MyCommand().installMordantMarkdown()
+```
+
+Then you can use markdown in your help strings:
 
 === "Example"
     ```kotlin
     class Tool : NoOpCliktCommand() {
+        init {
+            installMordantMarkdown()
+        }
         val option by option().help {
             """
             | This | is | a | table |

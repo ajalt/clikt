@@ -1,8 +1,6 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
@@ -11,28 +9,42 @@ import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.TestCommand
-import com.github.ajalt.clikt.testing.test
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
+import io.kotest.matchers.types.shouldNotBeInstanceOf
 import kotlin.js.JsName
 import kotlin.test.Test
 
 
 class PlaintextHelpFormatterTest {
-    private val c = TestCommand(name = "prog").context {
-        helpFormatter = { PlaintextHelpFormatter(it) }
+    class TestCoreCommand(
+        name: String,
+        private val help: String = "",
+        private val epilog: String = "",
+        override val hiddenFromHelp: Boolean = false,
+        override val helpTags: Map<String, String> = emptyMap()
+    ) : CoreNoOpCliktCommand(name) {
+        override fun help(context: Context): String = help
+        override fun helpEpilog(context: Context): String = epilog
     }
+
+    private val c = CoreNoOpCliktCommand(name = "prog")
 
     private fun doTest(
         expected: String,
-        command: CliktCommand = c,
+        command: CoreCliktCommand = c,
         helpNames: Set<String> = emptySet(),
     ) {
-        command.context {
+        command.shouldNotBeInstanceOf<CliktCommand>()
+        val help = command.context {
             helpOptionNames = helpNames
-        }.getFormattedHelp() shouldBe expected.trimMargin()
+        }.getFormattedHelp()
+        command.currentContext.helpFormatter(command.currentContext)
+            .shouldBeInstanceOf<PlaintextHelpFormatter>()
+        help shouldBe expected.trimMargin()
     }
 
     @Test
@@ -52,18 +64,22 @@ class PlaintextHelpFormatterTest {
             "Usage: prog [<options>] <foo>... [<bar>]"
         ),
         row(
-            listOf(c.option("-x"), c.argument("FOO").optional(), TestCommand(name = "bar")),
+            listOf(
+                c.option("-x"),
+                c.argument("FOO").optional(),
+                CoreNoOpCliktCommand(name = "bar")
+            ),
             "Usage: prog [<options>] [<foo>] <command> [<args>]..."
         )
     ) { params, expected ->
-        val c = TestCommand(name = "prog").context {
+        val c = CoreNoOpCliktCommand(name = "prog").context {
             helpOptionNames = emptySet()
         }
         for (p in params) {
             when (p) {
                 is Argument -> c.registerArgument(p)
                 is Option -> c.registerOption(p)
-                is CliktCommand -> c.subcommands(p)
+                is CoreCliktCommand -> c.subcommands(p)
                 else -> error("Unknown param type: $p")
             }
         }
@@ -135,7 +151,7 @@ class PlaintextHelpFormatterTest {
     @Test
     @JsName("help_output_one_opt_prolog")
     fun `one opt prolog`() {
-        val c = TestCommand(
+        val c = TestCoreCommand(
             name = "prog",
             help = "Lorem Ipsum.",
             epilog = "Dolor Sit Amet."
@@ -172,7 +188,7 @@ class PlaintextHelpFormatterTest {
             val b by option("--bb", "-b", help = "some thing to live by bb")
         }
 
-        class C : TestCommand(name = "prog") {
+        class C : CoreNoOpCliktCommand(name = "prog") {
             val g by G()
             val g2 by G2()
             val o by option("--dd", "-d", help = "some thing to live by dd")
@@ -184,8 +200,7 @@ class PlaintextHelpFormatterTest {
             |
             |Grouped:
             |
-            |  This is the help text for the option group named Grouped. This text should
-            |  wrap onto exactly three lines.
+            |This is the help text for the option group named Grouped. This text should wrap onto exactly three lines.
             |
             |  -a, --aa=<text>  some thing to live by aa
             |  -c, --cc=<text>  some thing to live by cc
@@ -204,7 +219,7 @@ class PlaintextHelpFormatterTest {
     @Suppress("unused")
     @JsName("help_output_arguments")
     fun arguments() {
-        class C : TestCommand(name = "prog") {
+        class C : CoreNoOpCliktCommand(name = "prog") {
             val foo by argument(help = "some thing to live by")
             val bar by argument(help = "another argument").optional()
         }
@@ -224,10 +239,10 @@ class PlaintextHelpFormatterTest {
     @JsName("subcommands")
     fun subcommands() {
         c.subcommands(
-            TestCommand(name = "foo", help = "some thing to live by"),
-            TestCommand(name = "bar", help = "another argument"),
-            TestCommand(name = "baz"),
-            TestCommand(name = "qux", hiddenFromHelp = true),
+            TestCoreCommand(name = "foo", help = "some thing to live by"),
+            TestCoreCommand(name = "bar", help = "another argument"),
+            TestCoreCommand(name = "baz"),
+            TestCoreCommand(name = "qux", hiddenFromHelp = true),
         )
         doTest(
             """
@@ -273,7 +288,7 @@ class PlaintextHelpFormatterTest {
             val opt2 by option()
         }
 
-        class C : TestCommand() {
+        class C : CoreNoOpCliktCommand() {
             val opt by option(help = "select group").groupChoice("g1" to G1(), "g2" to G2())
         }
         doTest(
@@ -305,7 +320,7 @@ class PlaintextHelpFormatterTest {
             val opt2 by option()
         }
 
-        class C : TestCommand() {
+        class C : CoreNoOpCliktCommand() {
             val opt by option(help = "select group").groupSwitch("--g1" to G1(), "--g2" to G2())
         }
 
@@ -330,7 +345,7 @@ class PlaintextHelpFormatterTest {
     @Suppress("unused")
     @JsName("mutually_exclusive_options")
     fun `mutually exclusive options`() {
-        class C : TestCommand(name = "prog") {
+        class C : CoreNoOpCliktCommand(name = "prog") {
             val ex by mutuallyExclusiveOptions(
                 option("--ex-foo", help = "exclusive foo"),
                 option("--ex-bar", help = "exclusive bar")
@@ -350,7 +365,7 @@ class PlaintextHelpFormatterTest {
             |
             |Exclusive:
             |
-            |  These options are exclusive
+            |These options are exclusive
             |
             |  --ex-foo=<text>  exclusive foo
             |  --ex-bar=<text>  exclusive bar
@@ -522,8 +537,12 @@ class PlaintextHelpFormatterTest {
     @JsName("subcommand_tag")
     fun `subcommand tag`() {
         c.subcommands(
-            TestCommand(name = "sub1", help = "sub 1 help"),
-            TestCommand(name = "sub2", help = "sub 2 help", helpTags = mapOf("deprecated" to "")),
+            TestCoreCommand(name = "sub1", help = "sub 1 help"),
+            TestCoreCommand(
+                name = "sub2",
+                help = "sub 2 help",
+                helpTags = mapOf("deprecated" to "")
+            ),
         )
         doTest(
             """
@@ -536,16 +555,16 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-
     @Test
     @JsName("multi_error")
     fun `multi error`() {
-        c.test("--foo --bar").stderr shouldBe """
+        shouldThrow<MultiUsageError> {
+            c.parse(listOf("--foo", "--bar"))
+        }.let { c.getFormattedHelp(it) } shouldBe """
             |Usage: prog [<options>]
             |
             |Error: no such option --foo
             |Error: no such option --bar
-            |
             """.trimMargin()
     }
 }

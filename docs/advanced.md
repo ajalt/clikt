@@ -565,7 +565,7 @@ dependencies {
 ```
 
 The [CliktCommand] class is only available in the full module, so you'll need to use
-[CoreCliktCommand] instead. The `CoreCliktCommand` has the same API as `CliktCommand`, but it
+[CoreCliktCommand] (or [CoreNoOpCliktCommand]) instead. The `CoreCliktCommand` has the same API as `CliktCommand`, but it
 doesn't have any of these features built in:
 
 - Text wrapping, formatting, markdown, or color support
@@ -640,7 +640,8 @@ These platforms are supported for the [core module](#core-module) only.
 
 [BaseCliktCommand]:              api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/index.html
 [CliktCommand]:                  api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
-[CliktCommand]:                  api/clikt/com.github.ajalt.clikt.core/-core-clikt-command/index.html
+[CoreCliktCommand]:              api/clikt/com.github.ajalt.clikt.core/-core-clikt-command/index.html
+[CoreNoOpCliktCommand]:          api/clikt/com.github.ajalt.clikt.core/-core-no-op-clikt-command/index.html
 [CommandLineParser]:             api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/index.html
 [CommandLineParser.main]:        api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/main.html
 [CommandLineParser.parse]:       api/clikt/com.github.ajalt.clikt.parsers/-command-line-parser/parse.html

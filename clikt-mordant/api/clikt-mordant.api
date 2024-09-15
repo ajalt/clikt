@@ -39,7 +39,8 @@ public final class com/github/ajalt/clikt/core/MordantContextKt {
 	public static final fun getTerminal (Lcom/github/ajalt/clikt/core/Context$Builder;)Lcom/github/ajalt/mordant/terminal/Terminal;
 	public static final fun getTerminal (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/mordant/terminal/Terminal;
 	public static final fun getTheme (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/mordant/rendering/Theme;
-	public static final fun installMordant (Lcom/github/ajalt/clikt/core/BaseCliktCommand;)V
+	public static final fun installMordant (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Z)V
+	public static synthetic fun installMordant$default (Lcom/github/ajalt/clikt/core/BaseCliktCommand;ZILjava/lang/Object;)V
 	public static final fun setTerminal (Lcom/github/ajalt/clikt/core/Context$Builder;Lcom/github/ajalt/mordant/terminal/Terminal;)V
 }
 
@@ -74,6 +75,7 @@ public class com/github/ajalt/clikt/output/MordantHelpFormatter : com/github/aja
 	public synthetic fun renderProlog (Ljava/lang/String;)Ljava/lang/Object;
 	protected fun renderUsage (Ljava/util/List;Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
 	public synthetic fun renderUsage (Ljava/util/List;Ljava/lang/String;)Ljava/lang/Object;
+	public fun renderWrappedText (Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
 	protected fun styleArgumentName (Ljava/lang/String;)Ljava/lang/String;
 	protected fun styleError (Ljava/lang/String;)Ljava/lang/String;
 	protected fun styleHelpTag (Ljava/lang/String;)Ljava/lang/String;

@@ -1,5 +1,7 @@
 include("clikt")
 include("clikt-mordant")
+include("clikt-mordant-markdown")
+include("test")
 include("samples:copy")
 include("samples:repo")
 include("samples:validation")

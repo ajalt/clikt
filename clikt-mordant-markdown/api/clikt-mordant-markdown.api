@@ -1,0 +1,10 @@
+public final class com/github/ajalt/clikt/core/MordantMarkdownContextKt {
+	public static final fun installMordantMarkdown (Lcom/github/ajalt/clikt/core/BaseCliktCommand;)V
+}
+
+public class com/github/ajalt/clikt/output/MordantMarkdownHelpFormatter : com/github/ajalt/clikt/output/MordantHelpFormatter {
+	public fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZ)V
+	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Ljava/lang/String;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun renderWrappedText (Ljava/lang/String;)Lcom/github/ajalt/mordant/rendering/Widget;
+}
+

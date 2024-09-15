@@ -1,10 +1,8 @@
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 
 plugins {
     kotlin("multiplatform")
-    alias(libs.plugins.publish)
 }
 
 kotlin {
@@ -22,27 +20,31 @@ kotlin {
 
     iosArm64()
     iosX64()
-    iosSimulatorArm64()
-    watchosX64()
-    watchosArm32()
-    watchosArm64()
-    watchosSimulatorArm64()
-    tvosX64()
-    tvosArm64()
-    tvosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(project(":clikt"))
+                api(project(":clikt-mordant"))
                 api(libs.mordant)
+                api(libs.mordant.markdown)
             }
         }
-    }
-}
 
-tasks.withType<DokkaTaskPartial> {
-    dokkaSourceSets.configureEach {
-        includes.from("README.md")
+        val commonTest by getting {
+            dependencies {
+                api(kotlin("test"))
+                api(libs.kotest)
+                api(libs.coroutines.core)
+                api(libs.coroutines.test)
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                api(libs.systemrules)
+                api(libs.jimfs)
+            }
+        }
     }
 }

@@ -184,8 +184,7 @@ class PlaintextHelpFormatterTest {
             |
             |Grouped:
             |
-            |  This is the help text for the option group named Grouped. This text should
-            |  wrap onto exactly three lines.
+            |  This is the help text for the option group named Grouped. This text should wrap onto exactly three lines.
             |
             |  -a, --aa=<text>  some thing to live by aa
             |  -c, --cc=<text>  some thing to live by cc

@@ -44,12 +44,15 @@ val BaseCliktCommand<*>.terminal: Terminal
  *
  * This is done automatically for [CliktCommand]s, but you can call this if you are making a custom
  * command class.
+ *
+ * @param force If true, install mordant even if the parent command has already installed a help
+ * formatter.
  */
-fun BaseCliktCommand<*>.installMordant() {
+fun BaseCliktCommand<*>.installMordant(force: Boolean = false) {
     configureContext {
         // Only install mordant if we're the parent command so that we don't override inherited
         // settings.
-        if (parent != null) return@configureContext
+        if (!force && parent != null) return@configureContext
         helpFormatter = { MordantHelpFormatter(it) }
         readEnvvar = { MultiplatformSystem.readEnvironmentVariable(it) }
         readArgumentFile = { MultiplatformSystem.readFileAsUtf8(it) ?: throw FileNotFound(it) }

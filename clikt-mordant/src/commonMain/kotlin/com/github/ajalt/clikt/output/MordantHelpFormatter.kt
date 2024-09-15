@@ -4,7 +4,6 @@ import com.github.ajalt.clikt.core.Context
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
-import com.github.ajalt.mordant.markdown.Markdown
 import com.github.ajalt.mordant.rendering.Theme
 import com.github.ajalt.mordant.rendering.Whitespace
 import com.github.ajalt.mordant.rendering.Widget
@@ -83,11 +82,11 @@ open class MordantHelpFormatter(
     }
 
     override fun renderProlog(prolog: String): Widget {
-        return Markdown(prolog, showHtml = true).withPadding(padEmptyLines = false) { left = 2 }
+        return renderWrappedText(prolog).withPadding(padEmptyLines = false) { left = 2 }
     }
 
     override fun renderEpilog(epilog: String): Widget {
-        return Markdown(epilog, showHtml = true)
+        return renderWrappedText(epilog)
     }
 
     override fun renderParameters(
@@ -97,13 +96,14 @@ open class MordantHelpFormatter(
             entry(section.title, section.content)
         }
     }
+
     override fun renderOptionGroup(
         help: String?,
         parameters: List<ParameterHelp.Option>,
     ): Widget {
         val options = parameters.map(::renderOptionDefinition)
         if (help == null) return buildParameterList(options)
-        val markdown = Markdown(help, showHtml = true).withPadding(padEmptyLines = false) {
+        val markdown = renderWrappedText(help).withPadding(padEmptyLines = false) {
             top = 1
             left = 2
             bottom = 1
@@ -141,7 +141,7 @@ open class MordantHelpFormatter(
 
     override fun renderDefinitionDescription(row: DefinitionRow): Widget {
         return if (row.description.isBlank()) Text("")
-        else (Markdown(row.description, showHtml = true))
+        else renderWrappedText(row.description)
     }
 
     override fun buildParameterList(rows: List<DefinitionRow>): Widget {
@@ -152,4 +152,6 @@ open class MordantHelpFormatter(
             }
         }
     }
+
+    open fun renderWrappedText(text: String): Widget = Text(text)
 }

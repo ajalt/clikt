@@ -75,6 +75,7 @@ class PlaintextHelpFormatter(
         parameters: List<HelpFormatter.ParameterHelp.Option>,
     ): String = buildString {
         if (help != null) {
+            appendLine()
             appendLine(help)
             appendLine()
         }

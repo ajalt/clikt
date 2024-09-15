@@ -18,6 +18,7 @@
 - Added `associate{}`, `associateBy{}`, and `associateWith{}` transforms for options that allow you to convert the keys and values of the map.  ([#529](https://github.com/ajalt/clikt/pull/529))
 - Added support for aliasing options to other options. ([#535](https://github.com/ajalt/clikt/pull/535))
 - Added `limit` and `ignoreCase` parameters to `option().split()`. ([#541](https://github.com/ajalt/clikt/pull/541))
+- Support calling `--help` on subcommands when parents have required parameters.
 
 ### Changed
 - In a subcommand with and an `argument()` with `multiple()` or `optional()`, the behavior is now the same regardless of the value of `allowMultipleSubcommands`: if a token matches a subcommand name, it's now treated as a subcommand rather than a positional argument.
@@ -39,8 +40,8 @@
 - **Breaking Change:** `CliktCommand.main` and `CliktCommand.parse` are now extension functions rather than methods.
 - **Breaking Change:** `Context.obj` and `Context.terminal`, and `OptionTransformContext.terminal` are now extension functions rather than properties.
 - **Breaking Change:** The `RenderedSection` and `DefinitionRow` classes have moved to `AbstractHelpFormatter`.
+- Markdown support in the help formatter is no longer included by default. To enable it, include the `:clikt-markdown` dependency and call `yourCommand.installMordantMarkdown()` before parsing.
 - Updated Kotlin to 2.0.0
-- Support calling `--help` on subcommands when parents have required parameters.
 
 ### Fixed
 - Fixed excess arguments not being reported when `allowMultipleSubcommands=true` and a subcommand has excess arguments followed by another subcommand.

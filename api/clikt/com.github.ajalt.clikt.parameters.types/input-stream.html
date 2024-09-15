@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>inputStream</title>
-    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "../../";</script>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
     if (storage == null) {
@@ -19,22 +18,19 @@
         }
     }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../styles/style.css" rel="Stylesheet">
 <link href="../../styles/main.css" rel="Stylesheet">
 <link href="../../styles/prism.css" rel="Stylesheet">
 <link href="../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
-<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
-<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
-<link href="../../images/wordmark_small_dark.svg">
-<link href="../../styles/logo-styles.css" rel="Stylesheet">
-</head>
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
 <nav class="navigation" id="navigation-wrapper">
@@ -42,15 +38,14 @@
         <div class="navigation-title">
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
-                    <a class="library-name--link" href="../../index.html">
+<a class="library-name--link" href="../../index.html">
                             clikt
-                    </a>
-            </div>
+                    </a>            </div>
             <div class="library-version">
             </div>
         </div>
         <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":clikt:dokkaHtml/jvmMain">jvm</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":clikt:dokkaHtmlPartial/jvmMain">jvm</button>
         </div>
     </div>
     <div class="navigation-controls">
@@ -63,22 +58,21 @@
                 <div class="sidebar--inner" id="sideMenu"></div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="clikt::com.github.ajalt.clikt.parameters.types//inputStream/com.github.ajalt.clikt.parameters.options.OptionWithValues[kotlin.String?,kotlin.String,kotlin.String]#java.nio.file.FileSystem/PointingToDeclaration//-2027280851">
-  <div class="breadcrumbs"><a href="../../index.html">clikt</a><span class="delimiter">/</span><a href="index.html">com.github.ajalt.clikt.parameters.types</a><span class="delimiter">/</span><span class="current">inputStream</span></div>
+<div class="main-content" data-page-type="member" id="content" pageids="clikt-core::com.github.ajalt.clikt.parameters.types//inputStream/com.github.ajalt.clikt.parameters.options.OptionWithValues[kotlin.String?,kotlin.String,kotlin.String]#java.nio.file.FileSystem/PointingToDeclaration//246062266">
+  <div class="breadcrumbs"><a href="../index.html">clikt-core</a><span class="delimiter">/</span><a href="index.html">com.github.ajalt.clikt.parameters.types</a><span class="delimiter">/</span><span class="current">inputStream</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>input</span><wbr></wbr><span><span>Stream</span></span></h1>
+    <h1 class="cover"><span>input</span><wbr><span><span>Stream</span></span></h1>
   </div>
   <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
-    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtml/jvmMain" data-filterable-set=":clikt:dokkaHtml/jvmMain" data-active="" data-toggle=":clikt:dokkaHtml/jvmMain">jvm</button></div>
-<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/jvmMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../com.github.ajalt.clikt.parameters.options/-raw-option/index.html">RawOption</a><span class="token punctuation">.</span><a href="input-stream.html"><span class="token function">inputStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.github.ajalt.clikt.parameters.options/-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span></div><p class="paragraph">Convert the option to an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a>.</p><p class="paragraph">The value given on the command line must be either a path to a readable file, or <code class="lang-kotlin">-</code>. If <code class="lang-kotlin">-</code> is given, stdin will be used.</p><p class="paragraph">If stdin is used, the resulting <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a> will be a proxy for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a> that will not close the underlying stream. So you can always <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html#close--">close</a> the resulting stream without worrying about accidentally closing <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a>.</p><hr><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../com.github.ajalt.clikt.parameters.arguments/-raw-argument/index.html">RawArgument</a><span class="token punctuation">.</span><a href="input-stream.html"><span class="token function">inputStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.github.ajalt.clikt.parameters.arguments/-processed-argument/index.html">ProcessedArgument</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span></div><p class="paragraph">Convert the argument to an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a>.</p><p class="paragraph">The value given on the command line must be either a path to a readable file, or <code class="lang-kotlin">-</code>. If <code class="lang-kotlin">-</code> is given, stdin will be used.</p><p class="paragraph">If stdin is used, the resulting <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a> will be a proxy for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a> that will not close the underlying stream. So you can always <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html#close--">close</a> the resulting stream without worrying about accidentally closing <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a>.</p></div>  </div>
+    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":clikt:dokkaHtmlPartial/jvmMain" data-filterable-set=":clikt:dokkaHtmlPartial/jvmMain" data-active="" data-toggle=":clikt:dokkaHtmlPartial/jvmMain">jvm</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/jvmMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../com.github.ajalt.clikt.parameters.options/-raw-option/index.html">RawOption</a><span class="token punctuation">.</span><a href="input-stream.html"><span class="token function">inputStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.github.ajalt.clikt.parameters.options/-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span></div><p class="paragraph">Convert the option to an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a>.</p><p class="paragraph">The value given on the command line must be either a path to a readable file, or <code class="lang-kotlin">-</code>. If <code class="lang-kotlin">-</code> is given, stdin will be used.</p><p class="paragraph">If stdin is used, the resulting <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a> will be a proxy for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a> that will not close the underlying stream. So you can always <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html#close--">close</a> the resulting stream without worrying about accidentally closing <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a>.</p><hr><div class="symbol monospace"><span class="token keyword">fun </span><a href="../com.github.ajalt.clikt.parameters.arguments/-raw-argument/index.html">RawArgument</a><span class="token punctuation">.</span><a href="input-stream.html"><span class="token function">inputStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fileSystem<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html">FileSystem</a><span class="token operator"> = </span>FileSystems.getDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.github.ajalt.clikt.parameters.arguments/-processed-argument/index.html">ProcessedArgument</a><span class="token operator">&lt;</span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span><a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a><span class="token operator">&gt;</span></div><p class="paragraph">Convert the argument to an <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a>.</p><p class="paragraph">The value given on the command line must be either a path to a readable file, or <code class="lang-kotlin">-</code>. If <code class="lang-kotlin">-</code> is given, stdin will be used.</p><p class="paragraph">If stdin is used, the resulting <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html">InputStream</a> will be a proxy for <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a> that will not close the underlying stream. So you can always <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html#close--">close</a> the resulting stream without worrying about accidentally closing <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/System.html">System. in</a>.</p></div>  </div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span
-                class="pull-right"><span>Generated by </span><a
-                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright © 2018 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+

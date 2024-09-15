@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>transformValues</title>
-    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "../../";</script>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
     if (storage == null) {
@@ -19,22 +18,19 @@
         }
     }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async="async"></script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../styles/style.css" rel="Stylesheet">
 <link href="../../styles/main.css" rel="Stylesheet">
 <link href="../../styles/prism.css" rel="Stylesheet">
 <link href="../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
-<script type="text/javascript" src="../../scripts/clipboard.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/navigation-loader.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/platform-content-handler.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/main.js" defer="defer"></script>
-<script type="text/javascript" src="../../scripts/prism.js" async="async"></script>
-<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
-<link href="../../images/wordmark_small_dark.svg">
-<link href="../../styles/logo-styles.css" rel="Stylesheet">
-</head>
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
 <nav class="navigation" id="navigation-wrapper">
@@ -42,15 +38,14 @@
         <div class="navigation-title">
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
-                    <a class="library-name--link" href="../../index.html">
+<a class="library-name--link" href="../../index.html">
                             clikt
-                    </a>
-            </div>
+                    </a>            </div>
             <div class="library-version">
             </div>
         </div>
         <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button>
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtmlPartial/commonMain">common</button>
         </div>
     </div>
     <div class="navigation-controls">
@@ -63,20 +58,19 @@
                 <div class="sidebar--inner" id="sideMenu"></div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="clikt::com.github.ajalt.clikt.parameters.options//transformValues/com.github.ajalt.clikt.parameters.options.OptionWithValues[TypeParam(bounds=[kotlin.Any?])?,TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#kotlin.ranges.IntRange#kotlin.Function2[com.github.ajalt.clikt.parameters.options.OptionCallTransformContext,kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])],TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration//-71441751">
-  <div class="breadcrumbs"><a href="../../index.html">clikt</a><span class="delimiter">/</span><a href="index.html">com.github.ajalt.clikt.parameters.options</a><span class="delimiter">/</span><span class="current">transformValues</span></div>
+<div class="main-content" data-page-type="member" id="content" pageids="clikt-core::com.github.ajalt.clikt.parameters.options//transformValues/com.github.ajalt.clikt.parameters.options.OptionWithValues[TypeParam(bounds=[kotlin.Any?])?,TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]#kotlin.ranges.IntRange#kotlin.Function2[com.github.ajalt.clikt.parameters.options.OptionCallTransformContext,kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])],TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration//1255504572">
+  <div class="breadcrumbs"><a href="../index.html">clikt-core</a><span class="delimiter">/</span><a href="index.html">com.github.ajalt.clikt.parameters.options</a><span class="delimiter">/</span><span class="current">transformValues</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>transform</span><wbr></wbr><span><span>Values</span></span></h1>
+    <h1 class="cover"><span>transform</span><wbr><span><span>Values</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">EachT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token operator">&gt; </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="transform-values.html"><span class="token function">transformValues</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html">IntRange</a><span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><a href="-values-transformer/index.html">ValuesTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">EachT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">EachT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span></div><p class="paragraph">Change the number of values that this option takes.</p><p class="paragraph">This overload changes the option to take a variable number of values, with the number of values falling within the <a href="transform-values.html">nvalues</a> range. If this option is called via an envvar, the list will contain one item, even if <a href="transform-values.html">nvalues</a> = <code class="lang-kotlin">0..0</code>.</p><hr><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">EachT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token operator">&gt; </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="transform-values.html"><span class="token function">transformValues</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><a href="-values-transformer/index.html">ValuesTransformer</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">EachT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="transform-values.html">EachT</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span></div><p class="paragraph">Change the number of values that this option takes.</p><p class="paragraph">The input will be a list of size <a href="transform-values.html">nvalues</a>, with each item in the list being the output of a call to <a href="convert.html">convert</a>. If this option is called via an envvar, the list will contain one item, even if <a href="transform-values.html">nvalues</a> = 0.</p><p class="paragraph"><a href="transform-values.html">nvalues</a> cannot be 1, since <a href="option.html">option</a> has <a href="transform-values.html">nvalues</a> = 1 by default. If you want to change the type of an option with one value, use <a href="convert.html">convert</a> instead.</p><p class="paragraph">This is used to implement functions like <a href="pair.html">pair</a> and <a href="triple.html">triple</a>. It must be applied after value <a href="convert.html">conversions</a> and before <a href="transform-all.html">transformAll</a>.</p><h2 class=""> Example</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">data class Square(val top: Int, val right: Int, val bottom: Int, val left: Int)<br>val square by option().int().transformValues(4) { Square(it[0], it[1], it[2], it[3]) }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="transform-values.html">EachT</a><span class="token punctuation">, </span><a href="transform-values.html">ValueT</a><span class="token operator">&gt; </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="transform-values.html"><span class="token function">transformValues</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/-int-range/index.html">IntRange</a><span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><a href="-values-transformer/index.html">ValuesTransformer</a><span class="token operator">&lt;</span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><a href="transform-values.html">EachT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><a href="transform-values.html">EachT</a><span class="token punctuation">, </span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span></div><p class="paragraph">Change the number of values that this option takes.</p><p class="paragraph">This overload changes the option to take a variable number of values, with the number of values falling within the <a href="transform-values.html">nvalues</a> range. If this option is called via an envvar, the list will contain one item, even if <a href="transform-values.html">nvalues</a> = <code class="lang-kotlin">0..0</code>.</p><hr><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="transform-values.html">EachT</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="transform-values.html">ValueT</a><span class="token operator">&gt; </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="transform-values.html"><span class="token function">transformValues</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">nvalues<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><a href="-values-transformer/index.html">ValuesTransformer</a><span class="token operator">&lt;</span><a href="transform-values.html">ValueT</a><span class="token punctuation">, </span><a href="transform-values.html">EachT</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-nullable-option/index.html">NullableOption</a><span class="token operator">&lt;</span><a href="transform-values.html">EachT</a><span class="token punctuation">, </span><a href="transform-values.html">ValueT</a><span class="token operator">&gt;</span></div><p class="paragraph">Change the number of values that this option takes.</p><p class="paragraph">The input will be a list of size <a href="transform-values.html">nvalues</a>, with each item in the list being the output of a call to <a href="convert.html">convert</a>. If this option is called via an envvar, the list will contain one item, even if <a href="transform-values.html">nvalues</a> = 0.</p><p class="paragraph"><a href="transform-values.html">nvalues</a> cannot be 1, since <a href="option.html">option</a> has <a href="transform-values.html">nvalues</a> = 1 by default. If you want to change the type of an option with one value, use <a href="convert.html">convert</a> instead.</p><p class="paragraph">This is used to implement functions like <a href="pair.html">pair</a> and <a href="triple.html">triple</a>. It must be applied after value <a href="convert.html">conversions</a> and before <a href="transform-all.html">transformAll</a>.</p><h2 class="">Example</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">data class Square(val top: Int, val right: Int, val bottom: Int, val left: Int)<br>val square by option().int().transformValues(4) { Square(it[0], it[1], it[2], it[3]) }</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span
-                class="pull-right"><span>Generated by </span><a
-                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright © 2018 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+

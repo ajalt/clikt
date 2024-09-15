@@ -1,10 +1,9 @@
-/* Custom CSS for Dokka docs */
+/*
+ * Copyright 2014-2023 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
+ */
 
-#logo {
-    background-image: url('../images/wordmark_small_dark.svg');
-}
-
-/* Remove the "What on this Page" tab that covers up the scroll bar */
-.page-summary {
-    display: none;
+:root {
+    --dokka-logo-image-url: url('../images/logo-icon.svg');
+    --dokka-logo-height: 50px;
+    --dokka-logo-width: 50px;
 }

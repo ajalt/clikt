@@ -1,0 +1,205 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CommandLineParser</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            clikt
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtmlPartial/commonMain">common</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="clikt-core::com.github.ajalt.clikt.parsers/CommandLineParser///PointingToDeclaration//1255504572">
+  <div class="breadcrumbs"><a href="../../index.html">clikt-core</a><span class="delimiter">/</span><a href="../index.html">com.github.ajalt.clikt.parsers</a><span class="delimiter">/</span><span class="current">CommandLineParser</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Command</span><wbr><span>Line</span><wbr><span><span>Parser</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">CommandLineParser</a></div><p class="paragraph">Methods for parsing command lines and running commands manually.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-843514249%2FFunctions%2F1255504572" anchor-label="finalizeCommand" id="-843514249%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="finalize-command.html"><span>finalize</span><wbr><span><span>Command</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-843514249%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="finalize-command.html"><span class="token function">finalizeCommand</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">invocation<span class="token operator">: </span><a href="../-command-invocation/index.html">CommandInvocation</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Finalize a command invocation, converting and setting the values for all options and other parameters. This function does not <a href="finalize-eager-options.html">finalizeEagerOptions</a> or <a href="run.html">run</a> the command.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="718288200%2FFunctions%2F1255504572" anchor-label="finalizeEagerOptions" id="718288200%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="finalize-eager-options.html"><span>finalize</span><wbr><span>Eager</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="718288200%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="finalize-eager-options.html"><span class="token function">finalizeEagerOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">invocation<span class="token operator">: </span><a href="../-command-invocation/index.html">CommandInvocation</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Finalize eager options for a command invocation, running them if they were invoked.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-359482889%2FFunctions%2F1255504572" anchor-label="main" id="-359482889%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="main.html"><span><span>main</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-359482889%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="main.html">T</a><span class="token operator"> : </span><a href="../../com.github.ajalt.clikt.core/-base-clikt-command/index.html">BaseCliktCommand</a><span class="token operator">&lt;</span><a href="main.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="main.html"><span class="token function">main</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">command<span class="token operator">: </span><a href="main.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">parseAndRun<span class="token operator">: </span><a href="main.html">T</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Call <a href="main.html">parseAndRun</a> on the given <a href="main.html">command</a>. If an error is thrown, exit the process with the error's <a href="../../com.github.ajalt.clikt.core/-clikt-error/status-code.html">status code</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1875580169%2FFunctions%2F1255504572" anchor-label="mainReturningValue" id="1875580169%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="main-returning-value.html"><span>main</span><wbr><span>Returning</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1875580169%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="main-returning-value.html">T</a><span class="token operator"> : </span><a href="../../com.github.ajalt.clikt.core/-base-clikt-command/index.html">BaseCliktCommand</a><span class="token operator">&lt;</span><a href="main-returning-value.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><a href="main-returning-value.html">R</a><span class="token operator">&gt; </span><a href="main-returning-value.html"><span class="token function">mainReturningValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">command<span class="token operator">: </span><a href="main-returning-value.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">parseAndRun<span class="token operator">: </span><a href="main-returning-value.html">T</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="main-returning-value.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="main-returning-value.html">R</a></div><div class="brief "><p class="paragraph">Call <a href="main-returning-value.html">parseAndRun</a> on the given <a href="main-returning-value.html">command</a>. If an error is thrown, exit the process with the error's <a href="../../com.github.ajalt.clikt.core/-clikt-error/status-code.html">status code</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1346662363%2FFunctions%2F1255504572" anchor-label="parse" id="1346662363%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="parse.html"><span><span>parse</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1346662363%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="parse.html">T</a><span class="token operator"> : </span><a href="../../com.github.ajalt.clikt.core/-base-clikt-command/index.html">BaseCliktCommand</a><span class="token operator">&lt;</span><a href="parse.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="parse.html"><span class="token function">parse</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">command<span class="token operator">: </span><a href="parse.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">argv<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-command-line-parse-result/index.html">CommandLineParseResult</a><span class="token operator">&lt;</span><a href="parse.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Parse a command line and return the result.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-620555920%2FFunctions%2F1255504572" anchor-label="parseAndRun" id="-620555920%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="parse-and-run.html"><span>parse</span><wbr><span>And</span><wbr><span><span>Run</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-620555920%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="parse-and-run.html">T</a><span class="token operator"> : </span><a href="../../com.github.ajalt.clikt.core/-base-clikt-command/index.html">BaseCliktCommand</a><span class="token operator">&lt;</span><a href="parse-and-run.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="parse-and-run.html"><span class="token function">parseAndRun</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">command<span class="token operator">: </span><a href="parse-and-run.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">argv<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">runCommand<span class="token operator">: </span><span class="token punctuation">(</span><a href="parse-and-run.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-command-line-parse-result/index.html">CommandLineParseResult</a><span class="token operator">&lt;</span><a href="parse-and-run.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">A shortcut for calling <code class="lang-kotlin">run(parse(command, argv).invocation, runCommand)</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1693378015%2FFunctions%2F1255504572" anchor-label="run" id="-1693378015%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="run.html"><span><span>run</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1693378015%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="run.html">T</a><span class="token operator"> : </span><a href="../../com.github.ajalt.clikt.core/-base-clikt-command/index.html">BaseCliktCommand</a><span class="token operator">&lt;</span><a href="run.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="run.html"><span class="token function">run</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">rootInvocation<span class="token operator">: </span><a href="../-command-invocation/index.html">CommandInvocation</a><span class="token operator">&lt;</span><a href="run.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">runCommand<span class="token operator">: </span><span class="token punctuation">(</span><a href="run.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph"><a href="finalize-command.html">Finalize</a> and <a href="run.html">run</a> all invoked commands.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1168217990%2FFunctions%2F1255504572" anchor-label="tokenize" id="1168217990%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="tokenize.html"><span><span>tokenize</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1168217990%2FFunctions%2F1255504572"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="tokenize.html"><span class="token function">tokenize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">commandLine<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">filename<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter ">localization<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.output/-localization/index.html">Localization</a><span class="token operator"> = </span>defaultLocalization</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Split a command line into a list of argv tokens.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright © 2018 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

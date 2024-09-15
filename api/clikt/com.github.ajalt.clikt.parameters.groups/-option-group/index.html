@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>OptionGroup</title>
-    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "../../../";</script>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
     if (storage == null) {
@@ -19,22 +18,19 @@
         }
     }
     </script>
-<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
-<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
 <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
-<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
-<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
-<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
-<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
-<link href="../../../images/wordmark_small_dark.svg">
-<link href="../../../styles/logo-styles.css" rel="Stylesheet">
-</head>
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
 <body>
     <div class="root">
 <nav class="navigation" id="navigation-wrapper">
@@ -42,15 +38,14 @@
         <div class="navigation-title">
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
-                    <a class="library-name--link" href="../../../index.html">
+<a class="library-name--link" href="../../../index.html">
                             clikt
-                    </a>
-            </div>
+                    </a>            </div>
             <div class="library-version">
             </div>
         </div>
         <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtml/commonMain">common</button>
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":clikt:dokkaHtmlPartial/commonMain">common</button>
         </div>
     </div>
     <div class="navigation-controls">
@@ -63,28 +58,28 @@
                 <div class="sidebar--inner" id="sideMenu"></div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="classlike" id="content" pageIds="clikt::com.github.ajalt.clikt.parameters.groups/OptionGroup///PointingToDeclaration//-71441751">
-  <div class="breadcrumbs"><a href="../../../index.html">clikt</a><span class="delimiter">/</span><a href="../index.html">com.github.ajalt.clikt.parameters.groups</a><span class="delimiter">/</span><span class="current">OptionGroup</span></div>
+<div class="main-content" data-page-type="classlike" id="content" pageids="clikt-core::com.github.ajalt.clikt.parameters.groups/OptionGroup///PointingToDeclaration//1255504572">
+  <div class="breadcrumbs"><a href="../../index.html">clikt-core</a><span class="delimiter">/</span><a href="../index.html">com.github.ajalt.clikt.parameters.groups</a><span class="delimiter">/</span><span class="current">OptionGroup</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>Option</span><wbr></wbr><span><span>Group</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">OptionGroup</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="../-parameter-group/index.html">ParameterGroup</a>, <a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a></div><p class="paragraph">A group of options that can be shown together in help output, or restricted to be <a href="../cooccurring.html">cooccurring</a>.</p><p class="paragraph">Declare a subclass with option delegate properties, then use an instance of your subclass is a delegate property in your command with <a href="../provide-delegate.html">provideDelegate</a>.</p><h3 class=""> Example:</h3><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">class UserOptions : OptionGroup(name = &quot;User Options&quot;, help = &quot;Options controlling the user&quot;) {<br>  val name by option()<br>  val age by option().int()<br>}<br><br>class Tool : CliktCommand() {<br>  val userOptions by UserOptions()<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <h1 class="cover"><span>Option</span><wbr><span><span>Group</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">OptionGroup</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="../-parameter-group/index.html">ParameterGroup</a>, <a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a></div><p class="paragraph">A group of options that can be shown together in help output, or restricted to be <a href="../cooccurring.html">cooccurring</a>.</p><p class="paragraph">Declare a subclass with option delegate properties, then use an instance of your subclass is a delegate property in your command with <a href="../provide-delegate.html">provideDelegate</a>.</p><h3 class="">Example:</h3><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">class UserOptions : OptionGroup(name = "User Options", help = "Options controlling the user") {<br>  val name by option()<br>  val age by option().int()<br>}<br><br>class Tool : CliktCommand() {<br>  val userOptions by UserOptions()<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="971989983%2FConstructors%2F-71441751" anchor-label="OptionGroup" id="971989983%2FConstructors%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+        <div class="table"><a data-name="971989983%2FConstructors%2F1255504572" anchor-label="OptionGroup" id="971989983%2FConstructors%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-option-group.html"><span>Option</span><wbr></wbr><span><span>Group</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="971989983%2FConstructors%2F-71441751"></span>
+                  <div><a href="-option-group.html"><span>Option</span><wbr><span><span>Group</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="971989983%2FConstructors%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -93,32 +88,32 @@
       </div>
       <div data-togglable="PROPERTY">
         <h2 class="">Properties</h2>
-        <div class="table"><a data-name="-195880182%2FProperties%2F-71441751" anchor-label="groupHelp" id="-195880182%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+        <div class="table"><a data-name="-195880182%2FProperties%2F1255504572" anchor-label="groupHelp" id="-195880182%2FProperties%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="group-help.html"><span>group</span><wbr></wbr><span><span>Help</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-195880182%2FProperties%2F-71441751"></span>
+                  <div><a href="group-help.html"><span>group</span><wbr><span><span>Help</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-195880182%2FProperties%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="group-help.html">groupHelp</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A help message to display for this group.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="group-help.html">groupHelp</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">A help message to display for this group.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1307105024%2FProperties%2F-71441751" anchor-label="groupName" id="1307105024%2FProperties%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+<a data-name="1307105024%2FProperties%2F1255504572" anchor-label="groupName" id="1307105024%2FProperties%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="group-name.html"><span>group</span><wbr></wbr><span><span>Name</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1307105024%2FProperties%2F-71441751"></span>
+                  <div><a href="group-name.html"><span>group</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1307105024%2FProperties%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="group-name.html">groupName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The name of the group, or null if parameters in the group should not be separated from other parameters in the help output.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="group-name.html">groupName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The name of the group, or null if parameters in the group should not be separated from other parameters in the help output.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -127,92 +122,92 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="271763117%2FFunctions%2F-71441751" anchor-label="finalize" id="271763117%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+        <div class="table"><a data-name="236208376%2FFunctions%2F1255504572" anchor-label="finalize" id="236208376%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="finalize.html"><span><span>finalize</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="271763117%2FFunctions%2F-71441751"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="236208376%2FFunctions%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="finalize.html"><span class="token function">finalize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">invocationsByOption<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.github.ajalt.clikt.parsers/-invocation/index.html">Invocation</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called after this command's argv is parsed and all options are validated to validate the group constraints.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="finalize.html"><span class="token function">finalize</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">invocationsByOption<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="../../com.github.ajalt.clikt.parameters.options/-option/index.html">Option</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.github.ajalt.clikt.parsers/-option-invocation/index.html">OptionInvocation</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called after this command's argv is parsed and all options are validated to validate the group constraints.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1328508273%2FFunctions%2F-71441751" anchor-label="mutuallyExclusiveOptions" id="-1328508273%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+<a data-name="-1328508273%2FFunctions%2F1255504572" anchor-label="mutuallyExclusiveOptions" id="-1328508273%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="../mutually-exclusive-options.html"><span>mutually</span><wbr></wbr><span>Exclusive</span><wbr></wbr><span><span>Options</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1328508273%2FFunctions%2F-71441751"></span>
+                  <div><a href="../mutually-exclusive-options.html"><span>mutually</span><wbr><span>Exclusive</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1328508273%2FFunctions%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../mutually-exclusive-options.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a><span class="token punctuation">.</span><a href="../mutually-exclusive-options.html"><span class="token function">mutuallyExclusiveOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">option1<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/index.html">OptionDelegate</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">option2<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/index.html">OptionDelegate</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>options<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/index.html">OptionDelegate</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-mutually-exclusive-options/index.html">MutuallyExclusiveOptions</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../mutually-exclusive-options.html">T</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Declare a set of two or more mutually exclusive options.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../mutually-exclusive-options.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a><span class="token punctuation">.</span><a href="../mutually-exclusive-options.html"><span class="token function">mutuallyExclusiveOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">option1<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/index.html">OptionDelegate</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">option2<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/index.html">OptionDelegate</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>options<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-option-delegate/index.html">OptionDelegate</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-mutually-exclusive-options/index.html">MutuallyExclusiveOptions</a><span class="token operator">&lt;</span><a href="../mutually-exclusive-options.html">T</a><span class="token punctuation">, </span><a href="../mutually-exclusive-options.html">T</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Declare a set of two or more mutually exclusive options.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1177667549%2FFunctions%2F-71441751" anchor-label="option" id="1177667549%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+<a data-name="1177667549%2FFunctions%2F1255504572" anchor-label="option" id="1177667549%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../../com.github.ajalt.clikt.parameters.options/option.html"><span><span>option</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1177667549%2FFunctions%2F-71441751"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1177667549%2FFunctions%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.options/option.html"><span class="token function">option</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>names<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">&quot;&quot;</span><span class="token punctuation">, </span></span><span class="parameter ">metavar<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">hidden<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">envvar<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">helpTags<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyMap()<span class="token punctuation">, </span></span><span class="parameter ">completionCandidates<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">valueSourceKey<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">eager<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/index.html">RawOption</a></div><div class="brief "><p class="paragraph">Create a property delegate option.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../com.github.ajalt.clikt.core/-parameter-holder/index.html">ParameterHolder</a><span class="token punctuation">.</span><a href="../../com.github.ajalt.clikt.parameters.options/option.html"><span class="token function">option</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>names<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">help<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter ">metavar<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">hidden<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">envvar<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">helpTags<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyMap()<span class="token punctuation">, </span></span><span class="parameter ">completionCandidates<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.completion/-completion-candidates/index.html">CompletionCandidates</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">valueSourceKey<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">eager<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.parameters.options/-raw-option/index.html">RawOption</a></div><div class="brief "><p class="paragraph">Create a property delegate option.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1874453299%2FFunctions%2F-71441751" anchor-label="parameterHelp" id="-1874453299%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+<a data-name="-1874453299%2FFunctions%2F1255504572" anchor-label="parameterHelp" id="-1874453299%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="../-parameter-group/parameter-help.html"><span>parameter</span><wbr></wbr><span><span>Help</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1874453299%2FFunctions%2F-71441751"></span>
+                  <div><a href="../-parameter-group/parameter-help.html"><span>parameter</span><wbr><span><span>Help</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1874453299%2FFunctions%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-parameter-group/parameter-help.html"><span class="token function">parameterHelp</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-group/index.html">HelpFormatter.ParameterHelp.Group</a><span class="token operator">?</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-parameter-group/parameter-help.html"><span class="token function">parameterHelp</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.github.ajalt.clikt.output/-help-formatter/-parameter-help/-group/index.html">HelpFormatter.ParameterHelp.Group</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="2193911%2FFunctions%2F-71441751" anchor-label="postValidate" id="2193911%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+<a data-name="2193911%2FFunctions%2F1255504572" anchor-label="postValidate" id="2193911%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="post-validate.html"><span>post</span><wbr></wbr><span><span>Validate</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2193911%2FFunctions%2F-71441751"></span>
+                  <div><a href="post-validate.html"><span>post</span><wbr><span><span>Validate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2193911%2FFunctions%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="post-validate.html"><span class="token function">postValidate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called after all of a command's parameters have been <a href="finalize.html">finalize</a>d to perform validation of the final values.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="post-validate.html"><span class="token function">postValidate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-context/index.html">Context</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called after all of a command's parameters have been <a href="finalize.html">finalize</a>d to perform validation of the final values.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1768523654%2FFunctions%2F-71441751" anchor-label="registerOption" id="-1768523654%2FFunctions%2F-71441751" data-filterable-set=":clikt:dokkaHtml/commonMain"></a>
-          <div class="table-row" data-filterable-current=":clikt:dokkaHtml/commonMain" data-filterable-set=":clikt:dokkaHtml/commonMain">
+<a data-name="-1768523654%2FFunctions%2F1255504572" anchor-label="registerOption" id="-1768523654%2FFunctions%2F1255504572" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":clikt:dokkaHtmlPartial/commonMain" data-filterable-set=":clikt:dokkaHtmlPartial/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="register-option.html"><span>register</span><wbr></wbr><span><span>Option</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1768523654%2FFunctions%2F-71441751"></span>
+                  <div><a href="register-option.html"><span>register</span><wbr><span><span>Option</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1768523654%2FFunctions%2F1255504572"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="register-option.html"><span class="token function">registerOption</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">option<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-groupable-option/index.html">GroupableOption</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Register an option with this command or group.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":clikt:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="register-option.html"><span class="token function">registerOption</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">option<span class="token operator">: </span><a href="../../com.github.ajalt.clikt.core/-groupable-option/index.html">GroupableOption</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Register an option with this command or group.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -223,12 +218,11 @@
   </div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright &copy; 2021 AJ Alt</span><span
-                class="pull-right"><span>Generated by </span><a
-                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright © 2018 AJ Alt</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+

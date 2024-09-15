@@ -79,17 +79,19 @@ manage a database:
 
 === "Example"
     ```kotlin
-    class Database: CliktCommand(name="db") {
+    class Database : CliktCommand(name = "db") {
         override fun run() = Unit
     }
-
-    class Init: CliktCommand(help="Initialize the database") {
+    
+    class Init : CliktCommand() {
+        override fun help(context: Context) = "Initialize the database"
         override fun run() {
             echo("Initialized the database.")
         }
     }
-
-    class Drop: CliktCommand(help="Drop the database") {
+    
+    class Drop : CliktCommand() {
+        override fun help(context: Context) = "Drop the database"
         override fun run() {
             echo("Dropped the database.")
         }

@@ -16,6 +16,7 @@ import com.github.ajalt.mordant.terminal.Terminal
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlin.js.JsName
 import kotlin.test.Test
 
@@ -29,10 +30,13 @@ class MordantHelpFormatterTest {
         command: CliktCommand = c,
         helpNames: Set<String> = emptySet(),
     ) {
-        command.context {
+        val formattedHelp = command.context {
             terminal = Terminal(width = width, ansiLevel = AnsiLevel.NONE)
             helpOptionNames = helpNames
-        }.getFormattedHelp() shouldBe expected.trimMargin()
+        }.getFormattedHelp()
+        command.currentContext.helpFormatter(command.currentContext)
+            .shouldBeInstanceOf<MordantHelpFormatter>()
+        formattedHelp shouldBe expected.trimMargin()
     }
 
     @Test
@@ -222,39 +226,6 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_prolog_list")
-    fun `prolog list`() {
-        val c = TestCommand(
-            name = "prog",
-            help = """
-            |Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            |
-            |- Morbi id libero purus.
-            |- Praesent sit amet neque tellus.
-            |
-            |Vivamus dictum varius massa, at euismod turpis maximus eu. Suspendisse molestie mauris at
-            |turpis bibendum egestas.
-            """.trimMargin(),
-        )
-        doTest(
-            """
-            |Usage: prog
-            |
-            |  Lorem ipsum dolor sit amet, consectetur adipiscing
-            |  elit.
-            |
-            |   • Morbi id libero purus.
-            |   • Praesent sit amet neque tellus.
-            |
-            |  Vivamus dictum varius massa, at euismod turpis
-            |  maximus eu. Suspendisse molestie mauris at turpis
-            |  bibendum egestas.
-            """,
-            width = 54,
-            command = c
-        )
-    }
 
     @Test
     @JsName("help_output_one_opt_manual_line_break_narrow")

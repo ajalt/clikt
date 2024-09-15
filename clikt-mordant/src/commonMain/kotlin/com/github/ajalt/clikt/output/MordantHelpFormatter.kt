@@ -153,5 +153,9 @@ open class MordantHelpFormatter(
         }
     }
 
-    open fun renderWrappedText(text: String): Widget = Text(text)
+    open fun renderWrappedText(text: String): Widget {
+        // Replace double newlines with a hard line break since there's no Whitespace equivalent for
+        // markdown's paragraph behavior.
+        return Text(text.replace("\n\n", "\u0085\u0085"), whitespace = Whitespace.NORMAL)
+    }
 }

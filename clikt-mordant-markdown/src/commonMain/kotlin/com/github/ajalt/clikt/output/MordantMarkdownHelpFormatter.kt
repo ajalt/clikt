@@ -43,5 +43,5 @@ open class MordantMarkdownHelpFormatter(
     showDefaultValues,
     showRequiredTag
 ) {
-    override fun renderWrappedText(text: String): Widget = Text(text)
+    override fun renderWrappedText(text: String): Widget = Markdown(text, showHtml = true)
 }

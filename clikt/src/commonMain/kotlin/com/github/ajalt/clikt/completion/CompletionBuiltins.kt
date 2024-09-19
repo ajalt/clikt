@@ -1,5 +1,7 @@
 package com.github.ajalt.clikt.completion
 
+import com.github.ajalt.clikt.command.CoreChainedCliktCommand
+import com.github.ajalt.clikt.command.CoreSuspendingCliktCommand
 import com.github.ajalt.clikt.completion.CompletionGenerator.generateCompletionForCommand
 import com.github.ajalt.clikt.core.BaseCliktCommand
 import com.github.ajalt.clikt.core.Context
@@ -44,3 +46,40 @@ class CompletionCommand(
         throw PrintCompletionMessage(generateCompletionForCommand(cmd, shell))
     }
 }
+
+/**
+ * A [CoreSuspendingCliktCommand] subcommand that will print a completion script for the given shell
+ * when invoked.
+ */
+class SuspendingCompletionCommand(
+    private val help: String = "Generate a tab-complete script for the given shell",
+    private val epilog: String = "",
+    name: String = "generate-completion",
+) : CoreSuspendingCliktCommand(name) {
+    override fun help(context: Context): String = help
+    override fun helpEpilog(context: Context): String = epilog
+    private val shell by argument("shell").choice(*choices)
+    override suspend fun run() {
+        val cmd = currentContext.parent?.command ?: this
+        throw PrintCompletionMessage(generateCompletionForCommand(cmd, shell))
+    }
+}
+
+/**
+ * A [CoreChainedCliktCommand] subcommand that will print a completion script for the given shell
+ * when invoked.
+ */
+class ChainedCompletionCommand<T>(
+    private val help: String = "Generate a tab-complete script for the given shell",
+    private val epilog: String = "",
+    name: String = "generate-completion",
+) : CoreChainedCliktCommand<T>(name) {
+    override fun help(context: Context): String = help
+    override fun helpEpilog(context: Context): String = epilog
+    private val shell by argument("shell").choice(*choices)
+    override fun run(value: T): T {
+        val cmd = currentContext.parent?.command ?: this
+        throw PrintCompletionMessage(generateCompletionForCommand(cmd, shell))
+    }
+}
+

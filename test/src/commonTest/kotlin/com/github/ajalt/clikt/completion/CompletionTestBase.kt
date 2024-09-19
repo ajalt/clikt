@@ -1,5 +1,8 @@
 package com.github.ajalt.clikt.completion
 
+import com.github.ajalt.clikt.command.ChainedCliktCommand
+import com.github.ajalt.clikt.command.SuspendingNoOpCliktCommand
+import com.github.ajalt.clikt.command.parse
 import com.github.ajalt.clikt.core.PrintCompletionMessage
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
@@ -11,6 +14,7 @@ import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.string.shouldContain
+import kotlinx.coroutines.test.runTest
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -126,6 +130,36 @@ abstract class CompletionTestBase(private val shell: String) {
             TestCommand()
                 .subcommands(CompletionCommand(), TestCommand(name = "foo"))
                 .parse("generate-completion $shell")
+        }.message
+        message shouldContain shell
+        message shouldContain "foo"
+    }
+
+    @Test
+    @JsName("suspending_completion_command")
+    fun `suspending completion command`() = runTest {
+        class Foo : SuspendingNoOpCliktCommand()
+
+        val message = shouldThrow<PrintCompletionMessage> {
+            Foo()
+                .subcommands(SuspendingCompletionCommand(), Foo())
+                .parse(listOf("generate-completion", shell))
+        }.message
+        message shouldContain shell
+        message shouldContain "foo"
+    }
+
+    @Test
+    @JsName("chained_completion_command")
+    fun `chained completion command`() = runTest {
+        class Foo : ChainedCliktCommand<Unit>() {
+            override fun run(value: Unit) = Unit
+        }
+
+        val message = shouldThrow<PrintCompletionMessage> {
+            Foo()
+                .subcommands(ChainedCompletionCommand(), Foo())
+                .parse(listOf("generate-completion", shell), Unit)
         }.message
         message shouldContain shell
         message shouldContain "foo"

@@ -89,6 +89,20 @@ class OptionTest {
     }
 
     @Test
+    @JsName("no_such_option_subcommand_hint")
+    fun `no such option subcommand hint`() {
+        class C : TestCommand(called = false)
+        class Sub: TestCommand(called = false) {
+            val foo by option()
+        }
+
+        val c = C().subcommands(Sub())
+        shouldThrow<NoSuchOption> {
+            c.parse("--foo")
+        }.formattedMessage shouldBe "no such option --foo. hint: sub has an option --foo"
+    }
+
+    @Test
     @JsName("one_option")
     fun `one option`() = forAll(
         row("", null),

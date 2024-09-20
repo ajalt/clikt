@@ -412,8 +412,10 @@ public final class com/github/ajalt/clikt/core/NoSuchArgument : com/github/ajalt
 }
 
 public final class com/github/ajalt/clikt/core/NoSuchOption : com/github/ajalt/clikt/core/UsageError {
+	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun formatMessage (Lcom/github/ajalt/clikt/output/Localization;Lcom/github/ajalt/clikt/output/ParameterFormatter;)Ljava/lang/String;
 }
 
@@ -686,6 +688,7 @@ public abstract interface class com/github/ajalt/clikt/output/Localization {
 	public abstract fun missingOption (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun mutexGroupException (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
 	public abstract fun noSuchOption (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public abstract fun noSuchOptionWithSubCommandPossibility (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun noSuchSubcommand (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
 	public abstract fun optionsMetavar ()Ljava/lang/String;
 	public abstract fun optionsTitle ()Ljava/lang/String;
@@ -745,6 +748,7 @@ public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
 	public static fun missingOption (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun mutexGroupException (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
 	public static fun noSuchOption (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public static fun noSuchOptionWithSubCommandPossibility (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static fun noSuchSubcommand (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
 	public static fun optionsMetavar (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun optionsTitle (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;

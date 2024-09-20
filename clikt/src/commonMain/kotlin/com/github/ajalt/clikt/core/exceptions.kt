@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.output.ParameterFormatter
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.longestName
+import kotlin.jvm.JvmOverloads
 
 /**
  * An exception during command line processing that should be shown to the user.
@@ -238,15 +239,21 @@ class NoSuchSubcommand(
 }
 
 /** An option was provided that does not exist. */
-class NoSuchOption(
+class NoSuchOption @JvmOverloads constructor(
+    // TODO (6.0): remove JvmOverloads
     paramName: String,
     private val possibilities: List<String> = emptyList(),
+    private val subcommand: String? = null,
 ) : UsageError(null, paramName) {
     override fun formatMessage(localization: Localization, formatter: ParameterFormatter): String {
-        return localization.noSuchOption(
-            paramName?.let(formatter::formatOption) ?: "",
-            possibilities.map(formatter::formatOption)
-        )
+        val name = paramName?.let(formatter::formatOption) ?: ""
+        return if (subcommand != null) {
+            localization.noSuchOptionWithSubCommandPossibility(
+                name, formatter.formatSubcommand(formatter.formatSubcommand(subcommand))
+            )
+        } else {
+            localization.noSuchOption(name, possibilities.map(formatter::formatOption))
+        }
     }
 }
 

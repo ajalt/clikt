@@ -49,6 +49,13 @@ interface Localization {
     }
 
     /**
+     * Message for [NoSuchOption] when a subcommand has an option with the same name
+     */
+    fun noSuchOptionWithSubCommandPossibility(name: String, subcommand: String): String {
+        return "no such option $name. hint: $subcommand has an option $name"
+    }
+
+    /**
      * Message for [IncorrectOptionValueCount]
      *
      * @param count non-negative count of required values

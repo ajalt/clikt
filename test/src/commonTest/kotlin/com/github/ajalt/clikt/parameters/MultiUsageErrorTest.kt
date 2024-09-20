@@ -29,9 +29,15 @@ class MultiUsageErrorTest {
         ),
         row("--x=0 --y=0 1", listOf("invalid value for A: 1")),
         row(
+            // don't report unknown arg error after unknown opts
             "--y=0 --x=0 --n 1 2 3",
             listOf("no such option --n. (Possible options: --x, --y)")
-        ), // don't report arg error after unknown opts
+        ),
+        row(
+            // do report missing arg after unknown opts
+            "--y=0 --x=0 --n",
+            listOf("no such option --n. (Possible options: --x, --y)", "missing argument A")
+        )
     ) { argv, ex ->
         class C : TestCommand(called = false) {
             val x by option().int().required().check { it == 0 }

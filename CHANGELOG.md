@@ -5,6 +5,9 @@
 - Added completion commands for suspending and chained commands.  ([#553](https://github.com/ajalt/clikt/pull/553))
 - Added no-op suspending commands. ([#554](https://github.com/ajalt/clikt/pull/554))
 
+### Changed
+- Unknown option errors and missing argument errors that occur at the same time will now both be reported. ([#553](https://github.com/ajalt/clikt/pull/553))
+
 ## 5.0.0
 ### Added
 - Publish `iosArm64` and `iosX64` targets.

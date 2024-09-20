@@ -105,6 +105,7 @@ object CommandLineParser {
     fun <T : BaseCliktCommand<T>> parse(command: T, argv: List<String>): CommandLineParseResult<T> {
         return parseArgv(command, argv)
     }
+
     /**
      * Finalize eager options for a command invocation, running them if they were invoked.
      *
@@ -143,15 +144,17 @@ object CommandLineParser {
         val (_, nonEagerOpts) = getOpts(command)
         val (_, nonEagerInvs) = getInvs(invocation)
 
-        // throw any parse errors after the eager options are finalized
-        invocation.throwErrors()
+        // Collect any usage errors to combine with errors from finalization
+        val usageErrors = invocation.getUsageErrorsOrThrow()
 
         // then finalize and validate everything else
         val nonEagerNonGroupOpts = nonEagerOpts.filter { it.group == null }
         val argumentInvocations = invocation.argumentInvocations
-        finalizeParameters(
+        val finalizationErrors = finalizeParameters(
             context, nonEagerNonGroupOpts, groups, arguments, nonEagerInvs, argumentInvocations
-        ).throwErrors()
+        )
+        // Throw any errors before validating parameters
+        (usageErrors + finalizationErrors).throwErrors()
 
         validateParameters(context, nonEagerNonGroupOpts, groups, arguments).throwErrors()
 
@@ -175,12 +178,14 @@ object CommandLineParser {
             .partition { it.eager }
 }
 
-private fun CommandInvocation<*>.throwErrors() {
-    // The errors are always UsageErrors, expect for the case of printHelpOnEmptyArgs
-    when (val first = errors.firstOrNull()) {
-        is UsageError -> errors.filterIsInstance<UsageError>().throwErrors()
-        is CliktError -> throw first
-    }
+/**
+ * Return any UsageErrors. If there's a non-UsageError, throw it.
+ */
+private fun CommandInvocation<*>.getUsageErrorsOrThrow(): List<UsageError> {
+    val usageErrors = errors.filterIsInstance<UsageError>()
+    if (usageErrors.size == errors.size) return usageErrors
+    // `errors` are always UsageErrors, except for the case of printHelpOnEmptyArgs
+    errors.first { it !is UsageError }.let { throw it }
 }
 
 private fun throwCompletionMessageIfRequested(

@@ -36,7 +36,6 @@ internal fun finalizeParameters(
 ): List<UsageError> {
     // Add uninvoked params last so that e.g. we can skip prompting if there's an error in an
     // invoked option
-
     val allGroups = buildMap<ParameterGroup?, Map<Option, List<OptionInvocation>>> {
         optionInvocations.entries
             .groupBy({ it.key.group }, { it.key to it.value })

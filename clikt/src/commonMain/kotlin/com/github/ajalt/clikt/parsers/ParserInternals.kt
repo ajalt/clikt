@@ -232,7 +232,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
                 name,
                 optionsByName.filterNot { it.value.hidden }.keys.toList()
             )
-            return OptParseResult(1, err = NoSuchOption(name, possibilities))
+            return OptParseResult(1, err = createNoSuchOption(name, possibilities))
         }
 
         return parseOptValues(option, name, attachedValue)
@@ -258,7 +258,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
                     prefix == "-" && "-$tok" in optionsByName -> listOf("-$tok")
                     else -> emptyList()
                 }
-                return OptParseResult(1, err = NoSuchOption(name, possibilities))
+                return OptParseResult(1, err = createNoSuchOption(name, possibilities))
             }
             if (option.nvalues.last > 0) {
                 val value = if (i < tok.lastIndex) tok.drop(i + 1) else null
@@ -269,6 +269,14 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             }
         }
         return OptParseResult(1, invocations)
+    }
+
+    private fun createNoSuchOption(name: String, possibilities: List<String>): NoSuchOption {
+        if (possibilities.isEmpty()) {
+            val c = allSubcommands.values.find { it._options.any { o -> name in o.names } }
+            if (c != null) return NoSuchOption(name, subcommand = c.commandName)
+        }
+        return NoSuchOption(name, possibilities)
     }
 
     private fun parseOptValues(

@@ -26,6 +26,22 @@ public final class com/github/ajalt/clikt/command/CoreSuspendingCliktCommandKt {
 	public static final fun parse (Lcom/github/ajalt/clikt/command/CoreSuspendingCliktCommand;[Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public abstract class com/github/ajalt/clikt/command/CoreSuspendingNoOpCliktCommand : com/github/ajalt/clikt/command/CoreSuspendingCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun run (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/github/ajalt/clikt/completion/ChainedCompletionCommand : com/github/ajalt/clikt/command/CoreChainedCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun help (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
+	public fun helpEpilog (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
+	public fun run (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class com/github/ajalt/clikt/completion/CompletionBuiltinsKt {
 	public static final fun completionOption (Lcom/github/ajalt/clikt/core/BaseCliktCommand;[Ljava/lang/String;Ljava/lang/String;Z)Lcom/github/ajalt/clikt/core/BaseCliktCommand;
 	public static synthetic fun completionOption$default (Lcom/github/ajalt/clikt/core/BaseCliktCommand;[Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/core/BaseCliktCommand;
@@ -110,6 +126,15 @@ public final class com/github/ajalt/clikt/completion/CompletionCommand : com/git
 public final class com/github/ajalt/clikt/completion/CompletionGenerator {
 	public static final field INSTANCE Lcom/github/ajalt/clikt/completion/CompletionGenerator;
 	public final fun generateCompletionForCommand (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/github/ajalt/clikt/completion/SuspendingCompletionCommand : com/github/ajalt/clikt/command/CoreSuspendingCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun help (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
+	public fun helpEpilog (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
+	public fun run (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/github/ajalt/clikt/core/Abort : com/github/ajalt/clikt/core/ProgramResult {

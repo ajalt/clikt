@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added completion commands for suspending and chained commands.  ([#553](https://github.com/ajalt/clikt/pull/553))
+- Added no-op suspending commands. ([#554](https://github.com/ajalt/clikt/pull/554))
 
 ## 5.0.0
 ### Added

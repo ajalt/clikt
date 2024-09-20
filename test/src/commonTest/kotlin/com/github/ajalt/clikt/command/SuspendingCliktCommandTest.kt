@@ -52,4 +52,13 @@ class SuspendingCliktCommandTest {
 
         C().test("baz").output shouldBe "baz\n"
     }
+
+    @Test
+    @JsName("suspending_noop_command_test")
+    fun `suspending no-op command test`() = runTest {
+        class C : SuspendingNoOpCliktCommand()
+        class Sub : CoreSuspendingNoOpCliktCommand()
+
+        C().subcommands(Sub()).test("sub").output shouldBe ""
+    }
 }

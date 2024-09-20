@@ -31,6 +31,7 @@ abstract class CoreChainedCliktCommand<T>(
 }
 
 
+
 /**
  * Parse the command line and print helpful output if any errors occur.
  *

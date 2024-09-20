@@ -28,6 +28,13 @@ public final class com/github/ajalt/clikt/command/SuspendingCliktCommandKt {
 	public static synthetic fun test$default (Lcom/github/ajalt/clikt/command/SuspendingCliktCommand;[Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLcom/github/ajalt/mordant/rendering/AnsiLevel;IIZZZLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
+public abstract class com/github/ajalt/clikt/command/SuspendingNoOpCliktCommand : com/github/ajalt/clikt/command/SuspendingCliktCommand {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun run (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public abstract class com/github/ajalt/clikt/core/CliktCommand : com/github/ajalt/clikt/core/CoreCliktCommand {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V

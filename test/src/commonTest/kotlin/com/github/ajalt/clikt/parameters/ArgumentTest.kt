@@ -476,9 +476,7 @@ class ArgumentTest {
     @Test
     @JsName("punctuation_in_arg_prefix_unix_style_error")
     fun `punctuation in arg prefix unix style error`() {
-        class C : TestCommand(called = false) {
-            val x by argument()
-        }
+        class C : TestCommand(called = false)
         shouldThrow<NoSuchOption> { C().parse("-foo") }
     }
 
@@ -509,8 +507,6 @@ class ArgumentTest {
             init {
                 context { helpOptionNames = setOf("/help") }
             }
-
-            val x by argument()
         }
         shouldThrow<NoSuchOption> { C().parse("/foo") }
     }

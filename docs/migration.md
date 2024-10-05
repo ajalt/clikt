@@ -1,7 +1,7 @@
 # Upgrading to Newer Releases
 
-See the [changelog] for a full list of changes in each release. This guide contains information on
-the most significant changes that may require updating to your code.
+See the [changelog](changelog.md) for a full list of changes in each release. This guide contains
+information on the most significant changes that may require updating to your code.
 
 ## Upgrading to 5.0
 

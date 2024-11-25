@@ -114,7 +114,7 @@ manage a database:
 === "Help Output"
     ```text
     $ ./db --help
-    Usage: database [<options>] <command> [<args>]...
+    Usage: db [<options>] <command> [<args>]...
 
     Options:
       -h, --help  Show this message and exit

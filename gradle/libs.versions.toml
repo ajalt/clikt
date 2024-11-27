@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.0.0"
+kotlin = "2.1.0"
 coroutines = "1.8.1"
 mordant = "3.0.0"
 
@@ -21,4 +21,4 @@ kotlinx-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
 [plugins]
 dokka = "org.jetbrains.dokka:1.9.20"
 publish = "com.vanniktech.maven.publish:0.28.0"
-kotlinBinaryCompatibilityValidator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.14.0"
+kotlinBinaryCompatibilityValidator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.16.3"

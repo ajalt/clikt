@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+## 5.0.2
+### Changed
+- Update Kotlin to 2.1.0
 
 ## 5.0.1
 ### Added

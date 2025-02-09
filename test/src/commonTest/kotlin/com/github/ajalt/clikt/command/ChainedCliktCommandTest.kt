@@ -13,8 +13,7 @@ import kotlin.test.Test
 
 
 class ChainedCliktCommandTest {
-    @Test
-    @JsName("chained_run")
+    @[Test JsName("chained_run")]
     fun `chained run`() = runTest {
         class C : ChainedCliktCommand<List<Int>>() {
             override val allowMultipleSubcommands: Boolean = true
@@ -37,8 +36,7 @@ class ChainedCliktCommandTest {
     }
 
 
-    @Test
-    @JsName("chained_command_context")
+    @[Test JsName("chained_command_context")]
     fun `chained command context`() {
         class C : ChainedCliktCommand<Int>() {
             val arg by argument().int()
@@ -52,8 +50,7 @@ class ChainedCliktCommandTest {
     }
 
 
-    @Test
-    @JsName("chained_command_test")
+    @[Test JsName("chained_command_test")]
     fun `chained command test`() {
         class C : ChainedCliktCommand<Int>() {
             val arg by argument().int()

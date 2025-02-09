@@ -14,8 +14,7 @@ import kotlin.test.fail
 class ContextTest {
     class Foo
 
-    @Test
-    @JsName("find_functions_single_context")
+    @[Test JsName("find_functions_single_context")]
     fun `find functions single context`() {
         class C : TestCommand() {
             val o1 by findObject<String>()
@@ -46,8 +45,7 @@ class ContextTest {
         c.o8 shouldBe "foo"
     }
 
-    @Test
-    @JsName("find_functions_parent_context")
+    @[Test JsName("find_functions_parent_context")]
     fun `find functions parent context`() {
         val foo = Foo()
 
@@ -74,8 +72,7 @@ class ContextTest {
         parent.o4 shouldBe null
     }
 
-    @Test
-    @JsName("requireObject_with_parent_context")
+    @[Test JsName("requireObject_with_parent_context")]
     fun `requireObject with parent context`() {
         class C : TestCommand(invokeWithoutSubcommand = true) {
             val o1 by findOrSetObject { Foo() }
@@ -94,8 +91,7 @@ class ContextTest {
         child.o2 shouldBeSameInstanceAs parent.o1
     }
 
-    @Test
-    @JsName("default_help_option_names")
+    @[Test JsName("default_help_option_names")]
     fun `default help option names`() {
         class C : TestCommand()
 
@@ -111,8 +107,7 @@ class ContextTest {
         }
     }
 
-    @Test
-    @JsName("assign_obj_through_context_builder")
+    @[Test JsName("assign_obj_through_context_builder")]
     fun `assign obj through context builder`() {
         val foo = Foo()
         val c = TestCommand()
@@ -123,8 +118,7 @@ class ContextTest {
         c.currentContext.obj shouldBeSameInstanceAs foo
     }
 
-    @Test
-    @JsName("register_closeable_multiple_subcommands")
+    @[Test JsName("register_closeable_multiple_subcommands")]
     fun `register closeable multiple subcommands`() {
         var parentCount = 0
         var childCount = 0
@@ -161,8 +155,7 @@ class ContextTest {
         childCount shouldBe 2
     }
 
-    @Test
-    @JsName("register_closeable_throws")
+    @[Test JsName("register_closeable_throws")]
     fun `register closeable throws`() {
         var count1 = 0
         var count2 = 0
@@ -197,8 +190,7 @@ class ContextTest {
         count3 shouldBe 1
     }
 
-    @Test
-    @JsName("custom_exitProcess")
+    @[Test JsName("custom_exitProcess")]
     fun `custom exitProcess`() {
         var status = Int.MAX_VALUE
 

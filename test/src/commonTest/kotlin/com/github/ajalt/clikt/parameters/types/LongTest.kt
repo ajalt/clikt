@@ -17,8 +17,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class LongTypeTest {
-    @Test
-    @JsName("long_option")
+    @[Test JsName("long_option")]
     fun `long option`() = forAll(
         row("", null),
         row("--xx=4", 4L),
@@ -48,8 +47,7 @@ class LongTypeTest {
             .formattedMessage shouldBe "invalid value for --foo: bar is not a valid integer"
     }
 
-    @Test
-    @JsName("long_option_with_default")
+    @[Test JsName("long_option_with_default")]
     fun `long option with default`() = forAll(
         row("", 111L),
         row("--xx=4", 4L),
@@ -64,8 +62,7 @@ class LongTypeTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("long_argument")
+    @[Test JsName("long_argument")]
     fun `long argument`() = forAll(
         row("", null, emptyList()),
         row("1 2", 1L, listOf(2L)),

@@ -31,8 +31,7 @@ class VarargOptionsTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("optionalValue_argument")
+    @[Test JsName("optionalValue_argument")]
     fun `optionalValue acceptsUnattachedValue`() = forAll(
         row("a", 0),
         row("--o a", 1),
@@ -81,8 +80,7 @@ class VarargOptionsTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("varargValues_NoSuchOption")
+    @[Test JsName("varargValues_NoSuchOption")]
     fun `varargValues NoSuchOption`() {
         @Suppress("unused")
         class C : TestCommand(false) {
@@ -91,8 +89,7 @@ class VarargOptionsTest {
         shouldThrow<NoSuchOption> { C().parse("--o --foo") }
     }
 
-    @Test
-    @JsName("varargValues_unknownOptionsAsArgs")
+    @[Test JsName("varargValues_unknownOptionsAsArgs")]
     fun `varargValues unknownOptionsAsArgs`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
             val o by option("-o", "--o").varargValues(min = 0)
@@ -104,8 +101,7 @@ class VarargOptionsTest {
         C().parse("--o --foo")
     }
 
-    @Test
-    @JsName("varargValues_subcommand")
+    @[Test JsName("varargValues_subcommand")]
     fun `varargValues subcommand`() {
         class Sub : TestCommand() {
             val o by option()
@@ -125,8 +121,7 @@ class VarargOptionsTest {
         C().subcommands(Sub()).parse("--o foo sub --o=bar")
     }
 
-    @Test
-    @JsName("varargValues_argument")
+    @[Test JsName("varargValues_argument")]
     fun `varargValues argument`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
             val o by option("-o", "--o").int().varargValues(min = 0)

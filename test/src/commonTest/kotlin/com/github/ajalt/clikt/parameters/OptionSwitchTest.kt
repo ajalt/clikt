@@ -12,8 +12,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class OptionSwitchTest {
-    @Test
-    @JsName("switch_option_map")
+    @[Test JsName("switch_option_map")]
     fun `switch option map`() = forAll(
         row("", null),
         row("-x", 1),
@@ -28,8 +27,7 @@ class OptionSwitchTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("switch_option_vararg")
+    @[Test JsName("switch_option_vararg")]
     fun `switch option vararg`() = forAll(
         row("", null, -1, -2),
         row("-xyz", 1, 3, 5),
@@ -49,8 +47,7 @@ class OptionSwitchTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("required_switch_options")
+    @[Test JsName("required_switch_options")]
     fun `required switch options`() {
         class C : TestCommand() {
             val x by option().switch("-x" to 1, "-xx" to 2).required()

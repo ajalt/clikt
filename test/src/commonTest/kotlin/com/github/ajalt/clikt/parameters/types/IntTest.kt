@@ -19,8 +19,7 @@ import kotlin.test.Test
 
 @Suppress("unused")
 class IntTypeTest {
-    @Test
-    @JsName("int_option")
+    @[Test JsName("int_option")]
     fun `int option`() = forAll(
         row("", null),
         row("--xx=4", 4),
@@ -38,8 +37,7 @@ class IntTypeTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("multiple_number_options")
+    @[Test JsName("multiple_number_options")]
     fun `multiple number options`() {
         class C : TestCommand(called = false) {
             val foo by option().int(acceptsValueWithoutName = true)
@@ -49,8 +47,7 @@ class IntTypeTest {
         shouldThrow<IllegalArgumentException> { C() }
     }
 
-    @Test
-    @JsName("int_option_error")
+    @[Test JsName("int_option_error")]
     fun `int option error`() {
         class C : TestCommand(called = false) {
             val foo by option().int()
@@ -62,8 +59,7 @@ class IntTypeTest {
         shouldThrow<NoSuchOption> { C().parse("-2") }
     }
 
-    @Test
-    @JsName("int_option_with_default")
+    @[Test JsName("int_option_with_default")]
     fun `int option with default`() = forAll(
         row("", 111),
         row("--xx=4", 4),
@@ -78,8 +74,7 @@ class IntTypeTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("int_argument")
+    @[Test JsName("int_argument")]
     fun `int argument`() = forAll(
         row("", null, emptyList()),
         row("1 2", 1, listOf(2)),

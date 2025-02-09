@@ -14,8 +14,7 @@ import kotlin.test.Test
 
 
 class EnvvarCompletionTest {
-    @Test
-    @JsName("test_completion_from_envvar")
+    @[Test JsName("test_completion_from_envvar")]
     fun `test completion from envvar`() = forAll(
         row("bash"),
         row("zsh"),

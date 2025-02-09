@@ -93,8 +93,7 @@ class SubcommandTest {
         C().subcommands(Sub()).parse(argv)
     }
 
-    @Test
-    @JsName("multiple_subcommands")
+    @[Test JsName("multiple_subcommands")]
     fun `multiple subcommands`() = forAll(
         row("-x1 sub1 2 3", true),
         row("-x1 sub2 -x2 -y3", false)
@@ -129,8 +128,7 @@ class SubcommandTest {
         c.parse(argv)
     }
 
-    @Test
-    @JsName("argument_before_subcommand")
+    @[Test JsName("argument_before_subcommand")]
     fun `argument before subcommand`() {
         class C : TestCommand() {
             val x by argument().multiple()
@@ -149,8 +147,7 @@ class SubcommandTest {
         C().subcommands(Sub()).parse("123 456 sub -xfoo")
     }
 
-    @Test
-    @JsName("value_minus_minus_before_subcommand")
+    @[Test JsName("value_minus_minus_before_subcommand")]
     fun `value -- before subcommand`() {
         class C : TestCommand() {
             val x by option("-x", "--xx")
@@ -172,8 +169,7 @@ class SubcommandTest {
             .parse("--xx --xx -- --yy sub --xx foo")
     }
 
-    @Test
-    @JsName("normalized_subcommand_names")
+    @[Test JsName("normalized_subcommand_names")]
     fun `normalized subcommand names`() = forAll(
         row("a b", false, false),
         row("a b SUB -xfoo", true, false),
@@ -207,8 +203,7 @@ class SubcommandTest {
             .parse(argv)
     }
 
-    @Test
-    @JsName("aliased_subcommand_names")
+    @[Test JsName("aliased_subcommand_names")]
     fun `aliased subcommand names`() = forAll(
         row("a b", false),
         row("a 1 sub -xfoo", true),
@@ -246,8 +241,7 @@ class SubcommandTest {
         C().subcommands(Sub()).parse(argv)
     }
 
-    @Test
-    @JsName("subcommand_usage")
+    @[Test JsName("subcommand_usage")]
     fun `subcommand usage`() {
         class Parent : TestCommand()
         class Child : TestCommand()
@@ -267,15 +261,16 @@ class SubcommandTest {
             """.trimMargin()
     }
 
-    @Test
-    @JsName("subcommand_help_with_required_parent")
+    @[Test JsName("subcommand_help_with_required_parent")]
     fun `subcommand help with required parent`() {
         class Parent : TestCommand() {
             val o by option().required()
         }
+
         class Child : TestCommand() {
             val o by option().required()
         }
+
         class Grandchild : TestCommand(called = false) {
             val foo by option()
         }
@@ -293,8 +288,7 @@ class SubcommandTest {
             """.trimMargin()
     }
 
-    @Test
-    @JsName("subcommandprintHelpOnEmptyArgs__true")
+    @[Test JsName("subcommandprintHelpOnEmptyArgs__true")]
     fun `subcommand printHelpOnEmptyArgs = true`() {
         class C : TestCommand(called = false, printHelpOnEmptyArgs = true)
         class S : TestCommand(called = false, printHelpOnEmptyArgs = true) {
@@ -328,8 +322,7 @@ class SubcommandTest {
     }
 
 
-    @Test
-    @JsName("subcommand_cycle")
+    @[Test JsName("subcommand_cycle")]
     fun `subcommand cycle`() {
         val root = TestCommand(called = false)
         val a = TestCommand(called = false, name = "a")
@@ -365,8 +358,7 @@ class SubcommandTest {
         }
     }
 
-    @Test
-    @JsName("multiple_subcommands_optional_sub_arg")
+    @[Test JsName("multiple_subcommands_optional_sub_arg")]
     fun `multiple subcommands optional sub arg`() {
         class Sub : TestCommand(count = 2) {
             val a by argument().optional()
@@ -379,8 +371,7 @@ class SubcommandTest {
         sub.a shouldBe "b"
     }
 
-    @Test
-    @JsName("multiple_subcommands_with_nesting")
+    @[Test JsName("multiple_subcommands_with_nesting")]
     fun `multiple subcommands with nesting`() {
         val foo = MultiSubFoo(count = 2)
         val bar = MultiSubBar(count = 2)
@@ -394,8 +385,7 @@ class SubcommandTest {
         bar.currentContext.invokedSubcommands shouldBe listOf()
     }
 
-    @Test
-    @JsName("multiple_subcommands_with_nesting_parse_result")
+    @[Test JsName("multiple_subcommands_with_nesting_parse_result")]
     fun `multiple subcommands with nesting parse result`() {
         val a = TestCommand(name = "a", count = 3, noHelp = true)
         val b = TestCommand(name = "b", count = 2, noHelp = true)
@@ -422,8 +412,7 @@ class SubcommandTest {
         b.currentContext.invokedSubcommands shouldBe listOf(c, d)
     }
 
-    @Test
-    @JsName("multiple_subcommands_with_nesting_invalid")
+    @[Test JsName("multiple_subcommands_with_nesting_invalid")]
     fun `multiple subcommands with nesting invalid`() = forAll(
         row("c"),
         row("d"),
@@ -441,8 +430,7 @@ class SubcommandTest {
         shouldThrow<UsageError> { r.parse(argv) }
     }
 
-    @Test
-    @JsName("multiple_subcommands_nesting_the_same_name")
+    @[Test JsName("multiple_subcommands_nesting_the_same_name")]
     fun `multiple subcommands nesting the same name`() {
         val bar1 = MultiSubBar(count = 2)
         val bar2 = MultiSubBar(count = 2)
@@ -468,8 +456,7 @@ class SubcommandTest {
 
     }
 
-    @Test
-    @JsName("multiple_subcommands_with_varargs")
+    @[Test JsName("multiple_subcommands_with_varargs")]
     fun `multiple subcommands with varargs`() = forAll(
         row("foo f1 baz", 1, 1, "f1", emptyList()),
         row("foo f1 foo f2 baz", 2, 1, "f2", emptyList()),
@@ -490,8 +477,7 @@ class SubcommandTest {
         baz.arg shouldBe ba
     }
 
-    @Test
-    @JsName("multiple_subcommands_nesting_multiple_subcommands")
+    @[Test JsName("multiple_subcommands_nesting_multiple_subcommands")]
     fun `multiple subcommands nesting multiple subcommands`() {
         val c = TestCommand(allowMultipleSubcommands = true)
             .subcommands(TestCommand(allowMultipleSubcommands = true))
@@ -500,8 +486,7 @@ class SubcommandTest {
         }.message shouldContain "allowMultipleSubcommands"
     }
 
-    @Test
-    @JsName("multiple_subcommands_root_option")
+    @[Test JsName("multiple_subcommands_root_option")]
     fun `multiple subcommands with root option`() {
         class C : TestCommand(count = 1, allowMultipleSubcommands = true) {
             val x by option()
@@ -526,8 +511,7 @@ class SubcommandTest {
         }.formattedMessage shouldBe "got unexpected extra argument (z)"
     }
 
-    @Test
-    @JsName("multiple_subcommands_required_option")
+    @[Test JsName("multiple_subcommands_required_option")]
     fun `multiple subcommands with required option`() {
         class C : TestCommand(count = 1, allowMultipleSubcommands = true) {
             val x by option().required()
@@ -540,8 +524,7 @@ class SubcommandTest {
         C().subcommands(MultiSubFoo(1), MultiSubBar(1)).parse("--x=xx foo 1 bar 2")
     }
 
-    @Test
-    @JsName("multiple_subcommands_with_excess_arguments")
+    @[Test JsName("multiple_subcommands_with_excess_arguments")]
     fun `multiple subcommands with excess arguments`() {
         val sub = TestCommand(name = "sub", called = true)
         val c = TestCommand(allowMultipleSubcommands = true).subcommands(sub)
@@ -550,8 +533,7 @@ class SubcommandTest {
         }.formattedMessage shouldBe "got unexpected extra argument (foo)"
     }
 
-    @Test
-    @JsName("accessing_options_of_uninvoked_subcommand")
+    @[Test JsName("accessing_options_of_uninvoked_subcommand")]
     fun `accessing options of uninvoked subcommand`() {
         class Sub(name: String, called: Boolean) : TestCommand(called, name = name) {
             val x by option().default("def")

@@ -16,8 +16,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class UIntTest {
-    @Test
-    @JsName("uint_option")
+    @[Test JsName("uint_option")]
     fun `uint option`() = forAll(
         row("", null),
         row("-x0", 0u),
@@ -33,8 +32,7 @@ class UIntTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("uint_option_with_default")
+    @[Test JsName("uint_option_with_default")]
     fun `uint option with default`() = forAll(
         row("", 111u),
         row("--xx=4", 4u),
@@ -49,8 +47,7 @@ class UIntTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("uint_option_error")
+    @[Test JsName("uint_option_error")]
     fun `uint option error`() {
         class C : TestCommand(called = false) {
             @Suppress("unused")
@@ -64,8 +61,7 @@ class UIntTest {
         shouldThrow<BadParameterValue> { C().parse("--foo=-1") }
     }
 
-    @Test
-    @JsName("uint_argument")
+    @[Test JsName("uint_argument")]
     fun `uint argument`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
             val a by argument().uint()

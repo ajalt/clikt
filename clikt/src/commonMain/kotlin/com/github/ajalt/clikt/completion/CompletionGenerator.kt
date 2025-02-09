@@ -1,7 +1,6 @@
 package com.github.ajalt.clikt.completion
 
 import com.github.ajalt.clikt.core.BaseCliktCommand
-import com.github.ajalt.clikt.core.PrintCompletionMessage
 
 object CompletionGenerator {
     /**

@@ -10,7 +10,8 @@ class ContextJvmTest {
     @Test
     fun registerJvmCloseable() {
         var closed = 0
-        class C: TestCommand() {
+
+        class C : TestCommand() {
             override fun run_() {
                 val c = AutoCloseable { closed += 1 }
                 currentContext.registerJvmCloseable(c) shouldBeSameInstanceAs c

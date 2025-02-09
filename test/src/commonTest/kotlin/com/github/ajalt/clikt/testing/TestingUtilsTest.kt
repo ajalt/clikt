@@ -9,8 +9,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class TestingUtilsTest {
-    @Test
-    @JsName("testing_envvar")
+    @[Test JsName("testing_envvar")]
     fun `testing envvar`() {
         class C : TestCommand(called = false) {
             val o1 by option()
@@ -31,8 +30,7 @@ class TestingUtilsTest {
         result.statusCode shouldBe 0
     }
 
-    @Test
-    @JsName("testing_error")
+    @[Test JsName("testing_error")]
     fun `testing error`() {
         @Suppress("unused")
         class C : TestCommand(called = false) {
@@ -52,8 +50,7 @@ class TestingUtilsTest {
         result.statusCode shouldBe 1
     }
 
-    @Test
-    @JsName("testing_with_prompt")
+    @[Test JsName("testing_with_prompt")]
     fun `testing with prompt`() {
         class C : TestCommand() {
             val o1 by option().prompt()
@@ -73,8 +70,7 @@ class TestingUtilsTest {
         result.statusCode shouldBe 0
     }
 
-    @Test
-    @JsName("test_TerminalInfo_configuration")
+    @[Test JsName("test_TerminalInfo_configuration")]
     fun `test TerminalInfo configuration`() {
         class C : TestCommand() {
             override fun run_() {

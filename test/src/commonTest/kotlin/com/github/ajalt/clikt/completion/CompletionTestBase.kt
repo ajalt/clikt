@@ -33,8 +33,7 @@ abstract class CompletionTestBase(private val shell: String) {
     @JsName("custom_completions_expected")
     protected abstract fun `custom completions expected`(): String
 
-    @Test
-    @JsName("custom_completions")
+    @[Test JsName("custom_completions")]
     fun `custom completions`() {
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
             val o by option(completionCandidates = CompletionCandidates.Custom.fromStdout("echo foo bar"))
@@ -57,8 +56,7 @@ abstract class CompletionTestBase(private val shell: String) {
     @JsName("subcommands_with_multi_word_names_expected")
     protected abstract fun `subcommands with multi-word names expected`(): String
 
-    @Test
-    @JsName("subcommands_with_multi_word_names")
+    @[Test JsName("subcommands_with_multi_word_names")]
     fun `subcommands with multi-word names`() {
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE")
         class Sub : TestCommand()
@@ -78,8 +76,7 @@ abstract class CompletionTestBase(private val shell: String) {
     @JsName("option_secondary_names_expected")
     protected abstract fun `option secondary names expected`(): String
 
-    @Test
-    @JsName("option_secondary_names")
+    @[Test JsName("option_secondary_names")]
     fun `option secondary names`() {
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
             val flag by option().flag("--no-flag")
@@ -94,8 +91,7 @@ abstract class CompletionTestBase(private val shell: String) {
     @JsName("explicit_completion_candidates_expected")
     protected abstract fun `explicit completion candidates expected`(): String
 
-    @Test
-    @JsName("explicit_completion_candidates")
+    @[Test JsName("explicit_completion_candidates")]
     fun `explicit completion candidates`() {
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
             init {
@@ -123,8 +119,7 @@ abstract class CompletionTestBase(private val shell: String) {
         )
     }
 
-    @Test
-    @JsName("completion_command")
+    @[Test JsName("completion_command")]
     fun `completion command`() {
         val message = shouldThrow<PrintCompletionMessage> {
             TestCommand()
@@ -135,8 +130,7 @@ abstract class CompletionTestBase(private val shell: String) {
         message shouldContain "foo"
     }
 
-    @Test
-    @JsName("suspending_completion_command")
+    @[Test JsName("suspending_completion_command")]
     fun `suspending completion command`() = runTest {
         class Foo : SuspendingNoOpCliktCommand()
 
@@ -149,8 +143,7 @@ abstract class CompletionTestBase(private val shell: String) {
         message shouldContain "foo"
     }
 
-    @Test
-    @JsName("chained_completion_command")
+    @[Test JsName("chained_completion_command")]
     fun `chained completion command`() = runTest {
         class Foo : ChainedCliktCommand<Unit>() {
             override fun run(value: Unit) = Unit

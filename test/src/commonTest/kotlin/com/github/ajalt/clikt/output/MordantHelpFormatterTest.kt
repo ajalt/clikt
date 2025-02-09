@@ -74,8 +74,7 @@ class MordantHelpFormatterTest {
         c.getFormattedHelp()?.lines()?.first() shouldBe expected
     }
 
-    @Test
-    @JsName("formatUsage_wrapping_command_name")
+    @[Test JsName("formatUsage_wrapping_command_name")]
     fun `formatUsage wrapping command name`() {
         class C : TestCommand(name = "cli a_very_very_very_long command") {
             val x by option("-x")
@@ -100,8 +99,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("formatUsage_narrow_width")
+    @[Test JsName("formatUsage_narrow_width")]
     fun `formatUsage narrow width`() {
         c.registerOption(c.option("-x"))
         doTest(
@@ -116,8 +114,7 @@ class MordantHelpFormatterTest {
     }
 
 
-    @Test
-    @JsName("help_output_one_opt")
+    @[Test JsName("help_output_one_opt")]
     fun `one opt`() {
         c.registerOption(c.option("--aa", "-a", help = "some thing to live by"))
         doTest(
@@ -130,8 +127,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_number_opt")
+    @[Test JsName("help_output_number_opt")]
     fun `number opt`() {
         c.registerOption(
             c.option("--aa", "-a", help = "some thing to live by")
@@ -147,8 +143,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_secondary_name")
+    @[Test JsName("help_output_one_opt_secondary_name")]
     fun `one opt secondary name`() {
         c.registerOption(
             c.option("--aa", "-a", help = "some thing to live by").flag("--no-aa", "-A")
@@ -163,8 +158,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_prolog")
+    @[Test JsName("help_output_one_opt_prolog")]
     fun `one opt prolog`() {
         val c = TestCommand(
             name = "prog",
@@ -187,8 +181,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_prolog_multi_paragraph")
+    @[Test JsName("help_output_one_opt_prolog_multi_paragraph")]
     fun `one opt prolog multi paragraph`() {
         val c = TestCommand(
             name = "prog",
@@ -227,8 +220,7 @@ class MordantHelpFormatterTest {
     }
 
 
-    @Test
-    @JsName("help_output_one_opt_manual_line_break_narrow")
+    @[Test JsName("help_output_one_opt_manual_line_break_narrow")]
     fun `one opt manual line break narrow`() {
         c.registerOption(
             c.option(
@@ -250,8 +242,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_manual_line_break_wide")
+    @[Test JsName("help_output_one_opt_manual_line_break_wide")]
     fun `one opt manual line break wide`() {
         c.registerOption(
             c.option(
@@ -271,8 +262,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_option_wrapping")
+    @[Test JsName("help_output_option_wrapping")]
     fun `option wrapping`() {
         c.registerOption(
             c.option("-x", metavar = "X", help = "one very very very very very very long option")
@@ -318,8 +308,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_option_wrapping_long_help_issue_10")
+    @[Test JsName("help_output_option_wrapping_long_help_issue_10")]
     fun `option wrapping long help issue 10`() {
         c.registerOption(
             c.option("-L", "--lorem-ipsum")
@@ -342,8 +331,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_option_groups")
+    @[Test JsName("help_output_option_groups")]
     fun `option groups`() {
         class G : OptionGroup("Grouped") {
             override val groupHelp: String =
@@ -387,8 +375,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_arguments")
+    @[Test JsName("help_output_arguments")]
     fun arguments() {
         class C : TestCommand(name = "prog") {
             val foo by argument(help = "some thing to live by")
@@ -406,8 +393,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("subcommands")
+    @[Test JsName("subcommands")]
     fun subcommands() {
         c.subcommands(
             TestCommand(name = "foo", help = "some thing to live by"),
@@ -427,8 +413,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_optional_values")
+    @[Test JsName("help_output_optional_values")]
     fun `optional values`() {
         c.registerOption(c.option("--foo", "-f", help = "option one").optionalValue("d1"))
         c.registerOption(
@@ -447,8 +432,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("choice_group")
+    @[Test JsName("choice_group")]
     fun `choice group`() {
         class G1 : OptionGroup("G1") {
             val opt1 by option()
@@ -478,8 +462,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("switch_group")
+    @[Test JsName("switch_group")]
     fun `switch group`() {
         class G1 : OptionGroup("G1") {
             val opt1 by option()
@@ -510,8 +493,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("mutually_exclusive_options")
+    @[Test JsName("mutually_exclusive_options")]
     fun `mutually exclusive options`() {
         class C : TestCommand(name = "prog") {
             val ex by mutuallyExclusiveOptions(
@@ -547,8 +529,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("eager_options")
+    @[Test JsName("eager_options")]
     fun `eager options`() {
         c.versionOption("1.0")
         c.eagerOption(
@@ -574,8 +555,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("required_option_marker")
+    @[Test JsName("required_option_marker")]
     fun `required option marker`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
@@ -591,8 +571,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("required_option_tag")
+    @[Test JsName("required_option_tag")]
     fun `required option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
@@ -608,8 +587,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("default_option_tag")
+    @[Test JsName("default_option_tag")]
     fun `default option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").default("123"))
@@ -625,8 +603,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("custom_tag")
+    @[Test JsName("custom_tag")]
     fun `custom tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(
@@ -648,8 +625,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("option_tag_and_markers")
+    @[Test JsName("option_tag_and_markers")]
     fun `option tag and markers`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(
@@ -679,8 +655,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("argument_tag")
+    @[Test JsName("argument_tag")]
     fun `argument tag`() {
         c.registerArgument(c.argument("ARG1", help = "arg 1 help"))
         c.registerArgument(
@@ -701,8 +676,7 @@ class MordantHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("subcommand_tag")
+    @[Test JsName("subcommand_tag")]
     fun `subcommand tag`() {
         c.subcommands(
             TestCommand(name = "sub1", help = "sub 1 help"),
@@ -720,8 +694,7 @@ class MordantHelpFormatterTest {
     }
 
 
-    @Test
-    @JsName("multi_error")
+    @[Test JsName("multi_error")]
     fun `multi error`() {
         c.test("--foo --bar").stderr shouldBe """
             |Usage: prog [<options>]
@@ -732,8 +705,7 @@ class MordantHelpFormatterTest {
             """.trimMargin()
     }
 
-    @Test
-    @JsName("theme_colors")
+    @[Test JsName("theme_colors")]
     fun `theme colors`() {
         val t = Theme {
             styles["info"] = green
@@ -776,10 +748,9 @@ class MordantHelpFormatterTest {
             """.trimMargin()
     }
 
-    @Test
-    @JsName("nested_help_formatter_config")
+    @[Test JsName("nested_help_formatter_config")]
     fun `nested help formatter config`() {
-        class C(name: String) : TestCommand(name=name) {
+        class C(name: String) : TestCommand(name = name) {
             val o by option().required()
         }
 
@@ -825,10 +796,9 @@ class MordantHelpFormatterTest {
             """.trimMargin()
     }
 
-    @Test
-    @JsName("nested_help_formatter_inherit_config")
+    @[Test JsName("nested_help_formatter_inherit_config")]
     fun `nested help formatter inherit config`() {
-        class C(name: String) : TestCommand(name=name) {
+        class C(name: String) : TestCommand(name = name) {
             val o by option().required()
         }
 

@@ -9,8 +9,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class ExceptionsTest {
-    @Test
-    @JsName("exceptions_statusCode")
+    @[Test JsName("exceptions_statusCode")]
     fun `exceptions statusCode`() = forAll(
         row(CliktError(), 1),
         row(CliktError(statusCode = 2), 2),

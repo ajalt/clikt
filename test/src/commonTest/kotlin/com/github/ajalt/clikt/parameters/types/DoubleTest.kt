@@ -18,8 +18,7 @@ import kotlin.test.Test
 
 @Suppress("unused")
 class DoubleTest {
-    @Test
-    @JsName("double_option")
+    @[Test JsName("double_option")]
     fun `double option`() = forAll(
         row("", null),
         row("--xx 3", 3.0),
@@ -36,8 +35,7 @@ class DoubleTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("double_option_error")
+    @[Test JsName("double_option_error")]
     fun `double option error`() {
         class C : TestCommand() {
             val foo by option().double()
@@ -47,8 +45,7 @@ class DoubleTest {
             .formattedMessage shouldBe "invalid value for --foo: bar is not a valid floating point value"
     }
 
-    @Test
-    @JsName("double_option_with_default")
+    @[Test JsName("double_option_with_default")]
     fun `double option with default`() = forAll(
         row("", -1.0),
         row("--xx=4.0", 4.0),
@@ -63,8 +60,7 @@ class DoubleTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("double_argument")
+    @[Test JsName("double_argument")]
     fun `double argument`() = forAll(
         row("", null, emptyList<Float>()),
         row("1.1 2", 1.1, listOf(2.0)),

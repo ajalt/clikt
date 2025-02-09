@@ -3,6 +3,7 @@
 ## Unreleased
 ### Fixed
 - Fixed `@argfiles` not being expanded when specified after a subcommand ([#570](https://github.com/ajalt/clikt/pull/570))
+- Fixed syntax error in generated bash completions when an argument name contained spaces ([#563](https://github.com/ajalt/clikt/pull/563))
 
 ## 5.0.2
 ### Changed

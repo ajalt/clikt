@@ -60,10 +60,10 @@ Clikt is distributed through [Maven Central](https://search.maven.org/artifact/c
 
 ```kotlin
 dependencies {
-   implementation("com.github.ajalt.clikt:clikt:5.0.2")
+   implementation("com.github.ajalt.clikt:clikt:5.0.3")
 
    // optional support for rendering markdown in help messages
-   implementation("com.github.ajalt.clikt:clikt-markdown:5.0.2")
+   implementation("com.github.ajalt.clikt:clikt-markdown:5.0.3")
 }
 ```
 

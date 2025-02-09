@@ -224,7 +224,7 @@ internal object BashCompletionGenerator {
             for ((name, completion) in paramsWithCandidates) {
                 append(
                     """
-                |    $name)
+                |    "$name")
                 |
                 """.trimMargin()
                 )

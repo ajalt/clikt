@@ -119,6 +119,23 @@ abstract class CompletionTestBase(private val shell: String) {
         )
     }
 
+    @JsName("arg_names_with_spaces_expected")
+    abstract fun `arg names with spaces expected`(): String
+
+    @[Test JsName("arg_names_with_spaces")]
+    fun `arg names with spaces`() {
+        class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
+            val a by argument(help = "help", name = "foo bar")
+        }
+
+        doTest(
+            `arg names with spaces expected`(),
+            C().completionOption(hidden = true)
+        )
+
+    }
+
+
     @[Test JsName("completion_command")]
     fun `completion command`() {
         val message = shouldThrow<PrintCompletionMessage> {

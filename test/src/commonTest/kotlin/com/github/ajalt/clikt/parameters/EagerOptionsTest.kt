@@ -20,8 +20,7 @@ import kotlin.test.Test
 
 @Suppress("BooleanLiteralArgument", "unused")
 class EagerOptionsTest {
-    @Test
-    @JsName("custom_eager_option")
+    @[Test JsName("custom_eager_option")]
     fun `custom eager option`() = forAll(
         row("", false, false),
         row("--option", true, false),
@@ -45,8 +44,7 @@ class EagerOptionsTest {
         }
     }
 
-    @Test
-    @JsName("eager_option_parse_order")
+    @[Test JsName("eager_option_parse_order")]
     fun `eager option parse order`() {
         class C : TestCommand(called = false) {
             val o by option().flag().validate { throw TestException("fail") }
@@ -57,8 +55,7 @@ class EagerOptionsTest {
         shouldThrow<TestException> { C().parse("--o") }
     }
 
-    @Test
-    @JsName("eager_option_in_option_group_plain")
+    @[Test JsName("eager_option_in_option_group_plain")]
     fun `eager option in option group plain`() {
         class G : OptionGroup(name = "g") {
             val x by option("-x", eager = true).flag().validate { throw TestException("fail") }
@@ -74,8 +71,7 @@ class EagerOptionsTest {
         shouldThrow<TestException> { C().parse("-yxh") }
     }
 
-    @Test
-    @JsName("eager_option_in_option_group_switch")
+    @[Test JsName("eager_option_in_option_group_switch")]
     fun `eager option in option group switch`() {
         class G : OptionGroup(name = "g") {
             val x by option("-x", eager = true)
@@ -88,8 +84,7 @@ class EagerOptionsTest {
         shouldThrow<IllegalArgumentException> { C() }
     }
 
-    @Test
-    @JsName("eager_option_in_option_group_cooccurring")
+    @[Test JsName("eager_option_in_option_group_cooccurring")]
     fun `eager option in option group cooccurring`() {
         class G : OptionGroup(name = "g") {
             val x by option("-x", eager = true)
@@ -103,8 +98,7 @@ class EagerOptionsTest {
         shouldThrow<IllegalArgumentException> { C() }
     }
 
-    @Test
-    @JsName("eager_option_in_option_group_mutex")
+    @[Test JsName("eager_option_in_option_group_mutex")]
     fun `eager option in option group mutex`() {
         class C : TestCommand(called = false) {
             val g by mutuallyExclusiveOptions(
@@ -116,8 +110,7 @@ class EagerOptionsTest {
         shouldThrow<IllegalArgumentException> { C() }
     }
 
-    @Test
-    @JsName("version_default")
+    @[Test JsName("version_default")]
     fun `version default`() {
         class C : TestCommand(called = false, name = "prog") {
             init {
@@ -132,8 +125,7 @@ class EagerOptionsTest {
         exception.statusCode shouldBe 0
     }
 
-    @Test
-    @JsName("version_custom_message")
+    @[Test JsName("version_custom_message")]
     fun `version custom message`() {
         class C : TestCommand(called = false, name = "prog") {
             init {
@@ -146,8 +138,7 @@ class EagerOptionsTest {
         }.formattedMessage shouldBe "1.2.3 bar"
     }
 
-    @Test
-    @JsName("multiple_eager_options")
+    @[Test JsName("multiple_eager_options")]
     fun `multiple eager options`() {
         class C : TestCommand(called = false, name = "prog") {
             init {

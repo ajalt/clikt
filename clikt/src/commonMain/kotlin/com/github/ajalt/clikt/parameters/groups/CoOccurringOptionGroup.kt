@@ -47,7 +47,10 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
 
     override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): OutT = value
 
-    override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionInvocation>>) {
+    override fun finalize(
+        context: Context,
+        invocationsByOption: Map<Option, List<OptionInvocation>>,
+    ) {
         occurred = invocationsByOption.isNotEmpty() || group.options.any {
             it.hasEnvvarOrSourcedValue(context, invocationsByOption[it] ?: emptyList())
         }

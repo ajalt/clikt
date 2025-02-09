@@ -25,7 +25,7 @@ class PlaintextHelpFormatterTest {
         private val help: String = "",
         private val epilog: String = "",
         override val hiddenFromHelp: Boolean = false,
-        override val helpTags: Map<String, String> = emptyMap()
+        override val helpTags: Map<String, String> = emptyMap(),
     ) : CoreNoOpCliktCommand(name) {
         override fun help(context: Context): String = help
         override fun helpEpilog(context: Context): String = epilog
@@ -86,8 +86,7 @@ class PlaintextHelpFormatterTest {
         c.getFormattedHelp()?.lines()?.first() shouldBe expected
     }
 
-    @Test
-    @JsName("formatUsage_narrow_width")
+    @[Test JsName("formatUsage_narrow_width")]
     fun `formatUsage narrow width`() {
         c.registerOption(c.option("-x"))
         doTest(
@@ -101,8 +100,7 @@ class PlaintextHelpFormatterTest {
     }
 
 
-    @Test
-    @JsName("help_output_one_opt")
+    @[Test JsName("help_output_one_opt")]
     fun `one opt`() {
         c.registerOption(c.option("--aa", "-a", help = "some thing to live by"))
         doTest(
@@ -115,8 +113,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_number_opt")
+    @[Test JsName("help_output_number_opt")]
     fun `number opt`() {
         c.registerOption(
             c.option("--aa", "-a", help = "some thing to live by")
@@ -132,8 +129,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_secondary_name")
+    @[Test JsName("help_output_one_opt_secondary_name")]
     fun `one opt secondary name`() {
         c.registerOption(
             c.option("--aa", "-a", help = "some thing to live by").flag("--no-aa", "-A")
@@ -148,8 +144,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_prolog")
+    @[Test JsName("help_output_one_opt_prolog")]
     fun `one opt prolog`() {
         val c = TestCoreCommand(
             name = "prog",
@@ -235,8 +230,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("subcommands")
+    @[Test JsName("subcommands")]
     fun subcommands() {
         c.subcommands(
             TestCoreCommand(name = "foo", help = "some thing to live by"),
@@ -256,8 +250,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_optional_values")
+    @[Test JsName("help_output_optional_values")]
     fun `optional values`() {
         c.registerOption(c.option("--foo", "-f", help = "option one").optionalValue("d1"))
         c.registerOption(
@@ -379,8 +372,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("eager_options")
+    @[Test JsName("eager_options")]
     fun `eager options`() {
         c.versionOption("1.0")
         c.eagerOption(
@@ -406,8 +398,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("required_option_marker")
+    @[Test JsName("required_option_marker")]
     fun `required option marker`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
@@ -423,8 +414,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("required_option_tag")
+    @[Test JsName("required_option_tag")]
     fun `required option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").required())
@@ -440,8 +430,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("default_option_tag")
+    @[Test JsName("default_option_tag")]
     fun `default option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(c.option("--bb", "-b", help = "bb option help").default("123"))
@@ -457,8 +446,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("custom_tag")
+    @[Test JsName("custom_tag")]
     fun `custom tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(
@@ -480,8 +468,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("option_tag_and_markers")
+    @[Test JsName("option_tag_and_markers")]
     fun `option tag and markers`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))
         c.registerOption(
@@ -511,8 +498,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("argument_tag")
+    @[Test JsName("argument_tag")]
     fun `argument tag`() {
         c.registerArgument(c.argument("ARG1", help = "arg 1 help"))
         c.registerArgument(
@@ -533,8 +519,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("subcommand_tag")
+    @[Test JsName("subcommand_tag")]
     fun `subcommand tag`() {
         c.subcommands(
             TestCoreCommand(name = "sub1", help = "sub 1 help"),
@@ -555,8 +540,7 @@ class PlaintextHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("multi_error")
+    @[Test JsName("multi_error")]
     fun `multi error`() {
         shouldThrow<MultiUsageError> {
             c.parse(listOf("--foo", "--bar"))

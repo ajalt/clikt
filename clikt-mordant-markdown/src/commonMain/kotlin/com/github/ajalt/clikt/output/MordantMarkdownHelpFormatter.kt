@@ -1,17 +1,8 @@
 package com.github.ajalt.clikt.output
 
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.core.UsageError
-import com.github.ajalt.clikt.core.terminal
-import com.github.ajalt.clikt.output.HelpFormatter.ParameterHelp
 import com.github.ajalt.mordant.markdown.Markdown
-import com.github.ajalt.mordant.rendering.Theme
-import com.github.ajalt.mordant.rendering.Whitespace
 import com.github.ajalt.mordant.rendering.Widget
-import com.github.ajalt.mordant.table.verticalLayout
-import com.github.ajalt.mordant.widgets.Text
-import com.github.ajalt.mordant.widgets.definitionList
-import com.github.ajalt.mordant.widgets.withPadding
 
 /**
  * A [HelpFormatter] that uses Mordant to render its output as GitHub Flavored Markdown.

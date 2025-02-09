@@ -2,7 +2,6 @@ package com.github.ajalt.clikt.core
 
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
-import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
@@ -11,7 +10,9 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.testing.*
+import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.parse
+import com.github.ajalt.clikt.testing.test
 import com.github.ajalt.clikt.testing.withEnv
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -41,8 +42,7 @@ class CliktCommandTest {
         ListCommands().commandName shouldBe "list"
     }
 
-    @Test
-    @JsName("invokeWithoutSubcommand_false")
+    @[Test JsName("invokeWithoutSubcommand_false")]
     fun `invokeWithoutSubcommand=false`() {
         shouldThrow<PrintHelpMessage> {
             TestCommand(called = false).subcommands(TestCommand(called = false)).parse("")
@@ -56,8 +56,7 @@ class CliktCommandTest {
         }
     }
 
-    @Test
-    @JsName("invokeWithoutSubcommand_true")
+    @[Test JsName("invokeWithoutSubcommand_true")]
     fun `invokeWithoutSubcommand=true`() {
         TestCommand(
             called = true,
@@ -78,8 +77,7 @@ class CliktCommandTest {
         }
     }
 
-    @Test
-    @JsName("printHelpOnEmptyArgs__true")
+    @[Test JsName("printHelpOnEmptyArgs__true")]
     fun `printHelpOnEmptyArgs = true`() {
         class C : TestCommand(called = false, printHelpOnEmptyArgs = true) {
             val r by option().required()
@@ -89,8 +87,7 @@ class CliktCommandTest {
         }.error shouldBe true
     }
 
-    @Test
-    @JsName("printHelpOnEmptyArgs_with_envvars")
+    @[Test JsName("printHelpOnEmptyArgs_with_envvars")]
     fun `printHelpOnEmptyArgs with envvars`() {
         class C : TestCommand(called = true, printHelpOnEmptyArgs = true) {
             val foo by option(envvar = "FOO")
@@ -101,8 +98,7 @@ class CliktCommandTest {
         C().withEnv("FOO" to "bar").parse("")
     }
 
-    @Test
-    @JsName("printHelpOnEmptyArgs_with_envvars_and_required_option")
+    @[Test JsName("printHelpOnEmptyArgs_with_envvars_and_required_option")]
     fun `printHelpOnEmptyArgs with envvars and required option`() {
         class C : TestCommand(called = false, printHelpOnEmptyArgs = true) {
             val foo by option(envvar = "FOO")
@@ -113,8 +109,7 @@ class CliktCommandTest {
         }
     }
 
-    @Test
-    @JsName("shortHelp_extraction")
+    @[Test JsName("shortHelp_extraction")]
     fun `shortHelp extraction`() = forAll(
         row("", ""),
         row("foo bar", "foo bar"),
@@ -163,8 +158,7 @@ class CliktCommandTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("command_usage")
+    @[Test JsName("command_usage")]
     fun `command usage`() {
         class Parent : TestCommand(called = false) {
             val arg by argument()
@@ -180,8 +174,7 @@ class CliktCommandTest {
             """.trimMargin()
     }
 
-    @Test
-    @JsName("command_usage_exit_code")
+    @[Test JsName("command_usage_exit_code")]
     fun `command usage exit code`() {
         class C : TestCommand() {
             override fun run_() {
@@ -197,8 +190,7 @@ class CliktCommandTest {
         p.getFormattedHelp(e) shouldBe null
     }
 
-    @Test
-    @JsName("command_toString")
+    @[Test JsName("command_toString")]
     fun `command toString`() {
         class C : TestCommand(name = "cmd") {
             init {
@@ -227,8 +219,7 @@ class CliktCommandTest {
         )
     }
 
-    @Test
-    @JsName("command_with_groups_toString")
+    @[Test JsName("command_with_groups_toString")]
     fun `command with groups toString`() {
         class G : OptionGroup() {
             val opt by option("-o", "--option")
@@ -260,8 +251,7 @@ class CliktCommandTest {
         )
     }
 
-    @Test
-    @JsName("parameter_toString")
+    @[Test JsName("parameter_toString")]
     fun `parameter toString`() {
         class C : TestCommand() {
             init {
@@ -279,8 +269,7 @@ class CliktCommandTest {
     }
 
     // https://github.com/ajalt/clikt/issues/64
-    @Test
-    @JsName("context_is_initialized_when_helpOptionNames_is_null")
+    @[Test JsName("context_is_initialized_when_helpOptionNames_is_null")]
     fun `context is initialized when helpOptionNames is null`() {
         class D : TestCommand() {
             override fun run_() {
@@ -291,15 +280,13 @@ class CliktCommandTest {
         TestCommand().context { helpOptionNames = emptySet() }.subcommands(D()).parse("d")
     }
 
-    @Test
-    @JsName("help_flag_gets_correct_context")
+    @[Test JsName("help_flag_gets_correct_context")]
     fun `help flag gets correct context`() {
         TestCommand(name = "a").subcommands(TestCommand(name = "b"))
             .test("b --help").output.shouldStartWith("Usage: a b")
     }
 
-    @Test
-    @JsName("command_registered_functions")
+    @[Test JsName("command_registered_functions")]
     fun `command registered functions`() {
         val child1 = TestCommand(name = "foo", called = false)
         val child2 = TestCommand(name = "bar", called = false)
@@ -329,8 +316,7 @@ class CliktCommandTest {
         c.registeredParameterGroups() shouldBe listOf(g)
     }
 
-    @Test
-    @JsName("treat_unknown_options_as_arguments")
+    @[Test JsName("treat_unknown_options_as_arguments")]
     fun `treat unknown options as arguments`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
 
@@ -346,8 +332,7 @@ class CliktCommandTest {
         C().parse("--bar --foo baz --qux=qoz")
     }
 
-    @Test
-    @JsName("treat_unknown_options_as_arguments_with_grouped_flag")
+    @[Test JsName("treat_unknown_options_as_arguments_with_grouped_flag")]
     fun `treat unknown options as arguments with grouped flag`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
             val foo by option("-f").flag()

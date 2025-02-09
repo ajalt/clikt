@@ -145,7 +145,7 @@ fun <EachT, ValueT> NullableOption<EachT, ValueT>.multiple(
  * ```
  */
 fun <T, EachT, ValueT> OptionWithValues<List<T>, EachT, ValueT>.unique()
-: OptionWithValues<Set<T>, EachT, ValueT> {
+        : OptionWithValues<Set<T>, EachT, ValueT> {
     return copy(transformValue, transformEach, { transformAll(it).toSet() }, defaultValidator())
 }
 
@@ -155,7 +155,7 @@ fun <T, EachT, ValueT> OptionWithValues<List<T>, EachT, ValueT>.unique()
  * If the same key appears more than once, the last one will be added to the map.
  */
 fun <A, B, EachT, ValueT> OptionWithValues<List<Pair<A, B>>, EachT, ValueT>.toMap()
-: OptionWithValues<Map<A, B>, EachT, ValueT> {
+        : OptionWithValues<Map<A, B>, EachT, ValueT> {
     return copy(transformValue, transformEach, { transformAll(it).toMap() }, defaultValidator())
 }
 
@@ -188,7 +188,7 @@ inline fun <K, V> RawOption.associate(
 inline fun <K> RawOption.associateBy(
     delimiter: String = "=",
     crossinline keySelector: (String) -> K,
-): OptionWithValues<Map<K, String>, Pair<K,  String>, Pair<K, String>> {
+): OptionWithValues<Map<K, String>, Pair<K, String>, Pair<K, String>> {
     return associate(delimiter) { keySelector(it.first) to it.second }
 }
 

@@ -16,8 +16,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class BooleanTest {
-    @Test
-    @JsName("boolean_option")
+    @[Test JsName("boolean_option")]
     fun `boolean option`() = forAll(
         row("", null),
         row("--x=true", true),
@@ -47,8 +46,7 @@ class BooleanTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("boolean_option_error")
+    @[Test JsName("boolean_option_error")]
     fun `boolean option error`() {
         @Suppress("unused")
         class C : TestCommand(called = false) {
@@ -59,8 +57,7 @@ class BooleanTest {
             .formattedMessage shouldBe "invalid value for --foo: bar is not a valid boolean"
     }
 
-    @Test
-    @JsName("boolean_option_with_default")
+    @[Test JsName("boolean_option_with_default")]
     fun `boolean option with default`() = forAll(
         row("", true),
         row("--x=true", true),
@@ -75,8 +72,7 @@ class BooleanTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("boolean_argument")
+    @[Test JsName("boolean_argument")]
     fun `boolean argument`() = forAll(
         row("", emptyList()),
         row("1 0 ON off", listOf(true, false, true, false)),

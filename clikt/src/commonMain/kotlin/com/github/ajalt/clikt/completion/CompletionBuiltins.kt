@@ -22,12 +22,13 @@ fun <T : BaseCliktCommand<*>> T.completionOption(
     help: String = "",
     hidden: Boolean = false,
 ): T = apply {
-    registerOption(option(
-        *names, help = help, hidden = hidden, eager = true,
-        metavar = choices.joinToString("|", prefix = "(", postfix = ")")
-    ).validate {
-        throw PrintCompletionMessage(generateCompletionForCommand(context.command, it))
-    })
+    registerOption(
+        option(
+            *names, help = help, hidden = hidden, eager = true,
+            metavar = choices.joinToString("|", prefix = "(", postfix = ")")
+        ).validate {
+            throw PrintCompletionMessage(generateCompletionForCommand(context.command, it))
+        })
 }
 
 /**

@@ -16,8 +16,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class ULongTest {
-    @Test
-    @JsName("ulong_option")
+    @[Test JsName("ulong_option")]
     fun `ulong option`() = forAll(
         row("", null),
         row("-x0", 0uL),
@@ -33,8 +32,7 @@ class ULongTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("ulong_option_error")
+    @[Test JsName("ulong_option_error")]
     fun `ulong option error`() {
         class C : TestCommand(called = false) {
             @Suppress("unused")
@@ -48,8 +46,7 @@ class ULongTest {
         shouldThrow<BadParameterValue> { C().parse("--foo=-1") }
     }
 
-    @Test
-    @JsName("ulong_option_with_default")
+    @[Test JsName("ulong_option_with_default")]
     fun `ulong option with default`() = forAll(
         row("", 111uL),
         row("--xx=4", 4uL),
@@ -64,8 +61,7 @@ class ULongTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("int_option_with_default")
+    @[Test JsName("int_option_with_default")]
     fun `int option with default`() = forAll(
         row("", 111),
         row("--xx=4", 4),
@@ -80,8 +76,7 @@ class ULongTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("ulong_argument")
+    @[Test JsName("ulong_argument")]
     fun `ulong argument`() {
         class C : TestCommand(treatUnknownOptionsAsArgs = true) {
             val a by argument().ulong()

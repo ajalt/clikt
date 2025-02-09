@@ -17,8 +17,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class FloatTest {
-    @Test
-    @JsName("float_option")
+    @[Test JsName("float_option")]
     fun `float option`() = forAll(
         row("", null),
         row("--xx=4.0", 4f),
@@ -46,8 +45,7 @@ class FloatTest {
             .formattedMessage shouldBe "invalid value for --foo: bar is not a valid floating point value"
     }
 
-    @Test
-    @JsName("float_option_with_default")
+    @[Test JsName("float_option_with_default")]
     fun `float option with default`() = forAll(
         row("", -1f),
         row("--xx=4.0", 4f),
@@ -62,8 +60,7 @@ class FloatTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("float_argument")
+    @[Test JsName("float_argument")]
     fun `float argument`() = forAll(
         row("", null, emptyList()),
         row("1.1 2", 1.1f, listOf(2f)),

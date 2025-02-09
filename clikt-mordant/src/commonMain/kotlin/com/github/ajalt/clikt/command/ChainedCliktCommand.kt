@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.command
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.installMordant
 import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.clikt.testing.CliktCommandTestResult
 import com.github.ajalt.clikt.testing.test

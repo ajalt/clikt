@@ -17,8 +17,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class RangeTest {
-    @Test
-    @JsName("restrictTo_option_min")
+    @[Test JsName("restrictTo_option_min")]
     fun `restrictTo option min`() {
         class C : TestCommand() {
             val x: Int? by option("-x", "--xx").int().restrictTo(min = 1)
@@ -40,8 +39,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for --xx: 0 is smaller than the minimum valid value of 1."
     }
 
-    @Test
-    @JsName("restrictTo_option_min_clamp")
+    @[Test JsName("restrictTo_option_min_clamp")]
     fun `restrictTo option min clamp`() = forAll(
         row("", null),
         row("--xx=1", 1),
@@ -58,8 +56,7 @@ class RangeTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("restrictTo_option_max")
+    @[Test JsName("restrictTo_option_max")]
     fun `restrictTo option max`() {
         class C : TestCommand() {
             val x by option("-x", "--xx").int().restrictTo(max = 1)
@@ -81,8 +78,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for --xx: 2 is larger than the maximum valid value of 1."
     }
 
-    @Test
-    @JsName("restrictTo_option_max_clamp")
+    @[Test JsName("restrictTo_option_max_clamp")]
     fun `restrictTo option max clamp`() = forAll(
         row("", null),
         row("--xx=1", 1),
@@ -99,8 +95,7 @@ class RangeTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("restrictTo_option_range")
+    @[Test JsName("restrictTo_option_range")]
     fun `restrictTo option range`() {
         class C : TestCommand() {
             val x by option("-x", "--xx").int().restrictTo(1..2)
@@ -124,8 +119,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for -x: 0 is not in the valid range of 1 to 2."
     }
 
-    @Test
-    @JsName("restrictTo_option_default")
+    @[Test JsName("restrictTo_option_default")]
     fun `restrictTo option default`() {
         class C : TestCommand() {
             val x: Int by option("-x", "--xx").int().restrictTo(1..2).default(2)
@@ -153,8 +147,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for -y: 10 is not in the valid range of 3 to 4."
     }
 
-    @Test
-    @JsName("restrictTo_option_multiple")
+    @[Test JsName("restrictTo_option_multiple")]
     fun `restrictTo option multiple`() {
         class C : TestCommand() {
             val x by option("-x", "--xx").int().restrictTo(1..2).multiple()
@@ -182,8 +175,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for -y: 10 is not in the valid range of 3 to 4."
     }
 
-    @Test
-    @JsName("restrictTo_option_char")
+    @[Test JsName("restrictTo_option_char")]
     fun `restrictTo option char`() {
         class C : TestCommand() {
             val x by option("-x", "--xx").convert { it[0] }.restrictTo('b'..'d')
@@ -207,8 +199,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for -x: e is not in the valid range of b to d."
     }
 
-    @Test
-    @JsName("restrictTo_argument")
+    @[Test JsName("restrictTo_argument")]
     fun `restrictTo argument`() {
         class C : TestCommand() {
             val x by argument().int().restrictTo(min = 1, max = 2)
@@ -244,8 +235,7 @@ class RangeTest {
             .formattedMessage shouldBe "invalid value for W: 10 is not in the valid range of 7 to 8."
     }
 
-    @Test
-    @JsName("restrictTo_argument_clamp")
+    @[Test JsName("restrictTo_argument_clamp")]
     fun `restrictTo argument clamp`() {
         class C : TestCommand() {
             val x by argument().int().restrictTo(min = 1, max = 2, clamp = true)

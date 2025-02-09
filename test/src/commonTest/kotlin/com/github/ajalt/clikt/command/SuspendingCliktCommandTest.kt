@@ -11,8 +11,7 @@ import kotlin.test.Test
 
 
 class SuspendingCliktCommandTest {
-    @Test
-    @JsName("suspending_run")
+    @[Test JsName("suspending_run")]
     fun `suspending run`() = runTest {
         class C : SuspendingCliktCommand() {
             val arg by argument()
@@ -40,8 +39,7 @@ class SuspendingCliktCommandTest {
         sub.ran shouldBe true
     }
 
-    @Test
-    @JsName("suspending_command_test")
+    @[Test JsName("suspending_command_test")]
     fun `suspending command test`() = runTest {
         class C : SuspendingCliktCommand() {
             val arg by argument()
@@ -53,8 +51,7 @@ class SuspendingCliktCommandTest {
         C().test("baz").output shouldBe "baz\n"
     }
 
-    @Test
-    @JsName("suspending_noop_command_test")
+    @[Test JsName("suspending_noop_command_test")]
     fun `suspending no-op command test`() = runTest {
         class C : SuspendingNoOpCliktCommand()
         class Sub : CoreSuspendingNoOpCliktCommand()

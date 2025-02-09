@@ -10,8 +10,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class ChainedValueSourceTest {
-    @Test
-    @JsName("reads_from_the_first_available_value")
+    @[Test JsName("reads_from_the_first_available_value")]
     fun `reads from the first available value`() {
         val sources = arrayOf(
             TestSource(),

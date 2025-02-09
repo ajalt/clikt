@@ -19,7 +19,7 @@ package com.github.ajalt.clikt.core
  * @see Context.callOnClose
  * @see Context.registerCloseable
  */
-fun <T: AutoCloseable> Context.registerJvmCloseable(closeable: T): T {
+fun <T : AutoCloseable> Context.registerJvmCloseable(closeable: T): T {
     callOnClose { closeable.close() }
     return closeable
 }

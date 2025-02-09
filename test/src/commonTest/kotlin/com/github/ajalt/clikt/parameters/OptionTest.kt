@@ -19,14 +19,12 @@ import kotlin.test.Test
 
 @Suppress("unused", "BooleanLiteralArgument")
 class OptionTest {
-    @Test
-    @JsName("zero_options")
+    @[Test JsName("zero_options")]
     fun `zero options`() {
         TestCommand(called = true).parse(arrayOf())
     }
 
-    @Test
-    @JsName("no_such_option")
+    @[Test JsName("no_such_option")]
     fun `no such option`() = forAll(
         row("--qux", "no such option --qux"),
         row("--fo", "no such option --fo. Did you mean --foo?"),
@@ -48,8 +46,7 @@ class OptionTest {
         exception.statusCode shouldBe 1
     }
 
-    @Test
-    @JsName("no_such_short_option_with_long")
+    @[Test JsName("no_such_short_option_with_long")]
     fun `no such short option with long`() = forAll(
         row("-long", "no such option -l. Did you mean --long?"),
         row("-foo", "no such option -f. Did you mean --foo?"),
@@ -67,8 +64,7 @@ class OptionTest {
         }.formattedMessage shouldBe message
     }
 
-    @Test
-    @JsName("no_such_option_custom_localization")
+    @[Test JsName("no_such_option_custom_localization")]
     fun `no such option custom localization`() {
         class L : Localization {
             override fun noSuchOption(name: String, possibilities: List<String>) =
@@ -88,11 +84,10 @@ class OptionTest {
         c.getFormattedHelp(err) shouldContain "Error: custom message"
     }
 
-    @Test
-    @JsName("no_such_option_subcommand_hint")
+    @[Test JsName("no_such_option_subcommand_hint")]
     fun `no such option subcommand hint`() {
         class C : TestCommand(called = false)
-        class Sub: TestCommand(called = false) {
+        class Sub : TestCommand(called = false) {
             val foo by option()
         }
 
@@ -102,8 +97,7 @@ class OptionTest {
         }.formattedMessage shouldBe "no such option --foo. hint: sub has an option --foo"
     }
 
-    @Test
-    @JsName("one_option")
+    @[Test JsName("one_option")]
     fun `one option`() = forAll(
         row("", null),
         row("--xx 3", "3"),
@@ -127,8 +121,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("two_options_one_name_each")
+    @[Test JsName("two_options_one_name_each")]
     fun `two options one name each`() {
         class C : TestCommand() {
             val x by option("-x")
@@ -141,8 +134,7 @@ class OptionTest {
         C().parse("-x 3 --yy 4")
     }
 
-    @Test
-    @JsName("two_options")
+    @[Test JsName("two_options")]
     fun `two options`() = forAll(
         row("--xx 3 --yy 4", "3", "4"),
         row("-x 3 --yy 4", "3", "4"),
@@ -176,8 +168,7 @@ class OptionTest {
     }
 
 
-    @Test
-    @JsName("two_options_nvalues_2")
+    @[Test JsName("two_options_nvalues_2")]
     fun `two options nvalues=2`() = forAll(
         row("", null, null),
         row("--yy 5 7", null, "5" to "7"),
@@ -205,8 +196,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("two_options_nvalues_3")
+    @[Test JsName("two_options_nvalues_3")]
     fun `two options nvalues=3`() {
         val xvalue = Triple("1", "2", "3")
         val yvalue = Triple("5", "6", "7")
@@ -238,8 +228,7 @@ class OptionTest {
         }
     }
 
-    @Test
-    @JsName("two_options_nvalues_2_usage_errors")
+    @[Test JsName("two_options_nvalues_2_usage_errors")]
     fun `two options nvalues=2 usage errors`() {
         class C : TestCommand(called = false) {
             val x by option("-x", "--xx").pair()
@@ -251,8 +240,7 @@ class OptionTest {
                 "got unexpected extra argument (baz)"
     }
 
-    @Test
-    @JsName("two_options_with_split")
+    @[Test JsName("two_options_with_split")]
     fun `two options with split`() = forAll(
         row("", null, null),
         row("-x 5 -y a", listOf(5), listOf("a")),
@@ -270,8 +258,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("two_options_with_split_and_limit")
+    @[Test JsName("two_options_with_split_and_limit")]
     fun `two options with split and limit`() = forAll(
         row("", null, null),
         row("-x 5 -y a", listOf("5"), listOf("a")),
@@ -279,7 +266,7 @@ class OptionTest {
     ) { argv, ex, ey ->
         class C : TestCommand() {
             val x by option("-x").split("x", ignoreCase = true, limit = 3)
-            val y by option("-y").split(Regex(":"), limit=2)
+            val y by option("-y").split(Regex(":"), limit = 2)
             override fun run_() {
                 x shouldBe ex
                 y shouldBe ey
@@ -289,8 +276,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("flag_options")
+    @[Test JsName("flag_options")]
     fun `flag options`() = forAll(
         row("", false, false, null),
         row("-xx", true, false, null),
@@ -327,8 +313,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("flag_convert")
+    @[Test JsName("flag_convert")]
     fun `flag convert`() = forAll(
         row("", E.B, "false"),
         row("-xx", E.A, "false"),
@@ -360,8 +345,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("flag_convert_validate")
+    @[Test JsName("flag_convert_validate")]
     fun `flag convert validate`() {
         class C : TestCommand() {
             val x by option().flag("--no-x")
@@ -377,8 +361,7 @@ class OptionTest {
         shouldThrow<UsageError> { C().parse("--no-x") }
     }
 
-    @Test
-    @JsName("counted_options")
+    @[Test JsName("counted_options")]
     fun `counted options`() = forAll(
         row("", 0, false, null),
         row("-x -x", 2, false, null),
@@ -415,8 +398,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("counted_option_clamp_false")
+    @[Test JsName("counted_option_clamp_false")]
     fun `counted option clamp=false`() {
         class C(called: Boolean) : TestCommand(called) {
             val x by option("-x").counted(limit = 2, clamp = false)
@@ -429,8 +411,7 @@ class OptionTest {
             .formattedMessage shouldBe "invalid value for -x: option was given 4 times, but only 2 times are allowed"
     }
 
-    @Test
-    @JsName("default_option")
+    @[Test JsName("default_option")]
     fun `default option`() = forAll(
         row("", "def"),
         row("-x4", "4")
@@ -445,8 +426,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("defaultLazy_option")
+    @[Test JsName("defaultLazy_option")]
     fun `defaultLazy option`() = forAll(
         row("", "default", true),
         row("-xbar", "bar", false)
@@ -465,8 +445,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("defaultLazy_option_referencing_other_option")
+    @[Test JsName("defaultLazy_option_referencing_other_option")]
     fun `defaultLazy option referencing other option`() {
         class C : TestCommand() {
             val y by option().defaultLazy { x }
@@ -480,8 +459,7 @@ class OptionTest {
     }
 
 
-    @Test
-    @JsName("defaultLazy_option_referencing_required_option")
+    @[Test JsName("defaultLazy_option_referencing_required_option")]
     fun `defaultLazy option referencing required option`() {
         class C : TestCommand(called = false) {
             val y by option().defaultLazy { x }
@@ -493,8 +471,7 @@ class OptionTest {
         }.formattedMessage shouldBe "missing option --x"
     }
 
-    @Test
-    @JsName("defaultLazy_option_referencing_argument")
+    @[Test JsName("defaultLazy_option_referencing_argument")]
     fun `defaultLazy option referencing argument`() {
         class C : TestCommand() {
             val y by option().defaultLazy { x }
@@ -507,8 +484,7 @@ class OptionTest {
         C().parse("")
     }
 
-    @Test
-    @JsName("defaultLazy_option_mutual_recursion")
+    @[Test JsName("defaultLazy_option_mutual_recursion")]
     fun `defaultLazy option mutual recursion`() {
         class C : TestCommand() {
             val y: String by option().defaultLazy { x }
@@ -520,8 +496,7 @@ class OptionTest {
         shouldThrow<IllegalStateException> { C().parse("") }
     }
 
-    @Test
-    @JsName("required_option")
+    @[Test JsName("required_option")]
     fun `required option`() {
         class C : TestCommand() {
             val x by option().required()
@@ -537,8 +512,7 @@ class OptionTest {
         }.formattedMessage shouldBe "missing option --x"
     }
 
-    @Test
-    @JsName("multiple_option_default")
+    @[Test JsName("multiple_option_default")]
     fun `multiple option default`() {
         class C : TestCommand() {
             val x: List<String> by option().multiple()
@@ -550,8 +524,7 @@ class OptionTest {
         C().parse("")
     }
 
-    @Test
-    @JsName("multiple_option_custom_default")
+    @[Test JsName("multiple_option_custom_default")]
     fun `multiple option custom default`() {
         class C : TestCommand() {
             val x by option().multiple(listOf("foo"))
@@ -563,8 +536,7 @@ class OptionTest {
         C().parse("")
     }
 
-    @Test
-    @JsName("multiple_with_unique_option_default")
+    @[Test JsName("multiple_with_unique_option_default")]
     fun `multiple with unique option default`() {
         val command = object : TestCommand() {
             val x by option().multiple().unique()
@@ -576,8 +548,7 @@ class OptionTest {
         command.parse("")
     }
 
-    @Test
-    @JsName("multiple_with_unique_option_custom_default")
+    @[Test JsName("multiple_with_unique_option_custom_default")]
     fun `multiple with unique option custom default`() {
         val command = object : TestCommand() {
             val x by option().multiple(listOf("foo", "bar", "bar")).unique()
@@ -589,8 +560,7 @@ class OptionTest {
         command.parse("")
     }
 
-    @Test
-    @JsName("multiple_with_unique_option_parsed")
+    @[Test JsName("multiple_with_unique_option_parsed")]
     fun `multiple with unique option parsed`() = forAll(
         row("--arg foo", setOf("foo")),
         row("--arg foo --arg bar --arg baz", setOf("foo", "bar", "baz")),
@@ -605,8 +575,7 @@ class OptionTest {
         command.parse(argv)
     }
 
-    @Test
-    @JsName("split_with_unique_option_default")
+    @[Test JsName("split_with_unique_option_default")]
     fun `split with unique option default`() {
         val command = object : TestCommand() {
             val x: Set<String> by option().split(",").default(emptyList()).unique()
@@ -618,8 +587,7 @@ class OptionTest {
         command.parse("--x=1,2,1")
     }
 
-    @Test
-    @JsName("multiple_required_option")
+    @[Test JsName("multiple_required_option")]
     fun `multiple required option`() {
         class C(called: Boolean) : TestCommand(called) {
             val x: List<String> by option().multiple(required = true)
@@ -632,8 +600,7 @@ class OptionTest {
             .formattedMessage shouldBe "missing option --x"
     }
 
-    @Test
-    @JsName("option_metavars")
+    @[Test JsName("option_metavars")]
     fun `option metavars`() = forAll(
         row("--x", "text"),
         row("--y", "FOO"),
@@ -659,8 +626,7 @@ class OptionTest {
         C().parse("")
     }
 
-    @Test
-    @JsName("option_validator_basic")
+    @[Test JsName("option_validator_basic")]
     fun `option validator basic`() {
         var called = false
 
@@ -682,8 +648,7 @@ class OptionTest {
         called shouldBe false
     }
 
-    @Test
-    @JsName("option_check")
+    @[Test JsName("option_check")]
     fun `option check`() = forAll(
         row("--x=bar --y=foo --w=foo", "invalid value for --x: bar"),
         row("--y=bar --w=foo", "invalid value for --y: bar"),
@@ -701,8 +666,7 @@ class OptionTest {
         shouldThrow<BadParameterValue> { C().parse(argv) }.formattedMessage shouldBe message
     }
 
-    @Test
-    @JsName("option_validator_required")
+    @[Test JsName("option_validator_required")]
     fun `option validator required`() {
         var called = false
 
@@ -724,8 +688,7 @@ class OptionTest {
         shouldThrow<MissingOption> { C().parse("") }
     }
 
-    @Test
-    @JsName("option_validator_flag")
+    @[Test JsName("option_validator_flag")]
     fun `option validator flag`() {
         var called = false
 
@@ -745,8 +708,7 @@ class OptionTest {
     }
 
 
-    @Test
-    @JsName("convert_catches_exceptions")
+    @[Test JsName("convert_catches_exceptions")]
     fun `convert catches exceptions`() {
         class C : TestCommand(called = false) {
             init {
@@ -766,8 +728,7 @@ class OptionTest {
         shouldThrow<BadParameterValue> { C().parse("--x=err") }.paramName shouldBe "--x"
     }
 
-    @Test
-    @JsName("one_option_with_slash_prefix")
+    @[Test JsName("one_option_with_slash_prefix")]
     fun `one option with slash prefix`() = forAll(
         row("", null),
         row("/xx 3", "3"),
@@ -786,8 +747,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("one_option_with_java_prefix")
+    @[Test JsName("one_option_with_java_prefix")]
     fun `one option with java prefix`() = forAll(
         row("", null),
         row("-xx 3", "3"),
@@ -806,8 +766,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("two_options_with_chmod_prefixes")
+    @[Test JsName("two_options_with_chmod_prefixes")]
     fun `two options with chmod prefixes`() = forAll(
         row("", false, false),
         row("-x", false, false),
@@ -832,8 +791,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("option_with_question_mark_name")
+    @[Test JsName("option_with_question_mark_name")]
     fun `option with question mark name`() = forAll(
         row("", null),
         row("-? 3", "3"),
@@ -851,8 +809,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("normalized_tokens")
+    @[Test JsName("normalized_tokens")]
     fun `normalized tokens`() = forAll(
         row("", null),
         row("--XX=FOO", "FOO"),
@@ -869,8 +826,7 @@ class OptionTest {
         C().context { transformToken = { it.lowercase() } }.parse(argv)
     }
 
-    @Test
-    @JsName("token_transform_alias")
+    @[Test JsName("token_transform_alias")]
     fun `token transform alias`() = forAll(
         row("", null),
         row("--yy 3", "3")
@@ -885,8 +841,7 @@ class OptionTest {
         C().context { transformToken = { "--xx" } }.parse(argv)
     }
 
-    @Test
-    @JsName("deprecated_warning_options")
+    @[Test JsName("deprecated_warning_options")]
     fun `deprecated warning options`() {
         class C : TestCommand() {
             val g by option()
@@ -905,8 +860,7 @@ class OptionTest {
         C().context { printExtraMessages = false }.parse("--g=0 --f --x=1 --y=2")
     }
 
-    @Test
-    @JsName("deprecated_error_option")
+    @[Test JsName("deprecated_error_option")]
     fun `deprecated error option`() {
         class C : TestCommand(called = false) {
             val x by option().flag().deprecated(error = true)
@@ -919,8 +873,7 @@ class OptionTest {
             .formattedMessage shouldBe "err"
     }
 
-    @Test
-    @JsName("options_with_chained_convert")
+    @[Test JsName("options_with_chained_convert")]
     fun `options with chained convert`() = forAll(
         row("", null),
         row("--x=1", listOf(1))
@@ -934,8 +887,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("associate_options")
+    @[Test JsName("associate_options")]
     fun `associate options`() = forAll(
         row("", emptyMap()),
         row("-Xfoo=bar", mapOf("foo" to "bar")),
@@ -952,8 +904,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("associate_conversion_options")
+    @[Test JsName("associate_conversion_options")]
     fun `associate conversion options`() = forAll(
         row("", emptyMap(), emptyMap(), emptyMap()),
         row(
@@ -974,8 +925,7 @@ class OptionTest {
     }
 
 
-    @Test
-    @JsName("customized_splitPair")
+    @[Test JsName("customized_splitPair")]
     fun `customized splitPair`() = forAll(
         row("", null),
         row("-Xfoo:1", "foo|1"),
@@ -993,8 +943,7 @@ class OptionTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("disable_allowGroupedShortOptions")
+    @[Test JsName("disable_allowGroupedShortOptions")]
     fun `disable allowGroupedShortOptions`() {
         class C(called: Boolean) : TestCommand(called) {
             init {

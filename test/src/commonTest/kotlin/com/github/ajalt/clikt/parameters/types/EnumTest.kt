@@ -19,8 +19,7 @@ import kotlin.test.Test
 class EnumTest {
     private enum class TestEnum { A, B }
 
-    @Test
-    @JsName("enum_option")
+    @[Test JsName("enum_option")]
     fun `enum option`() = forAll(
         row("", null),
         row("--xx A", TestEnum.A),
@@ -39,8 +38,7 @@ class EnumTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("enum_option_key")
+    @[Test JsName("enum_option_key")]
     fun `enum option key`() = forAll(
         row("", null),
         row("-xAz", TestEnum.A),
@@ -58,8 +56,7 @@ class EnumTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("enum_option_error")
+    @[Test JsName("enum_option_error")]
     fun `enum option error`() {
         @Suppress("unused")
         class C : TestCommand() {
@@ -73,8 +70,7 @@ class EnumTest {
             .formattedMessage shouldBe "invalid value for --foo: invalid choice: a. (choose from A, B)"
     }
 
-    @Test
-    @JsName("enum_option_with_default")
+    @[Test JsName("enum_option_with_default")]
     fun `enum option with default`() = forAll(
         row("", TestEnum.B),
         row("--xx A", TestEnum.A),
@@ -90,8 +86,7 @@ class EnumTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("enum_argument")
+    @[Test JsName("enum_argument")]
     fun `enum argument`() = forAll(
         row("", null, emptyList()),
         row("A", TestEnum.A, emptyList()),
@@ -110,8 +105,7 @@ class EnumTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("enum_argument_key")
+    @[Test JsName("enum_argument_key")]
     fun `enum argument key`() = forAll(
         row("", emptyList()),
         row("az", listOf(TestEnum.A)),
@@ -128,8 +122,7 @@ class EnumTest {
         C().parse(argv)
     }
 
-    @Test
-    @JsName("enum_argument_error")
+    @[Test JsName("enum_argument_error")]
     fun `enum argument error`() {
         @Suppress("unused")
         class C : TestCommand() {

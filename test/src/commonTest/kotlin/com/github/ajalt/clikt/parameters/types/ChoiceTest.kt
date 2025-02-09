@@ -12,8 +12,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class OptionChoiceTest {
-    @Test
-    @JsName("choice_option_strings")
+    @[Test JsName("choice_option_strings")]
     fun `choice option strings`() {
         class C : TestCommand() {
             val x: String? by option("-x", "--xx").choice("foo", "bar")
@@ -36,8 +35,7 @@ class OptionChoiceTest {
             .formattedMessage shouldBe "invalid value for --xx: invalid choice: FOO. (choose from foo, bar)"
     }
 
-    @Test
-    @JsName("choice_option_map")
+    @[Test JsName("choice_option_map")]
     fun `choice option map`() {
         class C : TestCommand() {
             val x by option("-x", "--xx")
@@ -64,8 +62,7 @@ class OptionChoiceTest {
             .formattedMessage shouldBe "invalid value for -x: invalid choice: FOO. (choose from foo, bar)"
     }
 
-    @Test
-    @JsName("choice_option_insensitive")
+    @[Test JsName("choice_option_insensitive")]
     fun `choice option insensitive`() {
         class C : TestCommand() {
             val x by option("-x").choice("foo", "bar", ignoreCase = true)
@@ -88,8 +85,7 @@ class OptionChoiceTest {
             .formattedMessage shouldBe "invalid value for -x: invalid choice: baz. (choose from foo, bar)"
     }
 
-    @Test
-    @JsName("choice_argument_strings")
+    @[Test JsName("choice_argument_strings")]
     fun `choice argument strings`() {
         class C : TestCommand() {
             val x: String by argument().choice("foo", "bar")
@@ -115,8 +111,7 @@ class OptionChoiceTest {
             .formattedMessage shouldBe "invalid value for X: invalid choice: FOO. (choose from foo, bar)"
     }
 
-    @Test
-    @JsName("choice_argument_map")
+    @[Test JsName("choice_argument_map")]
     fun `choice argument map`() {
         class C : TestCommand() {
             val x by argument().choice("foo" to 1, "bar" to 2)
@@ -142,8 +137,7 @@ class OptionChoiceTest {
             .formattedMessage shouldBe "invalid value for X: invalid choice: FOO. (choose from foo, bar)"
     }
 
-    @Test
-    @JsName("choice_argument_insensitive")
+    @[Test JsName("choice_argument_insensitive")]
     fun `choice argument insensitive`() {
         class C : TestCommand() {
             val x by argument().choice("foo", "bar", ignoreCase = true)

@@ -90,7 +90,10 @@ open class OptionGroup(
         options += option
     }
 
-    override fun finalize(context: Context, invocationsByOption: Map<Option, List<OptionInvocation>>) {
+    override fun finalize(
+        context: Context,
+        invocationsByOption: Map<Option, List<OptionInvocation>>,
+    ) {
         finalizeOptions(context, options, invocationsByOption)
     }
 

@@ -19,8 +19,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 
 class EnvvarOptionsTest {
-    @Test
-    @JsName("explicit_envvar")
+    @[Test JsName("explicit_envvar")]
     fun `explicit envvar`() {
         class C : TestCommand() {
             val foo by option(envvar = "FO")
@@ -34,8 +33,7 @@ class EnvvarOptionsTest {
         C().withEnv("FO" to "foo").parse("")
     }
 
-    @Test
-    @JsName("auto_envvar")
+    @[Test JsName("auto_envvar")]
     fun `auto envvar`() {
         class C : TestCommand() {
             val foo by option(envvar = "FO")
@@ -54,8 +52,7 @@ class EnvvarOptionsTest {
         ).parse("")
     }
 
-    @Test
-    @JsName("auto_envvar_subcommand")
+    @[Test JsName("auto_envvar_subcommand")]
     fun `auto envvar subcommand`() {
         class C : TestCommand() {
             init {
@@ -102,8 +99,7 @@ class EnvvarOptionsTest {
             ).parse("cmd1 sub2 sub3")
     }
 
-    @Test
-    @JsName("split_envvar")
+    @[Test JsName("split_envvar")]
     fun `split envvar`() {
         class C : TestCommand() {
             val foo by option(envvar = "FOO")
@@ -120,8 +116,7 @@ class EnvvarOptionsTest {
         ).parse("")
     }
 
-    @Test
-    @JsName("flag_envvars")
+    @[Test JsName("flag_envvars")]
     fun `flag envvars`() = forAll(
         row(null, null, false, 0),
         row("YES", "3", true, 3),
@@ -147,8 +142,7 @@ class EnvvarOptionsTest {
         called2 shouldBe true
     }
 
-    @Test
-    @JsName("vararg_option_envvars")
+    @[Test JsName("vararg_option_envvars")]
     fun `vararg option envvars`() = forAll(
         row(null, null, null, null),
         row("f", "b", listOf("f"), "b"),
@@ -168,8 +162,7 @@ class EnvvarOptionsTest {
         ).parse("")
     }
 
-    @Test
-    @JsName("readEnvvarBeforeValuesSource_when_both_exist")
+    @[Test JsName("readEnvvarBeforeValuesSource_when_both_exist")]
     fun `readEnvvarBeforeValuesSource when both exist`() = forAll(
         row(true, "bar"),
         row(false, "baz")
@@ -197,8 +190,7 @@ class EnvvarOptionsTest {
         source.assert(read = !envvarFirst)
     }
 
-    @Test
-    @JsName("cooccurring_option_group_envvar")
+    @[Test JsName("cooccurring_option_group_envvar")]
     fun `cooccurring option group envvar`() = forAll(
         row("", "xx", "yy"),
         row("--x=z", "z", "yy"),
@@ -221,8 +213,7 @@ class EnvvarOptionsTest {
         C().withEnv("X" to "xx", "Y" to "yy").parse(argv)
     }
 
-    @Test
-    @JsName("mutually_exclusive_option_group_envvar")
+    @[Test JsName("mutually_exclusive_option_group_envvar")]
     fun `mutually exclusive option group envvar`() {
         class C : TestCommand() {
             val opt by mutuallyExclusiveOptions(

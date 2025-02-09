@@ -81,7 +81,10 @@ inline fun <OutT> OptionWithValues<Boolean, Boolean, Boolean>.convert(
  * @param clamp If `true`, the counted value will be clamped to the [limit] if it is exceeded. If
  *   `false`, an error will be shown isntead of clamping.
  */
-fun RawOption.counted(limit: Int = Int.MAX_VALUE, clamp: Boolean = true): OptionWithValues<Int, Int, Int> {
+fun RawOption.counted(
+    limit: Int = Int.MAX_VALUE,
+    clamp: Boolean = true,
+): OptionWithValues<Int, Int, Int> {
     return int().transformValues(0..0) { it.lastOrNull() ?: 1 }.transformAll {
         val s = it.sum()
         if (!clamp && s > limit) {

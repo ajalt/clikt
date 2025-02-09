@@ -21,8 +21,7 @@ class AtFileTest {
         return context { readArgumentFile = { content.toMap().getValue(it).trimMargin() } }
     }
 
-    @Test
-    @JsName("parsing_atfile")
+    @[Test JsName("parsing_atfile")]
     fun `parsing atfile`() {
         class C : TestCommand() {
             val foo by option()
@@ -62,8 +61,7 @@ class AtFileTest {
         ).parse("@foo")
     }
 
-    @Test
-    @JsName("parsing_atfile_recursive")
+    @[Test JsName("parsing_atfile_recursive")]
     fun `parsing atfile recursive`() {
         class C : TestCommand() {
             val foo by option()
@@ -86,8 +84,7 @@ class AtFileTest {
         result.expandedArgv shouldBe listOf("--foo", "123", "456")
     }
 
-    @Test
-    @JsName("parsing_atfile_unclosed_quotes")
+    @[Test JsName("parsing_atfile_unclosed_quotes")]
     @Suppress("unused")
     fun `parsing atfile unclosed quotes`() {
         class C : TestCommand(called = false) {
@@ -104,8 +101,7 @@ class AtFileTest {
         }.message shouldContain "unclosed quote"
     }
 
-    @Test
-    @JsName("parsing_atfile_after_dash")
+    @[Test JsName("parsing_atfile_after_dash")]
     fun `passing atfile after --`() {
         class C : TestCommand() {
             val arg by argument()
@@ -118,8 +114,7 @@ class AtFileTest {
         C().withAtFiles().parse("-- @file")
     }
 
-    @Test
-    @JsName("escaping_atfile")
+    @[Test JsName("escaping_atfile")]
     fun `escaping atfile`() {
         class C : TestCommand() {
             val arg by argument()
@@ -132,8 +127,7 @@ class AtFileTest {
         C().withAtFiles().parse("@@file")
     }
 
-    @Test
-    @JsName("atfile_after_arg")
+    @[Test JsName("atfile_after_arg")]
     fun `atfile after arg`() {
         class C(a: Boolean) : TestCommand() {
             init {
@@ -153,10 +147,9 @@ class AtFileTest {
         C(false).withAtFiles("baz" to "bar").parse("foo @baz")
     }
 
-    @Test
-    @JsName("atfile_after_subcommand")
+    @[Test JsName("atfile_after_subcommand")]
     fun `atfile after subcommand`() {
-        class C: TestCommand() {
+        class C : TestCommand() {
             val o by option().flag()
 
             override fun run_() {
@@ -168,8 +161,7 @@ class AtFileTest {
             .withAtFiles("f" to "--o").parse("c @f")
     }
 
-    @Test
-    @JsName("disabling_atfile")
+    @[Test JsName("disabling_atfile")]
     fun `disabling atfile`() {
         class C : TestCommand() {
             init {
@@ -188,8 +180,7 @@ class AtFileTest {
         C().parse("@file")
     }
 
-    @Test
-    @JsName("parsing_atfile_with_alias")
+    @[Test JsName("parsing_atfile_with_alias")]
     fun `parsing atfile with alias`() {
         class C : TestCommand() {
             val foo by option()

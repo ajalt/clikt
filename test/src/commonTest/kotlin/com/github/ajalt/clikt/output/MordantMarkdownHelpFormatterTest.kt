@@ -1,20 +1,17 @@
 package com.github.ajalt.clikt.output
 
-import com.github.ajalt.clikt.core.*
-import com.github.ajalt.clikt.parameters.arguments.*
-import com.github.ajalt.clikt.parameters.groups.*
-import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.parameters.transform.theme
-import com.github.ajalt.clikt.parameters.types.choice
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.installMordantMarkdown
+import com.github.ajalt.clikt.core.terminal
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
+import com.github.ajalt.clikt.parameters.groups.provideDelegate
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.pair
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
-import com.github.ajalt.clikt.testing.test
 import com.github.ajalt.mordant.rendering.AnsiLevel
-import com.github.ajalt.mordant.rendering.TextColors.*
-import com.github.ajalt.mordant.rendering.Theme
 import com.github.ajalt.mordant.terminal.Terminal
-import io.kotest.data.blocking.forAll
-import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlin.js.JsName
@@ -40,8 +37,7 @@ class MordantMarkdownHelpFormatterTest {
         formattedHelp shouldBe expected.trimMargin()
     }
 
-    @Test
-    @JsName("help_output_one_opt_prolog_multi_paragraph")
+    @[Test JsName("help_output_one_opt_prolog_multi_paragraph")]
     fun `one opt prolog multi paragraph`() {
         val c = TestCommand(
             name = "prog",
@@ -79,8 +75,7 @@ class MordantMarkdownHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_prolog_list")
+    @[Test JsName("help_output_prolog_list")]
     fun `prolog list`() {
         val c = TestCommand(
             name = "prog",
@@ -113,8 +108,7 @@ class MordantMarkdownHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_manual_line_break_narrow")
+    @[Test JsName("help_output_one_opt_manual_line_break_narrow")]
     fun `one opt manual line break narrow`() {
         c.registerOption(
             c.option(
@@ -136,8 +130,7 @@ class MordantMarkdownHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_one_opt_manual_line_break_wide")
+    @[Test JsName("help_output_one_opt_manual_line_break_wide")]
     fun `one opt manual line break wide`() {
         c.registerOption(
             c.option(
@@ -157,8 +150,7 @@ class MordantMarkdownHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_option_wrapping")
+    @[Test JsName("help_output_option_wrapping")]
     fun `option wrapping`() {
         c.registerOption(
             c.option("-x", metavar = "X", help = "one very very very very very very long option")
@@ -204,8 +196,7 @@ class MordantMarkdownHelpFormatterTest {
         )
     }
 
-    @Test
-    @JsName("help_output_option_groups")
+    @[Test JsName("help_output_option_groups")]
     fun `option groups`() {
         class G : OptionGroup("Grouped") {
             override val groupHelp: String =

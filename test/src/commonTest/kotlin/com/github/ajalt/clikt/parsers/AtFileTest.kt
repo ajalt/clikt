@@ -3,8 +3,10 @@ package com.github.ajalt.clikt.parsers
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.parse
@@ -149,6 +151,21 @@ class AtFileTest {
 
         C(true).withAtFiles("baz" to "bar").parse("foo @baz")
         C(false).withAtFiles("baz" to "bar").parse("foo @baz")
+    }
+
+    @Test
+    @JsName("atfile_after_subcommand")
+    fun `atfile after subcommand`() {
+        class C: TestCommand() {
+            val o by option().flag()
+
+            override fun run_() {
+                o shouldBe true
+            }
+        }
+
+        TestCommand().subcommands(C())
+            .withAtFiles("f" to "--o").parse("c @f")
     }
 
     @Test

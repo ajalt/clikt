@@ -18,7 +18,7 @@ internal object BashCompletionGenerator {
             .flatMap { arg -> (1..arg.nvalues).map { "'${arg.name}'" } }
             .joinToString(" ")
         val varargName = command._arguments.find { it.nvalues < 0 }?.name.orEmpty()
-        val paramsWithCandidates =
+        val paramsWithCandidates: List<Pair<String, CompletionCandidates>> =
             (options.map { o -> o.first.maxByOrNull { it.length }!! to o.second } + arguments)
 
         if (options.isEmpty() && subcommands.isEmpty() && arguments.isEmpty()) return ""
@@ -50,15 +50,26 @@ internal object BashCompletionGenerator {
 
                 append(
                     """
-                |__skip_opt_eq() {
-                |    # this takes advantage of the fact that bash functions can write to local
-                |    # variables in their callers
-                |    (( i = i + 1 ))
-                |    if [[ "${'$'}{COMP_WORDS[${'$'}i]}" == '=' ]]; then
-                |          (( i = i + 1 ))
-                |    fi
-                |}
-                |
+        |__skip_opt_eq() {
+        |    # this takes advantage of the fact that bash functions can write to local
+        |    # variables in their callers
+        |    (( i = i + 1 ))
+        |    if [[ "${'$'}{COMP_WORDS[${'$'}i]}" == '=' ]]; then
+        |          (( i = i + 1 ))
+        |    fi
+        |}
+        |
+        |__complete_files() {
+        |   # Generate filename completions
+        |   local word="${'$'}1"
+        |   local IFS=${'$'}'\n'
+        |
+        |   # quote each completion to support spaces and special characters
+        |   COMPREPLY=(${'$'}(compgen -o filenames -f -- "${'$'}word" | while read -r line; do
+        |       printf "%q\n" "${'$'}line"
+        |   done))
+        |}
+        |
                 """.trimMargin()
                 )
             }
@@ -233,7 +244,7 @@ internal object BashCompletionGenerator {
                     }
 
                     CompletionCandidates.Path -> {
-                        append("       COMPREPLY=(\$(compgen -o default -- \"\${word}\"))\n")
+                        append("       __complete_files \"\${word}\"\n")
                     }
 
                     CompletionCandidates.Hostname -> {

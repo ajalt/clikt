@@ -17,6 +17,17 @@ class BashCompletionTest : CompletionTestBase("bash") {
         |    fi
         |}
         |
+        |__complete_files() {
+        |   # Generate filename completions
+        |   local word="${'$'}1"
+        |   local IFS=${'$'}'\n'
+        |
+        |   # quote each completion to support spaces and special characters
+        |   COMPREPLY=(${'$'}(compgen -o filenames -f -- "${'$'}word" | while read -r line; do
+        |       printf "%q\n" "${'$'}line"
+        |   done))
+        |}
+        |
         |__c_complete___o() {
         |  COMPREPLY=(${'$'}(compgen -W "${'$'}(echo foo bar)" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))
         |}
@@ -100,9 +111,20 @@ class BashCompletionTest : CompletionTestBase("bash") {
         |    # this takes advantage of the fact that bash functions can write to local
         |    # variables in their callers
         |    (( i = i + 1 ))
-        |    if [[ "${"$"}{COMP_WORDS[${"$"}i]}" == '=' ]]; then
+        |    if [[ "${'$'}{COMP_WORDS[${'$'}i]}" == '=' ]]; then
         |          (( i = i + 1 ))
         |    fi
+        |}
+        |
+        |__complete_files() {
+        |   # Generate filename completions
+        |   local word="${'$'}1"
+        |   local IFS=${'$'}'\n'
+        |
+        |   # quote each completion to support spaces and special characters
+        |   COMPREPLY=(${'$'}(compgen -o filenames -f -- "${'$'}word" | while read -r line; do
+        |       printf "%q\n" "${'$'}line"
+        |   done))
         |}
         |
         |_c() {
@@ -381,6 +403,17 @@ class BashCompletionTest : CompletionTestBase("bash") {
         |    fi
         |}
         |
+        |__complete_files() {
+        |   # Generate filename completions
+        |   local word="${'$'}1"
+        |   local IFS=${'$'}'\n'
+        |
+        |   # quote each completion to support spaces and special characters
+        |   COMPREPLY=(${'$'}(compgen -o filenames -f -- "${'$'}word" | while read -r line; do
+        |       printf "%q\n" "${'$'}line"
+        |   done))
+        |}
+        |
         |_c() {
         |  local i=1
         |  local in_param=''
@@ -455,6 +488,17 @@ class BashCompletionTest : CompletionTestBase("bash") {
         |    fi
         |}
         |
+        |__complete_files() {
+        |   # Generate filename completions
+        |   local word="${'$'}1"
+        |   local IFS=${'$'}'\n'
+        |
+        |   # quote each completion to support spaces and special characters
+        |   COMPREPLY=(${'$'}(compgen -o filenames -f -- "${'$'}word" | while read -r line; do
+        |       printf "%q\n" "${'$'}line"
+        |   done))
+        |}
+        |
         |_c() {
         |  local i=1
         |  local in_param=''
@@ -525,7 +569,7 @@ class BashCompletionTest : CompletionTestBase("bash") {
         |    "--none")
         |      ;;
         |    "--path")
-        |       COMPREPLY=(${'$'}(compgen -o default -- "${'$'}{word}"))
+        |       __complete_files "${'$'}{word}"
         |      ;;
         |    "--host")
         |       COMPREPLY=(${'$'}(compgen -A hostname -- "${'$'}{word}"))
@@ -562,6 +606,17 @@ class BashCompletionTest : CompletionTestBase("bash") {
         |    if [[ "${'$'}{COMP_WORDS[${'$'}i]}" == '=' ]]; then
         |          (( i = i + 1 ))
         |    fi
+        |}
+        |
+        |__complete_files() {
+        |   # Generate filename completions
+        |   local word="${'$'}1"
+        |   local IFS=${'$'}'\n'
+        |
+        |   # quote each completion to support spaces and special characters
+        |   COMPREPLY=(${'$'}(compgen -o filenames -f -- "${'$'}word" | while read -r line; do
+        |       printf "%q\n" "${'$'}line"
+        |   done))
         |}
         |
         |_c() {

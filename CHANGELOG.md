@@ -1,13 +1,16 @@
 # Changelog
 
 ## Unreleased
+### Fixed
+- Fixed `@argfiles` not being expanded when specified after a subcommand ([#570](https://github.com/ajalt/clikt/pull/570))
+
 ## 5.0.2
 ### Changed
 - Update Kotlin to 2.1.0
 
 ## 5.0.1
 ### Added
-- Added completion commands for suspending and chained commands.  ([#553](https://github.com/ajalt/clikt/pull/553))
+- Added completion commands for suspending and chained commands. ([#553](https://github.com/ajalt/clikt/pull/553))
 - Added no-op suspending commands. ([#554](https://github.com/ajalt/clikt/pull/554))
 
 ### Changed

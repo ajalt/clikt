@@ -317,7 +317,7 @@ class Context private constructor(
          *
          * The block should throw [FileNotFound] if the given `filename` cannot be read.
          */
-        var readArgumentFile: ((filename: String) -> String)? = null
+        var readArgumentFile: ((filename: String) -> String)? = parent?.readArgumentFile
 
         @Suppress("unused")
         @Deprecated("Renamed to readArgumentFile", ReplaceWith("readArgumentFile"))

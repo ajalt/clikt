@@ -372,7 +372,7 @@ class Context private constructor(
         /**
          * Localized strings to use for help output and error reporting.
          */
-        var localization: Localization = defaultLocalization
+        var localization: Localization = parent?.localization ?: defaultLocalization
 
         /**
          * A function called by Clikt to get a parameter value from a given environment variable

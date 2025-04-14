@@ -55,6 +55,7 @@ There are also a number of [sample applications](samples). You can run
 them with the included [`runsample` script](runsample).
 
 ## Installation
+### Gradle
 
 Clikt is distributed through [Maven Central](https://search.maven.org/artifact/com.github.ajalt.clikt/clikt).
 
@@ -69,8 +70,17 @@ dependencies {
 
 There is also a smaller core module available. [See the docs for details](https://ajalt.github.io/clikt/advanced/#core-module).
 
+### Maven
 
-###### If you're using Maven instead of Gradle, use `<artifactId>clikt-jvm</artifactId>`
+Add Clikt to your pom.xml file:
+
+```xml
+<dependency>
+      <groupId>com.github.ajalt.clikt</groupId>
+      <artifactId>clikt-jvm</artifactId>
+      <version>5.0.3</version>
+</dependency>
+```
 
 #### Multiplatform
 

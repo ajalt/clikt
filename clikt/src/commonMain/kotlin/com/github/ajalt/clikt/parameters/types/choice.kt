@@ -92,7 +92,7 @@ fun RawArgument.choice(
  * ```
  */
 fun RawArgument.choice(
-    choices: List<String>,
+    choices: Iterable<String>,
     ignoreCase: Boolean = false,
 ): ProcessedArgument<String, String> {
     return choice(choices.associateBy { it }, ignoreCase)
@@ -179,7 +179,7 @@ fun RawOption.choice(
  * ```
  */
 fun RawOption.choice(
-    choices: List<String>,
+    choices: Iterable<String>,
     metavar: String = mvar(choices.asIterable()),
     ignoreCase: Boolean = false,
 ): NullableOption<String, String> {

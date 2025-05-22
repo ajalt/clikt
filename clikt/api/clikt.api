@@ -1261,15 +1261,19 @@ public final class com/github/ajalt/clikt/parameters/types/BooleanKt {
 }
 
 public final class com/github/ajalt/clikt/parameters/types/ChoiceKt {
+	public static final fun choice (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;Ljava/lang/Iterable;Z)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public static final fun choice (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;Ljava/util/Map;Z)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public static final fun choice (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;[Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public static final fun choice (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;[Lkotlin/Pair;Z)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
+	public static final fun choice (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/Iterable;Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun choice (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/util/Map;Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun choice (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun choice (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Lkotlin/Pair;Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;Ljava/lang/Iterable;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;Ljava/util/Map;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;[Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;[Lkotlin/Pair;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
+	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/lang/Iterable;Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/util/Map;Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun choice$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Lkotlin/Pair;Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;

@@ -78,6 +78,26 @@ fun RawArgument.choice(
     return choice(choices.associateBy { it }, ignoreCase)
 }
 
+
+/**
+ * Restrict the argument to a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the argument will accept values as any mix of upper and lower case.
+ * The argument's final value will always match the case of the corresponding value in [choices].
+ *
+ * ### Example:
+ *
+ * ```
+ * argument().choice(listOf("foo", "bar"))
+ * ```
+ */
+fun RawArgument.choice(
+    choices: Iterable<String>,
+    ignoreCase: Boolean = false,
+): ProcessedArgument<String, String> {
+    return choice(choices.associateBy { it }, ignoreCase)
+}
+
 // options
 
 /**
@@ -140,6 +160,26 @@ fun <T : Any> RawOption.choice(
  */
 fun RawOption.choice(
     vararg choices: String,
+    metavar: String = mvar(choices.asIterable()),
+    ignoreCase: Boolean = false,
+): NullableOption<String, String> {
+    return choice(choices.associateBy { it }, metavar, ignoreCase)
+}
+
+/**
+ * Restrict the option to a fixed set of values.
+ *
+ * If [ignoreCase] is `true`, the option will accept values as any mix of upper and lower case.
+ * The option's final value will always match the case of the corresponding value in [choices].
+ *
+ * ### Example:
+ *
+ * ```
+ * option().choice(listOf("foo", "bar"))
+ * ```
+ */
+fun RawOption.choice(
+    choices: Iterable<String>,
     metavar: String = mvar(choices.asIterable()),
     ignoreCase: Boolean = false,
 ): NullableOption<String, String> {

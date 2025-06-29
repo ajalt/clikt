@@ -67,8 +67,9 @@ describe arguments in the command help.
 
 ## Markdown in help texts
 
-You can configure Clikt to use Mordant to render Markdown in help texts. You can use all the normal
-markdown features, such as lists, tables, and even hyperlinks if your terminal supports them.
+You can configure Clikt to use Mordant to render Markdown in help texts. You can
+use all the normal markdown features, such as lists, preformatted paragraphs,
+tables, and even hyperlinks if your terminal supports them.
 
 First, add the `:clitk-markdown` dependency to your project:
 
@@ -133,8 +134,8 @@ Then you can use markdown in your help strings:
 
 ## Manual Line Breaks
 
-If you want to insert a line break manually without preformatting the entire paragraph, you can use
-the [Unicode Next Line (NEL) character][nel]. You can type a NEL with the unicode literal `\u0085`.
+If you want to insert a line break manually, you can use the [Unicode Next Line
+(NEL) character][nel]. You can type a NEL with the unicode literal `\u0085`.
 
 Clikt will treat NEL similarly to how `<br>` behaves in HTML: The NEL will be replaced with a line
 break in the output, and the paragraph will still be wrapped to the terminal width.

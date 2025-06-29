@@ -117,7 +117,7 @@ nav:
       - 'Chaining and Repeating Subcommands': commands/#chaining-and-repeating-subcommands
   - 'Documenting Scripts':
       - 'Help Texts': documenting.md
-      - 'Preformatting Paragraphs': documenting/#preformatting-paragraphs
+      - 'Markdown in help texts': documenting/#markdown-in-help-texts
       - 'Manual Line Breaks': documenting/#manual-line-breaks
       - 'Subcommand Short Help': documenting/#subcommand-short-help
       - 'Help Option Customization': documenting/#help-option-customization
@@ -158,5 +158,5 @@ nav:
       - 'Output Formatting': api/clikt/com.github.ajalt.clikt.output/
       - 'All Modules': api/clikt/
   - 'Releases':
-    - 'Change Log': changelog.md
-    - 'Upgrading to Newer Releases': migration.md
+      - 'Change Log': changelog.md
+      - 'Upgrading to Newer Releases': migration.md

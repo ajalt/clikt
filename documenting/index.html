@@ -1751,11 +1751,11 @@
   
   
     <li class="md-nav__item">
-      <a href="#preformatting-paragraphs" class="md-nav__link">
+      <a href="#markdown-in-help-texts" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Preformatting Paragraphs
+    Markdown in help texts
   </span>
   
 
@@ -3026,8 +3026,9 @@ in the usage string. It is possible to add a help string to arguments
 which will be added to the help page, but the Unix convention is to just
 describe arguments in the command help.</p>
 <h2 id="markdown-in-help-texts">Markdown in help texts<a class="headerlink" href="#markdown-in-help-texts" title="Permanent link">&para;</a></h2>
-<p>You can configure Clikt to use Mordant to render Markdown in help texts. You can use all the normal
-markdown features, such as lists, tables, and even hyperlinks if your terminal supports them.</p>
+<p>You can configure Clikt to use Mordant to render Markdown in help texts. You can
+use all the normal markdown features, such as lists, preformatted paragraphs,
+tables, and even hyperlinks if your terminal supports them.</p>
 <p>First, add the <code>:clitk-markdown</code> dependency to your project:</p>
 <div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
 <span class="w">   </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.github.ajalt.clikt:clikt-markdown:</span><span class="si">$</span><span class="n">cliktVersion</span><span class="s">&quot;</span><span class="p">)</span>
@@ -3085,8 +3086,8 @@ Options:
 </div>
 </div>
 <h2 id="manual-line-breaks">Manual Line Breaks<a class="headerlink" href="#manual-line-breaks" title="Permanent link">&para;</a></h2>
-<p>If you want to insert a line break manually without preformatting the entire paragraph, you can use
-the <a href="https://www.fileformat.info/info/unicode/char/0085/index.htm">Unicode Next Line (NEL) character</a>. You can type a NEL with the unicode literal <code>\u0085</code>.</p>
+<p>If you want to insert a line break manually, you can use the <a href="https://www.fileformat.info/info/unicode/char/0085/index.htm">Unicode Next Line
+(NEL) character</a>. You can type a NEL with the unicode literal <code>\u0085</code>.</p>
 <p>Clikt will treat NEL similarly to how <code>&lt;br&gt;</code> behaves in HTML: The NEL will be replaced with a line
 break in the output, and the paragraph will still be wrapped to the terminal width.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Example</label><label for="__tabbed_3_2">Help output</label></div>

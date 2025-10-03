@@ -1,9 +1,18 @@
 package com.github.ajalt.clikt.parameters.groups
 
-import com.github.ajalt.clikt.core.*
+import com.github.ajalt.clikt.core.BaseCliktCommand
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
+import com.github.ajalt.clikt.core.ParameterHolder
+import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.internal.finalizeOptions
 import com.github.ajalt.clikt.parameters.internal.NullableLateinit
-import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.OptionDelegate
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.hasEnvvarOrSourcedValue
+import com.github.ajalt.clikt.parameters.options.longestName
+import com.github.ajalt.clikt.parameters.options.switch
 import com.github.ajalt.clikt.parsers.OptionInvocation
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -149,4 +158,12 @@ fun <T : Any> MutuallyExclusiveOptions<T, T?>.required(): MutuallyExclusiveOptio
  */
 fun <T : Any> MutuallyExclusiveOptions<T, T?>.default(value: T): MutuallyExclusiveOptions<T, T> {
     return copy { transformAll(it) ?: value }
+}
+
+/**
+ * If none of the options in a [mutuallyExclusiveOptions] group are given on the command line, call the [value] and use
+ * its return value for the option.
+ */
+fun <T : Any> MutuallyExclusiveOptions<T, T?>.defaultLazy(value: () -> T): MutuallyExclusiveOptions<T, T> {
+    return copy { transformAll(it) ?: value() }
 }

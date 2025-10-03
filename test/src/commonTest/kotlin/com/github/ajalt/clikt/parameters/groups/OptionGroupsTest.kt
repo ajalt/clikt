@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.MissingOption
 import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.UsageError
+import com.github.ajalt.clikt.core.obj
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -181,6 +182,24 @@ class OptionGroupsTest {
     ) { argv, eg ->
         class C : TestCommand() {
             val g by mutuallyExclusiveOptions(option("--x"), option("--y")).default("d")
+
+            override fun run_() {
+                g shouldBe eg
+            }
+        }
+        C().parse(argv)
+    }
+
+    @[Test JsName("mutually_exclusive_group_default_lazy")]
+    fun `mutually exclusive group default lazy`() = forAll(
+        row("", "d"),
+        row("--x=1", "1"),
+        row("--y=2", "2")
+    ) { argv, eg ->
+        class C : TestCommand() {
+            val s by option(eager = true).defaultLazy { currentContext.obj = "d"; "" }
+
+            val g by mutuallyExclusiveOptions(option("--x"), option("--y")).defaultLazy { currentContext.obj as String }
 
             override fun run_() {
                 g shouldBe eg

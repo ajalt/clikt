@@ -174,7 +174,7 @@ internal fun Option.hasEnvvarOrSourcedValue(
 
 private fun Option.readValueSource(context: Context): List<OptionInvocation>? {
     return context.valueSource?.getValues(context, this)
-        ?.map { OptionInvocation("", it.values) }
+        ?.map { OptionInvocation(it.location, it.values) }
         ?.ifEmpty { null }
 }
 

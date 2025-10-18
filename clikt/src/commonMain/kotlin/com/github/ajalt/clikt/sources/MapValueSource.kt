@@ -19,7 +19,8 @@ class MapValueSource(
     private val getKey: (Context, Option) -> String = ValueSource.getKey(joinSubcommands = "."),
 ) : ValueSource {
     override fun getValues(context: Context, option: Option): List<ValueSource.Invocation> {
-        return values[option.valueSourceKey ?: getKey(context, option)]
-            ?.let { ValueSource.Invocation.just(it) }.orEmpty()
+        val key = option.valueSourceKey ?: getKey(context, option)
+        return values[key]
+            ?.let { ValueSource.Invocation.just(value = it, location = key) }.orEmpty()
     }
 }

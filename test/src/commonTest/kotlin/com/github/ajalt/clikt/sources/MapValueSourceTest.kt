@@ -7,9 +7,11 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.sources.ValueSource.Invocation
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.defaultLocalization
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -102,4 +104,34 @@ class MapValueSourceTest {
         }.message shouldBe defaultLocalization.invalidFlagValueInFile("")
     }
 
+    @Test
+    fun errorMessage() {
+        class C : TestCommand() {
+            @Suppress("unused")
+            val theInteger by option().int()
+
+            @Suppress("unused")
+            val theFlag by option(valueSourceKey = "that flag").flag()
+        }
+
+        shouldThrow<BadParameterValue> {
+            val valueSource = MapValueSource(mapOf("the-integer" to "foo"))
+            C().apply { configureContext { this.valueSource = valueSource } }.parse("")
+        }.formattedMessage shouldBe "invalid value for the-integer: foo is not a valid integer"
+
+        shouldThrow<BadParameterValue> {
+            val valueSource = MapValueSource(mapOf("that flag" to "foo"))
+            C().apply { configureContext { this.valueSource = valueSource } }.parse("")
+        }.formattedMessage shouldBe "invalid value for that flag: foo is not a valid boolean"
+
+        shouldThrow<BadParameterValue> {
+            val valueSource = MapValueSource(mapOf("A_THE_INTEGER" to "foo"), getKey = ValueSource.envvarKey())
+            C().apply {
+                configureContext {
+                    this.valueSource = valueSource
+                    this.autoEnvvarPrefix = "A"
+                }
+            }.parse("")
+        }.formattedMessage shouldBe "invalid value for A_THE_INTEGER: foo is not a valid integer"
+    }
 }

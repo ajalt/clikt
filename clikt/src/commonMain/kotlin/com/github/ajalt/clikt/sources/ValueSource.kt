@@ -1,16 +1,27 @@
 package com.github.ajalt.clikt.sources
 
 import com.github.ajalt.clikt.core.Context
-import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.options.Option
+import com.github.ajalt.clikt.parameters.options.OptionWithValues
+import com.github.ajalt.clikt.parameters.options.inferEnvvar
+import com.github.ajalt.clikt.parameters.options.longestName
+import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
+import com.github.ajalt.clikt.sources.ValueSource.Companion.name
 
 interface ValueSource {
-    data class Invocation(val values: List<String>) {
+    /**
+     * @property location A pointer to where the invocation's values were retrieved from. Useful for indicating where
+     * a failure occurred in error help messages.
+     */
+    data class Invocation(val values: List<String>, val location: String = "") {
         companion object {
             /** Create a list of a single Invocation with a single value */
-            fun just(value: Any?): List<Invocation> = listOf(value(value))
+            fun just(value: Any?, location: String = ""): List<Invocation> =
+                listOf(value(value = value, location = location))
 
             /** Create an Invocation with a single value */
-            fun value(value: Any?): Invocation = Invocation(listOf(value.toString()))
+            fun value(value: Any?, location: String = ""): Invocation =
+                Invocation(values = listOf(value.toString()), location = location)
         }
     }
 

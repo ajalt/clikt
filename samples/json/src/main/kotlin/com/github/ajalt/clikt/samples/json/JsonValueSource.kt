@@ -5,7 +5,11 @@ import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.parameters.options.Option
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import java.io.File
 
 /**
@@ -13,6 +17,7 @@ import java.io.File
  */
 class JsonValueSource(
     private val root: JsonObject,
+    private val referencePrefix: String,
 ) : ValueSource {
     override fun getValues(context: Context, option: Option): List<ValueSource.Invocation> {
         var cursor: JsonElement? = root
@@ -25,21 +30,25 @@ class JsonValueSource(
         if (cursor == null) return emptyList()
 
         try {
+            val jsonReference = referencePrefix + buildJsonPointer(parts)
             // This implementation interprets a list as multiple invocations, but you could also
             // implement it as a single invocation with multiple values.
             if (cursor is JsonArray) return cursor.map {
-                ValueSource.Invocation.value(it.jsonPrimitive.content)
+                ValueSource.Invocation.value(value = it.jsonPrimitive.content, location = jsonReference)
             }
-            return ValueSource.Invocation.just(cursor.jsonPrimitive.content)
+            return ValueSource.Invocation.just(value = cursor.jsonPrimitive.content, location = jsonReference)
         } catch (e: IllegalArgumentException) {
             // This implementation skips invalid values, but you could handle them differently.
             return emptyList()
         }
     }
 
+    private fun buildJsonPointer(parts: List<String>): String =
+        parts.joinToString(separator = "/", prefix = "/") { it.replace("~", "~0").replace("/", "~1") }
+
     companion object {
         fun from(file: File, requireValid: Boolean = false): JsonValueSource {
-            if (!file.isFile) return JsonValueSource(JsonObject(emptyMap()))
+            if (!file.isFile) return JsonValueSource(JsonObject(emptyMap()), referencePrefix = "")
 
             val json = try {
                 Json.parseToJsonElement(file.readText()) as? JsonObject
@@ -50,7 +59,7 @@ class JsonValueSource(
                 }
                 JsonObject(emptyMap())
             }
-            return JsonValueSource(json)
+            return JsonValueSource(json, referencePrefix = file.invariantSeparatorsPath + "#")
         }
 
         fun from(file: String, requireValid: Boolean = false): JsonValueSource {

@@ -1,6 +1,7 @@
 package com.github.ajalt.clikt.parameters.options
 
 import com.github.ajalt.clikt.core.Abort
+import com.github.ajalt.clikt.core.MissingOption
 import com.github.ajalt.clikt.core.UsageError
 import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.clikt.output.ParameterFormatter
@@ -16,6 +17,8 @@ import com.github.ajalt.mordant.terminal.YesNoPrompt
  * Note that if the option is defined with a [validate] or [check], that validation will be run each
  * time the user enters a value. This means that, unlike normal options, the validation for prompt
  * options cannot reference other parameters.
+ *
+ * Note that if the terminal's input is non-interactive, this function is effectively identical to [required].
  *
  * @param text The text to prompt the user with
  * @param default The default value to use if no input is given. If null, the prompt will be repeated until
@@ -40,6 +43,7 @@ fun <T : Any> NullableOption<T, T>.prompt(
         ?.replace(Regex("\\W"), " ")?.capitalize2() ?: "Value"
     val provided = invocations.lastOrNull()
     if (provided != null) return@transformAll provided
+    if (!terminal.terminalInfo.inputInteractive) throw MissingOption(option)
     if (context.errorEncountered) throw Abort()
 
     val builder: (String) -> Prompt<T> = {
@@ -89,6 +93,8 @@ fun <T : Any> NullableOption<T, T>.prompt(
 /**
  * If the option isn't given on the command line, prompt the user for manual input.
  *
+ * Note that if the terminal's input is non-interactive, this function is effectively identical to [required].
+ *
  * @param text The message asking for input to show the user
  * @param default The value to return if the user enters an empty line, or `null` to require a value
  * @param uppercaseDefault If true and [default] is not `null`, the default choice will be shown in uppercase.
@@ -112,6 +118,7 @@ fun OptionWithValues<Boolean, Boolean, Boolean>.prompt(
         transformAll = { invocations ->
             when (val provided = invocations.lastOrNull()) {
                 null -> {
+                    if (!terminal.terminalInfo.inputInteractive) throw MissingOption(option)
                     YesNoPrompt(
                         prompt = text,
                         terminal = context.terminal,

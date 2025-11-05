@@ -10,7 +10,7 @@ import com.github.ajalt.clikt.parameters.transform.TransformContext
 
 
 private val conversion: TransformContext.(String) -> ULong =
-    { it.toULongOrNull() ?: fail(context.localization.intConversionError(it)) }
+    { it.toULongOrNull() ?: fail(context.localization.uintConversionError(it)) }
 
 /** Convert the argument values to a `ULong` */
 fun RawArgument.ulong(): ProcessedArgument<ULong, ULong> = convert(conversion = conversion)

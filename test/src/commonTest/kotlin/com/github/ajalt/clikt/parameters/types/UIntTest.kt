@@ -55,7 +55,7 @@ class UIntTest {
         }
 
         shouldThrow<BadParameterValue> { C().parse("--foo bar") }
-            .formattedMessage shouldBe "invalid value for --foo: bar is not a valid integer"
+            .formattedMessage shouldBe "invalid value for --foo: bar is not a valid unsigned integer"
 
         shouldThrow<NoSuchOption> { C().parse("-2") }
         shouldThrow<BadParameterValue> { C().parse("--foo=-1") }

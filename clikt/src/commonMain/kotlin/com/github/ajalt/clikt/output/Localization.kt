@@ -137,6 +137,9 @@ interface Localization {
     /** Invalid value for a parameter of type [Int] or [Long] */
     fun intConversionError(value: String) = "$value is not a valid integer"
 
+    /** Invalid value for a parameter of type [UInt] or [ULong] */
+    fun uintConversionError(value: String) = "$value is not a valid unsigned integer"
+
     /** Invalid value for a parameter of type [Boolean] */
     fun boolConversionError(value: String) = "$value is not a valid boolean"
 

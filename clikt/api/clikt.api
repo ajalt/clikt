@@ -708,6 +708,7 @@ public abstract interface class com/github/ajalt/clikt/output/Localization {
 	public abstract fun requiredMutexOption (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun stringMetavar ()Ljava/lang/String;
 	public abstract fun switchOptionEnvvar ()Ljava/lang/String;
+	public abstract fun uintConversionError (Ljava/lang/String;)Ljava/lang/String;
 	public abstract fun unclosedQuote ()Ljava/lang/String;
 	public abstract fun usageError ()Ljava/lang/String;
 	public abstract fun usageTitle ()Ljava/lang/String;
@@ -768,6 +769,7 @@ public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
 	public static fun requiredMutexOption (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun stringMetavar (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun switchOptionEnvvar (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
+	public static fun uintConversionError (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun unclosedQuote (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun usageError (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun usageTitle (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;

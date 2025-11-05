@@ -10,7 +10,7 @@ import com.github.ajalt.clikt.parameters.transform.TransformContext
 
 
 private val conversion: TransformContext.(String) -> UInt =
-    { it.toUIntOrNull() ?: fail(context.localization.intConversionError(it)) }
+    { it.toUIntOrNull() ?: fail(context.localization.uintConversionError(it)) }
 
 /** Convert the argument values to an `UInt` */
 fun RawArgument.uint(): ProcessedArgument<UInt, UInt> = convert(conversion = conversion)

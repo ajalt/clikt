@@ -2,6 +2,7 @@ package com.github.ajalt.clikt.testing
 
 import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.parsers.CommandLineParser
+import com.github.ajalt.mordant.input.InputEvent
 import com.github.ajalt.mordant.rendering.AnsiLevel
 import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.terminal.TerminalRecorder
@@ -140,6 +141,7 @@ fun CliktCommand.test(
  *
  * @param argv The command line to send to the command
  * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
+ * @param inputEvents Input events to pass to an interactive command
  * @param envvars A map of environment variable name to value for envvars that can be read by the command
  * @param includeSystemEnvvars Set to true to include the environment variables from the system in addition to those
  *   defined in [envvars]
@@ -153,6 +155,7 @@ fun CliktCommand.test(
 fun CliktCommand.test(
     argv: List<String>,
     stdin: String = "",
+    inputEvents: List<InputEvent> = listOf(),
     envvars: Map<String, String> = emptyMap(),
     includeSystemEnvvars: Boolean = false,
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
@@ -163,7 +166,7 @@ fun CliktCommand.test(
     inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
 ): CliktCommandTestResult {
     return test(
-        argv, stdin, envvars, includeSystemEnvvars, ansiLevel, width,
+        argv, stdin, inputEvents, envvars, includeSystemEnvvars, ansiLevel, width,
         height, hyperlinks, outputInteractive, inputInteractive
     ) { parse(it) }
 }
@@ -176,6 +179,7 @@ fun CliktCommand.test(
  *
  * @param argv The command line to send to the command
  * @param stdin Content of stdin that will be read by prompt options. Multiple inputs should be separated by `\n`.
+ * @param inputEvents Input events to pass to an interactive command
  * @param envvars A map of environment variable name to value for envvars that can be read by the command
  * @param includeSystemEnvvars Set to true to include the environment variables from the system in addition to those
  *   defined in [envvars]
@@ -190,6 +194,7 @@ fun CliktCommand.test(
 inline fun <T : BaseCliktCommand<T>> BaseCliktCommand<T>.test(
     argv: List<String>,
     stdin: String = "",
+    inputEvents: List<InputEvent> = listOf(),
     envvars: Map<String, String> = emptyMap(),
     includeSystemEnvvars: Boolean = false,
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
@@ -205,6 +210,7 @@ inline fun <T : BaseCliktCommand<T>> BaseCliktCommand<T>.test(
         ansiLevel, width, height, hyperlinks, outputInteractive, inputInteractive
     )
     recorder.inputLines = stdin.split("\n").toMutableList()
+    recorder.inputEvents = inputEvents.toMutableList()
     configureContext {
         val originalReader = readEnvvar
         readEnvvar = { envvars[it] ?: (if (includeSystemEnvvars) originalReader(it) else null) }

@@ -152,6 +152,7 @@ fun CliktCommand.test(
  * @param outputInteractive Whether the output is interactive
  * @param inputInteractive Whether the input is interactive
  */
+@JvmOverloads
 fun CliktCommand.test(
     argv: List<String>,
     stdin: String = "",
@@ -191,6 +192,7 @@ fun CliktCommand.test(
  * @param inputInteractive Whether the input is interactive
  * @param parse The function to call to parse the command line and run the command
  */
+@JvmOverloads
 inline fun <T : BaseCliktCommand<T>> BaseCliktCommand<T>.test(
     argv: List<String>,
     stdin: String = "",

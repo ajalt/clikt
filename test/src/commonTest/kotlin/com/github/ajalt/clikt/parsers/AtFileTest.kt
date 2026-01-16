@@ -180,6 +180,23 @@ class AtFileTest {
         C().parse("@file")
     }
 
+    @[Test JsName("adjacent_quoted_strings_concatenate")]
+    fun `adjacent quoted strings concatenate`() {
+        // Verify that adjacent quoted/unquoted strings produce a single token (POSIX behavior)
+        // e.g., "'"c"'" should produce 'c' (single-quote, c, single-quote)
+        class C : TestCommand() {
+            val arg by argument().multiple()
+
+            override fun run_() {
+                arg shouldBe listOf("a", "b", "'c'")
+            }
+        }
+
+        C().withAtFiles(
+            "foo" to """a b "'"c"'""""
+        ).parse("@foo")
+    }
+
     @[Test JsName("parsing_atfile_with_alias")]
     fun `parsing atfile with alias`() {
         class C : TestCommand() {

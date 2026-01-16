@@ -11,6 +11,7 @@ internal fun shlex(
 ): List<String> {
     val toks = mutableListOf<String>()
     var inQuote: Char? = null
+    var inToken = false // Track if we're building a token (for empty quoted strings)
     val sb = StringBuilder()
     var i = 0
     fun err(msg: String): Nothing {
@@ -31,14 +32,15 @@ internal fun shlex(
                         i += 1
                     } while (i <= text.lastIndex && text[i].isWhitespace())
                 } else {
+                    inToken = true
                     sb.append(text[i + 1])
                     i += 2
                 }
             }
 
             c == inQuote -> {
-                toks += sb.toString()
-                sb.clear()
+                // Don't emit here - just close the quote. Adjacent quoted/unquoted
+                // strings should concatenate into a single token (POSIX behavior).
                 inQuote = null
                 i += 1
             }
@@ -49,19 +51,22 @@ internal fun shlex(
             }
 
             c in "\"'" && inQuote == null -> {
+                inToken = true
                 inQuote = c
                 i += 1
             }
 
             c.isWhitespace() && inQuote == null -> {
-                if (sb.isNotEmpty()) {
+                if (inToken) {
                     toks += sb.toString()
                     sb.clear()
+                    inToken = false
                 }
                 i += 1
             }
 
             else -> {
+                inToken = true
                 sb.append(c)
                 i += 1
             }
@@ -72,7 +77,7 @@ internal fun shlex(
         err(localization.unclosedQuote())
     }
 
-    if (sb.isNotEmpty()) {
+    if (inToken) {
         toks += sb.toString()
     }
 

@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     if: ${{ github.repository == 'ajalt/clikt' }}
     steps:
       - uses: actions/checkout@v4

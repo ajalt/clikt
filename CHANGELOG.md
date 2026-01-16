@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+## 5.1.0
+### Added
+- Added parameter name to help output for ValueSource values. ([#631](https://github.com/ajalt/clikt/pull/631))
+- Added `inputEvents` parameter to `CliktCommand.test` overloads for simulating terminal input. ([#630](https://github.com/ajalt/clikt/pull/630))
+- Added `defaultLazy` to mutually exclusive options. ([#616](https://github.com/ajalt/clikt/pull/616))
+- Added overloads for `choice()` that accept a `List` of choices. ([#596](https://github.com/ajalt/clikt/pull/596))
+
+### Changed
+- `prompt()` options will report a missing option instead of prompting when the terminal is not interactive. You can pass `inputInteractive = true` to `CliktCommand.test` to test `prompt()`. ([#622](https://github.com/ajalt/clikt/pull/622))
+- `SuspendingNoOpCliktCommand` is now `open` to match `NoOpCliktCommand`. ([#613](https://github.com/ajalt/clikt/pull/613))
+- Improved error messages for invalid `uint()` and `ulong()` option values. ([#624](https://github.com/ajalt/clikt/pull/624))
+- Update Kotlin to 2.3.0
+
+### Fixed
+- Fixed adjacent quoted tokens not being concatenated in argument files. ([#632](https://github.com/ajalt/clikt/pull/632))
+- Fixed subcommand localization inheritance. ([#588](https://github.com/ajalt/clikt/pull/588))
+
 ## 5.0.3
 ### Fixed
 - Fixed `@argfiles` not being expanded when specified after a subcommand ([#570](https://github.com/ajalt/clikt/pull/570))

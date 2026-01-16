@@ -60,10 +60,10 @@ Clikt is distributed through [Maven Central](https://search.maven.org/artifact/c
 
 ```kotlin
 dependencies {
-   implementation("com.github.ajalt.clikt:clikt:5.0.3")
+   implementation("com.github.ajalt.clikt:clikt:5.1.0")
 
    // optional support for rendering markdown in help messages
-   implementation("com.github.ajalt.clikt:clikt-markdown:5.0.3")
+   implementation("com.github.ajalt.clikt:clikt-markdown:5.1.0")
 }
 ```
 
@@ -83,16 +83,16 @@ newer.
 
 <details>
 <summary>Snapshot builds are also available</summary>
-   
-<a href="https://oss.sonatype.org/content/repositories/snapshots/com/github/ajalt/clikt/clikt/"><img src="https://img.shields.io/nexus/s/com.github.ajalt.clikt/clikt?color=blue&label=latest%20shapshot&server=https%3A%2F%2Foss.sonatype.org"/></a>
-   
+
+[Sonatype has instructions for consuming snapshots](https://central.sonatype.org/publish/publish-portal-snapshots/#consuming-snapshot-releases-for-your-project)
+
 <p>
-You'll need to add the Sonatype snapshots repository: 
-      
+You'll need to add the Central Portal snapshots repository:
+
 ```kotlin
 repositories {
     maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
     }
 }
 ```

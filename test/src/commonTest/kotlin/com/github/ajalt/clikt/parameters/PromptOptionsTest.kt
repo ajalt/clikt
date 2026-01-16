@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.parameters
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.core.terminal
 import com.github.ajalt.clikt.parameters.options.check
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.nullableFlag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
@@ -12,6 +13,8 @@ import com.github.ajalt.clikt.testing.test
 import com.github.ajalt.mordant.terminal.ConversionResult
 import com.github.ajalt.mordant.terminal.YesNoPrompt
 import com.github.ajalt.mordant.terminal.prompt
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import kotlin.js.JsName
@@ -27,7 +30,7 @@ class PromptOptionsTest {
                 terminal.prompt("Baz") { ConversionResult.Valid(it.toInt()) } shouldBe 1
             }
         }
-        C().test("", stdin = "bar\n1").output shouldBe "Foo: Baz: "
+        C().test("", stdin = "bar\n1", inputInteractive = true).output shouldBe "Foo: Baz: "
     }
 
     @[Test JsName("command_confirm")]
@@ -37,7 +40,7 @@ class PromptOptionsTest {
                 YesNoPrompt("Foo", terminal, default = false).ask() shouldBe true
             }
         }
-        C().test("", stdin = "y").output shouldBe "Foo [y/N]: "
+        C().test("", stdin = "y", inputInteractive = true).output shouldBe "Foo [y/N]: "
     }
 
     @[Test JsName("prompt_option")]
@@ -50,7 +53,7 @@ class PromptOptionsTest {
                 bar shouldBe "bar"
             }
         }
-        C().test("", stdin = "foo\nbar").output shouldBe "Foo: Bar: "
+        C().test("", stdin = "foo\nbar", inputInteractive = true).output shouldBe "Foo: Bar: "
     }
 
     @[Test JsName("prompt_option_after_error")]
@@ -60,7 +63,7 @@ class PromptOptionsTest {
             val bar by option().prompt()
         }
 
-        val result = C().test("--foo=x")
+        val result = C().test("--foo=x", inputInteractive = true)
         result.stdout shouldBe ""
         result.stderr shouldContain "invalid value for --foo: x is not a valid integer"
     }
@@ -73,7 +76,7 @@ class PromptOptionsTest {
                 foo shouldBe "foo"
             }
         }
-        C().test("", stdin = "foo\nfoo").output shouldBe "Foo: Repeat for confirmation: "
+        C().test("", stdin = "foo\nfoo", inputInteractive = true).output shouldBe "Foo: Repeat for confirmation: "
     }
 
     @[Test JsName("prompt_flag")]
@@ -88,7 +91,7 @@ class PromptOptionsTest {
                 baz shouldBe null
             }
         }
-        C().test("", stdin = "yes\nf").output shouldBe "Foo: Bar: "
+        C().test("", stdin = "yes\nf", inputInteractive = true).output shouldBe "Foo: Bar: "
     }
 
     @[Test JsName("prompt_option_validate")]
@@ -99,7 +102,7 @@ class PromptOptionsTest {
                 foo shouldBe "foo"
             }
         }
-        C().test("", stdin = "f\nfoo").output shouldBe "Foo: invalid value for --foo: f\nFoo: "
+        C().test("", stdin = "f\nfoo", inputInteractive = true).output shouldBe "Foo: invalid value for --foo: f\nFoo: "
     }
 
     @[Test JsName("custom_console_inherited_by_subcommand")]
@@ -111,7 +114,7 @@ class PromptOptionsTest {
             }
         }
 
-        val r = TestCommand().subcommands(C()).test("c", stdin = "bar")
+        val r = TestCommand().subcommands(C()).test("c", stdin = "bar", inputInteractive = true)
         r.output shouldBe "Foo: "
     }
 
@@ -123,7 +126,7 @@ class PromptOptionsTest {
                 foo shouldBe "foo"
             }
         }
-        C().test("", stdin = "foo").output shouldBe "INPUT: "
+        C().test("", stdin = "foo", inputInteractive = true).output shouldBe "INPUT: "
     }
 
     @[Test JsName("inferred_names")]
@@ -138,7 +141,7 @@ class PromptOptionsTest {
                 baz shouldBe "baz"
             }
         }
-        C().test("", stdin = "foo\nbar\nbaz").output shouldBe "Foo: Bar: Some thing: "
+        C().test("", stdin = "foo\nbar\nbaz", inputInteractive = true).output shouldBe "Foo: Bar: Some thing: "
     }
 
     @[Test JsName("prompt_default")]
@@ -150,7 +153,7 @@ class PromptOptionsTest {
             }
         }
 
-        C().test("", stdin = "bar").output shouldBe "Foo (baz): "
+        C().test("", stdin = "bar", inputInteractive = true).output shouldBe "Foo (baz): "
     }
 
     @[Test JsName("prompt_default_no_stdin")]
@@ -162,6 +165,50 @@ class PromptOptionsTest {
             }
         }
 
-        C().test("").output shouldBe "Foo (baz): "
+        C().test("", inputInteractive = true).output shouldBe "Foo (baz): "
+    }
+
+    @[Test JsName("prompt_non_interactive_terminal")]
+    fun `prompt non-interactive terminal`() {
+        class C : TestCommand() {
+            val foo by option().prompt()
+            override fun run_() {
+                foo shouldBe "baz"
+            }
+        }
+
+        C().test("", stdin = "baz", inputInteractive = true, outputInteractive = true).output shouldBe "Foo: "
+
+        C().test("", stdin = "baz", inputInteractive = false, outputInteractive = true) should { result ->
+            result.output shouldBe """
+                Usage: c [<options>]
+    
+                Error: missing option --foo
+    
+            """.trimIndent()
+            result.statusCode shouldBe 1
+        }
+    }
+
+    @[Test JsName("flag_prompt_non_interactive_terminal")]
+    fun `flag prompt non-interactive terminal`() {
+        class C : TestCommand() {
+            val foo by option().flag().prompt("Want to foo?")
+            override fun run_() {
+                foo.shouldBeTrue()
+            }
+        }
+
+        C().test("", stdin = "y", inputInteractive = true, outputInteractive = true).output shouldBe "Want to foo? [y/n]: "
+
+        C().test("", stdin = "y", inputInteractive = false, outputInteractive = true) should { result ->
+            result.output shouldBe """
+                Usage: c [<options>]
+    
+                Error: missing option --foo
+    
+            """.trimIndent()
+            result.statusCode shouldBe 1
+        }
     }
 }

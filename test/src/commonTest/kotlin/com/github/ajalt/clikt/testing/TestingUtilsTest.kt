@@ -63,7 +63,7 @@ class TestingUtilsTest {
             }
         }
 
-        val result = C().test("", stdin = "foo\nbar")
+        val result = C().test("", stdin = "foo\nbar", inputInteractive = true)
         result.stdout shouldBe "O1: O2: "
         result.stderr shouldBe "err\n"
         result.output shouldBe "O1: O2: err\n"

@@ -1,5 +1,6 @@
 package com.github.ajalt.clikt.sources
 
+import com.github.ajalt.clikt.core.BadParameterValue
 import com.github.ajalt.clikt.core.InvalidFileFormat
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.core.subcommands
@@ -10,6 +11,7 @@ import com.github.ajalt.clikt.parameters.types.double
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.formattedMessage
 import com.github.ajalt.clikt.testing.parse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.data.blocking.forAll
@@ -19,6 +21,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import java.util.Properties
 
 class PropertiesValueSourceTest {
     @get:Rule
@@ -173,5 +176,37 @@ class PropertiesValueSourceTest {
         }
 
         C().parse("")
+    }
+
+    @Test
+    fun errorMessage() {
+        class C : TestCommand() {
+            @Suppress("unused")
+            val theInteger by option().int()
+
+            @Suppress("unused")
+            val theFlag by option(valueSourceKey = "that flag").flag()
+        }
+
+        shouldThrow<BadParameterValue> {
+            val valueSource = PropertiesValueSource.from(Properties().apply { setProperty("the-integer", "foo") })
+            C().apply { configureContext { this.valueSource = valueSource } }.parse("")
+        }.formattedMessage shouldBe "invalid value for the-integer: foo is not a valid integer"
+
+        shouldThrow<BadParameterValue> {
+            val valueSource = PropertiesValueSource.from(Properties().apply { setProperty("that flag", "foo") })
+            C().apply { configureContext { this.valueSource = valueSource } }.parse("")
+        }.formattedMessage shouldBe "invalid value for that flag: foo is not a valid boolean"
+
+        shouldThrow<BadParameterValue> {
+            val properties = Properties().apply { setProperty("A_THE_INTEGER", "foo") }
+            val valueSource = PropertiesValueSource.from(properties, getKey = ValueSource.envvarKey())
+            C().apply {
+                configureContext {
+                    this.valueSource = valueSource
+                    this.autoEnvvarPrefix = "A"
+                }
+            }.parse("")
+        }.formattedMessage shouldBe "invalid value for A_THE_INTEGER: foo is not a valid integer"
     }
 }

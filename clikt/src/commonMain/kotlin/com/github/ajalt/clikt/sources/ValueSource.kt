@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.parameters.options.OptionWithValues
 import com.github.ajalt.clikt.parameters.options.inferEnvvar
 import com.github.ajalt.clikt.parameters.options.longestName
 import com.github.ajalt.clikt.parameters.options.splitOptionPrefix
-import com.github.ajalt.clikt.sources.ValueSource.Companion.name
+import kotlin.jvm.JvmOverloads
 
 interface ValueSource {
     /**
@@ -14,12 +14,17 @@ interface ValueSource {
      * a failure occurred in error help messages.
      */
     data class Invocation(val values: List<String>, val location: String = "") {
+        /** Secondary constructor for binary compatibility */
+        constructor(values: List<String>) : this(values, "")
+
         companion object {
             /** Create a list of a single Invocation with a single value */
+            @JvmOverloads
             fun just(value: Any?, location: String = ""): List<Invocation> =
                 listOf(value(value = value, location = location))
 
             /** Create an Invocation with a single value */
+            @JvmOverloads
             fun value(value: Any?, location: String = ""): Invocation =
                 Invocation(values = listOf(value.toString()), location = location)
         }

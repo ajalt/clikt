@@ -5,7 +5,9 @@ import com.github.ajalt.clikt.core.installMordant
 import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.clikt.testing.CliktCommandTestResult
 import com.github.ajalt.clikt.testing.test
+import com.github.ajalt.mordant.input.InputEvent
 import com.github.ajalt.mordant.rendering.AnsiLevel
+import kotlin.jvm.JvmOverloads
 
 /**
  * A version of [CliktCommand] that returns a value from the [run] function, which is then passed to
@@ -39,7 +41,9 @@ abstract class ChainedCliktCommand<T>(
  * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
+ * @param inputEvents A list of input events to be read when the command reads in raw mode
  */
+@JvmOverloads
 fun <T> ChainedCliktCommand<T>.test(
     argv: String,
     initial: T,
@@ -49,9 +53,10 @@ fun <T> ChainedCliktCommand<T>.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
+    inputEvents: List<InputEvent> = emptyList(),
 ): CliktCommandTestResult {
     val argvArray = CommandLineParser.tokenize(argv)
-    return test(argvArray, initial, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height)
+    return test(argvArray, initial, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height, inputEvents)
 }
 
 /**
@@ -68,7 +73,9 @@ fun <T> ChainedCliktCommand<T>.test(
  * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
+ * @param inputEvents A list of input events to be read when the command reads in raw mode
  */
+@JvmOverloads
 fun <T> ChainedCliktCommand<T>.test(
     argv: Array<String>,
     initial: T,
@@ -78,9 +85,10 @@ fun <T> ChainedCliktCommand<T>.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
+    inputEvents: List<InputEvent> = emptyList(),
 ): CliktCommandTestResult {
     return test(
-        argv.asList(), initial, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height
+        argv.asList(), initial, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height, inputEvents
     )
 }
 
@@ -98,7 +106,9 @@ fun <T> ChainedCliktCommand<T>.test(
  * @param ansiLevel Defaults to no colored output; set to [AnsiLevel.TRUECOLOR] to include ANSI codes in the output.
  * @param width The width of the terminal, used to wrap text
  * @param height The height of the terminal
+ * @param inputEvents A list of input events to be read when the command reads in raw mode
  */
+@JvmOverloads
 fun <T> ChainedCliktCommand<T>.test(
     argv: List<String>,
     initial: T,
@@ -108,8 +118,10 @@ fun <T> ChainedCliktCommand<T>.test(
     ansiLevel: AnsiLevel = AnsiLevel.NONE,
     width: Int = 79,
     height: Int = 24,
+    inputEvents: List<InputEvent> = emptyList(),
 ): CliktCommandTestResult {
-    return test(argv, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height) {
+    return test(argv, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
+        inputEvents = inputEvents) {
         parse(it, initial)
     }
 }

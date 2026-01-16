@@ -5,7 +5,9 @@ import com.github.ajalt.clikt.core.installMordant
 import com.github.ajalt.clikt.parsers.CommandLineParser
 import com.github.ajalt.clikt.testing.CliktCommandTestResult
 import com.github.ajalt.clikt.testing.test
+import com.github.ajalt.mordant.input.InputEvent
 import com.github.ajalt.mordant.rendering.AnsiLevel
+import kotlin.jvm.JvmOverloads
 
 /**
  * A version of [CliktCommand] that supports a suspending [run] function.
@@ -39,7 +41,9 @@ abstract class SuspendingCliktCommand(
  * @param hyperlinks Whether to enable hyperlink support in the terminal
  * @param outputInteractive Whether the output is interactive
  * @param inputInteractive Whether the input is interactive
+ * @param inputEvents A list of input events to be read when the command reads in raw mode
  */
+@JvmOverloads
 suspend fun SuspendingCliktCommand.test(
     argv: String,
     stdin: String = "",
@@ -51,11 +55,12 @@ suspend fun SuspendingCliktCommand.test(
     hyperlinks: Boolean = ansiLevel != AnsiLevel.NONE,
     outputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
     inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
+    inputEvents: List<InputEvent> = emptyList(),
 ): CliktCommandTestResult {
     val argvArray = CommandLineParser.tokenize(argv)
     return test(
         argvArray, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
-        hyperlinks, outputInteractive, inputInteractive
+        hyperlinks, outputInteractive, inputInteractive, inputEvents
     )
 }
 
@@ -76,7 +81,9 @@ suspend fun SuspendingCliktCommand.test(
  * @param hyperlinks Whether to enable hyperlink support in the terminal
  * @param outputInteractive Whether the output is interactive
  * @param inputInteractive Whether the input is interactive
+ * @param inputEvents A list of input events to be read when the command reads in raw mode
  */
+@JvmOverloads
 suspend fun SuspendingCliktCommand.test(
     argv: Array<String>,
     stdin: String = "",
@@ -88,10 +95,11 @@ suspend fun SuspendingCliktCommand.test(
     hyperlinks: Boolean = ansiLevel != AnsiLevel.NONE,
     outputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
     inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
+    inputEvents: List<InputEvent> = emptyList(),
 ): CliktCommandTestResult {
     return test(
         argv.asList(), stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
-        hyperlinks, outputInteractive, inputInteractive
+        hyperlinks, outputInteractive, inputInteractive, inputEvents
     )
 }
 
@@ -112,7 +120,9 @@ suspend fun SuspendingCliktCommand.test(
  * @param hyperlinks Whether to enable hyperlink support in the terminal
  * @param outputInteractive Whether the output is interactive
  * @param inputInteractive Whether the input is interactive
+ * @param inputEvents A list of input events to be read when the command reads in raw mode
  */
+@JvmOverloads
 suspend fun SuspendingCliktCommand.test(
     argv: List<String>,
     stdin: String = "",
@@ -124,9 +134,10 @@ suspend fun SuspendingCliktCommand.test(
     hyperlinks: Boolean = ansiLevel != AnsiLevel.NONE,
     outputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
     inputInteractive: Boolean = ansiLevel != AnsiLevel.NONE,
+    inputEvents: List<InputEvent> = emptyList(),
 ): CliktCommandTestResult {
     return test(
         argv, stdin, envvars, includeSystemEnvvars, ansiLevel, width, height,
-        hyperlinks, outputInteractive, inputInteractive
+        hyperlinks, outputInteractive, inputInteractive, inputEvents
     ) { parse(it) }
 }

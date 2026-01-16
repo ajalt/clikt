@@ -13,3 +13,5 @@ docs/index.md
 kotlin-js-store/
 .kotlin/
 site/
+.claude/
+CLAUDE.md

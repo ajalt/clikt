@@ -1,6 +1,6 @@
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 
 plugins {
@@ -37,18 +37,20 @@ kotlin {
 
 // https://youtrack.jetbrains.com/issue/KT-63014
 // https://github.com/Kotlin/kotlin-wasm-examples/blob/1b007347bf9f8a1ec3d420d30de1815768d5df02/nodejs-example/build.gradle.kts#L22
-rootProject.the<NodeJsRootExtension>().apply {
-    version = "22.0.0-nightly202404032241e8c5b3"
-    downloadBaseUrl = "https://nodejs.org/download/nightly"
+rootProject.plugins.withType<NodeJsPlugin> {
+    rootProject.the<NodeJsEnvSpec>().apply {
+        version.set("22.0.0-nightly202404032241e8c5b3")
+        downloadBaseUrl.set("https://nodejs.org/download/nightly")
+    }
 }
 
 rootProject.tasks.withType<KotlinNpmInstallTask>().configureEach {
     args.add("--ignore-engines")
 }
 
-tasks.withType<DokkaTaskPartial> {
+dokka {
+    moduleName.set("clikt-core")
     dokkaSourceSets.configureEach {
-        moduleName.set("clikt-core")
         includes.from("README.md")
     }
 }

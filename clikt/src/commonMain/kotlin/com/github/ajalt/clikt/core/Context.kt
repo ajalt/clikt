@@ -162,7 +162,7 @@ class Context private constructor(
     fun findRoot(): Context {
         var ctx = this
         while (ctx.parent != null) {
-            ctx = ctx.parent!!
+            ctx = ctx.parent
         }
         return ctx
     }

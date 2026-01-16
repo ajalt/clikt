@@ -1,4 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -40,7 +39,7 @@ kotlin {
     }
 }
 
-tasks.withType<DokkaTaskPartial> {
+dokka {
     dokkaSourceSets.configureEach {
         includes.from("README.md")
     }

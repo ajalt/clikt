@@ -37,7 +37,7 @@ fun RawOption.flag(
  * A [flag] that doesn't have a default value.
  *
  * You will usually want [flag] instead of this function, but this can be useful if you need to use
- * a [transformAll] method like [required] or [prompt].
+ * a [transformAll] method like [required] or `prompt`.
  */
 fun RawOption.nullableFlag(vararg secondaryNames: String): NullableOption<Boolean, Boolean> {
     return boolean()

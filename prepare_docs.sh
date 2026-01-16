@@ -5,7 +5,7 @@
 # It requires Python to run.
 # Install the packages with the following command:
 # Install the packages: `pip install mkdocs-material`
-# Build the api docs: `./gradlew dokkaHtmlMultiModule`
+# Build the api docs: `./gradlew dokkaGenerateHtml`
 # Then run this script to prepare the docs for the website.
 # Finally, run `mkdocs serve` to preview the site locally or `mkdocs build` to build the site.
 

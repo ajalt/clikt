@@ -33,17 +33,17 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                api(kotlin("test"))
-                api(libs.kotest)
-                api(libs.coroutines.core)
-                api(libs.coroutines.test)
+                implementation(kotlin("test"))
+                implementation(libs.kotest)
+                implementation(libs.coroutines.core)
+                implementation(libs.coroutines.test)
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                api(libs.systemrules)
-                api(libs.jimfs)
+                implementation(libs.systemrules)
+                implementation(libs.jimfs)
             }
         }
     }

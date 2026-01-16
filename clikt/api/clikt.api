@@ -564,6 +564,7 @@ protected final class com/github/ajalt/clikt/output/AbstractHelpFormatter$Render
 
 public abstract interface class com/github/ajalt/clikt/output/HelpFormatter {
 	public abstract fun formatHelp (Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun formatHelp$default (Lcom/github/ajalt/clikt/output/HelpFormatter;Lcom/github/ajalt/clikt/core/UsageError;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 }
 
 public final class com/github/ajalt/clikt/output/HelpFormatter$DefaultImpls {
@@ -654,64 +655,64 @@ public final class com/github/ajalt/clikt/output/HelpFormatter$Tags {
 }
 
 public abstract interface class com/github/ajalt/clikt/output/Localization {
-	public abstract fun argumentsMetavar ()Ljava/lang/String;
-	public abstract fun argumentsTitle ()Ljava/lang/String;
-	public abstract fun badParameter ()Ljava/lang/String;
-	public abstract fun badParameterWithMessage (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun badParameterWithMessageAndParam (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun badParameterWithParam (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun boolConversionError (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun commandMetavar ()Ljava/lang/String;
-	public abstract fun commandsTitle ()Ljava/lang/String;
-	public abstract fun countedOptionExceededLimit (II)Ljava/lang/String;
-	public abstract fun defaultMetavar ()Ljava/lang/String;
-	public abstract fun extraArgumentMany (Ljava/lang/String;I)Ljava/lang/String;
-	public abstract fun extraArgumentOne (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun fileEndsWithSlash ()Ljava/lang/String;
-	public abstract fun fileMetavar ()Ljava/lang/String;
-	public abstract fun fileNotFound (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun floatConversionError (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun floatMetavar ()Ljava/lang/String;
-	public abstract fun helpOptionMessage ()Ljava/lang/String;
-	public abstract fun helpTagDefault ()Ljava/lang/String;
-	public abstract fun helpTagRequired ()Ljava/lang/String;
-	public abstract fun incorrectArgumentValueCount (Ljava/lang/String;I)Ljava/lang/String;
-	public abstract fun incorrectOptionValueCount (Ljava/lang/String;I)Ljava/lang/String;
-	public abstract fun intConversionError (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun intMetavar ()Ljava/lang/String;
-	public abstract fun invalidChoice (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
-	public abstract fun invalidFileFormat (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
-	public abstract fun invalidFileFormat (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun invalidFlagValueInFile (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun invalidGroupChoice (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
-	public abstract fun missingArgument (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun missingOption (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun mutexGroupException (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
-	public abstract fun noSuchOption (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
-	public abstract fun noSuchOptionWithSubCommandPossibility (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun noSuchSubcommand (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
-	public abstract fun optionsMetavar ()Ljava/lang/String;
-	public abstract fun optionsTitle ()Ljava/lang/String;
-	public abstract fun pathDoesNotExist (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun pathIsDirectory (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun pathIsFile (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun pathIsNotReadable (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun pathIsNotWritable (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun pathIsSymlink (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun pathMetavar ()Ljava/lang/String;
-	public abstract fun pathTypeDirectory ()Ljava/lang/String;
-	public abstract fun pathTypeFile ()Ljava/lang/String;
-	public abstract fun pathTypeOther ()Ljava/lang/String;
-	public abstract fun rangeExceededBoth (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun rangeExceededMax (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun rangeExceededMin (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun requiredMutexOption (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun stringMetavar ()Ljava/lang/String;
-	public abstract fun switchOptionEnvvar ()Ljava/lang/String;
-	public abstract fun uintConversionError (Ljava/lang/String;)Ljava/lang/String;
-	public abstract fun unclosedQuote ()Ljava/lang/String;
-	public abstract fun usageError ()Ljava/lang/String;
-	public abstract fun usageTitle ()Ljava/lang/String;
+	public fun argumentsMetavar ()Ljava/lang/String;
+	public fun argumentsTitle ()Ljava/lang/String;
+	public fun badParameter ()Ljava/lang/String;
+	public fun badParameterWithMessage (Ljava/lang/String;)Ljava/lang/String;
+	public fun badParameterWithMessageAndParam (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun badParameterWithParam (Ljava/lang/String;)Ljava/lang/String;
+	public fun boolConversionError (Ljava/lang/String;)Ljava/lang/String;
+	public fun commandMetavar ()Ljava/lang/String;
+	public fun commandsTitle ()Ljava/lang/String;
+	public fun countedOptionExceededLimit (II)Ljava/lang/String;
+	public fun defaultMetavar ()Ljava/lang/String;
+	public fun extraArgumentMany (Ljava/lang/String;I)Ljava/lang/String;
+	public fun extraArgumentOne (Ljava/lang/String;)Ljava/lang/String;
+	public fun fileEndsWithSlash ()Ljava/lang/String;
+	public fun fileMetavar ()Ljava/lang/String;
+	public fun fileNotFound (Ljava/lang/String;)Ljava/lang/String;
+	public fun floatConversionError (Ljava/lang/String;)Ljava/lang/String;
+	public fun floatMetavar ()Ljava/lang/String;
+	public fun helpOptionMessage ()Ljava/lang/String;
+	public fun helpTagDefault ()Ljava/lang/String;
+	public fun helpTagRequired ()Ljava/lang/String;
+	public fun incorrectArgumentValueCount (Ljava/lang/String;I)Ljava/lang/String;
+	public fun incorrectOptionValueCount (Ljava/lang/String;I)Ljava/lang/String;
+	public fun intConversionError (Ljava/lang/String;)Ljava/lang/String;
+	public fun intMetavar ()Ljava/lang/String;
+	public fun invalidChoice (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun invalidFileFormat (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
+	public fun invalidFileFormat (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun invalidFlagValueInFile (Ljava/lang/String;)Ljava/lang/String;
+	public fun invalidGroupChoice (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun missingArgument (Ljava/lang/String;)Ljava/lang/String;
+	public fun missingOption (Ljava/lang/String;)Ljava/lang/String;
+	public fun mutexGroupException (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun noSuchOption (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun noSuchOptionWithSubCommandPossibility (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun noSuchSubcommand (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun optionsMetavar ()Ljava/lang/String;
+	public fun optionsTitle ()Ljava/lang/String;
+	public fun pathDoesNotExist (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun pathIsDirectory (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun pathIsFile (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun pathIsNotReadable (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun pathIsNotWritable (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun pathIsSymlink (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun pathMetavar ()Ljava/lang/String;
+	public fun pathTypeDirectory ()Ljava/lang/String;
+	public fun pathTypeFile ()Ljava/lang/String;
+	public fun pathTypeOther ()Ljava/lang/String;
+	public fun rangeExceededBoth (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun rangeExceededMax (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun rangeExceededMin (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun requiredMutexOption (Ljava/lang/String;)Ljava/lang/String;
+	public fun stringMetavar ()Ljava/lang/String;
+	public fun switchOptionEnvvar ()Ljava/lang/String;
+	public fun uintConversionError (Ljava/lang/String;)Ljava/lang/String;
+	public fun unclosedQuote ()Ljava/lang/String;
+	public fun usageError ()Ljava/lang/String;
+	public fun usageTitle ()Ljava/lang/String;
 }
 
 public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
@@ -806,7 +807,7 @@ public final class com/github/ajalt/clikt/output/PlaintextHelpFormatter : com/gi
 public abstract interface class com/github/ajalt/clikt/parameters/arguments/Argument {
 	public abstract fun finalize (Lcom/github/ajalt/clikt/core/Context;Ljava/util/List;)V
 	public abstract fun getArgumentHelp (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
-	public abstract fun getCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
+	public fun getCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
 	public abstract fun getHelpTags ()Ljava/util/Map;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getNvalues ()I
@@ -821,7 +822,8 @@ public final class com/github/ajalt/clikt/parameters/arguments/Argument$DefaultI
 
 public abstract interface class com/github/ajalt/clikt/parameters/arguments/ArgumentDelegate : com/github/ajalt/clikt/parameters/arguments/Argument, kotlin/properties/PropertyDelegateProvider, kotlin/properties/ReadOnlyProperty {
 	public abstract fun getValue ()Ljava/lang/Object;
-	public abstract fun getValue (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
 
 public final class com/github/ajalt/clikt/parameters/arguments/ArgumentDelegate$DefaultImpls {
@@ -878,6 +880,8 @@ public final class com/github/ajalt/clikt/parameters/arguments/ArgumentTransform
 public abstract interface class com/github/ajalt/clikt/parameters/arguments/ProcessedArgument : com/github/ajalt/clikt/parameters/arguments/ArgumentDelegate {
 	public abstract fun copy (Lkotlin/jvm/functions/Function2;Ljava/lang/String;IZLkotlin/jvm/functions/Function1;Ljava/util/Map;Lcom/github/ajalt/clikt/completion/CompletionCandidates;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public abstract fun copy (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/lang/String;IZLkotlin/jvm/functions/Function1;Ljava/util/Map;Lcom/github/ajalt/clikt/completion/CompletionCandidates;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;Lkotlin/jvm/functions/Function2;Ljava/lang/String;IZLkotlin/jvm/functions/Function1;Ljava/util/Map;Lcom/github/ajalt/clikt/completion/CompletionCandidates;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/lang/String;IZLkotlin/jvm/functions/Function1;Ljava/util/Map;Lcom/github/ajalt/clikt/completion/CompletionCandidates;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/arguments/ProcessedArgument;
 	public abstract fun getExplicitCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
 	public abstract fun getHelpGetter ()Lkotlin/jvm/functions/Function1;
 	public abstract fun getTransformAll ()Lkotlin/jvm/functions/Function2;
@@ -1001,7 +1005,7 @@ public abstract interface class com/github/ajalt/clikt/parameters/groups/Paramet
 	public abstract fun finalize (Lcom/github/ajalt/clikt/core/Context;Ljava/util/Map;)V
 	public abstract fun getGroupHelp ()Ljava/lang/String;
 	public abstract fun getGroupName ()Ljava/lang/String;
-	public abstract fun parameterHelp (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Group;
+	public fun parameterHelp (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Group;
 	public abstract fun postValidate (Lcom/github/ajalt/clikt/core/Context;)V
 }
 
@@ -1043,10 +1047,10 @@ public final class com/github/ajalt/clikt/parameters/options/FlagOptionKt {
 
 public abstract interface class com/github/ajalt/clikt/parameters/options/Option {
 	public abstract fun finalize (Lcom/github/ajalt/clikt/core/Context;Ljava/util/List;)V
-	public abstract fun getAcceptsNumberValueWithoutName ()Z
-	public abstract fun getAcceptsUnattachedValue ()Z
-	public abstract fun getCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
-	public abstract fun getEager ()Z
+	public fun getAcceptsNumberValueWithoutName ()Z
+	public fun getAcceptsUnattachedValue ()Z
+	public fun getCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
+	public fun getEager ()Z
 	public abstract fun getHelpTags ()Ljava/util/Map;
 	public abstract fun getHidden ()Z
 	public abstract fun getNames ()Ljava/util/Set;
@@ -1055,7 +1059,7 @@ public abstract interface class com/github/ajalt/clikt/parameters/options/Option
 	public abstract fun getValueSourceKey ()Ljava/lang/String;
 	public abstract fun metavar (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
 	public abstract fun optionHelp (Lcom/github/ajalt/clikt/core/Context;)Ljava/lang/String;
-	public abstract fun parameterHelp (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;
+	public fun parameterHelp (Lcom/github/ajalt/clikt/core/Context;)Lcom/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Option;
 	public abstract fun postValidate (Lcom/github/ajalt/clikt/core/Context;)V
 }
 
@@ -1094,7 +1098,8 @@ public final class com/github/ajalt/clikt/parameters/options/OptionCallTransform
 
 public abstract interface class com/github/ajalt/clikt/parameters/options/OptionDelegate : com/github/ajalt/clikt/core/GroupableOption, kotlin/properties/PropertyDelegateProvider, kotlin/properties/ReadOnlyProperty {
 	public abstract fun getValue ()Ljava/lang/Object;
-	public abstract fun getValue (Lcom/github/ajalt/clikt/core/ParameterHolder;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Lcom/github/ajalt/clikt/core/ParameterHolder;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public abstract fun provideDelegate (Lcom/github/ajalt/clikt/core/ParameterHolder;Lkotlin/reflect/KProperty;)Lkotlin/properties/ReadOnlyProperty;
 }
 
@@ -1138,6 +1143,8 @@ public final class com/github/ajalt/clikt/parameters/options/OptionTransformCont
 public abstract interface class com/github/ajalt/clikt/parameters/options/OptionWithValues : com/github/ajalt/clikt/parameters/options/OptionDelegate {
 	public abstract fun copy (Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public abstract fun copy (Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun copy$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/ranges/IntRange;Lkotlin/jvm/functions/Function1;ZLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lcom/github/ajalt/clikt/completion/CompletionCandidates;Ljava/util/Set;ZZZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public abstract fun getEnvvar ()Ljava/lang/String;
 	public abstract fun getExplicitCompletionCandidates ()Lcom/github/ajalt/clikt/completion/CompletionCandidates;
 	public abstract fun getHelpGetter ()Lkotlin/jvm/functions/Function1;

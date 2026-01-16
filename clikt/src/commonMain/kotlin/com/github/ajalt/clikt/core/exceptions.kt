@@ -10,7 +10,7 @@ import kotlin.jvm.JvmOverloads
 /**
  * An exception during command line processing that should be shown to the user.
  *
- * If calling [CliktCommand.main], these exceptions will be caught and the appropriate info will be printed.
+ * If calling [CoreCliktCommand.main], these exceptions will be caught and the appropriate info will be printed.
  */
 open class CliktError(
     message: String? = null,
@@ -18,7 +18,7 @@ open class CliktError(
     /**
      * The value to use as the exit code for the process.
      *
-     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * If you use [CoreCliktCommand.main], it will pass this value to `exitProcess` after printing
      * [message]. Defaults to 1.
      */
     val statusCode: Int = 1,
@@ -52,7 +52,7 @@ class PrintHelpMessage(
     /**
      * The value to use as the exit code for the process.
      *
-     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * If you use [CoreCliktCommand.main], it will pass this value to `exitProcess` after printing
      * [message]. Defaults to 0.
      */
     statusCode: Int = 0,
@@ -69,7 +69,7 @@ open class PrintMessage(
     /**
      * The value to use as the exit code for the process.
      *
-     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * If you use [CoreCliktCommand.main], it will pass this value to `exitProcess` after printing
      * [message]. Defaults to 0.
      */
     statusCode: Int = 0,
@@ -110,7 +110,7 @@ open class UsageError(
     /**
      * The value to use as the exit code for the process.
      *
-     * If you use [CliktCommand.main], it will pass this value to `exitProcess` after printing
+     * If you use [CoreCliktCommand.main], it will pass this value to `exitProcess` after printing
      * [message]. Defaults to 1.
      */
     statusCode: Int = 1,

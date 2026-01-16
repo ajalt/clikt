@@ -1,6 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
@@ -25,12 +22,20 @@ fun getPublishVersion(): String {
     return "$version.$buildNumber-SNAPSHOT"
 }
 
+dokka {
+    dokkaPublications.html {
+        outputDirectory.set(rootProject.rootDir.resolve("docs/api"))
+    }
+    pluginsConfiguration.html {
+        footerMessage.set("Copyright &copy; 2018 AJ Alt")
+    }
+}
 
-private val dokkaConfig = mapOf(
-    "org.jetbrains.dokka.base.DokkaBase" to """{
-        "footerMessage": "Copyright &copy; 2018 AJ Alt"
-    }"""
-)
+dependencies {
+    dokka(project(":clikt"))
+    dokka(project(":clikt-mordant"))
+    dokka(project(":clikt-mordant-markdown"))
+}
 
 subprojects {
     project.setProperty("VERSION_NAME", getPublishVersion())
@@ -46,18 +51,4 @@ subprojects {
     pluginManager.withPlugin("com.vanniktech.maven.publish") {
         apply(plugin = "org.jetbrains.dokka")
     }
-    tasks.withType<DokkaTask>().configureEach {
-        dokkaSourceSets.configureEach {
-            reportUndocumented.set(false)
-            skipDeprecated.set(false)
-        }
-    }
-    tasks.withType<DokkaTaskPartial>().configureEach {
-        pluginsMapConfiguration.set(dokkaConfig)
-    }
-}
-
-tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(rootProject.rootDir.resolve("docs/api"))
-    pluginsMapConfiguration.set(dokkaConfig)
 }

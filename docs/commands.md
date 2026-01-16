@@ -531,5 +531,5 @@ applies a series of transformations to it, printing the final result:
 [issueMessage]:                  api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/issue-message.html
 [printing-to-stdout-and-stderr]: quickstart.md#printing-to-stdout-and-stderr
 [requireObject]:                 api/clikt/com.github.ajalt.clikt.core/require-object.html
-[run]:                           api/clikt/com.github.ajalt.clikt.core/-runnable-clikt-command/run.html
+[run]:                           api/clikt/com.github.ajalt.clikt.core/-core-clikt-command/run.html
 [subcommands]:                   api/clikt/com.github.ajalt.clikt.core/subcommands.html

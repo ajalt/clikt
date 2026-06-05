@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `Context.showEnvvarsInHelp` to show the names of the environment variables that options read from in the help output. You can override the name shown for an option (or hide it) with the `HelpFormatter.Tags.ENVVAR` help tag. ([#320](https://github.com/ajalt/clikt/issues/320))
 
 ## 5.1.0
 ### Added

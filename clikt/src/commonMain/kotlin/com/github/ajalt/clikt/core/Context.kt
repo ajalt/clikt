@@ -40,6 +40,11 @@ class Context private constructor(
      */
     val autoEnvvarPrefix: String?,
     /**
+     * If true, the help output for options will include the name of the environment variable
+     * that the option reads when it isn't given on the command line.
+     */
+    val showEnvvarsInHelp: Boolean,
+    /**
      * Set this to false to prevent extra messages from being printed automatically.
      * You can still access them at [messages][BaseCliktCommand.messages] inside of
      * `CliktCommand.run`.
@@ -301,6 +306,17 @@ class Context private constructor(
         }
 
         /**
+         * If true, the help output for options will include the name of the environment variable
+         * that the option reads when it isn't given on the command line (either its `envvar`, or
+         * the name inferred from [autoEnvvarPrefix]).
+         *
+         * You can override this for individual options by setting a value for the
+         * [HelpFormatter.Tags.ENVVAR] key in their `helpTags`: set it to the name to show, or to
+         * an empty string to hide the name for that option.
+         */
+        var showEnvvarsInHelp: Boolean = parent?.showEnvvarsInHelp ?: false
+
+        /**
          * If true, arguments starting with `@` will be expanded as argument files. If false, they
          * will be treated as normal arguments.
          */
@@ -436,6 +452,7 @@ class Context private constructor(
                     allowInterspersedArgs = interspersed,
                     allowGroupedShortOptions = allowGroupedShortOptions,
                     autoEnvvarPrefix = autoEnvvarPrefix,
+                    showEnvvarsInHelp = showEnvvarsInHelp,
                     printExtraMessages = printExtraMessages,
                     helpOptionNames = helpOptionNames.toSet(),
                     helpFormatter = helpFormatter ?: { PlaintextHelpFormatter(it) },

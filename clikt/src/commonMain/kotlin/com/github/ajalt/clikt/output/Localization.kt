@@ -242,6 +242,9 @@ interface Localization {
     /** Text rendered for parameters tagged with [HelpFormatter.Tags.REQUIRED] */
     fun helpTagRequired(): String = "required"
 
+    /** Text rendered for parameters tagged with [HelpFormatter.Tags.ENVVAR] */
+    fun helpTagEnvvar(): String = "env var"
+
     /** The default message for the `--help` option. */
     fun helpOptionMessage(): String = "Show this message and exit"
 }

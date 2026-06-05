@@ -393,6 +393,51 @@ You can also show a tag for required options by passing `showRequiredTag = true`
       -h, --help         Show this message and exit
     ```
 
+## Environment Variables in Help
+
+If your options read values from [environment variables][envvars], you can show the envvar names in
+the help output by setting [`showEnvvarsInHelp`][showEnvvarsInHelp]` = true` on a command's
+context. Both explicit `envvar` names and names inferred from `autoEnvvarPrefix` are shown. Since
+the setting is on the context, it's propagated to subcommands.
+
+=== "Example"
+    ```kotlin
+    class Tool : NoOpCliktCommand() {
+        init {
+            context {
+                autoEnvvarPrefix = "TOOL"
+                showEnvvarsInHelp = true
+            }
+        }
+
+        val explicit by option(help = "explicit envvar name", envvar = "MY_OPTION")
+        val inferred by option(help = "inferred envvar name")
+    }
+    ```
+
+=== "Usage"
+    ```text
+    $ ./tool --help
+    Usage: tool [<options>]
+
+    Options:
+      --explicit=<text>  explicit envvar name (env var: MY_OPTION)
+      --inferred=<text>  inferred envvar name (env var: TOOL_INFERRED)
+      -h, --help         Show this message and exit
+    ```
+
+You can override the name shown for a single option by setting a value for the
+[`HelpFormatter.Tags.ENVVAR`][Tags] key in its `helpTags`. Set it to an empty string to hide the
+envvar name for that option, or to a non-empty string to show that name even when
+`showEnvvarsInHelp` is false.
+
+```kotlin
+val secret by option(
+    envvar = "TOOL_SECRET",
+    helpTags = mapOf(HelpFormatter.Tags.ENVVAR to ""),
+)
+```
+
 ## Grouping Options in Help
 
 You can group options into separate help sections by using [OptionGroup][OptionGroup]
@@ -507,10 +552,13 @@ You can localize error messages by implementing [`Localization`][Localization] a
 [Localization]:             api/clikt/com.github.ajalt.clikt.output/-localization/index.html
 [OptionGroup]:              api/clikt/com.github.ajalt.clikt.parameters.groups/-option-group/index.html
 [PrintHelpMessage]:         api/clikt/com.github.ajalt.clikt.core/-print-help-message/index.html
+[Tags]:                     api/clikt/com.github.ajalt.clikt.output/-help-formatter/-tags/index.html
 [customizing-command-name]: commands.md#customizing-command-name
 [customizing-contexts]:     commands.md#customizing-contexts
 [default]:                  api/clikt/com.github.ajalt.clikt.parameters.options/default.html
 [eager-options]:            options.md#eager-options
+[envvars]:                  options.md#values-from-environment-variables
+[showEnvvarsInHelp]:        api/clikt/com.github.ajalt.clikt.core/-context/-builder/show-envvars-in-help.html
 [groups.provideDelegate]:   api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html
 [nel]:                      https://www.fileformat.info/info/unicode/char/0085/index.htm
 [provideDelegate]:          api/clikt/com.github.ajalt.clikt.parameters.groups/provide-delegate.html

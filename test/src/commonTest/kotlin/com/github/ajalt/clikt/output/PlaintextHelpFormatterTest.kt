@@ -446,6 +446,22 @@ class PlaintextHelpFormatterTest {
         )
     }
 
+    @[Test JsName("envvar_option_tag")]
+    fun `envvar option tag`() {
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help", envvar = "BB"))
+        c.context { showEnvvarsInHelp = true }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help
+            |  -b, --bb=<text>  bb option help (env var: BB)
+            """
+        )
+    }
+
     @[Test JsName("custom_tag")]
     fun `custom tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))

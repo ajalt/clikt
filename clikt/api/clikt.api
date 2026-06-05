@@ -211,7 +211,7 @@ public final class com/github/ajalt/clikt/core/Context {
 	public static final field Companion Lcom/github/ajalt/clikt/core/Context$Companion;
 	public static final field DEFAULT_OBJ_KEY Ljava/lang/String;
 	public static final field TERMINAL_KEY Ljava/lang/String;
-	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Lcom/github/ajalt/clikt/core/BaseCliktCommand;ZZLjava/lang/String;ZLjava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ZLcom/github/ajalt/clikt/sources/ValueSource;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/clikt/output/Localization;Lkotlin/jvm/functions/Function1;Ljava/util/Map;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lcom/github/ajalt/clikt/core/Context;Lcom/github/ajalt/clikt/core/BaseCliktCommand;ZZLjava/lang/String;ZZLjava/util/Set;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ZLcom/github/ajalt/clikt/sources/ValueSource;Lkotlin/jvm/functions/Function2;Lcom/github/ajalt/clikt/output/Localization;Lkotlin/jvm/functions/Function1;Ljava/util/Map;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun callOnClose (Lkotlin/jvm/functions/Function0;)V
 	public final fun close ()V
 	public final fun commandNameWithParents ()Ljava/util/List;
@@ -240,6 +240,7 @@ public final class com/github/ajalt/clikt/core/Context {
 	public final fun getReadArgumentFile ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvar ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvarBeforeValueSource ()Z
+	public final fun getShowEnvvarsInHelp ()Z
 	public final fun getSuggestTypoCorrection ()Lkotlin/jvm/functions/Function2;
 	public final fun getTokenTransformer ()Lkotlin/jvm/functions/Function2;
 	public final fun getTransformToken ()Lkotlin/jvm/functions/Function2;
@@ -270,6 +271,7 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun getReadArgumentFile ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvar ()Lkotlin/jvm/functions/Function1;
 	public final fun getReadEnvvarBeforeValueSource ()Z
+	public final fun getShowEnvvarsInHelp ()Z
 	public final fun getSuggestTypoCorrection ()Lkotlin/jvm/functions/Function2;
 	public final fun getTokenTransformer ()Lkotlin/jvm/functions/Function2;
 	public final fun getTransformToken ()Lkotlin/jvm/functions/Function2;
@@ -290,6 +292,7 @@ public final class com/github/ajalt/clikt/core/Context$Builder {
 	public final fun setReadArgumentFile (Lkotlin/jvm/functions/Function1;)V
 	public final fun setReadEnvvar (Lkotlin/jvm/functions/Function1;)V
 	public final fun setReadEnvvarBeforeValueSource (Z)V
+	public final fun setShowEnvvarsInHelp (Z)V
 	public final fun setSuggestTypoCorrection (Lkotlin/jvm/functions/Function2;)V
 	public final fun setTokenTransformer (Lkotlin/jvm/functions/Function2;)V
 	public final fun setTransformToken (Lkotlin/jvm/functions/Function2;)V
@@ -650,6 +653,7 @@ public final class com/github/ajalt/clikt/output/HelpFormatter$ParameterHelp$Sub
 
 public final class com/github/ajalt/clikt/output/HelpFormatter$Tags {
 	public static final field DEFAULT Ljava/lang/String;
+	public static final field ENVVAR Ljava/lang/String;
 	public static final field INSTANCE Lcom/github/ajalt/clikt/output/HelpFormatter$Tags;
 	public static final field REQUIRED Ljava/lang/String;
 }
@@ -675,6 +679,7 @@ public abstract interface class com/github/ajalt/clikt/output/Localization {
 	public fun floatMetavar ()Ljava/lang/String;
 	public fun helpOptionMessage ()Ljava/lang/String;
 	public fun helpTagDefault ()Ljava/lang/String;
+	public fun helpTagEnvvar ()Ljava/lang/String;
 	public fun helpTagRequired ()Ljava/lang/String;
 	public fun incorrectArgumentValueCount (Ljava/lang/String;I)Ljava/lang/String;
 	public fun incorrectOptionValueCount (Ljava/lang/String;I)Ljava/lang/String;
@@ -736,6 +741,7 @@ public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
 	public static fun floatMetavar (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun helpOptionMessage (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun helpTagDefault (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
+	public static fun helpTagEnvvar (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun helpTagRequired (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun incorrectArgumentValueCount (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;I)Ljava/lang/String;
 	public static fun incorrectOptionValueCount (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;I)Ljava/lang/String;

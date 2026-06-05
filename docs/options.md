@@ -1061,6 +1061,12 @@ prefix is `MY_TOOL`, the option's envvar name will be `MY_TOOL_FOO_BAR`.
     Hello Foo
     ```
 
+### Environment Variables in Help Output
+
+Envvar names aren't shown in the help output by default. You can enable that by setting
+`showEnvvarsInHelp = true` on a command's context. See
+[the documentation on help output](documenting.md#environment-variables-in-help) for details.
+
 ### Multiple Values from Environment Variables
 
 You might need to allow users to specify multiple values for an option in a single environment

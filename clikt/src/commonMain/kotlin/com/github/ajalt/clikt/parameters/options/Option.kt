@@ -63,7 +63,7 @@ interface Option {
             metavar(context),
             optionHelp(context),
             nvalues,
-            helpTags,
+            helpTags + envvarHelpTags(context),
             acceptsNumberValueWithoutName,
             acceptsUnattachedValue,
             groupName = (this as? StaticallyGroupedOption)?.groupName
@@ -119,6 +119,20 @@ internal fun inferOptionNames(names: Set<String>, propertyName: String): Set<Str
         "${it.value[0]}-${it.value[1]}"
     }.lowercase()
     return setOf(normalizedName)
+}
+
+/**
+ * If [Context.showEnvvarsInHelp] is set, return a [HelpFormatter.Tags.ENVVAR] tag with the name of
+ * the envvar that this option reads its value from, if it has one.
+ */
+private fun Option.envvarHelpTags(context: Context): Map<String, String> {
+    if (!context.showEnvvarsInHelp) return emptyMap()
+    // An explicit tag takes precedence over the inferred name
+    if (HelpFormatter.Tags.ENVVAR in helpTags) return emptyMap()
+    // Eager options and options without values never read from envvars
+    if (eager || this !is OptionWithValues<*, *, *>) return emptyMap()
+    val name = inferEnvvar(names, envvar, context.autoEnvvarPrefix) ?: return emptyMap()
+    return mapOf(HelpFormatter.Tags.ENVVAR to name)
 }
 
 internal fun inferEnvvar(names: Set<String>, envvar: String?, autoEnvvarPrefix: String?): String? {

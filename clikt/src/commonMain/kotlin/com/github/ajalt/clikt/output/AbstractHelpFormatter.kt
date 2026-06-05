@@ -184,6 +184,7 @@ abstract class AbstractHelpFormatter<PartT>(
         return when (tag) {
             HelpFormatter.Tags.DEFAULT -> showDefaultValues && value.isNotBlank()
             HelpFormatter.Tags.REQUIRED -> showRequiredTag
+            HelpFormatter.Tags.ENVVAR -> value.isNotBlank()
             else -> true
         }
     }
@@ -197,6 +198,7 @@ abstract class AbstractHelpFormatter<PartT>(
         val t = when (tag) {
             HelpFormatter.Tags.DEFAULT -> localization.helpTagDefault()
             HelpFormatter.Tags.REQUIRED -> localization.helpTagRequired()
+            HelpFormatter.Tags.ENVVAR -> localization.helpTagEnvvar()
             else -> tag
         }
         val fullTag = if (value.isBlank()) "($t)" else "($t: $value)"

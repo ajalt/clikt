@@ -88,6 +88,12 @@ interface HelpFormatter {
 
         /** If true, this option is required. Only used for help output. */
         const val REQUIRED = "required"
+
+        /**
+         * The name of the environment variable that will be used for this option's value if it
+         * isn't given on the command line, or blank if the name should never be shown.
+         */
+        const val ENVVAR = "envvar"
     }
 }
 

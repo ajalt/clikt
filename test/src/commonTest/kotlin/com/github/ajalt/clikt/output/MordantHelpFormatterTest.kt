@@ -16,6 +16,7 @@ import com.github.ajalt.mordant.terminal.Terminal
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlin.js.JsName
 import kotlin.test.Test
@@ -601,6 +602,121 @@ class MordantHelpFormatterTest {
             |  -b, --bb=<text>  bb option help (default: 123)
             """
         )
+    }
+
+    @[Test JsName("envvar_option_tag")]
+    fun `envvar option tag`() {
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help", envvar = "BB"))
+        c.context { showEnvvarsInHelp = true }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help
+            |  -b, --bb=<text>  bb option help (env var: BB)
+            """
+        )
+    }
+
+    @[Test JsName("envvar_option_tag_with_auto_envvar_prefix")]
+    fun `envvar option tag with auto envvar prefix`() {
+        c.registerOption(c.option("--aa", "-a", help = "aa option help"))
+        c.registerOption(c.option("--bb", "-b", help = "bb option help", envvar = "BB"))
+        c.context {
+            autoEnvvarPrefix = "PROG"
+            showEnvvarsInHelp = true
+        }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help (env var: PROG_AA)
+            |  -b, --bb=<text>  bb option help (env var: BB)
+            """
+        )
+    }
+
+    @[Test JsName("envvar_option_tag_not_shown_by_default")]
+    fun `envvar option tag not shown by default`() {
+        c.registerOption(c.option("--aa", "-a", help = "aa option help", envvar = "AA"))
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help
+            """
+        )
+    }
+
+    @[Test JsName("explicit_envvar_tag_shown_when_showEnvvarsInHelp_disabled")]
+    fun `explicit envvar tag shown when showEnvvarsInHelp disabled`() {
+        c.registerOption(
+            c.option(
+                "--aa", "-a", help = "aa option help", envvar = "AA",
+                helpTags = mapOf(HelpFormatter.Tags.ENVVAR to "AA")
+            )
+        )
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help (env var: AA)
+            """
+        )
+    }
+
+    @[Test JsName("blank_envvar_tag_hidden_when_showEnvvarsInHelp_enabled")]
+    fun `blank envvar tag hidden when showEnvvarsInHelp enabled`() {
+        c.registerOption(c.option("--aa", "-a", help = "aa option help", envvar = "AA"))
+        c.registerOption(
+            c.option(
+                "--bb", "-b", help = "bb option help", envvar = "BB",
+                helpTags = mapOf(HelpFormatter.Tags.ENVVAR to "")
+            )
+        )
+        c.context { showEnvvarsInHelp = true }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help (env var: AA)
+            |  -b, --bb=<text>  bb option help
+            """
+        )
+    }
+
+    @[Test JsName("envvar_option_tag_not_shown_for_eager_options")]
+    fun `envvar option tag not shown for eager options`() {
+        c.context {
+            autoEnvvarPrefix = "PROG"
+            showEnvvarsInHelp = true
+        }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -h, --help  Show this message and exit
+            """,
+            helpNames = setOf("-h", "--help"),
+        )
+    }
+
+    @[Test JsName("envvar_option_tag_inherited_by_subcommands")]
+    fun `envvar option tag setting inherited by subcommands`() {
+        class Sub : TestCommand(name = "sub") {
+            val opt by option(help = "opt help", envvar = "OPT")
+        }
+
+        val c = TestCommand(name = "prog").context { showEnvvarsInHelp = true }
+            .subcommands(Sub())
+        c.test("sub --help").output shouldContain "(env var: OPT)"
     }
 
     @[Test JsName("custom_tag")]

@@ -15,6 +15,10 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  * @param default the value for this property if the option is not given on the command line.
  * @param defaultForHelp The help text for this option's default value if the help formatter is configured
  *   to show them.
+ * @param acceptsValue If true, this flag also accepts an explicit attached value like `--flag=true` or
+ *   `--flag=false`. The value is parsed leniently (`true/t/1/yes/y/on` ↔ `false/f/0/no/n/off`, case
+ *   insensitive; an empty value is an error). The value must be attached with `=`; a bare `--flag` still means
+ *   true (or false for a [secondaryNames] negation name), and giving a value to a negation name is an error.
  *
  * ### Example:
  *
@@ -22,14 +26,18 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  * val flag by option(help = "flag option").flag("--no-flag", default = true, defaultForHelp = "enable")
  * // Options:
  * // --flag / --no-flag  flag option (default: enable)
+ *
+ * // The same flag also accepting an explicit value: --flag, --no-flag, --flag=true, --flag=false
+ * val flag by option("--flag", help = "flag option").flag("--no-flag", default = true, acceptsValue = true)
  * ```
  */
 fun RawOption.flag(
     vararg secondaryNames: String,
     default: Boolean = false,
     defaultForHelp: String = "",
+    acceptsValue: Boolean = false,
 ): OptionWithValues<Boolean, Boolean, Boolean> {
-    return nullableFlag(*secondaryNames)
+    return nullableFlag(*secondaryNames, acceptsValue = acceptsValue)
         .default(default, defaultForHelp = defaultForHelp)
 }
 
@@ -38,16 +46,27 @@ fun RawOption.flag(
  *
  * You will usually want [flag] instead of this function, but this can be useful if you need to use
  * a [transformAll] method like [required] or `prompt`.
+ *
+ * See [flag] for the meaning of [acceptsValue].
  */
-fun RawOption.nullableFlag(vararg secondaryNames: String): NullableOption<Boolean, Boolean> {
+fun RawOption.nullableFlag(
+    vararg secondaryNames: String,
+    acceptsValue: Boolean = false,
+): NullableOption<Boolean, Boolean> {
+    val secondary = secondaryNames.toSet()
     return boolean()
-        .transformValues(0..0) {
-            if (it.size > 1) {
+        .transformValues(if (acceptsValue) 0..1 else 0..0) { values ->
+            if (values.size > 1) {
                 fail(context.localization.invalidFlagValueInFile(name))
             }
-            it.lastOrNull() ?: (name !in secondaryNames)
+            val value = values.lastOrNull()
+            if (value != null && name in secondary) {
+                val positiveName = names.firstOrNull { it.startsWith("--") } ?: name
+                fail(context.localization.valueOnFlagNegation(name, positiveName, value.toString()))
+            }
+            value ?: (name !in secondary)
         }
-        .copy(secondaryNames = secondaryNames.toSet())
+        .copy(secondaryNames = secondary, acceptsUnattachedValue = !acceptsValue)
 }
 
 /**

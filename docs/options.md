@@ -415,6 +415,29 @@ previously.
     ```
 
 
+A boolean flag can also accept an explicit value if you set `acceptsValue =
+true`. The value must be attached with `=`, and is parsed leniently (the
+same spellings as `boolean()`: `true`/`t`/`1`/`yes`/`y`/`on` and their
+negatives, case-insensitive). This is handy when the value comes from a
+script or environment variable that already holds a boolean string:
+
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        val cache by option("--cache").flag("--no-cache", default = true, acceptsValue = true)
+        override fun run() {
+            echo(cache)
+        }
+    }
+    ```
+
+=== "Usage"
+    ```text
+    $ ./cli --cache=false
+    false
+    ```
+
+
 Multiple short flag options can be combined when called on the command
 line:
 

@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `acceptsValue` parameter to `flag` and `nullableFlag` to let a flag also accept an explicit attached value, e.g. `--flag=true` or `--flag=false` (parsed leniently, like `boolean()`; the value must be attached with `=`). ([#643](https://github.com/ajalt/clikt/pull/643))
 
 ## 5.1.0
 ### Added

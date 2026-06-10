@@ -713,6 +713,7 @@ public abstract interface class com/github/ajalt/clikt/output/Localization {
 	public fun unclosedQuote ()Ljava/lang/String;
 	public fun usageError ()Ljava/lang/String;
 	public fun usageTitle ()Ljava/lang/String;
+	public fun valueOnFlagNegation (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
@@ -774,6 +775,7 @@ public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
 	public static fun unclosedQuote (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun usageError (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun usageTitle (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
+	public static fun valueOnFlagNegation (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 }
 
 public abstract interface class com/github/ajalt/clikt/output/ParameterFormatter {
@@ -1038,9 +1040,10 @@ public final class com/github/ajalt/clikt/parameters/options/FlagOptionKt {
 	public static final fun convert (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun counted (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;IZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun counted$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;IZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun flag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static synthetic fun flag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun nullableFlag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun flag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun flag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun nullableFlag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun nullableFlag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun switch (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/util/Map;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun switch (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Lkotlin/Pair;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 }

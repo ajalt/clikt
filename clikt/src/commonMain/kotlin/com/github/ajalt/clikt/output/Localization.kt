@@ -116,6 +116,16 @@ interface Localization {
     /** Error message when reading flag option from a file */
     fun invalidFlagValueInFile(name: String) = "invalid flag value in file for option $name"
 
+    /**
+     * Error message when a value is given to a flag's negation (secondary) name, e.g. `--no-foo=1`
+     *
+     * @param negationName the negation name that was used, e.g. `--no-foo`
+     * @param positiveName the flag's positive name, e.g. `--foo`
+     * @param value the value that was given
+     */
+    fun valueOnFlagNegation(negationName: String, positiveName: String, value: String) =
+        "maybe you mean $positiveName=$value. Or use $negationName to disable"
+
     /** Error message when reading switch option from environment variable */
     fun switchOptionEnvvar() = "environment variables not supported for switch options"
 

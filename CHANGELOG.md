@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `negatable` parameter to `flag` and `nullableFlag` to automatically derive a `--no-` prefixed negation from each long name of the option (e.g. `option("--cache").flag(negatable = true)` registers both `--cache` and `--no-cache`). ([#642](https://github.com/ajalt/clikt/pull/642))
 
 ## 5.1.0
 ### Added

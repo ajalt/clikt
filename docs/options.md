@@ -415,6 +415,39 @@ previously.
     ```
 
 
+Rather than spelling out the negation, you can set `negatable = true` to
+derive a `--no-` prefixed name from each long name of the option
+automatically — the conventional `--foo` / `--no-foo` pairing used by
+GNU-style tools, mirroring Python's argparse `BooleanOptionalAction`.
+Invoking the derived name sets the flag to false:
+
+=== "Example"
+    ```kotlin
+    class Cli : CliktCommand() {
+        val cache by option("--cache").flag(default = true, negatable = true)
+        override fun run() {
+            echo(cache)
+        }
+    }
+    ```
+
+=== "Usage 1"
+    ```text
+    $ ./cli
+    true
+    ```
+
+=== "Usage 2"
+    ```text
+    $ ./cli --no-cache
+    false
+    ```
+
+For names where the `--no-` convention doesn't fit (e.g. `--enable` paired
+with `--disable`), pass the secondary names explicitly instead; explicit
+secondary names take precedence over `negatable`.
+
+
 Multiple short flag options can be combined when called on the command
 line:
 

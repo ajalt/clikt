@@ -15,6 +15,10 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  * @param default the value for this property if the option is not given on the command line.
  * @param defaultForHelp The help text for this option's default value if the help formatter is configured
  *   to show them.
+ * @param negatable If true and no [secondaryNames] are given, derive a `--no-` prefixed negation from each
+ *   long name of this option (e.g. `--cache` gets a `--no-cache` that sets the value to false). Requires at
+ *   least one long (`--`) name to derive from. Pass explicit [secondaryNames] instead for names where the
+ *   `--no-` convention doesn't fit (e.g. `--enable` paired with `--disable`).
  *
  * ### Example:
  *
@@ -22,14 +26,18 @@ typealias FlagConverter<InT, OutT> = OptionTransformContext.(InT) -> OutT
  * val flag by option(help = "flag option").flag("--no-flag", default = true, defaultForHelp = "enable")
  * // Options:
  * // --flag / --no-flag  flag option (default: enable)
+ *
+ * // The same flag with the negation derived automatically from the --long name:
+ * val cache by option("--cache", help = "flag option").flag(default = true, negatable = true)
  * ```
  */
 fun RawOption.flag(
     vararg secondaryNames: String,
     default: Boolean = false,
     defaultForHelp: String = "",
+    negatable: Boolean = false,
 ): OptionWithValues<Boolean, Boolean, Boolean> {
-    return nullableFlag(*secondaryNames)
+    return nullableFlag(*secondaryNames, negatable = negatable)
         .default(default, defaultForHelp = defaultForHelp)
 }
 
@@ -38,16 +46,33 @@ fun RawOption.flag(
  *
  * You will usually want [flag] instead of this function, but this can be useful if you need to use
  * a [transformAll] method like [required] or `prompt`.
+ *
+ * See [flag] for the meaning of [negatable].
  */
-fun RawOption.nullableFlag(vararg secondaryNames: String): NullableOption<Boolean, Boolean> {
+fun RawOption.nullableFlag(
+    vararg secondaryNames: String,
+    negatable: Boolean = false,
+): NullableOption<Boolean, Boolean> {
+    val negations: Set<String> = when {
+        secondaryNames.isNotEmpty() -> secondaryNames.toSet()
+        negatable -> {
+            val longNames = names.filter { it.startsWith("--") }
+            require(longNames.isNotEmpty()) {
+                "negatable requires an explicit long option name to derive a \"--no-\" negation from"
+            }
+            longNames.mapTo(mutableSetOf()) { "--no-" + it.removePrefix("--") }
+        }
+
+        else -> emptySet()
+    }
     return boolean()
         .transformValues(0..0) {
             if (it.size > 1) {
                 fail(context.localization.invalidFlagValueInFile(name))
             }
-            it.lastOrNull() ?: (name !in secondaryNames)
+            it.lastOrNull() ?: (name !in negations)
         }
-        .copy(secondaryNames = secondaryNames.toSet())
+        .copy(secondaryNames = negations)
 }
 
 /**

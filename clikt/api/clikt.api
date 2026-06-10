@@ -1038,9 +1038,10 @@ public final class com/github/ajalt/clikt/parameters/options/FlagOptionKt {
 	public static final fun convert (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Lkotlin/jvm/functions/Function2;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun counted (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;IZ)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static synthetic fun counted$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;IZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun flag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static synthetic fun flag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
-	public static final fun nullableFlag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun flag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun flag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZLjava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static final fun nullableFlag (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;Z)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
+	public static synthetic fun nullableFlag$default (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Ljava/lang/String;ZILjava/lang/Object;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun switch (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;Ljava/util/Map;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 	public static final fun switch (Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;[Lkotlin/Pair;)Lcom/github/ajalt/clikt/parameters/options/OptionWithValues;
 }

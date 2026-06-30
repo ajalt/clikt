@@ -57,7 +57,7 @@ internal object FishCompletionGenerator {
 
                 append("-a $commandName ")
 
-                val help = command.help(command.currentContext).replace("'", "\\'")
+                val help = command.help(command.currentContext).replace("\\", "\\\\").replace("'", "\\'")
                 if (help.isNotBlank()) {
                     append("-d '${help}'")
                 }
@@ -134,7 +134,7 @@ internal object FishCompletionGenerator {
     }
 
     private fun StringBuilder.appendHelp(help: String) {
-        val h = help.takeWhile { it !in "\r\n" }.replace("'", "\\'")
+        val h = help.takeWhile { it !in "\r\n" }.replace("\\", "\\\\").replace("'", "\\'")
         if (h.isNotBlank()) {
             append(" -d '$h'")
         }

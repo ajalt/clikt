@@ -1,7 +1,32 @@
 package com.github.ajalt.clikt.completion
 
+import com.github.ajalt.clikt.core.PrintCompletionMessage
+import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.testing.TestCommand
+import com.github.ajalt.clikt.testing.parse
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.string.shouldContain
+import kotlin.js.JsName
+import kotlin.test.Test
+
 @Suppress("unused")
 class FishCompletionTest : CompletionTestBase("fish") {
+    @[Test JsName("backslashes_in_help_are_escaped")]
+    fun `backslashes in help are escaped`() {
+        // Inside fish single quotes only \' and \\ are meaningful escapes, so a
+        // backslash in the description (e.g. a trailing one) must be escaped or it
+        // leaves the -d '...' argument unterminated.
+        class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
+            val a by argument(help = "ab\\", name = "arg")
+        }
+
+        val message = shouldThrow<PrintCompletionMessage> {
+            C().completionOption(hidden = true).parse("--generate-completion=fish")
+        }.message
+
+        message shouldContain """ -d 'ab\\'"""
+    }
+
     override fun `custom completions expected`(): String {
         return """
         |# Command completion for c

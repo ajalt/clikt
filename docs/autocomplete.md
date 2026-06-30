@@ -1,6 +1,6 @@
 # Shell Autocomplete
 
-Clikt includes built-in support for generating autocomplete scripts for bash, zsh and fish shells.
+Clikt includes built-in support for generating autocomplete scripts for bash, zsh, fish and powershell shells.
 
 === "Example"
     ```text
@@ -26,8 +26,8 @@ You can generate the completion script by invoking your program with a special e
 You can set the variable name manually with by overriding the `autoCompleteEnvvar` property in
 your command. By default, it's your command's name capitalized, with `-` replaced with `_`, and
 prefixed with another `_`. So if your command name is `my-command`, the variable would be
-`_MY_COMMAND_COMPLETE=bash`, `_MY_COMMAND_COMPLETE=zsh`, or `_MY_COMMAND_COMPLETE=fish`, depending
-on your current shell.
+`_MY_COMMAND_COMPLETE=bash`, `_MY_COMMAND_COMPLETE=zsh`, `_MY_COMMAND_COMPLETE=fish`, or
+`_MY_COMMAND_COMPLETE=powershell`, depending on your current shell.
 
 For example to activate bash autocomplete for this command:
 
@@ -130,6 +130,14 @@ example, with bash:
 $ echo source ~/my-program-completion.sh >> ~/.bashrc
 ```
 
+For PowerShell, source the generated `.ps1` script:
+
+```powershell
+$ .\my-program-completion.ps1
+```
+
+You can add that command to your PowerShell profile (`$PROFILE`) to make completion permanent.
+
 You'll need to regenerate the completion script any time your command structure changes.
 
 ## Supported Functionality
@@ -146,6 +154,16 @@ Other parameter types are completed as file or directory names.
 Fish's completion mechanism is more limited that Bash's. Subcommands can be completed, options can
 be completed as long as they start with a `-`. Completion suggestions for positional arguments are
 the union of all positional arguments. Other advanced Clikt features are not supported. 
+
+### PowerShell
+
+PowerShell completion uses [`Register-ArgumentCompleter`][Register-ArgumentCompleter] with the `-Native`
+switch. The generated script inspects the PowerShell abstract syntax tree
+(`$commandAst.CommandElements`) to determine the current subcommand depth and cursor position.
+Subcommands, option names (starting with `-`), and option/argument values are supported.
+For [`Custom`][completionCandidates-custom-custom] completion candidates, the generator script
+should write suggestions to stdout. To activate completion, source the generated `.ps1` script
+from your PowerShell profile.
 
 ## Customizing Completions
 
@@ -226,9 +244,11 @@ Bash must be at least version 3, or Zsh must be at least version 4.1.
 [argument]:              api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
 [choice]:                api/clikt/com.github.ajalt.clikt.parameters.types/choice.html
 [command-aliases]:       advanced.md#command-aliases
+[completionCandidates-custom-custom]: api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/index.html
 [completionOption]:      api/clikt/com.github.ajalt.clikt.completion/completion-option.html
 [file]:                  api/clikt/com.github.ajalt.clikt.parameters.types/file.html
 [fromStdout]:            api/clikt/com.github.ajalt.clikt.completion/-completion-candidates/-custom/-companion/from-stdout.html
 [option]:                api/clikt/com.github.ajalt.clikt.parameters.options/option.html
 [path]:                  api/clikt/com.github.ajalt.clikt.parameters.types/path.html
+[Register-ArgumentCompleter]: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-argumentcompleter
 [token-normalization]:   advanced.md#token-normalization

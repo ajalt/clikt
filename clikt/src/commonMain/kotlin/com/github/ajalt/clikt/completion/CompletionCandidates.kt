@@ -64,13 +64,30 @@ sealed class CompletionCandidates {
      * ```
      * "\"(ls -1)\""
      * ```
+     *
+     * ## PowerShell
+     *
+     * The string returned from [generator] should be a PowerShell expression that writes each
+     * completion suggestion to stdout, one per line. Each line is wrapped in a
+     * `[CompletionResult]::new()` with `ParameterValue` type.
+     *
+     * ```
+     * "& $command | ForEach-Object { \$_ }"
+     * ```
+     *
+     * or a direct command pipeline:
+     *
+     * ```
+     * "(echo zzz xxx)"
+     * ```
      */
     data class Custom(val generator: (ShellType) -> String?) : CompletionCandidates() {
-        enum class ShellType { BASH, FISH }
+        enum class ShellType { BASH, FISH, POWERSHELL }
         companion object {
             fun fromStdout(command: String) = Custom {
                 when (it) {
                     ShellType.FISH -> "\"($command)\""
+                    ShellType.POWERSHELL -> "& $command | ForEach-Object { \$_ }"
                     else -> "COMPREPLY=(\$(compgen -W \"\$($command)\" -- \"\${COMP_WORDS[\$COMP_CWORD]}\"))"
                 }
             }

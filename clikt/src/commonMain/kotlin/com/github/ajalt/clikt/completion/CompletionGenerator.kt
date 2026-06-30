@@ -7,7 +7,7 @@ object CompletionGenerator {
      * Generate a completion script for the given shell and command.
      *
      * @param command The command to generate a completion script for.
-     * @param shell The shell to generate a completion script for. One of "bash", "zsh", or "fish".
+     * @param shell The shell to generate a completion script for. One of "bash", "zsh", "fish", or "powershell".
      *   If any other value is provided, the script will be generated for bash.
      */
     fun generateCompletionForCommand(command: BaseCliktCommand<*>, shell: String): String {
@@ -17,6 +17,8 @@ object CompletionGenerator {
                 command = command,
                 zsh = true
             )
+
+            "powershell" -> PowershellCompletionGenerator.generatePowershellCompletion(command = command)
 
             else -> BashCompletionGenerator.generateBashOrZshCompletion(
                 command = command,

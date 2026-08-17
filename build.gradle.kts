@@ -42,7 +42,8 @@ subprojects {
 
     tasks.withType<KotlinJvmCompile>().configureEach {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            // kotest 6 requires JVM target 11+, so only the published main compilations stay at 8
+            jvmTarget.set(if ("Test" in name) JvmTarget.JVM_11 else JvmTarget.JVM_1_8)
         }
     }
     tasks.withType<JavaCompile>().configureEach {

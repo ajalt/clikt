@@ -21,30 +21,25 @@ kotlin {
     iosX64()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":clikt"))
-                api(project(":clikt-mordant"))
-                api(project(":clikt-mordant-markdown"))
-                api(libs.mordant)
-                api(libs.mordant.markdown)
-            }
+        commonMain.dependencies {
+            api(project(":clikt"))
+            api(project(":clikt-mordant"))
+            api(project(":clikt-mordant-markdown"))
+            api(libs.mordant)
+            api(libs.mordant.markdown)
         }
 
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.kotest)
-                implementation(libs.coroutines.core)
-                implementation(libs.coroutines.test)
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotest)
+            implementation(libs.kotest.table)
+            implementation(libs.coroutines.core)
+            implementation(libs.coroutines.test)
         }
 
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.systemrules)
-                implementation(libs.jimfs)
-            }
+        jvmTest.dependencies {
+            implementation(libs.systemrules)
+            implementation(libs.jimfs)
         }
     }
 }

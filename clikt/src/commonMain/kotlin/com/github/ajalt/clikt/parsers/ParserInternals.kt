@@ -192,7 +192,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
 
     private fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
         if ("=" !in token) return false
-        if (prefix.isEmpty()) return false
+        if (prefix !in prefixes) return false
         if (prefix.length > 1) return true
         if (context.transformToken(
                 context,

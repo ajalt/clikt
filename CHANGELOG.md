@@ -4,6 +4,7 @@
 ### Changed
 - Update Kotlin to 2.4.21
 - Update Mordant to 3.1.1
+- Option names are now included in the typo suggestions for an excess argument, so a forgotten `--` prefix can produce a "Did you mean" hint. ([#586](https://github.com/ajalt/clikt/issues/586))
 
 ### Fixed
 - Fixed arguments containing `=` being parsed as options when they start with a prefix like `/` that no declared option uses. ([#634](https://github.com/ajalt/clikt/issues/634))

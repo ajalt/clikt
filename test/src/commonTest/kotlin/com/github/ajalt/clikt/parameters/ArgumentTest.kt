@@ -443,6 +443,18 @@ class ArgumentTest {
         C().parse("/foo")
     }
 
+    @[Test JsName("punctuation_in_arg_prefix_unix_style_with_equals")]
+    fun `punctuation in arg prefix unix style with equals`() {
+        class C : TestCommand() {
+            val x by argument()
+            override fun run_() {
+                x shouldBe "/some/path-with=sign/foo"
+            }
+        }
+
+        C().parse("/some/path-with=sign/foo")
+    }
+
     @[Test JsName("punctuation_in_arg_prefix_unix_style_error")]
     fun `punctuation in arg prefix unix style error`() {
         class C : TestCommand(called = false)

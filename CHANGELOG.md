@@ -5,6 +5,9 @@
 - Update Kotlin to 2.4.21
 - Update Mordant to 3.1.1
 
+### Fixed
+- Fixed arguments containing `=` being parsed as options when they start with a prefix like `/` that no declared option uses. ([#634](https://github.com/ajalt/clikt/issues/634))
+
 ## 5.1.0
 ### Added
 - Added parameter name to help output for ValueSource values. ([#631](https://github.com/ajalt/clikt/pull/631))

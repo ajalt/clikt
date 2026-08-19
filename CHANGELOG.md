@@ -7,6 +7,7 @@
 
 ### Fixed
 - Fixed arguments containing `=` being parsed as options when they start with a prefix like `/` that no declared option uses. ([#634](https://github.com/ajalt/clikt/issues/634))
+- Fixed help output marking `required()` options in a co-occurring option group as required even though the whole group is optional. ([#580](https://github.com/ajalt/clikt/issues/580))
 
 ## 5.1.0
 ### Added

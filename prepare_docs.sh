@@ -4,7 +4,7 @@
 # https://zensical.org/
 # Zensical requires Python to run.
 # Install the packages: `pip install zensical`
-# Build the api docs: `./gradlew dokkaGenerateHtml`
+# Build the api docs: `./gradlew dokkaGenerate`
 # Then run this script to prepare the docs for the website.
 # Finally, run `zensical serve` to preview the site locally or `zensical build` to build the site.
 

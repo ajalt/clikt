@@ -10,6 +10,7 @@
 - Fixed arguments containing `=` being parsed as options when they start with a prefix like `/` that no declared option uses. ([#634](https://github.com/ajalt/clikt/issues/634))
 - Fixed help output marking `required()` options in a co-occurring option group as required even though the whole group is optional. ([#580](https://github.com/ajalt/clikt/issues/580))
 - Fixed a duplicate `selfAndAncestors` symbol between the clikt and clikt-mordant modules that broke Kotlin/Native builds with compiler caches enabled. ([#598](https://github.com/ajalt/clikt/issues/598))
+- Fixed published JVM jars being named without a version in the Gradle cache and in `installDist` output.
 
 ## 5.1.0
 ### Added

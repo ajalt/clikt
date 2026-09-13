@@ -38,7 +38,8 @@ dependencies {
 }
 
 subprojects {
-    project.setProperty("VERSION_NAME", getPublishVersion())
+    version = getPublishVersion()
+    project.setProperty("VERSION_NAME", version)
 
     tasks.withType<KotlinJvmCompile>().configureEach {
         compilerOptions {

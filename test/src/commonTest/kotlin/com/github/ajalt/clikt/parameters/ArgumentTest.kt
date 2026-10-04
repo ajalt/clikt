@@ -443,6 +443,22 @@ class ArgumentTest {
         C().parse("/foo")
     }
 
+    @[Test JsName("punctuation_in_arg_prefix_unix_style_with_equals")]
+    fun `punctuation in arg prefix unix style with equals`() = forAll(
+        row("/foo=bar"),
+        row("/some/path-with=sign/foo")
+    ) { argv ->
+        class C : TestCommand() {
+            val x by argument()
+            val opt by option("-o")
+            override fun run_() {
+                x shouldBe argv
+            }
+        }
+
+        C().parse(argv)
+    }
+
     @[Test JsName("punctuation_in_arg_prefix_unix_style_error")]
     fun `punctuation in arg prefix unix style error`() {
         class C : TestCommand(called = false)
@@ -476,6 +492,24 @@ class ArgumentTest {
             }
         }
         shouldThrow<NoSuchOption> { C().parse("/foo") }
+        shouldThrow<NoSuchOption> { C().parse("/foo=bar") }
+    }
+
+    @[Test JsName("punctuation_in_arg_prefix_unix_style_with_equals_and_disabled_allowGroupedShortOptions")]
+    fun `punctuation in arg prefix unix style with equals and disabled allowGroupedShortOptions`() {
+        class C : TestCommand() {
+            init {
+                context { allowGroupedShortOptions = false }
+            }
+
+            val x by argument()
+            val opt by option("-o")
+            override fun run_() {
+                x shouldBe "/some/path-with=sign/foo"
+            }
+        }
+
+        C().parse("/some/path-with=sign/foo")
     }
 
     @[Test JsName("wrapValue_argument")]

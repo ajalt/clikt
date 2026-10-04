@@ -124,7 +124,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
                         prefix.length > 1 && prefix in prefixes
                                 || normTok in longNames
                                 || isLongOptionWithEquals(prefix, tok)
-                                || !context.allowGroupedShortOptions
+                                || (prefix in prefixes && !context.allowGroupedShortOptions)
                         ) -> {
                     consumeOptionParse(parseLongOpt(tok))
                 }
@@ -193,6 +193,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
     private fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
         if ("=" !in token) return false
         if (prefix.isEmpty()) return false
+        if (prefix !in prefixes) return false
         if (prefix.length > 1) return true
         if (context.transformToken(
                 context,

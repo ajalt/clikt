@@ -94,7 +94,7 @@ class Context private constructor(
      *
      * You can set this to read from a map or other source during tests.
      */
-    val readEnvvar: (String) -> String?,
+    val readEnvvar: ((String) -> String?)?,
     /**
      * A map holding arbitrary data on the context.
      *
@@ -381,11 +381,11 @@ class Context private constructor(
          *
          * You can set this to read from a map or other source during tests.
          */
-        var readEnvvar: (key: String) -> String? = parent?.readEnvvar ?: { null }
+        var readEnvvar: ((key: String) -> String?)? = parent?.readEnvvar
 
         @Suppress("unused")
         @Deprecated("Renamed to readEnvvar", ReplaceWith("readEnvvar"))
-        var envvarReader: (key: String) -> String?
+        var envvarReader: ((key: String) -> String?)?
             get() = readEnvvar
             set(value) {
                 readEnvvar = value

@@ -213,6 +213,12 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     }
 
     override fun postValidate(context: Context) {
+        if (envvar != null && context.readEnvvar == null) {
+            val optName = longestName() ?: names.firstOrNull() ?: ""
+            throw IllegalStateException(
+                "Cannot read from environment variable \"$envvar\" for option \"$optName\" without setting Context.readEnvvar"
+            )
+        }
         transformValidator(OptionTransformContext(this, context), value)
     }
 

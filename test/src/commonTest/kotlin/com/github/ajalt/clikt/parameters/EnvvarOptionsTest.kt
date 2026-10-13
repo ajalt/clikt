@@ -1,8 +1,10 @@
 package com.github.ajalt.clikt.parameters
 
 import com.github.ajalt.clikt.core.BadParameterValue
+import com.github.ajalt.clikt.core.CoreCliktCommand
 import com.github.ajalt.clikt.core.MutuallyExclusiveGroupException
 import com.github.ajalt.clikt.core.context
+import com.github.ajalt.clikt.core.parse
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.cooccurring
@@ -241,5 +243,58 @@ class EnvvarOptionsTest {
         shouldThrow<BadParameterValue> {
             C().withEnv("FOO" to "3").parse("")
         }.message shouldBe defaultLocalization.switchOptionEnvvar()
+    }
+
+    @[Test JsName("core_clikt_command_envvar_throws_without_readEnvvar")]
+    fun `core clikt command envvar throws without readEnvvar`() {
+        class C : CoreCliktCommand() {
+            val opt by option("-o", envvar = "TEST")
+            override fun run() = Unit
+        }
+
+        shouldThrow<IllegalStateException> {
+            C().parse(emptyList())
+        }.message shouldBe "Cannot read from environment variable \"TEST\" for option \"-o\" without setting Context.readEnvvar"
+    }
+
+    @[Test JsName("core_clikt_command_envvar_throws_on_postValidate_without_readEnvvar")]
+    fun `core clikt command envvar throws on postValidate without readEnvvar`() {
+        class C : CoreCliktCommand() {
+            val opt by option("-o", envvar = "TEST")
+            override fun run() = Unit
+        }
+
+        shouldThrow<IllegalStateException> {
+            C().parse(listOf("-o", "value"))
+        }.message shouldBe "Cannot read from environment variable \"TEST\" for option \"-o\" without setting Context.readEnvvar"
+    }
+
+    @[Test JsName("core_clikt_command_envvar_reads_when_readEnvvar_configured")]
+    fun `core clikt command envvar reads when readEnvvar configured`() {
+        class C : CoreCliktCommand() {
+            val opt by option("-o", envvar = "TEST")
+            override fun run() = Unit
+            init {
+                context {
+                    readEnvvar = { if (it == "TEST") "hello" else null }
+                }
+            }
+        }
+
+        val c = C()
+        c.parse(emptyList())
+        c.opt shouldBe "hello"
+    }
+
+    @[Test JsName("core_clikt_command_option_without_envvar_does_not_throw")]
+    fun `core clikt command option without envvar does not throw`() {
+        class C : CoreCliktCommand() {
+            val opt by option("-o")
+            override fun run() = Unit
+        }
+
+        val c = C()
+        c.parse(listOf("-o", "value"))
+        c.opt shouldBe "value"
     }
 }

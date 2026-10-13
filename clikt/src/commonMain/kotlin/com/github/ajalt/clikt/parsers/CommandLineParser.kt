@@ -200,6 +200,6 @@ private fun throwCompletionMessageIfRequested(
 
         else -> commandEnvvar
     }
-    val envval = context.readEnvvar(envvar) ?: return
+    val envval = context.readEnvvar?.invoke(envvar) ?: return
     throw PrintCompletionMessage(generateCompletionForCommand(command, envval))
 }

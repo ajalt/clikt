@@ -63,10 +63,14 @@ class ChoiceGroup<GroupT : OptionGroup, OutT> internal constructor(
             return
         }
 
-        val group = groups[key] ?: throw BadParameterValue(
-            context.localization.invalidGroupChoice(key, groups.keys.toList()),
-            option,
-        )
+        val group = groups[key] ?: run {
+            val keyList = groups.keys.toList()
+            val possibilities = context.suggestTypoCorrection(key, keyList)
+            throw BadParameterValue(
+                context.localization.invalidGroupChoice(key, keyList, possibilities),
+                option,
+            )
+        }
         group.finalize(context, invocationsByOption.filterKeys { it in group.options })
         chosenGroup = group
         value = transform(group)

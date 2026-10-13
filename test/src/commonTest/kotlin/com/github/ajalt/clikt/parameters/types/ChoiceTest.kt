@@ -28,11 +28,14 @@ class OptionChoiceTest {
             x shouldBe "bar"
         }
 
-        shouldThrow<BadParameterValue> { C().parse("--xx baz") }
-            .formattedMessage shouldBe "invalid value for --xx: invalid choice: baz. (choose from foo, bar)"
+        shouldThrow<BadParameterValue> { C().parse("-x qux") }
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: qux. (choose from foo, bar)"
 
-        shouldThrow<BadParameterValue> { C().parse("--xx FOO") }
-            .formattedMessage shouldBe "invalid value for --xx: invalid choice: FOO. (choose from foo, bar)"
+        shouldThrow<BadParameterValue> { C().parse("-x baz") }
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: baz. Did you mean bar?"
+
+        shouldThrow<BadParameterValue> { C().parse("-x FOO") }
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: FOO. (choose from foo, bar)"
     }
 
     @[Test JsName("choice_option_map")]
@@ -52,11 +55,11 @@ class OptionChoiceTest {
             x shouldBe 2
         }
 
-        shouldThrow<BadParameterValue> { C().parse("-x baz") }
-            .formattedMessage shouldBe "invalid value for -x: invalid choice: baz. (choose from foo, bar)"
+        shouldThrow<BadParameterValue> { C().parse("-x qux") }
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: qux. (choose from foo, bar)"
 
-        shouldThrow<BadParameterValue> { C().parse("--xx=baz") }
-            .formattedMessage shouldBe "invalid value for --xx: invalid choice: baz. (choose from foo, bar)"
+        shouldThrow<BadParameterValue> { C().parse("-x baz") }
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: baz. Did you mean bar?"
 
         shouldThrow<BadParameterValue> { C().parse("-x FOO") }
             .formattedMessage shouldBe "invalid value for -x: invalid choice: FOO. (choose from foo, bar)"
@@ -81,8 +84,11 @@ class OptionChoiceTest {
             y shouldBe 2
         }
 
+        shouldThrow<BadParameterValue> { C().parse("-xqux") }
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: qux. (choose from foo, bar)"
+
         shouldThrow<BadParameterValue> { C().parse("-xbaz") }
-            .formattedMessage shouldBe "invalid value for -x: invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "invalid value for -x: invalid choice: baz. Did you mean bar?"
     }
 
     @[Test JsName("choice_argument_strings")]
@@ -104,8 +110,11 @@ class OptionChoiceTest {
             x shouldBe "bar"
         }
 
+        shouldThrow<BadParameterValue> { C().parse("qux") }
+            .formattedMessage shouldBe "invalid value for X: invalid choice: qux. (choose from foo, bar)"
+
         shouldThrow<BadParameterValue> { C().parse("baz") }
-            .formattedMessage shouldBe "invalid value for X: invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "invalid value for X: invalid choice: baz. Did you mean bar?"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
             .formattedMessage shouldBe "invalid value for X: invalid choice: FOO. (choose from foo, bar)"
@@ -130,8 +139,11 @@ class OptionChoiceTest {
             x shouldBe 2
         }
 
+        shouldThrow<BadParameterValue> { C().parse("qux") }
+            .formattedMessage shouldBe "invalid value for X: invalid choice: qux. (choose from foo, bar)"
+
         shouldThrow<BadParameterValue> { C().parse("baz") }
-            .formattedMessage shouldBe "invalid value for X: invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "invalid value for X: invalid choice: baz. Did you mean bar?"
 
         shouldThrow<BadParameterValue> { C().parse("FOO") }
             .formattedMessage shouldBe "invalid value for X: invalid choice: FOO. (choose from foo, bar)"
@@ -156,7 +168,53 @@ class OptionChoiceTest {
             y shouldBe 2
         }
 
+        shouldThrow<BadParameterValue> { C().parse("qux foo") }
+            .formattedMessage shouldBe "invalid value for X: invalid choice: qux. (choose from foo, bar)"
+
         shouldThrow<BadParameterValue> { C().parse("baz foo") }
-            .formattedMessage shouldBe "invalid value for X: invalid choice: baz. (choose from foo, bar)"
+            .formattedMessage shouldBe "invalid value for X: invalid choice: baz. Did you mean bar?"
+    }
+
+    @[Test JsName("choice_typo_suggestions_single_option")]
+    fun `choice typo suggestions single option`() {
+        class C : TestCommand() {
+            val x: String? by option("-p").choice("android", "wasm", "linux")
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("-p andriod") }
+            .formattedMessage shouldBe "invalid value for -p: invalid choice: andriod. Did you mean android?"
+    }
+
+    @[Test JsName("choice_typo_suggestions_multiple_option")]
+    fun `choice typo suggestions multiple option`() {
+        class C : TestCommand() {
+            val x: String? by option("-p").choice("linuxX64", "linuxArm64", "macosX64")
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("-p linuxArm") }
+            .formattedMessage shouldBe "invalid value for -p: invalid choice: linuxArm. (Possible choices: linuxArm64, linuxX64)"
+    }
+
+    @[Test JsName("choice_typo_suggestions_argument")]
+    fun `choice typo suggestions argument`() {
+        class C : TestCommand() {
+            val x: String by argument().choice("android", "wasm", "linux")
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("andriod") }
+            .formattedMessage shouldBe "invalid value for X: invalid choice: andriod. Did you mean android?"
+    }
+
+    @[Test JsName("choice_typo_suggestions_insensitive")]
+    fun `choice typo suggestions insensitive`() {
+        class C : TestCommand() {
+            val x: String? by option("-p").choice("Android", "Wasm", "Linux", ignoreCase = true)
+        }
+
+        shouldThrow<BadParameterValue> { C().parse("-p andriod") }
+            .formattedMessage shouldBe "invalid value for -p: invalid choice: andriod. Did you mean Android?"
+
+        shouldThrow<BadParameterValue> { C().parse("-p ANDRIOD") }
+            .formattedMessage shouldBe "invalid value for -p: invalid choice: ANDRIOD. Did you mean Android?"
     }
 }

@@ -681,10 +681,12 @@ public abstract interface class com/github/ajalt/clikt/output/Localization {
 	public fun intConversionError (Ljava/lang/String;)Ljava/lang/String;
 	public fun intMetavar ()Ljava/lang/String;
 	public fun invalidChoice (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun invalidChoice (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Ljava/lang/String;
 	public fun invalidFileFormat (Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
 	public fun invalidFileFormat (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public fun invalidFlagValueInFile (Ljava/lang/String;)Ljava/lang/String;
 	public fun invalidGroupChoice (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public fun invalidGroupChoice (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Ljava/lang/String;
 	public fun missingArgument (Ljava/lang/String;)Ljava/lang/String;
 	public fun missingOption (Ljava/lang/String;)Ljava/lang/String;
 	public fun mutexGroupException (Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
@@ -742,10 +744,12 @@ public final class com/github/ajalt/clikt/output/Localization$DefaultImpls {
 	public static fun intConversionError (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun intMetavar (Lcom/github/ajalt/clikt/output/Localization;)Ljava/lang/String;
 	public static fun invalidChoice (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public static fun invalidChoice (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Ljava/lang/String;
 	public static fun invalidFileFormat (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;ILjava/lang/String;)Ljava/lang/String;
 	public static fun invalidFileFormat (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static fun invalidFlagValueInFile (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun invalidGroupChoice (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+	public static fun invalidGroupChoice (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Ljava/lang/String;
 	public static fun missingArgument (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun missingOption (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;)Ljava/lang/String;
 	public static fun mutexGroupException (Lcom/github/ajalt/clikt/output/Localization;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;

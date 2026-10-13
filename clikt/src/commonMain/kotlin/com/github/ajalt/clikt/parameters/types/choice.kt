@@ -13,8 +13,20 @@ private fun mvar(choices: Iterable<String>): String {
     return choices.joinToString("|", prefix = "(", postfix = ")")
 }
 
-private fun errorMessage(context: Context, choice: String, choices: Map<String, *>): String {
-    return context.localization.invalidChoice(choice, choices.keys.toList())
+private fun errorMessage(
+    context: Context,
+    choice: String,
+    choices: Map<String, *>,
+    ignoreCase: Boolean,
+): String {
+    val keyList = choices.keys.toList()
+    val possibilities = if (ignoreCase) {
+        val keyMap = choices.keys.associateBy { it.lowercase() }
+        context.suggestTypoCorrection(choice.lowercase(), keyMap.keys.toList()).mapNotNull { keyMap[it] }
+    } else {
+        context.suggestTypoCorrection(choice, keyList)
+    }
+    return context.localization.invalidChoice(choice, keyList, possibilities)
 }
 
 // arguments
@@ -37,7 +49,7 @@ fun <T : Any> RawArgument.choice(
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
     return convert(completionCandidates = Fixed(choices.keys)) {
-        c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices))
+        c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices, ignoreCase))
     }
 }
 
@@ -121,7 +133,7 @@ fun <T : Any> RawOption.choice(
     require(choices.isNotEmpty()) { "Must specify at least one choice" }
     val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
     return convert(metavar, completionCandidates = Fixed(choices.keys)) {
-        c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices))
+        c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices, ignoreCase))
     }
 }
 

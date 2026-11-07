@@ -4,6 +4,7 @@ import com.github.ajalt.clikt.core.*
 import com.github.ajalt.clikt.output.Localization
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.default
+import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
@@ -962,6 +963,94 @@ class OptionTest {
         shouldThrow<NoSuchOption> {
             C(false).parse("-xy")
         }.formattedMessage shouldBe "no such option -xy. Did you mean -x?"
+    }
+
+    @[Test JsName("no_such_option_with_no_options")]
+    fun `no such option with command that has no options`() {
+        // https://github.com/ajalt/clikt/issues/593
+        class C : TestCommand(called = false, noHelp = true)
+
+        shouldThrow<NoSuchOption> {
+            C().parse("-g")
+        }.formattedMessage shouldBe "no such option -g"
+
+        shouldThrow<NoSuchOption> {
+            C().parse("--great-game")
+        }.formattedMessage shouldBe "no such option --great-game"
+
+        shouldThrow<NoSuchOption> {
+            C().parse("--great-game=1")
+        }.formattedMessage shouldBe "no such option --great-game"
+
+        // `--` still ends option parsing
+        class A : TestCommand(noHelp = true) {
+            val x by argument()
+            override fun run_() {
+                x shouldBe "-g"
+            }
+        }
+        A().parse("-- -g")
+    }
+
+    @[Test JsName("custom_option_prefixes")]
+    fun `custom option prefixes`() {
+        class C(called: Boolean) : TestCommand(called) {
+            init {
+                context { optionPrefixes = setOf("--") }
+            }
+
+            val g by option("-g").flag()
+            val args by argument().multiple()
+
+            override fun run_() {
+                args shouldBe emptyList<String>()
+            }
+        }
+
+        // registered option prefixes are unchanged
+        with(C(true).parse("-g")) { g shouldBe true }
+
+        shouldThrow<NoSuchOption> {
+            C(false).parse("--great-game")
+        }.formattedMessage shouldBe "no such option --great-game"
+    }
+
+    @[Test JsName("custom_option_prefix_character")]
+    fun `custom option prefix character`() {
+        class C(called: Boolean = true) : TestCommand(called, noHelp = true) {
+            init {
+                context { optionPrefixes = setOf("+") }
+            }
+
+            val args by argument().multiple()
+
+            override fun run_() {
+                args shouldBe listOf("-x")
+            }
+        }
+
+        shouldThrow<NoSuchOption> {
+            C(false).parse("+x")
+        }.formattedMessage shouldBe "no such option +x"
+
+        C().parse("-x")
+    }
+
+    @[Test JsName("empty_option_prefixes")]
+    fun `empty option prefixes treats option-like tokens as arguments`() {
+        class C : TestCommand(noHelp = true) {
+            init {
+                context { optionPrefixes = emptySet() }
+            }
+
+            val args by argument().multiple()
+
+            override fun run_() {
+                args shouldBe listOf("-x", "--foo")
+            }
+        }
+
+        C().parse("-x --foo")
     }
 }
 

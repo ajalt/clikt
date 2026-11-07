@@ -994,6 +994,19 @@ You'll often want to set [`allowInterspersedArgs = false`][allowInterspersedArgs
 when using `treatUnknownOptionsAsArgs`. You may also find that subcommands are a better fit than
 `treatUnknownOptionsAsArgs` for your use case.
 
+## Option Prefixes
+
+By default, a token is only treated as an option if it uses the prefix of one of the command's
+registered options. If a command has no options at all (for example after setting
+[`helpOptionNames = emptySet()`][Context.helpOptionNames]), the prefixes `-` and `--` are assumed,
+so option-like tokens are reported as unknown options rather than being parsed as arguments.
+
+You can customize the prefixes with [`optionPrefixes`][Context.optionPrefixes] on your Context. A
+non-empty set is used in addition to the prefixes of the command's registered options. For example,
+a command that only has short options can set `optionPrefixes = setOf("--")` to reject long
+options. Setting it to an empty set on a command without options restores the old behavior of
+treating all tokens as arguments.
+
 ## Values From Environment Variables
 
 Clikt supports reading option values from environment variables if they
@@ -1231,6 +1244,8 @@ val opt: Pair<Int, Int> by option("-o", "--opt")
 [CliktCommand.main]:           api/clikt/com.github.ajalt.clikt.core/main.html
 [CliktCommand.registerOption]: api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/register-option.html
 [co-occurring-option-groups]:  #co-occurring-option-groups
+[Context.helpOptionNames]:     api/clikt/com.github.ajalt.clikt.core/-context/-builder/help-option-names.html
+[Context.optionPrefixes]:      api/clikt/com.github.ajalt.clikt.core/-context/-builder/option-prefixes.html
 [Context.valueSource]:         api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-source.html
 [Context.valueSources]:        api/clikt/com.github.ajalt.clikt.core/-context/-builder/value-sources.html
 [context]:                     api/clikt/com.github.ajalt.clikt.core/context.html

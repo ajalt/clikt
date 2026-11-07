@@ -35,6 +35,13 @@ class Context private constructor(
      */
     val allowGroupedShortOptions: Boolean,
     /**
+     * Additional prefixes that identify command line tokens as options, or null to infer the
+     * prefixes from the command's registered option names.
+     *
+     * @see Context.Builder.optionPrefixes
+     */
+    val optionPrefixes: Set<String>?,
+    /**
      * The prefix to add to inferred envvar names. If null, the prefix is based on the
      *   parent's prefix, if there is one. If no command specifies, a prefix, envvar lookup is disabled.
      */
@@ -261,6 +268,27 @@ class Context private constructor(
         var allowGroupedShortOptions: Boolean = true
 
         /**
+         * Additional prefixes that identify command line tokens as options.
+         *
+         * By default, tokens are only treated as options if they use the prefix of one of the
+         * command's registered options (or the help option). This means that for a command that
+         * has no options at all, tokens like `--foo` are treated as arguments.
+         *
+         * Setting this property changes that behavior:
+         *
+         * * If it's null (the default) and the command has no options, the prefixes `-` and `--`
+         *   are assumed, so option-like tokens are reported as unknown options.
+         * * If it's non-empty, those prefixes are used in addition to the prefixes of the
+         *   command's registered options. For example, a command that only has short options can
+         *   set this to `setOf("--")` to reject long options.
+         * * If it's empty and the command has no options, all tokens are treated as arguments,
+         *   even if they start with `-`.
+         *
+         * Tokens starting with `--` are still treated as the end-of-options marker.
+         */
+        var optionPrefixes: Set<String>? = null
+
+        /**
          * Set this to false to prevent extra messages from being printed automatically.
          *
          * You can still access them at [messages][BaseCliktCommand.messages] inside of
@@ -435,6 +463,7 @@ class Context private constructor(
                     command = command,
                     allowInterspersedArgs = interspersed,
                     allowGroupedShortOptions = allowGroupedShortOptions,
+                    optionPrefixes = optionPrefixes,
                     autoEnvvarPrefix = autoEnvvarPrefix,
                     printExtraMessages = printExtraMessages,
                     helpOptionNames = helpOptionNames.toSet(),

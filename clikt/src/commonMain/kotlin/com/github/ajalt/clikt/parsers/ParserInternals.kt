@@ -178,6 +178,13 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             }
         }
         prefixes.remove("")
+        context.optionPrefixes?.let { prefixes += it }
+        if (prefixes.isEmpty() && context.optionPrefixes == null) {
+            // The command has no options and no explicit prefixes were configured. Assume the
+            // usual prefixes so that option-like tokens are reported as unknown options instead
+            // of being parsed as arguments.
+            prefixes += setOf("-", "--")
+        }
     }
 
     private fun makeResult(): CommandParseResult<T> {

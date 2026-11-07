@@ -236,6 +236,48 @@ class OptionGroupsTest {
         C().parse(argv)
     }
 
+    @[Test JsName("mutually_exclusive_group_unused_options_not_converted")]
+    fun `mutually exclusive group does not convert unused options`() = forAll(
+        row("--save=x", "save:x", listOf("save")),
+        row("--show", "show", listOf("show")),
+        row("--print", "print", listOf("print")),
+        row("", null, emptyList())
+    ) { argv, eg, converted ->
+        val conversions = mutableListOf<String>()
+
+        class C : TestCommand() {
+            val g by mutuallyExclusiveOptions(
+                option("--save").convert { conversions += "save"; "save:$it" },
+                option("--show").flag().convert { conversions += "show"; "show" },
+                option("--print").flag().convert { conversions += "print"; "print" },
+            ).single()
+
+            override fun run_() {
+                g shouldBe eg
+            }
+        }
+
+        C().parse(argv)
+        conversions shouldBe converted
+    }
+
+    @[Test JsName("mutually_exclusive_group_required_unused_options_not_converted")]
+    fun `mutually exclusive group required does not convert unused options`() {
+        val conversions = mutableListOf<String>()
+
+        class C : TestCommand(called = false) {
+            val g by mutuallyExclusiveOptions(
+                option("--save").convert { conversions += "save"; "save:$it" },
+                option("--show").flag().convert { conversions += "show"; "show" },
+                option("--print").flag().convert { conversions += "print"; "print" },
+            ).single().required()
+        }
+
+        shouldThrow<UsageError> { C().parse("") }
+            .formattedMessage shouldBe "must provide one of --save, --show, --print"
+        conversions shouldBe emptyList()
+    }
+
     @[Test JsName("co_occurring_option_group")]
     fun `co-occurring option group`() = forAll(
         row("", false, null, null, false),

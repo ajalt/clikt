@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Fixed
+- Fixed the converters of unused options in a `mutuallyExclusiveOptions` group being called during finalization. Unused options in a group are no longer finalized at all, so their delegates remain unset. ([#629](https://github.com/ajalt/clikt/issues/629))
 
 ## 5.1.0
 ### Added

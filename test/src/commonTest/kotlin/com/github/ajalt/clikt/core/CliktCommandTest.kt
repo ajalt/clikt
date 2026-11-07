@@ -247,7 +247,8 @@ class CliktCommandTest {
             "<Cmd name=cmd options=[--option, --foo, --bar, --e1, --e2]>"
         )
         Cmd().parse("-oo --foo=f --e1=1").toString().shouldBe(
-            "<Cmd name=cmd options=[--option=o, --foo=f, --bar=null, --e1=1, --e2=null]>"
+            // --e2 was not used, so it was never finalized and has no value to render
+            "<Cmd name=cmd options=[--option=o, --foo=f, --bar=null, --e1=1, --e2]>"
         )
     }
 

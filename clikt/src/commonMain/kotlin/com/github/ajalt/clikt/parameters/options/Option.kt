@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.core.GroupableOption
 import com.github.ajalt.clikt.core.ParameterHolder
 import com.github.ajalt.clikt.core.StaticallyGroupedOption
 import com.github.ajalt.clikt.output.HelpFormatter
+import com.github.ajalt.clikt.parameters.groups.CoOccurringOptionGroup
 import com.github.ajalt.clikt.parsers.OptionInvocation
 import com.github.ajalt.clikt.sources.ValueSource
 import kotlin.properties.PropertyDelegateProvider
@@ -63,7 +64,7 @@ interface Option {
             metavar(context),
             optionHelp(context),
             nvalues,
-            helpTags,
+            this.withoutCooccurringRequiredTag(),
             acceptsNumberValueWithoutName,
             acceptsUnattachedValue,
             groupName = (this as? StaticallyGroupedOption)?.groupName
@@ -86,6 +87,19 @@ interface Option {
      * Called after all of a command's parameters have been [finalize]d to perform validation of the final value.
      */
     fun postValidate(context: Context)
+}
+
+/**
+ * Options in a co-occurring group are only required when at least one option in the group is given
+ * on the command line, so it's the group as a whole that's required, not each option in it. Don't
+ * tag the individual options as required in help output.
+ */
+private fun Option.withoutCooccurringRequiredTag(): Map<String, String> {
+    return if ((this as? GroupableOption)?.parameterGroup is CoOccurringOptionGroup<*, *>) {
+        helpTags - HelpFormatter.Tags.REQUIRED
+    } else {
+        helpTags
+    }
 }
 
 /** An option that functions as a property delegate */

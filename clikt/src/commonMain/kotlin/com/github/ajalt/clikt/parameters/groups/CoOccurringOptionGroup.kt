@@ -74,6 +74,9 @@ class CoOccurringOptionGroup<GroupT : OptionGroup, OutT> internal constructor(
  * options in the group are given on the command line, the group is null and none of the `required`
  * constraints are enforced. If any option in the group is given, all `required` options in the
  * group must be given as well.
+ *
+ * Since it's the group as a whole that's required, options in a co-occurring group are not marked
+ * as required in help output.
  */
 fun <T : OptionGroup> T.cooccurring(): CoOccurringOptionGroup<T, T?> {
     return CoOccurringOptionGroup(this) { occurred, g, _ ->

@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Fixed
+- Fixed options in co-occurring groups being marked as required in help output. ([#653](https://github.com/ajalt/clikt/pull/653))
 
 ## 5.1.0
 ### Added

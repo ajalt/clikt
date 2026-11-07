@@ -529,6 +529,56 @@ class MordantHelpFormatterTest {
         )
     }
 
+    @[Test JsName("co_occurring_option_group")]
+    fun `co-occurring option group`() {
+        class G : OptionGroup("Cert Store") {
+            val cert by option("--cert", help = "the client certificate store path").required()
+            val password by option("--password", help = "the client certificate store password")
+        }
+
+        class C : TestCommand(name = "prog") {
+            val g by G().cooccurring()
+        }
+
+        val command = C()
+        command.context { helpFormatter = { MordantHelpFormatter(it, showRequiredTag = true) } }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Cert Store:
+            |  --cert=<text>      the client certificate store path
+            |  --password=<text>  the client certificate store password
+            """,
+            command = command
+        )
+    }
+
+    @[Test JsName("co_occurring_option_group_marker")]
+    fun `co-occurring option group required marker`() {
+        class G : OptionGroup() {
+            val cert by option("--cert", help = "the client certificate store path").required()
+            val password by option("--password", help = "the client certificate store password")
+        }
+
+        class C : TestCommand(name = "prog") {
+            val g by G().cooccurring()
+        }
+
+        val command = C()
+        command.context { helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") } }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  --cert=<text>      the client certificate store path
+            |  --password=<text>  the client certificate store password
+            """,
+            command = command
+        )
+    }
+
     @[Test JsName("eager_options")]
     fun `eager options`() {
         c.versionOption("1.0")

@@ -609,6 +609,9 @@ Co-occurring groups must have at least one
 have non-required options. The `required` constraint is enforced if any of the options in the group
 are given on the command line. If none of the options are given, the value of the group is null.
 
+Since it's the group as a whole that's required, options in a co-occurring group are not marked as
+required in the help output.
+
 === "Example"
     ```kotlin
     class UserOptions : OptionGroup() {

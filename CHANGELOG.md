@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Added `Context.Builder.optionPrefixes` to customize the prefixes that identify option tokens. Tokens are now reported as unknown options instead of arguments for commands with no registered options. ([#593](https://github.com/ajalt/clikt/issues/593))
 
 ## 5.1.0
 ### Added

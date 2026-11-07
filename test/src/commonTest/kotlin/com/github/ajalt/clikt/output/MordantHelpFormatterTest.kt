@@ -45,6 +45,7 @@ class MordantHelpFormatterTest {
         row(listOf(c.option("-x")), "Usage: prog [<options>]"),
         row(listOf(c.argument("foo").optional()), "Usage: prog [<foo>]"),
         row(listOf(c.argument("foo")), "Usage: prog <foo>"),
+        row(listOf(c.argument("foo").choice("c1", "c2")), "Usage: prog (c1|c2)"),
         row(listOf(c.argument("foo").multiple()), "Usage: prog [<foo>]..."),
         row(listOf(c.argument("foo").multiple(required = true)), "Usage: prog <foo>..."),
         row(
@@ -388,6 +389,38 @@ class MordantHelpFormatterTest {
             |Arguments:
             |  <foo>  some thing to live by
             |  <bar>  another argument
+            """,
+            command = C()
+        )
+    }
+
+    @[Test JsName("help_output_choice_argument")]
+    fun `choice argument`() {
+        class C : TestCommand(name = "prog") {
+            val foo by argument(help = "the value to use").choice("c1", "c2")
+        }
+        doTest(
+            """
+            |Usage: prog (c1|c2)
+            |
+            |Arguments:
+            |  (c1|c2)  the value to use
+            """,
+            command = C()
+        )
+    }
+
+    @[Test JsName("help_output_choice_argument_without_help")]
+    fun `choice argument without help`() {
+        class C : TestCommand(name = "prog") {
+            val foo by argument().choice("c1", "c2")
+        }
+        doTest(
+            """
+            |Usage: prog (c1|c2)
+            |
+            |Arguments:
+            |  (c1|c2)
             """,
             command = C()
         )

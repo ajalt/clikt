@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.2.0
 ### Changed
 - Update Kotlin to 2.4.21
 - Update Mordant to 3.1.1

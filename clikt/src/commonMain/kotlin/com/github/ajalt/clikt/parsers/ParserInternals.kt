@@ -192,7 +192,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
 
     private fun isLongOptionWithEquals(prefix: String, token: String): Boolean {
         if ("=" !in token) return false
-        if (prefix.isEmpty()) return false
+        if (prefix !in prefixes) return false
         if (prefix.length > 1) return true
         if (context.transformToken(
                 context,
@@ -345,8 +345,10 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             excessCount == 0 -> {}
             excessCount == 1 && localSubcommands.isNotEmpty() -> {
                 val actual = argumentTokens.last()
+                val candidates =
+                    localSubcommands.keys + optionsByName.filterNot { it.value.hidden }.keys
                 val possibilities = command.currentContext.suggestTypoCorrection(
-                    actual, localSubcommands.keys.toList()
+                    actual, candidates.toList()
                 )
                 errors += NoSuchSubcommand(actual, possibilities)
             }

@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.arguments.pair
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parsers.CommandInvocation
@@ -321,6 +322,20 @@ class SubcommandTest {
         }.formattedMessage shouldBe message
     }
 
+
+    @[Test JsName("noSuchSubcommand_with_option_possibility")]
+    fun `noSuchSubcommand with option possibility`() = forAll(
+        row("verbose", "no such subcommand verbose. Did you mean --verbose?"),
+        row("help", "no such subcommand help. Did you mean --help?"),
+    ) { argv, message ->
+        class C : TestCommand(called = false) {
+            val verbose by option().flag()
+        }
+
+        shouldThrow<NoSuchSubcommand> {
+            C().subcommands(TestCommand(name = "foo", called = false)).parse(argv)
+        }.formattedMessage shouldBe message
+    }
 
     @[Test JsName("subcommand_cycle")]
     fun `subcommand cycle`() {

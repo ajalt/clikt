@@ -30,11 +30,9 @@ kotlin {
     tvosSimulatorArm64()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":clikt"))
-                api(libs.mordant)
-            }
+        commonMain.dependencies {
+            api(project(":clikt"))
+            api(libs.mordant)
         }
     }
 }

@@ -13,12 +13,14 @@ on:
       - 'docs/**'
       - 'samples/**'
       - '*.md'
+  workflow_dispatch:
 
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ macos-latest, windows-latest, ubuntu-latest ]
+        os: [macos-latest, windows-latest, ubuntu-latest]
         include:
           - os: macos-latest
             TEST_TASK: macosArm64Test
@@ -28,37 +30,35 @@ jobs:
             TEST_TASK: apiCheck check
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@v6
       - run: ./gradlew ${{matrix.TEST_TASK}} --stacktrace
       - name: Upload the build report
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v7
         with:
           name: build-report-${{ matrix.os }}
           path: '**/build/reports'
-  publish:
+
+  publish-snapshot:
     needs: test
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/master' && github.repository == 'ajalt/clikt' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@v6
       - name: Deploy to sonatype
-        uses: gradle/actions/setup-gradle@v4
-      # disable configuration cache due to https://github.com/gradle/gradle/issues/22779
-      - run: ./gradlew publishToMavenCentral -PsnapshotVersion=true --no-configuration-cache
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralPassword }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralUsername }}
-
-env:
-  GRADLE_OPTS: -Dorg.gradle.configureondemand=true -Dorg.gradle.parallel=true -Dkotlin.incremental=false -Dorg.gradle.project.kotlin.incremental.multiplatform=false -Dorg.gradle.project.kotlin.native.disableCompilerDaemon=true -Dorg.gradle.jvmargs="-Xmx12g -Dfile.encoding=UTF-8"
+        # disable configuration cache due to https://github.com/gradle/gradle/issues/22779
+        run: ./gradlew publishToMavenCentral -PsnapshotVersion=true --no-configuration-cache
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralPassword }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralUsername }}

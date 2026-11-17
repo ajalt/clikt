@@ -1,4 +1,4 @@
-/* Custom CSS for mkdocs */
+/* Custom CSS for the website theme */
 
 .md-header__topic {
     color: transparent;
@@ -6,4 +6,11 @@
 
 .md-header .md-logo img {
     width: 83px;
+}
+
+/* The modern theme variant keeps the header neutral; color it with the palette
+   primary like the classic variant did */
+.md-header {
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
 }

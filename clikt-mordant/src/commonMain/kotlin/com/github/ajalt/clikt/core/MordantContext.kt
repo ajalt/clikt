@@ -12,7 +12,7 @@ import com.github.ajalt.mordant.terminal.Terminal
 val Context.terminal: Terminal
     get() = findObject(TERMINAL_KEY) ?: Terminal().also {
         // Set the terminal on the root so that we don't create multiple
-        selfAndAncestors().last().data[TERMINAL_KEY] = it
+        rootContext().data[TERMINAL_KEY] = it
     }
 
 /** The current terminal's theme */
@@ -30,7 +30,7 @@ var Context.Builder.terminal: Terminal
     }
 
 
-internal fun Context.selfAndAncestors() = generateSequence(this) { it.parent }
+private fun Context.rootContext() = generateSequence(this) { it.parent }.last()
 
 
 /**

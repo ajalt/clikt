@@ -86,6 +86,21 @@ class EnumTest {
         C().parse(argv)
     }
 
+    @[Test JsName("enum_option_key_with_default")]
+    fun `enum option key with default`() = forAll(
+        row("", TestEnum.B),
+        row("-xAz", TestEnum.A),
+        row("-xBz", TestEnum.B)
+    ) { argv, expected ->
+        class C : TestCommand() {
+            val x: TestEnum by option("-x").enum<TestEnum> { it.name + "z" }.default(TestEnum.B)
+            override fun run_() {
+                x shouldBe expected
+            }
+        }
+        C().parse(argv)
+    }
+
     @[Test JsName("enum_argument")]
     fun `enum argument`() = forAll(
         row("", null, emptyList()),

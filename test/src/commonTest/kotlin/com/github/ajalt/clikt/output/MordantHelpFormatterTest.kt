@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.groups.*
 import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.transform.theme
 import com.github.ajalt.clikt.parameters.types.choice
+import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.testing.TestCommand
 import com.github.ajalt.clikt.testing.test
@@ -23,6 +24,8 @@ import kotlin.test.Test
 
 @Suppress("unused")
 class MordantHelpFormatterTest {
+    private enum class TestLogLevel { DEBUG, INFO, WARN }
+
     private val c = TestCommand(name = "prog")
     private fun doTest(
         expected: String,
@@ -626,6 +629,46 @@ class MordantHelpFormatterTest {
             |Options:
             |  -a, --aa=<text>  aa option help
             |  -b, --bb=<text>  bb option help (default: 123)
+            """
+        )
+    }
+
+    @[Test JsName("default_option_tag_enum_key")]
+    fun `default option tag enum key`() {
+        class C : TestCommand(name = "prog") {
+            val log by option("-l", "--log-level", help = "Set the log level")
+                .enum<TestLogLevel> { it.name.lowercase() }
+                .default(TestLogLevel.INFO)
+        }
+
+        val command = C().context {
+            helpFormatter = { MordantHelpFormatter(it, showDefaultValues = true) }
+        }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -l, --log-level=(debug|info|warn)  Set the log level (default: info)
+            """,
+            command = command
+        )
+    }
+
+    @[Test JsName("default_option_tag_choice_key")]
+    fun `default option tag choice key`() {
+        c.registerOption(
+            c.option("--oo", "-o", help = "oo option help")
+                .choice(mapOf("one" to 1, "two" to 2))
+                .default(2)
+        )
+        c.context { helpFormatter = { MordantHelpFormatter(it, showDefaultValues = true) } }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -o, --oo=(one|two)  oo option help (default: two)
             """
         )
     }

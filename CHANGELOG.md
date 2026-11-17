@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fixed enum and choice option default values being shown with `toString()` instead of the key mapping in help output when `showDefaultValues` is enabled. ([#581](https://github.com/ajalt/clikt/issues/581))
+
 ## 5.2.0
 ### Changed
 - Update Kotlin to 2.4.21

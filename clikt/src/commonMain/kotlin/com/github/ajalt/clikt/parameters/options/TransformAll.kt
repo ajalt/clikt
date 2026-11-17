@@ -50,7 +50,11 @@ fun <AllT, EachT, ValueT> NullableOption<EachT, ValueT>.transformAll(
  *
  * This must be applied after all other transforms.
  *
- * You can customize how the default is shown to the user with [defaultForHelp].
+ * You can customize how the default is shown to the user with [defaultForHelp]. By default, the
+ * value is converted with the option's [valueToString] function, which converters like
+ * [choice][com.github.ajalt.clikt.parameters.types.choice] and
+ * [enum][com.github.ajalt.clikt.parameters.types.enum] set based on the keys their values are
+ * mapped from. If no such function was set, the value's `toString()` is used.
  *
  * If you need to compute the default lazily, use [defaultLazy].
  *
@@ -62,7 +66,7 @@ fun <AllT, EachT, ValueT> NullableOption<EachT, ValueT>.transformAll(
  */
 fun <EachT : Any, ValueT> NullableOption<EachT, ValueT>.default(
     value: EachT,
-    defaultForHelp: String = value.toString(),
+    defaultForHelp: String = valueToString(value),
 ): OptionWithValues<EachT, EachT, ValueT> {
     return transformAll(defaultForHelp) { it.lastOrNull() ?: value }
 }

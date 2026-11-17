@@ -64,6 +64,52 @@ class OptionTest {
         }.formattedMessage shouldBe message
     }
 
+    @[Test JsName("no_such_option_with_typographic_dash")]
+    fun `no such option with typographic dash`() = forAll(
+        // en dash and em dash can result from copying `--dev` out of rendered Markdown (#585)
+        row("–dev", "no such option –dev. Did you mean --dev?"),
+        row("—dev", "no such option —dev. Did you mean --dev?"),
+        row("–-dev", "no such option –-dev. Did you mean --dev?"),
+        row("––dev", "no such option ––dev. Did you mean --dev?"),
+        row("–d", "no such option –d. Did you mean -d?"),
+    ) { argv, message ->
+        class C : TestCommand(called = false) {
+            val dev by option()
+            val d by option("-d")
+        }
+
+        val exception = shouldThrow<NoSuchOption> {
+            C().parse(argv)
+        }
+        exception.formattedMessage shouldBe message
+        exception.statusCode shouldBe 1
+    }
+
+    @[Test JsName("typographic_dash_token_not_matching_option_is_excess_argument")]
+    fun `typographic dash token not matching option is excess argument`() = forAll(
+        row("–nope", "got unexpected extra argument (–nope)"),
+        row("–dev extra", "got unexpected extra arguments (–dev extra)"),
+    ) { argv, message ->
+        class C : TestCommand(called = false) {
+            val foo by option()
+        }
+
+        shouldThrow<NoSuchArgument> {
+            C().parse(argv)
+        }.formattedMessage shouldBe message
+    }
+
+    @[Test JsName("typographic_dash_token_is_still_consumed_as_argument")]
+    fun `typographic dash token is still consumed as argument`() {
+        class C : TestCommand() {
+            val arg by argument()
+        }
+
+        val c = C()
+        c.parse("–dev")
+        c.arg shouldBe "–dev"
+    }
+
     @[Test JsName("no_such_option_custom_localization")]
     fun `no such option custom localization`() {
         class L : Localization {

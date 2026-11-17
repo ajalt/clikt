@@ -109,6 +109,16 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
     /** A function to split option values on before conversion */
     val valueSplit: (String) -> List<String>
 
+    /**
+     * A function that returns the command line string for a value of this option.
+     *
+     * This is used to display default values in help output, so that a default value is shown as
+     * the value a user would pass on the command line. Converters like
+     * [choice][com.github.ajalt.clikt.parameters.types.choice] set this based on the keys their
+     * values are mapped from. The default is the value's `toString()`.
+     */
+    val valueToString: (Any?) -> String
+
     /** Create a new option that is a copy of this one with different transforms. */
     fun <AllT, EachT, ValueT> copy(
         transformValue: ValueTransformer<ValueT>,
@@ -124,6 +134,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         valueSourceKey: String? = this.valueSourceKey,
         envvar: String? = this.envvar,
         valueSplit: (String) -> List<String> = this.valueSplit,
+        valueToString: (Any?) -> String = this.valueToString,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
@@ -143,6 +154,7 @@ interface OptionWithValues<AllT, EachT, ValueT> : OptionDelegate<AllT> {
         envvar: String? = this.envvar,
         valueSourceKey: String? = this.valueSourceKey,
         valueSplit: (String) -> List<String> = this.valueSplit,
+        valueToString: (Any?) -> String = this.valueToString,
         completionCandidates: CompletionCandidates? = explicitCompletionCandidates,
         secondaryNames: Set<String> = this.secondaryNames,
         acceptsNumberValueWithoutName: Boolean = this.acceptsNumberValueWithoutName,
@@ -162,6 +174,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
     override val valueSourceKey: String?,
     override val envvar: String?,
     override val valueSplit: (String) -> List<String>,
+    override val valueToString: (Any?) -> String,
     override val explicitCompletionCandidates: CompletionCandidates?,
     override val secondaryNames: Set<String>,
     override val acceptsNumberValueWithoutName: Boolean,
@@ -231,6 +244,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         valueSourceKey: String?,
         envvar: String?,
         valueSplit: (String) -> List<String>,
+        valueToString: (Any?) -> String,
         completionCandidates: CompletionCandidates?,
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
@@ -247,6 +261,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             valueSourceKey = valueSourceKey,
             envvar = envvar,
             valueSplit = valueSplit,
+            valueToString = valueToString,
             explicitCompletionCandidates = completionCandidates,
             secondaryNames = secondaryNames,
             acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
@@ -271,6 +286,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
         envvar: String?,
         valueSourceKey: String?,
         valueSplit: (String) -> List<String>,
+        valueToString: (Any?) -> String,
         completionCandidates: CompletionCandidates?,
         secondaryNames: Set<String>,
         acceptsNumberValueWithoutName: Boolean,
@@ -287,6 +303,7 @@ private class OptionWithValuesImpl<AllT, EachT, ValueT>(
             valueSourceKey = valueSourceKey,
             envvar = envvar,
             valueSplit = valueSplit,
+            valueToString = valueToString,
             explicitCompletionCandidates = completionCandidates,
             secondaryNames = secondaryNames,
             acceptsNumberValueWithoutName = acceptsNumberValueWithoutName,
@@ -361,6 +378,7 @@ fun ParameterHolder.option(
     valueSourceKey = valueSourceKey,
     envvar = envvar,
     valueSplit = ::listOf,
+    valueToString = { it.toString() },
     explicitCompletionCandidates = completionCandidates,
     secondaryNames = emptySet(),
     acceptsNumberValueWithoutName = false,

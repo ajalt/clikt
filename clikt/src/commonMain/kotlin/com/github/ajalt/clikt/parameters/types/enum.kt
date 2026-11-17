@@ -40,7 +40,7 @@ inline fun <reified T : Enum<T>> RawArgument.enum(
  * ```
  *
  * @param key A block that returns the command line value to use for an enum value. The default is
- *   the enum name.
+ *   the enum name. It is also used to display default values in help output.
  */
 inline fun <reified T : Enum<T>> RawOption.enum(
     ignoreCase: Boolean = true,

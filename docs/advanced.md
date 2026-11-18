@@ -614,6 +614,10 @@ Clikt supports the following platforms:
 
 There are some JVM-only extensions available such as [file][file] and [path][path] parameter types.
 
+On Java 24 and newer, launch with `--enable-native-access=ALL-UNNAMED`. Mordant's native terminal
+detection uses restricted native calls and triggers JEP 472 warnings until that flag is set. See
+[Native Access on Java 24 and Newer][native-access] and the [Mordant guide][mordant-jvm].
+
 ### Desktop native (Linux, Windows, and macOS)
 
 ### JavaScript and WasmJS
@@ -657,6 +661,8 @@ available.
 [grouping-options]:              documenting.md#grouping-options-in-help
 [main]:                          api/clikt/com.github.ajalt.clikt.core/main.html
 [markdown module]:               documenting.md#markdown-in-help-texts
+[mordant-jvm]:                   https://ajalt.github.io/mordant/guide/#__tabbed_1_2
+[native-access]:                 quickstart.md#native-access-on-java-24-and-newer
 [parse]:                         api/clikt/com.github.ajalt.clikt.core/parse.html
 [path]:                          api/clikt/com.github.ajalt.clikt.parameters.types/path.html
 [prompt]:                        options.md#prompting-for-input

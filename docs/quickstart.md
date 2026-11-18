@@ -186,13 +186,40 @@ Another approach is to use the `installDist` task provided by the plugin. This b
 distribution scripts in your build folder, which you can then execute normally. See Clikt's
 [runsample][runsample] script for an example of this approach.
 
+### Native Access on Java 24 and Newer
+
+Clikt uses Mordant's native terminal detection (FFM or JNA), which triggers JEP 472
+restricted-method warnings on Java 24 and newer unless `--enable-native-access=ALL-UNNAMED` is
+enabled. Even `--help` can print `WARNING: A restricted method in java.lang.System has been
+called`, or a similar warning from the Foreign Function & Memory API.
+
+If you use Gradle's [application plugin][application_plugin], add the flag to the application's
+default JVM arguments, which apply to the `run` task and the generated start scripts:
+
+```kotlin
+application {
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
+}
+```
+
+For an executable JAR launched with `java -jar`, add the same permission to `MANIFEST.MF`:
+
+```
+Enable-Native-Access: ALL-UNNAMED
+```
+
+See the [Mordant JVM documentation][mordant-jvm], or use the [`clikt-core` module][clikt-core] to
+avoid native terminal access.
+
 
 [application_plugin]:       https://docs.gradle.org/current/userguide/application_plugin.html
 [argument]:                 api/clikt/com.github.ajalt.clikt.parameters.arguments/argument.html
+[clikt-core]:               advanced.md#core-module
 [clikt-samples]:            https://github.com/ajalt/clikt/tree/master/samples
 [CliktCommand]:             api/clikt-mordant/com.github.ajalt.clikt.core/-clikt-command/index.html
 [echo]:                     api/clikt/com.github.ajalt.clikt.core/-base-clikt-command/echo.html
 [main]:                     api/clikt/com.github.ajalt.clikt.core/main.html
+[mordant-jvm]:              https://ajalt.github.io/mordant/guide/#__tabbed_1_2
 [option]:                   api/clikt/com.github.ajalt.clikt.parameters.options/option.html
 [println]:                  https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html
 [README]:                   https://github.com/ajalt/clikt

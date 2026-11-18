@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fixed JVM builds on newer JDKs calling Java APIs unavailable on supported older runtimes. ([#657](https://github.com/ajalt/clikt/issues/657))
+
 ## 5.2.0
 ### Changed
 - Update Kotlin to 2.4.21

@@ -27,10 +27,15 @@ jobs:
           - os: windows-latest
             TEST_TASK: mingwX64Test
           - os: ubuntu-latest
-            TEST_TASK: apiCheck check
+            TEST_TASK: apiCheck check :test:jvmCompatibilityTest
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          distribution: 'zulu'
+          java-version: 11
       - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'

@@ -45,6 +45,8 @@ subprojects {
         compilerOptions {
             // kotest 6 requires JVM target 11+, so only the published main compilations stay at 8
             jvmTarget.set(if ("Test" in name) JvmTarget.JVM_11 else JvmTarget.JVM_1_8)
+            // Restrict JDK APIs as well as bytecode when building on newer JDKs.
+            freeCompilerArgs.add(jvmTarget.map { "-Xjdk-release=${it.target}" })
         }
     }
     tasks.withType<JavaCompile>().configureEach {

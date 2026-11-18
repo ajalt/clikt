@@ -1,3 +1,4 @@
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -42,4 +43,17 @@ kotlin {
             implementation(libs.jimfs)
         }
     }
+}
+
+val jvmTests = tasks.named<Test>("jvmTest")
+val javaToolchains = extensions.getByType<JavaToolchainService>()
+
+tasks.register<Test>("jvmCompatibilityTest") {
+    description = "Runs JVM tests on Java 11 using the existing compilation toolchain."
+    group = "verification"
+    testClassesDirs = jvmTests.get().testClassesDirs
+    classpath = jvmTests.get().classpath
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    })
 }

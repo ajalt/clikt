@@ -69,7 +69,7 @@ abstract class AbstractHelpFormatter<PartT>(
             }
 
             parameters.filterIsInstance<ParameterHelp.Argument>().mapTo(this) {
-                var name = normalizeParameter(it.name)
+                var name = if ('|' in it.name) it.name else normalizeParameter(it.name)
                 if (!it.required) name = renderOptionalMetavar(name)
                 if (it.repeatable) name = renderRepeatedMetavar(name)
                 if (it.required) styleRequiredUsageParameter(name)
@@ -141,13 +141,17 @@ abstract class AbstractHelpFormatter<PartT>(
     protected open fun renderArguments(
         parameters: List<ParameterHelp>,
     ): List<RenderedSection<PartT>> {
-        val arguments = parameters.filterIsInstance<ParameterHelp.Argument>().map {
+        val args = parameters.filterIsInstance<ParameterHelp.Argument>()
+        // Show the section if any argument has a help text or a choice metavar to display
+        if (args.isEmpty() || args.all { it.help.isEmpty() && '|' !in it.name }) return emptyList()
+        val arguments = args.map {
             DefinitionRow(
-                styleArgumentName(normalizeParameter(it.name)),
+                // Choice metavars like (foo|bar) are rendered as-is, like option metavars
+                if ('|' in it.name) styleMetavar(it.name)
+                else styleArgumentName(normalizeParameter(it.name)),
                 renderParameterHelpText(it.help, it.tags)
             )
         }
-        if (arguments.isEmpty() || arguments.all { it.description.isEmpty() }) return emptyList()
         val title = styleSectionTitle(renderSectionTitle(localization.argumentsTitle()))
         return listOf(RenderedSection(title, buildParameterList(arguments)))
     }

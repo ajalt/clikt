@@ -177,13 +177,22 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
 
     override fun parameterHelp(context: Context): ParameterHelp.Argument {
         return ParameterHelp.Argument(
-            name = name,
+            name = choicesMetavar ?: name,
             help = getArgumentHelp(context),
             required = required || nvalues > 1,
             repeatable = nvalues < 0,
             tags = helpTags
         )
     }
+
+    /**
+     * If this argument has a fixed set of completion candidates, render them as a metavar in help
+     * output, like the valid values of `choice` options.
+     */
+    private val choicesMetavar: String?
+        get() = (explicitCompletionCandidates as? CompletionCandidates.Fixed)
+            ?.candidates?.takeIf { it.isNotEmpty() }
+            ?.joinToString("|", prefix = "(", postfix = ")")
 
     override fun getValue(thisRef: BaseCliktCommand<*>, property: KProperty<*>): AllT = value
 

@@ -354,11 +354,36 @@ private class CommandParser<T : BaseCliktCommand<T>>(
             }
 
             else -> {
-                errors += NoSuchArgument(argumentTokens.takeLast(excessCount))
+                val excess = argumentTokens.takeLast(excessCount)
+                if (excess.size == 1) {
+                    errors += dashTypoOptionError(excess.single()) ?: NoSuchArgument(excess)
+                } else {
+                    errors += NoSuchArgument(excess)
+                }
             }
         }
     }
+
+    /**
+     * If a single excess token looks like an option whose leading hyphens were replaced with
+     * typographic dashes (e.g. `–dev` or `—dev`, which can happen when copying a command from
+     * rendered Markdown), return a [NoSuchOption] error naming the declared options that differ
+     * from the token only by those dashes. Returns null if the token doesn't correspond to any
+     * declared option this way, in which case the excess token should be reported normally.
+     */
+    private fun dashTypoOptionError(token: String): NoSuchOption? {
+        if (token.isEmpty() || token[0] !in typographicDashes) return null
+        val name = token.dropWhile { it in typographicDashes }
+        if (name.isEmpty()) return null
+        // One or more typographic dashes could stand in for either one or two hyphens
+        val possibilities = listOf("--$name", "-$name")
+            .filter { optionsByName[it]?.hidden == false }
+        if (possibilities.isEmpty()) return null
+        return NoSuchOption(token, possibilities)
+    }
 }
+
+private val typographicDashes = charArrayOf('–', '—')
 
 
 private fun loadArgFile(filename: String, context: Context): List<String> {

@@ -40,6 +40,7 @@ abstract class CompletionTestBase(private val shell: String) {
             val a by argument(completionCandidates = CompletionCandidates.Custom {
                 when (shell) {
                     "fish" -> "\"(echo zzz xxx)\""
+                    "powershell" -> "(echo zzz xxx)"
                     else -> """
                         WORDS=${'$'}(echo zzz xxx)
                         COMPREPLY=(${'$'}(compgen -W "${'$'}WORDS" -- "${'$'}{COMP_WORDS[${'$'}COMP_CWORD]}"))

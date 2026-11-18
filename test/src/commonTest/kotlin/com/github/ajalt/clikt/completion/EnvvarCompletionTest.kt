@@ -18,7 +18,8 @@ class EnvvarCompletionTest {
     fun `test completion from envvar`() = forAll(
         row("bash"),
         row("zsh"),
-        row("fish")
+        row("fish"),
+        row("powershell")
     ) { shell ->
         class C : TestCommand(autoCompleteEnvvar = "TEST_COMPLETE") {
             init {

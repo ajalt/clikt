@@ -12,7 +12,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
 import com.github.ajalt.clikt.parameters.types.choice
 
-private val choices = arrayOf("bash", "zsh", "fish")
+private val choices = arrayOf("bash", "zsh", "fish", "powershell")
 
 /**
  * Add an option to a command that will print a completion script for the given shell when invoked.

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.2.1
 ### Fixed
 - Fixed `NoSuchMethodError` for `List.removeLast` when running on JDKs older than 21. ([#656](https://github.com/ajalt/clikt/issues/656))
 

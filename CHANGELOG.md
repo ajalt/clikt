@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fixed `NoSuchMethodError` for `List.removeLast` when running on JDKs older than 21. ([#656](https://github.com/ajalt/clikt/issues/656))
+
 ## 5.2.0
 ### Changed
 - Update Kotlin to 2.4.21

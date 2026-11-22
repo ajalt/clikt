@@ -124,7 +124,7 @@ private class CommandParser<T : BaseCliktCommand<T>>(
                         prefix.length > 1 && prefix in prefixes
                                 || normTok in longNames
                                 || isLongOptionWithEquals(prefix, tok)
-                                || !context.allowGroupedShortOptions
+                                || (prefix in prefixes && !context.allowGroupedShortOptions)
                         ) -> {
                     consumeOptionParse(parseLongOpt(tok))
                 }

@@ -223,7 +223,7 @@ inline fun <T : BaseCliktCommand<T>> BaseCliktCommand<T>.test(
     recorder.inputEvents = inputEvents.toMutableList()
     configureContext {
         val originalReader = readEnvvar
-        readEnvvar = { envvars[it] ?: (if (includeSystemEnvvars) originalReader(it) else null) }
+        readEnvvar = { envvars[it] ?: (if (includeSystemEnvvars) originalReader?.invoke(it) else null) }
         terminal = Terminal(
             theme = terminal.theme,
             tabWidth = terminal.tabWidth,

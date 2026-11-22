@@ -180,5 +180,11 @@ private fun Option.readValueSource(context: Context): List<OptionInvocation>? {
 
 private fun Option.readEnvVar(context: Context, envvar: String?): List<OptionInvocation>? {
     val env = inferEnvvar(names, envvar, context.autoEnvvarPrefix) ?: return null
-    return context.readEnvvar(env)?.let { listOf(OptionInvocation(env, listOf(it))) }
+    if (envvar != null && context.readEnvvar == null) {
+        val optName = longestName() ?: names.firstOrNull() ?: ""
+        throw IllegalStateException(
+            "Cannot read from environment variable \"$env\" for option \"$optName\" without setting Context.readEnvvar"
+        )
+    }
+    return context.readEnvvar?.invoke(env)?.let { listOf(OptionInvocation(env, listOf(it))) }
 }

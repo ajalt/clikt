@@ -196,11 +196,11 @@ class ProcessedArgumentImpl<AllT, ValueT> internal constructor(
 
     override fun finalize(context: Context, values: List<String>) {
         val ctx = ArgumentTransformContext(this, context)
-        if (required) {
-            when {
-                values.isEmpty() -> throw MissingArgument(this)
-                nvalues > 0 && values.size != nvalues -> throw IncorrectArgumentValueCount(this)
-            }
+        if (required && values.isEmpty()) throw MissingArgument(this)
+        // An optional argument may be omitted entirely, but any values it does receive must still
+        // fill its fixed size; otherwise transforms like pair() would index past the end of the list.
+        if (nvalues > 0 && values.isNotEmpty() && values.size != nvalues) {
+            throw IncorrectArgumentValueCount(this)
         }
         value = transformAll(ctx, values.map { transformValue(ctx, it) })
     }

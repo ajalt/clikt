@@ -143,6 +143,29 @@ class ArgumentTest {
         C().parse(argv)
     }
 
+    @[Test JsName("optional_arguments_with_partial_nvalues_2")]
+    fun `optional arguments with partial nvalues=2`() {
+        class C : TestCommand(called = false) {
+            val x by argument().pair().optional()
+        }
+
+        shouldThrow<IncorrectArgumentValueCount> { C().parse("1") }
+            .formattedMessage shouldBe "argument X requires 2 values"
+    }
+
+    @[Test JsName("optional_arguments_with_partial_nvalues_3")]
+    fun `optional arguments with partial nvalues=3`() = forAll(
+        row("1"),
+        row("1 2"),
+    ) { argv ->
+        class C : TestCommand(called = false) {
+            val x by argument().triple().optional()
+        }
+
+        shouldThrow<IncorrectArgumentValueCount> { C().parse(argv) }
+            .formattedMessage shouldBe "argument X requires 3 values"
+    }
+
     @[Test JsName("misused_arguments_with_nvalues_2")]
     fun `misused arguments with nvalues=2`() {
         class C : TestCommand() {

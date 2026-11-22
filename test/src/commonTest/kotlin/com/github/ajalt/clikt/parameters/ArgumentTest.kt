@@ -455,6 +455,27 @@ class ArgumentTest {
         C().parse("/some/path-with=sign/foo")
     }
 
+    @[Test JsName("punctuation_in_arg_prefix_unix_style_with_disabled_allowGroupedShortOptions")]
+    fun `punctuation in arg prefix unix style with disabled allowGroupedShortOptions`() = forAll(
+        row("foo"),
+        row("/foo"),
+        row("/some/path-with=sign/foo"),
+    ) { argv ->
+        class C : TestCommand() {
+            init {
+                context { allowGroupedShortOptions = false }
+            }
+
+            val x by argument()
+            val opt by option("-o")
+            override fun run_() {
+                x shouldBe argv
+            }
+        }
+
+        C().parse(argv)
+    }
+
     @[Test JsName("punctuation_in_arg_prefix_unix_style_error")]
     fun `punctuation in arg prefix unix style error`() {
         class C : TestCommand(called = false)

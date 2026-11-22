@@ -131,6 +131,23 @@ interface Localization {
         return "invalid choice: $value. (choose from ${choices.joinToString()})"
     }
 
+    /**
+     * [ChoiceGroup] value was invalid
+     *
+     * @param choices non-empty list of possible choices
+     * @param possibilities list of typo correction candidates
+     */
+    fun invalidGroupChoice(value: String, choices: List<String>, possibilities: List<String>): String {
+        return when (possibilities.size) {
+            0 -> invalidGroupChoice(value, choices)
+            1 -> "invalid choice: $value. Did you mean ${possibilities[0]}?"
+            else -> possibilities.joinToString(
+                prefix = "invalid choice: $value. (Possible choices: ",
+                postfix = ")"
+            )
+        }
+    }
+
     /** Invalid value for a parameter of type [Double] or [Float] */
     fun floatConversionError(value: String) = "$value is not a valid floating point value"
 
@@ -168,6 +185,23 @@ interface Localization {
      */
     fun invalidChoice(choice: String, choices: List<String>): String {
         return "invalid choice: $choice. (choose from ${choices.joinToString()})"
+    }
+
+    /**
+     * Invalid value for `choice` parameter
+     *
+     * @param choices non-empty list of possible choices
+     * @param possibilities list of typo correction candidates
+     */
+    fun invalidChoice(choice: String, choices: List<String>, possibilities: List<String>): String {
+        return when (possibilities.size) {
+            0 -> invalidChoice(choice, choices)
+            1 -> "invalid choice: $choice. Did you mean ${possibilities[0]}?"
+            else -> possibilities.joinToString(
+                prefix = "invalid choice: $choice. (Possible choices: ",
+                postfix = ")"
+            )
+        }
     }
 
     /** The `pathType` parameter to [pathDoesNotExist] and other `path*` errors */

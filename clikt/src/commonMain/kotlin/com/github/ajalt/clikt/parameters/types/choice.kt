@@ -122,7 +122,7 @@ fun <T : Any> RawOption.choice(
     val c = if (ignoreCase) choices.mapKeys { it.key.lowercase() } else choices
     return convert(metavar, completionCandidates = Fixed(choices.keys)) {
         c[if (ignoreCase) it.lowercase() else it] ?: fail(errorMessage(context, it, choices))
-    }
+    }.copy(valueToString = { v -> choices.entries.firstOrNull { it.value == v }?.key ?: v.toString() })
 }
 
 /**

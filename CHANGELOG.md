@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added `Context.Builder.optionPrefixes` to customize the prefixes that identify option tokens. Tokens are now reported as unknown options instead of arguments for commands with no registered options. ([#593](https://github.com/ajalt/clikt/issues/593))
+
 ## 5.2.1
 ### Fixed
 - Fixed `NoSuchMethodError` for `List.removeLast` when running on JDKs older than 21. ([#656](https://github.com/ajalt/clikt/issues/656))

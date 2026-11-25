@@ -3,6 +3,7 @@ package com.github.ajalt.clikt.core
 import com.github.ajalt.clikt.output.HelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.Argument
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.groups.CoOccurringOptionGroup
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.ParameterGroup
 import com.github.ajalt.clikt.parameters.options.Option
@@ -146,7 +147,7 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
      */
     open fun allHelpParams(): List<HelpFormatter.ParameterHelp> {
         return listOf(
-            _options.mapNotNull { it.parameterHelp(currentContext) },
+            _options.mapNotNull { optionHelpParams(it) },
             _arguments.mapNotNull { it.parameterHelp(currentContext) },
             _groups.mapNotNull { it.parameterHelp(currentContext) },
             _subcommands.mapNotNull { c ->
@@ -157,6 +158,15 @@ abstract class BaseCliktCommand<T : BaseCliktCommand<T>>(
                 ).takeUnless { c.hiddenFromHelp }
             }
         ).flatten()
+    }
+
+    private fun optionHelpParams(option: Option): HelpFormatter.ParameterHelp.Option? {
+        val help = option.parameterHelp(currentContext) ?: return null
+        // required options in a co-occurring group are only required when the group occurs
+        return when ((option as? GroupableOption)?.parameterGroup) {
+            is CoOccurringOptionGroup<*, *> -> help.copy(tags = help.tags - HelpFormatter.Tags.REQUIRED)
+            else -> help
+        }
     }
 
     private fun getCommandNameWithParents(): String {

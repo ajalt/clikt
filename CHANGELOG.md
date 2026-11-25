@@ -4,6 +4,22 @@
 ### Fixed
 - Fixed options in co-occurring groups being marked as required in help output. ([#653](https://github.com/ajalt/clikt/pull/653))
 
+## 5.2.1
+### Fixed
+- Fixed `NoSuchMethodError` for `List.removeLast` when running on JDKs older than 21. ([#656](https://github.com/ajalt/clikt/issues/656))
+
+## 5.2.0
+### Changed
+- Update Kotlin to 2.4.21
+- Update Mordant to 3.1.1
+- Option names are now included in the typo suggestions for an excess argument, so a forgotten `--` prefix can produce a "Did you mean" hint. ([#586](https://github.com/ajalt/clikt/issues/586))
+
+### Fixed
+- Fixed arguments containing `=` being parsed as options when they start with a prefix like `/` that no declared option uses. ([#634](https://github.com/ajalt/clikt/issues/634))
+- Fixed help output marking `required()` options in a co-occurring option group as required even though the whole group is optional. ([#580](https://github.com/ajalt/clikt/issues/580))
+- Fixed a duplicate `selfAndAncestors` symbol between the clikt and clikt-mordant modules that broke Kotlin/Native builds with compiler caches enabled. ([#598](https://github.com/ajalt/clikt/issues/598))
+- Fixed published JVM jars being named without a version in the Gradle cache and in `installDist` output.
+
 ## 5.1.0
 ### Added
 - Added parameter name to help output for ValueSource values. ([#631](https://github.com/ajalt/clikt/pull/631))

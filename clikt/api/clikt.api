@@ -1015,6 +1015,7 @@ public final class com/github/ajalt/clikt/parameters/groups/ParameterGroup$Defau
 
 public abstract interface class com/github/ajalt/clikt/parameters/groups/ParameterGroupDelegate : com/github/ajalt/clikt/parameters/groups/ParameterGroup, kotlin/properties/PropertyDelegateProvider, kotlin/properties/ReadOnlyProperty {
 	public abstract fun provideDelegate (Lcom/github/ajalt/clikt/core/BaseCliktCommand;Lkotlin/reflect/KProperty;)Lkotlin/properties/ReadOnlyProperty;
+	public synthetic fun provideDelegate (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
 
 public final class com/github/ajalt/clikt/parameters/groups/ParameterGroupDelegate$DefaultImpls {
@@ -1101,6 +1102,7 @@ public abstract interface class com/github/ajalt/clikt/parameters/options/Option
 	public fun getValue (Lcom/github/ajalt/clikt/core/ParameterHolder;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public abstract fun provideDelegate (Lcom/github/ajalt/clikt/core/ParameterHolder;Lkotlin/reflect/KProperty;)Lkotlin/properties/ReadOnlyProperty;
+	public synthetic fun provideDelegate (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
 
 public final class com/github/ajalt/clikt/parameters/options/OptionDelegate$DefaultImpls {

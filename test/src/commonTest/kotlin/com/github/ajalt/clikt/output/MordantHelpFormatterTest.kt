@@ -637,6 +637,33 @@ class MordantHelpFormatterTest {
         )
     }
 
+    @[Test JsName("required_option_tag_in_cooccurring_group")]
+    fun `required option tag in cooccurring group`() {
+        class G : OptionGroup() {
+            val aa by option("--aa", "-a", help = "aa option help").required()
+            val bb by option("--bb", "-b", help = "bb option help")
+        }
+
+        class C : TestCommand(name = "prog") {
+            val g by G().cooccurring()
+        }
+
+        val command = C()
+        command.context {
+            helpFormatter = { MordantHelpFormatter(it, showRequiredTag = true, requiredOptionMarker = "*") }
+        }
+        doTest(
+            """
+            |Usage: prog [<options>]
+            |
+            |Options:
+            |  -a, --aa=<text>  aa option help
+            |  -b, --bb=<text>  bb option help
+            """,
+            command = command
+        )
+    }
+
     @[Test JsName("default_option_tag")]
     fun `default option tag`() {
         c.registerOption(c.option("--aa", "-a", help = "aa option help"))

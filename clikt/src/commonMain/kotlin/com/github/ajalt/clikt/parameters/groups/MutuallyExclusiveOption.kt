@@ -32,6 +32,7 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
     }
 
     private var value: OutT by NullableLateinit("Cannot read from group delegate before parsing command line")
+    private var usedOptions: Set<Option> = emptySet()
 
     override operator fun provideDelegate(
         thisRef: BaseCliktCommand<*>,
@@ -55,15 +56,19 @@ class MutuallyExclusiveOptions<OptT : Any, OutT> internal constructor(
         context: Context,
         invocationsByOption: Map<Option, List<OptionInvocation>>,
     ) {
-        finalizeOptions(context, options, invocationsByOption)
-        val values = options.filter {
+        // Only finalize options that were actually used: finalizing the others would needlessly run
+        // their conversions (and other transforms) even though their values are discarded below.
+        val used = options.filter {
             it in invocationsByOption || it.hasEnvvarOrSourcedValue(context, emptyList())
-        }.mapNotNull { it.value }
-        value = MutuallyExclusiveOptionTransformContext(context).transformAll(values)
+        }
+        finalizeOptions(context, used, invocationsByOption)
+        usedOptions = used.toSet()
+        value = MutuallyExclusiveOptionTransformContext(context).transformAll(used.mapNotNull { it.value })
     }
 
     override fun postValidate(context: Context) {
-        for (option in options) {
+        // Only options that were finalized have a value to validate.
+        for (option in usedOptions) {
             option.postValidate(context)
         }
     }
